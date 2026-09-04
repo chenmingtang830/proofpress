@@ -17,12 +17,34 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Search conclusions or IDs");
     expect(source).not.toContain("Inspect receipt");
     expect(source).toContain('"needs_revision"');
-    expect(source).toContain("Open full review");
+    expect(source).toContain('<Button variant="approve" onClick={onOpenFull}>Open full review</Button>');
+    expect(source).toContain("Run optional LM review");
+    expect(source).toContain("Set up LM review");
     expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
     expect(source).toContain("Evidence to governed knowledge");
     expect(source).toContain("(current + 1) * 20");
+  });
+  it("opens the ledger on current knowledge and scopes lineage to a selection", () => {
+    expect(source).toContain('const [view, setView] = React.useState("list")');
+    expect(source).toContain("Selected lineage");
+    expect(source).toContain("View lineage");
+    expect(source).not.toContain("Show history and unavailable conclusions");
+  });
+  it("lets the outer stage scroll the full review surface", () => {
+    expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
+  });
+  it("explains evidence and downstream consequence before authority changes", () => {
+    expect(source).toContain("Evidence for this conclusion");
+    expect(source).toContain("Proposed reuse boundary");
+    expect(source).toContain("Available now");
+    expect(source).toContain("Needs review");
+    expect(source).not.toContain("Outside current context");
+    expect(css).toContain("--evidence:");
+    expect(css).toContain("--review-queue:");
+    expect(css).toContain(".orientation > .reviewOrientation");
+    expect(css).toContain(".orientation > .admittedOrientation");
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');

@@ -1,5 +1,5 @@
 [//]: # (ob:ae580676)
-# Proofpress Design System — Verified Knowledge Ledger
+# Proofpress Design System — Boardroom Clarity
 
 ## Agent-native interaction contract
 
@@ -18,7 +18,7 @@ read-only calls and untrusted ledger content. Credentials and provider secrets
 never appear in tool results.
 
 [//]: # (ob:4565936e)
-**Status (2026-09-02):** Canonical product design guidance. PR #100 implements the accepted owner-UI typography, Hugeicons, shared feedback components, and Ledger reference direction; local validation is implementation evidence, not Render deployment or partner outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
+**Status (2026-09-03):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. PR #113 is the implementation candidate for the owner workspace; local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
 
 [//]: # (ob:678e1b70)
 [//]: # (ob:hosted-workspace-v2)
@@ -30,7 +30,7 @@ never appear in tool results.
 The owner workspace uses a compact, three-part operating frame: a 224px navigation rail, a flexible primary work surface, and a 384–416px contextual inspector. At desktop widths the selected row and its inspector remain visible together; on smaller screens the inspector becomes a sheet. This spatial contract is the benchmark for Home, Review, Ledger, Activity, and Admin.
 
 [//]: # (ob:cfee6f69)
-Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. The later Proofpress MSA Ledger reference is the accepted Ledger visual baseline: warm paper, near-black ink, fine rules, restrained teal, curved evidence-to-conclusion connections, and a persistent node inspector. Georgia is reserved for owner page titles; native system sans carries conclusions, evidence excerpts, controls, and metadata. Legal-specific vocabulary and demonstration claims are not copied into the product.
+Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, IBM Plex Mono for proof metadata, curved evidence-to-conclusion connections, and a persistent node inspector. Legal-specific vocabulary and demonstration claims are not copied into the product.
 
 [//]: # (ob:06711fc4)
 Use shadcn primitives as accessible construction material, not as a visual preset. Reduce their default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
@@ -39,13 +39,13 @@ Use shadcn primitives as accessible construction material, not as a visual prese
 The desktop reference viewport is 1536×1024. The primary table begins on the same vertical axis as its title and filter row; the contextual inspector begins at the application header and owns its own scroll. Selection is expressed through the canonical accent-soft wash and a one-pixel cyan marker, never a glow. The mobile reference viewport is 390×844, where tables become structured records and the decision controls form a safe-area-aware bottom bar.
 
 [//]: # (ob:c3130a45)
-Hosted Workspace V2 does not define a second palette. It uses the canonical tokens below: paper `#FAF9F5`, card `#FFFFFF`, ink `#20222B`, secondary ink `#5A5D6B`, line `#E3E1D9`, accent `#0E5E6F`, and accent-soft `#E3EEF0`. Needs revision uses revision `#355D80` on revision-bg `#EDF2F7` consistently in badges, notices and graph nodes. Red means rejected/blocked or destructive access operations. Green means admitted, active access, or a specifically confirmed operation such as clipboard copy; each must have an explicit label. Pending review and model recommendation remain neutral ink on wash.
+Hosted Workspace V2 does not define a second palette. It uses the canonical tokens below: paper/card `#FFFFFF`, ink `#181A20`, secondary ink `#555B66`, readable metadata ink `#686F78`, line `#D7DCD9`, accent `#0E6675`, and accent-soft `#F4F8F8`. Needs revision uses revision `#665A8A` on revision-bg `#EFEDF5`. Red means rejected/blocked or destructive access operations. Green means admitted, active access, or a specifically confirmed operation such as clipboard copy; each must have an explicit label. Needs review uses the labeled cyan review treatment; labels and structure must preserve its distinction from selection or admission.
 
 [//]: # (ob:9787677e)
 ## Overview
 
 [//]: # (ob:e21f2b5d)
-In one phrase: **a paper-and-ink ledger**. A paper-colored surface, ink-colored text, and one cyan-blue accent govern interaction. Semantic colors describe verification and review state; they are never decoration.
+In one phrase: **boardroom clarity for governed knowledge**. A white institutional surface, ink-colored text, precise rules, and one cyan-blue accent govern interaction. Semantic colors describe verification and review state; they are never decoration.
 
 [//]: # (ob:6ba0b871)
 Proofpress interfaces make one boundary legible: evidence and model recommendations can support a candidate conclusion, but only policy-compliant human admission makes it governed knowledge. Information density serves that decision. Show the conclusion before its machinery, the evidence bundle before raw sources, and pending work before completed work.
@@ -60,7 +60,7 @@ The design system is workflow-neutral. A legal product may organize work by orga
 ## Feeling
 
 [//]: # (ob:beafea83)
-Proofpress should feel like a bound volume with a cyan seal: paper you can sit with, a stamp you can trust, knowledge worth building on. It is archival, not ornamental; quiet, not empty. A reviewer should feel they are examining a record, not operating a dashboard.
+Proofpress should feel like a board paper carrying a cyan seal: composed enough for a consequential decision, exact enough to audit, and calm enough to read closely. It is institutional, not bureaucratic; archival, not ornamental; quiet, not empty. A reviewer examines a record rather than operating a dashboard.
 
 [//]: # (ob:532d94f7)
 The hosted owner workspace is a steward's desk over that ledger. Home orients the human without a chat entry. Cyan is the seal and the interaction, never a substitute for admission.
@@ -111,7 +111,7 @@ These patterns make Proofpress look like generic AI software and hide the trust 
 When an agent proposes visual work, run a critic against screenshots only. Do not put the stop criterion in the critic prompt.
 
 [//]: # (ob:bea9a7b3)
-**Taste bar.** Would this still look like Proofpress if the logo were covered? Paper, ink, one teal accent, an editorial page title, consistent sans-serif task content, and monospace only for raw proof identifiers. If the page mixes unrelated typographic treatments, it fails.
+**Taste bar.** Would this still look like Proofpress if the logo were covered? White institutional canvas, ink, one teal accent, decisive DM Sans hierarchy, and IBM Plex Mono only for raw proof identifiers and indexed metadata. If the page mixes unrelated typographic treatments, it fails.
 
 [//]: # (ob:b93e40e3)
 **Trust bar.** Can a stranger point to the candidate, the evidence, the checks, the advisory recommendation, and the human decision — and see that only the last one admits? If Ask Proofpress, a green check, or a cyan glow could be mistaken for admission, it fails.
@@ -131,21 +131,21 @@ The human, not the critic, decides when to stop. A critic that is also asked "ar
 [//]: # (ob:451376f2)
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| paper | #FAF9F5 | #15171C | Page and graph-canvas background |
-| ink / ink-2 / ink-3 | #20222B / #5A5D6B / #8B8E9C | #E9E7E0 / #A6A9B4 / #787B87 | Primary / secondary / indexed metadata |
-| line | #E3E1D9 | #2C2F38 | Rules, connectors, and inactive boundaries |
-| card / wash | #FFFFFF / #F1EFE8 | #1D2027 / #22252D | Working surfaces / quiet inspector and hover wash |
-| accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | Proofpress, edit, selection, modified, interaction |
-| add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | Verified checks, admitted knowledge, active governed context |
-| del / del-bg | #B4453A / #F7E9E7 | #C87E82 / #3A2320 | Rejected, invalid, blocked, removed |
-| review / review-bg | #5A5D6B / #F1EFE8 | #A6A9B4 / #22252D | Candidate, needs review, advisory recommendation, and quiet attention |
+| paper | #FFFFFF | #15171C | Default institutional canvas |
+| ink / ink-2 / ink-3 | #181A20 / #555B66 / #686F78 | #E9E7E0 / #A6A9B4 / #8F939D | Primary / secondary / readable indexed metadata |
+| line | #D7DCD9 | #2C2F38 | Rules, connectors, and inactive boundaries |
+| card / wash | #FFFFFF / #F5F6F5 | #1D2027 / #22252D | Working surfaces / quiet hover wash |
+| accent / accent-soft | #0E6675 / #F4F8F8 | #5FB3C4 / #173741 | Proofpress brand, action, selection, and labeled needs-review state |
+| add / add-bg | #2F6B54 / #EDF5F0 | #6FBF8E / #1B3226 | Verified checks, admitted knowledge, active governed context |
+| del / del-bg | #963F38 / #F8EEEC | #C87E82 / #3A2320 | Rejected, invalid, blocked, removed |
+| review / review-bg | #0E6675 / #F4F8F8 | #5FB3C4 / #173741 | Candidate and needs review, always paired with an explicit status label |
 | move / move-bg | #665A8A / #EFEDF5 | #AAA0D2 / #29263A | Moved content only; never review state or generic attention |
 
 [//]: # (ob:a8d606fe)
-The launch film remains a narrative reference, but the operating UI uses a quieter subset: white `#EAE8E0` carries primary content, cyan `#5FB3C4` carries Proofpress and interaction, neutral ink carries pending review and advisory recommendation, red `#C87E82` carries rejected or blocked, and green `#6FBF8E` is reserved for verified or admitted. Moved content may use muted violet. Yellow/orange is not an interactive control, status, recommendation, or attention color in the hosted owner workspace. Both themes must be proofread.
+The launch film remains a narrative reference, but the operating UI uses a quieter light-theme subset: white carries primary content, cyan carries Proofpress interaction and the explicitly labeled needs-review state, red carries rejected or blocked, and green is reserved for verified or admitted. Moved content may use muted violet. Yellow/orange is not an interactive control, status, recommendation, or attention color in the hosted owner workspace. Dark narrative artifacts may use the documented dark counterparts, but product UI defaults to the white Boardroom Clarity canvas. Both themes must be proofread.
 
 [//]: # (ob:b5b71caf)
-**The State, Not Brand Rule.** In governance records, green means admitted, red means rejected/blocked, muted blue means needs revision, and neutral means pending or advisory. Outside governance, an explicitly labeled green Active badge or clipboard confirmation is permitted, not an admission signal. Do not use semantic colors for decorative emphasis or visual variety. Cyan identifies Proofpress and primary actions; it cannot make a candidate appear admitted.
+**The State, Not Brand Rule.** In governance records, green means admitted, red means rejected/blocked, muted violet means needs revision, and labeled cyan means needs review or advisory evidence support. Outside governance, an explicitly labeled green Active badge or clipboard confirmation is permitted, not an admission signal. Do not use semantic colors for decorative emphasis or visual variety. Cyan may identify Proofpress, primary actions, and review, but it cannot make a candidate appear admitted.
 
 [//]: # (ob:eeee2405)
 The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `🔴 del`, and `🟢 new`. Blue is the closest GitHub emoji equivalent to the cyan accent; purple deliberately replaces yellow for moved, so an ordinary move is not misread as a warning. `branding.color: blue` in GitHub Action metadata controls only the action icon background in Marketplace/Actions lists; it does not control PR comments.
@@ -154,14 +154,29 @@ The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `�
 ## Typography
 
 [//]: # (ob:53b8c3a4)
-- **Owner page title:** `--font-editorial` (Georgia / Times New Roman / serif), `--type-page` 1.875rem, weight 500, line-height 1.2. This is the only editorial face in the operating UI.
-- **Section, dialog, inspector, and scope headings:** `--font-ui` (native system sans), `--type-section` 1rem, weight 600, line-height 1.5.
+- **Owner page title:** `--font-ui` (DM Sans / system sans), fluid 2.25–4.75rem where space permits, weight 600, tight line-height and tracking. The title carries hierarchy without a decorative kicker.
+- **Section, dialog, inspector, and scope headings:** `--font-ui`, `--type-section` 1rem, weight 600, line-height 1.5.
 - **Conclusions, evidence excerpts, controls, and prose:** `--font-ui`, `--type-body` .875rem, weights 400–500, line-height 1.5–1.6. Dense operating text uses this role; sustained editorial documents may retain their separate reading typography.
-- **Metadata and labels:** `--font-ui`, `--type-meta` .75rem, weight 400, line-height 1.5. No decorative uppercase or letter spacing. Compact existing badges are an explicit 11px dense-label exception, not a new heading role.
-- **Raw IDs, hashes, versions, code and receipts:** monospace only when literal values need inspection. Do not use it for status chips, lane labels, or ordinary metadata. Browser zoom and text scaling must remain usable; prose should stay within approximately 45–75 characters per line.
+- **Metadata and labels:** `--font-ui`, `--type-meta` .75rem, weight 400, line-height 1.5. Compact badges are an explicit 11px dense-label exception.
+- **Indexed labels and proof values:** `--font-mono` (IBM Plex Mono / system monospace) is reserved for raw IDs, hashes, versions, code, receipts, and sparse institutional index labels such as `AVAILABLE NOW`, `NEEDS REVIEW`, `SOURCE 01`, and `PROPOSED REUSE BOUNDARY`. Indexed labels may use 10px uppercase with restrained tracking; ordinary navigation, status chips, paragraphs, and metadata remain UI sans. Browser zoom and text scaling must remain usable; prose should stay within approximately 45–75 characters per line.
 
 [//]: # (ob:877970b3)
-**The Role, Not Component Rule.** Components consume shared font and size tokens in `web/owner/src/components/governance.css`; they do not invent local type ramps. Brand films and editorial documents may use Georgia for sustained reading, but that exception does not apply to owner conclusions, evidence rows, or inspectors.
+**The Role, Not Component Rule.** Components consume shared font and size tokens; they do not invent local type ramps. IBM Plex Mono indexes the institutional record but never becomes a technical costume for ordinary copy. Slides and editorial documents may use a compatible serif for a bounded quotation or long-form reading passage, but Proofpress titles, propositions, controls, and diagrams use the canonical DM Sans hierarchy.
+
+## Cross-medium application
+
+Boardroom Clarity is one system with four expression modes, not one app stylesheet stretched across every artifact:
+
+- **Operate UI:** dense, task-first, rectilinear, accessible, and state-explicit. Color primarily carries action and governance status.
+- **Presentation:** one proposition per slide, large DM Sans hierarchy, generous white space, fine black rules, and one purposeful cyan diagram or emphasis. Avoid ornamental dashboards and card grids.
+- **Public editorial:** strong thesis-led typography, real product or evidence imagery, restrained cyan indexing, and prose designed for reading rather than feature marketing.
+- **Data and infographic:** begin with the conclusion, bind every visual claim to a source, use direct labels, and reserve green/red for admitted or rejected/blocked states. Cyan may show Proofpress flow or review, but never imply admission by itself.
+
+**The One Argument Rule.** Every composition should make one principal claim legible before its supporting machinery.
+
+**The Evidence Before Ornament Rule.** Diagrams, charts, and visual accents must explain provenance, authority, comparison, or sequence. Decoration that could survive after the evidence is removed does not belong.
+
+**The Medium, Same Meaning Rule.** Layout may change across UI, decks, editorial pages, and infographics; the meaning of cyan, green, red, violet, rules, type roles, and the Proofpress mark does not.
 
 [//]: # (ob:46a56fa1)
 ## Layout
@@ -216,7 +231,7 @@ Shared owners: `ui/button.tsx` and `ui/badge.tsx` consume palette tokens; `ui/mo
 The Ledger starts with a workspace evidence-to-conclusion graph including recorded lifecycle states, with six conclusions and twelve sources initially, scope filtering, shared-source highlighting, and incremental expansion. Selecting a conclusion opens focused provenance with at most three initial sources. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Current knowledge remains a separate eligible-only projection: showing rejected or revision history in the graph never admits it. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
 
 [//]: # (ob:0287d639)
-- **Status chip:** compact sans-serif label using the shared Badge. Admitted/current is green; needs review is neutral ink on wash; needs revision is muted blue; blocked/rejected is red. Decision history tables display status explicitly, without requiring selection. Pending and recommendation surfaces must not use yellow/orange. Never express authority through confidence percentages.
+- **Status chip:** compact sans-serif label using the shared Badge. Admitted/current is green; needs review uses labeled cyan on accent-soft; needs revision is muted violet; blocked/rejected is red. Decision history tables display status explicitly, without requiring selection. Pending and recommendation surfaces must not use yellow/orange. Never express authority through confidence percentages.
 - **Diff tag:** compact inline marker. New is green, modified cyan, removed red, and moved violet.
 - **Evidence bundle:** the reviewable support unit for a conclusion. Summarize its bound evidence blocks and source count; do not present the bundle as a raw file.
 - **Evidence block row:** filename or artifact identity, verified locator, bounded quotation, integrity state, and a clear route to the immutable source. Use a bottom rule instead of an independent promotional card.
@@ -249,20 +264,20 @@ Every mutation must produce immediate, consistent feedback: prevent duplicate su
 
 [//]: # (ob:2c93777d)
 [//]: # (ob:owner-review-policy)
-**Decision hierarchy.** The review surface shows three explicit layers in this order: deterministic checks, LM advice, and human authorization. A failed check names the missing or invalid requirement in recovery language; never display a false check name as though its presence caused the block. LM `accept` is labeled **Evidence supported**, uses the action/advisory color rather than admission green, names its provider/model and criteria version, and never enables admission by itself. The owner action is **Approve for reuse** and remains unavailable while deterministic requirements—or a workspace policy that requires current supporting advice—are unmet.
+**Decision hierarchy.** The review surface shows three explicit layers in this order: deterministic checks, LM advice, and human authorization. A failed check names the missing or invalid requirement in recovery language; never display a false check name as though its presence caused the block. LM `accept` is labeled **Evidence supported**, uses the action/advisory color rather than admission green, names its provider/model and criteria version, and never enables admission by itself. The owner action is labeled **Approve**; approval records the human decision and admits the conclusion to current knowledge only when every required condition passes.
 
 [//]: # (ob:22728d20)
 [//]: # (ob:hosted-review-policy)
 **Hosted review policy.** Owner-only settings are workspace-scoped, versioned, audited, and persisted server-side. They control off/manual/automatic LM review, provider and model, bounded workspace criteria, external bounded-evidence consent, and whether current supporting advice is required before approval. The recommended first-run template is automatic review with required advice, but it remains inactive until the owner explicitly configures a provider, credential, criteria, and data handling. Provider credentials are encrypted at rest, write-only in the UI, and never enter policy history or model packets. Automatic review evaluates the existing pending queue when a policy is activated and evaluates new proposals after deterministic checks. A failed current deterministic evaluation is **Blocked**, leaves the human queue, and never calls the model. Review jobs are durable and idempotent, never admit knowledge, and do not silently retry an interrupted provider call.
 
-The Review inspector exposes one primary action for the current state: run checks, configure policy, run manual LM review, or open the complete human review. The queue and inspector scroll independently on desktop; selecting another conclusion resets the inspector to its summary. This prevents a long candidate list from hiding the selected record or presenting three competing actions.
+The Review inspector exposes one primary action for the current state. Before checks pass, that action is the required recovery step. After checks pass, **Open full review** is the solid cyan primary action; manual LM review is explicitly optional and remains a secondary outline action. A policy may require current supporting advice before approval, but it must never make the candidate record itself inaccessible. The queue and inspector scroll independently on desktop; selecting another conclusion resets the inspector to its summary.
 
 [//]: # (ob:1ca206ee)
 [//]: # (ob:semantic-activity)
 **Semantic activity.** Activity is an owner-readable history of knowledge work: which actor submitted evidence, proposed a conclusion, ran deterministic checks, requested LM advice, made a human decision, revised knowledge, or retrieved governed context. It distinguishes the initiator from the verifier, judge, or authorizer. A retrieval record says **retrieved**, never **used**. Raw request outcomes remain available in a separate **Technical logs** view and do not dominate the default activity feed.
 
 [//]: # (ob:308103b7)
-Selection loading preserves list and inspector geometry; it must not collapse and recreate columns. Never show a previous record's actionable receipt as if it belonged to the new selection. Copy success is a borderless green check with explicit text, shown only after clipboard success; failure retains manual fallback. Primary actions use teal, secondary navigation uses outline/ghost, Approve uses green, and destructive actions use red. An Active credential badge is a non-interactive state, not an Activate button. Admin labels are Agent identity (recorded author, e.g. agent:claude-code) and Key name (recognizable device/client label); underlying principal IDs and authority rules remain unchanged.
+Selection loading preserves list and inspector geometry; it must not collapse and recreate columns. Never show a previous record's actionable receipt as if it belonged to the new selection. Copy success is a borderless green check with explicit text, shown only after clipboard success; failure retains manual fallback. Primary actions—including Approve—use Proofpress cyan, secondary navigation and optional analysis use outline/ghost, admitted state uses green, and destructive actions use red. An Active credential badge is a non-interactive state, not an Activate button. Admin labels are Agent identity (recorded author, e.g. agent:claude-code) and Key name (recognizable device/client label); underlying principal IDs and authority rules remain unchanged.
 
 [//]: # (ob:02a0b481)
 Status badges share the same neutral one-pixel border; semantic meaning comes from the tinted fill and text, not a heavier outline. Underline tabs reserve their border space in both states and keep font weight, height and baseline fixed, including Evidence/Checks/History. Admin desktop fields and their primary action align on the input row; helper text sits below without pulling the action down. Narrow layouts stack deliberately and separate the brand from workspace identity. Cross-page navigation starts at the top; returning from full review preserves the review position. Graph column labels align with their nodes, and narrow graph canvases indicate sideways scrolling. Activity results describe requests, not conclusion lifecycle: Recorded is neutral, access/request failures red, and version or duplicate conflicts muted blue. Preserve the recorded error code and never infer an admission decision from request success. Release QA must traverse Home, all Review groups and full details, Ledger overview/focus/current knowledge, Activity and Admin at 1536, 1024 and 390 pixels, with isolated decisions, revision handoff, denied clipboard, credential lifecycle, stale writes, failed loads and keyboard return paths. Never use partner data to manufacture test states.

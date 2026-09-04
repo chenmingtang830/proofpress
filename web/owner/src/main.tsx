@@ -18,7 +18,6 @@ import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { LineageGraph } from "@/components/lineage-graph";
-import { LedgerOverview } from "@/components/ledger-overview";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
 import "./components/governance.css";
@@ -770,13 +769,13 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any
     <div className="pageBody">
       <PageHead eyebrow="" title="Your workspace" description="Review new conclusions. Trace what agents may rely on." />
       <div className="orientation">
-        <button onClick={onReview}>
-          <span>Needs your review</span>
+        <button className="reviewOrientation" onClick={onReview}>
+          <span>Needs review</span>
           <strong>{pending}</strong>
           <small>Candidate conclusions remain excluded</small>
           <ChevronRight />
         </button>
-        <button onClick={onLedger}>
+        <button className="admittedOrientation" onClick={onLedger}>
           <span>Current ledger</span>
           <strong>{admitted}</strong>
           <small>Current knowledge eligible for your owner identity</small>
@@ -813,7 +812,7 @@ function ReviewPage({
   setNote,
   onDecide,
   busy,
-  onJudge, onEvaluate,
+  onJudge, onEvaluate, onConfigurePolicy,
   fullReview, onOpenFull, onBack,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
@@ -880,6 +879,7 @@ function ReviewPage({
         busy={busy}
         onJudge={onJudge}
         onEvaluate={onEvaluate}
+        onConfigurePolicy={onConfigurePolicy}
         fullReview={fullReview}
         onOpenFull={onOpenFull}
         onBack={onBack}
@@ -897,7 +897,7 @@ function Inspector({
   busy,
   onJudge, onEvaluate,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, pending = false,
+  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
@@ -906,7 +906,7 @@ function Inspector({
     panel.current?.scrollTo({top: 0, behavior: "auto"});
   }, [r?.conclusion.id]);
   React.useEffect(() => {
-    if (!r || !window.matchMedia("(max-width: 1050px)").matches) return;
+    if (!r || !window.matchMedia("(max-width: 899px)").matches) return;
     const opener = document.querySelector<HTMLElement>(".work tr.selected .conclusionSelect") || document.activeElement as HTMLElement | null;
     panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
@@ -940,24 +940,46 @@ function Inspector({
       <div className="quickSnapshot">
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
-        <div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></dl>
+        {!fullReview && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
         {can && <div className="decisionStack"><div><strong>Automated checks</strong><span className={r.evaluation ? (failedChecks.length ? "fail" : "pass") : ""}>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ["failed","interrupted","blocked"].includes(r.judge_job.state) && <p>{r.judge_job.detail}</p>}
         {can && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
             : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
-            : (judgeNeedsSetup || !onJudge) && onConfigurePolicy ? <Button onClick={onConfigurePolicy}>Configure review policy</Button>
-            : judgeFailed && onJudge ? <Button disabled={busy} onClick={onJudge}>Retry LM review</Button>
-            : judgePending && r.review_policy?.mode === "automatic" ? <span className="queuedAction">LM review runs automatically after checks</span>
-            : judgePending && onJudge && r.review_policy?.mode === "manual" ? <Button disabled={busy} onClick={onJudge}>Run LM review</Button>
-            : onOpenFull && !fullReview ? <Button onClick={onOpenFull}>Open full review</Button>
-            : null}
-          {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && ((judgeNeedsSetup && onConfigurePolicy) || (judgePending && r.review_policy?.mode === "manual" && onJudge)) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
+            : <>
+              {onOpenFull && !fullReview && <Button variant="approve" onClick={onOpenFull}>Open full review</Button>}
+              {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
+                ? <Button variant="outline" onClick={onConfigurePolicy}>Set up LM review</Button>
+                : judgeFailed && onJudge
+                  ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry LM review</Button>
+                  : judgePending && r.review_policy?.mode === "automatic"
+                    ? <span className="queuedAction">LM review runs automatically after checks</span>
+                    : judgePending && onJudge && r.review_policy?.mode === "manual"
+                      ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional LM review</Button>
+                      : null}
+            </>}
           {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
         </div>}
+        {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
+          <div className="evidenceArgumentHead">
+            <h3 id="evidence-argument-title">Evidence for this conclusion</h3>
+            <span>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</span>
+          </div>
+          {(r.evidence || []).length ? <div className="evidenceArgumentList">{(r.evidence || []).slice(0, 2).map((e: any, i: number) => <article key={e.id || i}>
+            <span>Source {String(i + 1).padStart(2, "0")}</span>
+            <strong>{evidenceName(e)}</strong>
+            <p>{evidenceText(e)}</p>
+          </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This conclusion cannot be approved.</p>}
+          <div className="reuseBoundary">
+            <span>Proposed reuse boundary</span>
+            <strong>{r.conclusion.scope || "No scope recorded"}</strong>
+            <p>{approvalBlock ? "This conclusion remains excluded until every required condition passes." : "Approval would make this conclusion eligible within this scope; each agent is still checked separately."}</p>
+          </div>
+        </section>}
         {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
+        {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
@@ -1056,7 +1078,7 @@ function Inspector({
               disabled={busy || !!approvalBlock}
               onClick={() => onDecide("admit")}
             >
-              Approve for reuse
+              Approve
             </Button>
           </div>
         </div>
@@ -1064,18 +1086,29 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
-  const [view, setView] = React.useState("lineage");
-  const [showHistory, setShowHistory] = React.useState(true);
+function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loading, contextError, detailError }: any) {
+  const [view, setView] = React.useState("list");
   const [focused, setFocused] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("conclusion");
   const available = new Set(rows.map((row: any) => row.id));
-  const visible = showHistory ? allRows : rows;
-  const current = !loading && visible.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
-  const visibleIds = new Set(visible.map((row: any) => row.id));
-  const links = (showHistory ? edges : relations).filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
+  const awaitingReview = allRows.filter((row: any) => ["needs_review", "needs_revision", "unresolved"].includes(row.state));
+  const reviewCounts = awaitingReview.reduce((counts: Record<string, number>, row: any) => {
+    const state = row.state || "unresolved";
+    counts[state] = (counts[state] || 0) + 1;
+    return counts;
+  }, {});
+  const reviewLabels: Record<string, string> = {
+    needs_review: "need review",
+    needs_revision: "need revision",
+    unresolved: "need revalidation",
+  };
+  const reviewSummary = Object.entries(reviewCounts).map(([state, count]) => `${count} ${reviewLabels[state] || "need attention"}`).join(" · ");
+  const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
+  const visibleIds = new Set(rows.map((row: any) => row.id));
+  const links = relations.filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
   const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
   const focus = (id: string) => { setFocused(true); setGraphSelection("conclusion"); onChoose(id); };
+  const viewLineage = () => { setView("lineage"); setGraphSelection("conclusion"); };
   React.useEffect(() => { setGraphSelection("conclusion"); }, [selected]);
   return (
     <div className={`workspacePage${focused ? "" : " overviewOnly"}`}>
@@ -1083,22 +1116,32 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
         <PageHead
           eyebrow="GOVERNED CONTEXT"
           title="Ledger"
-          description="Explore evidence and decisions across the workspace. Current knowledge shows only what is eligible for reuse."
+          description="Browse the knowledge currently eligible for reuse, then inspect the evidence and decisions behind each conclusion."
         />
+        <section className="contextBoundarySummary" aria-label="Current governed context boundary">
+          <div className="availableKnowledge">
+            <span>Available now</span>
+            <strong>{rows.length} current {rows.length === 1 ? "conclusion" : "conclusions"}</strong>
+            <p>Admitted and eligible for this owner view. Agent access remains scope- and credential-specific.</p>
+          </div>
+          <div className="awaitingKnowledge">
+            <span>Needs review</span>
+            <strong>{awaitingReview.length} candidate {awaitingReview.length === 1 ? "conclusion" : "conclusions"}</strong>
+            <p>{reviewSummary || "No candidate conclusions need attention."}</p>
+          </div>
+        </section>
         <div className="ledgerViews" role="group" aria-label="Ledger view">
-          <Button aria-pressed={view === "lineage"} variant="outline" onClick={() => setView("lineage")}>Lineage</Button>
           <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
+          <Button aria-pressed={view === "lineage"} variant="outline" disabled={!current} onClick={viewLineage}>Selected lineage</Button>
         </div>
         {view === "lineage" && <p className="graphScrollHint">Scroll sideways to explore the graph.</p>}
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
           <div className="lineageToolbar">
-            {focused && <Button variant="outline" onClick={() => setFocused(false)}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to overview</Button>}
-            <label><input type="checkbox" checked={showHistory} onChange={e => { setShowHistory(e.target.checked); setFocused(false); }} /> Show history and unavailable conclusions</label>
+            <Button variant="outline" onClick={() => { setView("list"); setFocused(false); }}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to current knowledge</Button>
           </div>
-          {!focused && <LedgerOverview rows={visible} nodes={nodes} edges={edges} onChoose={focus} />}
           {focused && current ? <><LineageGraph receipt={current} available={available.has(selected)} evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} /><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
-            const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
-            return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;
+            const other = rows.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
+            return other ? <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button> : null;
           }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <div className="empty">{detailError ? <><p>Could not load this conclusion. No stale receipt is shown.</p><Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button></> : "Loading selected lineage…"}</div>}
         </section>}
         {view === "list" &&
@@ -1151,6 +1194,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
         setNote={() => {}}
         onDecide={() => {}}
         busy={false}
+        onViewLineage={viewLineage}
       />}
     </div>
   );
