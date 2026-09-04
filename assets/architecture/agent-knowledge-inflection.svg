@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="knowledge-title knowledge-desc">
+  <title id="knowledge-title">Agent-produced knowledge grows faster as agent autonomy increases</title>
+  <desc id="knowledge-desc">An illustrative curve shows agent-produced knowledge growing faster than enterprise knowledge. A verification inflection marks when conclusions begin shaping downstream work.</desc>
+  <defs>
+    <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#181a20"/>
+    </marker>
+    <marker id="teal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#0e6675"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="650" fill="#fff"/>
+  <g fill="none" stroke="#181a20" stroke-width="2">
+    <path d="M120 548V66" marker-end="url(#axis-arrow)"/>
+    <path d="M120 548H1110" marker-end="url(#axis-arrow)"/>
+  </g>
+  <path d="M122 516C330 455 620 390 1054 346" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round" marker-end="url(#axis-arrow)"/>
+  <path d="M122 516C420 451 700 397 820 284C905 204 952 123 984 62" fill="none" stroke="#0e6675" stroke-width="4" stroke-linecap="round" marker-end="url(#teal-arrow)"/>
+  <path d="M744 548V348" fill="none" stroke="#0e6675" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
+  <circle cx="744" cy="348" r="7.5" fill="#0e6675" stroke="#fff" stroke-width="5"/>
+  <path d="M584 260L730 337" fill="none" stroke="#0e6675" stroke-width="1.5" marker-end="url(#teal-arrow)"/>
+  <g font-family="DM Sans, Arial, sans-serif">
+    <text x="426" y="228" fill="#0e6675" font-size="18" font-weight="700" letter-spacing=".02em">VERIFICATION INFLECTION</text>
+    <text x="426" y="255" fill="#555b66" font-size="16">Conclusions shape downstream work</text>
+    <text x="1000" y="94" fill="#0e6675" font-size="20" font-weight="700"><tspan x="1000" dy="0">Agent-produced</tspan><tspan x="1000" dy="31">knowledge</tspan></text>
+    <text x="890" y="326" fill="#555b66" font-size="19" font-weight="600">Enterprise knowledge</text>
+    <text x="610" y="620" text-anchor="middle" fill="#181a20" font-size="18" font-weight="600">Agent adoption and autonomy over time</text>
+    <text x="42" y="310" text-anchor="middle" transform="rotate(-90 42 310)" fill="#181a20" font-size="18" font-weight="600">Reusable conclusions and work</text>
+  </g>
+</svg>

@@ -11,94 +11,96 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [//]: # (ob:e667d986)
-**The governance layer for agent-produced knowledge.**
+**Agent work compounds. Trust has to keep up.**
 
 [//]: # (ob:92fbc10e)
-Proofpress gives agents a shared, auditable answer to: **What may a future agent or human rely on, why, in what scope, and under whose authority?** Agents submit bounded evidence and propose conclusions. Deterministic checks and configured policy evaluate them. An authenticated human authorizer decides whether they may enter governed context.
+Proofpress makes agent-produced conclusions first-class governed objects. Each
+one stays bound to evidence, scope, lifecycle, and human authority before it
+can become context for the next agent or decision.
 
-<p align="center">
-  <img src="assets/product/owner-home.png" alt="Proofpress owner workspace showing review work and current governed knowledge" width="100%">
-</p>
+[Website](https://proofpress.dev) · [Quick start](#quick-start) ·
+[Product thesis](docs/THESIS.md) · [Remote MCP](docs/REMOTE_MCP.md)
 
 [//]: # (ob:62009490)
 [//]: # (ob:thesis-summary)
 
 [//]: # (ob:53ef8f8a)
-## Why this exists
+## Agents are creating a new knowledge layer
 
 [//]: # (ob:87f7edac)
-Most agent infrastructure governs either the inputs to work or the execution of
-work. Documents, databases, RAG, memory, and ontologies organize what an agent
-can reason from. Traces and observability show what happened while it ran.
+Every run can create findings, analyses, decisions, and claims that become
+premises for later work. Retrieval can make those conclusions available. A
+trace can show where they came from. Neither decides whether they are still
+current, in scope, or authorized for reuse.
 
 [//]: # (ob:9727fa6a)
-Proofpress governs the reusable output of that work: conclusions, findings,
-analyses, decisions, and artifact-backed claims that a later agent or human may
-be asked to rely on. It preserves the evidence, verification, scope, authority,
-and lifecycle that make a conclusion safe to reuse. It is not a generic
-knowledge graph, agent orchestrator, task tracker, trace warehouse, or RAG
-platform.
+As agent adoption grows, this derived knowledge can compound much faster than
+the enterprise corpus it started from. Informal review stops scaling at the
+point where one agent's output routinely becomes another agent's input.
 
 <p align="center">
-  <img src="assets/product/category-map.jpg" alt="Comparison of observability, memory, knowledge graphs, and Proofpress by primary object and core question" width="100%">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge accelerating beyond enterprise knowledge as agent autonomy grows, with a verification inflection when conclusions shape downstream work" width="100%">
 </p>
 
-[//]: # (ob:86aa6033)
-Read the full [product thesis](docs/THESIS.md) for the model and the
-[verified-knowledge guide](docs/VERIFIED_KNOWLEDGE_LEDGER.md) for the object
-and lifecycle semantics.
-
-### Why this becomes infrastructure
-
-As agents produce more reusable conclusions, the cost of deciding what may be
-trusted grows faster than ordinary enterprise knowledge management can absorb.
-The chart below is a conceptual model of that pressure—not an empirical forecast.
-
-<p align="center">
-  <img src="assets/product/governance-threshold.jpg" alt="Conceptual chart showing agent-produced knowledge crossing a governance threshold as agent adoption grows" width="88%">
-</p>
+<sub>Illustrative model, not measured data. The curve matches the model used on
+the Proofpress landing page.</sub>
 
 [//]: # (ob:41b3a522)
 [//]: # (ob:governed-handoff)
 
 [//]: # (ob:cf8ae608)
-## How it works
+## Make conclusions governable
 
 [//]: # (ob:9b444bbd)
-```mermaid
-flowchart LR
-    A[Agent work<br/>documents · code · runs] -->|bounded evidence| B[Candidate conclusion]
-    B --> C[Deterministic checks]
-    C --> D[Optional LM advice]
-    D --> E{Human owner}
-    E -->|admit| F[Current governed knowledge]
-    E -->|reject or revise| G[Excluded from reuse]
-    F -->|scope + identity policy| H[Successor agent or human]
-```
+Proofpress gives every reusable conclusion a lifecycle:
+
+1. **Bind evidence.** Preserve bounded support and provenance.
+2. **Propose a conclusion.** State the claim, scope, and intended reuse.
+3. **Run checks.** Apply deterministic requirements and optional model advice.
+4. **Require human authority.** An authenticated owner admits, rejects, or
+   requests revision.
+5. **Project governed context.** Return only admitted, current, in-scope,
+   actor-eligible knowledge.
 
 [//]: # (ob:8282eb31)
-Raw artifacts, traces, and agent reasoning can support a conclusion, but they
-are not themselves admission. An agent can propose, evaluate, and read allowed
-context; it cannot approve itself or administer owner authority.
+Agents may submit, propose, evaluate, and retrieve. They may never admit their
+own conclusions or administer owner authority.
+
+### A different layer of the stack
+
+| Layer | Governs | Core question |
+|---|---|---|
+| RAG and memory | Context entering a run | What should the agent read next? |
+| Observability | Execution events and traces | What happened while it worked? |
+| Orchestration | Tasks, tools, and runtime flow | What should run, and in what order? |
+| Knowledge graph / ontology | Enterprise entities and relationships | What does the organization know about its world? |
+| **Proofpress** | Reusable agent-produced conclusions | **What may the next agent rely on, and under whose authority?** |
+
+These layers are complementary. They can provide evidence to Proofpress or
+consume governed context from it; they do not grant admission authority.
 
 [//]: # (ob:612fa08f)
 [//]: # (ob:product-surfaces)
 
 [//]: # (ob:57f61eb0)
-## Product architecture
+## One governance contract, four surfaces
 
 [//]: # (ob:1aa1b52d)
-| Surface | Used by | Responsibility |
-|---|---|---|
-| Owner workspace | Human authorizer | Review evidence and recommendations; admit, reject, or request revision |
-| MCP | Coding agents and agent clients | Submit evidence, propose conclusions, retrieve eligible context, inspect lineage |
-| Python SDK and CLI | Applications and automation | Use the same versioned governance operations directly |
-| Hosted HTTP | Self-hosted clients and devices | Persist one private workspace with scoped, revocable credentials |
+<p align="center">
+  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture showing agents using MCP, Python, CLI, or HTTP to submit evidence and conclusions through checks and owner review before governed context reaches successor agents" width="100%">
+</p>
 
 [//]: # (ob:ed5c57b7)
-Every surface calls the same versioned operation contract and lifecycle engine.
-Local Git-backed and hosted SQLite-backed installations differ in storage, not
-in what counts as evidence, admission, current knowledge, or authorized reuse.
+MCP, Python, CLI, and HTTP call the same versioned lifecycle. Local Git-backed
+and hosted SQLite-backed deployments differ in storage, not in what counts as
+evidence, admission, or authorized reuse.
+
+The Owner workspace is the human authority layer: review the candidate and its
+support, inspect lineage, then admit, reject, or request revision.
+
+<p align="center">
+  <img src="assets/product/owner-home.png" alt="Proofpress Owner workspace showing the review queue, governed knowledge, and evidence-backed decision interface" width="100%">
+</p>
 
 [//]: # (ob:8db33fda)
 [//]: # (ob:quickstart)
@@ -111,7 +113,7 @@ Proofpress requires Python 3.11 or newer.
 
 [//]: # (ob:1522656b)
 ```sh
-uv tool install "git+https://github.com/chenmingtang830/proofpress.git"
+uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
 proofpress quickstart
 ```
 
