@@ -51,7 +51,7 @@ a { color: inherit; text-underline-offset: 0.24em; }
 }
 .brand { display: inline-flex; align-items: center; gap: 11px; font-weight: 600; text-decoration: none; }
 .brand img { display: block; }
-.siteHeader nav { display: flex; align-items: center; gap: 30px; font-size: 13px; color: var(--ink-2); }
+.siteHeader nav { display: flex; align-items: center; gap: 30px; font-size: 14px; color: var(--ink-2); }
 .siteHeader nav a { text-decoration: none; }
 .siteHeader nav a:hover { color: var(--ink); text-decoration: underline; }
 
@@ -90,7 +90,7 @@ h1 {
   border-radius: 6px;
   padding: 0 18px;
   border: 1px solid transparent;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
@@ -104,7 +104,7 @@ h1 {
   outline-offset: 4px;
 }
 .heroFoot { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 28px; }
-.heroFoot p { margin: 0; font-size: 13px; font-weight: 600; }
+.heroFoot p { margin: 0; font-size: 14px; font-weight: 600; }
 .sealLine { height: 1px; background: var(--line); position: relative; }
 .sealLine span {
   position: absolute;
@@ -152,7 +152,7 @@ h1 {
 .agentLabel { fill: var(--accent); }
 .enterpriseLabel { fill: #596273; }
 .axisLabel { fill: var(--ink); font-size: 17px; font-weight: 600; }
-.knowledgeFigure figcaption { max-width: 72ch; margin: 18px 0 0 10%; color: var(--ink-3); font: 500 11px/1.6 var(--font-proof); }
+.knowledgeFigure figcaption { max-width: 72ch; margin: 20px 0 0 10%; color: var(--ink-3); font: 500 13px/1.6 var(--font-proof); }
 .sectionIntro { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.6fr); gap: 64px; align-items: end; }
 .sectionIntro h2 { margin-bottom: 0; }
 .sectionIntro > p { max-width: 48ch; margin: 0 0 8px; color: var(--ink-2); line-height: 1.65; }
@@ -160,43 +160,43 @@ h1 {
 .architecture { background: var(--accent-soft); }
 .architectureFigure { margin: 72px 0 0; }
 .architectureDiagram { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-.diagramLabel { margin: 0; color: var(--accent); font: 600 10px/1 var(--font-proof); letter-spacing: 0.08em; }
+.diagramLabel { margin: 0; color: var(--accent); font: 600 12px/1 var(--font-proof); letter-spacing: 0.06em; }
 .architectureOrigin { display: grid; grid-template-columns: 180px 1fr; gap: 40px; padding: 28px 0 32px; }
 .originFlow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 24px; align-items: center; }
 .originFlow div, .kernelExit { display: grid; gap: 6px; }
 .originFlow strong, .kernelExit strong { font-size: 16px; font-weight: 600; }
-.originFlow span:not(.diagramArrow), .kernelExit span { color: var(--ink-2); font-size: 13px; }
+.originFlow span:not(.diagramArrow), .kernelExit span { color: var(--ink-2); font-size: 14px; }
 .diagramArrow { color: var(--accent); font-size: 24px; }
 .projectionBridge { display: grid; grid-template-columns: 180px 1fr; gap: 40px; align-items: center; min-height: 64px; border-top: 1px solid var(--line); }
-.projectionBridge span { color: var(--ink-3); font: 500 10px/1.4 var(--font-proof); }
+.projectionBridge span { color: var(--ink-3); font: 500 12px/1.4 var(--font-proof); }
 .projectionBridge i { width: 1px; height: 64px; margin-left: 50%; background: var(--accent); position: relative; }
 .projectionBridge i::after, .kernelExit i::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: 7px; height: 7px; transform: translate(-50%, 50%) rotate(45deg); border-right: 1px solid var(--accent); border-bottom: 1px solid var(--accent); }
 .proofpressKernel { background: var(--paper); border-top: 1px solid var(--ink); padding: 32px; }
 .kernelHeader { display: flex; justify-content: space-between; gap: 48px; align-items: start; }
 .kernelHeader h3 { margin: 10px 0 0; font-size: clamp(1.8rem, 3vw, 3.25rem); letter-spacing: -0.03em; }
 .surfaceRail { display: flex; flex-wrap: wrap; justify-content: flex-end; border: 1px solid var(--line); }
-.surfaceRail span { padding: 9px 12px; color: var(--ink-2); font: 500 10px/1 var(--font-proof); }
+.surfaceRail span { padding: 10px 12px; color: var(--ink-2); font: 500 12px/1 var(--font-proof); }
 .surfaceRail span + span { border-left: 1px solid var(--line); }
 .kernelFlow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 56px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ink); }
 .kernelFlow li { min-height: 220px; padding: 20px 18px 24px 0; position: relative; }
 .kernelFlow li + li { border-left: 1px solid var(--line); padding-left: 18px; }
 .kernelFlow li:not(:last-child)::after { content: ""; position: absolute; top: -4px; right: -4px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-.kernelFlow span { color: var(--ink-3); font: 500 9px/1 var(--font-proof); letter-spacing: 0.05em; }
-.kernelFlow strong { display: block; margin-top: 56px; font-size: 15px; }
-.kernelFlow p { margin: 10px 0 0; color: var(--ink-2); font-size: 12px; line-height: 1.55; }
+.kernelFlow span { color: var(--ink-3); font: 500 11px/1 var(--font-proof); letter-spacing: 0.04em; }
+.kernelFlow strong { display: block; margin-top: 52px; font-size: 17px; }
+.kernelFlow p { margin: 10px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
 .kernelFlow .ownerNode { background: var(--accent-soft); padding-right: 18px; }
 .kernelFlow .ownerNode span { color: var(--accent); }
 .kernelFlow .admittedNode strong, .kernelFlow .admittedNode span { color: var(--admitted); }
 .kernelExit { width: max-content; max-width: 100%; margin: 0 auto; padding: 52px 24px 8px; text-align: center; position: relative; }
 .kernelExit i { position: absolute; top: 0; left: 50%; width: 1px; height: 38px; background: var(--accent); }
-.architectureFigure figcaption { margin: 18px 0 0; color: var(--ink-3); font: 500 11px/1.6 var(--font-proof); }
+.architectureFigure figcaption { margin: 20px 0 0; color: var(--ink-3); font: 500 13px/1.6 var(--font-proof); }
 
 .quickstartPanel { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr); margin-top: 72px; border: 1px solid var(--ink); background: var(--ink); }
-.codeHeader { grid-column: 1; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 0 18px; border-bottom: 1px solid #3b3e45; color: #c7cbd0; font: 500 10px/1 var(--font-proof); }
+.codeHeader { grid-column: 1; display: flex; justify-content: space-between; align-items: center; min-height: 48px; padding: 0 18px; border-bottom: 1px solid #3b3e45; color: #c7cbd0; font: 500 12px/1 var(--font-proof); }
 .codeHeader button { min-height: 32px; border: 1px solid #565a62; border-radius: 4px; padding: 0 10px; background: transparent; color: white; cursor: pointer; }
 .codeHeader button:hover { background: #272a31; }
 .codeHeader button:focus-visible { outline: 2px solid #69bdcb; outline-offset: 3px; }
-.quickstartPanel pre { grid-column: 1; margin: 0; padding: 24px 18px 30px; overflow-x: auto; color: #f0eee8; font: 500 12px/1.75 var(--font-proof); }
+.quickstartPanel pre { grid-column: 1; margin: 0; padding: 24px 18px 30px; overflow-x: auto; color: #f0eee8; font: 500 13px/1.75 var(--font-proof); }
 .quickstartResult { grid-column: 2; grid-row: 1 / span 2; margin: 0; padding: 28px; border-left: 1px solid #3b3e45; color: #c7cbd0; font-size: 15px; line-height: 1.7; }
 
 .available .sectionIntro { align-items: start; }
@@ -204,12 +204,12 @@ h1 {
 .capabilityList div { display: grid; grid-template-columns: 220px 1fr; gap: 36px; padding: 25px 0; border-bottom: 1px solid var(--line); }
 .capabilityList dt { font-weight: 600; }
 .capabilityList dd { max-width: 72ch; margin: 0; color: var(--ink-2); line-height: 1.65; }
-.boundaryNote { max-width: 72ch; margin: 32px 0 0; color: var(--ink-3); font: 500 11px/1.6 var(--font-proof); }
+.boundaryNote { max-width: 72ch; margin: 32px 0 0; color: var(--ink-3); font: 500 13px/1.6 var(--font-proof); }
 .deploymentShapes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 56px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--line); }
 .deploymentShapes div { display: grid; gap: 8px; padding: 24px 32px 24px 0; }
 .deploymentShapes div + div { border-left: 1px solid var(--line); padding-left: 32px; }
 .deploymentShapes strong { font-size: 15px; }
-.deploymentShapes span { color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.deploymentShapes span { color: var(--ink-2); font-size: 14px; line-height: 1.6; }
 
 .finalCta { background: var(--ink); color: white; }
 .finalCta h2 { max-width: 1180px; }
@@ -220,8 +220,8 @@ h1 {
 .finalCta .buttonSecondary:hover { background: #272a31; border-color: #777b84; }
 
 footer { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 40px; padding: 32px 48px; border-top: 1px solid #3b3e45; background: var(--ink); color: white; }
-footer p { margin: 0; color: #aeb3bb; font-size: 12px; }
-footer > a:last-child { color: #d6d9dd; font-size: 13px; }
+footer p { margin: 0; color: #aeb3bb; font-size: 13px; }
+footer > a:last-child { color: #d6d9dd; font-size: 14px; }
 
 @media (max-width: 900px) {
   .siteHeader, .hero, .handoff, .architecture, .quickstart, .available, .finalCta, footer { padding-left: 24px; padding-right: 24px; }
@@ -259,10 +259,10 @@ footer > a:last-child { color: #d6d9dd; font-size: 13px; }
   .knowledgeFigure { margin-top: 52px; }
   .knowledgeChartDesktop { display: none; }
   .knowledgeChartMobile { display: block; }
-  .knowledgeChartMobile .chartLabelStrong { font-size: 11px; }
-  .knowledgeChartMobile .chartAnnotation { font-size: 10px; }
-  .knowledgeChartMobile .curveLabel { font-size: 12px; }
-  .knowledgeChartMobile .axisLabel { font-size: 10px; }
+  .knowledgeChartMobile .chartLabelStrong { font-size: 12px; }
+  .knowledgeChartMobile .chartAnnotation { font-size: 11px; }
+  .knowledgeChartMobile .curveLabel { font-size: 13px; }
+  .knowledgeChartMobile .axisLabel { font-size: 11px; }
   .knowledgeFigure figcaption { margin-left: 0; }
   .handoffClose { margin-top: 48px; }
   .originFlow { grid-template-columns: 1fr; }
@@ -280,7 +280,7 @@ footer > a:last-child { color: #d6d9dd; font-size: 13px; }
   .quickstartPanel { margin-top: 48px; }
   .codeHeader { gap: 12px; }
   .codeHeader span { line-height: 1.4; }
-  .quickstartPanel pre { font-size: 10px; }
+  .quickstartPanel pre { font-size: 12px; }
   .capabilityList { margin-top: 56px; }
   .capabilityList div { grid-template-columns: 1fr; gap: 8px; }
   .deploymentShapes { grid-template-columns: 1fr; }

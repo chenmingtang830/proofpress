@@ -36,22 +36,22 @@ export function ArchitectureDiagram() {
           </div>
 
           <ol className="kernelFlow">
-            <li><span>01</span><strong>Evidence</strong><p>Bounded support, not raw private traces.</p></li>
-            <li><span>02</span><strong>Candidate conclusion</strong><p>A precise claim with scope and provenance.</p></li>
-            <li><span>03</span><strong>Checks + advice</strong><p>Deterministic verification and LM evaluation remain advisory.</p></li>
+            <li><span>01</span><strong>Evidence</strong><p>Bounded support, not raw traces.</p></li>
+            <li><span>02</span><strong>Candidate conclusion</strong><p>A scoped claim with provenance.</p></li>
+            <li><span>03</span><strong>Checks + advice</strong><p>Verification remains advisory.</p></li>
             <li className="ownerNode"><span>04 · AUTHORITY</span><strong>Human owner review</strong><p>The only step that can admit knowledge.</p></li>
-            <li className="admittedNode"><span>05 · FILTER</span><strong>Governed context</strong><p>Admitted, current, in-scope, actor-eligible only.</p></li>
+            <li className="admittedNode"><span>05 · FILTER</span><strong>Governed context</strong><p>Only eligible knowledge.</p></li>
           </ol>
 
           <div className="kernelExit">
             <i aria-hidden="true" />
             <strong>Successor agent or human</strong>
-            <span>Receives only what is eligible to rely on</span>
+            <span>Receives only eligible context</span>
           </div>
         </div>
       </div>
       <figcaption id="architecture-note">
-        MCP exposes the safe agent surface. Approval, policy, and credential administration remain owner-only.
+        Agents can propose and read. Approval remains owner-only.
       </figcaption>
     </figure>
   );

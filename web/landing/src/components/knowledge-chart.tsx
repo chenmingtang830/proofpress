@@ -86,8 +86,7 @@ export function KnowledgeChart() {
         <text x="13" y="240" textAnchor="middle" transform="rotate(-90 13 240)" className="axisLabel">Reusable conclusions and work</text>
       </svg>
       <figcaption id="knowledge-chart-note">
-        Illustrative model — not measured data. The inflection is operational: informal review no
-        longer scales as agent conclusions are reused across consequential work.
+        Illustrative model — not measured data. Informal review stops scaling at the inflection.
       </figcaption>
     </figure>
   );

@@ -33,9 +33,8 @@ export function App() {
           <div className="heroCopy">
             <h1 id="hero-title">Govern what your agents learn.</h1>
             <p className="heroLead">
-              Proofpress is the governance layer for agent-produced knowledge. It keeps evidence,
-              scope, and authority attached before a conclusion becomes a premise for the next
-              agent or human.
+              Proofpress keeps evidence, scope, and authority attached before an agent’s
+              conclusion becomes someone else’s premise.
             </p>
             <div className="heroActions" aria-label="Get started">
               <ButtonLink href="#quickstart">Run the local demo <Arrow /></ButtonLink>
@@ -53,12 +52,11 @@ export function App() {
             <h2 id="handoff-title">Agent output is becoming organizational knowledge.</h2>
             <div className="handoffArgument">
               <p>
-                The more work agents complete, the more their conclusions become premises for the
-                next agent, decision, or system.
+                As agents do more work, their conclusions become inputs to the next agent,
+                decision, or system.
               </p>
               <p>
-                Retrieval can find an old answer. A trace can show how it was produced. Neither
-                decides whether anyone is authorized to rely on it now.
+                Retrieval finds an answer. A trace shows its origin. Neither authorizes reuse.
               </p>
             </div>
           </div>
@@ -69,8 +67,7 @@ export function App() {
           <div className="sectionIntro">
             <h2 id="architecture-heading">Proofpress governs the handoff—not the agent.</h2>
             <p>
-              Your runtimes keep doing the work. Proofpress receives bounded evidence and candidate
-              conclusions, preserves the review record, and filters what may be reused downstream.
+              Your runtimes do the work. Proofpress governs which conclusions may be reused.
             </p>
           </div>
           <ArchitectureDiagram />
@@ -80,8 +77,7 @@ export function App() {
           <div className="sectionIntro">
             <h2 id="quickstart-title">See the admission boundary locally.</h2>
             <p>
-              Run a synthetic demo in a fresh temporary Git repository. No account, customer data,
-              or external model call is required.
+              Run a synthetic demo locally—no account, customer data, or model call required.
             </p>
           </div>
           <Quickstart />
@@ -91,15 +87,13 @@ export function App() {
           <div className="sectionIntro">
             <h2 id="available-title">Built for your agents. Governed by your owner.</h2>
             <p>
-              Proofpress is open source and provider-neutral. The current implementation supports
-              a Python SDK, HTTP and MCP access, bounded evidence and proposals, and a single-owner
-              workspace for review, lineage, credentials, and current governed context.
+              Open source and provider-neutral, with Python, HTTP, MCP, and a single-owner review workspace.
             </p>
           </div>
           <dl className="capabilityList">
-            <div><dt>Agents</dt><dd>Submit evidence, propose conclusions, inspect lineage, and retrieve eligible context.</dd></div>
-            <div><dt>Automated checks</dt><dd>Verify declared requirements and provide advisory evaluation without admission authority.</dd></div>
-            <div><dt>Human owner</dt><dd>Approves, requests changes, rejects, and controls what becomes reusable.</dd></div>
+            <div><dt>Agents</dt><dd>Submit evidence, propose conclusions, and retrieve eligible context.</dd></div>
+            <div><dt>Automated checks</dt><dd>Verify requirements and advise—without admission authority.</dd></div>
+            <div><dt>Human owner</dt><dd>Controls what becomes reusable.</dd></div>
           </dl>
           <p className="boundaryNote">Current scope: local and experimental single-owner hosted operation. Design-partner outcomes remain unvalidated.</p>
           <div className="deploymentShapes" aria-label="Current deployment shapes">
@@ -110,7 +104,7 @@ export function App() {
 
         <section className="finalCta" aria-labelledby="cta-title">
           <h2 id="cta-title">Tell us what your company is trying to solve.</h2>
-          <p>Share your industry, the problem, and how Proofpress might help. Do not include confidential, privileged, personal, or customer data.</p>
+          <p>Share your industry, the problem, and how Proofpress might help. Please omit sensitive data.</p>
           <div className="heroActions">
             <ButtonLink href={contactUrl}>Contact us <Arrow /></ButtonLink>
             <ButtonLink href={repoUrl} variant="secondary">Explore the repository</ButtonLink>
