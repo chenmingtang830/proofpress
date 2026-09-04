@@ -1406,7 +1406,7 @@ td:last-child svg {
    Local UI exploration only: white institutional canvas, ink-led hierarchy,
    and cyan used as a precise rule rather than a filled surface. */
 :root {
-  --paper: #f5f6f4;
+  --paper: #ffffff;
   --ink: #181a20;
   --ink-2: #555b66;
   --ink-3: #7f8791;
@@ -1439,7 +1439,7 @@ td:last-child svg {
 .stage,
 .workspacePage,
 .work {
-  background: var(--paper);
+  background: #fff;
 }
 
 .inspector {
@@ -1566,6 +1566,10 @@ tbody tr.selected td:first-child b {
 
 .message.assistant {
   border-left-color: var(--accent);
+}
+
+.lineageCanvas {
+  background: #f6f8f7;
 }
 
 .quickSnapshot,
