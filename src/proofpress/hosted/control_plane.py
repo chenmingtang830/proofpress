@@ -132,9 +132,211 @@ class HostedControlPlane:
                     rotated_at TEXT NOT NULL,
                     FOREIGN KEY (workspace_id) REFERENCES hosted_workspaces(workspace_id)
                 );
+                CREATE TABLE IF NOT EXISTS hosted_oauth_clients (
+                    client_id TEXT PRIMARY KEY,
+                    client_name TEXT NOT NULL,
+                    redirect_uris_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS hosted_oauth_codes (
+                    code_hash TEXT PRIMARY KEY,
+                    credential_id TEXT NOT NULL,
+                    client_id TEXT NOT NULL,
+                    redirect_uri TEXT NOT NULL,
+                    resource TEXT NOT NULL,
+                    code_challenge TEXT NOT NULL,
+                    expires_at TEXT NOT NULL,
+                    used_at TEXT,
+                    FOREIGN KEY (credential_id) REFERENCES hosted_credentials(credential_id),
+                    FOREIGN KEY (client_id) REFERENCES hosted_oauth_clients(client_id)
+                );
+                CREATE TABLE IF NOT EXISTS hosted_oauth_tokens (
+                    token_hash TEXT PRIMARY KEY,
+                    credential_id TEXT NOT NULL,
+                    client_id TEXT NOT NULL,
+                    kind TEXT NOT NULL CHECK(kind IN ('access', 'refresh')),
+                    family_id TEXT NOT NULL,
+                    resource TEXT NOT NULL,
+                    expires_at TEXT NOT NULL,
+                    revoked_at TEXT,
+                    created_at TEXT NOT NULL,
+                    FOREIGN KEY (credential_id) REFERENCES hosted_credentials(credential_id)
+                );
             """)
             review_policy.migrate(connection)
             connection.commit()
+        finally:
+            connection.close()
+
+    @staticmethod
+    def _oauth_hash(value: str) -> str:
+        return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+    def register_oauth_client(self, client_name: str,
+                              redirect_uris: list[str]) -> dict[str, Any]:
+        if (not isinstance(client_name, str) or not client_name.strip()
+                or not isinstance(redirect_uris, list) or not redirect_uris):
+            raise ValueError("client_name and redirect_uris are required")
+        from urllib.parse import urlparse
+        clean = []
+        for value in redirect_uris:
+            if not isinstance(value, str):
+                raise ValueError("redirect URIs must be strings")
+            parsed = urlparse(value)
+            loopback = parsed.scheme == "http" and parsed.hostname in {
+                "127.0.0.1", "::1", "localhost"}
+            if parsed.fragment or not (parsed.scheme == "https" or loopback):
+                raise ValueError("redirect URIs must use HTTPS or loopback HTTP")
+            clean.append(value)
+        client_id = "ppoc_" + secrets.token_urlsafe(18)
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO hosted_oauth_clients VALUES (?, ?, ?, ?)",
+                (client_id, client_name.strip(), json.dumps(clean), _now()))
+        return {"client_id": client_id, "client_name": client_name.strip(),
+                "redirect_uris": clean, "token_endpoint_auth_method": "none"}
+
+    def validate_oauth_client(self, client_id: str, redirect_uri: str) -> None:
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT redirect_uris_json FROM hosted_oauth_clients WHERE client_id=?",
+                (client_id,)).fetchone()
+        if not row or redirect_uri not in json.loads(row["redirect_uris_json"]):
+            raise HostedAuthError("invalid_client", "unknown client or redirect URI")
+
+    def create_oauth_code(self, agent_token: str, client_id: str,
+                          redirect_uri: str, resource: str,
+                          code_challenge: str) -> str:
+        context = self.authenticate(agent_token)
+        if context.role != "agent":
+            raise HostedAuthError(
+                "agent_required", "owner credentials cannot authorize MCP clients")
+        self.validate_oauth_client(client_id, redirect_uri)
+        if (not isinstance(code_challenge, str)
+                or not 43 <= len(code_challenge) <= 128):
+            raise HostedAuthError("invalid_request", "PKCE S256 challenge is required")
+        code = "ppocd_" + secrets.token_urlsafe(32)
+        from datetime import timedelta
+        expires = (datetime.now(timezone.utc) + timedelta(minutes=5)).isoformat()
+        with self._connect() as connection:
+            connection.execute(
+                "INSERT INTO hosted_oauth_codes VALUES (?, ?, ?, ?, ?, ?, ?, NULL)",
+                (self._oauth_hash(code), context.credential_id, client_id,
+                 redirect_uri, resource, code_challenge, expires))
+        return code
+
+    def _issue_oauth_pair(self, connection, credential_id: str,
+                          client_id: str, resource: str,
+                          family_id: str | None = None):
+        from datetime import timedelta
+        created = datetime.now(timezone.utc)
+        family = family_id or "ppof_" + secrets.token_urlsafe(18)
+        access = "ppoa_" + secrets.token_urlsafe(32)
+        refresh = "ppor_" + secrets.token_urlsafe(40)
+        for value, kind, expiry in (
+            (access, "access", created + timedelta(minutes=30)),
+            (refresh, "refresh", created + timedelta(days=30)),
+        ):
+            connection.execute(
+                "INSERT INTO hosted_oauth_tokens VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)",
+                (self._oauth_hash(value), credential_id, client_id, kind, family, resource,
+                 expiry.isoformat(), created.isoformat()))
+        return {"access_token": access, "token_type": "Bearer",
+                "expires_in": 1800, "refresh_token": refresh,
+                "scope": "proofpress:agent"}
+
+    def exchange_oauth_code(self, code: str, client_id: str,
+                            redirect_uri: str, resource: str,
+                            code_verifier: str) -> dict[str, Any]:
+        import base64
+        if not isinstance(code_verifier, str) or not 43 <= len(code_verifier) <= 128:
+            raise HostedAuthError("invalid_grant", "PKCE verifier is invalid")
+        challenge = base64.urlsafe_b64encode(
+            hashlib.sha256(code_verifier.encode()).digest()).rstrip(b"=").decode()
+        connection = self._connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute(
+                "SELECT * FROM hosted_oauth_codes WHERE code_hash=?",
+                (self._oauth_hash(code),)).fetchone()
+            now = datetime.now(timezone.utc)
+            if (not row or row["used_at"] or datetime.fromisoformat(row["expires_at"]) <= now
+                    or row["client_id"] != client_id
+                    or row["redirect_uri"] != redirect_uri
+                    or row["resource"] != resource
+                    or not hmac.compare_digest(row["code_challenge"], challenge)):
+                raise HostedAuthError("invalid_grant", "authorization code is invalid")
+            connection.execute(
+                "UPDATE hosted_oauth_codes SET used_at=? WHERE code_hash=?",
+                (_now(), self._oauth_hash(code)))
+            result = self._issue_oauth_pair(
+                connection, row["credential_id"], client_id, resource)
+            connection.commit()
+            return result
+        except BaseException:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+
+    def refresh_oauth_token(self, refresh_token: str, client_id: str,
+                            resource: str) -> dict[str, Any]:
+        connection = self._connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute(
+                "SELECT t.*, c.revoked_at AS credential_revoked FROM hosted_oauth_tokens t "
+                "JOIN hosted_credentials c USING(credential_id) WHERE token_hash=? AND kind='refresh'",
+                (self._oauth_hash(refresh_token),)).fetchone()
+            now = datetime.now(timezone.utc)
+            if row and row["revoked_at"]:
+                connection.execute(
+                    "UPDATE hosted_oauth_tokens SET revoked_at=? "
+                    "WHERE family_id=? AND revoked_at IS NULL",
+                    (_now(), row["family_id"]))
+                connection.commit()
+                raise HostedAuthError(
+                    "invalid_grant", "refresh token reuse revoked this session")
+            if (not row or row["revoked_at"] or row["credential_revoked"]
+                    or datetime.fromisoformat(row["expires_at"]) <= now
+                    or row["client_id"] != client_id
+                    or row["resource"] != resource):
+                raise HostedAuthError("invalid_grant", "refresh token is invalid")
+            connection.execute(
+                "UPDATE hosted_oauth_tokens SET revoked_at=? WHERE family_id=? AND revoked_at IS NULL",
+                (_now(), row["family_id"]))
+            result = self._issue_oauth_pair(
+                connection, row["credential_id"], client_id, resource,
+                row["family_id"])
+            connection.commit()
+            return result
+        except BaseException:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+
+    def authenticate_oauth_access(self, token: str,
+                                  resource: str) -> PrincipalContext:
+        if not token.startswith("ppoa_"):
+            raise HostedAuthError("invalid_token", "invalid MCP access token")
+        connection = self._connect()
+        try:
+            row = connection.execute(
+                "SELECT t.*, c.workspace_id, c.principal_id, c.permissions_json, "
+                "c.revoked_at AS credential_revoked, p.role FROM hosted_oauth_tokens t "
+                "JOIN hosted_credentials c USING(credential_id) "
+                "JOIN hosted_principals p USING(workspace_id, principal_id) "
+                "WHERE token_hash=? AND kind='access'",
+                (self._oauth_hash(token),)).fetchone()
+            now = datetime.now(timezone.utc)
+            if (not row or row["revoked_at"] or row["credential_revoked"]
+                    or datetime.fromisoformat(row["expires_at"]) <= now
+                    or row["resource"] != resource or row["role"] != "agent"):
+                raise HostedAuthError("invalid_token", "invalid MCP access token")
+            return PrincipalContext(
+                row["workspace_id"], row["principal_id"], row["role"],
+                row["credential_id"], frozenset(json.loads(row["permissions_json"])))
         finally:
             connection.close()
 
@@ -564,6 +766,11 @@ class HostedControlPlane:
             context = self.authenticate(token)
         except HostedAuthError as exc:
             return self._error_envelope(request, exc.code, str(exc))
+        return self.execute_as(context, request)
+
+    def execute_as(self, context: PrincipalContext,
+                   request: dict[str, Any]) -> dict[str, Any]:
+        """Execute with an already authenticated server-side principal context."""
         operation = request.get("operation") if isinstance(request, dict) else None
         allowed = (operation in AGENT_OPERATIONS and
                    (context.role == "owner" or operation in context.permissions))
@@ -611,7 +818,8 @@ class HostedControlPlane:
             result = dict(envelope["result"])
             result["transport"] = "hosted_https"
             result["clients"] = sorted(set(result.get("clients", [])) |
-                                       {"python_sdk", "mcp_stdio_bridge"})
+                                       {"python_sdk", "mcp_stdio_bridge",
+                                        "mcp_streamable_http"})
             result["not_available"] = [
                 item for item in result.get("not_available", [])
                 if item not in {"localhost_http", "mcp", "cloud"}]

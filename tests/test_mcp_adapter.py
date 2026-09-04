@@ -63,6 +63,8 @@ class McpAdapterTests(unittest.TestCase):
         tools = set(self.mcp.MCP_SAFE_TOOLS)
         self.assertIn("proofpress_propose_conclusion", tools)
         self.assertIn("proofpress_get_review_link", tools)
+        self.assertIn("proofpress_traverse_graph", tools)
+        self.assertIn("proofpress_get_lineage", tools)
         for forbidden in ("approve", "admit", "reject", "supersede", "policy",
                           "credential", "owner"):
             self.assertFalse(any(forbidden in tool for tool in tools), forbidden)
@@ -88,6 +90,14 @@ class McpAdapterTests(unittest.TestCase):
 
         receipt = self.gateway.get_review_receipt(conclusion["id"])
         self.assertEqual(receipt["state"], "needs_review")
+        lineage = self.gateway.get_lineage(conclusion["id"])
+        self.assertEqual(lineage["conclusion_id"], conclusion["id"])
+        self.assertEqual(
+            {node["type"] for node in lineage["nodes"]},
+            {"raw", "evidence", "conclusion"})
+        self.assertEqual(
+            {edge["type"] for edge in lineage["edges"]},
+            {"bound_as", "supports"})
         link = self.gateway.get_review_link(conclusion["id"])
         self.assertTrue(link["requires_human_owner"])
         self.assertIn(conclusion["id"], link["url"])
