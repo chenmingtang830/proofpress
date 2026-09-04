@@ -7,11 +7,11 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-title knowledge-chart-description"
       >
-        <title id="knowledge-chart-title">Agent-produced knowledge creates a governance threshold</title>
+        <title id="knowledge-chart-title">Formal review becomes necessary as agent conclusions shape downstream work</title>
         <desc id="knowledge-chart-description">
           An illustrative curve shows agent-produced knowledge growing faster than traditional
-          enterprise knowledge as agent autonomy increases. A marked threshold shows where
-          outputs become durable inputs and governance becomes necessary.
+          enterprise knowledge as agent autonomy increases. A marked inflection point shows where
+          agent conclusions routinely shape consequential downstream work.
         </desc>
         <defs>
           <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -34,8 +34,8 @@ export function KnowledgeChart() {
           <path d="M744 548V348" />
           <circle cx="744" cy="348" r="5" />
           <path className="thresholdLeader" d="M584 260L730 337" markerEnd="url(#teal-arrow)" />
-          <text x="426" y="228" className="chartLabel chartLabelStrong">GOVERNANCE THRESHOLD</text>
-          <text x="426" y="255" className="chartAnnotation">When outputs become durable inputs</text>
+          <text x="426" y="228" className="chartLabel chartLabelStrong">VERIFICATION INFLECTION</text>
+          <text x="426" y="255" className="chartAnnotation">Conclusions shape downstream work</text>
         </g>
 
         <text x="1000" y="94" className="curveLabel agentLabel">
@@ -52,10 +52,10 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-mobile-title knowledge-chart-mobile-description"
       >
-        <title id="knowledge-chart-mobile-title">Agent-produced knowledge creates a governance threshold</title>
+        <title id="knowledge-chart-mobile-title">Formal review becomes necessary as agent conclusions shape downstream work</title>
         <desc id="knowledge-chart-mobile-description">
           An illustrative mobile chart shows agent-produced knowledge rising faster than enterprise
-          knowledge, with a governance threshold where outputs become durable inputs.
+          knowledge, with an inflection point where conclusions shape downstream work.
         </desc>
         <defs>
           <marker id="mobile-axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -74,9 +74,8 @@ export function KnowledgeChart() {
         <g className="threshold">
           <path d="M220 430V291" />
           <circle cx="220" cy="291" r="4" />
-          <text x="128" y="245" className="chartLabel chartLabelStrong">GOVERNANCE</text>
-          <text x="128" y="260" className="chartLabel chartLabelStrong">THRESHOLD</text>
-          <text x="128" y="278" className="chartAnnotation">Outputs become inputs</text>
+          <text x="128" y="250" className="chartLabel chartLabelStrong">VERIFICATION INFLECTION</text>
+          <text x="128" y="270" className="chartAnnotation">Conclusions shape downstream work</text>
         </g>
         <text x="220" y="94" className="curveLabel agentLabel">
           <tspan x="220" dy="0">Agent-produced</tspan>
@@ -87,8 +86,8 @@ export function KnowledgeChart() {
         <text x="13" y="240" textAnchor="middle" transform="rotate(-90 13 240)" className="axisLabel">Reusable conclusions and work</text>
       </svg>
       <figcaption id="knowledge-chart-note">
-        Illustrative model — not measured data. The threshold is organizational: the point where
-        agent output starts becoming a premise for consequential downstream work.
+        Illustrative model — not measured data. The inflection is operational: informal review no
+        longer scales as agent conclusions are reused across consequential work.
       </figcaption>
     </figure>
   );

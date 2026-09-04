@@ -1,21 +1,16 @@
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ButtonLink } from "./components/button";
+import { ArchitectureDiagram } from "./components/architecture-diagram";
 import { KnowledgeChart } from "./components/knowledge-chart";
+import { Quickstart } from "./components/quickstart";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
-const handoffUrl = `${repoUrl}/issues/new?template=design_partner.yml`;
+const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
 
 function Arrow() {
   return <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.6} aria-hidden="true" />;
 }
-
-const steps = [
-  ["Propose", "An agent submits a bounded candidate conclusion."],
-  ["Verify", "Evidence, integrity checks, and policy advice stay inspectable."],
-  ["Human approval", "The configured human decides whether the conclusion is admitted."],
-  ["Rely", "Only admitted, current, in-scope knowledge reaches the next actor."],
-];
 
 export function App() {
   return (
@@ -28,7 +23,7 @@ export function App() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#how">How it works</a>
-          <a href="#available">What exists</a>
+          <a href="#quickstart">Quick start</a>
           <a href={repoUrl}>GitHub</a>
         </nav>
       </header>
@@ -43,7 +38,7 @@ export function App() {
               agent or human.
             </p>
             <div className="heroActions" aria-label="Get started">
-              <ButtonLink href={handoffUrl}>Bring a real handoff <Arrow /></ButtonLink>
+              <ButtonLink href="#quickstart">Run the local demo <Arrow /></ButtonLink>
               <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
             </div>
           </div>
@@ -68,29 +63,31 @@ export function App() {
             </div>
           </div>
           <KnowledgeChart />
-          <p className="handoffClose">
-            Proofpress governs that transition: what supports a conclusion, where it applies,
-            what changed, and who accepted responsibility for its reuse.
-          </p>
         </section>
 
-        <section className="mechanism" id="how" aria-labelledby="mechanism-title">
+        <section className="architecture" id="how" aria-labelledby="architecture-heading">
           <div className="sectionIntro">
-            <h2 id="mechanism-title">A visible path to reliance.</h2>
-            <p>Checks and model advice can support a decision. Only human approval admits knowledge.</p>
+            <h2 id="architecture-heading">Proofpress governs the handoff—not the agent.</h2>
+            <p>
+              Your runtimes keep doing the work. Proofpress receives bounded evidence and candidate
+              conclusions, preserves the review record, and filters what may be reused downstream.
+            </p>
           </div>
-          <ol className="trustPath">
-            {steps.map(([title, detail], index) => (
-              <li key={title} className={index === 2 ? "humanGate" : ""}>
-                <span className="stepIndex">{String(index + 1).padStart(2, "0")}</span>
-                <h3>{title}</h3>
-                <p>{detail}</p>
-              </li>
-            ))}
-          </ol>
+          <ArchitectureDiagram />
         </section>
 
-        <section className="available" id="available" aria-labelledby="available-title">
+        <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
+          <div className="sectionIntro">
+            <h2 id="quickstart-title">See the admission boundary locally.</h2>
+            <p>
+              Run a synthetic demo in a fresh temporary Git repository. No account, customer data,
+              or external model call is required.
+            </p>
+          </div>
+          <Quickstart />
+        </section>
+
+        <section className="available" aria-labelledby="available-title">
           <div className="sectionIntro">
             <h2 id="available-title">Built for your agents. Governed by your owner.</h2>
             <p>
@@ -105,13 +102,17 @@ export function App() {
             <div><dt>Human owner</dt><dd>Approves, requests changes, rejects, and controls what becomes reusable.</dd></div>
           </dl>
           <p className="boundaryNote">Current scope: local and experimental single-owner hosted operation. Design-partner outcomes remain unvalidated.</p>
+          <div className="deploymentShapes" aria-label="Current deployment shapes">
+            <div><strong>Local / offline</strong><span>Git-backed ledger and local review.</span></div>
+            <div><strong>Experimental self-hosted</strong><span>Private, SQLite-backed, single-owner instance—not Proofpress Cloud.</span></div>
+          </div>
         </section>
 
         <section className="finalCta" aria-labelledby="cta-title">
-          <h2 id="cta-title">Bring the handoff your team cannot afford to get wrong.</h2>
-          <p>Start with one real workflow. Do not include confidential, privileged, personal, or customer data.</p>
+          <h2 id="cta-title">Tell us where downstream reliance matters.</h2>
+          <p>Share one workflow through our short Notion form. Do not include confidential, privileged, personal, or customer data.</p>
           <div className="heroActions">
-            <ButtonLink href={handoffUrl}>Bring a real handoff <Arrow /></ButtonLink>
+            <ButtonLink href={contactUrl}>Contact us <Arrow /></ButtonLink>
             <ButtonLink href={repoUrl} variant="secondary">Explore the repository</ButtonLink>
           </div>
         </section>
@@ -119,7 +120,7 @@ export function App() {
 
       <footer>
         <a className="brand" href="#top" aria-label="Back to top">
-          <img src="/logo.svg" alt="" width="28" height="28" />
+          <img src="/logo-on-dark.svg" alt="" width="28" height="28" />
           <span>Proofpress</span>
         </a>
         <p>The governance layer for agent-produced knowledge.</p>
