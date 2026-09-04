@@ -30,6 +30,9 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("View lineage");
     expect(source).not.toContain("Show history and unavailable conclusions");
   });
+  it("lets the outer stage scroll the full review surface", () => {
+    expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
+  });
   it("explains evidence and downstream consequence before authority changes", () => {
     expect(source).toContain("Evidence for this conclusion");
     expect(source).toContain("Proposed reuse boundary");

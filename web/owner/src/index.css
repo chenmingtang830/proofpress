@@ -368,6 +368,8 @@ main {
   min-height: 100%;
   max-width: 1000px;
   margin: 0 auto;
+  overflow: visible;
+  overscroll-behavior: auto;
   padding: 24px;
   box-shadow: none;
 }
