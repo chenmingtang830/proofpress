@@ -112,8 +112,8 @@ export function App() {
 
         <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
           <div className="compactIntro">
-            <h2 id="quickstart-title">Install and run Proofpress.</h2>
-            <p>Install once, then run locally. No account, hosted credential, or model call required.</p>
+            <h2 id="quickstart-title">Give your agent governed context.</h2>
+            <p>Install the workflow and its local MCP where your agents already work.</p>
           </div>
           <Quickstart />
         </section>

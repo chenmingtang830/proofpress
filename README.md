@@ -109,13 +109,23 @@ support, inspect lineage, then admit, reject, or request revision.
 ## Quick start
 
 [//]: # (ob:70af4929)
-Proofpress requires Python 3.11 or newer.
+Proofpress requires Python 3.11 or newer. Install both the project-level agent
+skill and the local MCP/CLI in the repository where the governed work happens.
 
 [//]: # (ob:1522656b)
 ```sh
+mkdir -p .agents/skills/proofpress-governed-context
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
+  -o .agents/skills/proofpress-governed-context/SKILL.md
+
 uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
 proofpress quickstart
 ```
+
+The skill teaches a compatible agent when to retrieve eligible context, submit
+bounded evidence, propose a candidate, and stop for Human Approval. The MCP is
+the safe tool surface that executes that workflow.
 
 `proofpress quickstart` creates a new `./proofpress-demo` Git repository, seeds
 the packaged synthetic admission lifecycle, and writes and prints a ready-to-copy
@@ -123,6 +133,9 @@ the packaged synthetic admission lifecycle, and writes and prints a ready-to-cop
 hosted service, token, or model call, and it refuses to reuse an existing path or
 ledger. Run `proofpress quickstart --ui` to continue into the loopback-only local
 review UI, or add `--no-browser` when the UI should not open a browser.
+
+This is the user setup. To change Proofpress itself, follow the separate
+[contribution guide](CONTRIBUTING.md).
 
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)

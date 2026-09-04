@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from proofpress.kernel import operations as knowledge
@@ -9,12 +10,59 @@ from proofpress.kernel import operations as knowledge
 
 PROTOCOL_VERSION = "2025-06-18"
 SERVER_INFO = {"name": "Proofpress", "version": "0.6.0a1"}
+EVIDENCE_ID_PATTERN = r"^evd_[0-9a-f]{16}$"
+SHA256_PATTERN = r"^sha256:[0-9a-f]{64}$"
+
+RETRIEVAL_EVIDENCE_SCHEMA = {
+    "type": "object",
+    "description": (
+        "A proofpress/retrieval-evidence/v1 envelope. Use profile=experiment "
+        "only for an experiment-profile payload."
+    ),
+    "properties": {
+        "schema_version": {
+            "type": "string", "const": "proofpress/retrieval-evidence/v1",
+        },
+        "source": {
+            "type": "object",
+            "properties": {
+                "uri": {"type": "string", "minLength": 1},
+                "content_digest": {"type": "string", "pattern": SHA256_PATTERN},
+                "media_type": {"type": "string", "minLength": 1},
+            },
+            "required": ["uri", "content_digest"],
+        },
+        "evidence": {
+            "type": "object",
+            "properties": {
+                "quote": {"type": "string", "minLength": 1},
+                "locator": {
+                    "type": "object",
+                    "description": "A text_span, page_span, or section_span locator bound to the source.",
+                },
+            },
+            "required": ["quote", "locator"],
+        },
+        "retrieval": {
+            "type": "object",
+            "properties": {
+                "adapter": {"type": "string", "minLength": 1},
+                "version": {"type": "string", "minLength": 1},
+                "query": {"type": "string", "minLength": 1},
+                "config_digest": {"type": "string", "pattern": SHA256_PATTERN},
+                "selection_reason": {"type": "string", "minLength": 1},
+            },
+            "required": ["adapter", "version", "query", "config_digest"],
+        },
+    },
+    "required": ["schema_version", "source", "evidence", "retrieval"],
+}
 
 
 TOOLS = [
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
-    {"name": "proofpress_submit_evidence", "description": "Submit one bounded evidence envelope.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string"}, "idempotency_key": {"type": "string"}}, "required": ["payload"]}},
-    {"name": "proofpress_propose_conclusion", "description": "Propose an evidence-bound conclusion; this never approves it.", "inputSchema": {"type": "object", "properties": {"statement": {"type": "string"}, "evidence_refs": {"type": "array", "items": {"type": "string"}}, "scope": {"type": "string"}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "allowed_actors": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string"}, "idempotency_key": {"type": "string"}}, "required": ["statement", "evidence_refs", "scope"]}},
+    {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
+    {"name": "proofpress_propose_conclusion", "description": "Propose an evidence-bound conclusion; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence, not source URLs or artifact URLs.", "inputSchema": {"type": "object", "properties": {"statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "allowed_actors": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["statement", "evidence_refs", "scope"]}},
     {"name": "proofpress_get_context", "description": "Return only admitted, current, in-scope context eligible for this agent.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}, "task": {"type": "string"}}}},
     {"name": "proofpress_get_graph", "description": "Return the bounded evidence, conclusion, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
     {"name": "proofpress_traverse_graph", "description": "Traverse admitted conclusion relations from seed conclusions with server-enforced eligibility limits.", "inputSchema": {"type": "object", "properties": {"seed_ids": {"type": "array", "items": {"type": "string"}}, "scope": {"type": "string"}, "task": {"type": "string"}, "max_depth": {"type": "integer", "minimum": 0}, "max_claims": {"type": "integer", "minimum": 1}}, "required": ["seed_ids"]}},
@@ -73,9 +121,22 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
     if name == "proofpress_capabilities":
         return _execute(control, context, "capabilities.get", {})
     if name == "proofpress_submit_evidence":
+        profile = args.get("profile")
+        if profile not in {None, "experiment"}:
+            raise ValueError(
+                "unsupported evidence profile: " + str(profile) +
+                "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
         return _execute(control, context, "evidence.submit", {
-            "payload": args["payload"], "profile": args.get("profile")}, args)
+            "payload": args["payload"], "profile": profile}, args)
     if name == "proofpress_propose_conclusion":
+        evidence_refs = args.get("evidence_refs")
+        if (not isinstance(evidence_refs, list) or not evidence_refs or
+                any(not isinstance(ref, str) or
+                    re.fullmatch(EVIDENCE_ID_PATTERN, ref) is None
+                    for ref in evidence_refs)):
+            raise ValueError(
+                "evidence_refs must contain evd_ IDs returned by "
+                "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
         parameters = {key: args.get(key) for key in (
             "statement", "evidence_refs", "scope", "expires_at",
             "artifact_refs", "allowed_actors", "qualifiers", "profile")}
@@ -134,6 +195,9 @@ def handle_rpc(control, context, request: dict[str, Any], base_url: str):
                     "error": {"code": -32601, "message": "Method not found"}}
         return {"jsonrpc": "2.0", "id": request_id, "result": result}
     except (KeyError, TypeError, ValueError) as exc:
+        error = {"ok": False, "error": {
+            "code": "invalid_tool_request", "message": str(exc)}}
         return {"jsonrpc": "2.0", "id": request_id,
-                "result": {"content": [{"type": "text", "text": str(exc)}],
+                "result": {"content": [{"type": "text", "text": json.dumps(error)}],
+                           "structuredContent": error,
                            "isError": True}}
