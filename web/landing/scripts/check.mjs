@@ -17,7 +17,7 @@ const requirements = [
   [app.includes("Higher rubric completion. No observed unsafe propagation.") && app.includes("Across 126 paired runs") && app.includes("Proofpress’s governed knowledge ledger") && app.includes("Proofpress-composed") && app.includes("Harvey LAB-derived legal task families") && app.includes("version-pinned public materials") && app.includes("not an official Harvey benchmark") && !app.includes("three public Harvey LAB Contracts task families"), "study result, method, and claim boundary are explicit"],
   [app.includes('loading="lazy"') && app.includes('decoding="async"'), "below-fold editorial images load lazily"],
   [app.includes("ancient-ball-940.notion.site") && app.includes("Contact us"), "contact CTA routes to the public Notion form"],
-  [app.includes('href="#quickstart"') && quickstart.includes("proofpress demo"), "hero routes to a runnable local demo"],
+  [app.includes('href="#quickstart"') && quickstart.includes("proofpress quickstart") && quickstart.includes("fresh synthetic Git workspace") && quickstart.includes("local MCP config") && app.includes("No account, hosted credential, or model call required."), "hero routes to an isolated local MCP quickstart"],
   [app.includes("https://github.com/chenmingtang830/proofpress"), "repository link is present"],
   [app.includes("proofpress-brand-film.mp4") && app.includes("Knowledge worth building on"), "brand film is present"],
   [app.includes("2093774242429206969") && app.includes("2093431690379317346"), "published X articles are linked"],

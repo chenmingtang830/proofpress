@@ -24,8 +24,8 @@ export function Quickstart() {
         </button>
       </div>
       <pre><code>{installCommand}</code></pre>
-      <div className="nextCommand"><span>Then run</span><code>proofpress demo</code></div>
-      <p>The terminal demo shows what is admitted, what is blocked, and what still needs human review.</p>
+      <div className="nextCommand"><span>Then run</span><code>proofpress quickstart</code></div>
+      <p>Creates a fresh synthetic Git workspace and prints a ready-to-copy local MCP config. Add <code>--ui</code> to open local review.</p>
     </div>
   );
 }

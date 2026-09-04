@@ -111,14 +111,16 @@ Proofpress requires Python 3.11 or newer.
 
 [//]: # (ob:1522656b)
 ```sh
-git clone https://github.com/chenmingtang830/proofpress.git
-cd proofpress
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-proofpress demo
-proofpress ui
+uv tool install "git+https://github.com/chenmingtang830/proofpress.git"
+proofpress quickstart
 ```
+
+`proofpress quickstart` creates a new `./proofpress-demo` Git repository, seeds
+the packaged synthetic admission lifecycle, and writes and prints a ready-to-copy
+`proofpress-mcp.json` for a local stdio MCP connection. It uses no account,
+hosted service, token, or model call, and it refuses to reuse an existing path or
+ledger. Run `proofpress quickstart --ui` to continue into the loopback-only local
+review UI, or add `--no-browser` when the UI should not open a browser.
 
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)
@@ -144,15 +146,17 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 
 ### Connect an MCP client
 
-For a local stdio connection, configure your MCP client to start Proofpress in
-the repository it should govern:
+The quickstart prints this local stdio shape with absolute paths already filled
+in. For another fresh Git workspace, configure your MCP client to start
+Proofpress in the repository it should govern:
 
 ```json
 {
   "mcpServers": {
     "proofpress": {
       "command": "/absolute/path/to/proofpress/.venv/bin/proofpress",
-      "args": ["mcp", "--transport", "stdio", "--workspace", "/absolute/path/to/workspace"]
+      "args": ["mcp", "--transport", "stdio", "--workspace", "/absolute/path/to/workspace"],
+      "env": {"PROOFPRESS_MCP_PRINCIPAL": "agent:your-client"}
     }
   }
 }
