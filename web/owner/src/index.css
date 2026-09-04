@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
 @import "tailwindcss";
 .workspaceLabel { color: var(--ink-2); font-size: 14px; margin-left: auto; }
 .pagination, .ledgerViews { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
@@ -39,6 +40,7 @@
   .lineageFlow { grid-template-columns: minmax(0, 1fr); }
   .lineageArrow { transform: rotate(90deg); justify-self: center; }
 }
+
 :root {
   --paper: #faf9f5;
   --ink: #20222b;
@@ -1397,5 +1399,211 @@ td:last-child svg {
   * {
     scroll-behavior: auto !important;
     transition: none !important;
+  }
+}
+
+/* Boardroom clarity prototype
+   Local UI exploration only: white institutional canvas, ink-led hierarchy,
+   and cyan used as a precise rule rather than a filled surface. */
+:root {
+  --paper: #ffffff;
+  --ink: #181a20;
+  --ink-2: #555b66;
+  --ink-3: #7f8791;
+  --line: #d7dcd9;
+  --card: #ffffff;
+  --panel-soft: #f8f9f8;
+  --wash: #f5f6f5;
+  --accent: #0e6675;
+  --accent-strong: #0a5360;
+  --accent-soft: #f4f8f8;
+  --add: #2f6b54;
+  --add-bg: #edf5f0;
+  --del: #963f38;
+  --del-bg: #f8eeec;
+  --revision: #665a8a;
+  --revision-bg: #efedf5;
+  font-family: "DM Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+.shell {
+  background: var(--paper);
+}
+
+.sidebar,
+.topbar {
+  background: #fff;
+}
+
+.stage,
+.workspacePage,
+.work {
+  background: #fff;
+}
+
+.inspector {
+  background: var(--panel-soft);
+}
+
+.sidebar {
+  padding-top: 20px;
+}
+
+.brand,
+.mobileBrand {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.workspace span,
+.pageHead span,
+.inspectorTop > span:not(.inline-flex),
+.decision span,
+.recommendation span,
+.workspaceLabel,
+.technicalDetails,
+td small {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.pageHead h1,
+.inspectorTop h2,
+.orientation strong,
+.sectionTitle h2,
+.lineageOverview h2,
+.relatedConclusions h2,
+.conclusionNode strong,
+.assistantHead h2,
+.assistantEmpty h3,
+.homeConversation h1 {
+  font-family: "DM Sans", ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.pageHead h1 {
+  max-width: 12ch;
+  margin: 0 0 12px;
+  font-size: clamp(2.25rem, 4vw, 4.75rem);
+  line-height: 0.95;
+}
+
+.pageHead p {
+  max-width: 60ch;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.sidebar nav button,
+.filterbar,
+.tableWrap,
+.orientation,
+.simpleList,
+.timeline,
+.credentialList,
+.issueForm,
+.boundary,
+.lineageCanvas,
+.conclusionNode,
+.lineageFlow article,
+.chatComposer,
+.recommendation {
+  border-radius: 0;
+}
+
+.sidebar nav button:hover {
+  background: var(--wash);
+}
+
+.sidebar nav button.active {
+  background: transparent;
+  box-shadow: inset 2px 0 var(--accent);
+  color: var(--ink);
+}
+
+th {
+  border-bottom: 2px solid var(--ink);
+  background: var(--panel-soft);
+  color: var(--ink);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+tbody tr.selected {
+  background: #fff;
+  box-shadow: inset 2px 0 var(--accent);
+}
+
+tbody tr.selected td:first-child b {
+  font-weight: 650;
+}
+
+.orientation strong {
+  color: var(--ink);
+  font-size: 44px;
+  line-height: 1;
+}
+
+.inspectorTop h2 {
+  font-size: 25px;
+  line-height: 1.2;
+}
+
+.tabs button[data-state="active"] {
+  color: var(--ink);
+}
+
+.tabs button[data-state="active"]:after {
+  height: 1px;
+  background: var(--accent);
+}
+
+.decision {
+  box-shadow: 0 -12px 30px rgba(24, 26, 32, 0.06);
+}
+
+.message.assistant {
+  border-left-color: var(--accent);
+}
+
+.lineageCanvas {
+  background: #f6f8f7;
+}
+
+.quickSnapshot,
+.inspectorTop,
+.tabs,
+.tabContent,
+.decision {
+  background: var(--panel-soft);
+}
+
+.recommendation,
+.technicalDetails pre {
+  background: #fff;
+}
+
+@media (max-width: 680px) {
+  .sidebar {
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+  }
+
+  .topbar {
+    height: 58px;
+  }
+
+  .sidebar nav button.active {
+    box-shadow: inset 0 2px var(--accent);
+  }
+
+  .pageHead h1 {
+    font-size: 38px;
+  }
+
+  .orientation strong {
+    font-size: 40px;
   }
 }

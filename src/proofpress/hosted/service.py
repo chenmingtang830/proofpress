@@ -694,7 +694,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             cookie = (f"pp_owner={session_id}; Path=/; HttpOnly; SameSite=Strict"
                       + ("; Secure" if self.headers.get("X-Forwarded-Proto") == "https" else ""))
             self.send_response(HTTPStatus.SEE_OTHER)
-            self.send_header("Location", "/review")
+            self.send_header("Location", "/home")
             self.send_header("Set-Cookie", cookie)
             self.send_header("Cache-Control", "no-store")
             self.end_headers()

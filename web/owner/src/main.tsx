@@ -1045,7 +1045,7 @@ function Inspector({
               Reject
             </Button>
             <Button
-              variant="outline"
+              variant="request"
               disabled={busy}
               onClick={() => onDecide("request_changes")}
             >
