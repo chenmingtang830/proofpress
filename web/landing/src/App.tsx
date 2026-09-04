@@ -109,8 +109,8 @@ export function App() {
         </section>
 
         <section className="finalCta" aria-labelledby="cta-title">
-          <h2 id="cta-title">Tell us where downstream reliance matters.</h2>
-          <p>Share one workflow through our short Notion form. Do not include confidential, privileged, personal, or customer data.</p>
+          <h2 id="cta-title">Tell us what your company is trying to solve.</h2>
+          <p>Share your industry, the problem, and how Proofpress might help. Do not include confidential, privileged, personal, or customer data.</p>
           <div className="heroActions">
             <ButtonLink href={contactUrl}>Contact us <Arrow /></ButtonLink>
             <ButtonLink href={repoUrl} variant="secondary">Explore the repository</ButtonLink>
