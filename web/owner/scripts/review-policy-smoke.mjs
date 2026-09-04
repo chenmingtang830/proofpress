@@ -24,7 +24,7 @@ try {
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
   const screen=async name=>{if(process.env.QA_SCREENSHOTS){await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/${name}.png`});}};
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}&view=full`);
-  await page.getByRole('button',{name:'Run LM review',exact:true}).click();
+  await page.getByRole('button',{name:'Run optional LM review',exact:true}).click();
   await page.getByRole('dialog',{name:'Review evidence with LM'}).waitFor();
   await screen('lm-confirm');
   await page.getByRole('button',{name:'Run LM review',exact:true}).click();
@@ -44,10 +44,10 @@ try {
   await page.locator('.shell[aria-busy="false"]').waitFor();
   await page.getByRole('complementary',{name:'Conclusion details'}).getByText(/^blocked$/i).waitFor();
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
-  assert.equal(await page.getByRole('button',{name:'Run LM review',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Run optional LM review',exact:true}).count(),0);
   await screen('blocked-before-model-or-human-review');
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[3]}&view=full`);
-  await page.getByRole('button',{name:'Run LM review',exact:true}).click();
+  await page.getByRole('button',{name:'Run optional LM review',exact:true}).click();
   await page.getByRole('button',{name:'Run LM review',exact:true}).click();
   await page.getByText('LM review did not complete. You can retry; no approval was recorded.').waitFor();
   await screen('lm-failed');

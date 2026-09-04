@@ -947,13 +947,18 @@ function Inspector({
         {can && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
             : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
-            : (judgeNeedsSetup || !onJudge) && onConfigurePolicy ? <Button onClick={onConfigurePolicy}>Configure review policy</Button>
-            : judgeFailed && onJudge ? <Button disabled={busy} onClick={onJudge}>Retry LM review</Button>
-            : judgePending && r.review_policy?.mode === "automatic" ? <span className="queuedAction">LM review runs automatically after checks</span>
-            : judgePending && onJudge && r.review_policy?.mode === "manual" ? <Button disabled={busy} onClick={onJudge}>Run LM review</Button>
-            : onOpenFull && !fullReview ? <Button onClick={onOpenFull}>Open full review</Button>
-            : null}
-          {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && ((judgeNeedsSetup && onConfigurePolicy) || (judgePending && r.review_policy?.mode === "manual" && onJudge)) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
+            : <>
+              {onOpenFull && !fullReview && <Button variant="approve" onClick={onOpenFull}>Open full review</Button>}
+              {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
+                ? <Button variant="outline" onClick={onConfigurePolicy}>Configure review policy</Button>
+                : judgeFailed && onJudge
+                  ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry LM review</Button>
+                  : judgePending && r.review_policy?.mode === "automatic"
+                    ? <span className="queuedAction">LM review runs automatically after checks</span>
+                    : judgePending && onJudge && r.review_policy?.mode === "manual"
+                      ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional LM review</Button>
+                      : null}
+            </>}
           {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
