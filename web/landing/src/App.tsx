@@ -4,6 +4,7 @@ import { ButtonLink } from "./components/button";
 import { ArchitectureDiagram } from "./components/architecture-diagram";
 import { KnowledgeChart } from "./components/knowledge-chart";
 import { Quickstart } from "./components/quickstart";
+import { HeroRibbon } from "./components/hero-ribbon";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
 const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
@@ -30,16 +31,19 @@ export function App() {
 
       <main id="main">
         <section className="hero" id="top" aria-labelledby="hero-title">
-          <div className="heroCopy">
-            <h1 id="hero-title">Govern what your agents learn.</h1>
-            <p className="heroLead">
-              Proofpress keeps evidence, scope, and authority attached before an agent’s
-              conclusion becomes someone else’s premise.
-            </p>
-            <div className="heroActions" aria-label="Get started">
-              <ButtonLink href="#quickstart">Run the local demo <Arrow /></ButtonLink>
-              <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
+          <div className="heroStage">
+            <div className="heroCopy">
+              <h1 id="hero-title">Govern what your agents learn.</h1>
+              <p className="heroLead">
+                Proofpress keeps evidence, scope, and authority attached before an agent’s
+                conclusion becomes someone else’s premise.
+              </p>
+              <div className="heroActions" aria-label="Get started">
+                <ButtonLink href="#quickstart">Run the local demo <Arrow /></ButtonLink>
+                <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
+              </div>
             </div>
+            <HeroRibbon />
           </div>
           <div className="heroFoot" aria-label="Proofpress principle">
             <p>Knowledge worth building on.</p>
