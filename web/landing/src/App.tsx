@@ -70,7 +70,7 @@ export function App() {
         </section>
 
         <section className="why" aria-labelledby="why-title">
-          <h2 id="why-title">Agent work compounds. So does the risk.</h2>
+          <h2 id="why-title">Agent work compounds. Trust has to keep up.</h2>
           <KnowledgeChart />
         </section>
 
@@ -85,7 +85,11 @@ export function App() {
         <section className="evidence" id="evidence" aria-labelledby="evidence-title">
           <div className="evidenceIntro">
             <h2 id="evidence-title">Tested on 126 agent handoffs.</h2>
-            <p>One frozen study. Seven models. Three Harvey LAB-derived legal task families.</p>
+            <p>
+              We adapted three public Harvey LAB Contracts task families into multi-step agent handoffs,
+              then ran 126 paired comparisons across seven models. Ordinary handoffs passed forward the raw
+              workspace; Proofpress handoffs exposed only eligible, evidence-bound context.
+            </p>
           </div>
           <div className="study">
             <ModelResultsChart />

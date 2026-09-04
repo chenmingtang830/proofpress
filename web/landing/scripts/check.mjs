@@ -12,7 +12,9 @@ const [html, app, chart, modelResults, quickstart, css] = await Promise.all([
 const requirements = [
   [html.includes("seed 1a5ba422"), "direction contract survives in source"],
   [app.includes("Make agent knowledge safe to reuse."), "hero promise is present"],
+  [app.includes("Agent work compounds. Trust has to keep up."), "trust framing connects compounding work to the product promise"],
   [app.includes("Humans decide.") && app.includes("Only approved knowledge moves forward."), "human authority is explicit"],
+  [app.includes("three public Harvey LAB Contracts task families") && app.includes("126 paired comparisons across seven models") && app.includes("only eligible, evidence-bound context"), "study method is explained before the results"],
   [app.includes("ancient-ball-940.notion.site") && app.includes("Contact us"), "contact CTA routes to the public Notion form"],
   [app.includes('href="#quickstart"') && quickstart.includes("proofpress demo"), "hero routes to a runnable local demo"],
   [app.includes("https://github.com/chenmingtang830/proofpress"), "repository link is present"],
