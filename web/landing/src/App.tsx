@@ -4,13 +4,41 @@ import { ButtonLink } from "./components/button";
 import { ArchitectureDiagram } from "./components/architecture-diagram";
 import { KnowledgeChart } from "./components/knowledge-chart";
 import { Quickstart } from "./components/quickstart";
-import { HeroRibbon } from "./components/hero-ribbon";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
 const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
 
 function Arrow() {
   return <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.6} aria-hidden="true" />;
+}
+
+function HeroProof() {
+  return (
+    <div
+      className="heroProof"
+      role="img"
+      aria-label="Synthetic handoff: a candidate conclusion awaits human review before one eligible item reaches successor context"
+    >
+      <div className="heroProofHeader">
+        <span>SYNTHETIC HANDOFF</span>
+        <strong>NEEDS REVIEW</strong>
+      </div>
+      <div className="heroProofCandidate">
+        <span>Candidate conclusion</span>
+        <strong>A rollout finding is ready.</strong>
+        <small>2 evidence receipts · agent:analyst</small>
+      </div>
+      <div className="heroProofGate">
+        <span>HUMAN OWNER</span>
+        <strong>Only admission authority</strong>
+      </div>
+      <div className="heroProofOutput">
+        <span>SUCCESSOR CONTEXT</span>
+        <strong>1 eligible</strong>
+        <small>2 blocked</small>
+      </div>
+    </div>
+  );
 }
 
 export function App() {
@@ -43,7 +71,7 @@ export function App() {
                 <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
               </div>
             </div>
-            <HeroRibbon />
+            <HeroProof />
           </div>
           <div className="heroFoot" aria-label="Proofpress principle">
             <p>Knowledge worth building on.</p>
@@ -53,16 +81,7 @@ export function App() {
 
         <section className="handoff" aria-labelledby="handoff-title">
           <div className="handoffHeading">
-            <h2 id="handoff-title">Agent output is becoming organizational knowledge.</h2>
-            <div className="handoffArgument">
-              <p>
-                As agents do more work, their conclusions become inputs to the next agent,
-                decision, or system.
-              </p>
-              <p>
-                Retrieval finds an answer. A trace shows its origin. Neither authorizes reuse.
-              </p>
-            </div>
+            <h2 id="handoff-title">Agent output becomes organizational knowledge.</h2>
           </div>
           <KnowledgeChart />
         </section>
@@ -70,9 +89,6 @@ export function App() {
         <section className="architecture" id="how" aria-labelledby="architecture-heading">
           <div className="sectionIntro">
             <h2 id="architecture-heading">Proofpress governs the handoff—not the agent.</h2>
-            <p>
-              Your runtimes do the work. Proofpress governs which conclusions may be reused.
-            </p>
           </div>
           <ArchitectureDiagram />
         </section>

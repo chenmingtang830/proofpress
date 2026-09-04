@@ -77,14 +77,12 @@ export function KnowledgeChart() {
           <text x="128" y="250" className="chartLabel chartLabelStrong">VERIFICATION INFLECTION</text>
           <text x="128" y="270" className="chartAnnotation">Conclusions shape downstream work</text>
         </g>
-        <text x="220" y="94" className="curveLabel agentLabel">
-          <tspan x="220" dy="0">Agent-produced</tspan>
-          <tspan x="220" dy="17">knowledge</tspan>
-        </text>
-        <text x="196" y="326" className="curveLabel enterpriseLabel">Enterprise knowledge</text>
-        <text x="186" y="470" textAnchor="middle" className="axisLabel">Agent adoption and autonomy over time</text>
-        <text x="13" y="240" textAnchor="middle" transform="rotate(-90 13 240)" className="axisLabel">Reusable conclusions and work</text>
+        <text x="186" y="470" textAnchor="middle" className="axisLabel">More agent autonomy →</text>
       </svg>
+      <div className="mobileChartLegend" aria-hidden="true">
+        <span><i className="agentSwatch" />Agent-produced knowledge</span>
+        <span><i className="enterpriseSwatch" />Enterprise knowledge</span>
+      </div>
       <figcaption id="knowledge-chart-note">
         Illustrative model — not measured data. Informal review stops scaling at the inflection.
       </figcaption>
