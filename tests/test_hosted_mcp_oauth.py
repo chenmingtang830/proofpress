@@ -138,10 +138,21 @@ class HostedMcpOAuthTests(unittest.TestCase):
         status, _, response = self.json_request("/mcp", {
             "jsonrpc": "2.0", "id": 2, "method": "tools/list"},
             tokens["access_token"])
-        names = {row["name"] for row in response["result"]["tools"]}
+        tools = {row["name"]: row for row in response["result"]["tools"]}
+        names = set(tools)
         self.assertIn("proofpress_traverse_graph", names)
         self.assertIn("proofpress_get_lineage", names)
         self.assertNotIn("proofpress_approve", names)
+        submit_schema = tools["proofpress_submit_evidence"]["inputSchema"]
+        self.assertEqual(
+            submit_schema["properties"]["profile"]["enum"], ["experiment"])
+        retrieval = submit_schema["allOf"][0]["then"]["properties"]["payload"]
+        self.assertEqual(
+            retrieval["properties"]["schema_version"]["const"],
+            "proofpress/retrieval-evidence/v1")
+        proposal_refs = tools["proofpress_propose_conclusion"]["inputSchema"]["properties"]["evidence_refs"]
+        self.assertEqual(proposal_refs["minItems"], 1)
+        self.assertEqual(proposal_refs["items"]["pattern"], r"^evd_[0-9a-f]{16}$")
         self.server.proofpress_control.revoke_credential(
             self.owner["token"], self.agent["credential_id"])
         self.assertEqual(self.json_request(
@@ -169,6 +180,37 @@ class HostedMcpOAuthTests(unittest.TestCase):
         initialize = {"jsonrpc": "2.0", "id": 9, "method": "initialize"}
         self.assertEqual(self.json_request(
             "/mcp", initialize, replacement["access_token"])[0], 401)
+
+    def test_remote_mcp_returns_actionable_mutation_errors(self):
+        tokens = self.exchange()
+        status, _, response = self.json_request("/mcp", {
+            "jsonrpc": "2.0", "id": 20, "method": "tools/call",
+            "params": {"name": "proofpress_submit_evidence", "arguments": {
+                "payload": {"repository": "example/repo"},
+                "profile": "repository_change",
+            }}}, tokens["access_token"])
+        self.assertEqual(status, 200)
+        result = response["result"]
+        self.assertTrue(result["isError"])
+        self.assertEqual(
+            result["structuredContent"]["error"]["code"],
+            "invalid_tool_request")
+        self.assertIn(
+            "unsupported evidence profile: repository_change",
+            result["structuredContent"]["error"]["message"])
+
+        status, _, response = self.json_request("/mcp", {
+            "jsonrpc": "2.0", "id": 21, "method": "tools/call",
+            "params": {"name": "proofpress_propose_conclusion", "arguments": {
+                "statement": "A candidate", "scope": "test",
+                "evidence_refs": ["https://example.test/source"],
+            }}}, tokens["access_token"])
+        self.assertEqual(status, 200)
+        result = response["result"]
+        self.assertTrue(result["isError"])
+        self.assertIn(
+            "evd_ IDs returned by proofpress_submit_evidence",
+            result["structuredContent"]["error"]["message"])
 
 
 if __name__ == "__main__":

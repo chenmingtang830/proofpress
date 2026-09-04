@@ -114,6 +114,16 @@ class McpAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "principal"):
             self.mcp.ProofpressMcpGateway(self.gateway.client, "")
 
+    def test_mutation_contract_errors_are_actionable(self):
+        with self.assertRaisesRegex(
+                ValueError, "unsupported evidence profile: repository_change"):
+            self.gateway.submit_evidence(
+                {"repository": "example/repo"}, profile="repository_change")
+        with self.assertRaisesRegex(
+                ValueError, "evd_ IDs returned by proofpress_submit_evidence"):
+            self.gateway.propose_conclusion(
+                "A candidate", ["https://example.test/source"], "test")
+
 
 if __name__ == "__main__":
     unittest.main()

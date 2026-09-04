@@ -121,17 +121,21 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .compactIntro { display: flex; align-items: end; justify-content: space-between; gap: 40px; }
 .compactIntro p { max-width: 42ch; margin: 0 0 8px; color: var(--ink-2); font-size: 18px; line-height: 1.55; }
 .quickstartPanel { margin-top: 56px; border: 1px solid var(--ink); background: var(--ink); color: #f2f0ea; }
-.commandBar { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 18px; border-bottom: 1px solid #3b3e45; color: #c7cbd0; font: 500 12px/1 var(--font-proof); }
-.commandBar button { min-height: 34px; padding: 0 12px; border: 1px solid #62666e; border-radius: 4px; background: transparent; color: #fff; cursor: pointer; }
-.commandBar button:hover { background: #272a31; }
-.commandBar button:focus-visible, .quickstartPanel summary:focus-visible { outline: 2px solid #70c2cf; outline-offset: 3px; }
-.quickstartPanel > pre { margin: 0; padding: 30px 24px; overflow-x: auto; font: 500 clamp(12px, 1.25vw, 16px)/1.7 var(--font-proof); }
-.quickstartPanel details { border-top: 1px solid #3b3e45; }
-.quickstartPanel summary { padding: 18px 24px; color: #d6d9dd; cursor: pointer; font-size: 14px; }
-.quickstartPanel details pre { margin: 0; padding: 0 24px 24px; overflow-x: auto; color: #c7cbd0; font: 500 12px/1.7 var(--font-proof); }
-.nextCommand { display: flex; align-items: center; gap: 20px; padding: 18px 24px; border-top: 1px solid #3b3e45; color: #c7cbd0; font-size: 14px; }
-.nextCommand code { color: #fff; font: 500 14px/1.4 var(--font-proof); }
-.quickstartPanel > p { margin: 0; padding: 20px 24px; border-top: 1px solid #3b3e45; color: #c7cbd0; font-size: 15px; line-height: 1.6; }
+.quickstartStep + .quickstartStep { border-top: 1px solid #3b3e45; }
+.quickstartStepIntro { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 18px; align-items: start; padding: 22px 24px 18px; }
+.quickstartStepIntro > span { color: #70c2cf; font: 600 12px/1.4 var(--font-proof); }
+.quickstartStepIntro strong { display: block; color: #fff; font-size: 16px; }
+.quickstartStepIntro p { margin: 6px 0 0; color: #aeb3bb; font-size: 14px; line-height: 1.55; }
+.quickstartStepIntro button { min-height: 34px; padding: 0 12px; border: 1px solid #62666e; border-radius: 4px; background: transparent; color: #fff; cursor: pointer; }
+.quickstartStepIntro button:hover { background: #272a31; }
+.quickstartStepIntro button:focus-visible { outline: 2px solid #70c2cf; outline-offset: 3px; }
+.quickstartStep pre { margin: 0; padding: 18px 24px 22px 86px; overflow-x: hidden; white-space: pre-wrap; overflow-wrap: anywhere; border-top: 1px solid #292c32; color: #f2f0ea; font: 500 13px/1.7 var(--font-proof); }
+.contributionCallout { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+.contributionCallout > div { display: flex; align-items: baseline; gap: 18px; }
+.contributionCallout span { color: var(--accent); font: 600 11px/1 var(--font-proof); letter-spacing: .08em; }
+.contributionCallout p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.contributionCallout a { color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; }
+.contributionCallout a:hover { text-decoration: underline; }
 
 .writing .compactIntro { align-items: center; }
 .writingGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 56px; }
@@ -204,8 +208,10 @@ footer > a:last-child { color: #d6d9dd; font-size: 14px; }
   .compactIntro { display: grid; gap: 24px; }
   .compactIntro p { margin: 0; }
   .quickstartPanel { margin-top: 40px; }
-  .quickstartPanel > pre { padding: 24px 18px; overflow-x: hidden; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
-  .commandBar { align-items: flex-start; flex-direction: column; padding-block: 14px; }
+  .quickstartStepIntro { grid-template-columns: 32px minmax(0, 1fr) auto; gap: 12px; padding: 20px 18px 16px; }
+  .quickstartStepIntro p { font-size: 13px; }
+  .quickstartStep pre { padding: 16px 18px 20px; overflow-x: hidden; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; }
+  .contributionCallout, .contributionCallout > div { align-items: flex-start; flex-direction: column; gap: 10px; }
   .writingGrid { grid-template-columns: 1fr; margin-top: 40px; }
   .writingCard:last-child { grid-column: auto; max-width: none; }
   .writingCard h3 { font-size: 1.55rem; }

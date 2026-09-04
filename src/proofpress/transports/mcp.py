@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+import re
 from typing import Any
 from urllib.parse import urlencode, urlparse
 
@@ -30,6 +31,7 @@ MCP_SAFE_TOOLS = (
     "proofpress_get_review_receipt",
     "proofpress_get_review_link",
 )
+EVIDENCE_ID_RE = re.compile(r"evd_[0-9a-f]{16}\Z")
 
 
 class ProofpressMcpGateway:
@@ -65,6 +67,10 @@ class ProofpressMcpGateway:
     def submit_evidence(self, payload: dict[str, Any],
                         idempotency_key: str | None = None, *,
                         profile: str | None = None) -> dict[str, Any]:
+        if profile not in {None, "experiment"}:
+            raise ValueError(
+                "unsupported evidence profile: " + str(profile) +
+                "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
         return self.client.submit_evidence(
             payload, profile=profile, idempotency_key=idempotency_key)
 
@@ -76,6 +82,12 @@ class ProofpressMcpGateway:
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
+        if (not evidence_refs or
+                any(not isinstance(ref, str) or EVIDENCE_ID_RE.fullmatch(ref) is None
+                    for ref in evidence_refs)):
+            raise ValueError(
+                "evidence_refs must contain evd_ IDs returned by "
+                "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
         return self.client.propose_conclusion(
             statement, evidence_refs, scope, self.principal,
             expires_at=expires_at, artifact_refs=artifact_refs,
@@ -164,7 +176,11 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             payload: dict[str, Any],
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
-        """Submit one bounded evidence envelope under an optional profile."""
+        """Submit bounded evidence.
+
+        Omit profile for a proofpress/retrieval-evidence/v1 envelope. The only
+        supported evidence profile is experiment.
+        """
         return gateway.submit_evidence(
             payload, idempotency_key=idempotency_key, profile=profile)
 
@@ -178,6 +194,9 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
         """Propose an evidence-bound conclusion as the configured agent principal.
+
+        evidence_refs must be evd_ IDs returned by
+        proofpress_submit_evidence, not source or artifact URLs.
 
         To answer request_changes, read the original review receipt and pass
         qualifiers.revision_of (original conclusion ID) and
