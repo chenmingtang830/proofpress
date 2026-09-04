@@ -10,16 +10,14 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex h-6 shrink-0 items-center justify-center whitespace-nowrap rounded-full border px-2.5 text-[11px] leading-none font-medium capitalize",
+        "inline-flex h-6 shrink-0 items-center justify-center whitespace-nowrap rounded-full border px-2.5 font-['DM_Sans'] text-[11px] leading-none font-medium capitalize",
         state === "admitted" || state === "active"
           ? "border-[var(--line)] bg-[var(--add-bg)] text-[var(--add)]"
           : state === "needs_revision"
             ? "border-[var(--line)] bg-[var(--revision-bg)] text-[var(--revision)]"
-          : ["needs_review", "accept", "escalate", "unresolved", "evidence_supported", "needs_attention", "retrieved"].includes(state)
-            ? "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--accent)]"
           : ["rejected", "blocked", "revoked", "reject", "evidence_not_supported"].includes(state)
             ? "border-[var(--line)] bg-[var(--del-bg)] text-[var(--del)]"
-            : "border-[var(--line)] bg-[var(--wash)] text-[var(--ink-2)]",
+            : "border-[var(--line)] bg-white text-[var(--ink-2)]",
         className,
       )}
     >
