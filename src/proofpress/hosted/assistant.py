@@ -55,13 +55,15 @@ def ask(question, snapshot, *, opener=urlopen):
              "Workspace snapshot:\n" + packed + "\n\nOwner question:\n" + question},
         ],
     }).encode()
-    request = Request(OPENROUTER_URL, data=body, method="POST", headers={
+    headers = {
         "Authorization": "Bearer " + key,
         "Content-Type": "application/json",
-        "HTTP-Referer": os.environ.get("PROOFPRESS_PUBLIC_ORIGIN",
-                                       "https://proofpress-personal-hosted.onrender.com"),
         "X-Title": "Proofpress Ask",
-    })
+    }
+    public_origin = os.environ.get("PROOFPRESS_PUBLIC_ORIGIN", "").strip()
+    if public_origin:
+        headers["HTTP-Referer"] = public_origin
+    request = Request(OPENROUTER_URL, data=body, method="POST", headers=headers)
     try:
         with opener(request, timeout=30) as response:
             payload = json.loads(response.read().decode())

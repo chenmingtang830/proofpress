@@ -16,6 +16,10 @@
 [//]: # (ob:92fbc10e)
 Proofpress gives agents a shared, auditable answer to: **What may a future agent or human rely on, why, in what scope, and under whose authority?** Agents submit bounded evidence and propose conclusions. Deterministic checks and configured policy evaluate them. An authenticated human authorizer decides whether they may enter governed context.
 
+<p align="center">
+  <img src="assets/product/owner-home.png" alt="Proofpress owner workspace showing review work and current governed knowledge" width="100%">
+</p>
+
 [//]: # (ob:62009490)
 [//]: # (ob:thesis-summary)
 
@@ -35,33 +39,41 @@ and lifecycle that make a conclusion safe to reuse. It is not a generic
 knowledge graph, agent orchestrator, task tracker, trace warehouse, or RAG
 platform.
 
+<p align="center">
+  <img src="assets/product/category-map.jpg" alt="Comparison of observability, memory, knowledge graphs, and Proofpress by primary object and core question" width="100%">
+</p>
+
 [//]: # (ob:86aa6033)
 Read the full [product thesis](docs/THESIS.md) for the model and the
 [verified-knowledge guide](docs/VERIFIED_KNOWLEDGE_LEDGER.md) for the object
 and lifecycle semantics.
 
+### Why this becomes infrastructure
+
+As agents produce more reusable conclusions, the cost of deciding what may be
+trusted grows faster than ordinary enterprise knowledge management can absorb.
+The chart below is a conceptual model of that pressure—not an empirical forecast.
+
+<p align="center">
+  <img src="assets/product/governance-threshold.jpg" alt="Conceptual chart showing agent-produced knowledge crossing a governance threshold as agent adoption grows" width="88%">
+</p>
+
 [//]: # (ob:41b3a522)
 [//]: # (ob:governed-handoff)
 
 [//]: # (ob:cf8ae608)
-## The governed handoff
+## How it works
 
 [//]: # (ob:9b444bbd)
-```text
-Your documents, code, runs, and systems
-                  |
-                  | bounded evidence projection
-                  v
-Agent submits evidence -> proposes conclusion -> checks / advisory policy
-                                                      |
-                                                      v
-                                             Human owner decides
-                                                      |
-                                                      v
-                              admitted + current + in-scope context only
-                                                      |
-                                                      v
-                                         successor agent or human
+```mermaid
+flowchart LR
+    A[Agent work<br/>documents · code · runs] -->|bounded evidence| B[Candidate conclusion]
+    B --> C[Deterministic checks]
+    C --> D[Optional LM advice]
+    D --> E{Human owner}
+    E -->|admit| F[Current governed knowledge]
+    E -->|reject or revise| G[Excluded from reuse]
+    F -->|scope + identity policy| H[Successor agent or human]
 ```
 
 [//]: # (ob:8282eb31)
@@ -73,34 +85,39 @@ context; it cannot approve itself or administer owner authority.
 [//]: # (ob:product-surfaces)
 
 [//]: # (ob:57f61eb0)
-## One product, four surfaces
+## Product architecture
 
 [//]: # (ob:1aa1b52d)
-- `ProofpressClient` is the canonical Python SDK.
-- `proofpress` is the canonical CLI.
-- localhost and hosted HTTP expose the same operation contract.
-- MCP lets Cursor, Claude Code, Codex, and other clients use the safe agent surface. MCP never exposes approval, policy, or credential administration.
+| Surface | Used by | Responsibility |
+|---|---|---|
+| Owner workspace | Human authorizer | Review evidence and recommendations; admit, reject, or request revision |
+| MCP | Coding agents and agent clients | Submit evidence, propose conclusions, retrieve eligible context, inspect lineage |
+| Python SDK and CLI | Applications and automation | Use the same versioned governance operations directly |
+| Hosted HTTP | Self-hosted clients and devices | Persist one private workspace with scoped, revocable credentials |
 
 [//]: # (ob:ed5c57b7)
-All four surfaces call the same versioned operation contract. Local Git-backed
-and hosted SQLite-backed installations have different storage, but not different
-governance semantics.
+Every surface calls the same versioned operation contract and lifecycle engine.
+Local Git-backed and hosted SQLite-backed installations differ in storage, not
+in what counts as evidence, admission, current knowledge, or authorized reuse.
 
 [//]: # (ob:8db33fda)
 [//]: # (ob:quickstart)
 
 [//]: # (ob:4ccd51b9)
-## Python-first quickstart
+## Quick start
 
 [//]: # (ob:70af4929)
 Proofpress requires Python 3.11 or newer.
 
 [//]: # (ob:1522656b)
 ```sh
+git clone https://github.com/chenmingtang830/proofpress.git
+cd proofpress
+python -m venv .venv
+source .venv/bin/activate
 python -m pip install -e .
-export PROOFPRESS_LOCAL_TOKEN="replace-with-at-least-16-random-characters"
-proofpress hosted --help
-proofpress mcp --help
+proofpress demo
+proofpress ui
 ```
 
 [//]: # (ob:6b08a324)
@@ -125,11 +142,31 @@ candidate = client.propose_conclusion(
 context = client.context(scope="experiment:demo", actor="agent:successor")
 ```
 
+### Connect an MCP client
+
+For a local stdio connection, configure your MCP client to start Proofpress in
+the repository it should govern:
+
+```json
+{
+  "mcpServers": {
+    "proofpress": {
+      "command": "/absolute/path/to/proofpress/.venv/bin/proofpress",
+      "args": ["mcp", "--transport", "stdio", "--workspace", "/absolute/path/to/workspace"]
+    }
+  }
+}
+```
+
+For a hosted workspace, open `/connect` on your deployment and use its
+secret-free remote MCP URL. OAuth with PKCE binds the client to a separately
+issued agent credential. See [Remote MCP](docs/REMOTE_MCP.md).
+
 [//]: # (ob:ea362434)
 [//]: # (ob:choose-deployment)
 
 [//]: # (ob:43d5590e)
-## Choose a deployment shape
+## Run Proofpress where the work lives
 
 [//]: # (ob:5da4d7b8)
 | Use case | Start with | What it gives you |
@@ -144,6 +181,26 @@ private deployment reference, not a multi-tenant Proofpress cloud or an
 enterprise collaboration product. For the Render Blueprint, bootstrap flow,
 credentials, backup/export, recovery, MCP, and security boundary, read
 [Self-hosting](docs/SELF_HOSTING.md).
+
+### Self-host in three steps
+
+1. Deploy this repository with [`render.yaml`](render.yaml), or use the
+   provider-neutral examples in [`deploy/self-hosted/`](deploy/self-hosted/).
+2. In a private server shell, bootstrap one owner workspace:
+
+   ```sh
+   proofpress hosted --database /var/data/proofpress.db \
+     bootstrap --workspace-id workspace:personal \
+     --owner-principal human:owner
+   ```
+
+3. Store the one-time owner credential and recovery secret outside Git, then
+   issue a distinct credential for each agent or device. Configure backups
+   before relying on the instance.
+
+The Blueprint contains no Proofpress credentials, customer data, or access to
+any existing deployment. A fork deploys into the operator's own account,
+storage, domain, and billing relationship.
 
 [//]: # (ob:99949965)
 [//]: # (ob:authority-boundary)
@@ -170,7 +227,6 @@ Submitting evidence or proposing a conclusion never admits it. Agent credentials
 [//]: # (ob:3159be00)
 - **Understand the product:** [Thesis](docs/THESIS.md) → [governed knowledge and context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
 - **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
-- **WebMCP Challenge:** [submission kit, live demo flow, and release checklist](docs/WEBMCP_HACKATHON_SUBMISSION.md).
 - **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
 - **Explore prior experiments:** [study catalog](studies/README.md). Research evidence is separately scoped; it is not a blanket product-efficacy claim.
 
@@ -182,12 +238,14 @@ The current product is Python-first and single-owner. It does not provide multi-
 [//]: # (ob:compatibility)
 
 [//]: # (ob:6e4b22d6)
-## 0.6 compatibility window
+## Compatibility
 
 [//]: # (ob:34226b85)
-The old `proofpress_sdk` imports, console aliases, and portable top-level commands remain as deprecated forwarding shims throughout 0.6. Use `proofpress legacy ...` for portable artifact ledger and provenance tools.
-
-The public npm compatibility package has been retired. Python is the only SDK and CLI installation path. npm remains an internal build tool inside `web/owner` for the React owner workspace; it is not a second SDK or customer installation path. In 0.7, Proofpress will remove the remaining Python import, console, and top-level command shims. The legacy implementation remains maintained for integrity and security fixes.
+Python is the supported SDK and CLI installation path. Older Python imports,
+console aliases, and portable top-level commands remain deprecated forwarding
+shims; new integrations should use `ProofpressClient`, `proofpress`, and
+`proofpress legacy ...` for the portable artifact ledger. npm is used only to
+build the owner workspace and is not a customer SDK.
 
 [//]: # (ob:85117b99)
 [//]: # (ob:docs-release)

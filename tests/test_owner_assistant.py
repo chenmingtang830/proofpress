@@ -9,6 +9,7 @@ class OwnerAssistantTests(unittest.TestCase):
     def setUp(self):
         os.environ.pop("OPENROUTER_API_KEY", None)
         os.environ.pop("OPENROUTER_MODEL", None)
+        os.environ.pop("PROOFPRESS_PUBLIC_ORIGIN", None)
 
     def test_refuses_to_call_upstream_without_a_key(self):
         result = assistant.ask("What needs review?", {"page": "review"})
@@ -41,6 +42,7 @@ class OwnerAssistantTests(unittest.TestCase):
 
         def fake_open(request, timeout=0):
             captured["auth"] = request.headers["Authorization"]
+            captured["referer"] = request.headers.get("Http-referer")
             captured["body"] = request.data.decode()
             return FakeResponse()
 
@@ -53,6 +55,7 @@ class OwnerAssistantTests(unittest.TestCase):
         self.assertFalse(result["result"]["can_admit"])
         self.assertIn("cannot admit", result["result"]["answer"])
         self.assertTrue(captured["auth"].startswith("Bearer sk-or-test"))
+        self.assertIsNone(captured["referer"])
         payload = json.loads(captured["body"])
         user = payload["messages"][1]["content"]
         self.assertIn("What should I worry about before approving?", user)

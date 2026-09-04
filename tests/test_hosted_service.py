@@ -42,7 +42,7 @@ class HostedServiceTests(unittest.TestCase):
         self.server = proofpress_hosted_service.create_hosted_server(
             Path(self.tmp.name) / "hosted.db", port=0, max_request_bytes=2048)
         self.owner = self.server.proofpress_control.bootstrap(
-            "workspace:kelton", "human:kelton")
+            "workspace:example", "human:owner")
         self.agent = self.server.proofpress_control.issue_agent_credential(
             self.owner["token"], "agent:codex-laptop", "Codex laptop")
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
@@ -158,14 +158,14 @@ class HostedServiceTests(unittest.TestCase):
         imported = agent.submit_evidence(evidence_payload())
         proposed = agent.propose_conclusion(
             "The liability cap is one year of fees.", imported["evidence"],
-            "partner-poc", "spoofed:owner")
+            "contract-review", "spoofed:owner")
         conclusion = proposed["conclusion"]
         self.assertEqual(conclusion["proposer"], "agent:codex-laptop")
         agent.evaluate_conclusion(conclusion["id"])
         owner.review_conclusion(
             conclusion["id"], "admit", "spoofed:agent",
             review_request_id="owner-review-1")
-        context = agent.context(scope="partner-poc", actor="spoofed:owner")
+        context = agent.context(scope="contract-review", actor="spoofed:owner")
         self.assertEqual(context["actor"], "agent:codex-laptop")
         self.assertEqual(context["knowledge"][0]["id"], conclusion["id"])
 
@@ -178,7 +178,7 @@ class HostedServiceTests(unittest.TestCase):
         imported = gateway.submit_evidence(evidence_payload())
         proposed = gateway.propose_conclusion(
             "The liability cap is one year of fees.", imported["evidence"],
-            "mcp-poc")
+            "mcp-test")
         self.assertEqual(
             proposed["conclusion"]["proposer"], "agent:codex-laptop")
 
@@ -188,7 +188,7 @@ class HostedServiceTests(unittest.TestCase):
         imported = agent.submit_evidence(evidence_payload())
         proposed = agent.propose_conclusion(
             "The liability cap is one year of fees.", imported["evidence"],
-            "web-review-poc", "spoofed")
+            "web-review-test", "spoofed")
         conclusion_id = proposed["conclusion"]["id"]
         agent.evaluate_conclusion(conclusion_id)
 
@@ -231,7 +231,7 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(session["result"]["csrf"], csrf)
         self.assertTrue(session["result"]["capabilities"]["review"])
         status, summary = self.owner_json(
-            "/owner/api/summary?scope=web-review-poc", cookie)
+            "/owner/api/summary?scope=web-review-test", cookie)
         self.assertEqual(status, 200)
         self.assertEqual(summary["result"]["counts"]["needs_review"], 1)
         status, receipt = self.owner_json(
@@ -254,7 +254,7 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(reviewed["result"]["state"], "admitted")
         successor = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])
-        context = successor.context(scope="web-review-poc", actor="spoofed")
+        context = successor.context(scope="web-review-test", actor="spoofed")
         self.assertEqual([row["id"] for row in context["knowledge"]], [conclusion_id])
 
     def test_owner_review_rejects_csrf_failure(self):
