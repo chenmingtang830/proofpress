@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const installCommand = `uv tool install "git+https://github.com/chenmingtang830/proofpress.git"`;
+const installCommand = `uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"`;
 
 export function Quickstart() {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");

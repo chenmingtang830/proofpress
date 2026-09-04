@@ -113,7 +113,7 @@ export function App() {
         <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
           <div className="compactIntro">
             <h2 id="quickstart-title">Install and run Proofpress.</h2>
-            <p>One local command. No account, hosted credential, or model call required.</p>
+            <p>Install once, then run locally. No account, hosted credential, or model call required.</p>
           </div>
           <Quickstart />
         </section>
