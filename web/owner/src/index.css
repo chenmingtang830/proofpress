@@ -1406,33 +1406,44 @@ td:last-child svg {
    Local UI exploration only: white institutional canvas, ink-led hierarchy,
    and cyan used as a precise rule rather than a filled surface. */
 :root {
-  --paper: #ffffff;
+  --paper: #f5f6f4;
   --ink: #181a20;
   --ink-2: #555b66;
   --ink-3: #7f8791;
-  --line: #d9dee2;
+  --line: #d7dcd9;
   --card: #ffffff;
-  --wash: #f6f7f7;
+  --panel-soft: #eef1ee;
+  --wash: #f0f2f0;
   --accent: #0e6675;
   --accent-strong: #0a5360;
-  --accent-soft: #f1f7f8;
+  --accent-soft: #eaf2f2;
   --add: #2f6b54;
-  --add-bg: #ffffff;
+  --add-bg: #edf5f0;
   --del: #963f38;
-  --del-bg: #ffffff;
+  --del-bg: #f8eeec;
   --revision: #665a8a;
-  --revision-bg: #ffffff;
+  --revision-bg: #efedf5;
   font-family: "DM Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont,
     "Segoe UI", sans-serif;
 }
 
-.shell,
+.shell {
+  background: var(--paper);
+}
+
 .sidebar,
-.topbar,
+.topbar {
+  background: #fff;
+}
+
 .stage,
 .workspacePage,
+.work {
+  background: var(--paper);
+}
+
 .inspector {
-  background: #fff;
+  background: var(--panel-soft);
 }
 
 .sidebar {
@@ -1513,7 +1524,7 @@ td small {
 
 th {
   border-bottom: 2px solid var(--ink);
-  background: #fff;
+  background: var(--panel-soft);
   color: var(--ink);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   letter-spacing: 0.07em;
@@ -1555,6 +1566,19 @@ tbody tr.selected td:first-child b {
 
 .message.assistant {
   border-left-color: var(--accent);
+}
+
+.quickSnapshot,
+.inspectorTop,
+.tabs,
+.tabContent,
+.decision {
+  background: var(--panel-soft);
+}
+
+.recommendation,
+.technicalDetails pre {
+  background: #fff;
 }
 
 @media (max-width: 680px) {
