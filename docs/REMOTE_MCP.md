@@ -28,6 +28,23 @@ The generic server configuration contains no secret:
 }
 ```
 
+Copy-paste setup examples:
+
+```bash
+# Codex
+codex mcp add proofpress --url https://proofpress.example.com/mcp
+codex mcp login proofpress
+
+# Claude Code
+claude mcp add --transport http --scope user proofpress \
+  https://proofpress.example.com/mcp
+# Then run /mcp inside Claude Code and authorize Proofpress.
+```
+
+In Cursor, create a remote MCP server named `proofpress` with the same `/mcp`
+URL and complete the OAuth prompt. Each client should receive its own revocable
+agent credential.
+
 The local stdio bridge remains available for clients without remote HTTP or
 OAuth support.
 

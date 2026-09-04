@@ -145,6 +145,35 @@ enterprise collaboration product. For the Render Blueprint, bootstrap flow,
 credentials, backup/export, recovery, MCP, and security boundary, read
 [Self-hosting](docs/SELF_HOSTING.md).
 
+### Connect an agent to self-hosted Proofpress
+
+Every hosted instance exposes an OAuth-protected Streamable HTTP MCP endpoint at
+`https://YOUR-PROOFPRESS-HOST/mcp`. Issue a separate revocable agent credential
+for each client, then copy and run the matching setup command:
+
+```bash
+# Codex
+codex mcp add proofpress --url https://YOUR-PROOFPRESS-HOST/mcp
+codex mcp login proofpress
+
+# Claude Code
+claude mcp add --transport http --scope user proofpress \
+  https://YOUR-PROOFPRESS-HOST/mcp
+# Then open Claude Code and run /mcp to authorize.
+```
+
+For Cursor, add a remote MCP server named `proofpress` with URL
+`https://YOUR-PROOFPRESS-HOST/mcp`, then complete the browser authorization.
+Paste only that client's agent credential into the authorization page; owner
+and recovery credentials are rejected. Access tokens refresh automatically.
+See [Remote MCP](docs/REMOTE_MCP.md) for the protocol and security details.
+
+Remote MCP and WebMCP serve different workflows. Remote MCP connects a coding
+agent to Proofpress even when no Proofpress page is open. WebMCP site tools are
+registered by the signed-in owner page and are discovered automatically by a
+compatible in-app browser; they require no separate server installation. A
+self-hosted deployment includes both surfaces. See [WebMCP](docs/WEBMCP.md).
+
 [//]: # (ob:99949965)
 [//]: # (ob:authority-boundary)
 Submitting evidence or proposing a conclusion never admits it. Agent credentials identify and constrain callers; they do not carry owner authority. Only admitted, current, in-scope, actor-eligible conclusions are returned as governed context.
