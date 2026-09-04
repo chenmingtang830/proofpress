@@ -67,7 +67,7 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         for stale_token in ("#8A6210", "#F5EEDC", "#F5C", "yellow"):
             self.assertNotIn(stale_token, self.page)
         css = (ROOT / "web" / "owner" / "src" / "index.css").read_text()
-        self.assertIn("--wash: #f1efe8", css)
+        self.assertIn("--wash: #f5f6f5", css)
         self.assertIn("background: var(--wash)", css)
         self.assertNotIn("yellow", css)
 
