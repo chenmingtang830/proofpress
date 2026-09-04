@@ -84,11 +84,11 @@ export function App() {
 
         <section className="evidence" id="evidence" aria-labelledby="evidence-title">
           <div className="evidenceIntro">
-            <h2 id="evidence-title">Tested on 126 agent handoffs.</h2>
+            <h2 id="evidence-title">Higher task completion. Zero observed unsafe propagation.</h2>
             <p>
-              We adapted three public Harvey LAB Contracts task families into multi-step agent handoffs,
-              then ran 126 paired comparisons across seven models. Ordinary handoffs passed forward the raw
-              workspace; Proofpress handoffs exposed only eligible, evidence-bound context.
+              We tested Proofpress’s governed knowledge ledger in 126 paired runs across seven models and
+              three public Harvey LAB Contracts task families. Ordinary handoffs passed forward the raw
+              workspace; Proofpress exposed only eligible, evidence-bound context.
             </p>
           </div>
           <div className="study">
