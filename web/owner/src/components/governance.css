@@ -53,16 +53,16 @@
 .lineageDiagram > button { margin:12px 24px; }
 .historyRow p { font-size:13px; color:var(--ink-2); margin:6px 0; overflow-wrap:anywhere; }
 
-/* Product typography: editorial page title; one UI family for all task content. */
+/* Product typography: DM Sans for task content; IBM Plex Mono for proof metadata. */
 :root {
-  --font-ui: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-editorial: Georgia, "Times New Roman", serif;
+  --font-ui: "DM Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-proof: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --type-page: 1.875rem;
   --type-section: 1rem;
   --type-body: .875rem;
   --type-meta: .75rem;
 }
-.pageHead h1 { font-family:var(--font-editorial); font-size:var(--type-page); font-weight:500; line-height:1.2; }
+.pageHead h1 { font-family:var(--font-ui); font-size:var(--type-page); font-weight:600; line-height:1.2; }
 .lineageOverview h2, .relatedConclusions h2, .inspector h2, .graphInspector h2,
 .confirmationDialog h2, .revisionPanel h3, .revisionSection h3 {
   font-family:var(--font-ui); font-size:var(--type-section); font-weight:600; line-height:1.5; letter-spacing:normal;
