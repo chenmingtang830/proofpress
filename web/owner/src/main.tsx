@@ -812,7 +812,7 @@ function ReviewPage({
   setNote,
   onDecide,
   busy,
-  onJudge, onEvaluate,
+  onJudge, onEvaluate, onConfigurePolicy,
   fullReview, onOpenFull, onBack,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
@@ -879,6 +879,7 @@ function ReviewPage({
         busy={busy}
         onJudge={onJudge}
         onEvaluate={onEvaluate}
+        onConfigurePolicy={onConfigurePolicy}
         fullReview={fullReview}
         onOpenFull={onOpenFull}
         onBack={onBack}
@@ -950,7 +951,7 @@ function Inspector({
             : <>
               {onOpenFull && !fullReview && <Button variant="approve" onClick={onOpenFull}>Open full review</Button>}
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
-                ? <Button variant="outline" onClick={onConfigurePolicy}>Configure review policy</Button>
+                ? <Button variant="outline" onClick={onConfigurePolicy}>Set up LM review</Button>
                 : judgeFailed && onJudge
                   ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry LM review</Button>
                   : judgePending && r.review_policy?.mode === "automatic"
