@@ -770,7 +770,7 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any
       <PageHead eyebrow="" title="Your workspace" description="Review new conclusions. Trace what agents may rely on." />
       <div className="orientation">
         <button className="reviewOrientation" onClick={onReview}>
-          <span>Needs your review</span>
+          <span>Needs review</span>
           <strong>{pending}</strong>
           <small>Candidate conclusions remain excluded</small>
           <ChevronRight />
@@ -905,7 +905,7 @@ function Inspector({
     panel.current?.scrollTo({top: 0, behavior: "auto"});
   }, [r?.conclusion.id]);
   React.useEffect(() => {
-    if (!r || !window.matchMedia("(max-width: 1050px)").matches) return;
+    if (!r || !window.matchMedia("(max-width: 899px)").matches) return;
     const opener = document.querySelector<HTMLElement>(".work tr.selected .conclusionSelect") || document.activeElement as HTMLElement | null;
     panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
@@ -939,8 +939,8 @@ function Inspector({
       <div className="quickSnapshot">
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
-        <div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></dl>
+        {!fullReview && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
         {can && <div className="decisionStack"><div><strong>Automated checks</strong><span className={r.evaluation ? (failedChecks.length ? "fail" : "pass") : ""}>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ["failed","interrupted","blocked"].includes(r.judge_job.state) && <p>{r.judge_job.detail}</p>}
@@ -956,7 +956,7 @@ function Inspector({
           {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && ((judgeNeedsSetup && onConfigurePolicy) || (judgePending && r.review_policy?.mode === "manual" && onJudge)) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
           {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
         </div>}
-        {can && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
+        {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
           <div className="evidenceArgumentHead">
             <h3 id="evidence-argument-title">Evidence for this conclusion</h3>
             <span>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</span>
@@ -1072,7 +1072,7 @@ function Inspector({
               disabled={busy || !!approvalBlock}
               onClick={() => onDecide("admit")}
             >
-              Approve for reuse
+              Approve
             </Button>
           </div>
         </div>
@@ -1119,7 +1119,7 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loa
             <p>Admitted and eligible for this owner view. Agent access remains scope- and credential-specific.</p>
           </div>
           <div className="awaitingKnowledge">
-            <span>Awaiting review</span>
+            <span>Needs review</span>
             <strong>{awaitingReview.length} candidate {awaitingReview.length === 1 ? "conclusion" : "conclusions"}</strong>
             <p>{reviewSummary || "No candidate conclusions need attention."}</p>
           </div>

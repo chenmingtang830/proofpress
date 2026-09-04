@@ -33,7 +33,7 @@ try {
   await page.getByRole('tab',{name:'Checks',exact:true}).click();
   await page.getByText('fixture/offline-judge · judge:fixture',{exact:true}).waitFor();
   await screen('lm-advice');
-  assert.equal(await page.getByRole('button',{name:'Approve for reuse',exact:true}).isEnabled(),true);
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),true);
   // Reproduce the cloud failure shape: an experiment claim bound only to retrieved prose.
   const propose=await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation:'conclusion.propose',parameters:{statement:'Experiment result without typed metrics',evidence_refs:[],scope:'browser-test',proposer:'agent:fixture'}}});
   const proposal=await propose.json();
@@ -43,7 +43,7 @@ try {
   await page.getByRole('button',{name:'Run deterministic checks',exact:true}).click();
   await page.locator('.shell[aria-busy="false"]').waitFor();
   await page.getByRole('complementary',{name:'Conclusion details'}).getByText(/^blocked$/i).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Approve for reuse',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
   assert.equal(await page.getByRole('button',{name:'Run LM review',exact:true}).count(),0);
   await screen('blocked-before-model-or-human-review');
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[3]}&view=full`);

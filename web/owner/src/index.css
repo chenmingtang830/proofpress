@@ -42,21 +42,25 @@
 }
 
 :root {
-  --paper: #faf9f5;
-  --ink: #20222b;
-  --ink-2: #5a5d6b;
-  --ink-3: #686b78;
-  --line: #e3e1d9;
+  --paper: #ffffff;
+  --ink: #181a20;
+  --ink-2: #555b66;
+  --ink-3: #686f78;
+  --line: #d7dcd9;
   --card: #ffffff;
-  --wash: #f1efe8;
-  --accent: #0e5e6f;
-  --accent-strong: #0a4b59;
-  --accent-soft: #e3eef0;
-  --add: #2e7d4f;
-  --add-bg: #e7f2ea;
-  --del: #b4453a;
-  --del-bg: #f7e9e7;
+  --panel-soft: #f8f9f8;
+  --wash: #f5f6f5;
+  --accent: #0e6675;
+  --accent-strong: #0a5360;
+  --accent-soft: #f4f8f8;
+  --add: #2f6b54;
+  --add-bg: #edf5f0;
+  --del: #963f38;
+  --del-bg: #f8eeec;
+  --revision: #665a8a;
+  --revision-bg: #efedf5;
   font-family:
+    "DM Sans",
     ui-sans-serif,
     -apple-system,
     BlinkMacSystemFont,
@@ -1418,31 +1422,6 @@ td:last-child svg {
   }
 }
 
-/* Boardroom clarity prototype
-   Local UI exploration only: white institutional canvas, ink-led hierarchy,
-   and cyan used as a precise rule rather than a filled surface. */
-:root {
-  --paper: #ffffff;
-  --ink: #181a20;
-  --ink-2: #555b66;
-  --ink-3: #7f8791;
-  --line: #d7dcd9;
-  --card: #ffffff;
-  --panel-soft: #f8f9f8;
-  --wash: #f5f6f5;
-  --accent: #0e6675;
-  --accent-strong: #0a5360;
-  --accent-soft: #f4f8f8;
-  --add: #2f6b54;
-  --add-bg: #edf5f0;
-  --del: #963f38;
-  --del-bg: #f8eeec;
-  --revision: #665a8a;
-  --revision-bg: #efedf5;
-  font-family: "DM Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-}
-
 .shell {
   background: var(--paper);
 }
@@ -1460,6 +1439,23 @@ td:last-child svg {
 
 .inspector {
   background: var(--panel-soft);
+}
+
+@media (min-width: 900px) and (max-width: 1050px) {
+  .workspacePage:not(.overviewOnly) {
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+  .workspacePage:not(.overviewOnly) > .work {
+    display: block;
+  }
+  .workspacePage:not(.overviewOnly) > .inspector {
+    position: static;
+    width: auto;
+    box-shadow: none;
+  }
+  .workspacePage:not(.overviewOnly) .mobileBack {
+    display: none;
+  }
 }
 
 .sidebar {
