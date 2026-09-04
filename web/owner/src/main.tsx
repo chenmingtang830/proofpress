@@ -956,6 +956,22 @@ function Inspector({
           {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && ((judgeNeedsSetup && onConfigurePolicy) || (judgePending && r.review_policy?.mode === "manual" && onJudge)) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
           {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
         </div>}
+        {can && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
+          <div className="evidenceArgumentHead">
+            <h3 id="evidence-argument-title">Evidence for this conclusion</h3>
+            <span>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</span>
+          </div>
+          {(r.evidence || []).length ? <div className="evidenceArgumentList">{(r.evidence || []).slice(0, 2).map((e: any, i: number) => <article key={e.id || i}>
+            <span>Source {String(i + 1).padStart(2, "0")}</span>
+            <strong>{evidenceName(e)}</strong>
+            <p>{evidenceText(e)}</p>
+          </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This conclusion cannot be approved.</p>}
+          <div className="reuseBoundary">
+            <span>Proposed reuse boundary</span>
+            <strong>{r.conclusion.scope || "No scope recorded"}</strong>
+            <p>{approvalBlock ? "This conclusion remains excluded until every required condition passes." : "Approval would make this conclusion eligible within this scope; each agent is still checked separately."}</p>
+          </div>
+        </section>}
         {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
@@ -1064,11 +1080,18 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, relations, selected, receipt, onChoose, loading, contextError, detailError }: any) {
+function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loading, contextError, detailError }: any) {
   const [view, setView] = React.useState("list");
   const [focused, setFocused] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("conclusion");
   const available = new Set(rows.map((row: any) => row.id));
+  const withheld = allRows.filter((row: any) => !available.has(row.id));
+  const withheldCounts = withheld.reduce((counts: Record<string, number>, row: any) => {
+    const state = row.state || "not_current";
+    counts[state] = (counts[state] || 0) + 1;
+    return counts;
+  }, {});
+  const withheldSummary = Object.entries(withheldCounts).map(([state, count]) => `${count} ${state.replaceAll("_", " ")}`).join(" · ");
   const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
   const visibleIds = new Set(rows.map((row: any) => row.id));
   const links = relations.filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
@@ -1084,6 +1107,18 @@ function LedgerPage({ rows, relations, selected, receipt, onChoose, loading, con
           title="Ledger"
           description="Browse the knowledge currently eligible for reuse, then inspect the evidence and decisions behind each conclusion."
         />
+        <section className="contextBoundarySummary" aria-label="Current governed context boundary">
+          <div className="availableKnowledge">
+            <span>Available now</span>
+            <strong>{rows.length} current {rows.length === 1 ? "conclusion" : "conclusions"}</strong>
+            <p>Admitted and eligible for this owner view. Agent access remains scope- and credential-specific.</p>
+          </div>
+          <div className="withheldKnowledge">
+            <span>Outside current context</span>
+            <strong>{withheld.length} {withheld.length === 1 ? "conclusion" : "conclusions"}</strong>
+            <p>{withheldSummary || "Nothing is currently withheld."}</p>
+          </div>
+        </section>
         <div className="ledgerViews" role="group" aria-label="Ledger view">
           <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
           <Button aria-pressed={view === "lineage"} variant="outline" disabled={!current} onClick={viewLineage}>Selected lineage</Button>

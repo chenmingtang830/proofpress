@@ -1576,6 +1576,167 @@ tbody tr.selected td:first-child b {
   margin-top: 20px;
 }
 
+/* Governance semantics: color explains evidence, admission, and exclusion. */
+:root {
+  --evidence: #456f82;
+  --evidence-soft: #f0f5f6;
+  --admitted-soft: #f1f7f4;
+  --withheld: #7a4f49;
+  --withheld-soft: #faf4f2;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.contextBoundarySummary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  margin: 24px 0 4px;
+  background: #fff;
+}
+
+.contextBoundarySummary > div {
+  min-width: 0;
+  padding: 18px 20px;
+}
+
+.contextBoundarySummary > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.contextBoundarySummary .availableKnowledge {
+  background: var(--admitted-soft);
+}
+
+.contextBoundarySummary .withheldKnowledge {
+  background: var(--withheld-soft);
+}
+
+.contextBoundarySummary span,
+.evidenceArgument article > span,
+.reuseBoundary > span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--ink-2);
+  font: 500 10px/1.4 var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.contextBoundarySummary strong {
+  display: block;
+  font: 500 17px/1.35 var(--font-ui);
+}
+
+.availableKnowledge strong {
+  color: var(--add);
+}
+
+.withheldKnowledge strong {
+  color: var(--withheld);
+}
+
+.contextBoundarySummary p {
+  max-width: 52ch;
+  margin: 7px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.evidenceArgument {
+  margin: 4px 0 22px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.evidenceArgumentHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 0 14px;
+}
+
+.evidenceArgumentHead h3 {
+  margin: 0;
+  font: 600 15px/1.4 var(--font-ui);
+}
+
+.evidenceArgumentHead > span {
+  color: var(--evidence);
+  font: 500 11px/1.4 var(--font-mono);
+}
+
+.evidenceArgumentList {
+  display: grid;
+  gap: 0;
+}
+
+.evidenceArgument article {
+  padding: 14px 16px;
+  border-top: 1px solid var(--line);
+  background: var(--evidence-soft);
+}
+
+.evidenceArgument article strong {
+  display: block;
+  color: var(--evidence);
+  font: 600 13px/1.45 var(--font-ui);
+  overflow-wrap: anywhere;
+}
+
+.evidenceArgument article p {
+  display: -webkit-box;
+  margin: 6px 0 0;
+  overflow: hidden;
+  color: var(--ink);
+  font: 400 13px/1.55 var(--font-ui);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.evidenceArgumentEmpty {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--withheld-soft);
+  color: var(--withheld);
+  font-size: 13px;
+}
+
+.reuseBoundary {
+  padding: 16px 0 18px;
+}
+
+.reuseBoundary strong {
+  display: block;
+  font: 500 16px/1.4 var(--font-editorial);
+}
+
+.reuseBoundary p {
+  margin: 5px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 680px) {
+  .contextBoundarySummary {
+    grid-template-columns: 1fr;
+  }
+
+  .contextBoundarySummary > div + div {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .evidenceArgumentHead {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
 .quickSnapshot,
 .inspectorTop,
 .tabs,

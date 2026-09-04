@@ -30,6 +30,14 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("View lineage");
     expect(source).not.toContain("Show history and unavailable conclusions");
   });
+  it("explains evidence and downstream consequence before authority changes", () => {
+    expect(source).toContain("Evidence for this conclusion");
+    expect(source).toContain("Proposed reuse boundary");
+    expect(source).toContain("Available now");
+    expect(source).toContain("Outside current context");
+    expect(css).toContain("--evidence:");
+    expect(css).toContain("--withheld:");
+  });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
     expect(source).toContain("Human Approval is not exposed");
