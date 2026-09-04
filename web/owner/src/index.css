@@ -1581,8 +1581,8 @@ tbody tr.selected td:first-child b {
   --evidence: #456f82;
   --evidence-soft: #f0f5f6;
   --admitted-soft: #f1f7f4;
-  --review-queue: #456f82;
-  --review-queue-soft: #f3f7f8;
+  --review-queue: #236b7a;
+  --review-queue-soft: #e2f0f3;
   --withheld: #7a4f49;
   --withheld-soft: #faf4f2;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
