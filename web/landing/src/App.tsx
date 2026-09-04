@@ -2,6 +2,7 @@ import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ButtonLink } from "./components/button";
 import { KnowledgeChart } from "./components/knowledge-chart";
+import { ModelResultsChart } from "./components/model-results-chart";
 import { Quickstart } from "./components/quickstart";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
@@ -57,8 +58,8 @@ export function App() {
               Proofpress keeps evidence and human approval attached to the conclusions your agents create.
             </p>
             <div className="heroActions" aria-label="Get started">
-              <ButtonLink href="#quickstart">Install from GitHub <Arrow /></ButtonLink>
-              <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
+              <ButtonLink href="#quickstart">Install Proofpress <Arrow /></ButtonLink>
+              <ButtonLink href="#evidence" variant="secondary">See the evidence</ButtonLink>
             </div>
           </div>
           <div className="heroFoot" aria-label="Proofpress product attributes">
@@ -87,9 +88,7 @@ export function App() {
             <p>One frozen study. Seven models. Three Harvey LAB-derived legal task families.</p>
           </div>
           <div className="study">
-            <a className="studyImage" href={resultsUrl} aria-label="Open the public frozen study results">
-              <img src="/harvey-study.png" alt="Proofpress frozen study results across seven models" />
-            </a>
+            <ModelResultsChart />
             <div className="studySummary">
               <div><strong>89.3 → 93.4%</strong><span>Rubric completion</span></div>
               <div><strong>8 → 0</strong><span>Observed unsafe propagation · 63 stress pairs</span></div>

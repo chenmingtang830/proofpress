@@ -1,10 +1,11 @@
 import { readFile } from "node:fs/promises";
 
-const [html, app, architecture, chart, quickstart, css] = await Promise.all([
+const [html, app, architecture, chart, modelResults, quickstart, css] = await Promise.all([
   readFile(new URL("../index.html", import.meta.url), "utf8"),
   readFile(new URL("../src/App.tsx", import.meta.url), "utf8"),
   readFile(new URL("../src/components/architecture-diagram.tsx", import.meta.url), "utf8"),
   readFile(new URL("../src/components/knowledge-chart.tsx", import.meta.url), "utf8"),
+  readFile(new URL("../src/components/model-results-chart.tsx", import.meta.url), "utf8"),
   readFile(new URL("../src/components/quickstart.tsx", import.meta.url), "utf8"),
   readFile(new URL("../src/index.css", import.meta.url), "utf8"),
 ]);
@@ -19,6 +20,7 @@ const requirements = [
   [app.includes("proofpress-brand-film.mp4") && app.includes("Knowledge worth building on"), "brand film is present"],
   [app.includes("2093774242429206969") && app.includes("2093431690379317346"), "published X articles are linked"],
   [chart.includes("Illustrative model — not measured data"), "conceptual chart is not presented as measured evidence"],
+  [modelResults.includes("Claude Opus 4.8") && modelResults.includes("GPT-5.6 SOL") && modelResults.includes("Zoomed 60–100% scale") && !app.includes("harvey-study.png"), "frozen per-model results replace the study thumbnail"],
   [css.includes("--accent: #0e6675"), "PR #113 accent token is used"],
   [css.includes("prefers-reduced-motion"), "reduced motion is supported"],
 ];
