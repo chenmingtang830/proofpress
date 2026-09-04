@@ -38,6 +38,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Outside current context");
     expect(css).toContain("--evidence:");
     expect(css).toContain("--review-queue:");
+    expect(css).toContain(".orientation > .reviewOrientation");
+    expect(css).toContain(".orientation > .admittedOrientation");
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');

@@ -769,13 +769,13 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any
     <div className="pageBody">
       <PageHead eyebrow="" title="Your workspace" description="Review new conclusions. Trace what agents may rely on." />
       <div className="orientation">
-        <button onClick={onReview}>
+        <button className="reviewOrientation" onClick={onReview}>
           <span>Needs your review</span>
           <strong>{pending}</strong>
           <small>Candidate conclusions remain excluded</small>
           <ChevronRight />
         </button>
-        <button onClick={onLedger}>
+        <button className="admittedOrientation" onClick={onLedger}>
           <span>Current ledger</span>
           <strong>{admitted}</strong>
           <small>Current knowledge eligible for your owner identity</small>

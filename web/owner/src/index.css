@@ -716,6 +716,20 @@ td:last-child svg {
   border-right: 1px solid var(--line);
   cursor: pointer;
 }
+.orientation > .reviewOrientation {
+  background: var(--accent-soft);
+}
+.orientation > .admittedOrientation {
+  background: var(--add-bg);
+}
+.orientation > .reviewOrientation strong,
+.orientation > .reviewOrientation svg {
+  color: var(--accent);
+}
+.orientation > .admittedOrientation strong,
+.orientation > .admittedOrientation svg {
+  color: var(--add);
+}
 .orientation span,
 .orientation strong,
 .orientation small {
@@ -1581,8 +1595,8 @@ tbody tr.selected td:first-child b {
   --evidence: #456f82;
   --evidence-soft: #f0f5f6;
   --admitted-soft: #f1f7f4;
-  --review-queue: #236b7a;
-  --review-queue-soft: #e2f0f3;
+  --review-queue: var(--accent);
+  --review-queue-soft: var(--accent-soft);
   --withheld: #7a4f49;
   --withheld-soft: #faf4f2;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
