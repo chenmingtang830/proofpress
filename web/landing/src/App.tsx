@@ -15,18 +15,24 @@ const writing = [
     title: "Agents Are Creating a New Knowledge Layer—and We Need to Govern It",
     href: "https://x.com/richardt830/status/2093774242429206969",
     image: "/article-knowledge-layer.webp",
+    width: 1672,
+    height: 941,
   },
   {
     label: "ARTICLE",
     title: "What May the Next Agent Rely On?",
     href: "https://x.com/richardt830/status/2093431690379317346",
     image: "/article-agent-rely.webp",
+    width: 1536,
+    height: 1024,
   },
   {
     label: "FIELD NOTE",
     title: "Proofpress for the WebMCP Challenge",
     href: "https://x.com/richardt830/status/2095598146546229263",
     image: "/article-webmcp.png",
+    width: 1440,
+    height: 1050,
   },
 ];
 
@@ -84,11 +90,13 @@ export function App() {
 
         <section className="evidence" id="evidence" aria-labelledby="evidence-title">
           <div className="evidenceIntro">
-            <h2 id="evidence-title">Higher task completion. Zero observed unsafe propagation.</h2>
+            <h2 id="evidence-title">
+              Higher rubric completion. No observed unsafe propagation.
+            </h2>
             <p>
-              We tested Proofpress’s governed knowledge ledger in 126 paired runs across seven models and
-              three public Harvey LAB Contracts task families. Ordinary handoffs passed forward the raw
-              workspace; Proofpress exposed only eligible, evidence-bound context.
+              Across 126 paired runs, we used Proofpress’s governed knowledge ledger to compare ordinary
+              portable handoffs with governed context across seven models and three Proofpress-composed,
+              Harvey LAB-derived legal task families built from version-pinned public materials.
             </p>
           </div>
           <div className="study">
@@ -118,7 +126,16 @@ export function App() {
           <div className="writingGrid">
             {writing.map((item) => (
               <a className="writingCard" href={item.href} key={item.href}>
-                <div className="writingImage"><img src={item.image} alt="" /></div>
+                <div className="writingImage">
+                  <img
+                    src={item.image}
+                    alt=""
+                    width={item.width}
+                    height={item.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
                 <span>{item.label}</span>
                 <h3>{item.title}</h3>
                 <small>Read on X <Arrow /></small>

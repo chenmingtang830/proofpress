@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
-
 :root {
   --paper: #fff;
   --warm-paper: #f8f7f3;
@@ -94,7 +92,7 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .modelLegend { display: flex; flex-wrap: wrap; gap: 16px; color: var(--ink-2); font: 500 11px/1 var(--font-proof); }
 .modelLegend span { display: inline-flex; align-items: center; gap: 7px; }
 .modelLegend i { width: 18px; height: 7px; display: block; }
-.ordinarySwatch { background: #9aa1aa; }
+.ordinarySwatch { background: #626a75; }
 .proofpressSwatch { background: var(--accent); }
 .modelScale { display: grid; grid-template-columns: repeat(6, 1fr); margin: 0 0 12px 148px; color: var(--ink-3); font: 500 9px/1 var(--font-proof); }
 .modelScale span:not(:first-child):not(:last-child) { text-align: center; }
@@ -105,10 +103,10 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .modelResultLabel span { font-size: 12px; font-weight: 600; line-height: 1.25; }
 .modelResultLabel strong { color: var(--accent); font: 600 10px/1.2 var(--font-proof); }
 .modelBarPair { display: grid; gap: 4px; }
-.modelTrack { height: 13px; overflow: visible; background: repeating-linear-gradient(to right, #e4e7e5 0, #e4e7e5 1px, transparent 1px, transparent 20%); }
+.modelTrack { height: 16px; overflow: visible; background: repeating-linear-gradient(to right, #e4e7e5 0, #e4e7e5 1px, transparent 1px, transparent 20%); }
 .modelBar { min-width: 38px; height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; }
-.modelBar span { color: #fff; font: 600 8px/1 var(--font-proof); }
-.ordinaryBar { background: #9aa1aa; }
+.modelBar span { color: #fff; font: 600 11px/1 var(--font-proof); }
+.ordinaryBar { background: #626a75; }
 .proofpressBar { background: var(--accent); }
 .modelChart figcaption { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink-3); font: 500 10px/1.55 var(--font-proof); }
 .studySummary { border-top: 1px solid var(--ink); }
