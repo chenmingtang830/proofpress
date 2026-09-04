@@ -18,6 +18,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 
 from proofpress.kernel import operations as knowledge
 from proofpress.hosted.control_plane import HostedAuthError, HostedControlPlane
+from proofpress.hosted.mcp_http import handle_rpc
 
 
 MAX_REQUEST_BYTES = 1024 * 1024
@@ -131,6 +132,29 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def _token(self):
         header = self.headers.get("Authorization", "")
         return header[7:] if header.startswith("Bearer ") else ""
+
+    def _base_url(self):
+        configured = getattr(self.server, "proofpress_public_base_url", None)
+        if configured:
+            return configured
+        proto = self.headers.get("X-Forwarded-Proto", "http").split(",", 1)[0]
+        host = self.headers.get("X-Forwarded-Host") or self.headers.get("Host")
+        return f"{proto}://{host}"
+
+    def _mcp_resource(self):
+        return self._base_url().rstrip("/") + "/mcp"
+
+    def _mcp_unauthorized(self, message="MCP authorization is required"):
+        body = json.dumps({"error": "invalid_token", "error_description": message}).encode()
+        self.send_response(HTTPStatus.UNAUTHORIZED)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header(
+            "WWW-Authenticate",
+            f'Bearer resource_metadata="{self._base_url()}/.well-known/oauth-protected-resource", scope="proofpress:agent"')
+        self.end_headers()
+        self.wfile.write(body)
 
     def _request_json(self):
         if self.headers.get("Content-Type", "").split(";", 1)[0] != "application/json":
@@ -298,6 +322,19 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             "<input type=password name=token required autocomplete=current-password></label><br>"
             "<button type=submit>Continue</button></form></main>")
 
+    def _authorize_page(self, query, message=""):
+        note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""
+        hidden = "".join(
+            f"<input type=hidden name='{escape(key)}' value='{escape(str(value))}'>"
+            for key, value in query.items())
+        return self._page("Connect Proofpress", "<main class=auth><div class=brand>"
+            "<strong>Proofpress</strong></div><h1>Connect this agent</h1>" + note +
+            "<p class=muted>Paste the credential issued for this specific agent. "
+            "Owner and recovery credentials are rejected. The MCP client receives a short-lived, revocable session.</p>"
+            "<form method=post action=/authorize>" + hidden +
+            "<label>Agent credential<br><input type=password name=agent_token required autocomplete=current-password></label>"
+            "<button type=submit>Authorize agent</button></form></main>")
+
     def _review_page(self, conclusion_id, session):
         control = self.server.proofpress_control
         if conclusion_id:
@@ -338,6 +375,54 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
+        if path == "/.well-known/oauth-protected-resource":
+            return self._json(HTTPStatus.OK, {
+                "resource": self._mcp_resource(),
+                "authorization_servers": [self._base_url()],
+                "scopes_supported": ["proofpress:agent"],
+                "bearer_methods_supported": ["header"],
+            })
+        if path == "/.well-known/oauth-authorization-server":
+            base = self._base_url()
+            return self._json(HTTPStatus.OK, {
+                "issuer": base, "authorization_endpoint": base + "/authorize",
+                "token_endpoint": base + "/token",
+                "registration_endpoint": base + "/register",
+                "response_types_supported": ["code"],
+                "grant_types_supported": ["authorization_code", "refresh_token"],
+                "token_endpoint_auth_methods_supported": ["none"],
+                "code_challenge_methods_supported": ["S256"],
+                "scopes_supported": ["proofpress:agent"],
+            })
+        if path == "/authorize":
+            query = {key: values[-1] for key, values in
+                     parse_qs(parsed.query, keep_blank_values=True).items()}
+            required = {"response_type", "client_id", "redirect_uri", "state",
+                        "code_challenge", "code_challenge_method", "resource"}
+            try:
+                if not required <= query.keys() or query["response_type"] != "code":
+                    raise ValueError("A complete authorization-code request is required.")
+                if query["code_challenge_method"] != "S256":
+                    raise ValueError("PKCE S256 is required.")
+                if query["resource"] != self._mcp_resource():
+                    raise ValueError("The requested MCP resource does not match this server.")
+                self.server.proofpress_control.validate_oauth_client(
+                    query["client_id"], query["redirect_uri"])
+            except (ValueError, HostedAuthError) as exc:
+                return self._html(HTTPStatus.BAD_REQUEST,
+                                  self._authorize_page(query, str(exc)))
+            return self._html(HTTPStatus.OK, self._authorize_page(query))
+        if path == "/connect":
+            endpoint = escape(self._mcp_resource())
+            return self._html(HTTPStatus.OK, self._page(
+                "Connect Proofpress", "<main class=auth><h1>Connect an agent</h1>"
+                "<p class=muted>Add this remote Streamable HTTP MCP URL to your client. "
+                "The client will open a browser to authorize the agent.</p>"
+                f"<pre>{endpoint}</pre><p>No local server or repository checkout is required.</p></main>"))
+        if path == "/mcp":
+            return self._json(HTTPStatus.METHOD_NOT_ALLOWED, {
+                "error": "streamable_http_get_not_supported",
+                "message": "This stateless MCP endpoint accepts POST requests."})
         if path == "/healthz":
             return self._json(HTTPStatus.OK, {"status": "ok"})
         if path == "/readyz":
@@ -390,6 +475,85 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path == "/register":
+            try:
+                request = self._request_json()
+                result = self.server.proofpress_control.register_oauth_client(
+                    str(request.get("client_name") or "MCP client"),
+                    request.get("redirect_uris") or [])
+            except (HostedAuthError, ValueError, TypeError) as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {
+                    "error": "invalid_client_metadata",
+                    "error_description": str(exc)})
+            return self._json(HTTPStatus.CREATED, {
+                **result, "client_id_issued_at": int(__import__("time").time())})
+        if path == "/authorize":
+            try:
+                form = self._form()
+                public = {key: value for key, value in form.items()
+                          if key != "agent_token"}
+                if form.get("response_type") != "code" or form.get(
+                        "code_challenge_method") != "S256":
+                    raise HostedAuthError("invalid_request", "PKCE S256 is required")
+                if form.get("resource") != self._mcp_resource():
+                    raise HostedAuthError("invalid_target", "MCP resource mismatch")
+                code = self.server.proofpress_control.create_oauth_code(
+                    form.get("agent_token", ""), form.get("client_id", ""),
+                    form.get("redirect_uri", ""), form.get("resource", ""),
+                    form.get("code_challenge", ""))
+                location = form["redirect_uri"] + ("&" if "?" in form["redirect_uri"] else "?") + urlencode({
+                    "code": code, "state": form.get("state", "")})
+            except (HostedAuthError, ValueError, UnicodeDecodeError) as exc:
+                return self._html(HTTPStatus.UNAUTHORIZED,
+                                  self._authorize_page(public if 'public' in locals() else {}, str(exc)))
+            self.send_response(HTTPStatus.SEE_OTHER)
+            self.send_header("Location", location)
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            return
+        if path == "/token":
+            try:
+                form = self._form()
+                grant = form.get("grant_type")
+                if grant == "authorization_code":
+                    result = self.server.proofpress_control.exchange_oauth_code(
+                        form.get("code", ""), form.get("client_id", ""),
+                        form.get("redirect_uri", ""), form.get("resource", ""),
+                        form.get("code_verifier", ""))
+                elif grant == "refresh_token":
+                    result = self.server.proofpress_control.refresh_oauth_token(
+                        form.get("refresh_token", ""), form.get("client_id", ""),
+                        form.get("resource", ""))
+                else:
+                    raise HostedAuthError("unsupported_grant_type", "unsupported grant type")
+            except (HostedAuthError, ValueError, UnicodeDecodeError) as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {
+                    "error": getattr(exc, "code", "invalid_request"),
+                    "error_description": str(exc)})
+            return self._json(HTTPStatus.OK, result)
+        if path == "/mcp":
+            token = self._token()
+            try:
+                context = self.server.proofpress_control.authenticate_oauth_access(
+                    token, self._mcp_resource())
+            except HostedAuthError as exc:
+                return self._mcp_unauthorized(str(exc))
+            try:
+                request = self._request_json()
+            except HostedAuthError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {
+                    "jsonrpc": "2.0", "id": None,
+                    "error": {"code": -32700, "message": str(exc)}})
+            response = handle_rpc(
+                self.server.proofpress_control, context, request,
+                self._base_url())
+            if response is None:
+                self.send_response(HTTPStatus.ACCEPTED)
+                self.send_header("Content-Length", "0")
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                return
+            return self._json(HTTPStatus.OK, response)
         if path in {"/owner/api/review-policy", "/owner/api/evaluate"}:
             session = self._owner_session()
             if not session:
@@ -590,7 +754,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
 def create_hosted_server(database, host="127.0.0.1", port=7334,
                          max_request_bytes=MAX_REQUEST_BYTES,
-                         allow_public_bind=False):
+                         allow_public_bind=False, public_base_url=None):
     if host not in LOOPBACK_HOSTS and not allow_public_bind:
         raise ValueError(
             "hosted origin binds loopback only; terminate public HTTPS at a same-host reverse proxy")
@@ -599,6 +763,16 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     server.proofpress_control = control
     server.proofpress_max_request_bytes = max_request_bytes
     server.proofpress_owner_sessions = {}
+    configured_url = (public_base_url or os.environ.get("PROOFPRESS_PUBLIC_BASE_URL")
+                      or os.environ.get("RENDER_EXTERNAL_URL"))
+    if configured_url:
+        parsed = urlparse(configured_url)
+        if (parsed.scheme not in {"http", "https"} or not parsed.hostname
+                or parsed.path not in {"", "/"} or parsed.query or parsed.fragment):
+            raise ValueError("public base URL must be an absolute HTTP(S) origin")
+        server.proofpress_public_base_url = configured_url.rstrip("/")
+    else:
+        server.proofpress_public_base_url = None
     control.resume_judge_jobs()
     return server
 

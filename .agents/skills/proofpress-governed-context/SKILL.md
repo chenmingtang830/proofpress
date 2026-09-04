@@ -78,8 +78,9 @@ End the task with one of these explicit records:
 - `Governed context used:` identifiers and reuse limits.
 - `Proofpress proposal:` identifier, candidate, scope, evidence references,
   status, and receipt or review URL.
-- `No proposal:` why the outcome was routine, incomplete, out of scope, or
-  blocked.
+- `Proofpress proposal: No proposal —` why the outcome was routine, incomplete,
+  out of scope, or blocked. Keep the `Proofpress proposal` prefix so readers
+  unfamiliar with the workflow understand what was not created.
 
 Do not say that downstream reuse is authorized unless the read-back status
 records authorized human approval.

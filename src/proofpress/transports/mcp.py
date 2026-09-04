@@ -24,6 +24,8 @@ MCP_SAFE_TOOLS = (
     "proofpress_propose_conclusion",
     "proofpress_get_context",
     "proofpress_get_graph",
+    "proofpress_traverse_graph",
+    "proofpress_get_lineage",
     "proofpress_get_review_summary",
     "proofpress_get_review_receipt",
     "proofpress_get_review_link",
@@ -88,6 +90,36 @@ class ProofpressMcpGateway:
 
     def get_graph(self, scope: str | None = None) -> dict[str, Any]:
         return self.client.graph(scope)
+
+    def traverse_graph(self, seed_ids: list[str], scope: str | None = None,
+                       task: str | None = None, max_depth: int = 2,
+                       max_claims: int = 48) -> dict[str, Any]:
+        return self.client.traverse_graph(
+            seed_ids, scope=scope, actor=self.principal, task=task,
+            max_depth=max_depth, max_claims=max_claims, state="admitted")
+
+    def get_lineage(self, conclusion_id: str) -> dict[str, Any]:
+        receipt = self.get_review_receipt(conclusion_id)
+        graph = self.get_graph(receipt["conclusion"].get("scope"))
+        incoming: dict[str, list[dict[str, Any]]] = {}
+        for edge in graph.get("edges", []):
+            incoming.setdefault(edge["to"], []).append(edge)
+        wanted, pending, edges = {conclusion_id}, [conclusion_id], []
+        while pending:
+            current = pending.pop()
+            for edge in incoming.get(current, []):
+                if edge.get("type") not in {"supports", "derived_from", "bound_as"}:
+                    continue
+                edges.append(edge)
+                if edge["from"] not in wanted:
+                    wanted.add(edge["from"])
+                    pending.append(edge["from"])
+        return {"conclusion_id": conclusion_id, "state": receipt["state"],
+                "scope": receipt["conclusion"].get("scope"),
+                "nodes": [row for row in graph.get("nodes", [])
+                          if row["id"] in wanted], "edges": edges,
+                "evidence": receipt.get("evidence", []),
+                "ledger_head": receipt.get("ledger_head")}
 
     def get_review_summary(self, scope: str | None = None) -> dict[str, Any]:
         return self.client.review_summary(scope)
@@ -168,6 +200,20 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
     def proofpress_get_graph(scope: str | None = None) -> dict[str, Any]:
         """Read the governed claim graph for an optional scope."""
         return gateway.get_graph(scope)
+
+    @server.tool(name="proofpress_traverse_graph")
+    def proofpress_traverse_graph(
+            seed_ids: list[str], scope: str | None = None,
+            task: str | None = None, max_depth: int = 2,
+            max_claims: int = 48) -> dict[str, Any]:
+        """Traverse eligible admitted relations from one or more conclusions."""
+        return gateway.traverse_graph(
+            seed_ids, scope, task, max_depth, max_claims)
+
+    @server.tool(name="proofpress_get_lineage")
+    def proofpress_get_lineage(conclusion_id: str) -> dict[str, Any]:
+        """Trace a conclusion through evidence derivations to source records."""
+        return gateway.get_lineage(conclusion_id)
 
     @server.tool(name="proofpress_get_review_summary")
     def proofpress_get_review_summary(
