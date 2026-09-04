@@ -41,7 +41,7 @@ class HostedAuthorityTests(unittest.TestCase):
         self.database = Path(self.tmp.name) / "hosted.db"
         self.control = control_plane.HostedControlPlane(self.database)
         self.owner = self.control.bootstrap(
-            "workspace:kelton", "human:kelton", "Kelton")
+            "workspace:example", "human:owner", "Example Owner")
         self.agent = self.control.issue_agent_credential(
             self.owner["token"], "agent:codex-laptop", "Codex laptop")
 
@@ -57,8 +57,8 @@ class HostedAuthorityTests(unittest.TestCase):
         proposed = self.control.execute(
             self.agent["token"], operation("conclusion.propose", {
                 "statement": "The liability cap is one year of fees.",
-                "evidence_refs": [evidence_id], "scope": "partner-poc",
-                "proposer": "human:kelton",
+                "evidence_refs": [evidence_id], "scope": "contract-review",
+                "proposer": "human:owner",
             }, "proposal-1"))
         self.assertTrue(proposed["ok"])
         conclusion = proposed["result"]["conclusion"]
@@ -71,7 +71,7 @@ class HostedAuthorityTests(unittest.TestCase):
         forbidden = self.control.execute(
             self.agent["token"], operation("conclusion.review", {
                 "conclusion_id": conclusion["id"], "decision": "admit",
-                "reviewer": "human:kelton",
+                "reviewer": "human:owner",
             }))
         self.assertFalse(forbidden["ok"])
         self.assertEqual(forbidden["error"]["code"], "operation_forbidden")
@@ -82,10 +82,10 @@ class HostedAuthorityTests(unittest.TestCase):
                 "reviewer": "agent:codex-laptop", "request_id": "review-1",
             }))
         self.assertTrue(reviewed["ok"])
-        self.assertEqual(reviewed["result"]["review"]["reviewer"], "human:kelton")
+        self.assertEqual(reviewed["result"]["review"]["reviewer"], "human:owner")
         context = self.control.execute(
             self.agent["token"], operation("context.get", {
-                "scope": "partner-poc", "actor": "human:kelton"}))
+                "scope": "contract-review", "actor": "human:owner"}))
         self.assertEqual(context["result"]["actor"], "agent:codex-laptop")
         self.assertEqual(context["result"]["knowledge"][0]["id"], conclusion["id"])
 

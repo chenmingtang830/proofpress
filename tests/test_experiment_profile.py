@@ -100,7 +100,7 @@ class ExperimentProfileTests(unittest.TestCase):
 
     def test_hosted_transport_accepts_same_profile_without_granting_authority(self):
         control = HostedControlPlane(Path(self.tmp.name) / "hosted.db")
-        owner = control.bootstrap("workspace:pioneer", "human:kelton", "Kelton")
+        owner = control.bootstrap("workspace:pioneer", "human:owner", "Example Owner")
         agent = control.issue_agent_credential(
             owner["token"], "agent:pioneer", "Pioneer agent")
 

@@ -130,7 +130,7 @@ class QuickstartExampleTests(unittest.TestCase):
         self.assertEqual(len(widths), 1)
         self.assertGreater(next(iter(widths)), 1120)
 
-    def test_legacy_index_keeps_the_portable_quickstart_discoverable(self):
+    def test_readme_keeps_legacy_discoverable_without_version_churn(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         legacy_index = (ROOT / "docs" / "legacy" / "README.md").read_text(
             encoding="utf-8"
@@ -142,7 +142,11 @@ class QuickstartExampleTests(unittest.TestCase):
             "proposal.provenance.json",
         ):
             self.assertTrue((EXAMPLE / filename).is_file())
-        self.assertIn("0.6 compatibility window", readme)
+        self.assertIn("## Compatibility", readme)
+        self.assertNotIn("0.6 compatibility window", readme)
+        self.assertNotIn("In 0.7", readme)
+        for screenshot in ("owner-home.png", "owner-review.png", "owner-ledger.png"):
+            self.assertTrue((ROOT / "assets" / "product" / screenshot).is_file())
         self.assertIn("Portable handoff example", legacy_index)
 
 

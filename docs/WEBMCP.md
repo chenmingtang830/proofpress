@@ -5,7 +5,7 @@
 Proofpress exposes a same-origin owner page as both a human governance UI and a WebMCP tool host.
 
 [//]: # (ob:51b77f3b)
-Live demo: https://proofpress-personal-hosted.onrender.com
+Use the URL for your own Proofpress deployment when exercising this surface.
 
 [//]: # (ob:1bbd4ca5)
 ## What agents may do
@@ -38,7 +38,7 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 ## How to exercise it
 
 [//]: # (ob:bb8d98c9)
-1. Open the live URL in Chrome with WebMCP enabled, or ChatGPT's in-app browser.
+1. Open your deployment URL in Chrome with WebMCP enabled, or ChatGPT's in-app browser.
 2. Sign in with the owner credential from the submission form.
 3. Ask the agent to call `get_workspace_summary`, then `list_review_queue`.
 4. Ask it to inspect one candidate with `get_review_state` and `get_lineage`.

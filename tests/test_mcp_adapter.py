@@ -27,7 +27,7 @@ class McpAdapterTests(unittest.TestCase):
         os.chdir(self.repo)
         client = proofpress_sdk.ProofpressClient.in_process(self.repo)
         self.gateway = proofpress_mcp.ProofpressMcpGateway(
-            client, "agent:kelton-codex", "https://review.example.test")
+            client, "agent:example-client", "https://review.example.test")
 
     def tearDown(self):
         os.chdir(self.previous)
@@ -83,10 +83,10 @@ class McpAdapterTests(unittest.TestCase):
 
         proposed = self.gateway.propose_conclusion(
             "The liability cap is one year of fees.", [evidence_id],
-            "partner-poc", idempotency_key="mcp-proposal-001")
+            "contract-review", idempotency_key="mcp-proposal-001")
         conclusion = proposed["conclusion"]
-        self.assertEqual(conclusion["proposer"], "agent:kelton-codex")
-        self.assertEqual(self.gateway.get_context("partner-poc")["knowledge"], [])
+        self.assertEqual(conclusion["proposer"], "agent:example-client")
+        self.assertEqual(self.gateway.get_context("contract-review")["knowledge"], [])
 
         receipt = self.gateway.get_review_receipt(conclusion["id"])
         self.assertEqual(receipt["state"], "needs_review")
@@ -103,9 +103,9 @@ class McpAdapterTests(unittest.TestCase):
         self.assertIn(conclusion["id"], link["url"])
 
         self.gateway.client.review_conclusion(
-            conclusion["id"], "admit", "human:kelton",
+            conclusion["id"], "admit", "human:owner",
             review_request_id="human-review-001")
-        context = self.gateway.get_context("partner-poc")
+        context = self.gateway.get_context("contract-review")
         self.assertEqual(context["knowledge"][0]["id"], conclusion["id"])
 
     def test_principal_is_configuration_not_tool_input(self):
