@@ -7,6 +7,40 @@ CLI, and local stdio bridge.
 
 ## Connect
 
+Install the `proofpress-governed-context` skill in the target project before
+adding the MCP server. Run the matching setup from the root of that project.
+
+### Codex
+
+```sh
+mkdir -p .agents/skills/proofpress-governed-context
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
+  -o .agents/skills/proofpress-governed-context/SKILL.md
+```
+
+### Claude Code
+
+```sh
+mkdir -p .claude/skills/proofpress-governed-context
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
+  -o .claude/skills/proofpress-governed-context/SKILL.md
+```
+
+### Cursor
+
+```sh
+mkdir -p .cursor/skills/proofpress-governed-context
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
+  -o .cursor/skills/proofpress-governed-context/SKILL.md
+```
+
+These are project-level installations, so the skill travels with that repository.
+Review the downloaded `SKILL.md` before committing it. Then add the remote MCP
+server for the same client.
+
 Open `/connect` on the deployed Proofpress origin and copy the displayed MCP
 URL into a client that supports remote Streamable HTTP servers. The client
 discovers the authorization server and opens `/authorize` in a browser.
