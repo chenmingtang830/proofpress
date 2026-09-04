@@ -26,11 +26,11 @@
 .lineageToolbar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; font-size: 13px; color: var(--ink-2); }
 .lineageToolbar input { accent-color: var(--accent); }
 .lineageOverview section + section { margin-top: 32px; }
-.lineageOverview h2, .relatedConclusions h2 { font: 500 18px/1.5 Georgia, serif; margin: 0 0 16px; overflow-wrap: anywhere; }
+.lineageOverview h2, .relatedConclusions h2 { font: 600 18px/1.5 var(--font-ui); margin: 0 0 16px; overflow-wrap: anywhere; }
 .lineageOverview h2 small { font: 12px/1.5 ui-sans-serif, sans-serif; color: var(--ink-2); margin-left: 12px; }
 .conclusionNodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-bottom: 16px; }
 .conclusionNode { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; padding: 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
-.conclusionNode strong { font: 500 17px/1.45 Georgia, serif; overflow-wrap: anywhere; }
+.conclusionNode strong { font: 600 17px/1.45 var(--font-ui); overflow-wrap: anywhere; }
 .conclusionNode small { color: var(--ink-2); }
 .conclusionNode:hover { border-color: var(--accent); }
 .relatedConclusions { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
@@ -59,6 +59,8 @@
   --del-bg: #f8eeec;
   --revision: #665a8a;
   --revision-bg: #efedf5;
+  --font-ui: "DM Sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-proof: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   font-family:
     "DM Sans",
     ui-sans-serif,
@@ -280,7 +282,7 @@ main {
 }
 .pageHead h1 {
   margin: 6px 0 5px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-ui);
   font-size: 30px;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -299,7 +301,7 @@ main {
   width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
   background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 28px;
 }
-.confirmationDialog h2 { margin: 0 0 12px; font-family: Georgia, serif; font-size: 25px; }
+.confirmationDialog h2 { margin: 0 0 12px; font-family: var(--font-ui); font-size: 25px; }
 .confirmationDialog p { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
 .confirmationDialog dl { margin: 20px 0 12px; }
 .confirmationDialog dt { font-size: 12px; color: var(--ink-2); }
@@ -494,7 +496,7 @@ td b {
 td small {
   margin-top: 4px;
   color: var(--ink-3);
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-proof);
   font-size: 9px;
 }
 td:last-child svg {
@@ -518,7 +520,7 @@ td:last-child svg {
 }
 .inspectorTop h2 {
   margin: 14px 0 10px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-ui);
   font-size: 20px;
   line-height: 1.3;
   letter-spacing: -0.015em;
@@ -529,7 +531,7 @@ td:last-child svg {
   font-size: 11px;
 }
 .mono {
-  font-family: ui-monospace, monospace;
+  font-family: var(--font-proof);
 }
 .tabs {
   display: flex;
@@ -584,7 +586,7 @@ td:last-child svg {
 .evidenceRow p {
   margin: 9px 0;
   color: var(--ink);
-  font-family: Georgia, serif;
+  font-family: var(--font-ui);
   font-size: 13px;
   line-height: 1.65;
 }
@@ -747,7 +749,7 @@ td:last-child svg {
 }
 .orientation strong {
   margin: 8px 0;
-  font-family: Georgia, serif;
+  font-family: var(--font-ui);
   font-size: 32px;
 }
 .orientation small {
@@ -998,7 +1000,7 @@ td:last-child svg {
 }
 .assistantHead h2 {
   margin: 0;
-  font-family: Georgia, serif;
+  font-family: var(--font-ui);
   font-size: 19px;
 }
 .assistantHead p {
@@ -1022,7 +1024,7 @@ td:last-child svg {
 }
 .assistantEmpty h3 {
   margin: 12px 0 5px;
-  font-family: Georgia, serif;
+  font-family: var(--font-ui);
   font-size: 18px;
 }
 .assistantEmpty p {
@@ -1051,7 +1053,7 @@ td:last-child svg {
 }
 .homeConversation h1 {
   margin: 0 0 8px;
-  font: 700 30px/1.2 Georgia, serif;
+  font: 700 30px/1.2 var(--font-ui);
   letter-spacing: -.02em;
 }
 .homeConversation > p {
@@ -1495,10 +1497,10 @@ td small {
 }
 
 .pageHead h1 {
-  max-width: 12ch;
+  max-width: 18ch;
   margin: 0 0 12px;
-  font-size: clamp(2.25rem, 4vw, 4.75rem);
-  line-height: 0.95;
+  font-size: clamp(2.15rem, 3.2vw, 3.5rem);
+  line-height: 1;
 }
 
 .pageHead p {
@@ -1556,6 +1558,95 @@ tbody tr.selected td:first-child b {
   color: var(--ink);
   font-size: 44px;
   line-height: 1;
+}
+
+.knowledgePath {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0 0 24px;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  list-style: none;
+  counter-reset: knowledge-step;
+}
+
+.knowledgePath li {
+  min-width: 0;
+  padding: 18px 20px 20px;
+  counter-increment: knowledge-step;
+}
+
+.knowledgePath li + li {
+  border-left: 1px solid var(--line);
+}
+
+.knowledgePath span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+  color: var(--ink-3);
+  font: 500 10px/1.4 var(--font-proof);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.knowledgePath span::before {
+  content: counter(knowledge-step, decimal-leading-zero);
+  color: var(--accent);
+}
+
+.knowledgePath strong {
+  display: block;
+  color: var(--ink);
+  font: 600 15px/1.35 var(--font-ui);
+}
+
+.knowledgePath p {
+  max-width: 36ch;
+  margin: 7px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.emptyState {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-height: 164px;
+  align-content: center;
+  padding: 28px 32px;
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  color: var(--ink);
+}
+
+.tableWrap > .emptyState {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.emptyState strong {
+  font: 600 18px/1.35 var(--font-ui);
+  letter-spacing: -.02em;
+}
+
+.emptyState p {
+  max-width: 58ch;
+  margin: 0 0 8px;
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.reviewEmpty {
+  min-height: 220px;
+}
+
+.ledgerEmpty {
+  min-height: 200px;
 }
 
 .inspectorTop h2 {
@@ -1724,7 +1815,7 @@ tbody tr.selected td:first-child b {
 
 .reuseBoundary strong {
   display: block;
-  font: 500 16px/1.4 var(--font-editorial);
+  font: 600 16px/1.4 var(--font-ui);
 }
 
 .reuseBoundary p {
@@ -1735,6 +1826,20 @@ tbody tr.selected td:first-child b {
 }
 
 @media (max-width: 680px) {
+  .knowledgePath {
+    grid-template-columns: 1fr;
+  }
+
+  .knowledgePath li + li {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .emptyState {
+    min-height: 0;
+    padding: 24px 20px;
+  }
+
   .contextBoundarySummary {
     grid-template-columns: 1fr;
   }
@@ -1779,7 +1884,7 @@ tbody tr.selected td:first-child b {
   }
 
   .pageHead h1 {
-    font-size: 38px;
+    font-size: 36px;
   }
 
   .orientation strong {

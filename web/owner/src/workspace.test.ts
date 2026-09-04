@@ -10,6 +10,10 @@ const css = readFileSync(
   fileURLToPath(new URL("./index.css", import.meta.url)),
   "utf8",
 );
+const governanceCss = readFileSync(
+  fileURLToPath(new URL("./components/governance.css", import.meta.url)),
+  "utf8",
+);
 
 describe("Proofpress owner workspace contract", () => {
   it("keeps the MVP focused on review and human-readable lineage", () => {
@@ -36,6 +40,10 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
   });
   it("explains evidence and downstream consequence before authority changes", () => {
+    expect(source).toContain("How knowledge moves through Proofpress");
+    expect(source).toContain("Agents propose");
+    expect(source).toContain("You decide");
+    expect(source).toContain("Approved conclusions become reusable");
     expect(source).toContain("Evidence for this conclusion");
     expect(source).toContain("Proposed reuse boundary");
     expect(source).toContain("Available now");
@@ -45,6 +53,17 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain("--review-queue:");
     expect(css).toContain(".orientation > .reviewOrientation");
     expect(css).toContain(".orientation > .admittedOrientation");
+  });
+
+  it("gives first-run and caught-up states an explicit next step", () => {
+    expect(source).toContain("No conclusions yet");
+    expect(source).toContain("Manage agent access");
+    expect(source).toContain("You are caught up");
+    expect(source).toContain("Browse current knowledge");
+    expect(source).toContain("No knowledge is available for reuse");
+    expect(source).toContain("Review candidate conclusions");
+    expect(css).toContain(".knowledgePath");
+    expect(css).toContain(".emptyState");
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
@@ -71,6 +90,9 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Proof Press");
     expect(css.toLowerCase()).not.toContain("yellow");
     expect(css.toLowerCase()).not.toContain("gradient");
+    expect(css).toContain('--font-ui: "DM Sans"');
+    expect(css).toContain('--font-proof: "IBM Plex Mono"');
+    expect(`${css}\n${governanceCss}`).not.toMatch(/Georgia|Times New Roman|font-editorial/);
   });
 
   it("ships desktop and mobile operating layouts", () => {

@@ -679,6 +679,7 @@ function App() {
               onChoose={(id: string) => { navigate("review"); choose(id); }}
               onReview={() => navigate("review")}
               onLedger={() => navigate("ledger")}
+              onAdmin={() => navigate("admin")}
             />
           )}
           {page === "review" && (
@@ -703,6 +704,7 @@ function App() {
               onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
               onEvaluate={runChecks}
               onConfigurePolicy={showAdmin}
+              onLedger={() => navigate("ledger")}
             />
           )}
           {page === "ledger" && (
@@ -744,12 +746,10 @@ function App() {
 }
 
 function PageHead({
-  eyebrow,
   title,
   description,
   action,
 }: {
-  eyebrow: string;
   title: string;
   description: string;
   action?: React.ReactNode;
@@ -764,31 +764,51 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any) {
+function HomePage({ pending, admitted, rows, onReview, onLedger, onAdmin, onChoose }: any) {
   return (
     <div className="pageBody">
-      <PageHead eyebrow="" title="Your workspace" description="Review new conclusions. Trace what agents may rely on." />
+      <PageHead
+        title="Governed knowledge at a glance"
+        description="Review candidate conclusions before they become reusable, then inspect the evidence behind admitted knowledge."
+      />
+      <ol className="knowledgePath" aria-label="How knowledge moves through Proofpress">
+        <li>
+          <span>Candidate</span>
+          <strong>Agents propose</strong>
+          <p>Evidence and a scoped conclusion enter the review queue.</p>
+        </li>
+        <li>
+          <span>Review</span>
+          <strong>You decide</strong>
+          <p>Inspect the evidence, checks, recommendation, and reuse boundary.</p>
+        </li>
+        <li>
+          <span>Current knowledge</span>
+          <strong>Approved conclusions become reusable</strong>
+          <p>Eligibility is still checked for each scope and identity.</p>
+        </li>
+      </ol>
       <div className="orientation">
-        <button className="reviewOrientation" onClick={onReview}>
-          <span>Needs review</span>
+        <button className="reviewOrientation" onClick={onReview} aria-label={`${pending} candidate conclusions need review`}>
+          <span>Review queue</span>
           <strong>{pending}</strong>
-          <small>Candidate conclusions remain excluded</small>
+          <small>{pending ? "Candidate conclusions remain excluded until you decide" : "You are caught up; new candidates remain excluded until approval"}</small>
           <ChevronRight />
         </button>
-        <button className="admittedOrientation" onClick={onLedger}>
-          <span>Current ledger</span>
+        <button className="admittedOrientation" onClick={onLedger} aria-label={`${admitted} conclusions are current knowledge`}>
+          <span>Current knowledge</span>
           <strong>{admitted}</strong>
-          <small>Current knowledge eligible for your owner identity</small>
+          <small>Admitted and eligible for this owner view</small>
           <BookOpen />
         </button>
       </div>
       <section className="section">
         {rows.some((r: any) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: any) => r.state === "needs_revision").id)}>{rows.filter((r: any) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
         <div className="sectionTitle">
-          <h2>Recent knowledge</h2>
+          <h2>Recent conclusions</h2>
           <span>{rows.length} total conclusions</span>
         </div>
-        <div className="simpleList">
+        {rows.length ? <div className="simpleList">
           {rows.slice(0, 6).map((r: any) => (
             <div key={r.id} role="button" tabIndex={0} onClick={() => onChoose(r.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onChoose(r.id); } }}>
               <Badge state={r.state} />
@@ -796,7 +816,11 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any
               <small>{r.scope || "Workspace"}</small>
             </div>
           ))}
-        </div>
+        </div> : <div className="emptyState">
+          <strong>No conclusions yet</strong>
+          <p>Connect an agent to submit evidence and propose the first conclusion. Nothing becomes reusable without your approval.</p>
+          <Button variant="outline" onClick={onAdmin}>Manage agent access</Button>
+        </div>}
       </section>
     </div>
   );
@@ -813,7 +837,7 @@ function ReviewPage({
   onDecide,
   busy,
   onJudge, onEvaluate, onConfigurePolicy,
-  fullReview, onOpenFull, onBack,
+  fullReview, onOpenFull, onBack, onLedger,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
   const queueFor = (state: string) => state === "unresolved" ? "needs_review" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
@@ -824,7 +848,6 @@ function ReviewPage({
     <div className={`workspacePage reviewWorkspace${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
-          eyebrow="GOVERNANCE INBOX"
           title="Review"
           description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
         />
@@ -865,7 +888,11 @@ function ReviewPage({
             </tbody>
           </table>
           {!loading && visibleRows.length === 0 && (
-            <div className="empty">{queue === "needs_review" ? "Nothing needs your review." : queue === "needs_revision" ? "No changes requested." : "No decisions recorded."}</div>
+            <div className="emptyState reviewEmpty">
+              <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_revision" ? "No revision requests" : "No decisions yet"}</strong>
+              <p>{queue === "needs_review" ? "New candidate conclusions will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised conclusion is submitted." : "Your approval, rejection, and revision decisions will appear here."}</p>
+              {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current knowledge</Button>}
+            </div>
           )}
         </div>
       </div>
@@ -1086,7 +1113,7 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loading, contextError, detailError }: any) {
+function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
   const [view, setView] = React.useState("list");
   const [focused, setFocused] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("conclusion");
@@ -1114,7 +1141,6 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loa
     <div className={`workspacePage${focused ? "" : " overviewOnly"}`}>
       <div className="work">
         <PageHead
-          eyebrow="GOVERNED CONTEXT"
           title="Ledger"
           description="Browse the knowledge currently eligible for reuse, then inspect the evidence and decisions behind each conclusion."
         />
@@ -1178,8 +1204,12 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loa
             </tbody>
           </table>
           {rows.length === 0 && (
-            <div className="empty">
-              {loading ? "Loading eligible knowledge…" : contextError ? "Current knowledge could not be loaded. Use Reload workspace to retry." : "No current knowledge is eligible for this scope and identity."}
+            loading || contextError ? <div className="empty">
+              {loading ? "Loading eligible knowledge…" : "Current knowledge could not be loaded. Use Reload workspace to retry."}
+            </div> : <div className="emptyState ledgerEmpty">
+              <strong>No knowledge is available for reuse</strong>
+              <p>A conclusion appears here only after human approval and when it is eligible for this owner view.</p>
+              <Button variant="outline" onClick={onReview}>Review candidate conclusions</Button>
             </div>
           )}
         </div>
@@ -1216,7 +1246,6 @@ function ActivityPage({ rows }: any) {
   return (
     <div className="pageBody">
       <PageHead
-        eyebrow="APPEND-ONLY RECORD"
         title="Activity"
         description="Who contributed knowledge, reviewed it, and retrieved context. Technical requests are kept separately."
       />
@@ -1274,7 +1303,6 @@ function AdminPage({
   return (
     <div className="pageBody">
       <PageHead
-        eyebrow="OWNER ONLY"
         title="Admin"
         description="Manage the agents that can propose knowledge and read governed context."
         action={null}
