@@ -16,6 +16,15 @@ CLI = (sys.executable, "-m", "proofpress.cli")
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
 TRACE_FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.trace.json"
 TRACE_CONFIDENCE_FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.trace-confidence.json"
+# Serialized by TRACE at release v0.5.1 (commit a97d4e81fb3b4ec5134e992882d28a6cf97fac04) and
+# validated against that release's trace-v0.5.json, whose SHA-256 is the digest pinned for 0.5.1
+# in TRACE_SUPPORTED_VERSIONS. It carries the full typed 0.5.1 confidence object, including the
+# fields this adapter deliberately drops. To regenerate or re-verify it, check out that tag of
+# https://github.com/Thru-Echoes/TRACE, build the document with trace_mcp.schema (Session,
+# TraceEvent, DecisionData, DecisionConfidence, MeasurementInterval, MeasurementMethod,
+# EvidenceRef) and Session.model_dump(mode="json", exclude_none=True), then confirm both
+# Session.model_validate(doc) and jsonschema.validate(doc, <that tag's trace-v0.5.json>).
+TRACE_V051_FIXTURE = ROOT / "tests" / "fixtures" / "trace_session_v0_5_1.json"
 
 
 class LocalMVPTests(unittest.TestCase):
@@ -97,6 +106,19 @@ class LocalMVPTests(unittest.TestCase):
         path.write_text(json.dumps(self.retrieval_envelope(locator)))
         return self.data("evidence", "import", str(path))
 
+    def trace_document_at_version(self, version):
+        """Write the confidence fixture restamped to `version` under a session identity of its
+        own, so several versions can be imported into one repository without colliding."""
+        payload = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
+        session_id = f"{payload['id']}_{version.replace('.', '_')}"
+        payload["trace_version"] = version
+        payload["id"] = session_id
+        for event in payload["events"]:
+            event["session_id"] = session_id
+        path = self.repo / f"trace-{version}.json"
+        path.write_text(json.dumps(payload))
+        return path
+
     def test_import_is_idempotent_and_events_are_git_backed(self):
         first = self.data("evidence", "import", str(FIXTURE))
         count = self.count_events()
@@ -125,7 +147,8 @@ class LocalMVPTests(unittest.TestCase):
         decision = next(row for row in projection["sources"].values()
                         if row["name"] == "trace.decision")
         self.assertEqual(decision["source_protocol"], "TRACE")
-        self.assertEqual(decision["source_schema"], knowledge.TRACE_SUPPORTED_VERSION)
+        self.assertEqual(decision["source_schema"],
+                         json.loads(TRACE_FIXTURE.read_text())["trace_version"])
         self.assertEqual(decision["attributes"]["event"]["disposition"], "accepted")
         self.assertNotIn("secret", json.dumps(projection["sources"]))
         self.assertNotIn("conversion_rate", json.dumps(projection["sources"]))
@@ -149,7 +172,8 @@ class LocalMVPTests(unittest.TestCase):
             os.chdir(previous)
         decision = next(row for row in projection["sources"].values()
                         if row["name"] == "trace.decision")
-        self.assertEqual(decision["source_schema"], knowledge.TRACE_SUPPORTED_VERSION)
+        self.assertEqual(decision["source_schema"],
+                         json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())["trace_version"])
         self.assertEqual(decision["attributes"]["event"]["confidence"], {
             "interval": {"lower": -29, "upper": 578, "level": 0.9},
             "method": {"name": "paired_bootstrap", "resamples": 5000},
@@ -166,13 +190,15 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(self.data("context")["knowledge"], [])
 
     def test_trace_adapter_rejects_unpinned_or_malformed_confidence(self):
-        unsupported = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
-        unsupported["trace_version"] = "0.5.1"
-        unsupported_path = self.repo / "unsupported.trace.json"
-        unsupported_path.write_text(json.dumps(unsupported))
-        result = self.cli("evidence", "import", str(unsupported_path), check=False)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("unsupported TRACE trace_version: 0.5.1", result.stderr)
+        for version in ("0.5.2", "0.6.0"):
+            unsupported = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
+            unsupported["trace_version"] = version
+            unsupported_path = self.repo / f"unsupported-{version}.trace.json"
+            unsupported_path.write_text(json.dumps(unsupported))
+            result = self.cli("evidence", "import", str(unsupported_path), check=False)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("unsupported TRACE trace_version: " + version, result.stderr)
+            self.assertIn("accepted: 0.5.0, 0.5.1", result.stderr)
 
         malformed = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
         malformed["events"][0]["decision"]["confidence"]["interval"]["lower"] = 579
@@ -181,6 +207,123 @@ class LocalMVPTests(unittest.TestCase):
         result = self.cli("evidence", "import", str(malformed_path), check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("interval.lower must not exceed interval.upper", result.stderr)
+
+    def test_a_released_trace_051_document_imports_and_projects_only_bounded_fields(self):
+        """The load-bearing acceptance case: a document TRACE 0.5.1 itself serialized, carrying the
+        typed measurement fields 0.5.1 added, reaches the same bounded projection."""
+        payload = json.loads(TRACE_V051_FIXTURE.read_text())
+        self.assertEqual(payload["trace_version"], "0.5.1")
+        confidence = payload["events"][0]["decision"]["confidence"]
+        for field in ("statistic", "direction", "estimate", "contract", "unit", "evidence"):
+            self.assertIn(field, confidence)
+        imported = self.data("evidence", "import", str(TRACE_V051_FIXTURE))
+        self.assertEqual(len(imported["imported_evidence"]), 1)
+        sys.path.insert(0, str(ROOT))
+        from proofpress.kernel import events as knowledge_events
+        from proofpress.kernel import operations as knowledge
+        previous = Path.cwd()
+        try:
+            os.chdir(self.repo)
+            projection = knowledge.v2_projection()
+        finally:
+            os.chdir(previous)
+        decision = next(row for row in projection["sources"].values()
+                        if row["name"] == "trace.decision")
+        self.assertEqual(decision["source_schema"], "0.5.1")
+        self.assertEqual(decision["attributes"]["event"]["confidence"], {
+            "interval": {"lower": 41.25, "upper": 583.75, "level": 0.9},
+            "method": {"name": "paired_percentile_bootstrap", "resamples": 5000},
+            "sample_size": 8,
+            "evidence_digests": {
+                "parent-results": "sha256:" + "a" * 64,
+                "candidate-results": "sha256:" + "b" * 64,
+            },
+        })
+        rendered = json.dumps(projection["sources"])
+        for dropped in ("mean_paired_delta", "rsi-exam-gate/percentile-bootstrap/1",
+                        "methods/results/v3/visible.json", "20260902"):
+            self.assertNotIn(dropped, rendered)
+        self.assertTrue(knowledge_events.verify_history_envelopes(
+            knowledge_events.history_envelopes(projection["events"]))["ok"])
+        self.assertEqual(projection["conclusions"], {})
+        self.assertEqual(projection["admissions"], {})
+
+    def test_an_accepted_051_document_still_meets_the_bounded_confidence_profile(self):
+        """Accepting a wire version does not widen the profile. TRACE 0.5.1 makes evidence_digests
+        optional and this adapter requires it, and a malformed consumed field is still refused
+        under 0.5.1 rather than waved through by the version gate."""
+        for label, mutate in (
+            ("omitted", lambda c: c.pop("evidence_digests")),
+            ("null", lambda c: c.__setitem__("evidence_digests", None)),
+            ("empty", lambda c: c.__setitem__("evidence_digests", {})),
+        ):
+            payload = json.loads(TRACE_V051_FIXTURE.read_text())
+            mutate(payload["events"][0]["decision"]["confidence"])
+            path = self.repo / f"digests-{label}.trace.json"
+            path.write_text(json.dumps(payload))
+            result = self.cli("evidence", "import", str(path), check=False)
+            self.assertNotEqual(result.returncode, 0, label)
+            self.assertIn("evidence_digests must be a non-empty object", result.stderr)
+
+        payload = json.loads(TRACE_V051_FIXTURE.read_text())
+        payload["events"][0]["decision"]["confidence"]["interval"]["lower"] = 584.0
+        path = self.repo / "malformed-051.trace.json"
+        path.write_text(json.dumps(payload))
+        result = self.cli("evidence", "import", str(path), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("interval.lower must not exceed interval.upper", result.stderr)
+
+    def test_trace_allowlist_gate_accepts_every_registered_version(self):
+        """Gate coverage, not release conformance: it restamps one document, so it proves
+        no registered version is silently dropped, never that a version has a real
+        upstream release behind it."""
+        sys.path.insert(0, str(ROOT))
+        from proofpress.kernel import operations as knowledge
+        versions = sorted(knowledge.TRACE_SUPPORTED_VERSIONS)
+        self.assertIn("0.5.0", versions)
+        self.assertIn("0.5.1", versions)
+        for version in versions:
+            imported = self.data("evidence", "import", str(self.trace_document_at_version(version)))
+            self.assertEqual(len(imported["imported_evidence"]), 1)
+        self.assertEqual(len(imported["evidence"]), len(versions))
+        previous = Path.cwd()
+        try:
+            os.chdir(self.repo)
+            projection = knowledge.v2_projection()
+        finally:
+            os.chdir(previous)
+        decisions = [row for row in projection["sources"].values()
+                     if row["name"] == "trace.decision"]
+        self.assertEqual(sorted(row["source_schema"] for row in decisions), versions)
+        for row in decisions:
+            self.assertEqual(row["attributes"]["event"]["confidence"],
+                             decisions[0]["attributes"]["event"]["confidence"])
+
+    def test_restamping_an_imported_session_to_a_new_trace_version_fails_closed(self):
+        """Re-emitting an already imported session under a different accepted version keeps its
+        session and event identities but changes the recorded content, so the immutable source
+        rule refuses it. Widening the allowlist therefore cannot overwrite imported evidence. Any
+        rollout that changes the version a producer stamps has to avoid restamping identities that
+        are already imported, or define a migration; this records the behavior, not that policy."""
+        payload = json.loads(TRACE_V051_FIXTURE.read_text())
+        payload["trace_version"] = "0.5.0"
+        first = self.repo / "restamp-050.trace.json"
+        first.write_text(json.dumps(payload))
+        self.data("evidence", "import", str(first))
+        result = self.cli("evidence", "import", str(TRACE_V051_FIXTURE), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("immutable source_recorded conflict", result.stderr)
+
+    def test_trace_version_registry_entries_are_well_formed(self):
+        """Shape only. Nothing here can prove a commit is a release commit or that a digest
+        belongs to the schema at it; the pull request record carries that verification."""
+        sys.path.insert(0, str(ROOT))
+        from proofpress.kernel import operations as knowledge
+        for version, pin in knowledge.TRACE_SUPPORTED_VERSIONS.items():
+            self.assertRegex(version, r"\A\d+\.\d+\.\d+\Z")
+            self.assertEqual(sorted(pin), ["commit", "sha256"])
+            self.assertRegex(pin["commit"], r"\A[0-9a-f]{40}\Z")
+            self.assertRegex(pin["sha256"], r"\Asha256:[0-9a-f]{64}\Z")
 
     def test_trace_source_conflict_fails_closed(self):
         self.data("evidence", "import", str(TRACE_FIXTURE))
