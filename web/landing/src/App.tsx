@@ -57,7 +57,7 @@ export function App() {
               Proofpress keeps evidence and human approval attached to the conclusions your agents create.
             </p>
             <div className="heroActions" aria-label="Get started">
-              <ButtonLink href="#quickstart">Try the demo <Arrow /></ButtonLink>
+              <ButtonLink href="#quickstart">Install from GitHub <Arrow /></ButtonLink>
               <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
             </div>
           </div>
@@ -101,8 +101,8 @@ export function App() {
 
         <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
           <div className="compactIntro">
-            <h2 id="quickstart-title">See it work.</h2>
-            <p>No account, customer data, or model call required.</p>
+            <h2 id="quickstart-title">Install Proofpress.</h2>
+            <p>Directly from GitHub. No account or model call required.</p>
           </div>
           <Quickstart />
         </section>

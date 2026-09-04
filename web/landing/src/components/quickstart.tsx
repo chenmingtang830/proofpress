@@ -1,19 +1,13 @@
 import { useState } from "react";
 
-const firstRunCommand = `DEMO_DIR="$(mktemp -d)" && python3 -m venv "$DEMO_DIR/.venv"
-"$DEMO_DIR/.venv/bin/python" -m pip install -q "git+https://github.com/chenmingtang830/proofpress.git"
-git -C "$DEMO_DIR" init -q
-(cd "$DEMO_DIR" && .venv/bin/proofpress demo)`;
-
-const installedCommand = `DEMO_DIR="$(mktemp -d)" && git -C "$DEMO_DIR" init -q
-(cd "$DEMO_DIR" && proofpress demo)`;
+const installCommand = `uv tool install "git+https://github.com/chenmingtang830/proofpress.git"`;
 
 export function Quickstart() {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
 
   async function copyCommand() {
     try {
-      await navigator.clipboard.writeText(firstRunCommand);
+      await navigator.clipboard.writeText(installCommand);
       setCopyStatus("copied");
     } catch {
       setCopyStatus("failed");
@@ -24,17 +18,14 @@ export function Quickstart() {
   return (
     <div className="quickstartPanel">
       <div className="commandBar">
-        <span>First time · Python 3.11+</span>
+        <span>From GitHub · Python 3.11+ · requires uv</span>
         <button type="button" onClick={copyCommand} aria-live="polite">
-          {copyStatus === "copied" ? "Copied" : copyStatus === "failed" ? "Select manually" : "Copy command"}
+          {copyStatus === "copied" ? "Copied" : copyStatus === "failed" ? "Select manually" : "Copy install command"}
         </button>
       </div>
-      <pre><code>{firstRunCommand}</code></pre>
-      <details>
-        <summary>Already installed? Use the shorter command</summary>
-        <pre><code>{installedCommand}</code></pre>
-      </details>
-      <p>Creates a synthetic admitted result and blocks the conclusions that still need review.</p>
+      <pre><code>{installCommand}</code></pre>
+      <div className="nextCommand"><span>Then run</span><code>proofpress demo</code></div>
+      <p>The terminal demo shows what is admitted, what is blocked, and what still needs human review.</p>
     </div>
   );
 }

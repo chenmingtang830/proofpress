@@ -110,6 +110,8 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .quickstartPanel details { border-top: 1px solid #3b3e45; }
 .quickstartPanel summary { padding: 18px 24px; color: #d6d9dd; cursor: pointer; font-size: 14px; }
 .quickstartPanel details pre { margin: 0; padding: 0 24px 24px; overflow-x: auto; color: #c7cbd0; font: 500 12px/1.7 var(--font-proof); }
+.nextCommand { display: flex; align-items: center; gap: 20px; padding: 18px 24px; border-top: 1px solid #3b3e45; color: #c7cbd0; font-size: 14px; }
+.nextCommand code { color: #fff; font: 500 14px/1.4 var(--font-proof); }
 .quickstartPanel > p { margin: 0; padding: 20px 24px; border-top: 1px solid #3b3e45; color: #c7cbd0; font-size: 15px; line-height: 1.6; }
 
 .writing .compactIntro { align-items: center; }
