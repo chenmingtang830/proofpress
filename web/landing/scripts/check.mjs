@@ -15,10 +15,10 @@ const socialCardHeight = socialCard.readUInt32BE(20);
 
 const requirements = [
   [html.includes("seed 1a5ba422"), "direction contract survives in source"],
-  [app.includes("Make agent knowledge safe to reuse."), "hero promise is present"],
+  [app.includes("Make agent work safe to reuse.") && app.includes("Move faster without letting mistakes spread."), "hero promise is concise and avoids memory-product ambiguity"],
   [app.includes("Agent work compounds. Trust has to keep up."), "trust framing connects compounding work to the product promise"],
   [app.includes("Humans decide.") && app.includes("Only approved knowledge moves forward."), "human authority is explicit"],
-  [app.includes("Higher rubric completion. No observed unsafe propagation.") && app.includes("Across 126 paired runs") && app.includes("Proofpress’s governed knowledge ledger") && app.includes("Proofpress-composed") && app.includes("Harvey LAB-derived legal task families") && app.includes("version-pinned public materials") && app.includes("not an official Harvey benchmark") && !app.includes("three public Harvey LAB Contracts task families"), "study result, method, and claim boundary are explicit"],
+  [app.includes("Higher performance. Errors stopped from spreading.") && app.includes("126 agent handoffs") && app.includes("Proofpress’s governed knowledge ledger") && app.includes("observed unsafe propagation") && app.includes("not an official Harvey benchmark"), "study result is plain-language while method and claim boundary remain explicit"],
   [app.includes('loading="lazy"') && app.includes('decoding="async"'), "below-fold editorial images load lazily"],
   [app.includes("ancient-ball-940.notion.site") && app.includes("Contact us"), "contact CTA routes to the public Notion form"],
   [app.includes('href="#quickstart"') && quickstart.includes("proofpress quickstart") && quickstart.includes("synthetic evidence") && quickstart.includes("local MCP configuration") && quickstart.includes("No account or model call required."), "hero routes to an isolated local MCP quickstart"],

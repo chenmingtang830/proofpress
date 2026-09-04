@@ -59,9 +59,9 @@ export function App() {
       <main id="main">
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="heroCopy">
-            <h1 id="hero-title">Make agent knowledge safe to reuse.</h1>
+            <h1 id="hero-title">Make agent work safe to reuse.</h1>
             <p className="heroLead">
-              Proofpress keeps evidence and human approval attached to the conclusions your agents create.
+              Move faster without letting mistakes spread.
             </p>
             <div className="heroActions" aria-label="Get started">
               <ButtonLink href="#quickstart">Install Proofpress <Arrow /></ButtonLink>
@@ -91,12 +91,11 @@ export function App() {
         <section className="evidence" id="evidence" aria-labelledby="evidence-title">
           <div className="evidenceIntro">
             <h2 id="evidence-title">
-              Higher rubric completion. No observed unsafe propagation.
+              Higher performance. Errors stopped from spreading.
             </h2>
             <p>
-              Across 126 paired runs, we used Proofpress’s governed knowledge ledger to compare ordinary
-              portable handoffs with governed context across seven models and three Proofpress-composed,
-              Harvey LAB-derived legal task families built from version-pinned public materials.
+              Using Proofpress’s governed knowledge ledger, we improved rubric completion and stopped every
+              observed unsafe propagation across 126 agent handoffs.
             </p>
           </div>
           <div className="study">

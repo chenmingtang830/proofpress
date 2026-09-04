@@ -5,8 +5,8 @@
   "source": "hero-editorial-v1.webp",
   "method": "Deterministic browser composition using the landing page's DM Sans, IBM Plex Mono, official logo, and Boardroom Clarity tokens.",
   "copy": {
-    "headline": "Make agent knowledge safe to reuse.",
-    "support": "Evidence stays attached. Humans decide what moves forward."
+    "headline": "Make agent work safe to reuse.",
+    "support": "Move faster without letting mistakes spread."
   },
   "usage": "Open Graph and Twitter large-image preview for https://proofpress.dev/"
 }

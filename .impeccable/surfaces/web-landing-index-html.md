@@ -9,7 +9,7 @@ Mode: Persuade. Scope: the public proofpress.dev landing page.
 
 Audience: builders and leaders operating long-horizon, multi-agent, research-heavy, legal, or regulated workflows where an agent-produced conclusion becomes a durable premise.
 
-Job: understand within one viewport that Proofpress makes agent-produced knowledge safe to reuse by keeping evidence and human approval attached.
+Job: understand within one viewport that Proofpress makes agent work safe to reuse without positioning itself as another memory or context product. The supporting promise is simple: move faster without letting mistakes spread.
 
 Primary action: Run the local demo, scrolling to a copyable Python-first quickstart that installs both the project-level governance skill and the local MCP/CLI. Secondary action: View GitHub. Product use and repository contribution remain separate paths. The final commercial action is Contact us, opening the public, privacy-bounded Notion intake form.
 
