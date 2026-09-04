@@ -1,20 +1,19 @@
 import { useState } from "react";
 
-const demoCommand = `DEMO_DIR="$(mktemp -d)" && git -C "$DEMO_DIR" init -q
-(cd "$DEMO_DIR" && proofpress demo)`;
+const firstRunCommand = `DEMO_DIR="$(mktemp -d)" && python3 -m venv "$DEMO_DIR/.venv"
+"$DEMO_DIR/.venv/bin/python" -m pip install -q "git+https://github.com/chenmingtang830/proofpress.git"
+git -C "$DEMO_DIR" init -q
+(cd "$DEMO_DIR" && .venv/bin/proofpress demo)`;
 
-const setup = `git clone https://github.com/chenmingtang830/proofpress.git
-cd proofpress
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .`;
+const installedCommand = `DEMO_DIR="$(mktemp -d)" && git -C "$DEMO_DIR" init -q
+(cd "$DEMO_DIR" && proofpress demo)`;
 
 export function Quickstart() {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
 
   async function copyCommand() {
     try {
-      await navigator.clipboard.writeText(demoCommand);
+      await navigator.clipboard.writeText(firstRunCommand);
       setCopyStatus("copied");
     } catch {
       setCopyStatus("failed");
@@ -25,15 +24,15 @@ export function Quickstart() {
   return (
     <div className="quickstartPanel">
       <div className="commandBar">
-        <span>Already installed</span>
+        <span>First time · Python 3.11+</span>
         <button type="button" onClick={copyCommand} aria-live="polite">
           {copyStatus === "copied" ? "Copied" : copyStatus === "failed" ? "Select manually" : "Copy command"}
         </button>
       </div>
-      <pre><code>{demoCommand}</code></pre>
+      <pre><code>{firstRunCommand}</code></pre>
       <details>
-        <summary>First time? Show setup</summary>
-        <pre><code>{setup}</code></pre>
+        <summary>Already installed? Use the shorter command</summary>
+        <pre><code>{installedCommand}</code></pre>
       </details>
       <p>Creates a synthetic admitted result and blocks the conclusions that still need review.</p>
     </div>
