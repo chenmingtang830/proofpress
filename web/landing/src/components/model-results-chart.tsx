@@ -1,16 +1,17 @@
 const modelResults = [
-  { model: "DeepSeek V4 Flash", ordinary: 89.08450704225352, proofpress: 92.25352112676056 },
   { model: "Claude Opus 4.8", ordinary: 87.85211267605634, proofpress: 96.0093896713615 },
-  { model: "GLM 5.2", ordinary: 88.43896713615024, proofpress: 92.54694835680752 },
-  { model: "Muse Spark 1.1", ordinary: 91.90140845070422, proofpress: 95.71596244131455 },
   { model: "Qwen 3.8 27B", ordinary: 89.02582159624414, proofpress: 93.83802816901408 },
-  { model: "Inkling", ordinary: 89.67136150234741, proofpress: 90.19953051643192 },
+  { model: "GLM 5.2", ordinary: 88.43896713615024, proofpress: 92.54694835680752 },
   { model: "GPT-5.6 SOL", ordinary: 89.26056338028168, proofpress: 93.25117370892019 },
+  { model: "Muse Spark 1.1", ordinary: 91.90140845070422, proofpress: 95.71596244131455 },
+  { model: "DeepSeek V4 Flash", ordinary: 89.08450704225352, proofpress: 92.25352112676056 },
+  { model: "Inkling", ordinary: 89.67136150234741, proofpress: 90.19953051643192 },
 ];
 
-const scaleFloor = 60;
+const scaleFloor = 75;
 const scaleRange = 100 - scaleFloor;
-const scaleWidth = (value: number) => `${((value - scaleFloor) / scaleRange) * 100}%`;
+const scaleWidth = (value: number) =>
+  `${Math.max(0, Math.min(100, ((value - scaleFloor) / scaleRange) * 100))}%`;
 
 export function ModelResultsChart() {
   return (
@@ -24,7 +25,7 @@ export function ModelResultsChart() {
       </div>
 
       <div className="modelScale" aria-hidden="true">
-        <span>60</span><span>70</span><span>80</span><span>90</span><span>100%</span>
+        <span>75</span><span>80</span><span>85</span><span>90</span><span>95</span><span>100%</span>
       </div>
 
       <div className="modelRows">
@@ -56,7 +57,7 @@ export function ModelResultsChart() {
       </div>
 
       <figcaption id="model-chart-caption">
-        Seven complete frozen panels, 18 paired runs per model. Zoomed 60–100% scale.
+        Seven complete frozen panels, 18 paired runs per model. Ordered by uplift; zoomed 75–100% scale.
       </figcaption>
     </figure>
   );
