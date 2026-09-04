@@ -15,6 +15,6 @@ Primary action: Bring a real handoff, opening the repository's privacy-bounded d
 
 Proof: current open-source repository; Python, HTTP, MCP and hosted single-owner implementation; real product surfaces and precise authority boundary. Do not imply partner validation, multi-tenant cloud, general efficacy, or universal truth.
 
-Direction: Hero-first editorial in Boardroom Clarity. The first viewport is deliberately simple: one decisive promise, one category explanation, and two actions. The governance path begins below the fold as a restrained code-native sequence. Scroll moves from the handoff problem to the four-step mechanism, current product, and final CTA.
+Direction: Hero-first editorial in Boardroom Clarity. The first viewport is deliberately simple: one decisive promise, one category explanation, and two actions. The second movement introduces one responsive, code-native conceptual chart that explains why agent-produced knowledge creates a new governance threshold; it must be labeled as illustrative rather than measured data. Scroll then moves to the four-step mechanism, current product, and final CTA.
 
-Constraint: PR #113 design system is canonical. Use shadcn-style accessible primitives as construction material, not as the visual preset. No generated imagery ships in the page. Avoid generic SaaS cards, gradients, glass, decorative semantic colors, and fabricated claims.
+Constraint: PR #113 design system is canonical. Use shadcn-style accessible primitives as construction material, not as the visual preset. Use crisp native SVG geometry for explanatory diagrams; do not ship generated raster decoration. Avoid generic SaaS cards, gradients, glass, decorative semantic colors, and fabricated claims.

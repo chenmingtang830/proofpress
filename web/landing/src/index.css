@@ -128,9 +128,32 @@ h1 {
   font-weight: 600;
   text-wrap: balance;
 }
-.handoffArgument { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
-.handoffArgument p { max-width: 52ch; margin: 0; padding: 26px 40px 0 0; color: var(--ink-2); font-size: 17px; line-height: 1.7; }
-.handoffArgument p + p { border-left: 1px solid var(--line); padding-left: 40px; }
+.handoffHeading { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(420px, 0.75fr); gap: 72px; align-items: end; }
+.handoffHeading h2 { margin-bottom: 0; }
+.handoffArgument { border-top: 1px solid var(--ink); }
+.handoffArgument p { max-width: 52ch; margin: 0; padding: 22px 0; color: var(--ink-2); font-size: 16px; line-height: 1.65; }
+.handoffArgument p + p { border-top: 1px solid var(--line); }
+.knowledgeFigure { margin: 88px 0 0; }
+.knowledgeChart { display: block; width: 100%; height: auto; overflow: visible; }
+.knowledgeChartMobile { display: none; }
+.chartAxes path { fill: none; stroke: var(--ink); stroke-width: 2; }
+.chartAxes marker path, .enterpriseCurve marker path { fill: var(--ink); }
+.enterpriseCurve, .agentCurve { fill: none; stroke-linecap: round; stroke-width: 4; }
+.enterpriseCurve { stroke: #6b7280; }
+.agentCurve { stroke: var(--accent); }
+.agentCurve + marker path, #teal-arrow path { fill: var(--accent); }
+.threshold > path:first-child { fill: none; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; }
+.threshold circle { fill: var(--accent); stroke: var(--paper); stroke-width: 5; }
+.threshold .thresholdLeader { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.chartLabel, .chartAnnotation, .curveLabel, .axisLabel { font-family: var(--font-ui); }
+.chartLabelStrong { fill: var(--accent); font-size: 18px; font-weight: 700; letter-spacing: 0.02em; }
+.chartAnnotation { fill: var(--accent); font-size: 16px; font-weight: 500; }
+.curveLabel { font-size: 20px; font-weight: 600; }
+.agentLabel { fill: var(--accent); }
+.enterpriseLabel { fill: #596273; }
+.axisLabel { fill: var(--ink); font-size: 17px; font-weight: 600; }
+.knowledgeFigure figcaption { max-width: 72ch; margin: 18px 0 0 10%; color: var(--ink-3); font: 500 11px/1.6 var(--font-proof); }
+.handoffClose { max-width: 75ch; margin: 64px 0 0; padding-top: 24px; border-top: 1px solid var(--ink); font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1.45; }
 
 .mechanism { background: var(--accent-soft); }
 .sectionIntro { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.6fr); gap: 64px; align-items: end; }
@@ -171,6 +194,7 @@ footer > a:last-child { color: #d6d9dd; font-size: 13px; }
   .siteHeader nav a:not(:last-child) { display: none; }
   h1 { font-size: clamp(3.4rem, 12vw, 6rem); }
   .sectionIntro { grid-template-columns: 1fr; gap: 24px; }
+  .handoffHeading { grid-template-columns: 1fr; gap: 40px; }
   .trustPath { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .trustPath li:nth-child(3) { border-left: 0; border-top: 1px solid var(--line); }
   .trustPath li:nth-child(4) { border-top: 1px solid var(--line); }
@@ -192,9 +216,16 @@ footer > a:last-child { color: #d6d9dd; font-size: 13px; }
   .heroFoot { grid-template-columns: 1fr; gap: 18px; }
   .handoff, .mechanism, .available, .finalCta { padding-top: 84px; padding-bottom: 84px; }
   .handoff h2, .sectionIntro h2, .finalCta h2 { margin-bottom: 32px; font-size: clamp(2.35rem, 12vw, 3.75rem); }
-  .handoffArgument { grid-template-columns: 1fr; }
-  .handoffArgument p { padding-right: 0; }
-  .handoffArgument p + p { margin-top: 28px; border-left: 0; border-top: 1px solid var(--line); padding: 28px 0 0; }
+  .handoffHeading h2 { margin-bottom: 0; }
+  .knowledgeFigure { margin-top: 52px; }
+  .knowledgeChartDesktop { display: none; }
+  .knowledgeChartMobile { display: block; }
+  .knowledgeChartMobile .chartLabelStrong { font-size: 11px; }
+  .knowledgeChartMobile .chartAnnotation { font-size: 10px; }
+  .knowledgeChartMobile .curveLabel { font-size: 12px; }
+  .knowledgeChartMobile .axisLabel { font-size: 10px; }
+  .knowledgeFigure figcaption { margin-left: 0; }
+  .handoffClose { margin-top: 48px; }
   .trustPath { grid-template-columns: 1fr; margin-top: 56px; }
   .trustPath li { min-height: 0; padding: 24px 0 28px; }
   .trustPath li + li, .trustPath li:nth-child(3), .trustPath li:nth-child(4) { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; }

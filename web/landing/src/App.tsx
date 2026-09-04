@@ -1,6 +1,7 @@
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ButtonLink } from "./components/button";
+import { KnowledgeChart } from "./components/knowledge-chart";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
 const handoffUrl = `${repoUrl}/issues/new?template=design_partner.yml`;
@@ -53,17 +54,24 @@ export function App() {
         </section>
 
         <section className="handoff" aria-labelledby="handoff-title">
-          <h2 id="handoff-title">When output becomes input, trust has to travel with it.</h2>
-          <div className="handoffArgument">
-            <p>
-              Retrieval can find an old conclusion. A trace can show how it was produced. Neither
-              decides whether anyone is authorized to rely on it now.
-            </p>
-            <p>
-              Proofpress makes that transition explicit: what supports the conclusion, where it
-              applies, what changed, and who accepted responsibility for its reuse.
-            </p>
+          <div className="handoffHeading">
+            <h2 id="handoff-title">Agent output is becoming organizational knowledge.</h2>
+            <div className="handoffArgument">
+              <p>
+                The more work agents complete, the more their conclusions become premises for the
+                next agent, decision, or system.
+              </p>
+              <p>
+                Retrieval can find an old answer. A trace can show how it was produced. Neither
+                decides whether anyone is authorized to rely on it now.
+              </p>
+            </div>
           </div>
+          <KnowledgeChart />
+          <p className="handoffClose">
+            Proofpress governs that transition: what supports a conclusion, where it applies,
+            what changed, and who accepted responsibility for its reuse.
+          </p>
         </section>
 
         <section className="mechanism" id="how" aria-labelledby="mechanism-title">

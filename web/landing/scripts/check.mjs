@@ -1,8 +1,9 @@
 import { readFile } from "node:fs/promises";
 
-const [html, app, css] = await Promise.all([
+const [html, app, chart, css] = await Promise.all([
   readFile(new URL("../index.html", import.meta.url), "utf8"),
   readFile(new URL("../src/App.tsx", import.meta.url), "utf8"),
+  readFile(new URL("../src/components/knowledge-chart.tsx", import.meta.url), "utf8"),
   readFile(new URL("../src/index.css", import.meta.url), "utf8"),
 ]);
 
@@ -12,6 +13,7 @@ const requirements = [
   [app.includes("Human approval"), "human authority is explicit"],
   [app.includes("design_partner.yml"), "primary CTA routes to bounded intake"],
   [app.includes("https://github.com/chenmingtang830/proofpress"), "repository link is present"],
+  [chart.includes("Illustrative model — not measured data"), "conceptual chart is not presented as measured evidence"],
   [css.includes("--accent: #0e6675"), "PR #113 accent token is used"],
   [css.includes("prefers-reduced-motion"), "reduced motion is supported"],
 ];
