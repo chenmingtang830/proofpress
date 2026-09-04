@@ -145,8 +145,13 @@ class QuickstartExampleTests(unittest.TestCase):
         self.assertIn("## Compatibility", readme)
         self.assertNotIn("0.6 compatibility window", readme)
         self.assertNotIn("In 0.7", readme)
-        for screenshot in ("owner-home.png", "owner-review.png", "owner-ledger.png"):
-            self.assertTrue((ROOT / "assets" / "product" / screenshot).is_file())
+        for image in (
+            "owner-home.png",
+            "category-map.jpg",
+            "governance-threshold.jpg",
+        ):
+            self.assertTrue((ROOT / "assets" / "product" / image).is_file())
+        self.assertFalse((ROOT / "docs" / "WEBMCP_HACKATHON_SUBMISSION.md").exists())
         self.assertIn("Portable handoff example", legacy_index)
 
 

@@ -39,10 +39,24 @@ and lifecycle that make a conclusion safe to reuse. It is not a generic
 knowledge graph, agent orchestrator, task tracker, trace warehouse, or RAG
 platform.
 
+<p align="center">
+  <img src="assets/product/category-map.jpg" alt="Comparison of observability, memory, knowledge graphs, and Proofpress by primary object and core question" width="100%">
+</p>
+
 [//]: # (ob:86aa6033)
 Read the full [product thesis](docs/THESIS.md) for the model and the
 [verified-knowledge guide](docs/VERIFIED_KNOWLEDGE_LEDGER.md) for the object
 and lifecycle semantics.
+
+### Why this becomes infrastructure
+
+As agents produce more reusable conclusions, the cost of deciding what may be
+trusted grows faster than ordinary enterprise knowledge management can absorb.
+The chart below is a conceptual model of that pressure—not an empirical forecast.
+
+<p align="center">
+  <img src="assets/product/governance-threshold.jpg" alt="Conceptual chart showing agent-produced knowledge crossing a governance threshold as agent adoption grows" width="88%">
+</p>
 
 [//]: # (ob:41b3a522)
 [//]: # (ob:governed-handoff)
@@ -148,14 +162,6 @@ For a hosted workspace, open `/connect` on your deployment and use its
 secret-free remote MCP URL. OAuth with PKCE binds the client to a separately
 issued agent credential. See [Remote MCP](docs/REMOTE_MCP.md).
 
-[//]: # (ob:product-screens)
-## The owner workflow
-
-| Review candidates | Browse current knowledge |
-|---|---|
-| Human authorization stays separate from automated checks and LM advice. | The ledger opens on knowledge eligible for reuse; lineage is available after selecting a conclusion. |
-| <img src="assets/product/owner-review.png" alt="Proofpress review queue and conclusion evidence panel"> | <img src="assets/product/owner-ledger.png" alt="Proofpress current knowledge ledger"> |
-
 [//]: # (ob:ea362434)
 [//]: # (ob:choose-deployment)
 
@@ -221,7 +227,6 @@ Submitting evidence or proposing a conclusion never admits it. Agent credentials
 [//]: # (ob:3159be00)
 - **Understand the product:** [Thesis](docs/THESIS.md) → [governed knowledge and context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
 - **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
-- **WebMCP Challenge:** [submission kit, live demo flow, and release checklist](docs/WEBMCP_HACKATHON_SUBMISSION.md).
 - **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
 - **Explore prior experiments:** [study catalog](studies/README.md). Research evidence is separately scoped; it is not a blanket product-efficacy claim.
 
