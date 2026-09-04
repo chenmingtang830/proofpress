@@ -18,7 +18,6 @@ import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { LineageGraph } from "@/components/lineage-graph";
-import { LedgerOverview } from "@/components/ledger-overview";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
 import "./components/governance.css";
@@ -897,7 +896,7 @@ function Inspector({
   busy,
   onJudge, onEvaluate,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, pending = false,
+  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
@@ -958,6 +957,7 @@ function Inspector({
           {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
         </div>}
         {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
+        {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
@@ -1064,18 +1064,17 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
-  const [view, setView] = React.useState("lineage");
-  const [showHistory, setShowHistory] = React.useState(true);
+function LedgerPage({ rows, relations, selected, receipt, onChoose, loading, contextError, detailError }: any) {
+  const [view, setView] = React.useState("list");
   const [focused, setFocused] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("conclusion");
   const available = new Set(rows.map((row: any) => row.id));
-  const visible = showHistory ? allRows : rows;
-  const current = !loading && visible.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
-  const visibleIds = new Set(visible.map((row: any) => row.id));
-  const links = (showHistory ? edges : relations).filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
+  const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
+  const visibleIds = new Set(rows.map((row: any) => row.id));
+  const links = relations.filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
   const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
   const focus = (id: string) => { setFocused(true); setGraphSelection("conclusion"); onChoose(id); };
+  const viewLineage = () => { setView("lineage"); setGraphSelection("conclusion"); };
   React.useEffect(() => { setGraphSelection("conclusion"); }, [selected]);
   return (
     <div className={`workspacePage${focused ? "" : " overviewOnly"}`}>
@@ -1083,22 +1082,20 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
         <PageHead
           eyebrow="GOVERNED CONTEXT"
           title="Ledger"
-          description="Explore evidence and decisions across the workspace. Current knowledge shows only what is eligible for reuse."
+          description="Browse the knowledge currently eligible for reuse, then inspect the evidence and decisions behind each conclusion."
         />
         <div className="ledgerViews" role="group" aria-label="Ledger view">
-          <Button aria-pressed={view === "lineage"} variant="outline" onClick={() => setView("lineage")}>Lineage</Button>
           <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
+          <Button aria-pressed={view === "lineage"} variant="outline" disabled={!current} onClick={viewLineage}>Selected lineage</Button>
         </div>
         {view === "lineage" && <p className="graphScrollHint">Scroll sideways to explore the graph.</p>}
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
           <div className="lineageToolbar">
-            {focused && <Button variant="outline" onClick={() => setFocused(false)}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to overview</Button>}
-            <label><input type="checkbox" checked={showHistory} onChange={e => { setShowHistory(e.target.checked); setFocused(false); }} /> Show history and unavailable conclusions</label>
+            <Button variant="outline" onClick={() => { setView("list"); setFocused(false); }}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to current knowledge</Button>
           </div>
-          {!focused && <LedgerOverview rows={visible} nodes={nodes} edges={edges} onChoose={focus} />}
           {focused && current ? <><LineageGraph receipt={current} available={available.has(selected)} evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} /><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
-            const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
-            return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;
+            const other = rows.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
+            return other ? <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button> : null;
           }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <div className="empty">{detailError ? <><p>Could not load this conclusion. No stale receipt is shown.</p><Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button></> : "Loading selected lineage…"}</div>}
         </section>}
         {view === "list" &&
@@ -1151,6 +1148,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
         setNote={() => {}}
         onDecide={() => {}}
         busy={false}
+        onViewLineage={viewLineage}
       />}
     </div>
   );

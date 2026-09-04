@@ -1572,6 +1572,10 @@ tbody tr.selected td:first-child b {
   background: #f6f8f7;
 }
 
+.viewLineageAction {
+  margin-top: 20px;
+}
+
 .quickSnapshot,
 .inspectorTop,
 .tabs,

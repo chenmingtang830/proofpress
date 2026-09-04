@@ -24,6 +24,12 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Evidence to governed knowledge");
     expect(source).toContain("(current + 1) * 20");
   });
+  it("opens the ledger on current knowledge and scopes lineage to a selection", () => {
+    expect(source).toContain('const [view, setView] = React.useState("list")');
+    expect(source).toContain("Selected lineage");
+    expect(source).toContain("View lineage");
+    expect(source).not.toContain("Show history and unavailable conclusions");
+  });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
     expect(source).toContain("Human Approval is not exposed");
