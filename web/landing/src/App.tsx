@@ -133,8 +133,8 @@ export function App() {
         </section>
 
         <section className="finalCta" aria-labelledby="cta-title">
-          <h2 id="cta-title">Tell us what your company is trying to solve.</h2>
-          <p>Share the problem and where Proofpress might help.</p>
+          <h2 id="cta-title">Keep agent knowledge under human control.</h2>
+          <p>Start with one workflow where a wrong conclusion could spread.</p>
           <div className="heroActions">
             <ButtonLink href={contactUrl}>Contact us <Arrow /></ButtonLink>
             <ButtonLink href={repoUrl} variant="secondary">Explore the repository</ButtonLink>
