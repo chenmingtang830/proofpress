@@ -1,44 +1,36 @@
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ButtonLink } from "./components/button";
-import { ArchitectureDiagram } from "./components/architecture-diagram";
 import { KnowledgeChart } from "./components/knowledge-chart";
 import { Quickstart } from "./components/quickstart";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
+const resultsUrl = `${repoUrl}/tree/main/studies/long-horizon-eval/relaybench`;
 const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
+
+const writing = [
+  {
+    label: "ARTICLE",
+    title: "Agents Are Creating a New Knowledge Layer—and We Need to Govern It",
+    href: "https://x.com/richardt830/status/2093774242429206969",
+    image: "/article-knowledge-layer.webp",
+  },
+  {
+    label: "ARTICLE",
+    title: "What May the Next Agent Rely On?",
+    href: "https://x.com/richardt830/status/2093431690379317346",
+    image: "/article-agent-rely.webp",
+  },
+  {
+    label: "FIELD NOTE",
+    title: "Proofpress for the WebMCP Challenge",
+    href: "https://x.com/richardt830/status/2095598146546229263",
+    image: "/article-webmcp.png",
+  },
+];
 
 function Arrow() {
   return <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.6} aria-hidden="true" />;
-}
-
-function HeroProof() {
-  return (
-    <div
-      className="heroProof"
-      role="img"
-      aria-label="Synthetic handoff: a candidate conclusion awaits human review before one eligible item reaches successor context"
-    >
-      <div className="heroProofHeader">
-        <span>SYNTHETIC HANDOFF</span>
-        <strong>NEEDS REVIEW</strong>
-      </div>
-      <div className="heroProofCandidate">
-        <span>Candidate conclusion</span>
-        <strong>A rollout finding is ready.</strong>
-        <small>2 evidence receipts · agent:analyst</small>
-      </div>
-      <div className="heroProofGate">
-        <span>HUMAN OWNER</span>
-        <strong>Only admission authority</strong>
-      </div>
-      <div className="heroProofOutput">
-        <span>SUCCESSOR CONTEXT</span>
-        <strong>1 eligible</strong>
-        <small>2 blocked</small>
-      </div>
-    </div>
-  );
 }
 
 export function App() {
@@ -51,80 +43,90 @@ export function App() {
           <span>Proofpress</span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="#how">How it works</a>
-          <a href="#quickstart">Quick start</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#writing">Writing</a>
           <a href={repoUrl}>GitHub</a>
         </nav>
       </header>
 
       <main id="main">
         <section className="hero" id="top" aria-labelledby="hero-title">
-          <div className="heroStage">
-            <div className="heroCopy">
-              <h1 id="hero-title">Govern what your agents learn.</h1>
-              <p className="heroLead">
-                Proofpress keeps evidence, scope, and authority attached before an agent’s
-                conclusion becomes someone else’s premise.
-              </p>
-              <div className="heroActions" aria-label="Get started">
-                <ButtonLink href="#quickstart">Run the local demo <Arrow /></ButtonLink>
-                <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
-              </div>
+          <div className="heroCopy">
+            <h1 id="hero-title">Make agent knowledge safe to reuse.</h1>
+            <p className="heroLead">
+              Proofpress keeps evidence and human approval attached to the conclusions your agents create.
+            </p>
+            <div className="heroActions" aria-label="Get started">
+              <ButtonLink href="#quickstart">Try the demo <Arrow /></ButtonLink>
+              <ButtonLink href={repoUrl} variant="secondary">View GitHub</ButtonLink>
             </div>
-            <HeroProof />
           </div>
-          <div className="heroFoot" aria-label="Proofpress principle">
-            <p>Knowledge worth building on.</p>
-            <div className="sealLine" aria-hidden="true"><span /></div>
+          <div className="heroFoot" aria-label="Proofpress product attributes">
+            <span>Open source</span>
+            <span>Provider-neutral</span>
+            <span>Human-approved</span>
           </div>
         </section>
 
-        <section className="handoff" aria-labelledby="handoff-title">
-          <div className="handoffHeading">
-            <h2 id="handoff-title">Agent output becomes organizational knowledge.</h2>
-          </div>
+        <section className="why" aria-labelledby="why-title">
+          <h2 id="why-title">Agent work compounds. So does the risk.</h2>
           <KnowledgeChart />
         </section>
 
-        <section className="architecture" id="how" aria-labelledby="architecture-heading">
-          <div className="sectionIntro">
-            <h2 id="architecture-heading">Proofpress governs the handoff—not the agent.</h2>
+        <section className="value" aria-labelledby="value-title">
+          <h2 id="value-title">
+            Evidence stays attached.<br />
+            Humans decide.<br />
+            <span>Only approved knowledge moves forward.</span>
+          </h2>
+        </section>
+
+        <section className="evidence" id="evidence" aria-labelledby="evidence-title">
+          <div className="evidenceIntro">
+            <h2 id="evidence-title">Tested on 126 agent handoffs.</h2>
+            <p>One frozen study. Seven models. Three Harvey LAB-derived legal task families.</p>
           </div>
-          <ArchitectureDiagram />
+          <div className="study">
+            <a className="studyImage" href={resultsUrl} aria-label="Open the public frozen study results">
+              <img src="/harvey-study.png" alt="Proofpress frozen study results across seven models" />
+            </a>
+            <div className="studySummary">
+              <div><strong>89.3 → 93.4%</strong><span>Rubric completion</span></div>
+              <div><strong>8 → 0</strong><span>Observed unsafe propagation · 63 stress pairs</span></div>
+              <p>Bounded mechanism evidence—not an official Harvey benchmark or a general efficacy claim.</p>
+              <a href={resultsUrl}>Read the public results <Arrow /></a>
+            </div>
+          </div>
         </section>
 
         <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
-          <div className="sectionIntro">
-            <h2 id="quickstart-title">See the admission boundary locally.</h2>
-            <p>
-              Run a synthetic demo locally—no account, customer data, or model call required.
-            </p>
+          <div className="compactIntro">
+            <h2 id="quickstart-title">See it work.</h2>
+            <p>No account, customer data, or model call required.</p>
           </div>
           <Quickstart />
         </section>
 
-        <section className="available" aria-labelledby="available-title">
-          <div className="sectionIntro">
-            <h2 id="available-title">Built for your agents. Governed by your owner.</h2>
-            <p>
-              Open source and provider-neutral, with Python, HTTP, MCP, and a single-owner review workspace.
-            </p>
+        <section className="writing" id="writing" aria-labelledby="writing-title">
+          <div className="compactIntro">
+            <h2 id="writing-title">Writing from the field.</h2>
+            <a href="https://x.com/richardt830">Follow on X <Arrow /></a>
           </div>
-          <dl className="capabilityList">
-            <div><dt>Agents</dt><dd>Submit evidence, propose conclusions, and retrieve eligible context.</dd></div>
-            <div><dt>Automated checks</dt><dd>Verify requirements and advise—without admission authority.</dd></div>
-            <div><dt>Human owner</dt><dd>Controls what becomes reusable.</dd></div>
-          </dl>
-          <p className="boundaryNote">Current scope: local and experimental single-owner hosted operation. Design-partner outcomes remain unvalidated.</p>
-          <div className="deploymentShapes" aria-label="Current deployment shapes">
-            <div><strong>Local / offline</strong><span>Git-backed ledger and local review.</span></div>
-            <div><strong>Experimental self-hosted</strong><span>Private, SQLite-backed, single-owner instance—not Proofpress Cloud.</span></div>
+          <div className="writingGrid">
+            {writing.map((item) => (
+              <a className="writingCard" href={item.href} key={item.href}>
+                <div className="writingImage"><img src={item.image} alt="" /></div>
+                <span>{item.label}</span>
+                <h3>{item.title}</h3>
+                <small>Read on X <Arrow /></small>
+              </a>
+            ))}
           </div>
         </section>
 
         <section className="finalCta" aria-labelledby="cta-title">
           <h2 id="cta-title">Tell us what your company is trying to solve.</h2>
-          <p>Share your industry, the problem, and how Proofpress might help. Please omit sensitive data.</p>
+          <p>Share the problem and where Proofpress might help.</p>
           <div className="heroActions">
             <ButtonLink href={contactUrl}>Contact us <Arrow /></ButtonLink>
             <ButtonLink href={repoUrl} variant="secondary">Explore the repository</ButtonLink>
