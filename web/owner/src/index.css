@@ -1581,6 +1581,8 @@ tbody tr.selected td:first-child b {
   --evidence: #456f82;
   --evidence-soft: #f0f5f6;
   --admitted-soft: #f1f7f4;
+  --review-queue: #456f82;
+  --review-queue-soft: #f3f7f8;
   --withheld: #7a4f49;
   --withheld-soft: #faf4f2;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -1607,8 +1609,8 @@ tbody tr.selected td:first-child b {
   background: var(--admitted-soft);
 }
 
-.contextBoundarySummary .withheldKnowledge {
-  background: var(--withheld-soft);
+.contextBoundarySummary .awaitingKnowledge {
+  background: var(--review-queue-soft);
 }
 
 .contextBoundarySummary span,
@@ -1631,8 +1633,8 @@ tbody tr.selected td:first-child b {
   color: var(--add);
 }
 
-.withheldKnowledge strong {
-  color: var(--withheld);
+.awaitingKnowledge strong {
+  color: var(--review-queue);
 }
 
 .contextBoundarySummary p {

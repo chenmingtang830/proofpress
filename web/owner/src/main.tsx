@@ -1085,13 +1085,18 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loa
   const [focused, setFocused] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("conclusion");
   const available = new Set(rows.map((row: any) => row.id));
-  const withheld = allRows.filter((row: any) => !available.has(row.id));
-  const withheldCounts = withheld.reduce((counts: Record<string, number>, row: any) => {
-    const state = row.state || "not_current";
+  const awaitingReview = allRows.filter((row: any) => ["needs_review", "needs_revision", "unresolved"].includes(row.state));
+  const reviewCounts = awaitingReview.reduce((counts: Record<string, number>, row: any) => {
+    const state = row.state || "unresolved";
     counts[state] = (counts[state] || 0) + 1;
     return counts;
   }, {});
-  const withheldSummary = Object.entries(withheldCounts).map(([state, count]) => `${count} ${state.replaceAll("_", " ")}`).join(" · ");
+  const reviewLabels: Record<string, string> = {
+    needs_review: "need review",
+    needs_revision: "need revision",
+    unresolved: "need revalidation",
+  };
+  const reviewSummary = Object.entries(reviewCounts).map(([state, count]) => `${count} ${reviewLabels[state] || "need attention"}`).join(" · ");
   const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
   const visibleIds = new Set(rows.map((row: any) => row.id));
   const links = relations.filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
@@ -1113,10 +1118,10 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, loa
             <strong>{rows.length} current {rows.length === 1 ? "conclusion" : "conclusions"}</strong>
             <p>Admitted and eligible for this owner view. Agent access remains scope- and credential-specific.</p>
           </div>
-          <div className="withheldKnowledge">
-            <span>Outside current context</span>
-            <strong>{withheld.length} {withheld.length === 1 ? "conclusion" : "conclusions"}</strong>
-            <p>{withheldSummary || "Nothing is currently withheld."}</p>
+          <div className="awaitingKnowledge">
+            <span>Awaiting review</span>
+            <strong>{awaitingReview.length} candidate {awaitingReview.length === 1 ? "conclusion" : "conclusions"}</strong>
+            <p>{reviewSummary || "No candidate conclusions need attention."}</p>
           </div>
         </section>
         <div className="ledgerViews" role="group" aria-label="Ledger view">

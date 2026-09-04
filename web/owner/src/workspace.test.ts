@@ -34,9 +34,10 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Evidence for this conclusion");
     expect(source).toContain("Proposed reuse boundary");
     expect(source).toContain("Available now");
-    expect(source).toContain("Outside current context");
+    expect(source).toContain("Awaiting review");
+    expect(source).not.toContain("Outside current context");
     expect(css).toContain("--evidence:");
-    expect(css).toContain("--withheld:");
+    expect(css).toContain("--review-queue:");
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
