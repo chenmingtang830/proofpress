@@ -112,8 +112,8 @@ export function App() {
 
         <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
           <div className="compactIntro">
-            <h2 id="quickstart-title">Install Proofpress.</h2>
-            <p>Directly from GitHub. No account or model call required.</p>
+            <h2 id="quickstart-title">Install and run Proofpress.</h2>
+            <p>One local command. No account, hosted credential, or model call required.</p>
           </div>
           <Quickstart />
         </section>

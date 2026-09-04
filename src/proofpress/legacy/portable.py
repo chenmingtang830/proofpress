@@ -2689,13 +2689,16 @@ def main(argv=None):
             f"command; use proofpress legacy {args[0]} (top-level alias removed in 0.7)",
             file=sys.stderr,
         )
-    if not explicit_legacy and args and args[0] in {"mcp", "hosted", "remote", "repo", "rd"}:
+    if not explicit_legacy and args and args[0] in {
+            "quickstart", "mcp", "hosted", "remote", "repo", "rd"}:
         from proofpress.hosted import remote as hosted_remote
         from proofpress.hosted import service as hosted_service
         from proofpress.integrations import repository
         from proofpress.integrations import research_blueprint
+        from proofpress import quickstart
         from proofpress.transports import mcp
         delegates = {
+            "quickstart": quickstart.main,
             "mcp": mcp.main,
             "hosted": hosted_service.main,
             "remote": hosted_remote.main,
@@ -2856,7 +2859,11 @@ def main(argv=None):
         from proofpress.hosted import service as hosted_service
         from proofpress.integrations import repository
         from proofpress.integrations import research_blueprint
+        from proofpress import quickstart
         from proofpress.transports import mcp
+        _delegate(
+            p, sub, "quickstart", quickstart.main,
+            "create an isolated local demo and MCP config")
         _delegate(p, sub, "mcp", mcp.main, "run the MCP adapter")
         _delegate(p, sub, "hosted", hosted_service.main, "administer or serve a hosted workspace")
         _delegate(p, sub, "remote", hosted_remote.main, "call a hosted workspace from the CLI")
