@@ -124,6 +124,14 @@ export function App() {
           </div>
         </section>
 
+        <section className="film" aria-labelledby="film-title">
+          <h2 id="film-title">Our vision: Knowledge worth building on.</h2>
+          <video controls playsInline preload="metadata" poster="/proofpress-brand-film-poster.webp">
+            <source src="/proofpress-brand-film.mp4" type="video/mp4" />
+            Your browser does not support embedded video.
+          </video>
+        </section>
+
         <section className="finalCta" aria-labelledby="cta-title">
           <h2 id="cta-title">Tell us what your company is trying to solve.</h2>
           <p>Share the problem and where Proofpress might help.</p>

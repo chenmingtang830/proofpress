@@ -16,6 +16,8 @@ const requirements = [
   [app.includes("ancient-ball-940.notion.site") && app.includes("Contact us"), "contact CTA routes to the public Notion form"],
   [app.includes('href="#quickstart"') && quickstart.includes("proofpress demo"), "hero routes to a runnable local demo"],
   [app.includes("https://github.com/chenmingtang830/proofpress"), "repository link is present"],
+  [app.includes("proofpress-brand-film.mp4") && app.includes("Knowledge worth building on"), "brand film is present"],
+  [app.includes("2093774242429206969") && app.includes("2093431690379317346"), "published X articles are linked"],
   [chart.includes("Illustrative model — not measured data"), "conceptual chart is not presented as measured evidence"],
   [css.includes("--accent: #0e6675"), "PR #113 accent token is used"],
   [css.includes("prefers-reduced-motion"), "reduced motion is supported"],
