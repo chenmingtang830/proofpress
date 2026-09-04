@@ -18,7 +18,7 @@ read-only calls and untrusted ledger content. Credentials and provider secrets
 never appear in tool results.
 
 [//]: # (ob:4565936e)
-**Status (2026-09-03):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. PR #113 is the implementation candidate for the owner workspace; local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
+**Status (2026-09-04):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. PR #113 is the implementation candidate for the owner workspace; PR #115 applies the system to the public landing-page candidate. Local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
 
 [//]: # (ob:678e1b70)
 [//]: # (ob:hosted-workspace-v2)
@@ -49,6 +49,16 @@ In one phrase: **boardroom clarity for governed knowledge**. A white institution
 
 [//]: # (ob:6ba0b871)
 Proofpress interfaces make one boundary legible: evidence and model recommendations can support a candidate conclusion, but only policy-compliant human admission makes it governed knowledge. Information density serves that decision. Show the conclusion before its machinery, the evidence bundle before raw sources, and pending work before completed work.
+
+### Public landing-page application
+
+The public landing page is a persuasion surface, not a compressed owner workspace. Its information architecture is: promise → compounding risk → human authority → bounded proof → GitHub install → published writing → brand film → contact. Each section should make one claim and earn the next scroll.
+
+- Lead with one plain-language promise and two distinct actions. The primary action installs Proofpress; the secondary action jumps to evidence. Do not repeat the same GitHub destination under two labels.
+- Use authored editorial media for the hero, native HTML/CSS for evidence visualization, and real article/video assets later in the page. Generated atmosphere must not replace trust semantics.
+- Keep public evidence bounded. Name the frozen source, population, and comparison; disclose zoomed axes; order bars by the stated comparison; and never promote a limited study into a general benchmark claim.
+- Make the CLI the first-run path. Show one GitHub install command and one runnable demo command; the local review UI is optional follow-on material, not the hero promise.
+- Preserve Boardroom Clarity responsively: editorial splits on wide screens, a single reading column on mobile, DM Sans for persuasion, IBM Plex Mono for proof metadata, and one cyan accent on a white institutional canvas.
 
 [//]: # (ob:ca5dbbae)
 The design system is workflow-neutral. A legal product may organize work by organization, matter, and data room; a research product may organize it by project, run, and artifact. Those host structures are not Proofpress primitives. Proofpress owns the visual language for evidence, candidate conclusions, review receipts, admission state, trusted context, and lineage between them.
