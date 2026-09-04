@@ -207,6 +207,7 @@ class HostedServiceTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as raised:
             opener.open(request)
         self.assertEqual(raised.exception.code, 303)
+        self.assertEqual(raised.exception.headers["Location"], "/home")
         cookie = raised.exception.headers["Set-Cookie"].split(";", 1)[0]
         raised.exception.close()
 

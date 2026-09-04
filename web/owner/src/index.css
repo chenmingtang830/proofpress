@@ -1412,11 +1412,11 @@ td:last-child svg {
   --ink-3: #7f8791;
   --line: #d7dcd9;
   --card: #ffffff;
-  --panel-soft: #eef1ee;
-  --wash: #f0f2f0;
+  --panel-soft: #f8f9f8;
+  --wash: #f5f6f5;
   --accent: #0e6675;
   --accent-strong: #0a5360;
-  --accent-soft: #eaf2f2;
+  --accent-soft: #f4f8f8;
   --add: #2f6b54;
   --add-bg: #edf5f0;
   --del: #963f38;
