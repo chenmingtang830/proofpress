@@ -9,6 +9,11 @@ For durable agent-produced knowledge, use the `proofpress-governed-context`
 skill. It is the default governance path for this repository; Markdown, HTML,
 and source-code changes do not require artifact-ledger capture or snapshotting.
 
+When operating from another repository, install this repository's
+`proofpress-governed-context` skill before connecting MCP. Use the
+client-specific installation commands in `docs/REMOTE_MCP.md`. MCP supplies the
+tool surface, while the skill supplies the required governance workflow.
+
 [//]: # (ob:6c2c2b16)
 Before relying on prior knowledge, retrieve only eligible, in-scope governed
 context and preserve its limits. For a durable decision, evidence-backed
