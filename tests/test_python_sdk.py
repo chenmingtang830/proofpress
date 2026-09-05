@@ -1,3 +1,4 @@
+import json
 import os
 from pathlib import Path
 import subprocess
@@ -82,6 +83,68 @@ class PythonSDKTests(unittest.TestCase):
         self.direct.review_conclusion(new, "admit", "human:reviewer")
         self.assertEqual([row["id"] for row in self.direct.context(scope="other")["knowledge"]], [new])
         self.assertEqual(self.direct.review_receipt(old)["state"], "needs_revision")
+
+    def test_reproposal_links_only_to_rejected_predecessor_and_needs_new_approval(self):
+        refs = self.direct.import_evidence(FIXTURE)["evidence"][:1]
+        pending = self.direct.propose_conclusion(
+            "Initial bounded finding", refs, "reproposal-test", "agent:sdk"
+        )["conclusion"]["id"]
+
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "must be rejected"):
+            self.direct.propose_conclusion(
+                "Corrected too early", refs, "reproposal-test", "agent:sdk",
+                reproposal_of=pending)
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "existing rejected"):
+            self.direct.propose_conclusion(
+                "Missing predecessor", refs, "reproposal-test", "agent:sdk",
+                reproposal_of="knw_missing")
+
+        self.direct.review_conclusion(
+            pending, "reject", "human:reviewer", note="The statement was too broad.")
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "preserve the predecessor scope"):
+            self.direct.propose_conclusion(
+                "Corrected in the wrong scope", refs, "other", "agent:sdk",
+                reproposal_of=pending)
+
+        successor = self.http.propose_conclusion(
+            "Bounded finding for the recorded fixture only", refs,
+            "reproposal-test", "agent:sdk", reproposal_of=pending
+        )["conclusion"]["id"]
+        receipt = self.direct.review_receipt(successor)
+        self.assertEqual(receipt["state"], "needs_review")
+        self.assertEqual(receipt["reproposal_parent"]["id"], pending)
+        self.assertEqual(
+            receipt["reproposal_parent"]["rejection_reason"],
+            "The statement was too broad.")
+        self.assertEqual(
+            self.direct.review_receipt(pending)["reproposals"][0]["id"], successor)
+        self.assertIn(
+            {"from": pending, "to": successor, "type": "re_proposed_as"},
+            self.direct.graph(scope="reproposal-test")["edges"])
+        self.assertEqual(self.direct.review_receipt(pending)["state"], "rejected")
+        self.assertEqual(self.direct.context(scope="reproposal-test")["knowledge"], [])
+
+        policy_dir = self.repo / ".proofpress"
+        policy_dir.mkdir(exist_ok=True)
+        judge_code = (
+            "import json,sys; p=json.load(sys.stdin); "
+            "assert p['reproposal_parent']['id']=='" + pending + "'; "
+            "assert p['reproposal_parent']['rejection_reason']=='The statement was too broad.'; "
+            "print(json.dumps({'recommendation':'accept','rationale':'evd fixture supports the bounded successor','adapter':'fixture'}))"
+        )
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "judge": {"identity": "judge:test-advisory",
+                      "command": [sys.executable, "-c", judge_code],
+                      "timeout_seconds": 5}
+        }))
+        self.direct.evaluate_conclusion(successor)
+        self.assertEqual(
+            self.direct.judge_conclusion(successor)["recommendation"], "accept")
+        self.direct.review_conclusion(successor, "admit", "human:reviewer")
+        self.assertEqual(
+            [row["id"] for row in self.direct.context(scope="reproposal-test")["knowledge"]],
+            [successor])
+        self.assertEqual(self.direct.review_receipt(pending)["state"], "rejected")
 
     def test_sdk_exposes_stable_errors_and_replay_metadata(self):
         first = self.http.import_evidence(

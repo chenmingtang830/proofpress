@@ -156,6 +156,8 @@ class HostedMcpOAuthTests(unittest.TestCase):
         self.assertEqual(proposal_refs["items"]["pattern"], r"^evd_[0-9a-f]{16}$")
         proposal_properties = tools["proofpress_propose_conclusion"][
             "inputSchema"]["properties"]
+        self.assertEqual(proposal_properties["reproposal_of"]["pattern"],
+                         r"^knw_[A-Za-z0-9]+$")
         self.assertNotIn("allowed_actors", proposal_properties)
         self.server.proofpress_control.revoke_credential(
             self.owner["token"], self.agent["credential_id"])

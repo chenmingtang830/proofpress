@@ -36,6 +36,7 @@ def main(argv=None):
     propose.add_argument("--scope", help="optional legacy exact-filter metadata")
     propose.add_argument("--applicability-json",
                          help="JSON context card: title, description, when_relevant, keywords, validity_conditions")
+    propose.add_argument("--reproposal-of", help="rejected conclusion this candidate corrects")
     propose.add_argument("--idempotency-key")
     evaluate = subparsers.add_parser("evaluate")
     evaluate.add_argument("conclusion_id")
@@ -74,6 +75,7 @@ def main(argv=None):
                 args.statement, args.evidence, args.scope, "server-derived",
                 applicability=(json.loads(args.applicability_json)
                                if args.applicability_json else None),
+                reproposal_of=args.reproposal_of,
                 idempotency_key=args.idempotency_key)
         elif args.command == "evaluate":
             result = client.evaluate_conclusion(args.conclusion_id)

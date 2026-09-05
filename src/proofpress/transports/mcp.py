@@ -80,6 +80,7 @@ class ProofpressMcpGateway:
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
             applicability: dict[str, Any] | None = None,
+            reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
@@ -93,6 +94,7 @@ class ProofpressMcpGateway:
             statement, evidence_refs, scope, self.principal,
             expires_at=expires_at, artifact_refs=artifact_refs,
             applicability=applicability,
+            reproposal_of=reproposal_of,
             qualifiers=qualifiers,
             profile=profile, idempotency_key=idempotency_key)
 
@@ -203,6 +205,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
             applicability: dict[str, Any] | None = None,
+            reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
@@ -219,10 +222,14 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         any required profile qualifiers and state the revised applicability.
         The revised candidate
         still needs human approval; proposing never replaces or admits it.
+
+        To propose a corrected successor after a rejection, pass
+        reproposal_of with the rejected conclusion ID. The old rejection remains
+        immutable and the new candidate requires a new human decision.
         """
         return gateway.propose_conclusion(
             statement, evidence_refs, scope, expires_at, artifact_refs,
-            applicability, qualifiers, profile, idempotency_key)
+            applicability, reproposal_of, qualifiers, profile, idempotency_key)
 
     @server.tool(name="proofpress_discover_context")
     def proofpress_discover_context(

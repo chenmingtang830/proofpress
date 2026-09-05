@@ -36,6 +36,8 @@ type Receipt = {
   conclusion: {
     id: string;
     statement: string;
+    evidence_refs: string[];
+    reproposal_of?: string | null;
     scope?: string;
     proposer?: string;
     created_at?: string;
@@ -50,6 +52,9 @@ type Receipt = {
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean> };
   recommendation?: { recommendation?: string; rationale?: string };
+  revision_request?: any;
+  revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
+  reproposal_parent?: {id:string;statement:string;evidence_refs:string[];rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
   history?: any[];
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
@@ -1024,6 +1029,7 @@ function Inspector({
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
+      {r.reproposal_parent && <section className="revisionSection"><h3>Re-proposal after rejection</h3><p>{r.reproposal_parent.statement}</p><p><b>Previous rejection:</b> {r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><p>Previous evidence: {r.reproposal_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>The earlier rejection remains in the append-only history. This is a new candidate and requires a new human decision.</p></section>}
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
