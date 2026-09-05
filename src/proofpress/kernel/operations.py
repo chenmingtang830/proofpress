@@ -338,7 +338,7 @@ LOCAL_OPERATION_SPECS = {
     "conclusion.propose": {
         "required": ("statement", "evidence_refs", "proposer"),
         "optional": ("expires_at", "artifact_refs", "scope", "applicability",
-                     "qualifiers", "profile"),
+                     "reproposal_of", "qualifiers", "profile"),
         "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.evaluate": {
@@ -1105,7 +1105,7 @@ def _applicability(value):
 
 def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
                artifact_refs=None, applicability=None, qualifiers=None,
-               profile=None):
+               profile=None, reproposal_of=None):
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
@@ -1116,7 +1116,20 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
         raise ValueError("proposer must be a non-empty string")
     applicability = _applicability(applicability)
     qualifiers = validate_profile(profile, qualifiers)
+    if reproposal_of is not None:
+        if not isinstance(reproposal_of, str) or not reproposal_of.strip():
+            raise ValueError("reproposal_of must be a non-empty conclusion ID")
+        reproposal_of = reproposal_of.strip()
+        predecessor = projection["conclusions"].get(reproposal_of)
+        if not predecessor:
+            raise ValueError("re-proposal requires an existing rejected conclusion")
+        if v2_state(projection, predecessor) != "rejected":
+            raise ValueError("re-proposal predecessor must be rejected")
+        if predecessor.get("scope") != scope:
+            raise ValueError("re-proposal must preserve the predecessor scope")
     revision_of = (qualifiers or {}).get("revision_of")
+    if revision_of and reproposal_of:
+        raise ValueError("a proposal cannot be both a requested revision and a re-proposal")
     if revision_of:
         parent = projection["conclusions"].get(revision_of)
         request = projection["revision_requests"].get(revision_of)
@@ -1128,6 +1141,8 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
                 "scope": scope}
     if applicability is not None:
         identity["applicability"] = applicability
+    if reproposal_of is not None:
+        identity["reproposal_of"] = reproposal_of
     row = {
         "id": ident(identity, "knw_"),
         "kind": "conclusion", "statement": statement,
@@ -1135,8 +1150,11 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
         "artifact_refs": sorted(set(artifact_refs or [])),
         "scope": scope, "proposer": proposer, "expires_at": expires_at,
         "applicability": applicability,
+        "reproposal_of": reproposal_of,
         "qualifiers": qualifiers or {}, "created_at": now(),
     }
+    if row["id"] == reproposal_of:
+        raise ValueError("a conclusion cannot be a re-proposal of itself")
     prior = projection["conclusions"].get(row["id"])
     if prior:
         stable = set(row) - {"created_at", "digest"}
@@ -1501,10 +1519,13 @@ def judge_v2(cid, actor=None):
         cid, projection=projection, events=events, policy=policy, actor=actor)
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    reproposal_parent = _reproposal_parent(projection, row)
     packet = {"schema_version": "proofpress/judge-request/v1", "conclusion": row,
               "evidence": [projection["evidence"][x] for x in row["evidence_refs"]],
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
               "policy": _judge_policy_payload(policy)}
+    if reproposal_parent:
+        packet["reproposal_parent"] = reproposal_parent
     try:
         result = subprocess.run(command, input=json.dumps(packet), text=True,
                                 capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
@@ -1566,7 +1587,9 @@ def judge_batch_v2(scope, actor=None):
         "transaction": {"scope": scope, "conclusion_ids": [row["id"] for row in rows]},
         "conclusions": [{"conclusion": row,
                          "evidence_refs": row["evidence_refs"],
-                         "evaluation": {k: v for k, v in evaluations[row["id"]].items() if k != "commit"}}
+                         "evaluation": {k: v for k, v in evaluations[row["id"]].items() if k != "commit"},
+                         **({"reproposal_parent": _reproposal_parent(projection, row)}
+                            if _reproposal_parent(projection, row) else {})}
                         for row in rows],
         "evidence_catalog": {ref: projection["evidence"][ref] for ref in evidence_ids},
         "policy": _judge_policy_payload(policy),
@@ -1824,6 +1847,9 @@ def graph_v2(scope=None, actor=None):
                       "applicability": row.get("applicability"), "label": row["statement"],
                       "created_at": row.get("created_at")})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
+        if row.get("reproposal_of") in wanted:
+            edges.append({"from": row["reproposal_of"], "to": cid,
+                          "type": "re_proposed_as"})
         review = projection["reviews"].get(cid)
         if review:
             rid = review["event_id"]
@@ -2326,6 +2352,18 @@ def summary_v2(scope=None, actor=None):
     return {"total": len(rows), "counts": counts, "scope": scope}
 
 
+def _reproposal_parent(projection, row):
+    parent_id = row.get("reproposal_of")
+    parent = projection["conclusions"].get(parent_id)
+    if not parent:
+        return None
+    return {"id": parent_id, "statement": parent["statement"],
+            "evidence_refs": parent["evidence_refs"],
+            "rejection": projection["rejections"].get(parent_id),
+            "review": projection["reviews"].get(parent_id),
+            "rejection_reason": (projection["reviews"].get(parent_id) or {}).get("note")}
+
+
 def receipt_v2(cid, actor=None):
     projection, policy = v2_projection(), load_v2_policy(); row = projection["conclusions"].get(cid)
     if not row or not _actor_can_read(row, policy, actor):
@@ -2341,6 +2379,11 @@ def receipt_v2(cid, actor=None):
                            "state": v2_state(projection, candidate)}
                           for candidate in projection["conclusions"].values()
                           if candidate.get("qualifiers", {}).get("revision_of") == cid],
+            "reproposal_parent": _reproposal_parent(projection, row),
+            "reproposals": [{"id": candidate["id"], "statement": candidate["statement"],
+                              "state": v2_state(projection, candidate)}
+                             for candidate in projection["conclusions"].values()
+                             if candidate.get("reproposal_of") == cid],
             "evidence": [projection["evidence"].get(x) for x in row["evidence_refs"]],
             "evaluation": projection["evaluations"].get(cid),
             "recommendation": projection["recommendations"].get(cid),
@@ -2585,6 +2628,7 @@ def add_flat_cli(sub):
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", help="optional legacy exact-filter metadata")
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
     propose_parser.add_argument("--applicability", help="JSON discovery card file")
+    propose_parser.add_argument("--reproposal-of", help="rejected conclusion this candidate re-proposes")
     propose_parser.add_argument("--profile", choices=["legal", "repo", "experiment"]); propose_parser.add_argument("--qualifiers")
     propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
     evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
@@ -2886,7 +2930,7 @@ def _execute_local_operation(request):
                 parameters.get("scope"), parameters["proposer"],
                 parameters.get("expires_at"), parameters.get("artifact_refs"),
                 parameters.get("applicability"), parameters.get("qualifiers"),
-                parameters.get("profile"))
+                parameters.get("profile"), parameters.get("reproposal_of"))
         elif operation == "conclusion.evaluate":
             result = evaluate_v2(parameters["conclusion_id"], actor=parameters.get("actor"))
         elif operation == "conclusion.judge":
@@ -3016,7 +3060,8 @@ def cmd_flat(a):
             "statement": a.statement, "evidence_refs": a.evidence,
             "scope": a.scope, "proposer": a.proposer,
             "expires_at": a.expires_at, "artifact_refs": a.artifact,
-            "applicability": applicability, "qualifiers": qualifiers,
+            "applicability": applicability, "reproposal_of": a.reproposal_of,
+            "qualifiers": qualifiers,
             "profile": a.profile,
         })
     elif command == "evaluate":

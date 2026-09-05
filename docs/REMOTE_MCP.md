@@ -129,6 +129,13 @@ Remote MCP exposes evidence submission, conclusion proposal, governed-context
 retrieval, bounded graph and lineage reads, and review links. It never exposes
 Human Approval, policy mutation, credential administration, or recovery.
 
+`proofpress_propose_conclusion` accepts `reproposal_of` when an agent is
+submitting a corrected successor to a rejected conclusion. The referenced
+predecessor must exist, be rejected, and use the same scope. Proofpress records
+the lineage and supplies the prior rejection reason to the advisory Judge, but
+does not reopen, overwrite, or approve either conclusion. The new candidate
+still requires a fresh human decision.
+
 ## Discovering governed context
 
 An agent does not need to know a scope string before it can find relevant

@@ -188,13 +188,14 @@ class ProofpressClient:
 
     def propose_conclusion(self, statement, evidence_refs, scope=None, proposer=None,
                            *, expires_at=None, artifact_refs=None,
-                           applicability=None, qualifiers=None,
+                           applicability=None, reproposal_of=None, qualifiers=None,
                            profile=None, **meta):
         return self.execute("conclusion.propose", {
             "statement": statement, "evidence_refs": list(evidence_refs),
             "scope": scope, "proposer": proposer, "expires_at": expires_at,
             "artifact_refs": list(artifact_refs or []),
             "applicability": applicability,
+            "reproposal_of": reproposal_of,
             "qualifiers": qualifiers,
             "profile": profile}, **meta)
     def evaluate_conclusion(self, conclusion_id, *, actor=None, **meta):

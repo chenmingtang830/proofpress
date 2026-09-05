@@ -62,7 +62,7 @@ RETRIEVAL_EVIDENCE_SCHEMA = {
 TOOLS = [
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
     {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
-    {"name": "proofpress_propose_conclusion", "description": "Propose an evidence-bound conclusion; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card.", "inputSchema": {"type": "object", "properties": {"statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": {"type": "object", "description": "Discovery card: title, description, when_relevant, keywords, validity_conditions."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["statement", "evidence_refs"]}},
+    {"name": "proofpress_propose_conclusion", "description": "Propose an evidence-bound conclusion; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected conclusion; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": {"type": "object", "description": "Discovery card: title, description, when_relevant, keywords, validity_conditions."}, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected conclusion this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["statement", "evidence_refs"]}},
     {"name": "proofpress_discover_context", "description": "List only admitted, current, actor-eligible context cards. Use task to rank semantic relevance; visibility is still enforced before discovery.", "inputSchema": {"type": "object", "properties": {"task": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 100}}}},
     {"name": "proofpress_get_context", "description": "Return admitted, current context eligible for this agent. Scope is an optional legacy exact filter, not required for discovery.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}, "task": {"type": "string"}}}},
     {"name": "proofpress_get_graph", "description": "Return the bounded evidence, conclusion, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
@@ -104,7 +104,8 @@ def _lineage(control, context, conclusion_id: str):
     while pending:
         current = pending.pop()
         for edge in incoming.get(current, []):
-            if edge.get("type") not in {"supports", "derived_from", "bound_as"}:
+            if edge.get("type") not in {"supports", "derived_from", "bound_as",
+                                        "re_proposed_as"}:
                 continue
             lineage_edges.append(edge)
             if edge["from"] not in wanted:
@@ -140,7 +141,7 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
                 "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
         parameters = {key: args.get(key) for key in (
             "statement", "evidence_refs", "scope", "expires_at",
-            "artifact_refs", "applicability", "qualifiers", "profile")}
+            "artifact_refs", "applicability", "reproposal_of", "qualifiers", "profile")}
         parameters["proposer"] = "server-derived"
         return _execute(control, context, "conclusion.propose", parameters, args)
     if name == "proofpress_discover_context":
