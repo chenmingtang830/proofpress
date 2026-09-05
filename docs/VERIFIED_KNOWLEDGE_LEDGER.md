@@ -26,9 +26,9 @@ on it. It is the trust layer above observability and memory:
 
 [//]: # (ob:5e5ed818)
 The ledger does not make a claim universally true. It records the source,
-selected evidence, declared policy, review receipt, lifecycle state, scope, and
-expiry or supersession semantics that determine whether an organization may
-reuse it.
+selected evidence, declared policy, review receipt, lifecycle state,
+applicability card, and expiry or supersession semantics that determine whether
+an organization may reuse it.
 
 [//]: # (ob:7a1cac9c)
 ## Current workflow
@@ -71,7 +71,9 @@ Git event projection.
 The general ledger can record typed relationships between evidence-bound
 claims: `supports`, `qualifies`, `contradicts`, `supersedes`, `depends_on`, and
 `same_as`. Relationship structure is checked deterministically for valid
-endpoints, shared scope, duplicates, and directed cycles. Those checks do not
+endpoints, duplicates, and directed cycles. Legacy scope does not constrain a
+relationship; the applicability cards on both conclusions state their semantic
+limits. Those checks do not
 establish semantic correctness. An external judge may recommend, but an
 independent human must admit a relationship before it appears in governed
 context. An admitted `contradicts` relationship quarantines both otherwise

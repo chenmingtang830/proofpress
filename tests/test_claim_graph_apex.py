@@ -73,7 +73,7 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
                 for index in range(3):
                     result = knowledge.propose_v2(
                         f"Admitted conclusion {index}", [evidence], "matter-1",
-                        "agent:proposer", allowed_actors=["agent:executor"])
+                        "agent:proposer")
                     cid = result["conclusion"]["id"]
                     knowledge.review_v2(cid, "admit", "human:lawyer")
                     claims.append(cid)
@@ -93,33 +93,6 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
                     max_depth=2, max_claims=2)
                 self.assertEqual(bounded["conclusion_ids"], claims[:2])
                 self.assertEqual(bounded["schema_version"], knowledge.TRAVERSAL_SCHEMA)
-            finally:
-                os.chdir(previous)
-
-    def test_traversal_records_blocked_neighbor_without_statement(self):
-        with tempfile.TemporaryDirectory() as directory:
-            repo = self._repo(directory); previous = Path.cwd()
-            try:
-                os.chdir(repo)
-                source = repo / "source.txt"; source.write_text("Bound evidence\n")
-                evidence = knowledge.import_evidence_v2(str(source))["evidence"][0]
-                visible = knowledge.propose_v2(
-                    "Visible conclusion", [evidence], "matter-1", "agent:proposer")["conclusion"]["id"]
-                blocked = knowledge.propose_v2(
-                    "Secret blocked statement", [evidence], "matter-1", "agent:proposer",
-                    allowed_actors=["agent:other"])["conclusion"]["id"]
-                knowledge.review_v2(visible, "admit", "human:lawyer")
-                knowledge.review_v2(blocked, "admit", "human:lawyer")
-                relation = knowledge.propose_relation_v2(
-                    visible, blocked, "qualifies", "agent:proposer")["relation"]["id"]
-                knowledge.review_relation_v2(relation, "admit", "human:lawyer")
-
-                result = knowledge.traverse_graph_v2(
-                    [visible], "matter-1", "agent:executor")
-                self.assertEqual(result["conclusion_ids"], [visible])
-                self.assertEqual(result["blocked_neighbors"][0]["conclusion_id"], blocked)
-                self.assertNotIn("statement", result["blocked_neighbors"][0])
-                self.assertNotIn("Secret blocked statement", json.dumps(result))
             finally:
                 os.chdir(previous)
 

@@ -41,6 +41,31 @@ These are project-level installations, so the skill travels with the
 repository. Review the downloaded `SKILL.md` before committing it. Then add the
 remote MCP server for the same client.
 
+Install the maintained customer policy template once per target repository:
+
+```sh
+mkdir -p .proofpress
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
+  -o .proofpress/context-policy.yaml
+```
+
+Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
+the durable decisions, validated conclusions, integration contracts,
+reproducible results, and incident learnings that belong in that repository's
+Proofpress workflow. The core skill reads this file before choosing `Draft
+only` or `Propose`.
+
+This is an agent-side proposal-selection policy, not a server authorization
+policy. It may narrow what an agent proposes, but cannot weaken server checks,
+credential isolation, lifecycle rules, or Human Approval. Customers configure
+this file instead of forking the Proofpress-maintained core skill.
+
+If the workspace enables the advisory LM Judge, copy and adapt the maintained
+[`judge-criteria.md`](../.agents/skills/proofpress-governed-context/assets/judge-criteria.md)
+in Hosted Admin. Keep it separate from the repository intake policy: Judge
+criteria assess evidence support and never replace Human Approval.
+
 Open `/connect` on the deployed Proofpress origin and copy the displayed MCP
 URL into a client that supports remote Streamable HTTP servers. The client
 discovers the authorization server and opens `/authorize` in a browser.
@@ -103,6 +128,25 @@ OAuth sessions immediately.
 Remote MCP exposes evidence submission, conclusion proposal, governed-context
 retrieval, bounded graph and lineage reads, and review links. It never exposes
 Human Approval, policy mutation, credential administration, or recovery.
+
+## Discovering governed context
+
+An agent does not need to know a scope string before it can find relevant
+knowledge. `proofpress_discover_context(task?)` first applies the workspace and
+actor visibility checks, then returns only admitted, current context cards. A
+card is deliberately small and YAML-frontmatter-shaped: `title`,
+`description`, `when_relevant`, `keywords`, and `validity_conditions`. Task
+words rank those visible cards; this ranking is a discovery aid, never an
+authorization decision.
+
+New proposals may provide that card as `applicability` and omit `scope`.
+`scope` remains an optional exact filter for legacy callers and existing
+records. The hosted credential supplies the authenticated workspace and agent
+identity; new proposals do not configure per-knowledge reader lists. Historical
+rows that already contain a restrictive `allowed_actors` value retain that
+legacy restriction until an owner explicitly migrates them. Semantic matching
+never broadens access. After selecting a card, the agent still reads governed
+context and its receipt before relying on the conclusion.
 
 `proofpress_get_lineage` follows one conclusion backward through `supports`,
 `derived_from`, and `bound_as` edges to the original source records.

@@ -74,7 +74,7 @@ def seed_judge_demo(control, workspace_id, owner_principal, owner_name):
         proposed = execute(agent["token"], "conclusion.propose", {
             "statement": statement, "evidence_refs": imported["evidence"],
             "scope": "demo:acme-acquisition", "proposer": "ignored",
-            "artifact_refs": [], "allowed_actors": ["*"],
+            "artifact_refs": [],
             "qualifiers": {"synthetic_demo": True}}, f"conclusion-{index}")
         conclusion_id = proposed["conclusion"]["id"]
         execute(agent["token"], "conclusion.evaluate",
