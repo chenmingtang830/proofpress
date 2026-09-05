@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 export function revisionInstructions(r: any) {
   if (!r?.revision_request) return "";
-  return `Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
+  return `Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers and state the revised applicability. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
 }
 
 export function DecisionNotice({state, children}: any) {

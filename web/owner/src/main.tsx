@@ -28,6 +28,7 @@ type NodeRow = {
   label: string;
   state: string;
   scope?: string;
+  applicability?: Receipt["conclusion"]["applicability"];
   created_at?: string;
 };
 type Receipt = {
@@ -38,6 +39,13 @@ type Receipt = {
     scope?: string;
     proposer?: string;
     created_at?: string;
+    applicability?: {
+      title?: string;
+      description?: string;
+      when_relevant?: string[];
+      keywords?: string[];
+      validity_conditions?: string[];
+    } | null;
   };
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean> };
@@ -95,6 +103,10 @@ function evidenceText(row: any) {
   if (p.derivation)
     return `${p.derivation.formula?.operation || "recompute"} → ${p.derivation.output?.value}`;
   return row?.retrieval_receipt?.quote || row?.quote || "No quote available in this receipt.";
+}
+function reuseBoundary(conclusion: Receipt["conclusion"]) {
+  const card = conclusion.applicability;
+  return card?.title || card?.description || conclusion.scope || "No reuse boundary recorded";
 }
 
 function EvidenceContent({ row }: { row: any }) {
@@ -513,7 +525,7 @@ function App() {
     if (["admit", "reject"].includes(decision) && !confirmed) {
       decisionTrigger.current = document.activeElement as HTMLElement;
       setError("");
-      setDecisionConfirmation({decision, id: receipt.conclusion.id, statement: receipt.conclusion.statement, scope: receipt.conclusion.scope || "this workspace"});
+      setDecisionConfirmation({decision, id: receipt.conclusion.id, statement: receipt.conclusion.statement, scope: reuseBoundary(receipt.conclusion)});
       return;
     }
     if (decision === "request_changes" && !note.trim()) {
@@ -602,8 +614,8 @@ function App() {
       <Dialog.Root open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
           <ModalSurface onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
             <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this conclusion?" : "Reject this conclusion?"}</Dialog.Title>
-            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion within its scope. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
-            <dl><dt>Scope</dt><dd>{decisionConfirmation?.scope}</dd></dl>
+            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion where its applicability card fits. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
+            <dl><dt>Applicability</dt><dd>{decisionConfirmation?.scope}</dd></dl>
             <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
             {error && <p role="alert">{error}</p>}
             <div className="confirmationActions">
@@ -863,7 +875,7 @@ function ReviewPage({
               <tr>
                 <th>Conclusion</th>
                 <th>Status</th>
-                <th>Scope</th>
+                <th>Applicability</th>
                 <th></th>
               </tr>
             </thead>
@@ -879,7 +891,7 @@ function ReviewPage({
                     <small>{row.id}</small>
                   </td>
                   <td><Badge state={row.state} /></td>
-                  <td>{row.scope || "—"}</td>
+                  <td>{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
                   <td>
                     <ChevronRight />
                   </td>
@@ -941,7 +953,7 @@ function Inspector({
   if (!r) return pending ? <aside className="inspector" aria-label="Conclusion details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
-  const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The conclusion has expired","not superseded":"The conclusion was superseded","scope present":"A reuse scope is missing"} as Record<string,string>)[name] || `${name} did not pass`;
+  const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The conclusion has expired","not superseded":"The conclusion was superseded","reuse boundary present":"Record a legacy scope or an applicability card before approval."} as Record<string,string>)[name] || `${name} did not pass`;
   const checksMissing = !r.evaluation || (r.review_policy && !r.review_policy.checks_current);
   const judgeNeedsSetup = r.review_policy?.mode === "off";
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
@@ -965,7 +977,7 @@ function Inspector({
       </div>
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
-        <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
+        <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.conclusion)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
@@ -1001,8 +1013,10 @@ function Inspector({
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This conclusion cannot be approved.</p>}
           <div className="reuseBoundary">
             <span>Proposed reuse boundary</span>
-            <strong>{r.conclusion.scope || "No scope recorded"}</strong>
-            <p>{approvalBlock ? "This conclusion remains excluded until every required condition passes." : "Approval would make this conclusion eligible within this scope; each agent is still checked separately."}</p>
+            <strong>{reuseBoundary(r.conclusion)}</strong>
+            {r.conclusion.applicability?.when_relevant?.length ? <p>{r.conclusion.applicability.when_relevant.join(" · ")}</p> : null}
+            {r.conclusion.applicability?.validity_conditions?.length ? <p>Conditions: {r.conclusion.applicability.validity_conditions.join(" · ")}</p> : null}
+            <p>{approvalBlock ? "This conclusion remains excluded until every required condition passes." : "Approval makes this conclusion discoverable to eligible agents; each agent is still checked separately."}</p>
           </div>
         </section>}
         {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
@@ -1148,7 +1162,7 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, onR
           <div className="availableKnowledge">
             <span>Available now</span>
             <strong>{rows.length} current {rows.length === 1 ? "conclusion" : "conclusions"}</strong>
-            <p>Admitted and eligible for this owner view. Agent access remains scope- and credential-specific.</p>
+            <p>Admitted and eligible for this owner view. Agent access remains credential-specific.</p>
           </div>
           <div className="awaitingKnowledge">
             <span>Needs review</span>
@@ -1176,7 +1190,7 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, onR
             <thead>
               <tr>
                 <th>Current conclusion</th>
-                <th>Scope</th>
+                <th>Applicability</th>
                 <th>Status</th>
                 <th></th>
               </tr>
@@ -1192,7 +1206,7 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, onR
                     <button className="conclusionSelect" onClick={e => { e.stopPropagation(); focus(r.id); }}>{r.label}</button>
                     <small>{r.id}</small>
                   </td>
-                  <td>{r.scope || "—"}</td>
+                  <td>{r.applicability?.title || r.applicability?.description || r.scope || "—"}</td>
                   <td>
                     <Badge state={r.state} />
                   </td>
@@ -1215,7 +1229,7 @@ function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, onR
         </div>
         }
       </div>
-      {focused && current && graphSelection !== "conclusion" ? <aside className="inspector graphInspector" aria-label="Selected node details"><Button variant="outline" onClick={() => setGraphSelection("conclusion")}>Back to conclusion</Button>{graphSelection === "context" ? <><h2>{available.has(selected) ? "Available for reuse" : "Excluded from context"}</h2><p>Scope: {current.conclusion.scope}</p><p>{available.has(selected) ? "Admitted, current, and eligible for the signed-in owner. Each agent's permissions are checked separately." : "This conclusion is not eligible for the current owner context."}</p></> : <><h2>{evidenceName(current.evidence[Number(graphSelection.split(":")[1])])}</h2><EvidenceContent row={current.evidence[Number(graphSelection.split(":")[1])]} /></>}</aside> : <Inspector
+      {focused && current && graphSelection !== "conclusion" ? <aside className="inspector graphInspector" aria-label="Selected node details"><Button variant="outline" onClick={() => setGraphSelection("conclusion")}>Back to conclusion</Button>{graphSelection === "context" ? <><h2>{available.has(selected) ? "Available for reuse" : "Excluded from context"}</h2><p>Applicability: {reuseBoundary(current.conclusion)}</p><p>{available.has(selected) ? "Admitted, current, and eligible for the signed-in owner. Each agent's permissions are checked separately." : "This conclusion is not eligible for the current owner context."}</p></> : <><h2>{evidenceName(current.evidence[Number(graphSelection.split(":")[1])])}</h2><EvidenceContent row={current.evidence[Number(graphSelection.split(":")[1])]} /></>}</aside> : <Inspector
         receipt={focused ? current : null}
         pending={focused && !current && !detailError}
         onClose={() => setFocused(false)}

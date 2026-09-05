@@ -56,19 +56,17 @@ class LocalMVPTests(unittest.TestCase):
                              "--proposer", proposer)
         return evidence, proposed["conclusion"]["id"]
 
-    def admitted_conflict(self, first_actors=None, second_actors=None):
+    def admitted_conflict(self):
         imported = self.data("evidence", "import", str(FIXTURE))
         evidence = imported["evidence"][0]
 
-        def propose(statement, actors):
+        def propose(statement):
             args = ["propose", "--statement", statement, "--evidence", evidence,
                     "--scope", "msa-negotiation", "--proposer", "agent:runner"]
-            for actor in actors or []:
-                args += ["--allow-actor", actor]
             return self.data(*args)["conclusion"]["id"]
 
-        first = propose("The liability cap is 1x annual fees", first_actors)
-        second = propose("The liability cap is uncapped", second_actors)
+        first = propose("The liability cap is 1x annual fees")
+        second = propose("The liability cap is uncapped")
         self.data("review", first, "--admit", "--reviewer", "human:alice")
         self.data("review", second, "--admit", "--reviewer", "human:alice")
         relation = self.data("relation", "propose", first, "--to", second,
@@ -563,8 +561,7 @@ class LocalMVPTests(unittest.TestCase):
         self.assertNotIn("The liability cap is uncapped", raw)
 
     def test_contradiction_quarantine_precedes_actor_filtering_and_graph_traversal(self):
-        _, first, second, relation = self.admitted_conflict(
-            first_actors=["agent:successor"], second_actors=["agent:other"])
+        _, first, second, relation = self.admitted_conflict()
         context = self.data("context", "--scope", "msa-negotiation",
                             "--actor", "agent:successor")
         self.assertEqual(context["knowledge"], [])

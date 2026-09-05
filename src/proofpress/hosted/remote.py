@@ -33,7 +33,9 @@ def main(argv=None):
     propose = subparsers.add_parser("propose")
     propose.add_argument("--statement", required=True)
     propose.add_argument("--evidence", action="append", required=True)
-    propose.add_argument("--scope", required=True)
+    propose.add_argument("--scope", help="optional legacy exact-filter metadata")
+    propose.add_argument("--applicability-json",
+                         help="JSON context card: title, description, when_relevant, keywords, validity_conditions")
     propose.add_argument("--idempotency-key")
     evaluate = subparsers.add_parser("evaluate")
     evaluate.add_argument("conclusion_id")
@@ -49,6 +51,9 @@ def main(argv=None):
     context = subparsers.add_parser("context")
     context.add_argument("--scope")
     context.add_argument("--task")
+    discover = subparsers.add_parser("discover-context")
+    discover.add_argument("--task")
+    discover.add_argument("--limit", type=int, default=24)
     summary = subparsers.add_parser("review-summary")
     summary.add_argument("--scope")
     receipt = subparsers.add_parser("review-receipt")
@@ -67,6 +72,8 @@ def main(argv=None):
         elif args.command == "propose":
             result = client.propose_conclusion(
                 args.statement, args.evidence, args.scope, "server-derived",
+                applicability=(json.loads(args.applicability_json)
+                               if args.applicability_json else None),
                 idempotency_key=args.idempotency_key)
         elif args.command == "evaluate":
             result = client.evaluate_conclusion(args.conclusion_id)
@@ -84,6 +91,9 @@ def main(argv=None):
         elif args.command == "context":
             result = client.context(
                 scope=args.scope, actor="server-derived", task=args.task)
+        elif args.command == "discover-context":
+            result = client.discover_context(
+                actor="server-derived", task=args.task, limit=args.limit)
         elif args.command == "review-summary":
             result = client.review_summary(args.scope)
         elif args.command == "revision-instructions":
@@ -93,8 +103,8 @@ def main(argv=None):
                 raise ValueError("No revision request recorded for this conclusion")
             qualifiers = json.dumps({"revision_of": args.conclusion_id, "revision_request_ref": request["event_id"]})
             print(f'Read proofpress_get_review_receipt for {args.conclusion_id}. Requested change: {result.get("review", {}).get("note", "")}\n'
-                  f'Submit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: {qualifiers}. '
-                  'Preserve other required profile qualifiers. Run evaluation, then return the new review link. Do not approve or overwrite the original.')
+                  f'Submit supporting evidence, then use proofpress_propose_conclusion with qualifiers: {qualifiers}. '
+                  'Preserve other required profile qualifiers and state the revised applicability. Run evaluation, then return the new review link. Do not approve or overwrite the original.')
             return
         else:
             result = client.review_receipt(args.conclusion_id)

@@ -67,6 +67,15 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertEqual(invalid_parameters["error"]["details"]["unknown"],
                          ["cloud_tenant"])
 
+        retired_reader_acl = self.execute(
+            "conclusion.propose", statement="A bounded conclusion",
+            evidence_refs=[], proposer="agent:test",
+            allowed_actors=["agent:legal"])
+        self.assertEqual(retired_reader_acl["error"]["code"],
+                         "invalid_parameters")
+        self.assertEqual(retired_reader_acl["error"]["details"]["unknown"],
+                         ["allowed_actors"])
+
     def test_frozen_conformance_vectors(self):
         fixture = json.loads(CONFORMANCE.read_text(encoding="utf-8"))
         self.assertEqual(fixture["schema_version"],
@@ -234,7 +243,7 @@ class LocalOperationContractTests(unittest.TestCase):
             statement="The liability cap is 1x annual fees",
             evidence_refs=[evidence_id], scope="msa-negotiation",
             proposer="agent:runner", expires_at=None, artifact_refs=[],
-            allowed_actors=["agent:successor"], qualifiers=None, profile=None,
+            applicability=None, qualifiers=None, profile=None,
         )
         conclusion_id = proposed["result"]["conclusion"]["id"]
 

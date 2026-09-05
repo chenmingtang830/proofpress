@@ -26,18 +26,27 @@ AGENT_OPERATIONS = frozenset({
     "capabilities.get", "configuration.get", "evidence.submit",
     "conclusion.propose", "conclusion.evaluate", "conclusion.judge",
     "conclusion.judge_batch", "relation.propose", "relation.evaluate",
-    "relation.judge", "graph.get", "graph.traverse", "context.get",
+    "relation.judge", "graph.get", "graph.traverse", "context.get", "context.discover",
     "review.summary", "review.receipt",
 })
 IDENTITY_PARAMETERS = {
     "conclusion.propose": "proposer",
+    "conclusion.evaluate": "actor",
+    "conclusion.judge": "actor",
+    "conclusion.judge_batch": "actor",
     "relation.propose": "proposer",
+    "relation.evaluate": "actor",
+    "relation.judge": "actor",
     "conclusion.review": "reviewer",
     "conclusion.supersede": "reviewer",
     "relation.review": "reviewer",
     "relation.resolve": "reviewer",
     "context.get": "actor",
+    "context.discover": "actor",
     "graph.traverse": "actor",
+    "graph.get": "actor",
+    "review.summary": "actor",
+    "review.receipt": "actor",
 }
 
 
@@ -784,7 +793,14 @@ class HostedControlPlane:
         normalized = json.loads(json.dumps(request))
         parameters = normalized.get("parameters")
         if isinstance(parameters, dict) and operation in IDENTITY_PARAMETERS:
-            parameters[IDENTITY_PARAMETERS[operation]] = context.principal_id
+            # Owners inspect the whole workspace in their review surface. An
+            # agent's actor identity is always server-derived for reads, so a
+            # supplied actor cannot bypass row-level access controls.
+            if (context.role == "owner" and operation in
+                    {"graph.get", "review.summary", "review.receipt"}):
+                parameters.pop("actor", None)
+            else:
+                parameters[IDENTITY_PARAMETERS[operation]] = context.principal_id
         store = SQLiteEventStore(
             self.database, context.workspace_id, context.principal_id)
         record = self._policy(context.workspace_id)

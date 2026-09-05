@@ -104,6 +104,25 @@ Remote MCP exposes evidence submission, conclusion proposal, governed-context
 retrieval, bounded graph and lineage reads, and review links. It never exposes
 Human Approval, policy mutation, credential administration, or recovery.
 
+## Discovering governed context
+
+An agent does not need to know a scope string before it can find relevant
+knowledge. `proofpress_discover_context(task?)` first applies the workspace and
+actor visibility checks, then returns only admitted, current context cards. A
+card is deliberately small and YAML-frontmatter-shaped: `title`,
+`description`, `when_relevant`, `keywords`, and `validity_conditions`. Task
+words rank those visible cards; this ranking is a discovery aid, never an
+authorization decision.
+
+New proposals may provide that card as `applicability` and omit `scope`.
+`scope` remains an optional exact filter for legacy callers and existing
+records. The hosted credential supplies the authenticated workspace and agent
+identity; new proposals do not configure per-knowledge reader lists. Historical
+rows that already contain a restrictive `allowed_actors` value retain that
+legacy restriction until an owner explicitly migrates them. Semantic matching
+never broadens access. After selecting a card, the agent still reads governed
+context and its receipt before relying on the conclusion.
+
 `proofpress_get_lineage` follows one conclusion backward through `supports`,
 `derived_from`, and `bound_as` edges to the original source records.
 `proofpress_traverse_graph` follows admitted conclusion-to-conclusion relations

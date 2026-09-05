@@ -186,21 +186,23 @@ class ProofpressClient:
             parameters["profile"] = profile
         return self.execute("evidence.submit", parameters, **meta)
 
-    def propose_conclusion(self, statement, evidence_refs, scope, proposer,
+    def propose_conclusion(self, statement, evidence_refs, scope=None, proposer=None,
                            *, expires_at=None, artifact_refs=None,
-                           allowed_actors=None, qualifiers=None, profile=None, **meta):
+                           applicability=None, qualifiers=None,
+                           profile=None, **meta):
         return self.execute("conclusion.propose", {
             "statement": statement, "evidence_refs": list(evidence_refs),
             "scope": scope, "proposer": proposer, "expires_at": expires_at,
             "artifact_refs": list(artifact_refs or []),
-            "allowed_actors": allowed_actors, "qualifiers": qualifiers,
+            "applicability": applicability,
+            "qualifiers": qualifiers,
             "profile": profile}, **meta)
-    def evaluate_conclusion(self, conclusion_id, **meta):
-        return self.execute("conclusion.evaluate", {"conclusion_id": conclusion_id}, **meta)
-    def judge_conclusion(self, conclusion_id, **meta):
-        return self.execute("conclusion.judge", {"conclusion_id": conclusion_id}, **meta)
-    def judge_scope(self, scope, **meta):
-        return self.execute("conclusion.judge_batch", {"scope": scope}, **meta)
+    def evaluate_conclusion(self, conclusion_id, *, actor=None, **meta):
+        return self.execute("conclusion.evaluate", {"conclusion_id": conclusion_id, "actor": actor}, **meta)
+    def judge_conclusion(self, conclusion_id, *, actor=None, **meta):
+        return self.execute("conclusion.judge", {"conclusion_id": conclusion_id, "actor": actor}, **meta)
+    def judge_scope(self, scope, *, actor=None, **meta):
+        return self.execute("conclusion.judge_batch", {"scope": scope, "actor": actor}, **meta)
     def review_conclusion(self, conclusion_id, decision, reviewer, *, note=None,
                           review_request_id=None, expected_head=None, **meta):
         return self.execute("conclusion.review", {
@@ -234,8 +236,8 @@ class ProofpressClient:
             "relation_id": relation_id, "disposition": disposition,
             "reviewer": reviewer, "winner": winner, "note": note,
             "expected_head": expected_head}, **meta)
-    def graph(self, scope=None):
-        return self.execute("graph.get", {"scope": scope})
+    def graph(self, scope=None, actor=None):
+        return self.execute("graph.get", {"scope": scope, "actor": actor})
     def traverse_graph(self, seed_ids, *, scope=None, actor=None, task=None,
                        max_depth=2, max_claims=48, state="admitted"):
         return self.execute("graph.traverse", {
@@ -247,8 +249,11 @@ class ProofpressClient:
         return self.execute("context.get", {
             "scope": scope, "actor": actor, "task": task,
             "include_blocked_statements": include_blocked_statements})
-    def review_summary(self, scope=None):
-        return self.execute("review.summary", {"scope": scope})
+    def discover_context(self, *, actor=None, task=None, limit=24):
+        return self.execute("context.discover", {
+            "actor": actor, "task": task, "limit": limit})
+    def review_summary(self, scope=None, actor=None):
+        return self.execute("review.summary", {"scope": scope, "actor": actor})
 
-    def review_receipt(self, conclusion_id):
-        return self.execute("review.receipt", {"conclusion_id": conclusion_id})
+    def review_receipt(self, conclusion_id, actor=None):
+        return self.execute("review.receipt", {"conclusion_id": conclusion_id, "actor": actor})

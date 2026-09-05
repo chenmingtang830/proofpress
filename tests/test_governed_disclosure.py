@@ -25,12 +25,7 @@ class GovernedDisclosureTests(unittest.TestCase):
         evidence = knowledge.import_evidence_v2(str(self.source))["evidence"][0]
         self.visible = knowledge.propose_v2("Liability cap is one times annual fees", [evidence],
                                             "matter-1", "agent:proposer")["conclusion"]["id"]
-        self.secret = knowledge.propose_v2("Secret indemnity carveout", [evidence], "matter-1",
-                                           "agent:proposer", allowed_actors=["agent:other"])["conclusion"]["id"]
         knowledge.review_v2(self.visible, "admit", "human:reviewer")
-        knowledge.review_v2(self.secret, "admit", "human:reviewer")
-        relation = knowledge.propose_relation_v2(self.visible, self.secret, "qualifies", "agent:proposer")["relation"]["id"]
-        knowledge.review_relation_v2(relation, "admit", "human:reviewer")
 
     def tearDown(self):
         os.chdir(self.previous); self.tmp.cleanup()
@@ -70,13 +65,11 @@ print(json.dumps(out))
                                  "scope": "matter-1", "receipts": dry["receipt_digests"],
                                  "config_digest": dry["config_digest"]})
 
-    def test_governed_context_is_bounded_and_blocked_neighbor_has_no_statement(self):
+    def test_governed_context_contains_admitted_workspace_knowledge(self):
         packet = knowledge.disclose_v1("What is the liability cap?", "agent:executor", "matter-1")
         self.assertEqual([row["id"] for row in packet["governed_context"]], [self.visible])
         self.assertTrue(packet["lineage"])
-        blocked = next(row for row in packet["blocked"] if row.get("conclusion_id") == self.secret)
-        self.assertNotIn("statement", blocked)
-        self.assertNotIn("Secret indemnity", json.dumps(packet))
+        self.assertEqual(packet["blocked"], [])
         self.assertEqual(packet["discovered_evidence"], [])
 
     def test_novel_discovery_is_not_governed_and_never_mutates_ledger(self):
@@ -130,7 +123,7 @@ print(json.dumps(out))
         self.assertTrue(submitted["submitted"])
         self.assertTrue(any(e["type"] == "assimilation_submitted" for e in knowledge.v2_events()))
         self.assertFalse(any(e["type"] == "conclusion_admitted" and
-                             e.get("subject_ref") not in {self.visible, self.secret}
+                             e.get("subject_ref") != self.visible
                              for e in knowledge.v2_events()))
         replay = knowledge.assimilate_v1(packet, "agent:executor", "matter-1",
                                           submit=True, idempotency_key=key,

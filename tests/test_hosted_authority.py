@@ -89,6 +89,39 @@ class HostedAuthorityTests(unittest.TestCase):
         self.assertEqual(context["result"]["actor"], "agent:codex-laptop")
         self.assertEqual(context["result"]["knowledge"][0]["id"], conclusion["id"])
 
+    def test_hosted_discovery_uses_server_identity_and_never_requires_scope(self):
+        imported = self.control.execute(
+            self.agent["token"], operation("evidence.submit", {
+                "payload": evidence_payload()}, "discovery-evidence"))
+        proposed = self.control.execute(
+            self.agent["token"], operation("conclusion.propose", {
+                "statement": "The Acme liability cap is one year of fees.",
+                "evidence_refs": [imported["result"]["evidence"][0]],
+                "proposer": "spoofed",
+                "applicability": {
+                    "title": "Acme liability-cap interpretation",
+                    "keywords": ["Acme", "liability cap"],
+                    "when_relevant": ["Reviewing Acme commercial contracts"],
+                },
+            }, "discovery-proposal"))
+        self.assertTrue(proposed["ok"])
+        conclusion = proposed["result"]["conclusion"]
+        self.assertIsNone(conclusion["scope"])
+        self.assertTrue(self.control.execute(
+            self.agent["token"], operation("conclusion.evaluate", {
+                "conclusion_id": conclusion["id"]}))["ok"])
+        self.assertTrue(self.control.execute(
+            self.owner["token"], operation("conclusion.review", {
+                "conclusion_id": conclusion["id"], "decision": "admit",
+                "reviewer": "spoofed", "request_id": "discovery-review"}))["ok"])
+
+        discovery = self.control.execute(
+            self.agent["token"], operation("context.discover", {
+                "actor": "agent:other", "task": "Acme liability cap"}))
+        self.assertTrue(discovery["ok"])
+        self.assertEqual(discovery["result"]["actor"], "agent:codex-laptop")
+        self.assertEqual(discovery["result"]["cards"][0]["id"], conclusion["id"])
+
     def test_revocation_is_immediate_and_agent_cannot_administer_credentials(self):
         with self.assertRaises(self.hosted.HostedAuthError):
             self.control.issue_agent_credential(
