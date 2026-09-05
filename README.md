@@ -119,6 +119,11 @@ curl -fsSL \
   https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
   -o .agents/skills/proofpress-governed-context/SKILL.md
 
+mkdir -p .proofpress
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
+  -o .proofpress/context-policy.yaml
+
 uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
 proofpress quickstart
 ```
@@ -126,6 +131,20 @@ proofpress quickstart
 The skill teaches a compatible agent when to retrieve eligible context, submit
 bounded evidence, propose a candidate, and stop for Human Approval. The MCP is
 the safe tool surface that executes that workflow.
+
+`.proofpress/context-policy.yaml` is the customer's versioned, repository-local
+rule set for what the agent should and should not propose. Customize its narrow
+workflow examples and commit it with the project. It guides proposal selection;
+it cannot weaken Proofpress checks, credential boundaries, or Human Approval.
+This repository dogfoods the same contract in its own
+[context policy](.proofpress/context-policy.yaml).
+
+Configure the optional LM Judge separately in Hosted Admin. Start with the
+[evidence-support criteria](.agents/skills/proofpress-governed-context/assets/judge-criteria.md),
+adapt them to the customer's risk and evidence requirements, and keep Human
+Approval as the reuse gate. Judge criteria do not belong in
+`.proofpress/context-policy.yaml`: the YAML controls what an agent may propose;
+the Judge criteria assess whether bound evidence supports a proposal.
 
 `proofpress quickstart` creates a new `./proofpress-demo` Git repository, seeds
 the packaged synthetic admission lifecycle, and writes and prints a ready-to-copy
