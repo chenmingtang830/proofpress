@@ -76,7 +76,7 @@ class KnowledgeLedgerTests(unittest.TestCase):
             ledger, _ = self.new_ledger(directory, "--proposer", "agent:runner")
             data = json.loads(ledger.read_text())
             eligible = [c for c in data["claims"] if c["gate"]["eligible"]]
-            self.run_cli("knowledge", "review", str(ledger), "--claim", eligible[0]["id"], "--decision", "reject", "--reviewer", "human:demo")
+            self.run_cli("knowledge", "review", str(ledger), "--claim", eligible[0]["id"], "--decision", "reject", "--reviewer", "human:demo", "--note", "Evidence does not support the claimed boundary.")
             self.run_cli("knowledge", "review", str(ledger), "--claim", eligible[1]["id"], "--decision", "accept", "--reviewer", "human:demo")
             data = knowledge.read(ledger)
             data["active_policy"] = knowledge.policy({"version": 2, "min_sample_size": 500})

@@ -643,11 +643,23 @@ class HostedControlPlane:
                     elif not knowledge.evaluate_v2(job["conclusion_id"])["eligible"]:
                         state, detail = "blocked", "Fix deterministic checks before requesting LM advice."
                     else:
-                        knowledge.judge_v2(job["conclusion_id"])
+                        receipt = knowledge.receipt_v2(job["conclusion_id"])
+                        recommendation = receipt.get("recommendation")
+                        if not (recommendation and
+                                recommendation.get("conclusion_digest") == receipt["conclusion"]["digest"] and
+                                recommendation.get("policy_digest") == record["policy"]["digest"]):
+                            knowledge.judge_v2(job["conclusion_id"])
                         state, detail = "completed", "LM advice recorded."
             except Exception:
                 # Do not persist provider responses or executable diagnostics in owner-facing data.
-                pass
+                try:
+                    store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
+                    with using_event_store(store), knowledge.using_policy(self._policy(job["workspace_id"])["policy"]):
+                        receipt = knowledge.receipt_v2(job["conclusion_id"])
+                        if receipt.get("recommendation"):
+                            state, detail = "completed", "LM advice recorded."
+                except Exception:
+                    pass
             with self._db() as connection:
                 connection.execute("UPDATE hosted_judge_jobs SET state=?, detail=?, updated_at=? WHERE job_id=?", (state, detail, _now(), job["job_id"]))
 
