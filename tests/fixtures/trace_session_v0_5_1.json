@@ -1,0 +1,81 @@
+{
+  "context": "https://trace-protocol.org/v0.3",
+  "trace_version": "0.5.1",
+  "id": "trace_20260904_051demo",
+  "created": "2026-09-04T00:00:00Z",
+  "ended": "2026-09-04T00:05:00Z",
+  "status": "completed",
+  "metadata": {
+    "project": "trace-0-5-1-demo",
+    "project_key": "trace-0-5-1-demo",
+    "participants": [],
+    "tags": [],
+    "custom": {}
+  },
+  "events": [
+    {
+      "id": "evt_051_confidence_001",
+      "timestamp": "2026-09-04T00:02:00Z",
+      "session_id": "trace_20260904_051demo",
+      "type": "decision",
+      "actor": {
+        "type": "ai",
+        "id": "agent:experiment-runner"
+      },
+      "decision": {
+        "description": "Keep the candidate policy at version 3.",
+        "rationale": "The measured effect clears the minimum effect the rollout declared.",
+        "proposed_by": {
+          "type": "ai",
+          "id": "agent:experiment-runner"
+        },
+        "disposition": "accepted",
+        "resolved_by": {
+          "type": "human",
+          "id": "human:demo"
+        },
+        "suggestion_type": "proactive",
+        "tags": [],
+        "warnings": [],
+        "confidence": {
+          "interval": {
+            "lower": 41.25,
+            "upper": 583.75,
+            "level": 0.9
+          },
+          "method": {
+            "name": "paired_percentile_bootstrap",
+            "algorithm": "rsi-exam-gate/percentile-bootstrap/1",
+            "resamples": 5000,
+            "seed": 20260902
+          },
+          "sample_size": 8,
+          "evidence_digests": {
+            "parent-results": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "candidate-results": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "contract": "rsi-exam-decision-log/v1",
+          "statistic": "mean_paired_delta",
+          "unit": "points",
+          "direction": "higher",
+          "estimate": 284.5,
+          "evidence": [
+            {
+              "role": "parent-results",
+              "locator": "methods/results/v2/visible.json",
+              "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "role": "candidate-results",
+              "locator": "methods/results/v3/visible.json",
+              "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ]
+        }
+      },
+      "context": {
+        "related_event_ids": []
+      }
+    }
+  ]
+}

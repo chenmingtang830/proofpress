@@ -20,9 +20,17 @@ SCHEMA = "proofpress/knowledge-ledger/v1"
 ALLOWED = {"service.name","experiment.id","experiment_id","experimentId","experiment.variant","variant","metric.conversion_rate","conversion_rate","metric.value","experiment.outcome","outcome","sample.size","sample_size"}
 DEFAULT_POLICY = {"id":"mvp-evidence-and-completeness","version":1,"min_sample_size":1,"require_guardrail_pass":False,"attribute_allowlist_version":"v1"}
 TRACE_EVENT_TYPES = {"tool_call", "decision", "annotation", "state_change", "contribution"}
-TRACE_SUPPORTED_VERSION = "0.5.0"
 TRACE_SCHEMA_URL = "https://trace-protocol.org/schemas/trace-v0.5.json"
-TRACE_SCHEMA_SHA256 = "sha256:10459fb5e334889b17f9abae36de175490558f300077ba5273d2764f2cb58463"
+# TRACE wire versions this adapter accepts, each pinned to the upstream release commit that
+# carries it and to the SHA-256 of that release's trace-v0.5.json. The digest records which
+# schema bytes a version was reviewed against; the adapter validates the bounded fields it
+# reads and never fetches, hashes, or applies the schema at import time.
+TRACE_SUPPORTED_VERSIONS = {
+    "0.5.0": {"commit": "6260cfe7089815763667d8cc869673a40ca570e0",
+              "sha256": "sha256:10459fb5e334889b17f9abae36de175490558f300077ba5273d2764f2cb58463"},
+    "0.5.1": {"commit": "a97d4e81fb3b4ec5134e992882d28a6cf97fac04",
+              "sha256": "sha256:ce7b5bf03b31ab669d12018b0d64fa2421d03b7e7ab2da156f98581e4d62c544"},
+}
 TRACE_DIGEST_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
 
 def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
@@ -851,8 +859,9 @@ def _trace_session(payload):
     if not payload.get("id") or not isinstance(payload.get("events"), list):
         raise ValueError("not a TRACE session document")
     version = str(payload.get("trace_version") or "")
-    if version != TRACE_SUPPORTED_VERSION:
-        raise ValueError("unsupported TRACE trace_version: " + version)
+    if version not in TRACE_SUPPORTED_VERSIONS:
+        raise ValueError("unsupported TRACE trace_version: " + version
+                         + "; accepted: " + ", ".join(sorted(TRACE_SUPPORTED_VERSIONS)))
     return payload
 
 

@@ -6,12 +6,20 @@
 
 [//]: # (ob:0813cb3c)
 This is an experimental, developer-facing integration reference. Proofpress
-imports a pinned TRACE v0.5.0 session JSON document as external
-decision-provenance evidence. The adapter is pinned to upstream release
-`v0.5.0` / schema commit `6260cfe7089815763667d8cc869673a40ca570e0`
-(`sha256:10459fb5e334889b17f9abae36de175490558f300077ba5273d2764f2cb58463`
-for `trace-v0.5.json`). TRACE remains the producer of the run record;
-Proofpress remains the authority for claim admission and governed context.
+imports a pinned TRACE session JSON document as external decision-provenance
+evidence. Two wire versions are accepted, each pinned to the upstream release
+that carries it and to the SHA-256 of that release's `trace-v0.5.json`:
+
+- `0.5.0`, release `v0.5.0` / commit `6260cfe7089815763667d8cc869673a40ca570e0`
+  (`sha256:10459fb5e334889b17f9abae36de175490558f300077ba5273d2764f2cb58463`)
+- `0.5.1`, release `v0.5.1` / commit `a97d4e81fb3b4ec5134e992882d28a6cf97fac04`
+  (`sha256:ce7b5bf03b31ab669d12018b0d64fa2421d03b7e7ab2da156f98581e4d62c544`)
+
+Any other `trace_version` is refused before event fields are projected. The
+digests record which schema bytes each accepted version was reviewed against;
+the adapter never fetches, hashes, or applies the schema at import time. TRACE
+remains the producer of the run record; Proofpress remains the authority for
+claim admission and governed context.
 
 [//]: # (ob:d6858175)
 ## Import
@@ -40,12 +48,19 @@ name, status, duration, host, and output hash.
 ## Optional decision confidence
 
 [//]: # (ob:e1c0f002)
-TRACE v0.5 permits additive decision fields. When a `decision.confidence`
-object is present, Proofpress imports only its interval (`lower`, `upper`, and
-optional `level`), method name plus optional resample count, positive sample
-size, and named SHA-256 evidence digests. The adapter rejects malformed bounds,
+TRACE v0.5 permits additive decision fields, and TRACE 0.5.1 types the
+confidence measurement upstream. Proofpress continues to project only the
+bounded fields below. When a `decision.confidence` object is present,
+Proofpress imports only its interval (`lower`, `upper`, and optional `level`),
+method name plus optional resample count, positive sample size, and named
+SHA-256 evidence digests. The adapter rejects malformed bounds,
 methods, sample sizes, or digests; it does not read the result files, rerun the
 method, or infer a decision from the interval.
+
+Accepting a wire version is not a promise to import every document valid under
+it. This adapter applies its own bounded profile: a confidence object must
+carry non-empty named evidence digests, even though TRACE 0.5.1 makes that
+field optional.
 
 [//]: # (ob:5af5e369)
 It excludes tool inputs and outputs, raw prompts, transcripts, reasoning
