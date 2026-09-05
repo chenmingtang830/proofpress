@@ -447,7 +447,8 @@ class LocalMVPTests(unittest.TestCase):
         packet = self.data("context", "--scope", "msa-negotiation")
         reasons = {row["id"]: row["reason"] for row in packet["blocked"]}
         self.assertEqual(reasons[old], "superseded")
-        self.data("review", new, "--reject", "--reviewer", "human:alice")
+        self.data("review", new, "--reject", "--reviewer", "human:alice",
+                  "--note", "The evidence does not support the escalation claim.")
         packet = self.data("context", "--scope", "msa-negotiation")
         reasons = {row["id"]: row["reason"] for row in packet["blocked"]}
         self.assertEqual(reasons[new], "rejected")
@@ -478,6 +479,7 @@ class LocalMVPTests(unittest.TestCase):
         self.assertTrue(repeated["idempotent"])
         self.assertEqual(self.count_events(), count_after_review)
         stale = self.cli("review", cid, "--reject", "--reviewer", "human:alice",
+                         "--note", "The evidence does not support the conclusion.",
                          "--request-id", "review-request-002", "--expected-head", head,
                          check=False)
         self.assertNotEqual(stale.returncode, 0)
@@ -553,7 +555,9 @@ class LocalMVPTests(unittest.TestCase):
         self.assertIn("through relation resolve", bypass.stderr)
         for decision in ("--reject", "--request-changes"):
             lifecycle_bypass = self.cli("review", second, decision,
-                                        "--reviewer", "human:mallory", check=False)
+                                        "--reviewer", "human:mallory", "--note",
+                                        "This endpoint is blocked by the unresolved contradiction.",
+                                        check=False)
             self.assertNotEqual(lifecycle_bypass.returncode, 0)
             self.assertIn("through relation resolve", lifecycle_bypass.stderr)
 
