@@ -14,6 +14,9 @@ propose_when:
 do_not_propose:
   - routine_code_test_documentation_or_ui_edit
   - pull_request_deployment_or_ci_status_without_a_durable_learning
+  - project_progress_next_action_or_release_checklist
+  - synthetic_dogfood_data_or_fixture
+  - snapshot_superseded_by_a_later_observed_state
   - roadmap_brainstorm_or_unvalidated_product_hypothesis
   - gtm_draft_outreach_copy_or_unpublished_marketing_material
   - notion_working_notes_or_full_page_copy
@@ -45,6 +48,7 @@ customer_rules:
   do_not_propose:
     - partner_outcome_claim_before_kelton_validation
     - data_or_history_from_another_customer_workspace
+    - transient_workflow_state_even_when_it_is_operationally_useful
 
 non_overridable_safety:
   agent_may_not_self_approve: true

@@ -139,6 +139,13 @@ it cannot weaken Proofpress checks, credential boundaries, or Human Approval.
 This repository dogfoods the same contract in its own
 [context policy](.proofpress/context-policy.yaml).
 
+Configure the optional LM Judge separately in Hosted Admin. Start with the
+[evidence-support criteria](.agents/skills/proofpress-governed-context/assets/judge-criteria.md),
+adapt them to the customer's risk and evidence requirements, and keep Human
+Approval as the reuse gate. Judge criteria do not belong in
+`.proofpress/context-policy.yaml`: the YAML controls what an agent may propose;
+the Judge criteria assess whether bound evidence supports a proposal.
+
 `proofpress quickstart` creates a new `./proofpress-demo` Git repository, seeds
 the packaged synthetic admission lifecycle, and writes and prints a ready-to-copy
 `proofpress-mcp.json` for a local stdio MCP connection. It uses no account,

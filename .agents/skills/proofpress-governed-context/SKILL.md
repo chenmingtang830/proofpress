@@ -28,6 +28,11 @@ Start from the maintained template at `assets/context-policy.yaml` in this
 skill. Customers should copy it to `.proofpress/context-policy.yaml`, then
 configure and version that file rather than fork this core skill.
 
+Keep LM Judge configuration separate from this intake policy. When a workspace
+uses advisory evaluation, start from `assets/judge-criteria.md` and save the
+adapted criteria in Hosted Admin. The Judge evaluates evidence support; it does
+not decide what enters Proofpress or authorize reuse.
+
 ## Preconditions
 
 Require a configured Proofpress MCP server or a supported Python, CLI, or HTTP

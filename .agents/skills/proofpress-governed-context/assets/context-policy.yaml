@@ -18,6 +18,11 @@ do_not_propose:
   - duplicate_of_existing_candidate_or_governed_context
   - raw_trace_or_full_source_dump
   - credential_or_secret
+  - project_progress_or_next_action
+  - pull_request_or_deployment_status
+  - release_checklist
+  - synthetic_dogfood_data
+  - snapshot_superseded_by_later_state
 
 evidence:
   require_bounded_projection: true
@@ -38,6 +43,9 @@ applicability:
 customer_rules:
   propose: []
   do_not_propose: []
+
+# A workflow may still produce a durable decision or incident learning. Propose
+# only that bounded, evidence-backed conclusion, not its transient status trail.
 
 non_overridable_safety:
   agent_may_not_self_approve: true

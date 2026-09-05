@@ -61,6 +61,11 @@ policy. It may narrow what an agent proposes, but cannot weaken server checks,
 credential isolation, lifecycle rules, or Human Approval. Customers configure
 this file instead of forking the Proofpress-maintained core skill.
 
+If the workspace enables the advisory LM Judge, copy and adapt the maintained
+[`judge-criteria.md`](../.agents/skills/proofpress-governed-context/assets/judge-criteria.md)
+in Hosted Admin. Keep it separate from the repository intake policy: Judge
+criteria assess evidence support and never replace Human Approval.
+
 Open `/connect` on the deployed Proofpress origin and copy the displayed MCP
 URL into a client that supports remote Streamable HTTP servers. The client
 discovers the authorization server and opens `/authorize` in a browser.
