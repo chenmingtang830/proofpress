@@ -1,38 +1,135 @@
 {
   "context": "https://trace-protocol.org/v0.3",
-  "trace_version": "0.5.0",
-  "id": "trace_confidence_demo_001",
-  "created": "2026-09-02T00:00:00Z",
-  "ended": "2026-09-02T00:05:00Z",
-  "status": "completed",
-  "metadata": {
-    "project": "decision-confidence-demo",
-    "project_key": "decision-confidence-demo"
-  },
+  "created": "2026-09-05T04:01:00+00:00",
+  "ended": "2026-09-05T04:01:00+00:00",
   "events": [
     {
-      "id": "evt_confidence_001",
-      "timestamp": "2026-09-02T00:02:00Z",
-      "session_id": "trace_confidence_demo_001",
-      "type": "decision",
-      "actor": {"type": "ai", "id": "agent:experiment-runner"},
+      "actor": {
+        "id": "claude-code:claude-opus-5",
+        "role": "rollout-agent",
+        "type": "ai"
+      },
+      "annotation": null,
+      "context": {
+        "conversation_snippet": null,
+        "conversation_turn": null,
+        "reasoning_summary": null,
+        "related_event_ids": []
+      },
+      "contribution": null,
       "decision": {
-        "description": "Keep the candidate provisionally and request fresh-seed replication.",
-        "rationale": "The interval straddles zero.",
-        "proposed_by": {"type": "ai", "id": "agent:experiment-runner"},
-        "disposition": "accepted",
-        "resolved_by": {"type": "human", "id": "human:demo"},
-        "suggestion_type": "proactive",
         "confidence": {
-          "interval": {"lower": -29, "upper": 578, "level": 0.9},
-          "method": {"name": "paired_bootstrap", "resamples": 5000},
-          "sample_size": 8,
+          "candidate_method_tree_sha256": null,
+          "confirm_policy": "inconclusive",
+          "contract": "rsi-exam-decision-log/v1",
+          "direction": "higher",
+          "estimate": -318.75,
+          "evidence": [
+            {
+              "locator": "results/v1/visible_result.json",
+              "role": "parent",
+              "sha256": "a9fbeefee5519f92a3786b1ce1958637a8e9f92e6ac5a62ceae24aafad795afe"
+            },
+            {
+              "locator": "results/v2/visible_result.json",
+              "role": "candidate",
+              "sha256": "2b989bb0748aa05e8828a3b68f2074968994d70118a09956db5fdfc45fa3da8a"
+            }
+          ],
           "evidence_digests": {
-            "parent_results": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
-            "candidate_results": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
-          }
-        }
-      }
+            "candidate": "sha256:2b989bb0748aa05e8828a3b68f2074968994d70118a09956db5fdfc45fa3da8a",
+            "parent": "sha256:a9fbeefee5519f92a3786b1ce1958637a8e9f92e6ac5a62ceae24aafad795afe"
+          },
+          "holdout": null,
+          "interval": {
+            "level": 0.9,
+            "lower": -382.5,
+            "upper": -258.75
+          },
+          "look_index": null,
+          "method": {
+            "algorithm": "rsi-exam-gate/percentile-bootstrap/1",
+            "name": "percentile_bootstrap",
+            "resamples": 5000,
+            "seed": 20260902
+          },
+          "min_effect": 0.0,
+          "parent_method_tree_sha256": null,
+          "profile_sha256": null,
+          "sample_size": 8,
+          "sizing": null,
+          "statistic": "mean_paired_delta",
+          "suite": null,
+          "unit": "game_score",
+          "verdict": "below"
+        },
+        "description": "Revert v2 (parent v1)",
+        "disposition": "rejected",
+        "proposed_by": {
+          "id": "claude-code:claude-opus-5",
+          "role": "rollout-agent",
+          "type": "ai"
+        },
+        "rationale": "Mean paired delta -318.8 game_score (n=8); 90 percent percentile bootstrap interval [-382.5, -258.8]; verdict below.",
+        "resolved_by": {
+          "id": "rsi-exam-gate/decide.py",
+          "role": "decision-gate",
+          "type": "system"
+        },
+        "revises_event_id": null,
+        "revision_note": "Interval entirely below zero.",
+        "suggestion_type": "proactive",
+        "tags": [
+          "rsi-exam",
+          "decision-gate",
+          "v2"
+        ],
+        "warnings": []
+      },
+      "id": "evt_001",
+      "session_id": "rsiexam_demo-rollout",
+      "state_change": null,
+      "timestamp": "2026-09-05T04:01:00+00:00",
+      "tool_call": null,
+      "type": "decision"
     }
-  ]
+  ],
+  "id": "rsiexam_demo-rollout",
+  "metadata": {
+    "custom": {
+      "decision_log_sha256": "d2bbcc2daec478d781133e6cc6dad0b80d32ac70490bc079516215d30c5776f0",
+      "harness": "claude-code",
+      "importer": "rsi-exam-provenance/trace_from_decisions.py 0.2",
+      "locator_base": "artifacts/app/methods",
+      "model": "claude-opus-5",
+      "rollout_id": "demo-rollout",
+      "source": "rsi-exam-decision-log/v1",
+      "task": "game2048_policy_search"
+    },
+    "description": "Decision-gate record for RSI-Exam rollout demo-rollout",
+    "doi": null,
+    "environment": null,
+    "experiment_id": "demo-rollout",
+    "participants": [
+      {
+        "id": "claude-code:claude-opus-5",
+        "role": "rollout-agent",
+        "type": "ai"
+      },
+      {
+        "id": "rsi-exam-gate/decide.py",
+        "role": "decision-gate",
+        "type": "system"
+      }
+    ],
+    "project": "decision-confidence-demo",
+    "project_key": "decision-confidence-demo",
+    "tags": [
+      "rsi-exam",
+      "decision-gate"
+    ]
+  },
+  "status": "completed",
+  "summary": "RSI-Exam rollout demo-rollout (game2048_policy_search, claude-code, claude-opus-5): 0 kept, 1 reverted, 0 provisional, 0 replicated.",
+  "trace_version": "0.5.1"
 }
