@@ -136,6 +136,8 @@ the safe tool surface that executes that workflow.
 rule set for what the agent should and should not propose. Customize its narrow
 workflow examples and commit it with the project. It guides proposal selection;
 it cannot weaken Proofpress checks, credential boundaries, or Human Approval.
+This repository dogfoods the same contract in its own
+[context policy](.proofpress/context-policy.yaml).
 
 `proofpress quickstart` creates a new `./proofpress-demo` Git repository, seeds
 the packaged synthetic admission lifecycle, and writes and prints a ready-to-copy

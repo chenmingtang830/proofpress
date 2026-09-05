@@ -1,0 +1,53 @@
+schema_version: proofpress/context-policy/v1alpha1
+
+# Proofpress dogfoods its own proposal-selection boundary here. This file
+# guides agents; .proofpress/policy.json and Human Approval remain authoritative.
+purpose: Preserve durable Proofpress product and integration knowledge without turning routine project activity into governed context.
+
+propose_when:
+  - a_product_data_model_or_authority_boundary_is_decided
+  - a_cross_surface_integration_contract_is_shipped_and_verified
+  - a_reproducible_experiment_result_changes_future_product_or_research_work
+  - an_incident_learning_changes_a_safety_or_operational_invariant
+  - a_customer_poc_produces_a_validated_reusable_workflow_conclusion
+
+do_not_propose:
+  - routine_code_test_documentation_or_ui_edit
+  - pull_request_deployment_or_ci_status_without_a_durable_learning
+  - roadmap_brainstorm_or_unvalidated_product_hypothesis
+  - gtm_draft_outreach_copy_or_unpublished_marketing_material
+  - notion_working_notes_or_full_page_copy
+  - duplicate_of_an_existing_candidate_or_governed_conclusion
+  - raw_private_trace_prompt_customer_source_or_credential
+
+evidence:
+  require_bounded_projection: true
+  prefer_stable_artifact_reference: true
+  exclude_private_source_material: true
+  accepted_examples:
+    - merged_pull_request_and_test_receipt
+    - versioned_contract_or_schema
+    - reproducible_experiment_artifact
+    - bounded_incident_receipt
+
+applicability:
+  required_for_reusable_candidates: true
+  include:
+    - title
+    - description
+    - when_relevant
+    - keywords
+    - validity_conditions
+
+customer_rules:
+  propose:
+    - a_kelton_poc_result_only_after_the_real_closed_loop_is_observed
+  do_not_propose:
+    - partner_outcome_claim_before_kelton_validation
+    - data_or_history_from_another_customer_workspace
+
+non_overridable_safety:
+  agent_may_not_self_approve: true
+  owner_or_recovery_credentials_forbidden: true
+  candidate_is_not_governed_context: true
+  human_approval_remains_required: true
