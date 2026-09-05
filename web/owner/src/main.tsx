@@ -38,6 +38,7 @@ type Receipt = {
     statement: string;
     evidence_refs: string[];
     reproposal_of?: string | null;
+    qualifiers?: { reproposal_response?: string };
     scope?: string;
     proposer?: string;
     created_at?: string;
@@ -54,7 +55,8 @@ type Receipt = {
   recommendation?: { recommendation?: string; rationale?: string };
   revision_request?: any;
   revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
-  reproposal_parent?: {id:string;statement:string;evidence_refs:string[];rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
+  reproposal_parent?: {id:string;statement:string;evidence_refs:string[];new_evidence_refs?:string[];reused_evidence_refs?:string[];reproposal_response?:string;rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
+  reproposals?: {id:string;statement:string;state:string}[];
   history?: any[];
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
@@ -175,6 +177,7 @@ function App() {
   const [activity, setActivity] = React.useState<any[]>([]);
   const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
   const [judgeMessage, setJudgeMessage] = React.useState("");
+  const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [credentialSecret, setCredentialSecret] = React.useState("");
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
   React.useEffect(() => {
@@ -527,14 +530,14 @@ function App() {
   }
   async function decide(decision: string, confirmed = false) {
     if (decisionPending.current || !receipt || receipt.conclusion.id !== selected) return;
+    if (["reject", "request_changes"].includes(decision) && !note.trim()) {
+      setError(decision === "reject" ? "Explain why the evidence does not support this conclusion." : "Describe the bounded change the proposer should make.");
+      return;
+    }
     if (["admit", "reject"].includes(decision) && !confirmed) {
       decisionTrigger.current = document.activeElement as HTMLElement;
       setError("");
       setDecisionConfirmation({decision, id: receipt.conclusion.id, statement: receipt.conclusion.statement, scope: reuseBoundary(receipt.conclusion)});
-      return;
-    }
-    if (decision === "request_changes" && !note.trim()) {
-      setError("Describe the bounded change the proposer should make.");
       return;
     }
     decisionPending.current = true;
@@ -561,6 +564,7 @@ function App() {
     setJudgeConfirmation(false);
     decisionPending.current = true;
     setBusy(true);
+    setJudgeRunning(true);
     setError("");
     setJudgeMessage("Reviewing bound evidence… You can keep reading this conclusion.");
     try {
@@ -569,7 +573,7 @@ function App() {
       setReceipt(next);
       setJudgeMessage("LM advice recorded. See Checks for the reasoning.");
     } catch { setJudgeMessage("LM review did not complete. You can retry; no approval was recorded."); }
-    finally { decisionPending.current = false; setBusy(false); }
+    finally { decisionPending.current = false; setBusy(false); setJudgeRunning(false); }
   }
   async function runChecks() {
     if (!receipt || decisionPending.current) return;
@@ -622,6 +626,7 @@ function App() {
             <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion where its applicability card fits. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
             <dl><dt>Applicability</dt><dd>{decisionConfirmation?.scope}</dd></dl>
             <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
+            {decisionConfirmation?.decision === "reject" && <dl><dt>Reason for rejection</dt><dd>{note.trim()}</dd></dl>}
             {error && <p role="alert">{error}</p>}
             <div className="confirmationActions">
               <Button ref={cancelDecision} variant="outline" disabled={busy} onClick={() => setDecisionConfirmation(null)}>Cancel</Button>
@@ -718,6 +723,7 @@ function App() {
               setNote={setNote}
               onDecide={decide}
               busy={busy}
+              judgeRunning={judgeRunning}
               onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
               onEvaluate={runChecks}
               onConfigurePolicy={showAdmin}
@@ -853,6 +859,7 @@ function ReviewPage({
   setNote,
   onDecide,
   busy,
+  judgeRunning,
   onJudge, onEvaluate, onConfigurePolicy,
   fullReview, onOpenFull, onBack, onLedger,
 }: any) {
@@ -921,6 +928,7 @@ function ReviewPage({
         setNote={setNote}
         onDecide={onDecide}
         busy={busy}
+        judgeRunning={judgeRunning}
         onJudge={onJudge}
         onEvaluate={onEvaluate}
         onConfigurePolicy={onConfigurePolicy}
@@ -939,6 +947,7 @@ function Inspector({
   setNote,
   onDecide,
   busy,
+  judgeRunning = false,
   onJudge, onEvaluate,
   readOnly = false,
   fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false,
@@ -962,7 +971,8 @@ function Inspector({
   const checksMissing = !r.evaluation || (r.review_policy && !r.review_policy.checks_current);
   const judgeNeedsSetup = r.review_policy?.mode === "off";
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
-  const judgeFailed = ["failed", "interrupted"].includes(r.judge_job?.state);
+  const judgeInProgress = judgeRunning || (!r.recommendation && ["queued", "running"].includes(r.judge_job?.state));
+  const judgeFailed = !r.recommendation && ["failed", "interrupted"].includes(r.judge_job?.state);
   const approvalBlock = !r.evaluation ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(". ") + "." : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
@@ -985,10 +995,12 @@ function Inspector({
         <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.conclusion)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
+        {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact conclusion and reuse boundary.</p></div></div>}
         {can && <div className="decisionStack"><div><strong>Automated checks</strong><span className={r.evaluation ? (failedChecks.length ? "fail" : "pass") : ""}>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
+        {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><p>{r.recommendation.rationale}</p><small>Advisory only — this does not approve or reject the conclusion.</small></section>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
-        {r.judge_job && ["failed","interrupted","blocked"].includes(r.judge_job.state) && <p>{r.judge_job.detail}</p>}
+        {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
         {can && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
             : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
@@ -1030,6 +1042,8 @@ function Inspector({
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
       {r.reproposal_parent && <section className="revisionSection"><h3>Re-proposal after rejection</h3><p>{r.reproposal_parent.statement}</p><p><b>Previous rejection:</b> {r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><p>Previous evidence: {r.reproposal_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>The earlier rejection remains in the append-only history. This is a new candidate and requires a new human decision.</p></section>}
+      {r.reproposal_parent && <section className="revisionSection"><h3>How this re-proposal addresses the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><p><b>New evidence:</b> {r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None — this legacy re-proposal predates the new evidence requirement."}</p>{r.reproposal_parent.reused_evidence_refs?.length ? <p><b>Reused evidence:</b> {r.reproposal_parent.reused_evidence_refs.join(", ")}</p> : null}</section>}
+      {!!r.reproposals?.length && <section className="revisionSection"><h3>Re-proposals after this rejection</h3><p>These are separate candidates. The rejection above remains part of the append-only history.</p>{r.reproposals.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose?.(candidate.id)}>{candidate.statement} · {candidate.state.replaceAll("_", " ")}</Button>)}</section>}
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
@@ -1100,11 +1114,13 @@ function Inspector({
       {can && (!onOpenFull || fullReview) ? (
         <div className="decision">
           <textarea
-            aria-label="Review note or bounded clarification request"
+            aria-label="Reason for rejection or bounded clarification request"
+            aria-required="true"
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder="Review note or bounded clarification request"
+            placeholder="Explain why the evidence does not support this conclusion, or describe a bounded change."
           />
+          <small className="decisionHint">A reason is required for Reject and Request changes, so a future re-proposal can address it.</small>
           <div>
             <Button
               variant="danger"

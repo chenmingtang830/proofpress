@@ -134,7 +134,10 @@ submitting a corrected successor to a rejected conclusion. The referenced
 predecessor must exist, be rejected, and use the same scope. Proofpress records
 the lineage and supplies the prior rejection reason to the advisory Judge, but
 does not reopen, overwrite, or approve either conclusion. The new candidate
-still requires a fresh human decision.
+must bind at least one evidence reference not present on the predecessor and
+include a non-empty `qualifiers.reproposal_response` explaining how that new
+evidence addresses the recorded rejection. It still requires a fresh human
+decision.
 
 ## Discovering governed context
 

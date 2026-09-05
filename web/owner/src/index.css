@@ -635,6 +635,16 @@ td:last-child svg {
   font-size: 11px;
   line-height: 1.5;
 }
+.lmReviewProgress, .lmRationale { margin-top: 16px; border: 1px solid var(--line); background: #fff; padding: 14px; }
+.lmReviewProgress { display: flex; gap: 12px; align-items: flex-start; }
+.lmReviewProgress p, .lmRationale p { margin: 6px 0 0; color: var(--ink-2); line-height: 1.55; }
+.lmSpinner { width: 18px; height: 18px; flex: 0 0 18px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: lm-spin .8s linear infinite; }
+.lmRationale > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lmRationale > div > span, .lmRationale small, .decisionHint { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; }
+.lmRationale small { display: block; margin-top: 10px; color: var(--ink-3); }
+.decisionHint { display: block; margin-top: 8px; color: var(--ink-3); line-height: 1.45; }
+@keyframes lm-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .lmSpinner { animation: none; border-top-color: var(--line); background: var(--accent); } }
 .historyRow {
   display: flex;
   gap: 11px;

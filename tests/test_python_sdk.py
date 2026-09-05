@@ -1,4 +1,5 @@
 import json
+import hashlib
 import os
 from pathlib import Path
 import subprocess
@@ -106,9 +107,27 @@ class PythonSDKTests(unittest.TestCase):
                 "Corrected in the wrong scope", refs, "other", "agent:sdk",
                 reproposal_of=pending)
 
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "at least one new evidence"):
+            self.direct.propose_conclusion(
+                "Still bound only to the old source", refs, "reproposal-test", "agent:sdk",
+                reproposal_of=pending,
+                qualifiers={"reproposal_response": "Claims to address the rejection."})
+        quote = "The bounded fixture result applies only to this recorded run."
+        new_ref = self.direct.submit_evidence({
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {"uri": "workspace://bounded-fixture-note.txt", "content_digest": "sha256:" + "c" * 64},
+            "evidence": {"quote": quote, "locator": {"kind": "text_span", "start": 0, "end": len(quote), "text_digest": "sha256:" + hashlib.sha256(quote.encode()).hexdigest()}},
+            "retrieval": {"adapter": "test", "version": "1", "query": "fixture boundary", "config_digest": "sha256:" + "d" * 64},
+        })["imported_evidence"][0]
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "reproposal_response"):
+            self.direct.propose_conclusion(
+                "New evidence without a response", refs + [new_ref], "reproposal-test", "agent:sdk",
+                reproposal_of=pending)
+
         successor = self.http.propose_conclusion(
-            "Bounded finding for the recorded fixture only", refs,
-            "reproposal-test", "agent:sdk", reproposal_of=pending
+            "Bounded finding for the recorded fixture only", refs + [new_ref],
+            "reproposal-test", "agent:sdk", reproposal_of=pending,
+            qualifiers={"reproposal_response": "The new source explicitly limits the finding to the recorded run."}
         )["conclusion"]["id"]
         receipt = self.direct.review_receipt(successor)
         self.assertEqual(receipt["state"], "needs_review")
@@ -116,6 +135,9 @@ class PythonSDKTests(unittest.TestCase):
         self.assertEqual(
             receipt["reproposal_parent"]["rejection_reason"],
             "The statement was too broad.")
+        self.assertEqual(receipt["reproposal_parent"]["new_evidence_refs"], [new_ref])
+        self.assertEqual(receipt["reproposal_parent"]["reproposal_response"],
+                         "The new source explicitly limits the finding to the recorded run.")
         self.assertEqual(
             self.direct.review_receipt(pending)["reproposals"][0]["id"], successor)
         self.assertIn(

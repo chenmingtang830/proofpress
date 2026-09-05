@@ -89,6 +89,18 @@ try {
   assert.match(page.url(), /view=full/);
   await page.reload();
   await page.locator('.evidenceRow > p').filter({hasText:'Browser fixture approve:'}).waitFor();
+  const seededReceipt = await (await page.request.get(`${data.base}/owner/api/conclusions/${data.ids[0]}`)).json();
+  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:null,judge_job:{state:'running',detail:''}}}}));
+  await page.reload();
+  await page.getByText('LM is reviewing the bound evidence',{exact:true}).waitFor();
+  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
+  const rationale = 'The bound source directly supports the exact conclusion and its stated reuse boundary.';
+  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:{recommendation:'accept',rationale},judge_job:{state:'failed',detail:'stale failure'}}}}));
+  await page.reload();
+  await page.getByText(rationale,{exact:true}).waitFor();
+  assert.equal(await page.getByText('stale failure',{exact:true}).count(),0);
+  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
+  await page.reload();
   for(const tab of ['Checks','History','Evidence']) await page.getByRole('tab',{name:tab,exact:true}).click();
   if(process.env.QA_SCREENSHOTS) {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
@@ -159,6 +171,11 @@ try {
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
   await page.getByRole('button',{name:'Reject',exact:true}).click();
+  await page.getByText('Explain why the evidence does not support this conclusion.',{exact:true}).waitFor();
+  assert.equal(await page.getByRole('dialog',{name:'Reject this conclusion?'}).count(),0);
+  await page.locator('.decision textarea').fill('The evidence does not support the conclusion as currently bounded.');
+  await page.getByRole('button',{name:'Reject',exact:true}).click();
+  await page.getByRole('dialog',{name:'Reject this conclusion?'}).getByText('The evidence does not support the conclusion as currently bounded.',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Confirm rejection',exact:true}).click();
   await page.locator('.decisionNotice').getByText('Rejected',{exact:true}).waitFor();
   await page.waitForLoadState('networkidle');

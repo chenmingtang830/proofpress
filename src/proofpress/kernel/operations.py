@@ -1127,6 +1127,13 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
             raise ValueError("re-proposal predecessor must be rejected")
         if predecessor.get("scope") != scope:
             raise ValueError("re-proposal must preserve the predecessor scope")
+        new_evidence = sorted(set(evidence_refs) - set(predecessor.get("evidence_refs", [])))
+        if not new_evidence:
+            raise ValueError("re-proposal must bind at least one new evidence reference")
+        response = (qualifiers or {}).get("reproposal_response")
+        if not isinstance(response, str) or not response.strip():
+            raise ValueError("re-proposal must explain how the new evidence addresses the rejection in qualifiers.reproposal_response")
+        qualifiers["reproposal_response"] = response.strip()
     revision_of = (qualifiers or {}).get("revision_of")
     if revision_of and reproposal_of:
         raise ValueError("a proposal cannot be both a requested revision and a re-proposal")
@@ -1656,6 +1663,11 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
               expected_head=None):
     if decision not in {"admit", "reject", "request_changes"}:
         raise ValueError("review decision must be admit, reject, or request_changes")
+    if decision in {"reject", "request_changes"} and (
+            not isinstance(note, str) or not note.strip()):
+        raise ValueError(f"{decision.replace('_', ' ')} requires a review note")
+    if isinstance(note, str):
+        note = note.strip() or None
     projection = v2_projection()
     duplicate = _idempotent_review(
         projection, cid, request_id, "human_reviewed",
@@ -2357,8 +2369,13 @@ def _reproposal_parent(projection, row):
     parent = projection["conclusions"].get(parent_id)
     if not parent:
         return None
+    current_refs = set(row.get("evidence_refs", []))
+    parent_refs = set(parent.get("evidence_refs", []))
     return {"id": parent_id, "statement": parent["statement"],
             "evidence_refs": parent["evidence_refs"],
+            "new_evidence_refs": sorted(current_refs - parent_refs),
+            "reused_evidence_refs": sorted(current_refs & parent_refs),
+            "reproposal_response": row.get("qualifiers", {}).get("reproposal_response"),
             "rejection": projection["rejections"].get(parent_id),
             "review": projection["reviews"].get(parent_id),
             "rejection_reason": (projection["reviews"].get(parent_id) or {}).get("note")}
