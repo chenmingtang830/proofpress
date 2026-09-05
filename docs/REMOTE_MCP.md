@@ -41,6 +41,26 @@ These are project-level installations, so the skill travels with the
 repository. Review the downloaded `SKILL.md` before committing it. Then add the
 remote MCP server for the same client.
 
+Install the maintained customer policy template once per target repository:
+
+```sh
+mkdir -p .proofpress
+curl -fsSL \
+  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
+  -o .proofpress/context-policy.yaml
+```
+
+Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
+the durable decisions, validated conclusions, integration contracts,
+reproducible results, and incident learnings that belong in that repository's
+Proofpress workflow. The core skill reads this file before choosing `Draft
+only` or `Propose`.
+
+This is an agent-side proposal-selection policy, not a server authorization
+policy. It may narrow what an agent proposes, but cannot weaken server checks,
+credential isolation, lifecycle rules, or Human Approval. Customers configure
+this file instead of forking the Proofpress-maintained core skill.
+
 Open `/connect` on the deployed Proofpress origin and copy the displayed MCP
 URL into a client that supports remote Streamable HTTP servers. The client
 discovers the authorization server and opens `/authorize` in a browser.

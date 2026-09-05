@@ -10,6 +10,24 @@ what evidence supports a new candidate, and which authorized human must approve
 it. Proofpress is not a replacement for the agent runtime, its memory, or raw
 private traces.
 
+## Customer context policy
+
+Before deciding whether to propose, look for
+`.proofpress/context-policy.yaml` in the current repository. If it exists,
+apply its repository- or workflow-specific `propose_when`, `do_not_propose`,
+evidence, and applicability guidance. If it does not exist, use the core rules
+in this skill.
+
+The customer file is an agent-side proposal-selection policy, not an
+authorization policy. It may narrow what the agent proposes, but it may never
+override this skill's safety rules, server-side checks, credential boundaries,
+or Human Approval. Treat unknown schema versions or conflicting rules as
+`Draft only` and report the policy problem instead of guessing.
+
+Start from the maintained template at `assets/context-policy.yaml` in this
+skill. Customers should copy it to `.proofpress/context-policy.yaml`, then
+configure and version that file rather than fork this core skill.
+
 ## Preconditions
 
 Require a configured Proofpress MCP server or a supported Python, CLI, or HTTP

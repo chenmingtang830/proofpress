@@ -1,0 +1,46 @@
+schema_version: proofpress/context-policy/v1alpha1
+
+# This guides an agent's decision to draft or propose knowledge. It is not an
+# authorization policy. Server checks and Human Approval remain authoritative.
+purpose: Decide which durable outcomes from this repository should become Proofpress candidates.
+
+propose_when:
+  - durable_decision
+  - evidence_backed_conclusion
+  - reproducible_experiment_result
+  - integration_contract
+  - incident_learning
+
+do_not_propose:
+  - routine_code_edit
+  - transient_debugging
+  - unvalidated_hypothesis
+  - duplicate_of_existing_candidate_or_governed_context
+  - raw_trace_or_full_source_dump
+  - credential_or_secret
+
+evidence:
+  require_bounded_projection: true
+  prefer_stable_artifact_reference: true
+  exclude_private_source_material: true
+
+applicability:
+  required_for_reusable_candidates: true
+  include:
+    - title
+    - description
+    - when_relevant
+    - keywords
+    - validity_conditions
+
+# Add narrow, testable repository or workflow examples here. These guide
+# proposal behavior but never grant admission authority.
+customer_rules:
+  propose: []
+  do_not_propose: []
+
+non_overridable_safety:
+  agent_may_not_self_approve: true
+  owner_or_recovery_credentials_forbidden: true
+  candidate_is_not_governed_context: true
+  human_approval_remains_required: true
