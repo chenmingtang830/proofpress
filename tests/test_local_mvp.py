@@ -174,15 +174,29 @@ class LocalMVPTests(unittest.TestCase):
                         if row["name"] == "trace.decision")
         self.assertEqual(decision["source_schema"],
                          json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())["trace_version"])
+        confidence = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())[
+            "events"][0]["decision"]["confidence"]
+        self.assertEqual(len(confidence), 20)      # the producer's full contract
         self.assertEqual(decision["attributes"]["event"]["confidence"], {
-            "interval": {"lower": -29, "upper": 578, "level": 0.9},
-            "method": {"name": "paired_bootstrap", "resamples": 5000},
-            "sample_size": 8,
-            "evidence_digests": {
-                "parent_results": "sha256:" + "1" * 64,
-                "candidate_results": "sha256:" + "2" * 64,
-            },
+            "interval": {"lower": confidence["interval"]["lower"],
+                         "upper": confidence["interval"]["upper"],
+                         "level": confidence["interval"]["level"]},
+            "method": {"name": confidence["method"]["name"],
+                       "resamples": confidence["method"]["resamples"]},
+            "sample_size": confidence["sample_size"],
+            "evidence_digests": confidence["evidence_digests"],
         })
+        # The sixteen keys the adapter does not read are dropped from the projection, not carried
+        # through. Scoped to the confidence block: the decision's rationale is prose the adapter
+        # keeps on purpose, and it mentions the verdict in words.
+        projected = decision["attributes"]["event"]["confidence"]
+        self.assertEqual(set(projected),
+                         {"interval", "method", "sample_size", "evidence_digests"})
+        for dropped in ("min_effect", "verdict", "estimate", "profile_sha256", "sizing",
+                        "contract", "statistic", "unit", "direction", "evidence", "holdout"):
+            self.assertNotIn(dropped, projected)
+        self.assertNotIn("algorithm", projected["method"])
+        self.assertNotIn("seed", projected["method"])
         self.assertTrue(knowledge_events.verify_history_envelopes(
             knowledge_events.history_envelopes(projection["events"]))["ok"])
         self.assertEqual(projection["conclusions"], {})
@@ -201,7 +215,7 @@ class LocalMVPTests(unittest.TestCase):
             self.assertIn("accepted: 0.5.0, 0.5.1", result.stderr)
 
         malformed = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
-        malformed["events"][0]["decision"]["confidence"]["interval"]["lower"] = 579
+        malformed["events"][0]["decision"]["confidence"]["interval"]["lower"] = 1000
         malformed_path = self.repo / "malformed-confidence.trace.json"
         malformed_path.write_text(json.dumps(malformed))
         result = self.cli("evidence", "import", str(malformed_path), check=False)

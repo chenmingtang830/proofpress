@@ -62,6 +62,13 @@ it. This adapter applies its own bounded profile: a confidence object must
 carry non-empty named evidence digests, even though TRACE 0.5.1 makes that
 field optional.
 
+A producer names the contract its extra keys follow in the `contract` key of the
+confidence object. Proofpress does not read or interpret those keys; the
+identifier is there so a reader can find the document that defines them.
+`examples/verified-knowledge-ledger/demo.trace-confidence.json` is a real
+producer document under `rsi-exam-decision-log/v1`, carrying twenty keys of
+which this adapter projects four.
+
 [//]: # (ob:5af5e369)
 It excludes tool inputs and outputs, raw prompts, transcripts, reasoning
 summaries, state-change values, and learning-store recall data.
