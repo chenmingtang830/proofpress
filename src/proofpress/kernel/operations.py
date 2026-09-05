@@ -336,21 +336,21 @@ LOCAL_OPERATION_SPECS = {
         "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.propose": {
-        "required": ("statement", "evidence_refs", "scope", "proposer"),
-        "optional": ("expires_at", "artifact_refs", "allowed_actors",
+        "required": ("statement", "evidence_refs", "proposer"),
+        "optional": ("expires_at", "artifact_refs", "scope", "applicability",
                      "qualifiers", "profile"),
         "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.evaluate": {
-        "required": ("conclusion_id",), "optional": (), "mutates": True,
+        "required": ("conclusion_id",), "optional": ("actor",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.judge": {
-        "required": ("conclusion_id",), "optional": (), "mutates": True,
+        "required": ("conclusion_id",), "optional": ("actor",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.judge_batch": {
-        "required": ("scope",), "optional": (), "mutates": True,
+        "required": ("scope",), "optional": ("actor",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.review": {
@@ -365,15 +365,15 @@ LOCAL_OPERATION_SPECS = {
     },
     "relation.propose": {
         "required": ("source_id", "target_id", "relation_type", "proposer"),
-        "optional": ("confidence", "qualifiers"), "mutates": True,
+        "optional": ("confidence", "qualifiers", "actor"), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "relation.evaluate": {
-        "required": ("relation_id",), "optional": (), "mutates": True,
+        "required": ("relation_id",), "optional": ("actor",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "relation.judge": {
-        "required": ("relation_id",), "optional": (), "mutates": True,
+        "required": ("relation_id",), "optional": ("actor",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "relation.review": {
@@ -387,7 +387,7 @@ LOCAL_OPERATION_SPECS = {
         "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
     "graph.get": {
-        "required": (), "optional": ("scope",), "mutates": False,
+        "required": (), "optional": ("scope", "actor"), "mutates": False,
         "replay_semantics": "read_only",
     },
     "graph.traverse": {
@@ -401,12 +401,16 @@ LOCAL_OPERATION_SPECS = {
         "optional": ("scope", "actor", "task", "include_blocked_statements"),
         "mutates": False, "replay_semantics": "read_only",
     },
+    "context.discover": {
+        "required": (), "optional": ("actor", "task", "limit"),
+        "mutates": False, "replay_semantics": "read_only",
+    },
     "review.summary": {
-        "required": (), "optional": ("scope",), "mutates": False,
+        "required": (), "optional": ("scope", "actor"), "mutates": False,
         "replay_semantics": "read_only",
     },
     "review.receipt": {
-        "required": ("conclusion_id",), "optional": (), "mutates": False,
+        "required": ("conclusion_id",), "optional": ("actor",), "mutates": False,
         "replay_semantics": "read_only",
     },
 }
@@ -1057,28 +1061,80 @@ def _experiment_profile_checks(row, evidence_rows, all_evidence):
     }
 
 
-def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
-               artifact_refs=None, allowed_actors=None, qualifiers=None, profile=None):
+def _text_list(value, field):
+    if value is None:
+        return []
+    if not isinstance(value, list) or any(not isinstance(item, str) or not item.strip()
+                                          for item in value):
+        raise ValueError(f"applicability.{field} must be an array of non-empty strings")
+    return [item.strip() for item in value]
+
+
+def _applicability(value):
+    """Normalize the small, YAML-frontmatter-shaped discovery card.
+
+    This is deliberately descriptive rather than an authorization mechanism.
+    Visibility remains enforced by the workspace credential before a card is
+    returned to an agent. Historical row-level restrictions remain readable as
+    legacy data but cannot be created by new proposals.
+    """
+    if value is None:
+        return None
+    if not isinstance(value, dict):
+        raise ValueError("applicability must be an object")
+    allowed = {"title", "description", "when_relevant", "keywords",
+               "validity_conditions"}
+    unknown = sorted(set(value) - allowed)
+    if unknown:
+        raise ValueError("unknown applicability fields: " + ", ".join(unknown))
+    card = {}
+    for field in ("title", "description"):
+        if field in value:
+            text = value[field]
+            if not isinstance(text, str) or not text.strip():
+                raise ValueError(f"applicability.{field} must be a non-empty string")
+            card[field] = text.strip()
+    for field in ("when_relevant", "keywords", "validity_conditions"):
+        items = _text_list(value.get(field), field)
+        if items:
+            card[field] = items
+    if not card:
+        raise ValueError("applicability must contain at least one discovery field")
+    return card
+
+
+def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
+               artifact_refs=None, applicability=None, qualifiers=None,
+               profile=None):
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
+    if scope is not None and (not isinstance(scope, str) or not scope.strip()):
+        raise ValueError("scope must be a non-empty string when provided")
+    scope = scope.strip() if scope else None
+    if not isinstance(proposer, str) or not proposer.strip():
+        raise ValueError("proposer must be a non-empty string")
+    applicability = _applicability(applicability)
     qualifiers = validate_profile(profile, qualifiers)
     revision_of = (qualifiers or {}).get("revision_of")
     if revision_of:
         parent = projection["conclusions"].get(revision_of)
         request = projection["revision_requests"].get(revision_of)
-        if not parent or parent["scope"] != scope or not request:
-            raise ValueError("revision requires an existing same-scope request for changes")
+        if not parent or not request:
+            raise ValueError("revision requires an existing request for changes")
         if (qualifiers or {}).get("revision_request_ref") != request["event_id"]:
             raise ValueError("revision must reference the current revision request")
+    identity = {"statement": statement, "evidence": sorted(evidence_refs),
+                "scope": scope}
+    if applicability is not None:
+        identity["applicability"] = applicability
     row = {
-        "id": ident({"statement": statement, "evidence": sorted(evidence_refs),
-                    "scope": scope}, "knw_"),
+        "id": ident(identity, "knw_"),
         "kind": "conclusion", "statement": statement,
         "evidence_refs": sorted(set(evidence_refs)),
         "artifact_refs": sorted(set(artifact_refs or [])),
         "scope": scope, "proposer": proposer, "expires_at": expires_at,
-        "allowed_actors": allowed_actors or ["*"],
+        "applicability": applicability,
         "qualifiers": qualifiers or {}, "created_at": now(),
     }
     prior = projection["conclusions"].get(row["id"])
@@ -1125,12 +1181,17 @@ def _relation_cycle(projection, source, target, relation_type):
 
 
 def propose_relation_v2(source, target, relation_type, proposer,
-                        confidence=None, qualifiers=None):
+                        confidence=None, qualifiers=None, actor=None):
     if relation_type not in RELATION_TYPES:
         raise ValueError("relation type must be one of: " + ", ".join(sorted(RELATION_TYPES)))
     projection = v2_projection()
     if source not in projection["conclusions"] or target not in projection["conclusions"]:
         raise ValueError("relation endpoints must reference existing conclusions")
+    policy = load_v2_policy()
+    actor = actor or proposer
+    if actor and (not _actor_can_read(projection["conclusions"][source], policy, actor)
+                  or not _actor_can_read(projection["conclusions"][target], policy, actor)):
+        raise ValueError("relation endpoints must reference visible conclusions")
     if source == target: raise ValueError("relation endpoints must be distinct")
     if confidence is not None and not 0 <= confidence <= 1:
         raise ValueError("relation confidence must be between 0 and 1")
@@ -1152,11 +1213,14 @@ def propose_relation_v2(source, target, relation_type, proposer,
     return {"ok": True, "relation": row, "event_id": event["event_id"]}
 
 
-def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
+def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=None):
     events = v2_events() if events is None else events
     projection = v2_projection(events) if projection is None else projection
     row = projection["relations"].get(rid); policy = policy or load_v2_policy()
     if not row: raise ValueError("relation not found: " + rid)
+    if (actor and (not _actor_can_read(projection["conclusions"].get(row["from"], {}), policy, actor)
+                   or not _actor_can_read(projection["conclusions"].get(row["to"], {}), policy, actor))):
+        raise ValueError("relation not found: " + rid)
     verifier = _require_configured_role_separation(row, policy, "verification")
     left, right = projection["conclusions"].get(row["from"]), projection["conclusions"].get(row["to"])
     duplicate = [candidate for candidate in projection["relations"].values()
@@ -1166,7 +1230,6 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
         "endpoints_present": left is not None and right is not None,
         "distinct_endpoints": row["from"] != row["to"],
         "known_relation_type": row["type"] in RELATION_TYPES,
-        "same_scope": bool(left and right and left["scope"] == right["scope"]),
         "no_duplicate": not duplicate,
         "acyclic_when_directed": not _relation_cycle(projection, row["from"], row["to"], row["type"]),
     }
@@ -1182,16 +1245,20 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
     return event
 
 
-def judge_relation_v2(rid):
+def judge_relation_v2(rid, actor=None):
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
     row = projection["relations"].get(rid)
     if not row: raise ValueError("relation not found: " + rid)
+    if (actor and (not _actor_can_read(projection["conclusions"].get(row["from"], {}), policy, actor)
+                   or not _actor_can_read(projection["conclusions"].get(row["to"], {}), policy, actor))):
+        raise ValueError("relation not found: " + rid)
     judge_identity = _require_configured_role_separation(row, policy, "judge")
     current = projection["relation_evaluations"].get(rid)
     evaluation = (current if current and
                   current.get("relation_digest") == row["digest"] and
                   current.get("policy_digest") == policy["digest"] else
-                  evaluate_relation_v2(rid, projection=projection, events=events, policy=policy))
+                  evaluate_relation_v2(rid, projection=projection, events=events, policy=policy,
+                                       actor=actor))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     packet = {"schema_version": "proofpress/relation-judge-request/v1",
@@ -1385,12 +1452,14 @@ def _conflict_resolution_receipts(projection, cid):
     return sorted(receipts, key=lambda row: row["relation_id"])
 
 
-def evaluate_v2(cid, projection=None, events=None, policy=None):
+def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
     events = v2_events() if events is None else events
     projection = v2_projection(events) if projection is None else projection
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
     policy = policy or load_v2_policy()
+    if actor and not _actor_can_read(row, policy, actor):
+        raise ValueError("conclusion not found: " + cid)
     verifier = _require_configured_role_separation(row, policy, "verification")
     evidence_ok = [ref for ref in row["evidence_refs"] if ref in projection["evidence"]]
     checks = {
@@ -1402,7 +1471,9 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
                                  for ref in evidence_ok),
         "not_expired": not row.get("expires_at") or row["expires_at"] > now(),
         "not_superseded": cid not in projection["supersessions"],
-        "scope_present": bool(row.get("scope")),
+        # A legacy scope remains valid, but new knowledge can state its reuse
+        # conditions through the descriptive applicability card instead.
+        "reuse_boundary_present": bool(row.get("scope") or row.get("applicability")),
     }
     checks.update(_repo_profile_checks(
         row, [projection["evidence"][ref] for ref in evidence_ok]))
@@ -1419,13 +1490,15 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
     return event
 
 
-def judge_v2(cid):
+def judge_v2(cid, actor=None):
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
+    if actor and not _actor_can_read(row, policy, actor):
+        raise ValueError("conclusion not found: " + cid)
     judge_identity = _require_configured_role_separation(row, policy, "judge")
     evaluation = evaluate_v2(
-        cid, projection=projection, events=events, policy=policy)
+        cid, projection=projection, events=events, policy=policy, actor=actor)
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     packet = {"schema_version": "proofpress/judge-request/v1", "conclusion": row,
@@ -1457,11 +1530,12 @@ def judge_v2(cid):
     return event
 
 
-def judge_batch_v2(scope):
+def judge_batch_v2(scope, actor=None):
     if not scope: raise ValueError("batch judge requires --scope")
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
     candidates = [row for row in projection["conclusions"].values()
                   if row.get("scope") == scope and
+                  (not actor or _actor_can_read(row, policy, actor)) and
                   v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
     for row in candidates:
         _require_configured_role_separation(row, policy, "judge")
@@ -1482,7 +1556,8 @@ def judge_batch_v2(scope):
         evaluations[row["id"]] = (current if current and
             current.get("conclusion_digest") == row["digest"] and
             current.get("policy_digest") == policy["digest"] else
-            evaluate_v2(row["id"], projection=projection, events=events, policy=policy))
+            evaluate_v2(row["id"], projection=projection, events=events, policy=policy,
+                        actor=actor))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     evidence_ids = sorted({ref for row in rows for ref in row["evidence_refs"]})
@@ -1568,7 +1643,7 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     if not row: raise ValueError("conclusion not found: " + cid)
     if decision != "admit":
         policy = load_v2_policy()
-        conflicts = _active_contradictions(projection, policy, row["scope"])
+        conflicts = _active_contradictions(projection, policy)
         if cid in conflicts:
             raise ValueError("active contradiction endpoint may only transition through relation resolve")
     if decision == "admit" and reviewer == row["proposer"]:
@@ -1603,9 +1678,8 @@ def supersede_v2(cid, replacement, reviewer, note=None):
     projection = v2_projection()
     old, new = projection["conclusions"].get(cid), projection["conclusions"].get(replacement)
     if not old or not new: raise ValueError("both conclusions must exist")
-    if old["scope"] != new["scope"]: raise ValueError("conclusions from different scopes cannot supersede each other")
     policy = load_v2_policy()
-    conflicts = _active_contradictions(projection, policy, old["scope"])
+    conflicts = _active_contradictions(projection, policy)
     if cid in conflicts:
         raise ValueError("active contradiction must be superseded through relation resolve")
     return append_v2({"type": "conclusion_superseded", "subject_ref": cid,
@@ -1613,17 +1687,75 @@ def supersede_v2(cid, replacement, reviewer, note=None):
                       "identity_basis": "self_asserted", "note": note})
 
 
+def _actor_can_read(row, policy, actor):
+    return (not actor or "*" in row.get("allowed_actors", ["*"])
+            or actor in row.get("allowed_actors", [])) and (
+                not actor or "*" in policy["allowed_actors"]
+                or actor in policy["allowed_actors"])
+
+
+def _discovery_text(row):
+    applicability = row.get("applicability") or {}
+    values = [row.get("statement", ""), applicability.get("title", ""),
+              applicability.get("description", "")]
+    for field in ("when_relevant", "keywords", "validity_conditions"):
+        values.extend(applicability.get(field, []))
+    return " ".join(values).lower()
+
+
+def _context_card(row, task=None):
+    applicability = row.get("applicability") or {}
+    tokens = set(re.findall(r"[\w-]+", (task or "").lower()))
+    haystack = _discovery_text(row)
+    matches = sorted(token for token in tokens if len(token) > 2 and token in haystack)
+    return {
+        "id": row["id"],
+        "title": applicability.get("title") or row["statement"],
+        "description": applicability.get("description"),
+        "when_relevant": applicability.get("when_relevant", []),
+        "keywords": applicability.get("keywords", []),
+        "validity_conditions": applicability.get("validity_conditions", []),
+        "legacy_scope": row.get("scope"),
+        "match": {"task": task, "terms": matches, "score": len(matches)},
+    }
+
+
+def discover_context_v2(actor=None, task=None, limit=24):
+    """List only visible, eligible context cards, ranked by task-word overlap.
+
+    This is discovery, not semantic authorization: access filtering happens
+    before cards are shaped or ranked, and callers still inspect the full
+    admission receipt before relying on a selected conclusion.
+    """
+    if task is not None and (not isinstance(task, str) or not task.strip()):
+        raise ValueError("task must be a non-empty string when provided")
+    if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 100:
+        raise ValueError("limit must be an integer from 1 to 100")
+    projection, policy = v2_projection(), load_v2_policy()
+    conflicts = _active_contradictions(projection, policy)
+    cards = [_context_card(row, task) for cid, row in projection["conclusions"].items()
+             if v2_state(projection, row, policy) == "admitted"
+             and _actor_can_read(row, policy, actor) and cid not in conflicts]
+    cards.sort(key=lambda card: (-card["match"]["score"], card["title"], card["id"]))
+    return {"schema_version": "proofpress/context-discovery/v1",
+            "actor": actor, "task": task, "cards": cards[:limit],
+            "next_action": "select a card, then read its governed context and receipt before relying on it"}
+
+
 def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False):
     projection, policy = v2_projection(), load_v2_policy()
     knowledge, blocked, eligible = [], [], {}
-    conflicts = _active_contradictions(projection, policy, scope)
+    conflicts = _active_contradictions(projection, policy)
     for cid, row in projection["conclusions"].items():
         if scope and row["scope"] != scope: continue
         current = v2_state(projection, row, policy)
-        actor_ok = not actor or "*" in row.get("allowed_actors", ["*"]) or actor in row.get("allowed_actors", [])
-        policy_actor_ok = not actor or "*" in policy["allowed_actors"] or actor in policy["allowed_actors"]
-        if current == "admitted" and actor_ok and policy_actor_ok and cid not in conflicts:
+        actor_ok = _actor_can_read(row, policy, actor)
+        if current == "admitted" and actor_ok and cid not in conflicts:
             eligible[cid] = row
+        elif actor and not actor_ok:
+            # A caller without disclosure rights must not learn that a
+            # conclusion exists from a blocked id, state, or statement.
+            continue
         else:
             conflict_rows = conflicts.get(cid, [])
             reason = (conflict_rows[0]["reason"] if conflict_rows else
@@ -1655,9 +1787,11 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             "next_action": "continue from admitted knowledge; reverify or review blocked conclusions"}
 
 
-def graph_v2(scope=None):
-    projection = v2_projection(); nodes, edges = [], []
-    wanted = {cid: row for cid, row in projection["conclusions"].items() if not scope or row["scope"] == scope}
+def graph_v2(scope=None, actor=None):
+    projection, policy = v2_projection(), load_v2_policy(); nodes, edges = [], []
+    wanted = {cid: row for cid, row in projection["conclusions"].items()
+              if (not scope or row["scope"] == scope)
+              and _actor_can_read(row, policy, actor)}
     evidence_ids = {ref for row in wanted.values() for ref in row["evidence_refs"]}
     pending = list(evidence_ids)
     while pending:
@@ -1686,7 +1820,8 @@ def graph_v2(scope=None):
                       for parent in evidence.get("source_evidence_refs", [])]
     for cid, row in wanted.items():
         nodes.append({"id": cid, "type": "conclusion", "state": review_state_v2(projection, row),
-                      "scope": row["scope"], "label": row["statement"],
+                      "scope": row["scope"],
+                      "applicability": row.get("applicability"), "label": row["statement"],
                       "created_at": row.get("created_at")})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         review = projection["reviews"].get(cid)
@@ -1717,7 +1852,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
     if state not in {"admitted", "staged"}:
         raise ValueError("state must be admitted or staged")
     projection, policy = v2_projection(), load_v2_policy()
-    conflicts = _active_contradictions(projection, policy, scope)
+    conflicts = _active_contradictions(projection, policy)
 
     def staged_conclusion(cid, row):
         evaluation = projection["evaluations"].get(cid)
@@ -1749,11 +1884,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         if state == "staged" and current != "admitted" and not staged_conclusion(cid, row):
             return "not_staged"
         if cid in conflicts: return conflicts[cid][0]["reason"]
-        actor_ok = (not actor or "*" in row.get("allowed_actors", ["*"])
-                    or actor in row.get("allowed_actors", []))
-        policy_actor_ok = (not actor or "*" in policy["allowed_actors"]
-                           or actor in policy["allowed_actors"])
-        return "eligible" if actor_ok and policy_actor_ok else "actor_not_allowed"
+        return "eligible" if _actor_can_read(row, policy, actor) else "actor_not_allowed"
 
     ordered_seeds = list(dict.fromkeys(seeds))
     blocked = []
@@ -2185,17 +2316,20 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
     return result
 
 
-def summary_v2(scope=None):
-    projection = v2_projection(); rows = [r for r in projection["conclusions"].values() if not scope or r["scope"] == scope]
+def summary_v2(scope=None, actor=None):
+    projection, policy = v2_projection(), load_v2_policy()
+    rows = [r for r in projection["conclusions"].values()
+            if (not scope or r["scope"] == scope) and _actor_can_read(r, policy, actor)]
     counts = {key: 0 for key in ("needs_review", "needs_revision", "admitted",
                                   "rejected", "superseded", "expired", "unresolved")}
     for row in rows: counts[v2_state(projection, row)] += 1
     return {"total": len(rows), "counts": counts, "scope": scope}
 
 
-def receipt_v2(cid):
-    projection = v2_projection(); row = projection["conclusions"].get(cid)
-    if not row: raise ValueError("conclusion not found: " + cid)
+def receipt_v2(cid, actor=None):
+    projection, policy = v2_projection(), load_v2_policy(); row = projection["conclusions"].get(cid)
+    if not row or not _actor_can_read(row, policy, actor):
+        raise ValueError("conclusion not found: " + cid)
     parent_id = row.get("qualifiers", {}).get("revision_of")
     parent = projection["conclusions"].get(parent_id)
     return {"conclusion": row, "state": review_state_v2(projection, row),
@@ -2448,9 +2582,9 @@ def add_flat_cli(sub):
     evidence_import.add_argument("input"); evidence_import.set_defaults(f=cmd_flat)
     propose_parser = sub.add_parser("propose", help="propose an evidence-bound reusable conclusion")
     propose_parser.add_argument("--statement", required=True); propose_parser.add_argument("--evidence", action="append", required=True)
-    propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", required=True)
+    propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", help="optional legacy exact-filter metadata")
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
-    propose_parser.add_argument("--allow-actor", action="append", default=[])
+    propose_parser.add_argument("--applicability", help="JSON discovery card file")
     propose_parser.add_argument("--profile", choices=["legal", "repo", "experiment"]); propose_parser.add_argument("--qualifiers")
     propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
     evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
@@ -2749,16 +2883,16 @@ def _execute_local_operation(request):
         elif operation == "conclusion.propose":
             result = propose_v2(
                 parameters["statement"], parameters["evidence_refs"],
-                parameters["scope"], parameters["proposer"],
+                parameters.get("scope"), parameters["proposer"],
                 parameters.get("expires_at"), parameters.get("artifact_refs"),
-                parameters.get("allowed_actors"), parameters.get("qualifiers"),
+                parameters.get("applicability"), parameters.get("qualifiers"),
                 parameters.get("profile"))
         elif operation == "conclusion.evaluate":
-            result = evaluate_v2(parameters["conclusion_id"])
+            result = evaluate_v2(parameters["conclusion_id"], actor=parameters.get("actor"))
         elif operation == "conclusion.judge":
-            result = judge_v2(parameters["conclusion_id"])
+            result = judge_v2(parameters["conclusion_id"], actor=parameters.get("actor"))
         elif operation == "conclusion.judge_batch":
-            result = judge_batch_v2(parameters["scope"])
+            result = judge_batch_v2(parameters["scope"], actor=parameters.get("actor"))
         elif operation == "conclusion.review":
             result = review_v2(
                 parameters["conclusion_id"], parameters["decision"],
@@ -2772,11 +2906,12 @@ def _execute_local_operation(request):
             result = propose_relation_v2(
                 parameters["source_id"], parameters["target_id"],
                 parameters["relation_type"], parameters["proposer"],
-                parameters.get("confidence"), parameters.get("qualifiers"))
+                parameters.get("confidence"), parameters.get("qualifiers"),
+                parameters.get("actor"))
         elif operation == "relation.evaluate":
-            result = evaluate_relation_v2(parameters["relation_id"])
+            result = evaluate_relation_v2(parameters["relation_id"], actor=parameters.get("actor"))
         elif operation == "relation.judge":
-            result = judge_relation_v2(parameters["relation_id"])
+            result = judge_relation_v2(parameters["relation_id"], actor=parameters.get("actor"))
         elif operation == "relation.review":
             result = review_relation_v2(
                 parameters["relation_id"], parameters["decision"],
@@ -2788,7 +2923,7 @@ def _execute_local_operation(request):
                 parameters["reviewer"], parameters.get("winner"),
                 parameters.get("note"), parameters.get("expected_head"))
         elif operation == "graph.get":
-            result = graph_v2(parameters.get("scope"))
+            result = graph_v2(parameters.get("scope"), parameters.get("actor"))
         elif operation == "graph.traverse":
             result = traverse_graph_v2(
                 parameters["seed_ids"], parameters.get("scope"),
@@ -2797,14 +2932,20 @@ def _execute_local_operation(request):
                 parameters.get("max_claims", 48),
                 parameters.get("state", "admitted"))
         elif operation == "review.summary":
-            result = summary_v2(parameters.get("scope"))
+            result = summary_v2(parameters.get("scope"), parameters.get("actor"))
         elif operation == "review.receipt":
-            result = receipt_v2(parameters["conclusion_id"])
-        else:
+            result = receipt_v2(parameters["conclusion_id"], parameters.get("actor"))
+        elif operation == "context.get":
             result = context_v2(
                 parameters.get("scope"), parameters.get("actor"),
                 parameters.get("task"),
                 bool(parameters.get("include_blocked_statements", False)))
+        elif operation == "context.discover":
+            result = discover_context_v2(
+                parameters.get("actor"), parameters.get("task"),
+                parameters.get("limit", 24))
+        else:
+            raise ValueError("unsupported local operation: " + operation)
     except ValueError as exc:
         message = str(exc)
         if message == "STALE_LEDGER_HEAD":
@@ -2870,12 +3011,13 @@ def cmd_flat(a):
         out = _local_request("evidence.import", {"path": a.input})
     elif command == "propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
+        applicability = json.loads(Path(a.applicability).read_text(encoding="utf-8")) if a.applicability else None
         out = _local_request("conclusion.propose", {
             "statement": a.statement, "evidence_refs": a.evidence,
             "scope": a.scope, "proposer": a.proposer,
             "expires_at": a.expires_at, "artifact_refs": a.artifact,
-            "allowed_actors": a.allow_actor or None,
-            "qualifiers": qualifiers, "profile": a.profile,
+            "applicability": applicability, "qualifiers": qualifiers,
+            "profile": a.profile,
         })
     elif command == "evaluate":
         out = _local_request("conclusion.evaluate", {

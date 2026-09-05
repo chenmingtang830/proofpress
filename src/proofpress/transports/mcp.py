@@ -23,6 +23,7 @@ MCP_SAFE_TOOLS = (
     "proofpress_capabilities",
     "proofpress_submit_evidence",
     "proofpress_propose_conclusion",
+    "proofpress_discover_context",
     "proofpress_get_context",
     "proofpress_get_graph",
     "proofpress_traverse_graph",
@@ -75,10 +76,10 @@ class ProofpressMcpGateway:
             payload, profile=profile, idempotency_key=idempotency_key)
 
     def propose_conclusion(
-            self, statement: str, evidence_refs: list[str], scope: str,
+            self, statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
-            allowed_actors: list[str] | None = None,
+            applicability: dict[str, Any] | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
@@ -91,8 +92,14 @@ class ProofpressMcpGateway:
         return self.client.propose_conclusion(
             statement, evidence_refs, scope, self.principal,
             expires_at=expires_at, artifact_refs=artifact_refs,
-            allowed_actors=allowed_actors, qualifiers=qualifiers,
+            applicability=applicability,
+            qualifiers=qualifiers,
             profile=profile, idempotency_key=idempotency_key)
+
+    def discover_context(self, task: str | None = None,
+                         limit: int = 24) -> dict[str, Any]:
+        return self.client.discover_context(
+            actor=self.principal, task=task, limit=limit)
 
     def get_context(self, scope: str | None = None,
                     task: str | None = None) -> dict[str, Any]:
@@ -100,8 +107,14 @@ class ProofpressMcpGateway:
             scope=scope, actor=self.principal, task=task,
             include_blocked_statements=False)
 
+    def evaluate_conclusion(self, conclusion_id: str) -> dict[str, Any]:
+        return self.client.evaluate_conclusion(conclusion_id, actor=self.principal)
+
+    def judge_conclusion(self, conclusion_id: str) -> dict[str, Any]:
+        return self.client.judge_conclusion(conclusion_id, actor=self.principal)
+
     def get_graph(self, scope: str | None = None) -> dict[str, Any]:
-        return self.client.graph(scope)
+        return self.client.graph(scope, actor=self.principal)
 
     def traverse_graph(self, seed_ids: list[str], scope: str | None = None,
                        task: str | None = None, max_depth: int = 2,
@@ -134,10 +147,10 @@ class ProofpressMcpGateway:
                 "ledger_head": receipt.get("ledger_head")}
 
     def get_review_summary(self, scope: str | None = None) -> dict[str, Any]:
-        return self.client.review_summary(scope)
+        return self.client.review_summary(scope, actor=self.principal)
 
     def get_review_receipt(self, conclusion_id: str) -> dict[str, Any]:
-        return self.client.review_receipt(conclusion_id)
+        return self.client.review_receipt(conclusion_id, actor=self.principal)
 
     def get_review_link(self, conclusion_id: str) -> dict[str, Any]:
         receipt = self.get_review_receipt(conclusion_id)
@@ -186,10 +199,10 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
 
     @server.tool(name="proofpress_propose_conclusion")
     def proofpress_propose_conclusion(
-            statement: str, evidence_refs: list[str], scope: str,
+            statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
-            allowed_actors: list[str] | None = None,
+            applicability: dict[str, Any] | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
@@ -198,21 +211,38 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         evidence_refs must be evd_ IDs returned by
         proofpress_submit_evidence, not source or artifact URLs.
 
-        To answer request_changes, read the original review receipt and pass
+        Scope is optional legacy exact-filter metadata. Applicability is a
+        small discoverable card: title, description, when_relevant, keywords,
+        and validity_conditions. To answer request_changes, read the original review receipt and pass
         qualifiers.revision_of (original conclusion ID) and
-        qualifiers.revision_request_ref (revision_request.event_id). Keep the
-        same scope and any required profile qualifiers. The revised candidate
+        qualifiers.revision_request_ref (revision_request.event_id). Preserve
+        any required profile qualifiers and state the revised applicability.
+        The revised candidate
         still needs human approval; proposing never replaces or admits it.
         """
         return gateway.propose_conclusion(
             statement, evidence_refs, scope, expires_at, artifact_refs,
-            allowed_actors, qualifiers, profile, idempotency_key)
+            applicability, qualifiers, profile, idempotency_key)
+
+    @server.tool(name="proofpress_discover_context")
+    def proofpress_discover_context(
+            task: str | None = None, limit: int = 24) -> dict[str, Any]:
+        """Discover only admitted, current context visible to this agent.
+
+        Task words rank the frontmatter-style applicability cards. This does
+        not weaken credential or actor visibility checks.
+        """
+        return gateway.discover_context(task, limit)
 
     @server.tool(name="proofpress_get_context")
     def proofpress_get_context(
             scope: str | None = None,
             task: str | None = None) -> dict[str, Any]:
-        """Return only admitted, current, in-scope context eligible for this agent."""
+        """Return admitted, current context eligible for this agent.
+
+        Scope remains an optional legacy exact filter; discover_context is the
+        normal starting point when an agent does not know a scope name.
+        """
         return gateway.get_context(scope, task)
 
     @server.tool(name="proofpress_get_graph")

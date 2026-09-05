@@ -140,6 +140,7 @@ class HostedMcpOAuthTests(unittest.TestCase):
             tokens["access_token"])
         tools = {row["name"]: row for row in response["result"]["tools"]}
         names = set(tools)
+        self.assertIn("proofpress_discover_context", names)
         self.assertIn("proofpress_traverse_graph", names)
         self.assertIn("proofpress_get_lineage", names)
         self.assertNotIn("proofpress_approve", names)
@@ -153,6 +154,9 @@ class HostedMcpOAuthTests(unittest.TestCase):
         proposal_refs = tools["proofpress_propose_conclusion"]["inputSchema"]["properties"]["evidence_refs"]
         self.assertEqual(proposal_refs["minItems"], 1)
         self.assertEqual(proposal_refs["items"]["pattern"], r"^evd_[0-9a-f]{16}$")
+        proposal_properties = tools["proofpress_propose_conclusion"][
+            "inputSchema"]["properties"]
+        self.assertNotIn("allowed_actors", proposal_properties)
         self.server.proofpress_control.revoke_credential(
             self.owner["token"], self.agent["credential_id"])
         self.assertEqual(self.json_request(
