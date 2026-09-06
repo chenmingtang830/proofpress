@@ -58,6 +58,31 @@ try {
     return tool.execute({claim_id});
   }, data.ids[0]);
   assert.match(checksToolResult.content[0].text,/"human_approval_recorded": false/);
+  const typographyReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
+  const longHypothesis = 'A governed seed with model-directed traversal and gap search will preserve the strongest evidence. This remains a bounded experiment finding, not a general guarantee. The preview must stay concise on narrow screens while keeping the complete excerpt available on demand.';
+  const structuredEvidence = JSON.stringify({lineage_id:'proofpress-pr55-pr61',phase:{dataset_revision:'apex-native-12-v16',decision:'Keep small-seed progressive disclosure as the current executor default.',hypothesis:longHypothesis}});
+  await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...typographyReceipt,result:{...typographyReceipt.result,evaluation:{checks:{experiment_evidence_present:false,experiment_evidence_valid:false,experiment_identity_bound:false}},recommendation:{recommendation:'accept',rationale:'The bound source directly supports the claim, while deterministic requirements still govern whether human review is available.'},evidence:typographyReceipt.result.evidence.map((item,index)=>index?item:{...item,retrieval_receipt:{...item.retrieval_receipt,source:{uri:'https://github.com/chenmingtang830/proofpress/tree/main/studies/apex-agent-eval#pr55-v16-disclosure'},quote:structuredEvidence}})}}}));
+  await page.setViewportSize({width:1024,height:900});
+  await page.reload();
+  await page.locator('.compactEvidenceExcerpt p').filter({hasText:'A governed seed'}).waitFor();
+  assert.equal(await page.getByText(structuredEvidence,{exact:true}).count(),0);
+  assert.equal(await page.locator('.compactEvidenceExcerpt').count(),1);
+  assert.equal(await page.getByRole('button',{name:'Show full excerpt',exact:true}).count(),1);
+  assert.equal(await page.getByText('Not eligible for human review',{exact:true}).count(),0);
+  if(process.env.QA_SCREENSHOTS) {
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-detail-typography-1024.png`,fullPage:true});
+    await page.locator('.evidenceArgument').scrollIntoViewIfNeeded();
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-evidence-typography-1024.png`});
+    await page.setViewportSize({width:390,height:844});
+    await page.locator('.evidenceArgument').scrollIntoViewIfNeeded();
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-evidence-typography-390.png`});
+    await page.locator('.reuseBoundary').scrollIntoViewIfNeeded();
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-boundary-390.png`});
+  }
+  await page.getByRole('button',{name:'Show full excerpt',exact:true}).click();
+  assert.equal(await page.locator('.compactEvidenceExcerpt.expanded').count(),1);
+  await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
+  await page.reload();
   assert.equal((await page.request.get(`${data.base}/logo.svg`)).status(),200);
   await page.waitForFunction(()=>[...document.querySelectorAll('.brandMark img')].every(img=>img.complete && img.naturalWidth>0));
   for (const width of [1024,390]) {

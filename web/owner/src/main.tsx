@@ -141,6 +141,39 @@ function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?:
   </>;
 }
 
+function CompactEvidenceExcerpt({ text }: { text: string }) {
+  const [open, setOpen] = React.useState(false);
+  const expandable = text.length > 220;
+  return <div className={`compactEvidenceExcerpt${open ? " expanded" : ""}`}>
+    <p>{text}</p>
+    {expandable && <button type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : "Show full excerpt"}</button>}
+  </div>;
+}
+
+function EvidencePreview({ row }: { row: any }) {
+  const text = evidenceText(row);
+  if (typeof text !== "string") return <CompactEvidenceExcerpt text={String(text)} />;
+  try {
+    const structured = JSON.parse(text);
+    const preferred = ["finding", "summary", "result", "observation", "hypothesis", "decision"];
+    const findExcerpt = (value: any, depth = 0): string | null => {
+      if (!value || typeof value !== "object" || depth > 2) return null;
+      for (const key of preferred) {
+        const candidate = value[key];
+        if (["string", "number", "boolean"].includes(typeof candidate)) return String(candidate);
+      }
+      for (const candidate of Object.values(value)) {
+        const excerpt = findExcerpt(candidate, depth + 1);
+        if (excerpt) return excerpt;
+      }
+      return null;
+    };
+    const excerpt = findExcerpt(structured);
+    if (excerpt) return <CompactEvidenceExcerpt text={excerpt} />;
+  } catch { /* Plain evidence remains readable prose. */ }
+  return <CompactEvidenceExcerpt text={text} />;
+}
+
 function App() {
   const path = (location.pathname.split("/")[1] || "review") as Page;
   const [page, setPage] = React.useState<Page>(labels[path] ? path : "review");
@@ -986,13 +1019,15 @@ function Inspector({
   }
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
-  const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The claim has expired","not superseded":"The claim was superseded","reuse boundary present":"Record a legacy scope or an applicability card before approval."} as Record<string,string>)[name] || `${name} did not pass`;
+  const checkReason = (name:string) => ({"evidence present":"Required evidence missing","evidence integrity":"Evidence integrity unverified","experiment evidence present":"Typed experiment evidence missing","experiment evidence valid":"Experiment evidence invalid","experiment identity bound":"Experiment identity unbound","not expired":"Claim expired","not superseded":"Claim superseded","reuse boundary present":"Reuse boundary missing"} as Record<string,string>)[name] || `${name} failed`;
   const checksMissing = !r.evaluation || (r.review_policy && !r.review_policy.checks_current);
   const judgeNeedsSetup = r.review_policy?.mode === "off";
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
   const judgeInProgress = judgeRunning || (!r.recommendation && ["queued", "running"].includes(r.judge_job?.state));
   const judgeFailed = !r.recommendation && ["failed", "interrupted"].includes(r.judge_job?.state);
-  const approvalBlock = !r.evaluation ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(". ") + "." : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
+  const approvalBlock = !r.evaluation ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
+  const evidenceRows = r.evidence || [];
+  const previewEvidence = evidenceRows.slice(0, 2);
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
@@ -1021,9 +1056,8 @@ function Inspector({
         {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div>{fullReview ? <ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /> : <p>{r.recommendation.rationale}</p>}<small>Advisory only — this does not approve or reject the claim.</small></section>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
-        {can && <div className="reviewActions">
+        {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
-            : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
             : <>
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
                 ? <Button variant="accent" onClick={onConfigurePolicy}>Set up LM review</Button>
@@ -1040,20 +1074,19 @@ function Inspector({
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
           <div className="evidenceArgumentHead">
             <h3 id="evidence-argument-title">Evidence for this claim</h3>
-            <span>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</span>
+            <span>{previewEvidence.length < evidenceRows.length ? `${previewEvidence.length} of ${evidenceRows.length} sources` : `${evidenceRows.length} ${evidenceRows.length === 1 ? "source" : "sources"}`}</span>
           </div>
-          {(r.evidence || []).length ? <div className="evidenceArgumentList">{(r.evidence || []).slice(0, 2).map((e: any, i: number) => <article key={e.id || i}>
-            <span>Source {String(i + 1).padStart(2, "0")}</span>
-            <strong>{evidenceName(e)}</strong>
-            <p>{evidenceText(e)}</p>
+          {evidenceRows.length ? <div className="evidenceArgumentList">{previewEvidence.map((e: any, i: number) => <article key={e.id || i}>
+            <strong title={evidenceName(e)}>{evidenceName(e)}</strong>
+            <EvidencePreview row={e} />
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
-          <div className="reuseBoundary">
+        </section>}
+        {can && !fullReview && <section className="reuseBoundary" aria-label="Proposed reuse boundary">
             <span>Proposed reuse boundary</span>
             <strong>{reuseBoundary(r.claim)}</strong>
             {r.claim.applicability?.when_relevant?.length ? <p>{r.claim.applicability.when_relevant.join(" · ")}</p> : null}
             {r.claim.applicability?.validity_conditions?.length ? <p>Conditions: {r.claim.applicability.validity_conditions.join(" · ")}</p> : null}
-            <p>{approvalBlock ? "This claim remains excluded until every required condition passes." : "Approval makes this claim discoverable to eligible agents; each agent is still checked separately."}</p>
-          </div>
+            {!approvalBlock && <p>Approval makes this claim discoverable to eligible agents; each agent is still checked separately.</p>}
         </section>}
         {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}

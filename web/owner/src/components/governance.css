@@ -154,11 +154,10 @@
 .policyError { margin:0 0 20px; }
 .policyError button { margin-left:12px; }
 .policyFooter { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 20px; }
-.approvalBlock { color: var(--del); font-size: 14px; line-height: 1.5; }
+.approvalBlock { max-width:68ch; margin:16px 0 0; color:var(--del); font:500 13px/1.55 var(--font-ui); }
 .reviewActions { display:flex; flex-direction:column; align-items:stretch; gap:8px; margin-top:16px; }
 .reviewActions > button { width:100%; justify-content:center; }
 .reviewActions > button.secondaryAction { width:auto; align-self:flex-start; padding-inline:0; color:var(--ink-2); }
-.blockedAction { display:flex; min-height:44px; align-items:center; padding:0 12px; border:1px solid var(--del); background:var(--del-bg); color:var(--del); font-size:13px; font-weight:600; }
 .queuedAction { display:flex; min-height:44px; align-items:center; padding:0 12px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:600; }
 .decisionStack { margin:16px 0; border-top:1px solid var(--line); }
 .decisionStack div { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
