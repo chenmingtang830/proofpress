@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import sqlite3
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -35,6 +36,47 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertIn('{"criteria":', POLICY_AUTHORING_PROMPT)
         self.assertIn("Do not choose a model or provider", POLICY_AUTHORING_PROMPT)
         self.assertNotIn("return only JSON with these fields: provider", POLICY_AUTHORING_PROMPT)
+
+    def test_legacy_judge_job_column_migrates_without_losing_jobs(self):
+        legacy_path = Path(self.tmp.name) / "legacy-judge-jobs.db"
+        connection = sqlite3.connect(legacy_path)
+        try:
+            connection.execute("""
+                CREATE TABLE hosted_judge_jobs (
+                    job_id TEXT PRIMARY KEY, workspace_id TEXT NOT NULL,
+                    conclusion_id TEXT NOT NULL, policy_digest TEXT NOT NULL,
+                    requested_by TEXT NOT NULL, state TEXT NOT NULL,
+                    created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
+                    detail TEXT NOT NULL DEFAULT ''
+                )
+            """)
+            connection.execute(
+                "INSERT INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                ("job-1", "workspace:legacy", "clm-legacy", "policy", "agent:legacy",
+                 "queued", "2026-09-06T00:00:00Z", "2026-09-06T00:00:00Z", ""),
+            )
+            connection.commit()
+        finally:
+            connection.close()
+
+        migrated = HostedControlPlane(legacy_path)
+        with migrated._db() as connection:
+            columns = {row["name"] for row in connection.execute(
+                "PRAGMA table_info(hosted_judge_jobs)")}
+            job = connection.execute(
+                "SELECT claim_id, state FROM hosted_judge_jobs WHERE job_id='job-1'").fetchone()
+        self.assertIn("claim_id", columns)
+        self.assertNotIn("conclusion_id", columns)
+        self.assertEqual((job["claim_id"], job["state"]), ("clm-legacy", "queued"))
+        owner = migrated.bootstrap("workspace:legacy", "human:owner")["token"]
+        agent = migrated.issue_agent_credential(owner, "agent:codex", "Codex")["token"]
+        proposal = migrated.execute(agent, operation("claim.propose", {
+            "statement": "Migration preserves receipt reads", "evidence_refs": [],
+            "scope": "test", "proposer": "agent:codex"}, "legacy-migration"))
+        self.assertTrue(proposal["ok"])
+        receipt = migrated.execute(owner, operation("review.receipt", {
+            "claim_id": proposal["result"]["claim"]["id"]}))
+        self.assertTrue(receipt["ok"])
 
     def test_owner_only_versioned_persistence_and_safe_public_config(self):
         with self.assertRaises(HostedAuthError):
