@@ -211,6 +211,9 @@ function App() {
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [decisionConfirmation, setDecisionConfirmation] = React.useState<{decision: string; id: string; statement: string; scope: string} | null>(null);
+  const [pendingRejection, setPendingRejection] = React.useState<{id: string; note: string; nextId: string | null; seconds: number} | null>(null);
+  const rejectTimeout = React.useRef<number | null>(null);
+  const rejectCountdown = React.useRef<number | null>(null);
   const [revisionHandoff, setRevisionHandoff] = React.useState<any>(null);
   const cancelDecision = React.useRef<HTMLButtonElement>(null);
   const decisionTrigger = React.useRef<HTMLElement | null>(null);
@@ -221,6 +224,10 @@ function App() {
   const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [credentialSecret, setCredentialSecret] = React.useState("");
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  React.useEffect(() => () => {
+    if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
+    if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
+  }, []);
   React.useEffect(() => {
     if (!receipt || !["queued", "running"].includes(receipt.judge_job?.state || "")) return;
     const id = receipt.claim.id;
@@ -247,7 +254,8 @@ function App() {
       .catch(e => { if (active) setError(`Activity could not load: ${e.message}`); });
     return () => { active = false; };
   }, [page, reloadVersion]);
-  const load = React.useCallback(async () => {
+  const load = React.useCallback(async (selectionOverride?: string | null) => {
+    const targetSelection = selectionOverride === undefined ? selected : selectionOverride;
     const request = ++selectionRequest.current;
     setLoading(true);
     setError("");
@@ -267,13 +275,13 @@ function App() {
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setWorkspaceLabel(session.workspace || "Owner workspace");
       setCsrf(session.csrf);
-      const selectedExists = Boolean(selected && next.some((n: NodeRow) => n.id === selected));
-      const desired = selected
-        ? selectedExists ? selected : null
+      const selectedExists = Boolean(targetSelection && next.some((n: NodeRow) => n.id === targetSelection));
+      const desired = targetSelection
+        ? selectedExists ? targetSelection : null
         : next.find((n: NodeRow) => n.state === "needs_review")?.id || null;
       if (request === selectionRequest.current) {
         setReceipt(null);
-        if (selected && !selectedExists) {
+        if (targetSelection && !selectedExists) {
           setDetailError("This claim was not found. No substitute receipt has been shown.");
           return;
         }
@@ -284,7 +292,7 @@ function App() {
         }
       }
     } catch (e: any) {
-      if (selected) setDetailError(e.message);
+      if (targetSelection) setDetailError(e.message);
       else setError(e.message);
     } finally {
       setLoading(false);
@@ -577,6 +585,10 @@ function App() {
   }
   async function decide(decision: string, confirmed = false) {
     if (decisionPending.current || !receipt || receipt.claim.id !== selected) return;
+    if (pendingRejection) {
+      setError("Finish or undo the pending rejection before making another decision.");
+      return;
+    }
     if (["reject", "request_changes"].includes(decision) && !note.trim()) {
       setError(decision === "reject" ? "Explain why the evidence does not support this claim." : "Describe the bounded change the proposer should make.");
       return;
@@ -587,6 +599,47 @@ function App() {
       setDecisionConfirmation({decision, id: receipt.claim.id, statement: receipt.claim.statement, scope: reuseBoundary(receipt.claim)});
       return;
     }
+    if (decision === "reject") {
+      const rejectedId = receipt.claim.id;
+      const rejectionNote = note.trim();
+      const nextPending = rows.find(row => row.state === "needs_review" && row.id !== rejectedId)?.id || null;
+      setDecisionConfirmation(null);
+      setNote("");
+      setFullReview(false);
+      setPendingRejection({id: rejectedId, note: rejectionNote, nextId: nextPending, seconds: 10});
+      if (nextPending) void choose(nextPending);
+      else { setSelected(null); setReceipt(null); }
+      requestAnimationFrame(() => document.querySelector(".reviewWorkspace > .work")?.scrollTo({top: 0, behavior: "smooth"}));
+      rejectCountdown.current = window.setInterval(() => {
+        setPendingRejection(current => current ? {...current, seconds: Math.max(0, current.seconds - 1)} : null);
+      }, 1000);
+      rejectTimeout.current = window.setTimeout(async () => {
+        if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
+        rejectCountdown.current = null;
+        rejectTimeout.current = null;
+        decisionPending.current = true;
+        setBusy(true);
+        try {
+          await api("/owner/api/reviews", {
+            method: "POST",
+            body: JSON.stringify({csrf, claim_id: rejectedId, decision: "reject", note: rejectionNote}),
+          });
+          setPendingRejection(null);
+          await load(nextPending);
+        } catch (e: any) {
+          setPendingRejection(null);
+          setError(`Rejection was not recorded: ${e.message}`);
+          setFullReview(true);
+          setSelected(rejectedId);
+          try { setReceipt(await api(`/owner/api/claims/${encodeURIComponent(rejectedId)}`)); }
+          catch (detail: any) { setDetailError(detail.message); }
+        } finally {
+          decisionPending.current = false;
+          setBusy(false);
+        }
+      }, 10000);
+      return;
+    }
     decisionPending.current = true;
     setBusy(true);
     try {
@@ -594,9 +647,9 @@ function App() {
         method: "POST",
         body: JSON.stringify({ csrf, claim_id: selected, decision, note }),
       });
-      setReceipt(next);
       setDecisionConfirmation(null);
       setNote("");
+      setReceipt(next);
       await load();
       if (decision === "request_changes") setRevisionHandoff(next);
     } catch (e: any) {
@@ -663,7 +716,7 @@ function App() {
       setBusy(false);
     }
   }
-  const pending = rows.filter((r) => r.state === "needs_review").length;
+  const pending = rows.filter((r) => r.state === "needs_review" && r.id !== pendingRejection?.id).length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
@@ -739,12 +792,28 @@ function App() {
             </button>
           </div>
         )}
+        {pendingRejection && (
+          <div className="decisionNotice" role="status" aria-live="polite">
+            <span>Rejection pending · {pendingRejection.seconds}s <small>Not recorded yet</small></span>
+            <button onClick={() => {
+              const id = pendingRejection.id;
+              if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
+              if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
+              rejectTimeout.current = null;
+              rejectCountdown.current = null;
+              setPendingRejection(null);
+              setPage("review");
+              setFullReview(true);
+              void choose(id);
+            }}>Undo</button>
+          </div>
+        )}
         <section className="stage">
           {page === "home" && (
             <HomePage
               pending={pending}
               admitted={admitted}
-              rows={rows}
+              rows={rows.filter(row => row.id !== pendingRejection?.id)}
               onChoose={(id: string) => { navigate("review"); choose(id); }}
               onReview={() => navigate("review")}
               onLedger={() => navigate("ledger")}
