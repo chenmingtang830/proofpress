@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 import stat
+import subprocess
 import threading
 from pathlib import Path
 
@@ -12,11 +13,22 @@ from proofpress.hosted.service import create_hosted_server
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
+
+
+def default_state_directory():
+    """Resolve preview state beside the primary checkout, even from a worktree."""
+    common_git_directory = subprocess.run(
+        ["git", "rev-parse", "--path-format=absolute", "--git-common-dir"],
+        cwd=REPOSITORY,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    return Path(common_git_directory).resolve().parent / ".proofpress" / "local-preview"
+
+
 STATE_DIRECTORY = Path(
-    os.environ.get(
-        "PROOFPRESS_LOCAL_PREVIEW_DIR",
-        REPOSITORY / ".proofpress" / "local-preview",
-    )
+    os.environ.get("PROOFPRESS_LOCAL_PREVIEW_DIR", default_state_directory())
 ).expanduser().resolve()
 DATABASE = STATE_DIRECTORY / "hosted.db"
 CREDENTIALS = STATE_DIRECTORY / "credentials.json"
@@ -83,6 +95,64 @@ def seed_preview(base, agent_token):
         client.evaluate_conclusion(proposal["conclusion"]["id"])
 
 
+def ensure_admitted_preview(base, agent_token, owner_token):
+    """Keep one stable admitted receipt available for Ledger/lineage review."""
+    agent = ProofpressClient.localhost(base, agent_token)
+    owner = ProofpressClient.localhost(base, owner_token)
+    statement = (
+        "A localhost preview should preserve one human-admitted synthetic conclusion "
+        "so reviewers can inspect governed lineage without using production knowledge."
+    )
+    quote = (
+        statement
+        + " This fixture is synthetic, scoped only to local-preview, and admitted by "
+        "the dedicated localhost owner credential for interface verification."
+    )
+    evidence = agent.submit_evidence(
+        {
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {
+                "uri": "fixture://local-preview/admitted-lineage",
+                "content_digest": "sha256:" + hashlib.sha256(quote.encode()).hexdigest(),
+            },
+            "evidence": {
+                "quote": quote,
+                "locator": {
+                    "kind": "text_span",
+                    "start": 0,
+                    "end": len(quote),
+                    "text_digest": "sha256:" + hashlib.sha256(quote.encode()).hexdigest(),
+                },
+            },
+            "retrieval": {
+                "adapter": "local-preview",
+                "version": "1",
+                "query": "admitted lineage fixture",
+                "config_digest": "sha256:" + "c" * 64,
+            },
+        },
+        idempotency_key="local-preview-admitted-evidence-v1",
+    )
+    proposal = agent.propose_conclusion(
+        statement,
+        evidence["evidence"],
+        "local-preview",
+        "agent:local-preview",
+        idempotency_key="local-preview-admitted-conclusion-v1",
+    )
+    conclusion_id = proposal["conclusion"]["id"]
+    agent.evaluate_conclusion(
+        conclusion_id, idempotency_key="local-preview-admitted-evaluation-v1"
+    )
+    owner.review_conclusion(
+        conclusion_id,
+        "admit",
+        "human:local-owner",
+        note="Synthetic localhost fixture admitted for Ledger and lineage UI verification.",
+        idempotency_key="local-preview-admitted-review-v1",
+    )
+
+
 def main():
     STATE_DIRECTORY.mkdir(parents=True, exist_ok=True)
     database_exists = DATABASE.exists()
@@ -105,6 +175,7 @@ def main():
     base = f"http://127.0.0.1:{server.server_port}"
     if not database_exists:
         seed_preview(base, credentials["agent"])
+    ensure_admitted_preview(base, credentials["agent"], credentials["owner"])
 
     print(
         json.dumps(

@@ -234,22 +234,25 @@ function App() {
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setWorkspaceLabel(session.workspace || "Owner workspace");
       setCsrf(session.csrf);
-      const desired =
-        selected && next.some((n: NodeRow) => n.id === selected)
-          ? selected
-          : next.find((n: NodeRow) => n.state === "needs_review")?.id ||
-            null;
+      const selectedExists = Boolean(selected && next.some((n: NodeRow) => n.id === selected));
+      const desired = selected
+        ? selectedExists ? selected : null
+        : next.find((n: NodeRow) => n.state === "needs_review")?.id || null;
       if (request === selectionRequest.current) {
-        setSelected(desired);
         setReceipt(null);
+        if (selected && !selectedExists) {
+          setDetailError("This conclusion was not found. No substitute receipt has been shown.");
+          return;
+        }
+        setSelected(desired);
         if (desired) {
           const detail = await api(`/owner/api/claims/${encodeURIComponent(desired)}`);
           if (request === selectionRequest.current) setReceipt(detail);
         }
       }
     } catch (e: any) {
-      setError(e.message);
-      setDetailError(e.message);
+      if (selected) setDetailError(e.message);
+      else setError(e.message);
     } finally {
       setLoading(false);
     }
@@ -533,7 +536,10 @@ function App() {
       const detail = await api(`/owner/api/claims/${encodeURIComponent(id)}`);
       if (request === selectionRequest.current) setReceipt(detail);
     } catch (e: any) {
-      if (request === selectionRequest.current) { setError(e.message); setDetailError(e.message); }
+      if (request === selectionRequest.current) {
+        setDetailError(e.message);
+        if (page !== "review") setError(e.message);
+      }
     }
   }
   async function decide(decision: string, confirmed = false) {
@@ -689,7 +695,7 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <span className="workspaceLabel">{workspaceLabel} · {labels[page]}</span>
+          <span className="workspaceLabel"><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
         </header>
         {error && (
           <div className="error" role="alert">
@@ -720,6 +726,7 @@ function App() {
               onBack={backToReview}
               selected={selected}
               receipt={receipt}
+              detailError={detailError}
               loading={loading}
               onChoose={choose}
               onClose={() => {
@@ -869,7 +876,7 @@ function ReviewPage({
   busy,
   judgeRunning,
   onJudge, onEvaluate, onConfigurePolicy,
-  fullReview, onOpenFull, onBack, onLedger,
+  fullReview, onOpenFull, onBack, onLedger, detailError,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
   const queueFor = (state: string) => state === "unresolved" ? "needs_review" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
@@ -906,13 +913,13 @@ function ReviewPage({
                   className={selected === row.id ? "selected" : ""}
                   onClick={() => onChoose(row.id)}
                 >
-                  <td>
+                  <td data-label="Claim">
                     <button className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.label}</button>
-                    <small>{row.id}<span className="claimScopeInline"> · {row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
+                    <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
                   </td>
-                  <td><Badge state={row.state} /></td>
-                  <td>{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
-                  <td>
+                  <td data-label="Status"><Badge state={row.state} /></td>
+                  <td data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
+                  <td aria-label="Open conclusion">
                     <ChevronRight />
                   </td>
                 </tr>
@@ -930,6 +937,7 @@ function ReviewPage({
       </div>
       <Inspector
         pending={!!selected && !receipt}
+        detailError={detailError}
         receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
         onClose={onClose}
         note={note}
@@ -958,7 +966,7 @@ function Inspector({
   judgeRunning = false,
   onJudge, onEvaluate,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false,
+  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false, detailError = "",
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
@@ -972,7 +980,10 @@ function Inspector({
     panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
   }, [r?.claim.id]);
-  if (!r) return pending ? <aside className="inspector" aria-label="Claim details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
+  if (!r) {
+    if (detailError) return <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details"><div className="missingConclusion"><strong>Claim not found</strong><p>{detailError}</p><Button variant="outline" onClick={fullReview ? onBack : onClose}>Back to review queue</Button></div></aside>;
+    return pending ? <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
+  }
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
   const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The claim has expired","not superseded":"The claim was superseded","reuse boundary present":"Record a legacy scope or an applicability card before approval."} as Record<string,string>)[name] || `${name} did not pass`;
@@ -985,19 +996,19 @@ function Inspector({
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
-      {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
+      {fullReview && <Button className="fullReviewBack" variant="ghost" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
       </button>}
       <div className="inspectorTop">
         {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
-        <h2 className={fullReview ? "fullStatement" : undefined}>{r.claim.statement}</h2>
+        {fullReview ? <h1 className="fullStatement">{r.claim.statement}</h1> : <h2>{r.claim.statement}</h2>}
         <p>
           Proposed by {r.claim.proposer || "agent"} ·{" "}
           <span className="mono">{r.claim.id}</span>
         </p>
-        {onOpenFull && !fullReview && <Button className="reviewEntry" variant="approve" onClick={onOpenFull}>Open full review</Button>}
+        {onOpenFull && !fullReview && <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button>}
       </div>
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
@@ -1006,7 +1017,7 @@ function Inspector({
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
         {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
-        {can && <div className="decisionStack"><div><strong>Automated checks</strong><span className={r.evaluation ? (failedChecks.length ? "fail" : "pass") : ""}>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
+        {can && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={r.evaluation ? (failedChecks.length ? "fail" : "pass") : ""}>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</dd></div><div><dt>LM advice · advisory</dt><dd>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation}` : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
         {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div>{fullReview ? <ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /> : <p>{r.recommendation.rationale}</p>}<small>Advisory only — this does not approve or reject the claim.</small></section>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
@@ -1015,7 +1026,7 @@ function Inspector({
             : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
             : <>
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
-                ? <Button variant="outline" onClick={onConfigurePolicy}>Set up LM review</Button>
+                ? <Button variant="accent" onClick={onConfigurePolicy}>Set up LM review</Button>
                 : judgeFailed && onJudge
                   ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry LM review</Button>
                   : judgePending && r.review_policy?.mode === "automatic"
@@ -1117,7 +1128,13 @@ function Inspector({
       </>}
       {can && (!onOpenFull || fullReview) ? (
         <div className="decision">
+          <div className="decisionHeading">
+            <span>Owner decision</span>
+            <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
+          </div>
+          <label htmlFor={`decision-note-${r.conclusion.id}`}>Decision note <small>Required for reject or request changes</small></label>
           <textarea
+            id={`decision-note-${r.conclusion.id}`}
             aria-label="Reason for rejection or bounded clarification request"
             aria-required="true"
             value={note}

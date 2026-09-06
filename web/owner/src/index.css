@@ -135,7 +135,7 @@ textarea {
 }
 .sidebar nav button {
   display: flex;
-  height: 40px;
+  min-height: 44px;
   align-items: center;
   gap: 11px;
   border: 0;
@@ -346,6 +346,7 @@ main {
 .claimSelect {
   display: block;
   width: 100%;
+  min-height: 44px;
   border: 0;
   background: transparent;
   color: inherit;
@@ -927,7 +928,7 @@ td:last-child svg {
   font-size: 10px;
 }
 .issueForm input {
-  height: 36px;
+  height: 44px;
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 0 9px;
@@ -1183,8 +1184,11 @@ td:last-child svg {
   left: 50%;
   z-index: 80;
   display: flex;
+  width: min(calc(100vw - 24px), 640px);
   transform: translateX(-50%);
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 12px;
   border: 1px solid #e9c9c5;
   border-radius: 6px;
@@ -1206,6 +1210,19 @@ td:last-child svg {
   color: var(--ink-2);
   text-align: center;
   font-size: 12px;
+}
+.missingConclusion {
+  max-width: 620px;
+  margin: 56px auto;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 32px;
+}
+.missingConclusion strong { font-size: 20px; }
+.missingConclusion p {
+  margin: 8px 0 20px;
+  color: var(--ink-2);
+  line-height: 1.55;
 }
 @media (max-width: 1050px) {
   .workspacePage:not(.overviewOnly) > .work {
@@ -1327,6 +1344,13 @@ td:last-child svg {
   .topbar .search {
     display: none;
   }
+  .workspaceLabel {
+    overflow: hidden;
+    max-width: 42vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .workspaceContext { display: none; }
   .stage {
     height: auto;
     min-height: calc(100vh - 58px);
@@ -1415,6 +1439,23 @@ td:last-child svg {
     width: 100%;
     height: auto;
   }
+  .reviewWorkspace > .inspector:not(.fullReview) {
+    top: 58px;
+    bottom: auto;
+    height: calc(100dvh - 58px - 66px - env(safe-area-inset-bottom));
+  }
+  .error {
+    top: 66px;
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .error button,
+  .error a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
   .mobileBack {
     display: block;
     width: 100%;
@@ -1468,6 +1509,7 @@ td:last-child svg {
     min-height: 44px;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;
@@ -1920,6 +1962,270 @@ tbody tr.selected td:first-child b {
   background: #fff;
 }
 
+/* Canonical ledger treatment for the deliberate full-review surface. */
+.fullReviewBack {
+  min-height: 36px;
+  height: 36px;
+  margin: 0 0 2px;
+  padding: 0 4px;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+.fullReviewBack:hover {
+  background: transparent;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.fullReview .inspectorTop,
+.fullReview .quickSnapshot,
+.fullReview .tabs,
+.fullReview .tabContent,
+.fullReview .decision {
+  background: var(--paper);
+}
+
+.fullReview .inspectorTop {
+  padding: 20px 30px 26px;
+}
+
+.fullReview .inspectorTop .fullStatement {
+  max-width: 30ch;
+  margin: 16px 0 14px;
+  color: var(--ink);
+  font: 500 clamp(1.75rem, 4vw, 2.2rem)/1.18 var(--font-ui);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.fullReview .inspectorTop p {
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.fullReview .quickSnapshot {
+  padding: 0 30px 28px;
+}
+
+.fullReview .quickSnapshot dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.fullReview .quickSnapshot dl > div {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fullReview .quickSnapshot dl > div:nth-child(odd) {
+  padding-right: 24px;
+}
+
+.fullReview .quickSnapshot dl > div:nth-child(even) {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+
+.fullReview .quickSnapshot dt,
+.fullReview .decisionStack dt,
+.fullReview .decision > label,
+.fullReview .decisionHeading > span {
+  color: var(--ink-3);
+  font: 500 10px/1.4 var(--font-proof);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.fullReview .quickSnapshot dd,
+.fullReview .decisionStack dd {
+  margin: 7px 0 0;
+  color: var(--ink);
+  font: 500 15px/1.45 var(--font-ui);
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.fullReview .decisionStack {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.fullReview .decisionStack > div {
+  display: grid;
+  grid-template-columns: minmax(150px, .72fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.fullReview .decisionStack dd {
+  margin-top: 0;
+}
+
+.fullReview .decisionStack .authorityStep {
+  border-bottom-color: var(--accent);
+}
+
+.fullReview .decisionStack .authorityStep dt,
+.fullReview .decisionStack .authorityStep dd {
+  color: var(--accent);
+}
+
+.fullReview .tabs {
+  margin-top: 10px;
+  padding: 0 18px;
+}
+
+.fullReview .tabContent {
+  padding: 26px 30px 34px;
+}
+
+.fullReview .evidenceRow b {
+  font-size: 14px;
+}
+
+.fullReview .evidenceRow p {
+  max-width: 70ch;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.evidenceRow > .expandableText {
+  display: block;
+}
+
+.expandableText > button,
+.technicalDetails > summary {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+}
+
+.fullReview .decision {
+  position: static;
+  padding: 20px 30px 24px;
+  border-top: 1px solid var(--accent);
+  box-shadow: 0 -14px 34px rgba(24, 26, 32, .08);
+}
+
+.decisionHeading {
+  display: block !important;
+  margin: 0 0 14px !important;
+}
+
+.decisionHeading p {
+  margin: 5px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.fullReview .decision > label {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 7px;
+}
+
+.fullReview .decision > label small {
+  color: var(--ink-3);
+  font: 400 10px/1.4 var(--font-proof);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.fullReview .decision textarea {
+  min-height: 72px;
+  background: var(--paper);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.claimScopeInline b {
+  margin-right: 5px;
+  color: var(--ink-3);
+  font: 500 9px/1.4 var(--font-proof);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 680px) {
+  .fullReview .inspectorTop {
+    padding: 14px 22px 22px;
+  }
+
+  .fullReview .inspectorTop .fullStatement {
+    max-width: none;
+    font-size: 1.65rem;
+    line-height: 1.17;
+  }
+
+  .fullReview .quickSnapshot {
+    padding: 0 22px 24px;
+  }
+
+  .fullReview .quickSnapshot dl {
+    grid-template-columns: 1fr;
+  }
+
+  .fullReview .quickSnapshot dl > div:nth-child(n) {
+    padding: 14px 0 16px;
+    border-left: 0;
+  }
+
+  .fullReview .decisionStack > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .fullReview .tabContent {
+    padding: 22px;
+  }
+
+  .fullReview .decision {
+    padding: 17px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .fullReview .decision > label {
+    display: block;
+  }
+
+  .fullReview .decision > label small {
+    display: block;
+    margin-top: 3px;
+  }
+
+  table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  td[data-label="Status"]::before,
+  td[data-label="Applicability"]::before {
+    display: inline-block;
+    margin-right: 7px;
+    color: var(--ink-3);
+    content: attr(data-label);
+    font: 500 9px/1.4 var(--font-proof);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+}
+
 @media (max-width: 680px) {
   .sidebar {
     border-top: 1px solid var(--line);
@@ -1941,4 +2247,26 @@ tbody tr.selected td:first-child b {
   .orientation strong {
     font-size: 40px;
   }
+}
+
+@media (max-width: 280px) {
+  .workspaceLabel { display: none; }
+  .sidebar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-inline: 0;
+  }
+  .sidebar nav {
+    display: flex;
+    width: max-content;
+    min-width: max-content;
+    flex-direction: row;
+  }
+  .sidebar nav button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 50px;
+    flex: 0 0 44px;
+  }
+  .sidebar nav span { display: none; }
 }
