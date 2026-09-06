@@ -37,6 +37,14 @@ try {
   assert.match(page.url(), /\/home$/);
   await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
   await page.waitForFunction(() => window.__proofpressWebMcpTools?.length >= 12);
+  const reviewRow = page.locator('tbody tr').filter({hasText:data.ids[0]});
+  assert.equal(await reviewRow.locator('.claimSelect').evaluate(el=>getComputedStyle(el).textAlign),'left');
+  assert.equal(await reviewRow.locator('.reviewScopeCell').isVisible(),true);
+  assert.equal(await reviewRow.locator('.claimScopeInline').isVisible(),false);
+  if(process.env.QA_SCREENSHOTS) {
+    await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-columns-1536.png`});
+  }
   const webMcpNames = await page.evaluate(() => window.__proofpressWebMcpTools.map(tool => tool.name));
   for (const name of ['get_workspace_summary','list_review_queue','get_review_state','get_lineage','run_deterministic_checks','open_review','get_review_policy','prepare_review_policy_change','get_agent_access','prepare_agent_credential_issue']) assert.ok(webMcpNames.includes(name),`Missing WebMCP tool ${name}`);
   assert.equal(webMcpNames.some(name => /approve|admit/.test(name)),false,'Human Approval must not be exposed to WebMCP');
@@ -58,6 +66,15 @@ try {
       await page.getByRole('button',{name:'Close details',exact:true}).click();
       assert.equal(await page.locator('.inspector').count(),0);
     }
+    assert.equal(await reviewRow.locator('.claimSelect').evaluate(el=>getComputedStyle(el).textAlign),'left');
+    const compactLayout = await reviewRow.evaluate(row=>({
+      viewport: window.innerWidth,
+      scopeDisplay: getComputedStyle(row.querySelector('.reviewScopeCell')).display,
+      inlineDisplay: getComputedStyle(row.querySelector('.claimScopeInline')).display,
+    }));
+    assert.equal(compactLayout.scopeDisplay,'none',JSON.stringify(compactLayout));
+    assert.equal(await reviewRow.locator('.claimScopeInline').isVisible(),true);
+    if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-columns-${width}.png`});
     const opener = page.locator('tbody tr').filter({hasText:data.ids[0]}).getByRole('button');
     await opener.focus();
     await opener.press('Enter');
