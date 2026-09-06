@@ -83,7 +83,7 @@ class ProofpressMcpGateway:
             reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
-            idempotency_key: str | None = None) -> dict[str, Any]:
+            idempotency_key: str | None = None, title: str | None = None) -> dict[str, Any]:
         if (not evidence_refs or
                 any(not isinstance(ref, str) or EVIDENCE_ID_RE.fullmatch(ref) is None
                     for ref in evidence_refs)):
@@ -96,7 +96,7 @@ class ProofpressMcpGateway:
             applicability=applicability,
             reproposal_of=reproposal_of,
             qualifiers=qualifiers,
-            profile=profile, idempotency_key=idempotency_key)
+            profile=profile, idempotency_key=idempotency_key, title=title)
 
     def discover_context(self, task: str | None = None,
                          limit: int = 24) -> dict[str, Any]:
@@ -208,8 +208,11 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
-            idempotency_key: str | None = None) -> dict[str, Any]:
+            idempotency_key: str | None = None, title: str | None = None) -> dict[str, Any]:
         """Propose an evidence-bound claim as the configured agent principal.
+
+        Optional title is a short claim heading (at most 120 characters).
+        Statement is the complete claim; title does not replace its limits.
 
         evidence_refs must be evd_ IDs returned by
         proofpress_submit_evidence, not source or artifact URLs.
@@ -229,7 +232,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """
         return gateway.propose_claim(
             statement, evidence_refs, scope, expires_at, artifact_refs,
-            applicability, reproposal_of, qualifiers, profile, idempotency_key)
+            applicability, reproposal_of, qualifiers, profile, idempotency_key, title)
 
     @server.tool(name="proofpress_discover_context")
     def proofpress_discover_context(

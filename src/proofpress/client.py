@@ -189,9 +189,10 @@ class ProofpressClient:
     def propose_claim(self, statement, evidence_refs, scope=None, proposer=None,
                            *, expires_at=None, artifact_refs=None,
                            applicability=None, reproposal_of=None, qualifiers=None,
-                           profile=None, **meta):
+                           profile=None, title=None, **meta):
         return self.execute("claim.propose", {
             "statement": statement, "evidence_refs": list(evidence_refs),
+            "title": title,
             "scope": scope, "proposer": proposer, "expires_at": expires_at,
             "artifact_refs": list(artifact_refs or []),
             "applicability": applicability,

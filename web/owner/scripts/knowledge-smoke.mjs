@@ -23,6 +23,10 @@ export async function inspectKnowledge(page, data) {
   await first.focus();
   await first.press('Enter');
   await record.locator('h2').filter({hasText:'Browser fixture approve:'}).waitFor();
+  if (process.env.PROOFPRESS_TEST_TITLES === '1') {
+    assert.equal(await record.locator('h2').textContent(), 'Browser fixture approve: human admission');
+    assert.match(await record.locator('.claimFullStatement').textContent(), /only human admission permits reuse/);
+  }
   assert.match(await record.locator('.knowledgeAttribution').textContent(),/human:browser-test/);
   assert.match(await record.textContent(),/No explicit validity conditions recorded/);
   assert.equal(await record.getByRole('button',{name:'Approve',exact:true}).count(),0);

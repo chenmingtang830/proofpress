@@ -338,7 +338,7 @@ LOCAL_OPERATION_SPECS = {
     "claim.propose": {
         "required": ("statement", "evidence_refs", "proposer"),
         "optional": ("expires_at", "artifact_refs", "scope", "applicability",
-                     "reproposal_of", "qualifiers", "profile"),
+                     "reproposal_of", "qualifiers", "profile", "title"),
         "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
     "claim.evaluate": {
@@ -1119,7 +1119,11 @@ def _applicability(value):
 
 def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
                artifact_refs=None, applicability=None, qualifiers=None,
-               profile=None, reproposal_of=None):
+               profile=None, reproposal_of=None, title=None):
+    if title is not None:
+        if not isinstance(title, str) or not title.strip() or len(title.strip()) > 120:
+            raise ValueError("title must be a non-empty string of at most 120 characters")
+        title = title.strip()
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
@@ -1160,6 +1164,8 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
             raise ValueError("revision must reference the current revision request")
     identity = {"statement": statement, "evidence": sorted(evidence_refs),
                 "scope": scope}
+    if title is not None:
+        identity["title"] = title
     if applicability is not None:
         identity["applicability"] = applicability
     if reproposal_of is not None:
@@ -1174,6 +1180,8 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
         "reproposal_of": reproposal_of,
         "qualifiers": qualifiers or {}, "created_at": now(),
     }
+    if title is not None:
+        row["title"] = title
     if row["id"] == reproposal_of:
         raise ValueError("a claim cannot be a re-proposal of itself")
     prior = projection["claims"].get(row["id"])
@@ -1745,7 +1753,7 @@ def _actor_can_read(row, policy, actor):
 
 def _discovery_text(row):
     applicability = row.get("applicability") or {}
-    values = [row.get("statement", ""), applicability.get("title", ""),
+    values = [row.get("statement", ""), row.get("title", ""), applicability.get("title", ""),
               applicability.get("description", "")]
     for field in ("when_relevant", "keywords", "validity_conditions"):
         values.extend(applicability.get(field, []))
@@ -1870,7 +1878,7 @@ def graph_v2(scope=None, actor=None):
     for cid, row in wanted.items():
         nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row),
                       "scope": row["scope"],
-                      "applicability": row.get("applicability"), "label": row["statement"],
+                      "applicability": row.get("applicability"), "label": row["statement"], "title": row.get("title"),
                       "created_at": row.get("created_at")})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         if row.get("reproposal_of") in wanted:
@@ -2961,7 +2969,7 @@ def _execute_local_operation(request):
                 parameters.get("scope"), parameters["proposer"],
                 parameters.get("expires_at"), parameters.get("artifact_refs"),
                 parameters.get("applicability"), parameters.get("qualifiers"),
-                parameters.get("profile"), parameters.get("reproposal_of"))
+                parameters.get("profile"), parameters.get("reproposal_of"), parameters.get("title"))
         elif operation == "claim.evaluate":
             result = evaluate_v2(parameters["claim_id"], actor=parameters.get("actor"))
         elif operation == "claim.judge":

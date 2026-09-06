@@ -32,6 +32,7 @@ def main(argv=None):
     submit.add_argument("--idempotency-key")
     propose = subparsers.add_parser("propose")
     propose.add_argument("--statement", required=True)
+    propose.add_argument("--title", help="short claim heading, at most 120 characters")
     propose.add_argument("--evidence", action="append", required=True)
     propose.add_argument("--scope", help="optional legacy exact-filter metadata")
     propose.add_argument("--applicability-json",
@@ -73,6 +74,7 @@ def main(argv=None):
         elif args.command == "propose":
             result = client.propose_claim(
                 args.statement, args.evidence, args.scope, "server-derived",
+                title=args.title,
                 applicability=(json.loads(args.applicability_json)
                                if args.applicability_json else None),
                 reproposal_of=args.reproposal_of,

@@ -1,5 +1,5 @@
 export type KnowledgeRow = {
-  id: string; label: string; state?: string; scope?: string; created_at?: string;
+  id: string; title?: string; label: string; state?: string; scope?: string; created_at?: string;
   applicability?: { title?: string; description?: string; when_relevant?: string[]; keywords?: string[]; validity_conditions?: string[] } | null;
 };
 export type KnowledgeSort = "newest" | "oldest" | "statement";
@@ -20,7 +20,7 @@ export function selectKnowledge(rows: KnowledgeRow[], query: string, topic: stri
   const terms = query.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
   return rows.filter(row => {
     const card = row.applicability;
-    const text = [row.label, row.id, row.scope, card?.title, card?.description, ...(card?.keywords || []), ...(card?.when_relevant || [])].join(" ").toLocaleLowerCase();
+    const text = [row.title, row.label, row.id, row.scope, card?.title, card?.description, ...(card?.keywords || []), ...(card?.when_relevant || [])].join(" ").toLocaleLowerCase();
     return (!topic || knowledgeTopic(row) === topic) && terms.every(term => text.includes(term));
   }).sort((a, b) => {
     if (sort === "statement") return a.label.localeCompare(b.label) || a.id.localeCompare(b.id);

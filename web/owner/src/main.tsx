@@ -27,6 +27,7 @@ type NodeRow = {
   id: string;
   type: string;
   label: string;
+  title?: string;
   state: string;
   scope?: string;
   applicability?: Receipt["claim"]["applicability"];
@@ -37,6 +38,7 @@ type Receipt = {
   claim: {
     id: string;
     statement: string;
+    title?: string;
     evidence_refs: string[];
     reproposal_of?: string | null;
     qualifiers?: { reproposal_response?: string };
@@ -926,12 +928,12 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
           {loading ? <p role="status">Loading candidate claims…</p> : next ? <>
             <article className="nextClaim">
               <Badge state={next.state} />
-              <h3>{next.label}</h3>
+              <h3>{next.title || next.label}</h3>{next.title && <p className="claimBodyPreview">{next.label}</p>}
               <dl><dt>Proposed use</dt><dd>{next.applicability?.title || next.applicability?.description || next.scope || "Not recorded"}</dd></dl>
               <p>Inspect the evidence and usage conditions before making a decision.</p>
               <Button onClick={() => onChoose(next.id)}>Review this claim <ChevronRight /></Button>
             </article>
-            {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <button key={row.id} onClick={() => onChoose(row.id)}><span>{row.label}</span><ChevronRight /></button>)}</div>}
+            {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <button key={row.id} onClick={() => onChoose(row.id)}><span>{row.title || row.label}</span><ChevronRight /></button>)}</div>}
             <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}<ChevronRight /></Button>
           </> : <div className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></div>}
           {rows.some((r: NodeRow) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
@@ -939,7 +941,7 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
         <section className="homeKnowledge" aria-labelledby="home-knowledge-title">
           <div className="sectionTitle"><h2 id="home-knowledge-title">Available knowledge</h2><span>{contextLoading ? "Loading…" : contextError ? "Unavailable" : `${admitted} current`}</span></div>
           <p>Admitted and eligible for this owner view. Each agent’s access is checked separately.</p>
-          {contextLoading ? <p role="status">Loading current knowledge…</p> : contextError ? <p role="alert">Knowledge could not be loaded. Use Reload workspace to retry.</p> : recentKnowledge.length ? <div className="homeKnowledgeList">{recentKnowledge.map((row: NodeRow) => <button key={row.id} onClick={() => onKnowledgeChoose(row.id)}><strong>{row.label}</strong><span>{row.applicability?.title || row.applicability?.description || row.scope || "Applicability not recorded"}</span><ChevronRight /></button>)}</div> : <div className="emptyState"><strong>No claims are available for reuse</strong><p>Approved claims appear here when they are current and eligible.</p></div>}
+          {contextLoading ? <p role="status">Loading current knowledge…</p> : contextError ? <p role="alert">Knowledge could not be loaded. Use Reload workspace to retry.</p> : recentKnowledge.length ? <div className="homeKnowledgeList">{recentKnowledge.map((row: NodeRow) => <button key={row.id} onClick={() => onKnowledgeChoose(row.id)}><strong>{row.title || row.label}</strong>{row.title && <p className="claimBodyPreview">{row.label}</p>}<span>{row.applicability?.title || row.applicability?.description || row.scope || "Applicability not recorded"}</span><ChevronRight /></button>)}</div> : <div className="emptyState"><strong>No claims are available for reuse</strong><p>Approved claims appear here when they are current and eligible.</p></div>}
           <Button variant="outline" onClick={onLedger}>Browse knowledge <BookOpen /></Button>
         </section>
       </div>
@@ -1017,7 +1019,7 @@ function ReviewPage({
                   onClick={() => onChoose(row.id)}
                 >
                   <td data-label="Claim">
-                    <button className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.label}</button>
+                    <button className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.title || row.label}</button>
                     <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
                   </td>
                   <td data-label="Status"><Badge state={row.state} /></td>
@@ -1108,7 +1110,7 @@ function Inspector({
       <div className="inspectorTop">
         {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
-        {fullReview ? <h1 className="fullStatement">{r.claim.statement}</h1> : <h2>{r.claim.statement}</h2>}
+        {fullReview ? <h1 className="fullStatement">{r.claim.title || r.claim.statement}</h1> : <h2>{r.claim.title || r.claim.statement}</h2>}{r.claim.title && <p className="claimFullStatement">{r.claim.statement}</p>}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>
