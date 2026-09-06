@@ -932,7 +932,7 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
               <Button onClick={() => onChoose(next.id)}>Review this claim <ChevronRight /></Button>
             </article>
             {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <button key={row.id} onClick={() => onChoose(row.id)}><span>{row.label}</span><ChevronRight /></button>)}</div>}
-            <Button variant="ghost" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}</Button>
+            <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}<ChevronRight /></Button>
           </> : <div className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></div>}
           {rows.some((r: NodeRow) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
         </section>
