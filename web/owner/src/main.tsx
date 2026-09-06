@@ -241,7 +241,7 @@ function App() {
       if (request === selectionRequest.current) {
         setReceipt(null);
         if (selected && !selectedExists) {
-          setDetailError("This conclusion was not found. No substitute receipt has been shown.");
+          setDetailError("This claim was not found. No substitute receipt has been shown.");
           return;
         }
         setSelected(desired);
@@ -919,7 +919,7 @@ function ReviewPage({
                   </td>
                   <td data-label="Status"><Badge state={row.state} /></td>
                   <td data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
-                  <td aria-label="Open conclusion">
+                  <td aria-label="Open claim">
                     <ChevronRight />
                   </td>
                 </tr>
@@ -1132,9 +1132,9 @@ function Inspector({
             <span>Owner decision</span>
             <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
           </div>
-          <label htmlFor={`decision-note-${r.conclusion.id}`}>Decision note <small>Required for reject or request changes</small></label>
+          <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
           <textarea
-            id={`decision-note-${r.conclusion.id}`}
+            id={`decision-note-${r.claim.id}`}
             aria-label="Reason for rejection or bounded clarification request"
             aria-required="true"
             value={note}
