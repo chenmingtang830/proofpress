@@ -77,6 +77,15 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain(".claimsPath");
     expect(css).toContain(".emptyState");
   });
+  it("delays rejection for ten seconds while continuing the needs-review queue", () => {
+    expect(source).toContain('row.state === "needs_review" && row.id !== rejectedId');
+    expect(source).toContain('}, 10000)');
+    expect(source).toContain('Not recorded yet');
+    expect(source).toContain('window.clearTimeout(rejectTimeout.current)');
+    expect(source).toContain('>Undo</button>');
+    expect(source).toContain('setFullReview(false)');
+    expect(css).toContain('.decisionNotice');
+  });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
     expect(source).toContain("Human Approval is not exposed");
