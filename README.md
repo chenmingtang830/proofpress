@@ -113,52 +113,51 @@ Proofpress requires Python 3.11 or newer. Install both the project-level agent
 skill and the local MCP/CLI in the repository where the governed work happens.
 
 [//]: # (ob:1522656b)
+1. **Install the governance skill.** It tells compatible agents when to retrieve,
+   propose, and stop for Human Approval.
+
 ```sh
 mkdir -p .agents/skills/proofpress-governed-context
 curl -fsSL \
   https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
   -o .agents/skills/proofpress-governed-context/SKILL.md
+```
 
+2. **Add a repository policy.** Edit and commit it to define what this workflow
+   should and should not propose.
+
+```sh
 mkdir -p .proofpress
 curl -fsSL \
   https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
   -o .proofpress/context-policy.yaml
+```
 
+3. **Install the local MCP and CLI.**
+
+```sh
 uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
+```
+
+4. **Create a governed demo workspace.**
+
+```sh
 proofpress quickstart
 ```
 
-The skill teaches a compatible agent when to retrieve eligible context, submit
-bounded evidence, propose a candidate, and stop for Human Approval. The MCP is
-the safe tool surface that executes that workflow.
-
-`.proofpress/context-policy.yaml` is the customer's versioned, repository-local
-rule set for what the agent should and should not propose. Customize its narrow
-workflow examples and commit it with the project. It guides proposal selection;
-it cannot weaken Proofpress checks, credential boundaries, or Human Approval.
-This repository dogfoods the same contract in its own
-[context policy](.proofpress/context-policy.yaml).
-
-Configure the optional LM Judge separately in Hosted Admin. Start with the
-[evidence-support criteria](.agents/skills/proofpress-governed-context/assets/judge-criteria.md),
-adapt them to the customer's risk and evidence requirements, and keep Human
-Approval as the reuse gate. Judge criteria do not belong in
-`.proofpress/context-policy.yaml`: the YAML controls what an agent may propose;
-the Judge criteria assess whether bound evidence supports a proposal.
-
-`proofpress quickstart` creates a new `./proofpress-demo` Git repository, seeds
-the packaged synthetic admission lifecycle, and writes and prints a ready-to-copy
-`proofpress-mcp.json` for a local stdio MCP connection. It uses no account,
-hosted service, token, or model call, and it refuses to reuse an existing path or
-ledger. Run `proofpress quickstart --ui` to continue into the loopback-only local
-review UI, or add `--no-browser` when the UI should not open a browser.
-
-This is the user setup. To change Proofpress itself, follow the separate
-[contribution guide](CONTRIBUTING.md).
+- Creates a new `./proofpress-demo` Git repository with synthetic evidence.
+- Prints a ready-to-copy local `proofpress-mcp.json`.
+- Requires no account, token, hosted service, or model call.
+- Add `--ui` for local review, or `--no-browser` to keep it terminal-only.
+- Configure the optional LM Judge separately with the
+  [evidence-support criteria](.agents/skills/proofpress-governed-context/assets/judge-criteria.md).
+- Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
 
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)
-The same lifecycle can run in-process for a local Git workspace or over HTTP:
+### Use the Python client
+
+Run the same lifecycle in-process or over HTTP:
 
 [//]: # (ob:d50b7fde)
 ```python
@@ -180,9 +179,8 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 
 ### Connect an MCP client
 
-The quickstart prints this local stdio shape with absolute paths already filled
-in. For another fresh Git workspace, configure your MCP client to start
-Proofpress in the repository it should govern:
+- The quickstart prints this local stdio configuration with absolute paths filled in.
+- For another workspace, point `--workspace` at the Git repository Proofpress should govern.
 
 ```json
 {
@@ -196,35 +194,27 @@ Proofpress in the repository it should govern:
 }
 ```
 
-For a hosted workspace, open `/connect` on your deployment and use its
-secret-free remote MCP URL. OAuth with PKCE binds the client to a separately
-issued agent credential. See [Remote MCP](docs/REMOTE_MCP.md).
+- **Hosted:** open `/connect` and use its secret-free remote MCP URL.
+- **Authentication:** OAuth with PKCE binds each client to a separate agent credential.
+- **Details:** [Remote MCP](docs/REMOTE_MCP.md).
 
 [//]: # (ob:ea362434)
 [//]: # (ob:choose-deployment)
 
 [//]: # (ob:43d5590e)
-## Run Proofpress where the work lives
+## Choose a deployment
 
 [//]: # (ob:5da4d7b8)
-| Use case | Start with | What it gives you |
-|---|---|---|
-| One repository or an offline/local workflow | In-process client or localhost HTTP | A Git-backed ledger, local review, and governed-context reads |
-| One owner working across several devices or coding agents | `proofpress hosted` | A private, single-owner workspace with durable storage, scoped credentials, owner web review, and HTTP/MCP clients |
-| A workflow-specific evidence format | A profile or integration | Typed evidence validation without changing core authority or lifecycle semantics |
-
-[//]: # (ob:9b6ded86)
-The hosted reference is deliberately single-owner and single-instance. It is a
-private deployment reference, not a multi-tenant Proofpress cloud or an
-enterprise collaboration product. For the Render Blueprint, bootstrap flow,
-credentials, backup/export, recovery, MCP, and security boundary, read
-[Self-hosting](docs/SELF_HOSTING.md).
-
-For repeatable owner-UI review on localhost, run `npm run preview:local` from
-`web/owner`. The first run creates one owner credential and persistent synthetic
-workspace under `.proofpress/local-preview/`; later runs reuse both instead of
-rotating the credential. The local credential file is mode `0600` and ignored
-by Git. The isolated browser test fixtures remain ephemeral.
+- **One local repository:** use the in-process client or localhost HTTP for a
+  Git-backed ledger, local review, and governed-context reads.
+- **One owner across devices or agents:** use `proofpress hosted` for durable
+  storage, scoped credentials, owner review, and HTTP/MCP access.
+- **Workflow-specific evidence:** use a profile or integration for typed
+  validation without changing the authority model.
+- **Owner UI preview:** run `npm run preview:local` from `web/owner`; it reuses
+  one ignored, mode-`0600` local credential and synthetic workspace.
+- **Hosted boundary:** the reference deployment is private, single-owner, and
+  single-instance—not a multi-tenant Proofpress cloud. See [Self-hosting](docs/SELF_HOSTING.md).
 
 ### Self-host in three steps
 
@@ -242,13 +232,14 @@ by Git. The isolated browser test fixtures remain ephemeral.
    issue a distinct credential for each agent or device. Configure backups
    before relying on the instance.
 
-The Blueprint contains no Proofpress credentials, customer data, or access to
-any existing deployment. A fork deploys into the operator's own account,
-storage, domain, and billing relationship.
+- The Blueprint contains no Proofpress credentials or customer data.
+- A fork uses the operator's own account, storage, domain, and billing.
 
 [//]: # (ob:99949965)
 [//]: # (ob:authority-boundary)
-Submitting evidence or proposing a claim never admits it. Agent credentials identify and constrain callers; they do not carry owner authority. Only admitted, current, in-scope, actor-eligible claims are returned as governed context.
+- Submitting evidence or proposing a claim never admits it.
+- Agent credentials identify and constrain callers; they do not carry owner authority.
+- Governed-context reads return only admitted, current, in-scope, actor-eligible claims.
 
 [//]: # (ob:6bafd8a0)
 [//]: # (ob:integrations)
@@ -276,7 +267,10 @@ Submitting evidence or proposing a claim never admits it. Agent credentials iden
 
 [//]: # (ob:6ec793e2)
 [//]: # (ob:limits)
-The current product is Python-first and single-owner. It does not provide multi-owner workspaces, customer VPC packaging, Notion ingestion, multi-repo knowledge ingestion, or a universal OCR/RAG platform.
+- Python-first and single-owner today.
+- No multi-owner workspaces or customer VPC packaging.
+- No Notion or multi-repository knowledge ingestion.
+- Not a universal OCR, RAG, memory, or search platform.
 
 [//]: # (ob:e9a649ec)
 [//]: # (ob:compatibility)
