@@ -14,6 +14,7 @@ const governanceCss = readFileSync(
   fileURLToPath(new URL("./components/governance.css", import.meta.url)),
   "utf8",
 );
+const knowledgeSource = readFileSync(fileURLToPath(new URL("./components/knowledge-library.tsx", import.meta.url)), "utf8");
 
 describe("Proofpress owner workspace contract", () => {
   it("keeps the MVP focused on review and human-readable lineage", () => {
@@ -27,13 +28,14 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
-    expect(source).toContain("Evidence to governed claims");
+    expect(knowledgeSource).toContain("<LineageGraph");
     expect(source).toContain("(current + 1) * 20");
   });
   it("opens the ledger on current claims and scopes lineage to a selection", () => {
-    expect(source).toContain('const [view, setView] = React.useState("list")');
-    expect(source).toContain("Selected lineage");
-    expect(source).toContain("View lineage");
+    expect(knowledgeSource).toContain('const [lineage, setLineage] = React.useState(false)');
+    expect(knowledgeSource).toContain("Search current claims");
+    expect(knowledgeSource).toContain("View lineage");
+    expect(knowledgeSource).toContain('receipt?.claim.id === selected');
     expect(source).not.toContain("Show history and unavailable claims");
   });
   it("lets the outer stage scroll the full review surface", () => {
@@ -58,7 +60,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Approved claims become reusable");
     expect(source).toContain("Evidence for this claim");
     expect(source).toContain("Proposed reuse boundary");
-    expect(source).toContain("Available now");
+    expect(source).toContain("Available knowledge");
     expect(source).toContain("Needs review");
     expect(source).not.toContain("Outside current context");
     expect(css).toContain("--evidence:");
@@ -73,7 +75,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("You are caught up");
     expect(source).toContain("Browse current claims");
     expect(source).toContain("No claims are available for reuse");
-    expect(source).toContain("Review candidate claims");
+    expect(knowledgeSource).toContain("Review candidate claims");
     expect(css).toContain(".claimsPath");
     expect(css).toContain(".emptyState");
   });

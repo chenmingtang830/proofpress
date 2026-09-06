@@ -25,7 +25,7 @@
 .handoffInstructions > p { margin:12px 0; line-height:1.5; font-size:14px; }
 .handoffInstructions > button { margin:8px 8px 0 0; }
 .graphScroll { overflow:auto; max-width:100%; }
-.graphPlane { position:relative; width:100%; min-width:720px; min-height:330px; background:radial-gradient(var(--line) .8px, transparent .8px) 0 0 / 20px 20px; }
+.graphPlane { position:relative; width:100%; min-width:720px; min-height:330px; height:var(--graph-height, 360px); background:radial-gradient(var(--line) .8px, transparent .8px) 0 0 / 20px 20px; }
 .graphPlane svg { position:absolute; inset:0; pointer-events:none; }
 .graphPlane path { fill:none; stroke:var(--line); stroke-width:2; }
 .graphPlane path.excluded { stroke:#b64c43; stroke-dasharray:6 5; }
