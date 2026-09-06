@@ -5,6 +5,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+.proofpress/local-preview/
 
 # Product strategy, competitive research, launch drafts, and experiments are
 # intentionally local. Public protocol and implementation docs live directly
