@@ -13,32 +13,32 @@ import sqlite3
 import threading
 from typing import Any
 
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from proofpress.hosted import review_policy
 
 
 OWNER_ONLY_OPERATIONS = frozenset({
-    "conclusion.review", "conclusion.supersede",
+    "claim.review", "claim.supersede",
     "relation.review", "relation.resolve",
 })
 AGENT_OPERATIONS = frozenset({
     "capabilities.get", "configuration.get", "evidence.submit",
-    "conclusion.propose", "conclusion.evaluate", "conclusion.judge",
-    "conclusion.judge_batch", "relation.propose", "relation.evaluate",
+    "claim.propose", "claim.evaluate", "claim.judge",
+    "claim.judge_batch", "relation.propose", "relation.evaluate",
     "relation.judge", "graph.get", "graph.traverse", "context.get", "context.discover",
     "review.summary", "review.receipt",
 })
 IDENTITY_PARAMETERS = {
-    "conclusion.propose": "proposer",
-    "conclusion.evaluate": "actor",
-    "conclusion.judge": "actor",
-    "conclusion.judge_batch": "actor",
+    "claim.propose": "proposer",
+    "claim.evaluate": "actor",
+    "claim.judge": "actor",
+    "claim.judge_batch": "actor",
     "relation.propose": "proposer",
     "relation.evaluate": "actor",
     "relation.judge": "actor",
-    "conclusion.review": "reviewer",
-    "conclusion.supersede": "reviewer",
+    "claim.review": "reviewer",
+    "claim.supersede": "reviewer",
     "relation.review": "reviewer",
     "relation.resolve": "reviewer",
     "context.get": "actor",
@@ -547,12 +547,12 @@ class HostedControlPlane:
             connection.commit()
             if settings["mode"] == "automatic":
                 store = SQLiteEventStore(self.database, owner.workspace_id, owner.principal_id)
-                with using_event_store(store), knowledge.using_policy(policy):
-                    projection = knowledge.v2_projection()
-                    candidates = [row for row in projection["conclusions"].values()
-                                  if knowledge.v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
-                for conclusion in candidates:
-                    self._schedule_judge(owner, conclusion, record, start=False)
+                with using_event_store(store), kernel_ops.using_policy(policy):
+                    projection = kernel_ops.v2_projection()
+                    candidates = [row for row in projection["claims"].values()
+                                  if kernel_ops.v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
+                for claim in candidates:
+                    self._schedule_judge(owner, claim, record, start=False)
                 if candidates:
                     threading.Thread(target=self.run_judge_jobs, daemon=True).start()
             return review_policy.public(record, review_policy.credential_status(connection, owner.workspace_id))
@@ -573,9 +573,9 @@ class HostedControlPlane:
                 event = json.loads(raw["payload_json"])
                 if event.get("type") == "human_reviewed":
                     reviews[event["event_id"]] = event
-                conclusion = event.get("conclusion")
-                if conclusion:
-                    subjects[conclusion["id"]] = conclusion
+                claim = event.get("claim")
+                if claim:
+                    subjects[claim["id"]] = claim
                 row = review_policy.semantic_event(event, raw["principal_id"])
                 if row:
                     if event.get("review_ref") in reviews:
@@ -589,11 +589,11 @@ class HostedControlPlane:
                 row["statement"] = subject.get("statement", "")
                 row["scope"] = subject.get("scope", "")
             for raw in connection.execute("SELECT * FROM hosted_context_reads WHERE workspace_id=? ORDER BY read_id DESC LIMIT ?", (owner.workspace_id, limit)):
-                ids = json.loads(raw["conclusion_ids_json"])
+                ids = json.loads(raw["claim_ids_json"])
                 rows.append({"id": f"read-{raw['read_id']}", "occurred_at": raw["created_at"],
                              "actor": raw["actor"], "action": "Retrieved governed context", "kind": "context_retrieved",
-                             "outcome": "retrieved", "scope": raw["scope"], "conclusion_ids": ids,
-                             "detail": f"{len(ids)} conclusions returned. Retrieval does not prove use."})
+                             "outcome": "retrieved", "scope": raw["scope"], "claim_ids": ids,
+                             "detail": f"{len(ids)} claims returned. Retrieval does not prove use."})
             for raw in connection.execute("SELECT * FROM hosted_review_policies WHERE workspace_id=?", (owner.workspace_id,)):
                 rows.append({"id": f"policy-{raw['version']}", "occurred_at": raw["created_at"],
                              "actor": raw["actor"], "action": "Updated review policy", "outcome": "recorded",
@@ -602,13 +602,13 @@ class HostedControlPlane:
         finally:
             connection.close()
 
-    def _schedule_judge(self, context, conclusion, record, start=True):
+    def _schedule_judge(self, context, claim, record, start=True):
         if record["settings"]["mode"] != "automatic":
             return
-        job_id = knowledge.digest([context.workspace_id, conclusion["id"], conclusion["digest"], record["policy"]["digest"]])
+        job_id = kernel_ops.digest([context.workspace_id, claim["id"], claim["digest"], record["policy"]["digest"]])
         with self._db() as connection:
             connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')",
-                               (job_id, context.workspace_id, conclusion["id"], record["policy"]["digest"], context.principal_id, _now(), _now()))
+                               (job_id, context.workspace_id, claim["id"], record["policy"]["digest"], context.principal_id, _now(), _now()))
         if start:
             threading.Thread(target=self.run_judge_jobs, daemon=True).start()
 
@@ -635,27 +635,27 @@ class HostedControlPlane:
                 store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
                 with self._db() as secret_connection:
                     provider_secret = review_policy.credential(secret_connection, job["workspace_id"])
-                with using_event_store(store), knowledge.using_policy(record["policy"]), knowledge.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or ""}):
+                with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or ""}):
                     if record["settings"]["mode"] != "automatic" or record["policy"]["digest"] != job["policy_digest"]:
                         state, detail = "skipped", "Review policy changed."
-                    elif knowledge.receipt_v2(job["conclusion_id"])["state"] not in {"needs_review", "unresolved"}:
-                        state, detail = "skipped", "Conclusion no longer needs review."
-                    elif not knowledge.evaluate_v2(job["conclusion_id"])["eligible"]:
+                    elif kernel_ops.receipt_v2(job["claim_id"])["state"] not in {"needs_review", "unresolved"}:
+                        state, detail = "skipped", "Claim no longer needs review."
+                    elif not kernel_ops.evaluate_v2(job["claim_id"])["eligible"]:
                         state, detail = "blocked", "Fix deterministic checks before requesting LM advice."
                     else:
-                        receipt = knowledge.receipt_v2(job["conclusion_id"])
+                        receipt = kernel_ops.receipt_v2(job["claim_id"])
                         recommendation = receipt.get("recommendation")
                         if not (recommendation and
-                                recommendation.get("conclusion_digest") == receipt["conclusion"]["digest"] and
+                                recommendation.get("claim_digest") == receipt["claim"]["digest"] and
                                 recommendation.get("policy_digest") == record["policy"]["digest"]):
-                            knowledge.judge_v2(job["conclusion_id"])
+                            kernel_ops.judge_v2(job["claim_id"])
                         state, detail = "completed", "LM advice recorded."
             except Exception:
                 # Do not persist provider responses or executable diagnostics in owner-facing data.
                 try:
                     store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
-                    with using_event_store(store), knowledge.using_policy(self._policy(job["workspace_id"])["policy"]):
-                        receipt = knowledge.receipt_v2(job["conclusion_id"])
+                    with using_event_store(store), kernel_ops.using_policy(self._policy(job["workspace_id"])["policy"]):
+                        receipt = kernel_ops.receipt_v2(job["claim_id"])
                         if receipt.get("recommendation"):
                             state, detail = "completed", "LM advice recorded."
                 except Exception:
@@ -674,10 +674,10 @@ class HostedControlPlane:
                     continue
                 for raw in connection.execute("SELECT payload_json, principal_id FROM events WHERE workspace_id=?", (workspace["workspace_id"],)).fetchall():
                     event = json.loads(raw["payload_json"])
-                    if event.get("type") == "conclusion_proposed" and event["created_at"] >= record["updated_at"]:
-                        conclusion = event["conclusion"]
-                        job_id = knowledge.digest([workspace["workspace_id"], conclusion["id"], conclusion["digest"], record["policy"]["digest"]])
-                        connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')", (job_id, workspace["workspace_id"], conclusion["id"], record["policy"]["digest"], raw["principal_id"], _now(), _now()))
+                    if event.get("type") == "claim_proposed" and event["created_at"] >= record["updated_at"]:
+                        claim = event["claim"]
+                        job_id = kernel_ops.digest([workspace["workspace_id"], claim["id"], claim["digest"], record["policy"]["digest"]])
+                        connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')", (job_id, workspace["workspace_id"], claim["id"], record["policy"]["digest"], raw["principal_id"], _now(), _now()))
         threading.Thread(target=self.run_judge_jobs, daemon=True).start()
 
     def revoke_credential(self, owner_token: str, credential_id: str) -> None:
@@ -777,8 +777,8 @@ class HostedControlPlane:
     @staticmethod
     def _error_envelope(request: Any, code: str, message: str) -> dict[str, Any]:
         operation = request.get("operation") if isinstance(request, dict) else None
-        return {"schema_version": knowledge.LOCAL_OPERATION_RESULT_SCHEMA,
-                "contract_status": knowledge.LOCAL_OPERATION_CONTRACT_STATUS,
+        return {"schema_version": kernel_ops.LOCAL_OPERATION_RESULT_SCHEMA,
+                "contract_status": kernel_ops.LOCAL_OPERATION_CONTRACT_STATUS,
                 "ok": False, "operation": operation,
                 "error": {"code": code, "message": message, "retryable": False}}
 
@@ -816,14 +816,14 @@ class HostedControlPlane:
         store = SQLiteEventStore(
             self.database, context.workspace_id, context.principal_id)
         record = self._policy(context.workspace_id)
-        prior_conclusions = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "conclusion_proposed"} if operation == "conclusion.propose" else set()
+        prior_claims = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "claim_proposed"} if operation == "claim.propose" else set()
         judge_environment = {}
-        if operation in {"conclusion.judge", "conclusion.judge_batch", "relation.judge"}:
+        if operation in {"claim.judge", "claim.judge_batch", "relation.judge"}:
             with self._db() as connection:
                 provider_secret = review_policy.credential(connection, context.workspace_id)
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
-        with using_event_store(store), knowledge.using_policy(record["policy"]), knowledge.using_judge_environment(judge_environment):
-            envelope = knowledge.execute_local_operation(normalized)
+        with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
+            envelope = kernel_ops.execute_local_operation(normalized)
             head = store.head()
             if envelope.get("ok") and operation == "review.receipt":
                 result = envelope["result"]
@@ -840,7 +840,7 @@ class HostedControlPlane:
                     "advice_current": advice.get("policy_digest") == record["policy"]["digest"],
                 }
                 with self._db() as connection:
-                    job = connection.execute("SELECT state, detail FROM hosted_judge_jobs WHERE workspace_id=? AND conclusion_id=? ORDER BY created_at DESC LIMIT 1", (context.workspace_id, result["conclusion"]["id"])).fetchone()
+                    job = connection.execute("SELECT state, detail FROM hosted_judge_jobs WHERE workspace_id=? AND claim_id=? ORDER BY created_at DESC LIMIT 1", (context.workspace_id, result["claim"]["id"])).fetchone()
                     result["judge_job"] = dict(job) if job else None
         if envelope.get("ok") and operation == "capabilities.get":
             result = dict(envelope["result"])
@@ -860,14 +860,14 @@ class HostedControlPlane:
             }
             envelope = {**envelope, "result": result}
         self._audit(context, request, envelope, head)
-        if envelope.get("ok") and operation == "conclusion.propose":
-            conclusion = envelope["result"]["conclusion"]
-            if conclusion["id"] not in prior_conclusions:
-                self._schedule_judge(context, conclusion, record)
+        if envelope.get("ok") and operation == "claim.propose":
+            claim = envelope["result"]["claim"]
+            if claim["id"] not in prior_claims:
+                self._schedule_judge(context, claim, record)
         if envelope.get("ok") and operation == "context.get" and context.role == "agent":
-            ids = [row["id"] for row in envelope["result"].get("knowledge", [])]
+            ids = [row["id"] for row in envelope["result"].get("governed_context", [])]
             with self._db() as connection:
-                connection.execute("INSERT INTO hosted_context_reads(workspace_id,actor,scope,conclusion_ids_json,created_at) VALUES(?,?,?,?,?)",
+                connection.execute("INSERT INTO hosted_context_reads(workspace_id,actor,scope,claim_ids_json,created_at) VALUES(?,?,?,?,?)",
                                    (context.workspace_id, context.principal_id, (parameters or {}).get("scope"), json.dumps(ids), _now()))
         return envelope
 

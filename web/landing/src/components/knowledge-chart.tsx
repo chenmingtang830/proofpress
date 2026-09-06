@@ -7,11 +7,11 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-title knowledge-chart-description"
       >
-        <title id="knowledge-chart-title">Formal review becomes necessary as agent conclusions shape downstream work</title>
+        <title id="knowledge-chart-title">Formal review becomes necessary as agent claims shape downstream work</title>
         <desc id="knowledge-chart-description">
           An illustrative curve shows agent-produced knowledge growing faster than traditional
           enterprise knowledge as agent autonomy increases. A marked inflection point shows where
-          agent conclusions routinely shape consequential downstream work.
+          agent claims routinely shape consequential downstream work.
         </desc>
         <defs>
           <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -35,7 +35,7 @@ export function KnowledgeChart() {
           <circle cx="744" cy="348" r="5" />
           <path className="thresholdLeader" d="M584 260L730 337" markerEnd="url(#teal-arrow)" />
           <text x="426" y="228" className="chartLabel chartLabelStrong">VERIFICATION INFLECTION</text>
-          <text x="426" y="255" className="chartAnnotation">Conclusions shape downstream work</text>
+          <text x="426" y="255" className="chartAnnotation">Claims shape downstream work</text>
         </g>
 
         <text x="1000" y="94" className="curveLabel agentLabel">
@@ -44,7 +44,7 @@ export function KnowledgeChart() {
         </text>
         <text x="890" y="326" className="curveLabel enterpriseLabel">Enterprise knowledge</text>
         <text x="610" y="620" textAnchor="middle" className="axisLabel">Agent adoption and autonomy over time</text>
-        <text x="42" y="310" textAnchor="middle" transform="rotate(-90 42 310)" className="axisLabel">Reusable conclusions and work</text>
+        <text x="42" y="310" textAnchor="middle" transform="rotate(-90 42 310)" className="axisLabel">Reusable claims and work</text>
       </svg>
       <svg
         className="knowledgeChart knowledgeChartMobile"
@@ -52,10 +52,10 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-mobile-title knowledge-chart-mobile-description"
       >
-        <title id="knowledge-chart-mobile-title">Formal review becomes necessary as agent conclusions shape downstream work</title>
+        <title id="knowledge-chart-mobile-title">Formal review becomes necessary as agent claims shape downstream work</title>
         <desc id="knowledge-chart-mobile-description">
           An illustrative mobile chart shows agent-produced knowledge rising faster than enterprise
-          knowledge, with an inflection point where conclusions shape downstream work.
+          knowledge, with an inflection point where claims shape downstream work.
         </desc>
         <defs>
           <marker id="mobile-axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -75,7 +75,7 @@ export function KnowledgeChart() {
           <path d="M220 430V291" />
           <circle cx="220" cy="291" r="4" />
           <text x="128" y="250" className="chartLabel chartLabelStrong">VERIFICATION INFLECTION</text>
-          <text x="128" y="270" className="chartAnnotation">Conclusions shape downstream work</text>
+          <text x="128" y="270" className="chartAnnotation">Claims shape downstream work</text>
         </g>
         <text x="186" y="470" textAnchor="middle" className="axisLabel">More agent autonomy →</text>
       </svg>

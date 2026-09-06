@@ -14,7 +14,7 @@ from proofpress.client import ProofpressClient
 MCP_SERVER_NAME = "Proofpress"
 MCP_INSTRUCTIONS = (
     "Proofpress governs agent-produced knowledge. Submit only bounded evidence; "
-    "propose conclusions with evidence references; retrieve only governed context. "
+    "propose claims with evidence references; retrieve only governed context. "
     "This server intentionally exposes no Human Approval, rejection, supersession, "
     "policy, credential, or owner-recovery tool. Ask the human owner to use the "
     "separate review surface for authority-bearing decisions."
@@ -22,7 +22,7 @@ MCP_INSTRUCTIONS = (
 MCP_SAFE_TOOLS = (
     "proofpress_capabilities",
     "proofpress_submit_evidence",
-    "proofpress_propose_conclusion",
+    "proofpress_propose_claim",
     "proofpress_discover_context",
     "proofpress_get_context",
     "proofpress_get_graph",
@@ -75,7 +75,7 @@ class ProofpressMcpGateway:
         return self.client.submit_evidence(
             payload, profile=profile, idempotency_key=idempotency_key)
 
-    def propose_conclusion(
+    def propose_claim(
             self, statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
@@ -90,7 +90,7 @@ class ProofpressMcpGateway:
             raise ValueError(
                 "evidence_refs must contain evd_ IDs returned by "
                 "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
-        return self.client.propose_conclusion(
+        return self.client.propose_claim(
             statement, evidence_refs, scope, self.principal,
             expires_at=expires_at, artifact_refs=artifact_refs,
             applicability=applicability,
@@ -109,11 +109,11 @@ class ProofpressMcpGateway:
             scope=scope, actor=self.principal, task=task,
             include_blocked_statements=False)
 
-    def evaluate_conclusion(self, conclusion_id: str) -> dict[str, Any]:
-        return self.client.evaluate_conclusion(conclusion_id, actor=self.principal)
+    def evaluate_claim(self, claim_id: str) -> dict[str, Any]:
+        return self.client.evaluate_claim(claim_id, actor=self.principal)
 
-    def judge_conclusion(self, conclusion_id: str) -> dict[str, Any]:
-        return self.client.judge_conclusion(conclusion_id, actor=self.principal)
+    def judge_claim(self, claim_id: str) -> dict[str, Any]:
+        return self.client.judge_claim(claim_id, actor=self.principal)
 
     def get_graph(self, scope: str | None = None) -> dict[str, Any]:
         return self.client.graph(scope, actor=self.principal)
@@ -125,13 +125,13 @@ class ProofpressMcpGateway:
             seed_ids, scope=scope, actor=self.principal, task=task,
             max_depth=max_depth, max_claims=max_claims, state="admitted")
 
-    def get_lineage(self, conclusion_id: str) -> dict[str, Any]:
-        receipt = self.get_review_receipt(conclusion_id)
-        graph = self.get_graph(receipt["conclusion"].get("scope"))
+    def get_lineage(self, claim_id: str) -> dict[str, Any]:
+        receipt = self.get_review_receipt(claim_id)
+        graph = self.get_graph(receipt["claim"].get("scope"))
         incoming: dict[str, list[dict[str, Any]]] = {}
         for edge in graph.get("edges", []):
             incoming.setdefault(edge["to"], []).append(edge)
-        wanted, pending, edges = {conclusion_id}, [conclusion_id], []
+        wanted, pending, edges = {claim_id}, [claim_id], []
         while pending:
             current = pending.pop()
             for edge in incoming.get(current, []):
@@ -141,8 +141,8 @@ class ProofpressMcpGateway:
                 if edge["from"] not in wanted:
                     wanted.add(edge["from"])
                     pending.append(edge["from"])
-        return {"conclusion_id": conclusion_id, "state": receipt["state"],
-                "scope": receipt["conclusion"].get("scope"),
+        return {"claim_id": claim_id, "state": receipt["state"],
+                "scope": receipt["claim"].get("scope"),
                 "nodes": [row for row in graph.get("nodes", [])
                           if row["id"] in wanted], "edges": edges,
                 "evidence": receipt.get("evidence", []),
@@ -151,19 +151,19 @@ class ProofpressMcpGateway:
     def get_review_summary(self, scope: str | None = None) -> dict[str, Any]:
         return self.client.review_summary(scope, actor=self.principal)
 
-    def get_review_receipt(self, conclusion_id: str) -> dict[str, Any]:
-        return self.client.review_receipt(conclusion_id, actor=self.principal)
+    def get_review_receipt(self, claim_id: str) -> dict[str, Any]:
+        return self.client.review_receipt(claim_id, actor=self.principal)
 
-    def get_review_link(self, conclusion_id: str) -> dict[str, Any]:
-        receipt = self.get_review_receipt(conclusion_id)
+    def get_review_link(self, claim_id: str) -> dict[str, Any]:
+        receipt = self.get_review_receipt(claim_id)
         result: dict[str, Any] = {
-            "conclusion_id": conclusion_id,
+            "claim_id": claim_id,
             "state": receipt["state"],
             "requires_human_owner": True,
         }
         if self.review_base_url:
             result["url"] = self.review_base_url + "/review?" + urlencode(
-                {"conclusion_id": conclusion_id})
+                {"claim_id": claim_id})
         else:
             result["url"] = None
             result["configuration_required"] = "PROOFPRESS_REVIEW_BASE_URL"
@@ -199,8 +199,8 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         return gateway.submit_evidence(
             payload, idempotency_key=idempotency_key, profile=profile)
 
-    @server.tool(name="proofpress_propose_conclusion")
-    def proofpress_propose_conclusion(
+    @server.tool(name="proofpress_propose_claim")
+    def proofpress_propose_claim(
             statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
@@ -209,7 +209,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
-        """Propose an evidence-bound conclusion as the configured agent principal.
+        """Propose an evidence-bound claim as the configured agent principal.
 
         evidence_refs must be evd_ IDs returned by
         proofpress_submit_evidence, not source or artifact URLs.
@@ -217,17 +217,17 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         Scope is optional legacy exact-filter metadata. Applicability is a
         small discoverable card: title, description, when_relevant, keywords,
         and validity_conditions. To answer request_changes, read the original review receipt and pass
-        qualifiers.revision_of (original conclusion ID) and
+        qualifiers.revision_of (original claim ID) and
         qualifiers.revision_request_ref (revision_request.event_id). Preserve
         any required profile qualifiers and state the revised applicability.
         The revised candidate
         still needs human approval; proposing never replaces or admits it.
 
         To propose a corrected successor after a rejection, pass
-        reproposal_of with the rejected conclusion ID. The old rejection remains
+        reproposal_of with the rejected claim ID. The old rejection remains
         immutable and the new candidate requires a new human decision.
         """
-        return gateway.propose_conclusion(
+        return gateway.propose_claim(
             statement, evidence_refs, scope, expires_at, artifact_refs,
             applicability, reproposal_of, qualifiers, profile, idempotency_key)
 
@@ -262,14 +262,14 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             seed_ids: list[str], scope: str | None = None,
             task: str | None = None, max_depth: int = 2,
             max_claims: int = 48) -> dict[str, Any]:
-        """Traverse eligible admitted relations from one or more conclusions."""
+        """Traverse eligible admitted relations from one or more claims."""
         return gateway.traverse_graph(
             seed_ids, scope, task, max_depth, max_claims)
 
     @server.tool(name="proofpress_get_lineage")
-    def proofpress_get_lineage(conclusion_id: str) -> dict[str, Any]:
-        """Trace a conclusion through evidence derivations to source records."""
-        return gateway.get_lineage(conclusion_id)
+    def proofpress_get_lineage(claim_id: str) -> dict[str, Any]:
+        """Trace a claim through evidence derivations to source records."""
+        return gateway.get_lineage(claim_id)
 
     @server.tool(name="proofpress_get_review_summary")
     def proofpress_get_review_summary(
@@ -279,14 +279,14 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
 
     @server.tool(name="proofpress_get_review_receipt")
     def proofpress_get_review_receipt(
-            conclusion_id: str) -> dict[str, Any]:
-        """Read the evidence, checks, state, and authority receipt for a conclusion."""
-        return gateway.get_review_receipt(conclusion_id)
+            claim_id: str) -> dict[str, Any]:
+        """Read the evidence, checks, state, and authority receipt for a claim."""
+        return gateway.get_review_receipt(claim_id)
 
     @server.tool(name="proofpress_get_review_link")
-    def proofpress_get_review_link(conclusion_id: str) -> dict[str, Any]:
-        """Create a link for the human owner; this tool cannot approve the conclusion."""
-        return gateway.get_review_link(conclusion_id)
+    def proofpress_get_review_link(claim_id: str) -> dict[str, Any]:
+        """Create a link for the human owner; this tool cannot approve the claim."""
+        return gateway.get_review_link(claim_id)
 
     return server
 

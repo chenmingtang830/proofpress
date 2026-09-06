@@ -27,7 +27,7 @@ class ReviewPolicyTests(unittest.TestCase):
 
     def proposal(self, label="A"):
         evidence = self.control.execute(self.agent, operation("evidence.submit", {"payload": evidence_payload()}))
-        return self.control.execute(self.agent, operation("conclusion.propose", {
+        return self.control.execute(self.agent, operation("claim.propose", {
             "statement": label, "evidence_refs": evidence["result"]["evidence"], "scope": "test",
             "proposer": "agent:codex"}, "proposal-" + label))
 
@@ -79,29 +79,29 @@ class ReviewPolicyTests(unittest.TestCase):
     def test_required_advice_cannot_be_bypassed_and_receipt_explains_it(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
             self.control.save_review_policy(self.owner, self.settings, 0)
-        cid = self.proposal()["result"]["conclusion"]["id"]
-        self.control.execute(self.agent, operation("conclusion.evaluate", {"conclusion_id": cid}))
-        denied = self.control.execute(self.owner, operation("conclusion.review", {"conclusion_id": cid, "decision": "admit", "reviewer": "human:owner"}))
+        cid = self.proposal()["result"]["claim"]["id"]
+        self.control.execute(self.agent, operation("claim.evaluate", {"claim_id": cid}))
+        denied = self.control.execute(self.owner, operation("claim.review", {"claim_id": cid, "decision": "admit", "reviewer": "human:owner"}))
         self.assertFalse(denied["ok"])
-        receipt = self.control.execute(self.owner, operation("review.receipt", {"conclusion_id": cid}))["result"]
+        receipt = self.control.execute(self.owner, operation("review.receipt", {"claim_id": cid}))["result"]
         self.assertTrue(receipt["review_policy"]["require_judge"])
         self.assertTrue(receipt["review_policy"]["checks_current"])
         self.assertFalse(receipt["review_policy"]["advice_current"])
 
     def test_semantic_feed_has_real_actors_and_reads_do_not_claim_use(self):
-        cid = self.proposal()["result"]["conclusion"]["id"]
-        self.control.execute(self.agent, operation("conclusion.evaluate", {"conclusion_id": cid}))
+        cid = self.proposal()["result"]["claim"]["id"]
+        self.control.execute(self.agent, operation("claim.evaluate", {"claim_id": cid}))
         self.control.execute(self.agent, operation("context.get", {"scope": "test"}))
         self.control.execute(self.owner, operation("context.get", {"scope": "test"}))
         rows = self.control.list_activity(self.owner)
-        proposal = next(row for row in rows if row["kind"] == "conclusion_proposed")
+        proposal = next(row for row in rows if row["kind"] == "claim_proposed")
         self.assertEqual(proposal["actor"], "agent:codex")
         evaluation = next(row for row in rows if row["kind"] == "policy_evaluated")
         self.assertEqual(evaluation["actor"], kernel.load_v2_policy()["verification"]["identity"])
         self.assertEqual(evaluation["initiator"], "agent:codex")
         reads = [row for row in rows if row["kind"] == "context_retrieved"]
         self.assertEqual(len(reads), 1)
-        self.assertEqual(reads[0]["conclusion_ids"], [])
+        self.assertEqual(reads[0]["claim_ids"], [])
         self.assertIn("does not prove use", reads[0]["detail"])
         self.assertTrue(any(row["operation"] == "context.get" for row in self.control.list_audit(self.owner)))
 
@@ -115,27 +115,27 @@ class ReviewPolicyTests(unittest.TestCase):
             self.control.run_judge_jobs()
             self.control.run_judge_jobs()
             self.assertEqual(judge.call_count, 1)
-        cid = first["result"]["conclusion"]["id"]
-        receipt = self.control.execute(self.owner, operation("review.receipt", {"conclusion_id":cid}))["result"]
+        cid = first["result"]["claim"]["id"]
+        receipt = self.control.execute(self.owner, operation("review.receipt", {"claim_id":cid}))["result"]
         self.assertEqual(receipt["state"], "needs_review")
         self.assertEqual(receipt["judge_job"]["state"], "completed")
 
     def test_activating_automatic_policy_enqueues_existing_candidates(self):
-        cid = self.proposal("existing")["result"]["conclusion"]["id"]
+        cid = self.proposal("existing")["result"]["claim"]["id"]
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}), \
              patch("proofpress.hosted.control_plane.threading.Thread"):
             self.control.save_review_policy(self.owner, {**self.settings, "mode":"automatic"}, 0)
         with self.control._db() as connection:
-            job = connection.execute("SELECT conclusion_id, state FROM hosted_judge_jobs").fetchone()
-        self.assertEqual((job["conclusion_id"], job["state"]), (cid, "queued"))
+            job = connection.execute("SELECT claim_id, state FROM hosted_judge_jobs").fetchone()
+        self.assertEqual((job["claim_id"], job["state"]), (cid, "queued"))
 
     def test_failed_current_checks_are_blocked_out_of_owner_review(self):
-        proposal = self.control.execute(self.agent, operation("conclusion.propose", {
+        proposal = self.control.execute(self.agent, operation("claim.propose", {
             "statement": "Unsupported candidate", "evidence_refs": [], "scope": "test",
             "proposer": "agent:codex"}, "unsupported"))
-        cid = proposal["result"]["conclusion"]["id"]
-        self.control.execute(self.agent, operation("conclusion.evaluate", {"conclusion_id": cid}))
-        receipt = self.control.execute(self.owner, operation("review.receipt", {"conclusion_id": cid}))["result"]
+        cid = proposal["result"]["claim"]["id"]
+        self.control.execute(self.agent, operation("claim.evaluate", {"claim_id": cid}))
+        receipt = self.control.execute(self.owner, operation("review.receipt", {"claim_id": cid}))["result"]
         graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
         self.assertEqual(receipt["state"], "blocked")
         self.assertEqual(next(row for row in graph["nodes"] if row["id"] == cid)["state"], "blocked")

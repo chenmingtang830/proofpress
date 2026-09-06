@@ -69,7 +69,7 @@ those operations remain on authenticated owner-only surfaces.
 The self-hosting reference extends the completed single-node local control plane
 into one private workspace, one human owner and sole authorizer, and several
 authenticated agent or device clients. It must preserve the existing evidence,
-conclusion, verification, review,
+claim, verification, review,
 supersession, and governed-context meanings rather than create a second
 governance implementation.
 
@@ -84,7 +84,7 @@ presence, or become an agent orchestration or project-management workspace.
 [//]: # (ob:a1f7f460)
 ```text
 Owner's agent on device A
-  -> import bounded evidence and propose a conclusion
+  -> import bounded evidence and propose a claim
   -> hosted deterministic verification and optional advisory judge
 Owner on device B
   -> admit, reject, or request changes
@@ -118,7 +118,7 @@ or dependence on copying raw artifacts and traces into Proofpress.
 |---|---|
 | One private workspace and one human owner | Multiple human members, organizations, invitations, billing, or enterprise RBAC |
 | Several separately authenticated agent/device clients | Agent task assignment, leases, presence, activity feeds, or Asana-style coordination |
-| Evidence import, conclusion and relation lifecycle, graph/context reads, and owner review | Generic connector marketplace, Notion ingestion, or organization-wide knowledge graph |
+| Evidence import, claim and relation lifecycle, graph/context reads, and owner review | Generic connector marketplace, Notion ingestion, or organization-wide knowledge graph |
 | External artifact locators, digests, and bounded evidence projections | Default storage of source documents, complete traces, prompts, or private reasoning |
 | Single hosted service instance with durable storage | Multi-region replication, multi-instance writes, customer VPC packaging, or Cloud SLA |
 | Existing Python SDK, remote HTTPS transport, and one thin Streamable HTTP MCP reference adapter | TypeScript, Go, a broad framework adapter matrix, or hosted plugin UI |
@@ -207,7 +207,7 @@ from JSON parameters and is included in audit and lifecycle receipts without
 recording the bearer secret.
 
 [//]: # (ob:cd6f5c84)
-Agent/device credentials may import evidence, propose and evaluate conclusions,
+Agent/device credentials may import evidence, propose and evaluate claims,
 and read allowed context. Only the owner credential may perform Human Approval
 or other authority-bearing lifecycle transitions. Verifier and judge identities
 remain separate configured service roles and cannot admit.
@@ -215,7 +215,7 @@ remain separate configured service roles and cannot admit.
 [//]: # (ob:269202b9)
 The MCP server is a transport adapter over the hosted operation contract, not a
 second governance kernel. Its first surface is deliberately narrow: capability
-discovery, bounded evidence submission, conclusion proposal, governed-context
+discovery, bounded evidence submission, claim proposal, governed-context
 and graph reads, review-status reads, and owner review-link creation. Agent MCP
 credentials cannot call approval, rejection, request-changes, supersession,
 policy mutation, credential administration, or owner-recovery operations.
@@ -306,7 +306,7 @@ ready.
 [//]: # (ob:a378562c)
 The implementation is suitable for experimental self-hosting only when one owner can initialize a
 private workspace, issue and revoke separate agent/device credentials, use one
-client to bind evidence and propose a conclusion, review it from another client,
+client to bind evidence and propose a claim, review it from another client,
 retrieve the admitted current context from a third client, replay requests
 safely, reject stale writes, export the complete governed record, and verify it
 offline. No agent may act as the owner, and no source artifact or full trace is

@@ -8,7 +8,7 @@
 ## Start here
 
 [//]: # (ob:4ef44c57)
-Proofpress governs whether an agent-produced conclusion may be reused, not the
+Proofpress governs whether an agent-produced claim may be reused, not the
 documents or traces from which an agent worked. Start with the repository
 [README](../README.md) for the product entry point, then choose the path that
 matches what you need to do:

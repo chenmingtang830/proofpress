@@ -28,7 +28,7 @@ export function AssistantConversation({ messages, question, setQuestion, onSend,
       <div ref={end} />
     </div>}
     {messages.length === 0 && <div className="suggestedQuestions" aria-label="Suggested questions">
-      {["What needs my review?", "Which conclusions are admitted?", "Explain the approval boundary."].map(q =>
+      {["What needs my review?", "Which claims are admitted?", "Explain the approval boundary."].map(q =>
         <Button key={q} variant="outline" onClick={() => { setQuestion(q); input.current?.focus(); }}>{q}</Button>
       )}
     </div>}

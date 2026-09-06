@@ -24,7 +24,7 @@ class LocalOperationContractTests(unittest.TestCase):
                        cwd=self.repo, check=True)
         sys.path.insert(0, str(ROOT))
         from proofpress.kernel import operations as proofpress_knowledge
-        self.knowledge = proofpress_knowledge
+        self.kernel_ops = proofpress_knowledge
         self.previous = Path.cwd()
         os.chdir(self.repo)
 
@@ -33,8 +33,8 @@ class LocalOperationContractTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def execute(self, operation, **parameters):
-        return self.knowledge.execute_local_operation({
-            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+        return self.kernel_ops.execute_local_operation({
+            "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation,
             "parameters": parameters,
         })
@@ -45,7 +45,7 @@ class LocalOperationContractTests(unittest.TestCase):
         return json.loads(result.stdout)
 
     def test_contract_returns_stable_validation_errors(self):
-        unsupported_schema = self.knowledge.execute_local_operation({
+        unsupported_schema = self.kernel_ops.execute_local_operation({
             "schema_version": "proofpress/local-operation/future",
             "operation": "context.get", "parameters": {},
             "request_id": "request-001",
@@ -68,7 +68,7 @@ class LocalOperationContractTests(unittest.TestCase):
                          ["cloud_tenant"])
 
         retired_reader_acl = self.execute(
-            "conclusion.propose", statement="A bounded conclusion",
+            "claim.propose", statement="A bounded claim",
             evidence_refs=[], proposer="agent:test",
             allowed_actors=["agent:legal"])
         self.assertEqual(retired_reader_acl["error"]["code"],
@@ -82,7 +82,7 @@ class LocalOperationContractTests(unittest.TestCase):
                          "proofpress/local-operation-conformance/v1alpha1")
         for vector in fixture["vectors"]:
             with self.subTest(vector=vector["name"]):
-                response = self.knowledge.execute_local_operation(vector["request"])
+                response = self.kernel_ops.execute_local_operation(vector["request"])
                 expected = vector["expect"]
                 self.assertEqual(response["ok"], expected["ok"])
                 if expected["ok"]:
@@ -93,18 +93,18 @@ class LocalOperationContractTests(unittest.TestCase):
                                      expected["error_code"])
 
     def test_mutating_request_replay_is_persistent_and_conflicts_fail_closed(self):
-        first = self.knowledge.execute_local_operation({
-            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+        first = self.kernel_ops.execute_local_operation({
+            "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "evidence.import",
             "parameters": {"path": str(FIXTURE)},
             "request_id": "request-first",
             "idempotency_key": "evidence-import-001",
         })
         self.assertTrue(first["ok"])
-        event_count = len(self.knowledge.v2_events())
+        event_count = len(self.kernel_ops.v2_events())
 
-        replay = self.knowledge.execute_local_operation({
-            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+        replay = self.kernel_ops.execute_local_operation({
+            "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "evidence.import",
             "parameters": {"path": str(FIXTURE)},
             "request_id": "request-retry",
@@ -114,11 +114,11 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertTrue(replay["idempotent_replay"])
         self.assertEqual(replay["request_id"], "request-retry")
         self.assertEqual(replay["result"], first["result"])
-        self.assertEqual(len(self.knowledge.v2_events()), event_count)
-        self.assertTrue((self.repo / self.knowledge.LOCAL_IDEMPOTENCY_PATH).is_file())
+        self.assertEqual(len(self.kernel_ops.v2_events()), event_count)
+        self.assertTrue((self.repo / self.kernel_ops.LOCAL_IDEMPOTENCY_PATH).is_file())
 
-        conflict = self.knowledge.execute_local_operation({
-            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+        conflict = self.kernel_ops.execute_local_operation({
+            "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "evidence.import",
             "parameters": {"path": str(self.repo / "different.json")},
             "idempotency_key": "evidence-import-001",
@@ -127,8 +127,8 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertEqual(conflict["error"]["code"], "idempotency_conflict")
 
     def test_capabilities_are_negotiable_and_do_not_claim_future_surfaces(self):
-        capabilities = self.knowledge.execute_local_operation({
-            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+        capabilities = self.kernel_ops.execute_local_operation({
+            "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "capabilities.get", "parameters": {},
             "request_id": "capabilities-001",
         })
@@ -136,16 +136,16 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertEqual(capabilities["request_id"], "capabilities-001")
         result = capabilities["result"]
         self.assertEqual(result["request_schema"],
-                         self.knowledge.LOCAL_OPERATION_SCHEMA)
+                         self.kernel_ops.LOCAL_OPERATION_SCHEMA)
         operations = {item["name"]: item for item in result["operations"]}
         self.assertIn("configuration.get", operations)
-        self.assertIn("conclusion.review", operations)
-        self.assertIn("conclusion.judge", operations)
+        self.assertIn("claim.review", operations)
+        self.assertIn("claim.judge", operations)
         self.assertIn("relation.resolve", operations)
         self.assertIn("graph.get", operations)
         self.assertIn("graph.traverse", operations)
         self.assertFalse(operations["graph.traverse"]["mutates"])
-        self.assertEqual(operations["conclusion.review"]["replay_semantics"],
+        self.assertEqual(operations["claim.review"]["replay_semantics"],
                          "parameter_request_id")
         self.assertEqual(result["not_available"],
                          ["localhost_http", "mcp", "cloud"])
@@ -186,12 +186,12 @@ class LocalOperationContractTests(unittest.TestCase):
         imported = self.execute("evidence.import", path=str(FIXTURE))
         evidence_id = imported["result"]["evidence"][0]
         proposed = self.execute(
-            "conclusion.propose", statement="The cap is one times fees",
+            "claim.propose", statement="The cap is one times fees",
             evidence_refs=[evidence_id], scope="matter-1",
             proposer="agent:runner")
-        conclusion_id = proposed["result"]["conclusion"]["id"]
+        claim_id = proposed["result"]["claim"]["id"]
         evaluated = self.execute(
-            "conclusion.evaluate", conclusion_id=conclusion_id)
+            "claim.evaluate", claim_id=claim_id)
         self.assertEqual(evaluated["result"]["verifier"],
                          "verifier:local-deterministic")
         self.assertEqual(evaluated["result"]["verification_profile"],
@@ -199,12 +199,12 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertIn("verification_config_digest", evaluated["result"])
 
         self_proposed = self.execute(
-            "conclusion.propose", statement="A separate candidate",
+            "claim.propose", statement="A separate candidate",
             evidence_refs=[evidence_id], scope="matter-1",
             proposer="verifier:local-deterministic")
         rejected = self.execute(
-            "conclusion.evaluate",
-            conclusion_id=self_proposed["result"]["conclusion"]["id"])
+            "claim.evaluate",
+            claim_id=self_proposed["result"]["claim"]["id"])
         self.assertEqual(rejected["error"]["code"], "operation_rejected")
         self.assertIn("may not act as configured verification identity",
                       rejected["error"]["message"])
@@ -212,17 +212,17 @@ class LocalOperationContractTests(unittest.TestCase):
     def test_configured_judge_cannot_be_the_proposer(self):
         imported = self.execute("evidence.import", path=str(FIXTURE))
         proposed = self.execute(
-            "conclusion.propose", statement="The judge cannot self-assess",
+            "claim.propose", statement="The judge cannot self-assess",
             evidence_refs=[imported["result"]["evidence"][0]], scope="matter-1",
             proposer="judge:local-advisory")
-        conclusion_id = proposed["result"]["conclusion"]["id"]
+        claim_id = proposed["result"]["claim"]["id"]
         with self.assertRaisesRegex(
                 ValueError, "may not act as configured judge identity"):
-            self.knowledge.judge_v2(conclusion_id)
+            self.kernel_ops.judge_v2(claim_id)
 
     def test_kernel_rejections_use_the_operation_error_envelope(self):
         rejected = self.execute(
-            "conclusion.evaluate", conclusion_id="conclusion-does-not-exist")
+            "claim.evaluate", claim_id="claim-does-not-exist")
         self.assertFalse(rejected["ok"])
         self.assertEqual(rejected["error"]["code"], "operation_rejected")
         self.assertFalse(rejected["error"]["retryable"])
@@ -239,22 +239,22 @@ class LocalOperationContractTests(unittest.TestCase):
         evidence_id = imported["result"]["evidence"][0]
 
         proposed = self.execute(
-            "conclusion.propose",
+            "claim.propose",
             statement="The liability cap is 1x annual fees",
             evidence_refs=[evidence_id], scope="msa-negotiation",
             proposer="agent:runner", expires_at=None, artifact_refs=[],
             applicability=None, qualifiers=None, profile=None,
         )
-        conclusion_id = proposed["result"]["conclusion"]["id"]
+        claim_id = proposed["result"]["claim"]["id"]
 
-        cli_evaluation = self.cli("evaluate", conclusion_id)
+        cli_evaluation = self.cli("evaluate", claim_id)
         direct_evaluation = self.execute(
-            "conclusion.evaluate", conclusion_id=conclusion_id)["result"]
+            "claim.evaluate", claim_id=claim_id)["result"]
         self.assertEqual(cli_evaluation["checks"], direct_evaluation["checks"])
         self.assertEqual(cli_evaluation["eligible"], direct_evaluation["eligible"])
 
         stale_review = self.execute(
-            "conclusion.review", conclusion_id=conclusion_id,
+            "claim.review", claim_id=claim_id,
             decision="admit", reviewer="human:alice",
             expected_head="stale-ledger-head")
         self.assertEqual(stale_review["error"]["code"],
@@ -262,9 +262,9 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertTrue(stale_review["error"]["retryable"])
 
         cli_review = self.cli(
-            "review", conclusion_id, "--admit", "--reviewer", "human:alice",
+            "review", claim_id, "--admit", "--reviewer", "human:alice",
             "--request-id", "review-001")
-        self.assertEqual(cli_review["result"]["type"], "conclusion_admitted")
+        self.assertEqual(cli_review["result"]["type"], "claim_admitted")
 
         direct_context = self.execute(
             "context.get", scope="msa-negotiation", actor="agent:successor",
@@ -273,8 +273,8 @@ class LocalOperationContractTests(unittest.TestCase):
             "context", "--scope", "msa-negotiation",
             "--actor", "agent:successor")
         self.assertEqual(cli_context, direct_context)
-        self.assertEqual([row["id"] for row in direct_context["knowledge"]],
-                         [conclusion_id])
+        self.assertEqual([row["id"] for row in direct_context["governed_context"]],
+                         [claim_id])
 
     def test_cli_proposal_is_visible_through_direct_contract(self):
         evidence_id = self.cli("evidence", "import", str(FIXTURE))["evidence"][0]
@@ -282,25 +282,25 @@ class LocalOperationContractTests(unittest.TestCase):
             "propose", "--statement", "The indemnity requires escalation",
             "--evidence", evidence_id, "--scope", "msa-negotiation",
             "--proposer", "agent:runner")
-        conclusion_id = proposed["conclusion"]["id"]
+        claim_id = proposed["claim"]["id"]
         context = self.execute(
             "context.get", scope="msa-negotiation", actor=None, task=None,
             include_blocked_statements=False)["result"]
-        self.assertEqual(context["knowledge"], [])
-        self.assertEqual(context["blocked"][0]["id"], conclusion_id)
+        self.assertEqual(context["governed_context"], [])
+        self.assertEqual(context["blocked"][0]["id"], claim_id)
         self.assertEqual(context["blocked"][0]["reason"], "needs_review")
 
     def test_relation_lifecycle_uses_the_shared_contract(self):
         evidence_id = self.execute(
             "evidence.import", path=str(FIXTURE))["result"]["evidence"][0]
         first = self.execute(
-            "conclusion.propose", statement="The agreement limits liability",
+            "claim.propose", statement="The agreement limits liability",
             evidence_refs=[evidence_id], scope="matter-1", proposer="agent:one")
         second = self.execute(
-            "conclusion.propose", statement="The cap excludes misconduct",
+            "claim.propose", statement="The cap excludes misconduct",
             evidence_refs=[evidence_id], scope="matter-1", proposer="agent:two")
-        source_id = first["result"]["conclusion"]["id"]
-        target_id = second["result"]["conclusion"]["id"]
+        source_id = first["result"]["claim"]["id"]
+        target_id = second["result"]["claim"]["id"]
 
         proposed = self.execute(
             "relation.propose", source_id=source_id, target_id=target_id,
@@ -309,11 +309,11 @@ class LocalOperationContractTests(unittest.TestCase):
         cli_evaluation = self.cli("relation", "evaluate", relation_id)
         self.assertTrue(cli_evaluation["eligible"])
 
-        for conclusion_id in (source_id, target_id):
+        for claim_id in (source_id, target_id):
             admitted = self.execute(
-                "conclusion.review", conclusion_id=conclusion_id,
+                "claim.review", claim_id=claim_id,
                 decision="admit", reviewer="human:alice",
-                request_id="admit-" + conclusion_id)
+                request_id="admit-" + claim_id)
             self.assertTrue(admitted["ok"])
 
         reviewed = self.execute(
@@ -337,7 +337,7 @@ class LocalOperationContractTests(unittest.TestCase):
             actor=None, task=None, max_depth=1, max_claims=2,
             state="admitted")
         self.assertTrue(traversal["ok"])
-        self.assertEqual(set(traversal["result"]["conclusion_ids"]),
+        self.assertEqual(set(traversal["result"]["claim_ids"]),
                          {source_id, target_id})
         self.assertEqual(traversal["result"]["relations"][0]["id"], relation_id)
 
@@ -345,13 +345,13 @@ class LocalOperationContractTests(unittest.TestCase):
         evidence_id = self.execute(
             "evidence.import", path=str(FIXTURE))["result"]["evidence"][0]
         old = self.execute(
-            "conclusion.propose", statement="The old position",
+            "claim.propose", statement="The old position",
             evidence_refs=[evidence_id], scope="matter-1", proposer="agent:one")
         new = self.execute(
-            "conclusion.propose", statement="The replacement position",
+            "claim.propose", statement="The replacement position",
             evidence_refs=[evidence_id], scope="matter-1", proposer="agent:two")
-        old_id = old["result"]["conclusion"]["id"]
-        new_id = new["result"]["conclusion"]["id"]
+        old_id = old["result"]["claim"]["id"]
+        new_id = new["result"]["claim"]["id"]
         superseded = self.cli(
             "supersede", old_id, "--by", new_id,
             "--reviewer", "human:alice")

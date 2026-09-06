@@ -12,7 +12,7 @@ CLI = (sys.executable, "-m", "proofpress.cli")
 
 
 class LocalUIDemoTests(unittest.TestCase):
-    def test_seed_creates_three_review_states_and_one_eligible_conclusion(self):
+    def test_seed_creates_three_review_states_and_one_eligible_claim(self):
         with tempfile.TemporaryDirectory() as directory:
             result = subprocess.run(
                 [sys.executable, str(SEED), "--repo", directory],

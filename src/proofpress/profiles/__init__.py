@@ -1,1 +1,1 @@
-"""Typed evidence and conclusion profiles."""
+"""Typed evidence and claim profiles."""

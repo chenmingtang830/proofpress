@@ -31,11 +31,11 @@ try {
   page.setDefaultTimeout(15000);
   page.on('dialog',dialog=>dialog.accept());
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}`);
+  await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
   assert.match(page.url(), /\/home$/);
-  await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}`);
+  await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
   await page.waitForFunction(() => window.__proofpressWebMcpTools?.length >= 12);
   const webMcpNames = await page.evaluate(() => window.__proofpressWebMcpTools.map(tool => tool.name));
   for (const name of ['get_workspace_summary','list_review_queue','get_review_state','get_lineage','run_deterministic_checks','open_review','get_review_policy','prepare_review_policy_change','get_agent_access','prepare_agent_credential_issue']) assert.ok(webMcpNames.includes(name),`Missing WebMCP tool ${name}`);
@@ -45,9 +45,9 @@ try {
     return tool.execute({});
   });
   assert.match(workspaceToolResult.content[0].text,/Human Approval is not exposed/);
-  const checksToolResult = await page.evaluate(async conclusion_id => {
+  const checksToolResult = await page.evaluate(async claim_id => {
     const tool = window.__proofpressWebMcpTools.find(candidate => candidate.name === 'run_deterministic_checks');
-    return tool.execute({conclusion_id});
+    return tool.execute({claim_id});
   }, data.ids[0]);
   assert.match(checksToolResult.content[0].text,/"human_approval_recorded": false/);
   assert.equal((await page.request.get(`${data.base}/logo.svg`)).status(),200);
@@ -79,7 +79,7 @@ try {
     await page.getByRole('button',{name:'Back to review',exact:true}).click();
     if (width < 900) {
       await page.getByRole('button',{name:'Close details',exact:true}).press('Escape');
-      await page.waitForFunction(()=>document.activeElement?.classList.contains('conclusionSelect'));
+      await page.waitForFunction(()=>document.activeElement?.classList.contains('claimSelect'));
     }
     await opener.click();
   }
@@ -89,17 +89,17 @@ try {
   assert.match(page.url(), /view=full/);
   await page.reload();
   await page.locator('.evidenceRow .expandableText > p').filter({hasText:'Browser fixture approve:'}).waitFor();
-  const seededReceipt = await (await page.request.get(`${data.base}/owner/api/conclusions/${data.ids[0]}`)).json();
-  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:null,judge_job:{state:'running',detail:''}}}}));
+  const seededReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
+  await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:null,judge_job:{state:'running',detail:''}}}}));
   await page.reload();
   await page.getByText('LM is reviewing the bound evidence',{exact:true}).waitFor();
-  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
-  const rationale = 'The bound source directly supports the exact conclusion and its stated reuse boundary.';
-  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:{recommendation:'accept',rationale},judge_job:{state:'failed',detail:'stale failure'}}}}));
+  await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
+  const rationale = 'The bound source directly supports the exact claim and its stated reuse boundary.';
+  await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:{recommendation:'accept',rationale},judge_job:{state:'failed',detail:'stale failure'}}}}));
   await page.reload();
   await page.getByText(rationale,{exact:true}).waitFor();
   assert.equal(await page.getByText('stale failure',{exact:true}).count(),0);
-  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
+  await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
   await page.reload();
   for(const tab of ['Checks','History','Evidence']) await page.getByRole('tab',{name:tab,exact:true}).click();
   if(process.env.QA_SCREENSHOTS) {
@@ -107,7 +107,7 @@ try {
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review.png`});
   }
   await page.getByRole('button',{name:'Approve',exact:true}).click();
-  await page.getByRole('dialog',{name:'Approve this conclusion?'}).waitFor();
+  await page.getByRole('dialog',{name:'Approve this claim?'}).waitFor();
   assert.equal(await page.getByRole('button',{name:'Cancel',exact:true}).evaluate(el=>document.activeElement===el),true);
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/approval-dialog.png`});
   await page.getByRole('button',{name:'Cancel',exact:true}).click();
@@ -127,7 +127,7 @@ try {
   await page.getByRole('button',{name:'Ledger',exact:true}).click();
   const tabGeometry = () => page.locator('.ledgerViews button').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect(); const s=getComputedStyle(el);return {x:r.x,y:r.y,width:r.width,height:r.height,weight:s.fontWeight};}));
   const beforeTab = await tabGeometry();
-  assert.equal(await page.getByRole('button',{name:'Current knowledge',exact:true}).getAttribute('aria-pressed'),'true');
+  assert.equal(await page.getByRole('button',{name:'Current claims',exact:true}).getAttribute('aria-pressed'),'true');
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
   assert.equal(await page.locator('tbody tr').count(),1);
   assert.equal(await page.getByRole('textbox',{name:'Ledger scope'}).count(),0);
@@ -140,8 +140,8 @@ try {
   assert.equal(await page.locator('.graphPlane .technicalDetails').count(),0);
   await page.locator('.graphNode.evidence').first().click();
   await page.locator('.graphInspector .technicalDetails').waitFor();
-  await page.getByRole('button',{name:'Back to conclusion',exact:true}).click();
-  await page.getByRole('button',{name:'Back to current knowledge',exact:true}).click();
+  await page.getByRole('button',{name:'Back to claim',exact:true}).click();
+  await page.getByRole('button',{name:'Back to current claims',exact:true}).click();
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
   await page.setViewportSize({width:390,height:900});
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
@@ -149,10 +149,10 @@ try {
   await page.getByRole('button',{name:'Close details',exact:true}).click();
   assert.equal(await page.locator('.inspector').count(),0);
   await page.setViewportSize({width:1536,height:1024});
-  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/ledger-current-knowledge.png`});
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/ledger-current-claims.png`});
   await page.getByRole('button',{name:'Review',exact:true}).click();
   assert.equal(await page.locator('tbody tr').filter({hasText:data.ids[0]}).count(),0);
-  await page.route(`**/owner/api/conclusions/${data.ids[1]}`, async route => {
+  await page.route(`**/owner/api/claims/${data.ids[1]}`, async route => {
     const response = await route.fetch();
     await new Promise(resolve=>setTimeout(resolve,250));
     await route.fulfill({response});
@@ -162,27 +162,27 @@ try {
   await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
   await page.waitForLoadState('networkidle');
   assert.match(await page.locator('.inspector h2').textContent(),/fixture clarify:/);
-  await page.unroute(`**/owner/api/conclusions/${data.ids[1]}`);
-  await page.route(`**/owner/api/conclusions/${data.ids[1]}`,route=>route.fulfill({status:503,json:{ok:false,error:{message:'Fixture unavailable; retry.'}}}));
+  await page.unroute(`**/owner/api/claims/${data.ids[1]}`);
+  await page.route(`**/owner/api/claims/${data.ids[1]}`,route=>route.fulfill({status:503,json:{ok:false,error:{message:'Fixture unavailable; retry.'}}}));
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByText('Fixture unavailable; retry.',{exact:true}).waitFor();
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
-  await page.unroute(`**/owner/api/conclusions/${data.ids[1]}`);
+  await page.unroute(`**/owner/api/claims/${data.ids[1]}`);
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
   await page.getByRole('button',{name:'Reject',exact:true}).click();
-  await page.getByText('Explain why the evidence does not support this conclusion.',{exact:true}).waitFor();
-  assert.equal(await page.getByRole('dialog',{name:'Reject this conclusion?'}).count(),0);
-  await page.locator('.decision textarea').fill('The evidence does not support the conclusion as currently bounded.');
+  await page.getByText('Explain why the evidence does not support this claim.',{exact:true}).waitFor();
+  assert.equal(await page.getByRole('dialog',{name:'Reject this claim?'}).count(),0);
+  await page.locator('.decision textarea').fill('The evidence does not support the claim as currently bounded.');
   await page.getByRole('button',{name:'Reject',exact:true}).click();
-  await page.getByRole('dialog',{name:'Reject this conclusion?'}).getByText('The evidence does not support the conclusion as currently bounded.',{exact:true}).waitFor();
+  await page.getByRole('dialog',{name:'Reject this claim?'}).getByText('The evidence does not support the claim as currently bounded.',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Confirm rejection',exact:true}).click();
   await page.locator('.decisionNotice').getByText('Rejected',{exact:true}).waitFor();
   await page.waitForLoadState('networkidle');
   await page.locator('.shell[aria-busy="false"]').waitFor();
   await page.getByRole('button',{name:'Back to review',exact:true}).click();
   await page.getByRole('button',{name:'Needs review',exact:true}).click();
-  assert.equal(await page.getByRole('complementary',{name:'Conclusion details'}).count(),0);
+  assert.equal(await page.getByRole('complementary',{name:'Claim details'}).count(),0);
   await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
   await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
@@ -216,25 +216,25 @@ try {
   const context = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation:'context.get',parameters:{scope:'browser-test'}}});
   const projected=await context.json();
   assert.equal(projected.ok,true,JSON.stringify(projected));
-  assert.deepEqual(projected.result.knowledge.map(r=>r.id),[data.ids[0]]);
-  const originalReceipt = await (await page.request.get(`${data.base}/owner/api/conclusions/${data.ids[2]}`)).json();
+  assert.deepEqual(projected.result.governed_context.map(r=>r.id),[data.ids[0]]);
+  const originalReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[2]}`)).json();
   const original = originalReceipt.result;
   const operation = async (operation,parameters) => {
     const response = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation,parameters}});
     const body = await response.json(); assert.equal(body.ok,true,JSON.stringify(body)); return body.result;
   };
-  const revision = await operation('conclusion.propose',{statement:'Revised finding: evidence supports population A only.',evidence_refs:original.conclusion.evidence_refs,scope:'browser-test',proposer:'agent:browser-test',qualifiers:{revision_of:data.ids[2],revision_request_ref:original.revision_request.event_id}});
-  await operation('conclusion.evaluate',{conclusion_id:revision.conclusion.id});
+  const revision = await operation('claim.propose',{statement:'Revised finding: evidence supports population A only.',evidence_refs:original.claim.evidence_refs,scope:'browser-test',proposer:'agent:browser-test',qualifiers:{revision_of:data.ids[2],revision_request_ref:original.revision_request.event_id}});
+  await operation('claim.evaluate',{claim_id:revision.claim.id});
   await page.reload();
   await page.getByRole('heading',{name:'Requested change',exact:true}).waitFor();
   assert.equal(await page.getByText('Waiting for a new proposal.',{exact:true}).count(),0);
   await page.getByRole('button',{name:/Revised finding: evidence supports population A only/}).click();
-  await page.getByRole('heading',{name:'Revision of previous conclusion',exact:true}).waitFor();
+  await page.getByRole('heading',{name:'Revision of previous claim',exact:true}).waitFor();
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Approved for reuse',{exact:true}).waitFor();
   const revisedContext = await operation('context.get',{scope:'browser-test'});
-  assert.deepEqual(new Set(revisedContext.knowledge.map(row=>row.id)),new Set([data.ids[0],revision.conclusion.id]));
+  assert.deepEqual(new Set(revisedContext.governed_context.map(row=>row.id)),new Set([data.ids[0],revision.claim.id]));
   for(const name of ['Home','Review','Ledger','Activity','Admin']) {
     await page.getByRole('button',{name,exact:true}).click();
     await page.locator('h1').waitFor();
@@ -242,8 +242,8 @@ try {
   await page.goBack();
   await page.getByRole('heading',{name:'Activity',exact:true}).waitFor();
   for (const [operation,parameters,code] of [
-    ['conclusion.review',{conclusion_id:data.ids[0],decision:'admit'},'operation_forbidden'],
-    ['conclusion.review',{conclusion_id:data.ids[0],decision:'admit',expected_head:'deliberately-stale'},'ledger_head_conflict'],
+    ['claim.review',{claim_id:data.ids[0],decision:'admit'},'operation_forbidden'],
+    ['claim.review',{claim_id:data.ids[0],decision:'admit',expected_head:'deliberately-stale'},'ledger_head_conflict'],
   ]) {
     const response = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${code === 'ledger_head_conflict' ? data.owner : data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation,parameters}});
     assert.equal((await response.json()).error.code,code);
@@ -252,7 +252,7 @@ try {
   await page.getByRole('button',{name:'Technical logs',exact:true}).click();
   await page.getByText('operation_forbidden',{exact:true}).waitFor();
   await page.getByText('ledger_head_conflict',{exact:true}).waitFor();
-  await page.getByRole('button',{name:'Knowledge activity',exact:true}).click();
+  await page.getByRole('button',{name:'Claims activity',exact:true}).click();
   assert.equal(await page.locator('tbody tr').filter({hasText:'graph · get'}).count(),0);
   assert.equal(await page.locator('tbody tr').filter({hasText:'review · receipt'}).count(),0);
   await page.getByRole('button',{name:'Technical logs',exact:true}).click();
@@ -295,7 +295,7 @@ try {
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${rotated}`}})).status(),401);
   await page.getByRole('button',{name:'Home',exact:true}).click();
   assert.equal(await page.getByText('Ask Proofpress',{exact:true}).count(),0);
-  assert.equal(await page.getByRole('textbox',{name:'Search conclusions'}).count(),0);
+  assert.equal(await page.getByRole('textbox',{name:'Search claims'}).count(),0);
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:1024});
     for (const name of ['Home','Review','Ledger','Activity','Admin']) {
@@ -318,7 +318,7 @@ try {
       return {badgeRight:badgeRect.right,statementLeft:statementRect.left};
     }).filter(Boolean));
     for(const row of statusRows) {
-      assert.ok(row.badgeRight <= row.statementLeft,`Home status overlaps its conclusion at ${width}px`);
+      assert.ok(row.badgeRight <= row.statementLeft,`Home status overlaps its claim at ${width}px`);
     }
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
@@ -328,17 +328,17 @@ try {
   await page.setViewportSize({width:1280,height:900});
   await page.route('**/owner/api/context?*',route=>route.fulfill({status:503,json:{error:'Context unavailable'}}));
   await page.goto(`${data.base}/ledger`);
-  await page.getByRole('button',{name:'Current knowledge',exact:true}).click();
-  await page.getByText('Current knowledge could not be loaded.',{exact:false}).waitFor();
-  assert.equal(await page.locator('.conclusionNode').count(),0);
+  await page.getByRole('button',{name:'Current claims',exact:true}).click();
+  await page.getByText('Current claims could not be loaded.',{exact:false}).waitFor();
+  assert.equal(await page.locator('.claimNode').count(),0);
   await page.unroute('**/owner/api/context?*');
   await page.getByRole('button',{name:'Reload workspace',exact:true}).click();
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
-  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));
+  await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
   await page.getByText('Detail unavailable',{exact:false}).waitFor();
   assert.equal(await page.locator('.inspector').count(),0);
-  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
+  await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
   await page.locator('.inspector h2').waitFor();
   await page.route('**/owner/api/graph',route=>route.fulfill({status:401,json:{error:'owner_session_required'}}));

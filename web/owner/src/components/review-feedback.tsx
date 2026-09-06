@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 export function revisionInstructions(r: any) {
   if (!r?.revision_request) return "";
-  return `Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers and state the revised applicability. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
+  return `Read proofpress_get_review_receipt for ${r.claim.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_claim with qualifiers: ${JSON.stringify({revision_of:r.claim.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers and state the revised applicability. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
 }
 
 export function DecisionNotice({state, children}: any) {
@@ -22,7 +22,7 @@ export function RevisionInstructions({receipt, autoCopy = false}: any) {
     catch { setStatus("failed"); }
   }, [text]);
   React.useEffect(() => { if (autoCopy && text) void copy(); }, [autoCopy, text, copy]);
-  React.useEffect(() => { setStatus("idle"); }, [receipt.conclusion.id]);
+  React.useEffect(() => { setStatus("idle"); }, [receipt.claim.id]);
   if (!text) return <p>Revision receipt unavailable. Refresh this page to retry.</p>;
   return <div className="handoffInstructions">
     {autoCopy && <p className={status === "copied" ? "copySuccess" : ""} role="status">{status === "copied" && <Check />}{status === "copied" ? "Copied to clipboard. Paste into your agent." : status === "failed" ? "Your browser blocked automatic copying." : "Copying instructions…"}</p>}
@@ -37,7 +37,7 @@ export function RevisionPanel({receipt, onChoose}: any) {
 }
 
 export function historyActor(event: any): string {
-  const actor = event.reviewer || event.conclusion?.proposer || event.verifier || event.judge || event.actor;
+  const actor = event.reviewer || event.claim?.proposer || event.verifier || event.judge || event.actor;
   const identity = typeof actor === "string" ? actor : actor?.id || actor?.name;
   return [identity || "Actor not recorded", event.model].filter(Boolean).join(" · ");
 }

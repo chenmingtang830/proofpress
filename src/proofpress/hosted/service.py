@@ -16,7 +16,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlencode, urlparse
 
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 from proofpress.hosted.control_plane import HostedAuthError, HostedControlPlane
 from proofpress.hosted.mcp_http import handle_rpc
 
@@ -49,7 +49,7 @@ def seed_judge_demo(control, workspace_id, owner_principal, owner_name):
 
     def execute(token, operation, parameters, key):
         envelope = control.execute(token, {
-            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation, "parameters": parameters,
             "idempotency_key": f"judge-demo-{key}",
         })
@@ -71,20 +71,20 @@ def seed_judge_demo(control, workspace_id, owner_principal, owner_name):
     for index, (statement, quote, decision) in enumerate(rows, 1):
         imported = execute(agent["token"], "evidence.submit", {
             "payload": _judge_demo_evidence(index, statement, quote)}, f"evidence-{index}")
-        proposed = execute(agent["token"], "conclusion.propose", {
+        proposed = execute(agent["token"], "claim.propose", {
             "statement": statement, "evidence_refs": imported["evidence"],
             "scope": "demo:acme-acquisition", "proposer": "ignored",
             "artifact_refs": [],
-            "qualifiers": {"synthetic_demo": True}}, f"conclusion-{index}")
-        conclusion_id = proposed["conclusion"]["id"]
-        execute(agent["token"], "conclusion.evaluate",
-                {"conclusion_id": conclusion_id}, f"evaluate-{index}")
+            "qualifiers": {"synthetic_demo": True}}, f"claim-{index}")
+        claim_id = proposed["claim"]["id"]
+        execute(agent["token"], "claim.evaluate",
+                {"claim_id": claim_id}, f"evaluate-{index}")
         if decision:
-            execute(bootstrap["token"], "conclusion.review", {
-                "conclusion_id": conclusion_id, "decision": decision,
+            execute(bootstrap["token"], "claim.review", {
+                "claim_id": claim_id, "decision": decision,
                 "reviewer": "ignored", "note": "Synthetic fixture state for WebMCP judging.",
                 "request_id": f"judge-demo-review-{index}"}, f"review-{index}")
-        seeded.append({"conclusion_id": conclusion_id,
+        seeded.append({"claim_id": claim_id,
                        "state": decision or "needs_review"})
     return {"workspace_id": workspace_id, "owner_principal": owner_principal,
             "owner_credential": bootstrap["token"],
@@ -262,7 +262,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def _owner_operation(self, session, operation, parameters=None):
         return self.server.proofpress_control.execute(session["token"], {
-            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation, "parameters": parameters or {},
         })
 
@@ -282,10 +282,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             envelope = self._owner_operation(
                 session, "review.summary",
                 {"scope": parse_qs(parsed.query).get("scope", [None])[-1]})
-        elif path.startswith("/owner/api/conclusions/"):
+        elif path.startswith("/owner/api/claims/"):
             envelope = self._owner_operation(
                 session, "review.receipt",
-                {"conclusion_id": path.rsplit("/", 1)[-1]})
+                {"claim_id": path.rsplit("/", 1)[-1]})
         elif path == "/owner/api/graph":
             envelope = self._owner_operation(
                 session, "graph.get",
@@ -335,13 +335,13 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             "<label>Agent credential<br><input type=password name=agent_token required autocomplete=current-password></label>"
             "<button type=submit>Authorize agent</button></form></main>")
 
-    def _review_page(self, conclusion_id, session):
+    def _review_page(self, claim_id, session):
         control = self.server.proofpress_control
-        if conclusion_id:
+        if claim_id:
             envelope = control.execute(session["token"], {
-                "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+                "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "operation": "review.receipt",
-                "parameters": {"conclusion_id": conclusion_id},
+                "parameters": {"claim_id": claim_id},
             })
             if not envelope.get("ok"):
                 return self._page("Review unavailable", "<h1>Review unavailable</h1><pre>" +
@@ -351,26 +351,26 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             if receipt["state"] == "needs_review":
                 decision = ("<form method=post action=/owner/review>"
                     f"<input type=hidden name=csrf value='{escape(session['csrf'])}'>"
-                    f"<input type=hidden name=conclusion_id value='{escape(conclusion_id)}'>"
+                    f"<input type=hidden name=claim_id value='{escape(claim_id)}'>"
                     "<label>Review note<br><textarea name=note rows=3 cols=60></textarea></label>"
                     "<div class=row><button name=decision value=admit>Admit</button>"
                     "<button name=decision value=reject>Reject</button></div></form>")
-            return self._page("Review conclusion", "<p><a href=/review>All conclusions</a></p>"
-                f"<h1>{escape(receipt['conclusion']['statement'])}</h1>"
+            return self._page("Review claim", "<p><a href=/review>All claims</a></p>"
+                f"<h1>{escape(receipt['claim']['statement'])}</h1>"
                 f"<p>State: <strong>{escape(receipt['state'])}</strong></p>"
                 "<h2>Evidence and receipts</h2><pre>" +
                 escape(json.dumps(receipt, ensure_ascii=False, indent=2)) + "</pre>" + decision)
         graph = control.execute(session["token"], {
-            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "graph.get", "parameters": {},
         })
         nodes = graph.get("result", {}).get("nodes", []) if graph.get("ok") else []
-        conclusions = [row for row in nodes if row.get("type") == "conclusion"]
-        items = "".join("<li><a href='/review?" + urlencode({"conclusion_id": row["id"]}) +
+        claims = [row for row in nodes if row.get("type") == "claim"]
+        items = "".join("<li><a href='/review?" + urlencode({"claim_id": row["id"]}) +
                         "'>" + escape(row.get("label", row["id"])) + "</a> — " +
-                        escape(row.get("state", "unknown")) + "</li>" for row in conclusions)
-        return self._page("Proofpress reviews", "<h1>Governed knowledge review</h1><ul>" +
-                          (items or "<li>No conclusions yet.</li>") + "</ul>")
+                        escape(row.get("state", "unknown")) + "</li>" for row in claims)
+        return self._page("Proofpress reviews", "<h1>Governed claims review</h1><ul>" +
+                          (items or "<li>No claims yet.</li>") + "</ul>")
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -437,13 +437,13 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 HTTPStatus.SERVICE_UNAVAILABLE
             return self._json(status, {
                 "status": "ready" if status == HTTPStatus.OK else "not_ready",
-                "contract": knowledge.LOCAL_OPERATION_SCHEMA,
+                "contract": kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "database_integrity": integrity,
                 "schema_version": migration,
             })
         if path == "/v1/capabilities":
             envelope = self.server.proofpress_control.execute(self._token(), {
-                "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+                "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "operation": "capabilities.get", "parameters": {},
             })
             return self._json(_status_for(envelope), envelope)
@@ -563,7 +563,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 if not secrets.compare_digest(str(request.get("csrf") or ""), session["csrf"]):
                     return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
                 if path.endswith("/evaluate"):
-                    envelope = self._owner_operation(session, "conclusion.evaluate", {"conclusion_id": request.get("conclusion_id", "")})
+                    envelope = self._owner_operation(session, "claim.evaluate", {"claim_id": request.get("claim_id", "")})
                     return self._json(_status_for(envelope), envelope)
                 result = self.server.proofpress_control.save_review_policy(
                     session["token"], request.get("settings"), request.get("expected_version"),
@@ -585,8 +585,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
             if request.get("confirmed") is not True:
                 return self._json(HTTPStatus.BAD_REQUEST, {"error": "Confirm sending bound evidence to the configured judge."})
-            envelope = self._owner_operation(session, "conclusion.judge", {
-                "conclusion_id": request.get("conclusion_id", "")})
+            envelope = self._owner_operation(session, "claim.judge", {
+                "claim_id": request.get("claim_id", "")})
             return self._json(_status_for(envelope), envelope)
         if path == "/owner/api/ask":
             session = self._owner_session()
@@ -634,8 +634,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                   {"ok": False, "error": {
                                       "code": "invalid_decision",
                                       "message": "Decision must be admit, reject, or request_changes."}})
-            envelope = self._owner_operation(session, "conclusion.review", {
-                "conclusion_id": request.get("conclusion_id", ""),
+            envelope = self._owner_operation(session, "claim.review", {
+                "claim_id": request.get("claim_id", ""),
                 "decision": decision, "reviewer": "server-derived",
                 "note": request.get("note") or None,
                 "request_id": "web-" + secrets.token_hex(12),
@@ -644,7 +644,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             if not envelope.get("ok"):
                 return self._json(_status_for(envelope), envelope)
             receipt = self._owner_operation(session, "review.receipt", {
-                "conclusion_id": request.get("conclusion_id", "")})
+                "claim_id": request.get("claim_id", "")})
             return self._json(_status_for(receipt), receipt)
         if path == "/v1/owner/credentials":
             try:
@@ -709,14 +709,14 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_form"})
             if not secrets.compare_digest(form.get("csrf", ""), session["csrf"]):
                 return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
-            conclusion_id = form.get("conclusion_id", "")
+            claim_id = form.get("claim_id", "")
             decision = form.get("decision", "")
             if decision not in {"admit", "reject", "request_changes"}:
                 return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_decision"})
             envelope = self.server.proofpress_control.execute(session["token"], {
-                "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
-                "operation": "conclusion.review",
-                "parameters": {"conclusion_id": conclusion_id,
+                "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
+                "operation": "claim.review",
+                "parameters": {"claim_id": claim_id,
                                "decision": decision,
                                "reviewer": "server-derived",
                                "note": form.get("note") or None,
@@ -725,7 +725,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             if not envelope.get("ok"):
                 return self._json(_status_for(envelope), envelope)
             self.send_response(HTTPStatus.SEE_OTHER)
-            self.send_header("Location", "/review?" + urlencode({"conclusion_id": conclusion_id}))
+            self.send_header("Location", "/review?" + urlencode({"claim_id": claim_id}))
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
             return

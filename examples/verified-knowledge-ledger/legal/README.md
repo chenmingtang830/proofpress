@@ -21,7 +21,7 @@ python3 proofpress.py ui --scope msa-negotiation
 
 [//]: # (ob:61b1b719)
 The resulting local ledger contains admitted, needs-review, rejected, and
-superseded conclusions. In **Trusted Context**, request scope
+superseded claims. In **Trusted Context**, request scope
 `msa-negotiation` as `agent:successor` to see exactly what crosses the handoff.
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2JkYmFkNzU4N2UyZDI4ZjhlNjA0YTExOCIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)

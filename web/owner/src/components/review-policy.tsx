@@ -86,14 +86,14 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
         </div>
       </fieldset>
       <fieldset><legend>Evaluation</legend>
-        <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a conclusion? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
+        <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
         <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
           <div className="policyPrompt"><textarea readOnly value={record.authoring_prompt} aria-label="Policy authoring prompt" /><Button type="button" variant="outline" onClick={copyPrompt}>{copied?<><HugeiconsIcon icon={CheckmarkCircle02Icon}/>Copied</>:<><HugeiconsIcon icon={Copy01Icon}/>Copy prompt</>}</Button></div>
           <label className="criteriaLabel">Agent response<textarea value={draft} placeholder={'Paste JSON such as {"criteria":"…"}'} onChange={e=>setDraft(e.target.value)} /></label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
         </details>
       </fieldset>
       <fieldset><legend>Data & approval</legend>
-        <p>LM review sends the conclusion and bounded evidence to the selected provider. The recommendation is advisory.</p>
+        <p>LM review sends the claim and bounded evidence to the selected provider. The recommendation is advisory.</p>
         <label className="policyCheck"><input type="checkbox" checked={settings.external_consent} onChange={e=>change("external_consent",e.target.checked)} />Allow external model processing for this workspace</label>
         {settings.provider==="openrouter" && <label className="policyCheck"><input type="checkbox" checked={settings.zdr} onChange={e=>change("zdr",e.target.checked)} />Require OpenRouter Zero Data Retention routing</label>}
         <label className="policyCheck"><input type="checkbox" checked={settings.require_judge} onChange={e=>change("require_judge",e.target.checked)} />Require current supporting LM advice before human approval</label>

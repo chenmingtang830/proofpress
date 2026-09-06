@@ -49,66 +49,66 @@ class PythonSDKTests(unittest.TestCase):
 
         imported = self.direct.import_evidence(
             FIXTURE, idempotency_key="sdk-import-001")
-        proposed = self.http.propose_conclusion(
+        proposed = self.http.propose_claim(
             "The SDK proposal remains governed until Human Approval",
             [imported["evidence"][0]], "sdk-test", "agent:sdk",
             idempotency_key="sdk-propose-001")
-        conclusion_id = proposed["conclusion"]["id"]
-        evaluation = self.direct.evaluate_conclusion(conclusion_id)
+        claim_id = proposed["claim"]["id"]
+        evaluation = self.direct.evaluate_claim(claim_id)
         self.assertTrue(evaluation["eligible"])
-        reviewed = self.http.review_conclusion(
-            conclusion_id, "admit", "human:reviewer",
+        reviewed = self.http.review_claim(
+            claim_id, "admit", "human:reviewer",
             review_request_id="sdk-review-001",
             idempotency_key="sdk-review-envelope-001")
-        self.assertEqual(reviewed["result"]["type"], "conclusion_admitted")
+        self.assertEqual(reviewed["result"]["type"], "claim_admitted")
 
         direct_context = self.direct.context(scope="sdk-test", actor="agent:next")
         http_context = self.http.context(scope="sdk-test", actor="agent:next")
         self.assertEqual(http_context, direct_context)
-        self.assertEqual(direct_context["knowledge"][0]["id"], conclusion_id)
+        self.assertEqual(direct_context["governed_context"][0]["id"], claim_id)
 
     def test_revision_links_require_request_and_new_human_approval(self):
         refs = self.direct.import_evidence(FIXTURE)["evidence"][:1]
-        old = self.direct.propose_conclusion("Original finding", refs, "revision-test", "agent:sdk")["conclusion"]["id"]
+        old = self.direct.propose_claim("Original finding", refs, "revision-test", "agent:sdk")["claim"]["id"]
         with self.assertRaises(self.sdk.ProofpressError):
-            self.direct.propose_conclusion("Premature revision", refs, "revision-test", "agent:sdk", qualifiers={"revision_of": old})
-        self.direct.review_conclusion(old, "request_changes", "human:reviewer", note="Specify the population.")
+            self.direct.propose_claim("Premature revision", refs, "revision-test", "agent:sdk", qualifiers={"revision_of": old})
+        self.direct.review_claim(old, "request_changes", "human:reviewer", note="Specify the population.")
         request = self.direct.review_receipt(old)["revision_request"]["event_id"]
         qualifiers = {"revision_of": old, "revision_request_ref": request}
         with self.assertRaises(self.sdk.ProofpressError):
-            self.direct.propose_conclusion("Stale request", refs, "revision-test", "agent:sdk", qualifiers={**qualifiers, "revision_request_ref": "missing"})
-        new = self.http.propose_conclusion("Finding for population A", refs, "other", "agent:sdk", qualifiers=qualifiers)["conclusion"]["id"]
+            self.direct.propose_claim("Stale request", refs, "revision-test", "agent:sdk", qualifiers={**qualifiers, "revision_request_ref": "missing"})
+        new = self.http.propose_claim("Finding for population A", refs, "other", "agent:sdk", qualifiers=qualifiers)["claim"]["id"]
         self.assertEqual(self.direct.review_receipt(new)["revision_parent"]["id"], old)
         self.assertEqual(self.direct.review_receipt(old)["revisions"][0]["id"], new)
-        self.assertEqual(self.direct.context()["knowledge"], [])
-        self.direct.review_conclusion(new, "admit", "human:reviewer")
-        self.assertEqual([row["id"] for row in self.direct.context(scope="other")["knowledge"]], [new])
+        self.assertEqual(self.direct.context()["governed_context"], [])
+        self.direct.review_claim(new, "admit", "human:reviewer")
+        self.assertEqual([row["id"] for row in self.direct.context(scope="other")["governed_context"]], [new])
         self.assertEqual(self.direct.review_receipt(old)["state"], "needs_revision")
 
     def test_reproposal_links_only_to_rejected_predecessor_and_needs_new_approval(self):
         refs = self.direct.import_evidence(FIXTURE)["evidence"][:1]
-        pending = self.direct.propose_conclusion(
+        pending = self.direct.propose_claim(
             "Initial bounded finding", refs, "reproposal-test", "agent:sdk"
-        )["conclusion"]["id"]
+        )["claim"]["id"]
 
         with self.assertRaisesRegex(self.sdk.ProofpressError, "must be rejected"):
-            self.direct.propose_conclusion(
+            self.direct.propose_claim(
                 "Corrected too early", refs, "reproposal-test", "agent:sdk",
                 reproposal_of=pending)
         with self.assertRaisesRegex(self.sdk.ProofpressError, "existing rejected"):
-            self.direct.propose_conclusion(
+            self.direct.propose_claim(
                 "Missing predecessor", refs, "reproposal-test", "agent:sdk",
                 reproposal_of="knw_missing")
 
-        self.direct.review_conclusion(
+        self.direct.review_claim(
             pending, "reject", "human:reviewer", note="The statement was too broad.")
         with self.assertRaisesRegex(self.sdk.ProofpressError, "preserve the predecessor scope"):
-            self.direct.propose_conclusion(
+            self.direct.propose_claim(
                 "Corrected in the wrong scope", refs, "other", "agent:sdk",
                 reproposal_of=pending)
 
         with self.assertRaisesRegex(self.sdk.ProofpressError, "at least one new evidence"):
-            self.direct.propose_conclusion(
+            self.direct.propose_claim(
                 "Still bound only to the old source", refs, "reproposal-test", "agent:sdk",
                 reproposal_of=pending,
                 qualifiers={"reproposal_response": "Claims to address the rejection."})
@@ -120,15 +120,15 @@ class PythonSDKTests(unittest.TestCase):
             "retrieval": {"adapter": "test", "version": "1", "query": "fixture boundary", "config_digest": "sha256:" + "d" * 64},
         })["imported_evidence"][0]
         with self.assertRaisesRegex(self.sdk.ProofpressError, "reproposal_response"):
-            self.direct.propose_conclusion(
+            self.direct.propose_claim(
                 "New evidence without a response", refs + [new_ref], "reproposal-test", "agent:sdk",
                 reproposal_of=pending)
 
-        successor = self.http.propose_conclusion(
+        successor = self.http.propose_claim(
             "Bounded finding for the recorded fixture only", refs + [new_ref],
             "reproposal-test", "agent:sdk", reproposal_of=pending,
             qualifiers={"reproposal_response": "The new source explicitly limits the finding to the recorded run."}
-        )["conclusion"]["id"]
+        )["claim"]["id"]
         receipt = self.direct.review_receipt(successor)
         self.assertEqual(receipt["state"], "needs_review")
         self.assertEqual(receipt["reproposal_parent"]["id"], pending)
@@ -144,7 +144,7 @@ class PythonSDKTests(unittest.TestCase):
             {"from": pending, "to": successor, "type": "re_proposed_as"},
             self.direct.graph(scope="reproposal-test")["edges"])
         self.assertEqual(self.direct.review_receipt(pending)["state"], "rejected")
-        self.assertEqual(self.direct.context(scope="reproposal-test")["knowledge"], [])
+        self.assertEqual(self.direct.context(scope="reproposal-test")["governed_context"], [])
 
         policy_dir = self.repo / ".proofpress"
         policy_dir.mkdir(exist_ok=True)
@@ -159,12 +159,12 @@ class PythonSDKTests(unittest.TestCase):
                       "command": [sys.executable, "-c", judge_code],
                       "timeout_seconds": 5}
         }))
-        self.direct.evaluate_conclusion(successor)
+        self.direct.evaluate_claim(successor)
         self.assertEqual(
-            self.direct.judge_conclusion(successor)["recommendation"], "accept")
-        self.direct.review_conclusion(successor, "admit", "human:reviewer")
+            self.direct.judge_claim(successor)["recommendation"], "accept")
+        self.direct.review_claim(successor, "admit", "human:reviewer")
         self.assertEqual(
-            [row["id"] for row in self.direct.context(scope="reproposal-test")["knowledge"]],
+            [row["id"] for row in self.direct.context(scope="reproposal-test")["governed_context"]],
             [successor])
         self.assertEqual(self.direct.review_receipt(pending)["state"], "rejected")
 
@@ -185,7 +185,7 @@ class PythonSDKTests(unittest.TestCase):
         self.assertFalse(raised.exception.retryable)
 
         with self.assertRaises(self.sdk.ProofpressError) as missing:
-            self.direct.evaluate_conclusion("missing")
+            self.direct.evaluate_claim("missing")
         self.assertEqual(missing.exception.code, "operation_rejected")
 
     def test_sdk_rejects_unsafe_transport_and_workspace_ambiguity(self):

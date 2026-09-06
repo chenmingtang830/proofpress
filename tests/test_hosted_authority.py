@@ -55,30 +55,30 @@ class HostedAuthorityTests(unittest.TestCase):
         self.assertTrue(imported["ok"])
         evidence_id = imported["result"]["evidence"][0]
         proposed = self.control.execute(
-            self.agent["token"], operation("conclusion.propose", {
+            self.agent["token"], operation("claim.propose", {
                 "statement": "The liability cap is one year of fees.",
                 "evidence_refs": [evidence_id], "scope": "contract-review",
                 "proposer": "human:owner",
             }, "proposal-1"))
         self.assertTrue(proposed["ok"])
-        conclusion = proposed["result"]["conclusion"]
-        self.assertEqual(conclusion["proposer"], "agent:codex-laptop")
+        claim = proposed["result"]["claim"]
+        self.assertEqual(claim["proposer"], "agent:codex-laptop")
 
         evaluated = self.control.execute(
             self.agent["token"], operation(
-                "conclusion.evaluate", {"conclusion_id": conclusion["id"]}))
+                "claim.evaluate", {"claim_id": claim["id"]}))
         self.assertTrue(evaluated["ok"])
         forbidden = self.control.execute(
-            self.agent["token"], operation("conclusion.review", {
-                "conclusion_id": conclusion["id"], "decision": "admit",
+            self.agent["token"], operation("claim.review", {
+                "claim_id": claim["id"], "decision": "admit",
                 "reviewer": "human:owner",
             }))
         self.assertFalse(forbidden["ok"])
         self.assertEqual(forbidden["error"]["code"], "operation_forbidden")
 
         reviewed = self.control.execute(
-            self.owner["token"], operation("conclusion.review", {
-                "conclusion_id": conclusion["id"], "decision": "admit",
+            self.owner["token"], operation("claim.review", {
+                "claim_id": claim["id"], "decision": "admit",
                 "reviewer": "agent:codex-laptop", "request_id": "review-1",
             }))
         self.assertTrue(reviewed["ok"])
@@ -87,14 +87,14 @@ class HostedAuthorityTests(unittest.TestCase):
             self.agent["token"], operation("context.get", {
                 "scope": "contract-review", "actor": "human:owner"}))
         self.assertEqual(context["result"]["actor"], "agent:codex-laptop")
-        self.assertEqual(context["result"]["knowledge"][0]["id"], conclusion["id"])
+        self.assertEqual(context["result"]["governed_context"][0]["id"], claim["id"])
 
     def test_hosted_discovery_uses_server_identity_and_never_requires_scope(self):
         imported = self.control.execute(
             self.agent["token"], operation("evidence.submit", {
                 "payload": evidence_payload()}, "discovery-evidence"))
         proposed = self.control.execute(
-            self.agent["token"], operation("conclusion.propose", {
+            self.agent["token"], operation("claim.propose", {
                 "statement": "The Acme liability cap is one year of fees.",
                 "evidence_refs": [imported["result"]["evidence"][0]],
                 "proposer": "spoofed",
@@ -105,14 +105,14 @@ class HostedAuthorityTests(unittest.TestCase):
                 },
             }, "discovery-proposal"))
         self.assertTrue(proposed["ok"])
-        conclusion = proposed["result"]["conclusion"]
-        self.assertIsNone(conclusion["scope"])
+        claim = proposed["result"]["claim"]
+        self.assertIsNone(claim["scope"])
         self.assertTrue(self.control.execute(
-            self.agent["token"], operation("conclusion.evaluate", {
-                "conclusion_id": conclusion["id"]}))["ok"])
+            self.agent["token"], operation("claim.evaluate", {
+                "claim_id": claim["id"]}))["ok"])
         self.assertTrue(self.control.execute(
-            self.owner["token"], operation("conclusion.review", {
-                "conclusion_id": conclusion["id"], "decision": "admit",
+            self.owner["token"], operation("claim.review", {
+                "claim_id": claim["id"], "decision": "admit",
                 "reviewer": "spoofed", "request_id": "discovery-review"}))["ok"])
 
         discovery = self.control.execute(
@@ -120,7 +120,7 @@ class HostedAuthorityTests(unittest.TestCase):
                 "actor": "agent:other", "task": "Acme liability cap"}))
         self.assertTrue(discovery["ok"])
         self.assertEqual(discovery["result"]["actor"], "agent:codex-laptop")
-        self.assertEqual(discovery["result"]["cards"][0]["id"], conclusion["id"])
+        self.assertEqual(discovery["result"]["cards"][0]["id"], claim["id"])
 
     def test_revocation_is_immediate_and_agent_cannot_administer_credentials(self):
         with self.assertRaises(self.hosted.HostedAuthError):
@@ -164,7 +164,7 @@ class HostedAuthorityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "safe-operation subset"):
             self.control.issue_agent_credential(
                 self.owner["token"], "agent:unsafe", "unsafe",
-                permissions={"conclusion.review"})
+                permissions={"claim.review"})
 
     def test_credentials_are_slow_hashes_and_audit_excludes_payloads(self):
         connection = sqlite3.connect(self.database)

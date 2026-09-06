@@ -28,12 +28,12 @@
   <text class="m cyan" x="500" y="176" font-size="12" font-weight="700">PROOFPRESS TRUST BOUNDARY</text>
   <rect x="500" y="196" width="440" height="408" rx="12" fill="#E3EEF0" stroke="#0E5E6F" stroke-width="2.5"/>
   <text class="h" x="528" y="242" font-size="24" font-weight="700">Make reuse inspectable</text>
-  <text class="s" x="528" y="271" font-size="16">The ledger records why a conclusion may travel.</text>
+  <text class="s" x="528" y="271" font-size="16">The ledger records why a claim may travel.</text>
   <line x1="528" y1="300" x2="912" y2="300" stroke="#B7D0D5" stroke-width="2"/>
   <circle cx="551" cy="342" r="14" fill="#0E5E6F"/><text x="551" y="347" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
   <text class="h" x="580" y="348" font-size="17" font-weight="650">Bind source identity, version, and evidence</text>
   <circle cx="551" cy="401" r="14" fill="#0E5E6F"/><text x="551" y="406" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
-  <text class="h" x="580" y="407" font-size="17" font-weight="650">Propose a scoped conclusion</text>
+  <text class="h" x="580" y="407" font-size="17" font-weight="650">Propose a scoped claim</text>
   <circle cx="551" cy="460" r="14" fill="#8A6210"/><text x="551" y="465" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
   <text class="h" x="580" y="466" font-size="17" font-weight="650">Evaluate, review, and record a receipt</text>
   <rect x="528" y="509" width="384" height="58" rx="8" fill="#E7F2EA" stroke="#2E7D4F" stroke-width="1.5"/>
@@ -46,7 +46,7 @@
   <text class="s" x="1064" y="271" font-size="16">The receiver still applies local policy.</text>
   <line class="rule" x1="1064" y1="300" x2="1342" y2="300"/>
   <text class="m" x="1064" y="335" font-size="12" font-weight="700">GOVERNED CONTEXT</text>
-  <text class="h" x="1064" y="365" font-size="18" font-weight="650">Current, scoped conclusions</text>
+  <text class="h" x="1064" y="365" font-size="18" font-weight="650">Current, scoped claims</text>
   <text class="m" x="1064" y="420" font-size="12" font-weight="700">INSPECTION</text>
   <text class="h" x="1064" y="450" font-size="18" font-weight="650">Receipts and lineage</text>
   <text class="m" x="1064" y="505" font-size="12" font-weight="700">RECEIVER</text>
@@ -59,7 +59,7 @@
   <text class="m green" x="977" y="370" text-anchor="middle" font-size="9.5" font-weight="700">GOVERNED CONTEXT</text>
 
   <rect x="72" y="664" width="1296" height="74" rx="10" fill="#FFFFFF" stroke="#E3E1D9" stroke-width="1.5"/>
-  <text class="h" x="98" y="697" font-size="20" font-weight="720">The host keeps the workflow. Proofpress keeps the reason a conclusion may be reused.</text>
+  <text class="h" x="98" y="697" font-size="20" font-weight="720">The host keeps the workflow. Proofpress keeps the reason a claim may be reused.</text>
   <text class="s" x="98" y="723" font-size="15">Not an orchestrator, trace backend, generic memory store, company wiki, or truth oracle.</text>
   <text class="m" x="1368" y="775" text-anchor="end" font-size="10">PROOFPRESS · VERIFIED KNOWLEDGE LEDGER</text>
 </svg>

@@ -22,13 +22,13 @@ class OpenWikiConflictDemoTests(unittest.TestCase):
         self.assertEqual(payload["fixture"]["official_preflight_issues"], 0)
         self.assertEqual(payload["fixture"]["rechecked_claims"], 10)
         self.assertEqual(payload["handoff"]["otherwise_admitted_before_relation"], 2)
-        self.assertEqual(payload["handoff"]["quarantined_knowledge"], 0)
+        self.assertEqual(payload["handoff"]["quarantined_claims"], 0)
         self.assertEqual(
             set(payload["handoff"]["blocked_reasons"].values()),
             {"contradiction_unresolved"},
         )
         successor = payload["fresh_successor"]
-        self.assertEqual(successor["knowledge_count"], 1)
+        self.assertEqual(successor["governed_context_count"], 1)
         self.assertTrue(successor["loser_statement_absent"])
         self.assertEqual(successor["evidence_digest_count"], 4)
         self.assertEqual(successor["identity_basis"], "self_asserted")

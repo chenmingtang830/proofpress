@@ -3,7 +3,7 @@
 
 Extraction output is evidence-candidate material only.  A valid envelope binds
 every block and cell to immutable source bytes, extractor configuration, and a
-page locator.  Validation never admits the output to governed knowledge.
+page locator.  Validation never admits the output to governed context.
 """
 from __future__ import annotations
 

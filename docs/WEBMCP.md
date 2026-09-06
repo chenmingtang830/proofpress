@@ -16,12 +16,12 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 [//]: # (ob:6c1ab1db)
 - `get_workspace_summary()` — orient the agent to queue, state counts, and current knowledge
 - `list_review_queue(state?, scope?, limit?)` — enumerate the bounded work requiring attention
-- `get_current_context(scope, task?)` — read eligible governed conclusions
-- `get_review_state(conclusion_id)` — inspect checks, policy/LM recommendation, human-decision state
-- `get_lineage(conclusion_id)` — evidence, history, whether the ledger currently exposes the conclusion
-- `prepare_review_response(conclusion_id, response)` — prepare a bounded revision handoff for the connected agent MCP/CLI
-- `run_deterministic_checks(conclusion_id)` — execute non-authorizing integrity and prerequisite checks
-- `open_review(conclusion_id, full?)` — route the owner to the right decision surface
+- `get_current_context(scope, task?)` — read eligible governed claims
+- `get_review_state(claim_id)` — inspect checks, policy/LM recommendation, human-decision state
+- `get_lineage(claim_id)` — evidence, history, whether the ledger currently exposes the claim
+- `prepare_review_response(claim_id, response)` — prepare a bounded revision handoff for the connected agent MCP/CLI
+- `run_deterministic_checks(claim_id)` — execute non-authorizing integrity and prerequisite checks
+- `open_review(claim_id, full?)` — route the owner to the right decision surface
 - `get_activity(limit?)` — inspect semantic proposal, review, policy, and context-retrieval activity
 - `get_review_policy()` — read the active safe policy projection and provider configuration status
 - `prepare_review_policy_change(...)` — load a complete policy draft into Admin for explicit human review
@@ -44,10 +44,10 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 4. Ask it to inspect one candidate with `get_review_state` and `get_lineage`.
 5. Let it run `run_deterministic_checks`, then `open_review` for the owner.
 6. Human: Request changes. Agent: `prepare_review_response`, then submits the revision through its agent MCP/CLI. Human: Approve.
-7. Call `get_current_context` again and confirm only the admitted conclusion is returned.
+7. Call `get_current_context` again and confirm only the admitted claim is returned.
 
 [//]: # (ob:86d90f67)
-Agents that need to propose still use the hosted `/v1/operations` credential path (`evidence.submit`, `conclusion.propose`). That path also cannot admit.
+Agents that need to propose still use the hosted `/v1/operations` credential path (`evidence.submit`, `claim.propose`). That path also cannot admit.
 
 ## Agent-native product rule
 

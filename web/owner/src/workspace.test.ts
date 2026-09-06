@@ -18,7 +18,7 @@ const governanceCss = readFileSync(
 describe("Proofpress owner workspace contract", () => {
   it("keeps the MVP focused on review and human-readable lineage", () => {
     expect(source).not.toContain("Ask Proofpress");
-    expect(source).not.toContain("Search conclusions or IDs");
+    expect(source).not.toContain("Search claims or IDs");
     expect(source).not.toContain("Inspect receipt");
     expect(source).toContain('"needs_revision"');
     expect(source).toContain('<Button className="reviewEntry" variant="approve" onClick={onOpenFull}>Open full review</Button>');
@@ -27,14 +27,14 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
-    expect(source).toContain("Evidence to governed knowledge");
+    expect(source).toContain("Evidence to governed claims");
     expect(source).toContain("(current + 1) * 20");
   });
-  it("opens the ledger on current knowledge and scopes lineage to a selection", () => {
+  it("opens the ledger on current claims and scopes lineage to a selection", () => {
     expect(source).toContain('const [view, setView] = React.useState("list")');
     expect(source).toContain("Selected lineage");
     expect(source).toContain("View lineage");
-    expect(source).not.toContain("Show history and unavailable conclusions");
+    expect(source).not.toContain("Show history and unavailable claims");
   });
   it("lets the outer stage scroll the full review surface", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
@@ -52,11 +52,11 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain(".expandableText p");
   });
   it("explains evidence and downstream consequence before authority changes", () => {
-    expect(source).toContain("How knowledge moves through Proofpress");
+    expect(source).toContain("How claims move through Proofpress");
     expect(source).toContain("Agents propose");
     expect(source).toContain("You decide");
-    expect(source).toContain("Approved conclusions become reusable");
-    expect(source).toContain("Evidence for this conclusion");
+    expect(source).toContain("Approved claims become reusable");
+    expect(source).toContain("Evidence for this claim");
     expect(source).toContain("Proposed reuse boundary");
     expect(source).toContain("Available now");
     expect(source).toContain("Needs review");
@@ -68,13 +68,13 @@ describe("Proofpress owner workspace contract", () => {
   });
 
   it("gives first-run and caught-up states an explicit next step", () => {
-    expect(source).toContain("No conclusions yet");
+    expect(source).toContain("No claims yet");
     expect(source).toContain("Manage agent access");
     expect(source).toContain("You are caught up");
-    expect(source).toContain("Browse current knowledge");
-    expect(source).toContain("No knowledge is available for reuse");
-    expect(source).toContain("Review candidate conclusions");
-    expect(css).toContain(".knowledgePath");
+    expect(source).toContain("Browse current claims");
+    expect(source).toContain("No claims are available for reuse");
+    expect(source).toContain("Review candidate claims");
+    expect(css).toContain(".claimsPath");
     expect(css).toContain(".emptyState");
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {

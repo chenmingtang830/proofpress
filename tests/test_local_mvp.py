@@ -54,7 +54,7 @@ class LocalMVPTests(unittest.TestCase):
         proposed = self.data("propose", "--statement", "The liability cap is 1x annual fees",
                              "--evidence", evidence, "--scope", "msa-negotiation",
                              "--proposer", proposer)
-        return evidence, proposed["conclusion"]["id"]
+        return evidence, proposed["claim"]["id"]
 
     def admitted_conflict(self):
         imported = self.data("evidence", "import", str(FIXTURE))
@@ -63,7 +63,7 @@ class LocalMVPTests(unittest.TestCase):
         def propose(statement):
             args = ["propose", "--statement", statement, "--evidence", evidence,
                     "--scope", "msa-negotiation", "--proposer", "agent:runner"]
-            return self.data(*args)["conclusion"]["id"]
+            return self.data(*args)["claim"]["id"]
 
         first = propose("The liability cap is 1x annual fees")
         second = propose("The liability cap is uncapped")
@@ -134,12 +134,12 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(first["evidence"], second["evidence"])
         self.assertEqual(self.count_events(), count)
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import events as knowledge_events
-        from proofpress.kernel import operations as knowledge
+        from proofpress.kernel import events as kernel_events
+        from proofpress.kernel import operations as kernel_ops
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            projection = knowledge.v2_projection()
+            projection = kernel_ops.v2_projection()
         finally:
             os.chdir(previous)
         decision = next(row for row in projection["sources"].values()
@@ -150,22 +150,22 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(decision["attributes"]["event"]["disposition"], "accepted")
         self.assertNotIn("secret", json.dumps(projection["sources"]))
         self.assertNotIn("conversion_rate", json.dumps(projection["sources"]))
-        self.assertTrue(knowledge_events.verify_history_envelopes(
-            knowledge_events.history_envelopes(projection["events"]))["ok"])
-        self.assertEqual(projection["conclusions"], {})
+        self.assertTrue(kernel_events.verify_history_envelopes(
+            kernel_events.history_envelopes(projection["events"]))["ok"])
+        self.assertEqual(projection["claims"], {})
         self.assertEqual(projection["admissions"], {})
-        self.assertEqual(self.data("context")["knowledge"], [])
+        self.assertEqual(self.data("context")["governed_context"], [])
 
     def test_trace_confidence_fixture_is_verifier_compatible_and_evidence_only(self):
         imported = self.data("evidence", "import", str(TRACE_CONFIDENCE_FIXTURE))
         self.assertEqual(len(imported["evidence"]), 1)
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import events as knowledge_events
-        from proofpress.kernel import operations as knowledge
+        from proofpress.kernel import events as kernel_events
+        from proofpress.kernel import operations as kernel_ops
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            projection = knowledge.v2_projection()
+            projection = kernel_ops.v2_projection()
         finally:
             os.chdir(previous)
         decision = next(row for row in projection["sources"].values()
@@ -195,11 +195,11 @@ class LocalMVPTests(unittest.TestCase):
             self.assertNotIn(dropped, projected)
         self.assertNotIn("algorithm", projected["method"])
         self.assertNotIn("seed", projected["method"])
-        self.assertTrue(knowledge_events.verify_history_envelopes(
-            knowledge_events.history_envelopes(projection["events"]))["ok"])
-        self.assertEqual(projection["conclusions"], {})
+        self.assertTrue(kernel_events.verify_history_envelopes(
+            kernel_events.history_envelopes(projection["events"]))["ok"])
+        self.assertEqual(projection["claims"], {})
         self.assertEqual(projection["admissions"], {})
-        self.assertEqual(self.data("context")["knowledge"], [])
+        self.assertEqual(self.data("context")["governed_context"], [])
 
     def test_trace_adapter_rejects_unpinned_or_malformed_confidence(self):
         for version in ("0.5.2", "0.6.0"):
@@ -231,12 +231,12 @@ class LocalMVPTests(unittest.TestCase):
         imported = self.data("evidence", "import", str(TRACE_V051_FIXTURE))
         self.assertEqual(len(imported["imported_evidence"]), 1)
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import events as knowledge_events
-        from proofpress.kernel import operations as knowledge
+        from proofpress.kernel import events as kernel_events
+        from proofpress.kernel import operations as kernel_ops
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            projection = knowledge.v2_projection()
+            projection = kernel_ops.v2_projection()
         finally:
             os.chdir(previous)
         decision = next(row for row in projection["sources"].values()
@@ -255,9 +255,9 @@ class LocalMVPTests(unittest.TestCase):
         for dropped in ("mean_paired_delta", "rsi-exam-gate/percentile-bootstrap/1",
                         "methods/results/v3/visible.json", "20260902"):
             self.assertNotIn(dropped, rendered)
-        self.assertTrue(knowledge_events.verify_history_envelopes(
-            knowledge_events.history_envelopes(projection["events"]))["ok"])
-        self.assertEqual(projection["conclusions"], {})
+        self.assertTrue(kernel_events.verify_history_envelopes(
+            kernel_events.history_envelopes(projection["events"]))["ok"])
+        self.assertEqual(projection["claims"], {})
         self.assertEqual(projection["admissions"], {})
 
     def test_an_accepted_051_document_still_meets_the_bounded_confidence_profile(self):
@@ -290,8 +290,8 @@ class LocalMVPTests(unittest.TestCase):
         no registered version is silently dropped, never that a version has a real
         upstream release behind it."""
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import operations as knowledge
-        versions = sorted(knowledge.TRACE_SUPPORTED_VERSIONS)
+        from proofpress.kernel import operations as kernel_ops
+        versions = sorted(kernel_ops.TRACE_SUPPORTED_VERSIONS)
         self.assertIn("0.5.0", versions)
         self.assertIn("0.5.1", versions)
         for version in versions:
@@ -301,7 +301,7 @@ class LocalMVPTests(unittest.TestCase):
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            projection = knowledge.v2_projection()
+            projection = kernel_ops.v2_projection()
         finally:
             os.chdir(previous)
         decisions = [row for row in projection["sources"].values()
@@ -330,8 +330,8 @@ class LocalMVPTests(unittest.TestCase):
         """Shape only. Nothing here can prove a commit is a release commit or that a digest
         belongs to the schema at it; the pull request record carries that verification."""
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import operations as knowledge
-        for version, pin in knowledge.TRACE_SUPPORTED_VERSIONS.items():
+        from proofpress.kernel import operations as kernel_ops
+        for version, pin in kernel_ops.TRACE_SUPPORTED_VERSIONS.items():
             self.assertRegex(version, r"\A\d+\.\d+\.\d+\Z")
             self.assertEqual(sorted(pin), ["commit", "sha256"])
             self.assertRegex(pin["commit"], r"\A[0-9a-f]{40}\Z")
@@ -360,7 +360,7 @@ class LocalMVPTests(unittest.TestCase):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The exception narrows the cap",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         relation_args = ("relation", "propose", second, "--to", first,
                          "--type", "qualifies", "--proposer", "agent:runner")
         relation = self.data(*relation_args)["relation"]["id"]
@@ -378,20 +378,20 @@ class LocalMVPTests(unittest.TestCase):
         })
         evidence_id = imported["evidence"][0]
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import operations as knowledge
+        from proofpress.kernel import operations as kernel_ops
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            evidence = knowledge.v2_projection()["evidence"][evidence_id]
+            evidence = kernel_ops.v2_projection()["evidence"][evidence_id]
         finally:
             os.chdir(previous)
         self.assertEqual(evidence["kind"], "retrieval_evidence")
         self.assertEqual(evidence["retrieval_receipt"]["locator"]["kind"], "text_span")
         self.assertEqual(evidence["retrieval_receipt"]["retrieval"]["adapter"], "proofpress.lexical-chunk")
-        self.assertTrue(knowledge._retrieval_receipt_valid(evidence))
+        self.assertTrue(kernel_ops._retrieval_receipt_valid(evidence))
         cid = self.data("propose", "--statement", "The liability cap is 1x annual fees",
                         "--evidence", evidence_id, "--scope", "msa-negotiation",
-                        "--proposer", "agent:runner")["conclusion"]["id"]
+                        "--proposer", "agent:runner")["claim"]["id"]
         self.assertTrue(self.data("evaluate", cid)["checks"]["retrieval_receipts"])
 
     def test_page_and_section_locators_are_accepted_but_malformed_locators_fail(self):
@@ -421,18 +421,18 @@ class LocalMVPTests(unittest.TestCase):
         self.data("review", cid, "--admit", "--reviewer", "human:alice")
         context = self.data("context", "--scope", "msa-negotiation",
                             "--actor", "agent:successor")
-        self.assertEqual([row["id"] for row in context["knowledge"]], [cid])
+        self.assertEqual([row["id"] for row in context["governed_context"]], [cid])
         self.assertEqual(context["blocked"], [])
-        self.assertIn("admission_event", context["knowledge"][0]["receipt"])
+        self.assertIn("admission_event", context["governed_context"][0]["receipt"])
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import operations as knowledge
+        from proofpress.kernel import operations as kernel_ops
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            graph = knowledge.graph_v2("msa-negotiation")
+            graph = kernel_ops.graph_v2("msa-negotiation")
         finally:
             os.chdir(previous)
-        self.assertTrue({"raw", "evidence", "conclusion", "review", "governed"}
+        self.assertTrue({"raw", "evidence", "claim", "review", "governed"}
                         <= {node["type"] for node in graph["nodes"]})
 
     def test_self_approval_rejection_and_supersession_fail_closed(self):
@@ -442,7 +442,7 @@ class LocalMVPTests(unittest.TestCase):
         self.assertIn("self-approve", blocked.stderr)
         new = self.data("propose", "--statement", "The liability cap requires escalation",
                         "--evidence", evidence, "--scope", "msa-negotiation",
-                        "--proposer", "agent:runner")["conclusion"]["id"]
+                        "--proposer", "agent:runner")["claim"]["id"]
         self.data("supersede", old, "--by", new, "--reviewer", "human:alice")
         packet = self.data("context", "--scope", "msa-negotiation")
         reasons = {row["id"]: row["reason"] for row in packet["blocked"]}
@@ -460,33 +460,33 @@ class LocalMVPTests(unittest.TestCase):
                               text=True, capture_output=True, check=True).stdout.strip()
         request_id = "review-request-001"
         result = self.data("review", cid, "--request-changes", "--reviewer", "human:alice",
-                           "--note", "Bind the conclusion to the operative schedule.",
+                           "--note", "Bind the claim to the operative schedule.",
                            "--request-id", request_id, "--expected-head", head)
         count_after_review = self.count_events()
         self.assertEqual(result["review"]["decision"], "request_changes")
-        self.assertEqual(result["result"]["type"], "conclusion_revision_requested")
+        self.assertEqual(result["result"]["type"], "claim_revision_requested")
         packet = self.data("context", "--scope", "msa-negotiation")
         blocked = next(row for row in packet["blocked"] if row["id"] == cid)
         self.assertEqual((blocked["reason"], blocked["required_action"]),
                          ("needs_revision", "propose_revision"))
         graph = self.data("graph", "--scope", "msa-negotiation")
-        conclusion = next(row for row in graph["nodes"] if row["id"] == cid)
-        self.assertEqual(conclusion["state"], "needs_revision")
+        claim = next(row for row in graph["nodes"] if row["id"] == cid)
+        self.assertEqual(claim["state"], "needs_revision")
         self.assertEqual(self.count_events(), count_after_review)
         repeated = self.data("review", cid, "--request-changes", "--reviewer", "human:alice",
-                             "--note", "Bind the conclusion to the operative schedule.",
+                             "--note", "Bind the claim to the operative schedule.",
                              "--request-id", request_id, "--expected-head", head)
         self.assertTrue(repeated["idempotent"])
         self.assertEqual(self.count_events(), count_after_review)
         stale = self.cli("review", cid, "--reject", "--reviewer", "human:alice",
-                         "--note", "The evidence does not support the conclusion.",
+                         "--note", "The evidence does not support the claim.",
                          "--request-id", "review-request-002", "--expected-head", head,
                          check=False)
         self.assertNotEqual(stale.returncode, 0)
         self.assertIn("STALE_LEDGER_HEAD", stale.stderr)
         revised = self.data("propose", "--statement", "The operative schedule sets a 1x cap",
                             "--evidence", evidence, "--scope", "msa-negotiation",
-                            "--proposer", "agent:runner")["conclusion"]["id"]
+                            "--proposer", "agent:runner")["claim"]["id"]
         self.assertNotEqual(revised, cid)
         self.assertEqual(next(row for row in self.data("graph", "--scope", "msa-negotiation")["nodes"]
                               if row["id"] == revised)["state"], "needs_review")
@@ -495,7 +495,7 @@ class LocalMVPTests(unittest.TestCase):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The exception narrows the cap",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         relation = self.data("relation", "propose", second, "--to", first,
                              "--type", "qualifies")["relation"]["id"]
         result = self.data("relation", "review", relation, "--request-changes",
@@ -509,7 +509,7 @@ class LocalMVPTests(unittest.TestCase):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The liability cap excludes fraud",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         relation = self.data("relation", "propose", second, "--to", first,
                              "--type", "qualifies", "--proposer", "agent:runner",
                              "--confidence", "0.82")["relation"]
@@ -538,7 +538,7 @@ class LocalMVPTests(unittest.TestCase):
         _, first, second, relation = self.admitted_conflict()
         quarantined = self.data("context", "--scope", "msa-negotiation",
                                 "--include-blocked-statements")
-        self.assertEqual(quarantined["knowledge"], [])
+        self.assertEqual(quarantined["governed_context"], [])
         self.assertEqual({row["id"] for row in quarantined["blocked"]}, {first, second})
         self.assertTrue(all(row["reason"] == "contradiction_unresolved"
                             for row in quarantined["blocked"]))
@@ -566,10 +566,10 @@ class LocalMVPTests(unittest.TestCase):
                              "--note", "The capped reading is the admitted current interpretation.")
         self.assertEqual(resolved["resolution"]["identity_basis"], "self_asserted")
         context = self.data("context", "--scope", "msa-negotiation")
-        self.assertEqual([row["id"] for row in context["knowledge"]], [first])
+        self.assertEqual([row["id"] for row in context["governed_context"]], [first])
         self.assertEqual(next(row for row in context["blocked"] if row["id"] == second)["reason"],
                          "superseded")
-        receipt = context["knowledge"][0]["receipt"]["conflict_resolutions"][0]
+        receipt = context["governed_context"][0]["receipt"]["conflict_resolutions"][0]
         self.assertEqual((receipt["relation_id"], receipt["winner"], receipt["loser"]),
                          (relation, first, second))
         self.assertEqual(receipt["identity_basis"], "self_asserted")
@@ -582,7 +582,7 @@ class LocalMVPTests(unittest.TestCase):
         _, first, second, relation = self.admitted_conflict()
         context = self.data("context", "--scope", "msa-negotiation",
                             "--actor", "agent:successor")
-        self.assertEqual(context["knowledge"], [])
+        self.assertEqual(context["governed_context"], [])
         blocked = {row["id"]: row for row in context["blocked"]}
         self.assertEqual(blocked[first]["reason"], "contradiction_unresolved")
         self.assertEqual(blocked[second]["reason"], "contradiction_unresolved")
@@ -609,33 +609,33 @@ class LocalMVPTests(unittest.TestCase):
         self.data("relation", "resolve", relation, "--disposition", "withhold",
                   "--reviewer", "human:bob", "--note", "No safe winner yet.")
         context = self.data("context", "--scope", "msa-negotiation")
-        self.assertEqual(context["knowledge"], [])
+        self.assertEqual(context["governed_context"], [])
         self.assertTrue(all(row["reason"] == "contradiction_withheld"
                             for row in context["blocked"]))
 
     def test_partial_supersede_resolution_stays_quarantined_and_repairs_on_retry(self):
         _, first, second, relation = self.admitted_conflict()
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import operations as knowledge
-        original_append = knowledge.append_v2
+        from proofpress.kernel import operations as kernel_ops
+        original_append = kernel_ops.append_v2
 
         def fail_supersession(event, existing_rows=None):
-            if event.get("type") == "conclusion_superseded":
+            if event.get("type") == "claim_superseded":
                 raise RuntimeError("simulated interruption")
             return original_append(event, existing_rows)
 
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
-            with patch.object(knowledge, "append_v2", side_effect=fail_supersession):
+            with patch.object(kernel_ops, "append_v2", side_effect=fail_supersession):
                 with self.assertRaisesRegex(RuntimeError, "simulated interruption"):
-                    knowledge.resolve_contradiction_v2(
+                    kernel_ops.resolve_contradiction_v2(
                         relation, "supersede", "human:bob", first, "Choose the capped reading.")
         finally:
             os.chdir(previous)
 
         interrupted = self.data("context", "--scope", "msa-negotiation")
-        self.assertEqual(interrupted["knowledge"], [])
+        self.assertEqual(interrupted["governed_context"], [])
         self.assertTrue(all(row["reason"] == "contradiction_resolution_incomplete"
                             for row in interrupted["blocked"]))
         repaired = self.data("relation", "resolve", relation, "--disposition", "supersede",
@@ -643,7 +643,7 @@ class LocalMVPTests(unittest.TestCase):
                              "--note", "Choose the capped reading.")
         self.assertTrue(repaired["idempotent"])
         final = self.data("context", "--scope", "msa-negotiation")
-        self.assertEqual([row["id"] for row in final["knowledge"]], [first])
+        self.assertEqual([row["id"] for row in final["governed_context"]], [first])
         self.assertEqual(next(row for row in final["blocked"] if row["id"] == second)["reason"],
                          "superseded")
 
@@ -651,7 +651,7 @@ class LocalMVPTests(unittest.TestCase):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The exception narrows the cap",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         relation = self.data("relation", "propose", second, "--to", first,
                              "--type", "qualifies", "--proposer", "agent:runner")["relation"]["id"]
         policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
@@ -671,9 +671,9 @@ class LocalMVPTests(unittest.TestCase):
 
     def test_directed_relation_cycles_fail_closed(self):
         evidence, first = self.seed()
-        second = self.data("propose", "--statement", "Second conclusion",
+        second = self.data("propose", "--statement", "Second claim",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         forward = self.data("relation", "propose", first, "--to", second,
                             "--type", "depends_on")["relation"]["id"]
         self.data("relation", "review", forward, "--admit", "--reviewer", "human:alice")
@@ -693,7 +693,7 @@ class LocalMVPTests(unittest.TestCase):
         }}))
         row = self.data("propose", "--statement", "The closing condition applies",
                         "--evidence", evidence, "--scope", "deal", "--profile", "legal",
-                        "--qualifiers", str(qualifiers))["conclusion"]
+                        "--qualifiers", str(qualifiers))["claim"]
         self.assertEqual(row["qualifiers"]["profile"], "proofpress/profile/legal/v1")
         qualifiers.write_text(json.dumps({"legal": {"jurisdiction": "US-DE"}}))
         failed = self.cli("propose", "--statement", "Incomplete legal metadata",
@@ -715,17 +715,17 @@ class LocalMVPTests(unittest.TestCase):
         recommendation = self.data("judge", cid)
         self.assertEqual(recommendation["recommendation"], "accept")
         self.data("review", cid, "--admit", "--reviewer", "human:alice")
-        self.assertEqual(len(self.data("context", "--scope", "msa-negotiation")["knowledge"]), 1)
+        self.assertEqual(len(self.data("context", "--scope", "msa-negotiation")["governed_context"]), 1)
 
     def test_transaction_level_batch_judge_records_individual_receipts(self):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The indemnity requires escalation",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
         judge_code = (
             "import json,sys; p=json.load(sys.stdin); "
-            "vs=[{'conclusion_id':x['conclusion']['id'],'recommendation':'accept','risk_level':'low','rationale':'supported'} for x in p['conclusions']]; "
+            "vs=[{'claim_id':x['claim']['id'],'recommendation':'accept','risk_level':'low','rationale':'supported'} for x in p['claims']]; "
             "print(json.dumps({'verdicts':vs,'adapter':'fixture-batch'}))"
         )
         (policy_dir / "policy.json").write_text(json.dumps({
@@ -741,11 +741,11 @@ class LocalMVPTests(unittest.TestCase):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The indemnity requires escalation",
                            "--evidence", evidence, "--scope", "msa-negotiation",
-                           "--proposer", "agent:runner")["conclusion"]["id"]
+                           "--proposer", "agent:runner")["claim"]["id"]
         policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
         judge_code = (
             "import json,sys; p=json.load(sys.stdin); "
-            "vs=[{'conclusion_id':x['conclusion']['id'],'recommendation':'accept','risk_level':'low','rationale':'supported'} for x in p['conclusions']]; "
+            "vs=[{'claim_id':x['claim']['id'],'recommendation':'accept','risk_level':'low','rationale':'supported'} for x in p['claims']]; "
             "print(json.dumps({'verdicts':vs,'adapter':'fixture-batch'}))"
         )
         (policy_dir / "policy.json").write_text(json.dumps({
@@ -754,7 +754,7 @@ class LocalMVPTests(unittest.TestCase):
         self.data("evaluate", first)
         self.data("evaluate", second)
         sys.path.insert(0, str(ROOT))
-        from proofpress.kernel import operations as knowledge
+        from proofpress.kernel import operations as kernel_ops
         original_run = subprocess.run
         git_commands = []
 
@@ -764,30 +764,30 @@ class LocalMVPTests(unittest.TestCase):
 
         previous = Path.cwd(); os.chdir(self.repo)
         try:
-            evaluations_before = len([row for row in knowledge.v2_events()
+            evaluations_before = len([row for row in kernel_ops.v2_events()
                                       if row.get("type") == "policy_evaluated"])
-            with patch.object(knowledge.subprocess, "run", side_effect=counted_run):
-                result = knowledge.judge_batch_v2("msa-negotiation")
+            with patch.object(kernel_ops.subprocess, "run", side_effect=counted_run):
+                result = kernel_ops.judge_batch_v2("msa-negotiation")
             traversals = [command for command in git_commands
                           if command[0] in {"rev-list", "cat-file", "show"}]
             self.assertEqual(traversals.count(("rev-list", "--reverse")), 1)
             self.assertEqual(traversals.count(("cat-file", "--batch")), 1)
             self.assertFalse(any(command[0] == "show" for command in traversals))
             self.assertEqual({row["subject_ref"] for row in result["verdicts"]}, {first, second})
-            evaluations_after = len([row for row in knowledge.v2_events()
+            evaluations_after = len([row for row in kernel_ops.v2_events()
                                      if row.get("type") == "policy_evaluated"])
             self.assertEqual(evaluations_after, evaluations_before)
 
-            third = knowledge.propose_v2("第三项有界结论 — Unicode survives event loading", [evidence],
-                                         "msa-negotiation", "agent:runner")["conclusion"]["id"]
-            resumed = knowledge.judge_batch_v2("msa-negotiation")
+            third = kernel_ops.propose_v2("第三项有界结论 — Unicode survives event loading", [evidence],
+                                         "msa-negotiation", "agent:runner")["claim"]["id"]
+            resumed = kernel_ops.judge_batch_v2("msa-negotiation")
             self.assertEqual([row["subject_ref"] for row in resumed["verdicts"]], [third])
-            idempotent = knowledge.judge_batch_v2("msa-negotiation")
+            idempotent = kernel_ops.judge_batch_v2("msa-negotiation")
             self.assertTrue(idempotent["idempotent"])
             self.assertIsNone(idempotent["batch_receipt"])
             self.assertEqual(len(idempotent["batch_receipts"]), 2)
-            self.assertIn("第三项有界结论", knowledge.v2_projection()["conclusions"][third]["statement"])
-            recommendations = [row for row in knowledge.v2_events()
+            self.assertIn("第三项有界结论", kernel_ops.v2_projection()["claims"][third]["statement"])
+            recommendations = [row for row in kernel_ops.v2_events()
                                if row.get("type") == "judge_recommended"]
             self.assertEqual({row["subject_ref"] for row in recommendations}, {first, second, third})
             self.assertEqual(len(recommendations), 3)
@@ -797,11 +797,11 @@ class LocalMVPTests(unittest.TestCase):
 
     def test_v1_migration_is_one_way_and_idempotent(self):
         legacy = self.repo / "legacy.json"
-        self.cli("knowledge", "ingest", str(FIXTURE), "-o", str(legacy),
+        self.cli("claims", "ingest", str(FIXTURE), "-o", str(legacy),
                  "--scope", "legacy")
         legacy_data = json.loads(legacy.read_text())
         claim = legacy_data["claims"][0]
-        self.cli("knowledge", "review", str(legacy), "--claim", claim["id"],
+        self.cli("claims", "review", str(legacy), "--claim", claim["id"],
                  "--decision", "accept", "--reviewer", "human:alice")
         original = legacy.read_bytes()
         self.data("import-v1", str(legacy))
@@ -812,7 +812,7 @@ class LocalMVPTests(unittest.TestCase):
             text=True, capture_output=True, check=True).stdout.splitlines()
             for line in [subprocess.run(["git", "show", f"{line}:event.json"], cwd=self.repo,
                                         text=True, capture_output=True, check=True).stdout]]
-        self.assertIn("conclusion_admitted", event_types)
+        self.assertIn("claim_admitted", event_types)
         self.assertIn("human_reviewed", event_types)
         count = self.count_events()
         self.data("import-v1", str(legacy))

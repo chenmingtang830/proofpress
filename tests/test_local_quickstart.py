@@ -62,7 +62,7 @@ class LocalQuickstartTests(unittest.TestCase):
             cwd=workspace, text=True, capture_output=True, check=True,
         )
         projected = json.loads(context.stdout)
-        self.assertEqual(len(projected["knowledge"]), 1)
+        self.assertEqual(len(projected["governed_context"]), 1)
         self.assertEqual(len(projected["blocked"]), 2)
 
     def test_existing_target_is_refused_without_touching_it(self):

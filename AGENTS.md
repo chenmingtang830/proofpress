@@ -17,7 +17,7 @@ tool surface, while the skill supplies the required governance workflow.
 [//]: # (ob:6c2c2b16)
 Before relying on prior knowledge, retrieve only eligible, in-scope governed
 context and preserve its limits. For a durable decision, evidence-backed
-conclusion, reproducible experiment result, integration contract, or incident
+claim, reproducible experiment result, integration contract, or incident
 learning, submit a bounded proposal with evidence and report its receipt.
 
 [//]: # (ob:1be95c90)

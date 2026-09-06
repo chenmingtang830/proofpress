@@ -9,7 +9,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 
 
 JsonObject = dict[str, Any]
@@ -48,7 +48,7 @@ class InProcessTransport:
             raise ProofpressTransportError(
                 "workspace_mismatch",
                 "in-process transport requires the process working directory to equal workspace")
-        return knowledge.execute_local_operation(dict(request))
+        return kernel_ops.execute_local_operation(dict(request))
 
 
 @dataclass(frozen=True)
@@ -141,7 +141,7 @@ class ProofpressClient:
                     *, request_id: str | None = None,
                     idempotency_key: str | None = None) -> JsonObject:
         request: JsonObject = {
-            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation,
             "parameters": dict(parameters or {}),
         }
@@ -186,11 +186,11 @@ class ProofpressClient:
             parameters["profile"] = profile
         return self.execute("evidence.submit", parameters, **meta)
 
-    def propose_conclusion(self, statement, evidence_refs, scope=None, proposer=None,
+    def propose_claim(self, statement, evidence_refs, scope=None, proposer=None,
                            *, expires_at=None, artifact_refs=None,
                            applicability=None, reproposal_of=None, qualifiers=None,
                            profile=None, **meta):
-        return self.execute("conclusion.propose", {
+        return self.execute("claim.propose", {
             "statement": statement, "evidence_refs": list(evidence_refs),
             "scope": scope, "proposer": proposer, "expires_at": expires_at,
             "artifact_refs": list(artifact_refs or []),
@@ -198,22 +198,22 @@ class ProofpressClient:
             "reproposal_of": reproposal_of,
             "qualifiers": qualifiers,
             "profile": profile}, **meta)
-    def evaluate_conclusion(self, conclusion_id, *, actor=None, **meta):
-        return self.execute("conclusion.evaluate", {"conclusion_id": conclusion_id, "actor": actor}, **meta)
-    def judge_conclusion(self, conclusion_id, *, actor=None, **meta):
-        return self.execute("conclusion.judge", {"conclusion_id": conclusion_id, "actor": actor}, **meta)
+    def evaluate_claim(self, claim_id, *, actor=None, **meta):
+        return self.execute("claim.evaluate", {"claim_id": claim_id, "actor": actor}, **meta)
+    def judge_claim(self, claim_id, *, actor=None, **meta):
+        return self.execute("claim.judge", {"claim_id": claim_id, "actor": actor}, **meta)
     def judge_scope(self, scope, *, actor=None, **meta):
-        return self.execute("conclusion.judge_batch", {"scope": scope, "actor": actor}, **meta)
-    def review_conclusion(self, conclusion_id, decision, reviewer, *, note=None,
+        return self.execute("claim.judge_batch", {"scope": scope, "actor": actor}, **meta)
+    def review_claim(self, claim_id, decision, reviewer, *, note=None,
                           review_request_id=None, expected_head=None, **meta):
-        return self.execute("conclusion.review", {
-            "conclusion_id": conclusion_id, "decision": decision,
+        return self.execute("claim.review", {
+            "claim_id": claim_id, "decision": decision,
             "reviewer": reviewer, "note": note,
             "request_id": review_request_id, "expected_head": expected_head}, **meta)
-    def supersede_conclusion(self, conclusion_id, replacement_id, reviewer,
+    def supersede_claim(self, claim_id, replacement_id, reviewer,
                              *, note=None, **meta):
-        return self.execute("conclusion.supersede", {
-            "conclusion_id": conclusion_id, "replacement_id": replacement_id,
+        return self.execute("claim.supersede", {
+            "claim_id": claim_id, "replacement_id": replacement_id,
             "reviewer": reviewer, "note": note}, **meta)
     def propose_relation(self, source_id, target_id, relation_type, proposer,
                          *, confidence=None, qualifiers=None, **meta):
@@ -256,5 +256,5 @@ class ProofpressClient:
     def review_summary(self, scope=None, actor=None):
         return self.execute("review.summary", {"scope": scope, "actor": actor})
 
-    def review_receipt(self, conclusion_id, actor=None):
-        return self.execute("review.receipt", {"conclusion_id": conclusion_id, "actor": actor})
+    def review_receipt(self, claim_id, actor=None):
+        return self.execute("review.receipt", {"claim_id": claim_id, "actor": actor})
