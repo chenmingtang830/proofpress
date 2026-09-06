@@ -52,12 +52,14 @@ Proofpress interfaces make one boundary legible: evidence and model recommendati
 
 ### Public landing-page application
 
-The public landing page is a persuasion surface, not a compressed owner workspace. Its information architecture is: promise → compounding risk → human authority → bounded proof → GitHub install → published writing → brand film → contact. Each section should make one claim and earn the next scroll.
+The public landing page is a persuasion surface in the existing Boardroom Clarity identity. Its information architecture is: trust bottleneck → compounding risk → handoff problems → existing-stack gap → four-step mechanism and synthetic handoff specimen → separate architecture → qualified teams → bounded study → commercial partner invitation → collapsed local evaluation → published writing → brand film → final contact. Each section should make one claim and earn the next scroll.
 
-- Lead with one plain-language promise and two distinct actions. The primary action installs Proofpress; the secondary action jumps to evidence. Do not repeat the same GitHub destination under two labels.
-- Use authored editorial media for the hero, native HTML/CSS for evidence visualization, and real article/video assets later in the page. Generated atmosphere must not replace trust semantics.
-- Keep public evidence bounded. Name the frozen source, population, and comparison; disclose zoomed axes; order bars by the stated comparison; and never promote a limited study into a general benchmark claim.
-- Make the CLI the first-run path. Show one GitHub install command and one runnable demo command; the local review UI is optional follow-on material, not the hero promise.
+- Lead with one plain-language promise and two distinct actions. The primary action, “Join as an early design partner,” anchors to the commercial invitation at `#partners`; the secondary action opens the GitHub repository. The partner invitation and final contact action open the public Notion intake form.
+- Keep the four-step lifecycle on the dark product section, followed by a narrative handoff example and warm-paper claim specimen. Clearly label its synthetic evidence; show the proposer, human admission, permitted use, and excluded use, with attached evidence behind a native disclosure. Keep the separate architecture diagram focused on evidence, three gates, four interfaces, and downstream reuse.
+- Name the current ICP without implying validation: AI NeoLabs; AI-native professional services in legal, accounting, and consulting; regulated vertical AI in banking, insurance, and healthcare; and knowledge-intensive R&D in pharmaceuticals and biotech.
+- Use authored editorial media for the hero, native SVG for the explicitly illustrative compounding chart, HTML/CSS for the architecture and study visualization, and real article/video assets later in the page. Generated atmosphere must not replace trust semantics.
+- Keep public evidence bounded. The paired dot plot shows seven models ordered by uplift on an explicitly zoomed 75–100% rubric-completion scale, with numerical values and accessible descriptions. Distinguish 126 paired quality runs from 63 controlled stress pairs for unsafe propagation. Preserve the Harvey LAB-derived source and limited-study caveat beside the results.
+- Give the partner invitation priority over technical setup. Present hosted/managed and self-hosted options as topics for discussion. Follow it with a native disclosure, collapsed by default, containing the three-step Skill → MCP/CLI → synthetic workspace evaluation path; retain prerequisites, copy controls, expected outcome, and the separate contribution link inside that disclosure.
 - Preserve Boardroom Clarity responsively: editorial splits on wide screens, a single reading column on mobile, DM Sans for persuasion and task typography, IBM Plex Mono for proof metadata, and one cyan accent on a white institutional canvas.
 
 [//]: # (ob:ca5dbbae)
