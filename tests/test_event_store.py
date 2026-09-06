@@ -61,6 +61,36 @@ class EventStoreTests(unittest.TestCase):
             proposed["claim"]["id"], "admit", "human:owner")
         return self.kernel_ops.context_v2("store-parity", "agent:next")
 
+    def test_legacy_conclusion_events_still_project_and_dedupe(self):
+        quote = "The liability cap is one year of fees."
+        imported = self.kernel_ops.submit_evidence_v2(retrieval_payload())
+        legacy_event = {
+            "schema_version": self.kernel_ops.EVENT_SCHEMA,
+            "type": "conclusion_proposed",
+            "subject_ref": "knw_legacy0000000001",
+            "conclusion": {"id": "knw_legacy0000000001", "kind": "claim",
+                           "statement": "Legacy statement", "scope": "store-parity",
+                           "evidence_refs": [imported["evidence"][0]],
+                           "digest": "sha256:" + "c" * 64},
+            "proposer": "agent:legacy", "created_at": "2026-08-30T00:00:00Z",
+        }
+        store = self.store.GitEventStore() if hasattr(self.store, "GitEventStore") else self.store.MemoryEventStore()
+        legacy_event["event_id"] = self.kernel_ops._event_id(legacy_event)
+        store.append(legacy_event, message="seed legacy conclusion event", expected_head=store.head())
+        projection = self.kernel_ops.v2_projection()
+        self.assertIn("knw_legacy0000000001", projection["claims"])
+        # Re-proposing the same legacy subject with new-vocabulary type must
+        # dedupe against the legacy row, not raise or duplicate.
+        same = {"type": "claim_proposed", "subject_ref": "knw_legacy0000000001",
+                "claim": legacy_event["conclusion"], "proposer": "agent:legacy"}
+        prior = self.kernel_ops.append_v2(same)
+        self.assertEqual(prior["event_id"], legacy_event["event_id"])
+        # A changed payload for the same subject is an immutable conflict.
+        changed = {**same, "claim": {**legacy_event["conclusion"], "digest": "sha256:" + "d" * 64}}
+        with self.assertRaises(ValueError):
+            self.kernel_ops.append_v2(changed)
+        self.assertTrue(self.kernel_ops.submit_evidence_v2(retrieval_payload())["ok"])
+
     def test_memory_and_git_backends_preserve_lifecycle_results(self):
         git_context = self.lifecycle()
         git_events = self.kernel_ops.v2_events()

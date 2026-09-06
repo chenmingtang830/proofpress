@@ -485,7 +485,10 @@ def append_v2(event, existing_rows=None):
                       row.get("subject_ref") == event.get("subject_ref")), None)
         if prior:
             field = immutable[event["type"]]
-            if prior.get(field) != event.get(field):
+            # Legacy conclusion_proposed rows carry their payload under
+            # "conclusion"; compare against the legacy key before conflict.
+            prior_payload = prior.get(field, prior.get("conclusion") if field == "claim" else None)
+            if prior_payload != event.get(field):
                 raise ValueError(f"immutable {event['type']} conflict for {event.get('subject_ref')}")
             return prior
     event.setdefault("created_at", now())
@@ -650,7 +653,7 @@ def v2_projection(events=None):
         subject = event.get("subject_ref")
         if kind == "source_recorded": result["sources"][subject] = event["record"]
         elif kind == "evidence_bound": result["evidence"][subject] = event["evidence"]
-        elif kind in {"claim_proposed", "conclusion_proposed"}: result["claims"][subject] = event["claim"]
+        elif kind in {"claim_proposed", "conclusion_proposed"}: result["claims"][subject] = event.get("claim") or event.get("conclusion")
         elif kind == "policy_evaluated": result["evaluations"][subject] = event
         elif kind == "judge_recommended": result["recommendations"][subject] = event
         elif kind == "human_reviewed": result["reviews"][subject] = event
