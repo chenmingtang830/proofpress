@@ -173,9 +173,36 @@ class HostedControlPlane:
                 );
             """)
             review_policy.migrate(connection)
+            self._migrate_legacy_permissions(connection)
             connection.commit()
         finally:
             connection.close()
+
+    def _migrate_legacy_permissions(self, connection: sqlite3.Connection) -> None:
+        # Backward compatibility: credentials issued before the claim vocabulary
+        # consolidation (PR #131) stored the old conclusion.* operation names in
+        # permissions_json. Map those to the current claim.* names so existing
+        # agent credentials keep working after the rename.
+        legacy_map = {
+            "conclusion.propose": "claim.propose",
+            "conclusion.evaluate": "claim.evaluate",
+            "conclusion.judge": "claim.judge",
+            "conclusion.judge_batch": "claim.judge_batch",
+            "conclusion.review": "claim.review",
+            "conclusion.supersede": "claim.supersede",
+        }
+        rows = connection.execute(
+            "SELECT credential_id, permissions_json FROM hosted_credentials "
+            "WHERE permissions_json LIKE '%conclusion.%' AND revoked_at IS NULL"
+        ).fetchall()
+        for row in rows:
+            perms = set(json.loads(row["permissions_json"]))
+            new_perms = {legacy_map.get(p, p) for p in perms}
+            if new_perms != perms:
+                connection.execute(
+                    "UPDATE hosted_credentials SET permissions_json = ? "
+                    "WHERE credential_id = ?",
+                    (json.dumps(sorted(new_perms)), row["credential_id"]))
 
     @staticmethod
     def _oauth_hash(value: str) -> str:

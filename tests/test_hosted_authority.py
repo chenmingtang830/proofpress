@@ -196,5 +196,59 @@ class HostedAuthorityTests(unittest.TestCase):
         self.assertTrue(other["ok"])
 
 
+
+    def test_legacy_conclusion_permissions_migrated_to_claim_names(self):
+        # Simulate a credential issued before PR #131 (claim vocabulary
+        # consolidation), when agent operation names used conclusion.*.
+        legacy_perms = json.dumps(sorted([
+            "capabilities.get", "configuration.get", "evidence.submit",
+            "conclusion.propose", "conclusion.evaluate", "conclusion.judge",
+            "graph.get", "graph.traverse", "context.get", "context.discover",
+            "review.summary", "review.receipt",
+        ]))
+        connection = sqlite3.connect(self.database)
+        connection.row_factory = sqlite3.Row
+        try:
+            connection.execute(
+                "UPDATE hosted_credentials SET permissions_json = ? "
+                "WHERE credential_id = ?",
+                (legacy_perms, self.agent["credential_id"]))
+            connection.commit()
+        finally:
+            connection.close()
+
+        # Re-instantiating the control plane triggers _migrate, which should
+        # rewrite conclusion.* to claim.* in permissions_json.
+        from proofpress.hosted import control_plane
+        migrated = control_plane.HostedControlPlane(self.database)
+        imported = migrated.execute(
+            self.agent["token"],
+            operation("evidence.submit", {"payload": evidence_payload()},
+                      "legacy-evidence"))
+        self.assertTrue(imported["ok"])
+        evidence_id = imported["result"]["evidence"][0]
+        proposed = migrated.execute(
+            self.agent["token"], operation("claim.propose", {
+                "statement": "Legacy credential can still propose claims.",
+                "evidence_refs": [evidence_id], "scope": "legacy-migration",
+            }, "legacy-proposal"))
+        self.assertTrue(proposed["ok"])
+        self.assertEqual(
+            proposed["result"]["claim"]["proposer"], "agent:codex-laptop")
+
+        # Verify the stored permissions were actually rewritten.
+        connection = sqlite3.connect(self.database)
+        connection.row_factory = sqlite3.Row
+        try:
+            row = connection.execute(
+                "SELECT permissions_json FROM hosted_credentials "
+                "WHERE credential_id = ?",
+                (self.agent["credential_id"],)).fetchone()
+            perms = json.loads(row["permissions_json"])
+            self.assertIn("claim.propose", perms)
+            self.assertNotIn("conclusion.propose", perms)
+        finally:
+            connection.close()
+
 if __name__ == "__main__":
     unittest.main()
