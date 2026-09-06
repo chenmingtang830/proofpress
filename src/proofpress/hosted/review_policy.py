@@ -53,6 +53,11 @@ def migrate(connection):
     if "conclusion_id" in columns and "claim_id" not in columns:
         connection.execute(
             "ALTER TABLE hosted_judge_jobs RENAME COLUMN conclusion_id TO claim_id")
+    read_columns = {row["name"] for row in connection.execute(
+        "PRAGMA table_info(hosted_context_reads)")}
+    if "conclusion_ids_json" in read_columns and "claim_ids_json" not in read_columns:
+        connection.execute(
+            "ALTER TABLE hosted_context_reads RENAME COLUMN conclusion_ids_json TO claim_ids_json")
 
 
 def current(connection, workspace_id):

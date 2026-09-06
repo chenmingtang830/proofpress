@@ -78,6 +78,40 @@ class ReviewPolicyTests(unittest.TestCase):
             "claim_id": proposal["result"]["claim"]["id"]}))
         self.assertTrue(receipt["ok"])
 
+    def test_legacy_context_read_column_migrates_without_losing_activity(self):
+        legacy_path = Path(self.tmp.name) / "legacy-context-reads.db"
+        connection = sqlite3.connect(legacy_path)
+        try:
+            connection.execute("""
+                CREATE TABLE hosted_context_reads (
+                    read_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    workspace_id TEXT NOT NULL, actor TEXT NOT NULL,
+                    scope TEXT, conclusion_ids_json TEXT NOT NULL,
+                    created_at TEXT NOT NULL
+                )
+            """)
+            connection.execute(
+                "INSERT INTO hosted_context_reads(workspace_id,actor,scope,conclusion_ids_json,created_at) "
+                "VALUES(?,?,?,?,?)",
+                ("workspace:legacy", "agent:legacy", "legacy:scope",
+                 json.dumps(["knw-legacy"]), "2026-09-06T00:00:00Z"),
+            )
+            connection.commit()
+        finally:
+            connection.close()
+
+        migrated = HostedControlPlane(legacy_path)
+        owner = migrated.bootstrap("workspace:legacy", "human:owner")["token"]
+        with migrated._db() as connection:
+            columns = {row["name"] for row in connection.execute(
+                "PRAGMA table_info(hosted_context_reads)")}
+        self.assertIn("claim_ids_json", columns)
+        self.assertNotIn("conclusion_ids_json", columns)
+        activity = migrated.list_activity(owner)
+        read = next(row for row in activity if row["kind"] == "context_retrieved")
+        self.assertEqual(read["claim_ids"], ["knw-legacy"])
+        self.assertEqual(read["scope"], "legacy:scope")
+
     def test_owner_only_versioned_persistence_and_safe_public_config(self):
         with self.assertRaises(HostedAuthError):
             self.control.get_review_policy(self.agent)
