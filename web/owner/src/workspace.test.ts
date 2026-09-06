@@ -124,4 +124,15 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toMatch(/\.reviewTable td\.reviewScopeCell\s*\{\s*display:\s*none;/s);
     expect(css).toMatch(/\.reviewTable \.claimScopeInline\s*\{\s*display:\s*none;/s);
   });
+  it("uses proof typography only for evidence metadata", () => {
+    expect(source).toContain('className={`compactEvidenceExcerpt${open ? " expanded" : ""}`}');
+    expect(source).toContain('<EvidencePreview row={e} />');
+    expect(source).not.toContain('className="blockedAction"');
+    expect(source).not.toContain('<span>Source {String(i + 1).padStart(2, "0")}</span>');
+    expect(css).toMatch(/\.lmRationale > div > span\s*\{[^}]*var\(--font-ui\)/s);
+    expect(css).toMatch(/\.compactEvidenceExcerpt p\s*\{[^}]*-webkit-line-clamp:\s*3;/s);
+    expect(css).toMatch(/\.evidenceArgument\s*\{[^}]*margin:\s*28px 0 22px;[^}]*border:\s*1px solid var\(--line\);/s);
+    expect(source).toContain('<section className="reuseBoundary" aria-label="Proposed reuse boundary">');
+    expect(css).toMatch(/\.reuseBoundary\s*\{[^}]*margin:\s*20px 0 22px;[^}]*padding:\s*20px 0 0;/s);
+  });
 });
