@@ -45,6 +45,14 @@ def migrate(connection):
             last_four TEXT NOT NULL, updated_at TEXT NOT NULL
         );
     """)
+    # PR #131 renamed the governed entity from “conclusion” to “claim”.
+    # Existing hosted databases keep their SQLite tables across deployments, so
+    # CREATE TABLE IF NOT EXISTS above cannot update the old job column.
+    columns = {row["name"] for row in connection.execute(
+        "PRAGMA table_info(hosted_judge_jobs)")}
+    if "conclusion_id" in columns and "claim_id" not in columns:
+        connection.execute(
+            "ALTER TABLE hosted_judge_jobs RENAME COLUMN conclusion_id TO claim_id")
 
 
 def current(connection, workspace_id):
