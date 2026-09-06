@@ -506,8 +506,14 @@ td:last-child svg {
 .inspector {
   height: calc(100vh - 68px);
   overflow: auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--ink-3) transparent;
+  scrollbar-width: thin;
   background: var(--paper);
 }
+.inspector::-webkit-scrollbar { width: 9px; }
+.inspector::-webkit-scrollbar-track { background: transparent; }
+.inspector::-webkit-scrollbar-thumb { border: 2px solid transparent; border-radius: 999px; background: var(--ink-3); background-clip: padding-box; }
 .mobileBack {
   display: none;
 }
@@ -530,6 +536,7 @@ td:last-child svg {
   color: var(--ink-2);
   font-size: 11px;
 }
+.inspectorTop .reviewEntry { margin-top: 18px; }
 .mono {
   font-family: var(--font-proof);
 }
@@ -642,6 +649,12 @@ td:last-child svg {
 .lmRationale > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .lmRationale > div > span, .lmRationale small, .decisionHint { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 11px; }
 .lmRationale small { display: block; margin-top: 10px; color: var(--ink-3); }
+.inspector:not(.fullReview) .lmRationale p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+}
 .decisionHint { display: block; margin-top: 8px; color: var(--ink-3); line-height: 1.45; }
 @keyframes lm-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .lmSpinner { animation: none; border-top-color: var(--line); background: var(--accent); } }
