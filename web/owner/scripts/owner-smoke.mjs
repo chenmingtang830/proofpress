@@ -88,7 +88,7 @@ try {
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
   assert.match(page.url(), /view=full/);
   await page.reload();
-  await page.locator('.evidenceRow > p').filter({hasText:'Browser fixture approve:'}).waitFor();
+  await page.locator('.evidenceRow .expandableText > p').filter({hasText:'Browser fixture approve:'}).waitFor();
   const seededReceipt = await (await page.request.get(`${data.base}/owner/api/conclusions/${data.ids[0]}`)).json();
   await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:null,judge_job:{state:'running',detail:''}}}}));
   await page.reload();
