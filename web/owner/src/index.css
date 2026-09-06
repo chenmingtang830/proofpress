@@ -1255,6 +1255,45 @@ td:last-child svg {
 .error svg {
   width: 14px;
 }
+.decisionNotice {
+  position: fixed;
+  top: 78px;
+  left: 50%;
+  z-index: 79;
+  display: flex;
+  width: min(calc(100vw - 24px), 560px);
+  transform: translateX(-50%);
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--ink);
+  padding: 11px 14px;
+  color: var(--paper);
+  box-shadow: 0 12px 30px rgba(32, 34, 43, 0.18);
+  font-size: 14px;
+}
+.decisionNotice span {
+  margin-right: auto;
+  font-weight: 650;
+}
+.decisionNotice span small {
+  margin-left: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 450;
+}
+.decisionNotice button {
+  min-height: 32px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
 .empty {
   padding: 32px;
   color: var(--ink-2);
