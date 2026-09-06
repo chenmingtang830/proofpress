@@ -220,6 +220,12 @@ enterprise collaboration product. For the Render Blueprint, bootstrap flow,
 credentials, backup/export, recovery, MCP, and security boundary, read
 [Self-hosting](docs/SELF_HOSTING.md).
 
+For repeatable owner-UI review on localhost, run `npm run preview:local` from
+`web/owner`. The first run creates one owner credential and persistent synthetic
+workspace under `.proofpress/local-preview/`; later runs reuse both instead of
+rotating the credential. The local credential file is mode `0600` and ignored
+by Git. The isolated browser test fixtures remain ephemeral.
+
 ### Self-host in three steps
 
 1. Deploy this repository with [`render.yaml`](render.yaml), or use the

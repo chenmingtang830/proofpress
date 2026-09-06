@@ -44,7 +44,7 @@
 .graphInspector { padding:24px; }
 .graphInspector h2 { font-size:24px; line-height:1.25; margin:24px 0; overflow-wrap:anywhere; }
 .graphInspector p { line-height:1.6; overflow-wrap:anywhere; }
-.ledgerViews button { background:transparent; color:var(--ink-2); border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 0; height:42px; font-weight:500; box-shadow:none; }
+.ledgerViews button { background:transparent; color:var(--ink-2); border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 0; min-height:44px; font-weight:500; box-shadow:none; }
 .ledgerViews button[aria-pressed="true"] { color:var(--accent); border-bottom-color:var(--accent); }
 .lineageCanvas { padding:0; }
 .lineageToolbar { margin:0; padding:16px 24px; border-bottom:1px solid var(--line); }
@@ -136,7 +136,7 @@
 .policyFields.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .policyFields .wide { grid-column:1/-1; }
 .policyFields label { display: grid; gap: 8px; font-size: 13px; }
-.policyFields input, .policyFields select, .providerCredential input { height:40px; width:100%; min-width:0; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); padding:0 12px; font:inherit; }
+.policyFields input, .policyFields select, .providerCredential input { height:44px; width:100%; min-width:0; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); padding:0 12px; font:inherit; }
 .providerCredential { display:grid; grid-template-columns:minmax(260px,1fr) 1.3fr; align-items:end; gap:8px 20px; padding:16px; background:var(--card); border:1px solid var(--line); border-radius:6px; }
 .providerCredential > label:first-child { display:grid; gap:8px; font-size:13px; }
 .providerCredential p { margin:0; font-size:12px; }
@@ -144,7 +144,7 @@
 .criteriaLabel { display:grid; gap:8px; font-size:13px; }
 .criteriaLabel textarea, .policyPrompt textarea { width:100%; min-height:112px; resize:vertical; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); padding:12px; font:13px/1.5 var(--font-ui); }
 .agentPolicyDraft { margin-top:20px; border-top:1px solid var(--line); padding-top:16px; }
-.agentPolicyDraft summary { cursor:pointer; color:var(--accent); font-size:13px; font-weight:600; }
+.agentPolicyDraft summary { display:flex; min-height:44px; align-items:center; cursor:pointer; color:var(--accent); font-size:13px; font-weight:600; }
 .agentPolicyDraft > p { font-size:13px; }
 .policyPrompt { display:grid; grid-template-columns:minmax(0,1fr) max-content; align-items:end; gap:12px; margin:12px 0 20px; }
 .policyPrompt button svg { width:16px; height:16px; }
@@ -170,5 +170,6 @@
 .activitySubject { display: block; max-width: 64ch; margin: 8px 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .activityTable td small { display:block; margin-top:6px; }
 .activityTable details { margin-top:8px; max-width:64ch; }
-@media(max-width: 600px) { .activityTable table,.activityTable tbody { display:block; } .activityTable thead { display:none; } .activityTable tr { display:block; padding:16px; border-bottom:1px solid var(--line); } .activityTable td { display:block; padding:3px 0; border:0; font-size:14px; } .activityTable td::before { display:none; } .activityTable td[data-label="Time"] { color:var(--ink-2); font-size:12px; } .activityTable td[data-label="Actor"] { margin-top:8px; } .activityTable td[data-label="Result"] { margin-top:10px; } .activityTable .activitySubject { font-size:15px; line-height:1.45; } }
+.activityTable details summary { display:flex; min-height:44px; align-items:center; cursor:pointer; color:var(--accent); }
+@media(max-width: 600px) { .activityTable table,.activityTable tbody { display:block; } .activityTable thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; } .activityTable tr { display:flex; flex-wrap:wrap; gap:0 16px; padding:16px; border-bottom:1px solid var(--line); } .activityTable td,.activityTable td:last-child,.activityTable td:not(:first-child):not(:last-child) { display:block; position:static; margin:0; padding:4px 0; border:0; font-size:14px; overflow-wrap:anywhere; } .activityTable td::before { display:block; margin-bottom:3px; color:var(--ink-2); content:attr(data-label); font:500 9px/1.4 var(--font-proof); letter-spacing:.08em; text-transform:uppercase; } .activityTable td[data-label="What happened"] { order:1; flex:0 0 100%; } .activityTable td[data-label="Time"] { order:2; flex:1 1 150px; color:var(--ink-2); font-size:12px; } .activityTable td[data-label="Result"] { order:3; flex:0 0 auto; } .activityTable td[data-label="Actor"] { order:4; flex:0 0 100%; margin-top:4px; } .activityTable .activitySubject { display:-webkit-box; overflow:hidden; font-size:15px; line-height:1.45; -webkit-box-orient:vertical; -webkit-line-clamp:3; } }
 @media(max-width: 700px) { .reviewPolicy { padding:20px; } .policyFields,.policyFields.three,.providerCredential,.policyPrompt { grid-template-columns:1fr; } .policyFooter,.policyHeading { align-items:flex-start; flex-direction:column; } .policyPrompt button { justify-self:start; } }

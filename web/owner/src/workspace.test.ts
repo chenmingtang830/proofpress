@@ -21,7 +21,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Search claims or IDs");
     expect(source).not.toContain("Inspect receipt");
     expect(source).toContain('"needs_revision"');
-    expect(source).toContain('<Button className="reviewEntry" variant="approve" onClick={onOpenFull}>Open full review</Button>');
+    expect(source).toContain('<Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button>');
     expect(source).toContain("Run optional LM review");
     expect(source).toContain("Set up LM review");
     expect(source).toContain("Needs revision");

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "preview:local": "npm run build && PYTHONPATH=../../src python3 scripts/owner-local.py",
     "build": "tsc --noEmit && vite build && node scripts/clean-dist.mjs",
     "test": "vitest run",
     "test:review-scroll": "node scripts/review-scroll-smoke.mjs",

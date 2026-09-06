@@ -9,6 +9,7 @@ const variants = cva(
         default: "border border-[var(--ink)] bg-[var(--ink)] text-white hover:bg-[#2A2D33]",
         outline: "border border-[var(--line)] bg-white text-[var(--ink)] hover:bg-[var(--wash)]",
         request: "border border-[var(--accent)] bg-white text-[var(--accent)] hover:bg-[var(--accent-soft)]",
+        accent: "border border-[var(--accent)] bg-[var(--accent)] text-white hover:bg-[var(--accent-strong)]",
         ghost: "text-[var(--ink-2)] hover:bg-[var(--wash)] hover:text-[var(--ink)]",
         danger: "border border-[var(--del)] bg-white text-[var(--del)] hover:bg-[var(--del-bg)]",
         approve: "border border-[var(--accent)] bg-[var(--accent)] text-white hover:bg-[var(--accent-strong)]",
