@@ -42,7 +42,14 @@ describe("Proofpress owner workspace contract", () => {
   it("keeps the full-review entry visible before long LM advice", () => {
     expect(source.indexOf('className="reviewEntry"')).toBeLessThan(source.indexOf('className="lmRationale"'));
     expect(css).toContain("scrollbar-gutter: stable");
-    expect(css).toContain("-webkit-line-clamp: 7");
+    expect(css).toContain("-webkit-line-clamp: 4");
+  });
+  it("uses progressive disclosure for long review material", () => {
+    expect(source).toContain("Read full LM rationale");
+    expect(source).toContain('className="revisionDisclosure"');
+    expect(source).toContain('label="Show full excerpt"');
+    expect(source).toContain("Read the complete advisory rationale in the review summary above.");
+    expect(css).toContain(".expandableText p");
   });
   it("explains evidence and downstream consequence before authority changes", () => {
     expect(source).toContain("How knowledge moves through Proofpress");

@@ -360,6 +360,10 @@ main {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.conclusionScopeInline { display: none; }
+.reviewWorkspace:not(.overviewOnly) .conclusionScopeInline { display: inline; }
+.reviewWorkspace:not(.overviewOnly) .work th:nth-child(3),
+.reviewWorkspace:not(.overviewOnly) .work td:nth-child(3) { display: none; }
 .inspector:not(.fullReview) .inspectorTop h2 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -380,11 +384,22 @@ main {
   box-shadow: none;
 }
 .fullReview .inspectorTop .fullStatement {
-  font-size: 16px;
-  line-height: 1.65;
+  font-size: 20px;
+  line-height: 1.45;
   color: var(--ink);
-  max-width: 75ch;
+  max-width: 68ch;
 }
+.revisionDisclosure { border-bottom: 1px solid var(--line); }
+.revisionDisclosure > summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 17px 24px; cursor: pointer; list-style: none; }
+.revisionDisclosure > summary::-webkit-details-marker { display: none; }
+.revisionDisclosure > summary span { font-weight: 600; }
+.revisionDisclosure > summary small { color: var(--ink-3); text-align: right; }
+.revisionDisclosure > summary::after { content: "+"; color: var(--ink-2); font-size: 18px; }
+.revisionDisclosure[open] > summary::after { content: "−"; }
+.revisionDisclosure .revisionSection { border: 0; padding-top: 0; }
+.revisionDisclosure dl { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.revisionDisclosure dt { color: var(--ink-2); font-size: 11px; }
+.revisionDisclosure dd { margin: 4px 0 0; overflow-wrap: anywhere; font-size: 12px; }
 .revisionSection { padding: 24px; border-bottom: 1px solid var(--line); }
 .handoffInstructions textarea { width: 100%; min-height: 140px; max-height: 240px; padding: 12px; margin: 12px 0; border: 1px solid var(--line); background: var(--surface, #fff); color: inherit; font: inherit; font-size: 13px; line-height: 1.5; resize: vertical; }
 .recorded.revisionRecorded { color: var(--ink); background: var(--surface, #fff); }
@@ -403,15 +418,16 @@ main {
 }
 .filterbar {
   display: flex;
-  height: 52px;
+  min-height: 52px;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   border: 1px solid var(--line);
   border-bottom: 0;
   border-radius: 7px 7px 0 0;
   background: #fff;
   padding: 8px;
 }
+.filterbar button { min-height: 36px; padding-inline: 13px; white-space: nowrap; }
 .filterbar label {
   display: flex;
   height: 34px;
@@ -441,11 +457,13 @@ main {
   padding: 0 9px;
 }
 .filterbar > span {
+  margin-left: auto;
   padding: 0 6px;
   color: var(--ink-3);
   font-size: 11px;
   white-space: nowrap;
 }
+.reviewWorkspace:not(.overviewOnly) .filterbar > span { display: none; }
 .tableWrap {
   overflow: auto;
   border: 1px solid var(--line);
@@ -597,6 +615,16 @@ td:last-child svg {
   font-size: 13px;
   line-height: 1.65;
 }
+.expandableText p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+.expandableText.expanded p { display: block; }
+.expandableText > button { min-height: 32px; border: 0; background: transparent; padding: 4px 0; color: var(--accent); font: inherit; font-size: 11px; cursor: pointer; }
+.expandableText > button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.expandableText > button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .evidenceRow small {
   color: var(--ink-2);
   font-size: 10px;
@@ -653,7 +681,7 @@ td:last-child svg {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
+  -webkit-line-clamp: 4;
 }
 .decisionHint { display: block; margin-top: 8px; color: var(--ink-3); line-height: 1.45; }
 @keyframes lm-spin { to { transform: rotate(360deg); } }
