@@ -989,6 +989,7 @@ function Inspector({
           Proposed by {r.conclusion.proposer || "agent"} ·{" "}
           <span className="mono">{r.conclusion.id}</span>
         </p>
+        {onOpenFull && !fullReview && <Button className="reviewEntry" variant="approve" onClick={onOpenFull}>Open full review</Button>}
       </div>
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
@@ -1005,7 +1006,6 @@ function Inspector({
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
             : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
             : <>
-              {onOpenFull && !fullReview && <Button variant="approve" onClick={onOpenFull}>Open full review</Button>}
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
                 ? <Button variant="outline" onClick={onConfigurePolicy}>Set up LM review</Button>
                 : judgeFailed && onJudge

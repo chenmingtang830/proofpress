@@ -21,7 +21,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Search conclusions or IDs");
     expect(source).not.toContain("Inspect receipt");
     expect(source).toContain('"needs_revision"');
-    expect(source).toContain('<Button variant="approve" onClick={onOpenFull}>Open full review</Button>');
+    expect(source).toContain('<Button className="reviewEntry" variant="approve" onClick={onOpenFull}>Open full review</Button>');
     expect(source).toContain("Run optional LM review");
     expect(source).toContain("Set up LM review");
     expect(source).toContain("Needs revision");
@@ -38,6 +38,11 @@ describe("Proofpress owner workspace contract", () => {
   });
   it("lets the outer stage scroll the full review surface", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
+  });
+  it("keeps the full-review entry visible before long LM advice", () => {
+    expect(source.indexOf('className="reviewEntry"')).toBeLessThan(source.indexOf('className="lmRationale"'));
+    expect(css).toContain("scrollbar-gutter: stable");
+    expect(css).toContain("-webkit-line-clamp: 7");
   });
   it("explains evidence and downstream consequence before authority changes", () => {
     expect(source).toContain("How knowledge moves through Proofpress");
