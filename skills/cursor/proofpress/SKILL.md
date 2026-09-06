@@ -72,7 +72,7 @@ content or why. Never snapshot source-code files.
 Before continuing a governed multi-agent workflow, request scoped context with
 `python3 proofpress.py context --scope <scope> --actor <agent-id> --format json`.
 Treat only `knowledge` rows as eligible inherited context. Do not resurrect
-blocked, rejected, expired, unresolved, or superseded conclusions; follow each
+blocked, rejected, expired, unresolved, or superseded claims; follow each
 blocked row's `required_action` instead.
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzBjOWVkZjdkMzE1YWIwM2UwY2EwNmM4OCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjlkNDg5ODI5IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV85MTMxYWFmOTU1ZmI1YmZlNzllOTUyOWEiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzhhNGQyODYyMTE2NjE3MGI3NzlhOWY2MSIsInByb29mcHJlc3MiOjF9)

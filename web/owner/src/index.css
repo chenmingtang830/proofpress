@@ -26,16 +26,16 @@
 .lineageToolbar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; font-size: 13px; color: var(--ink-2); }
 .lineageToolbar input { accent-color: var(--accent); }
 .lineageOverview section + section { margin-top: 32px; }
-.lineageOverview h2, .relatedConclusions h2 { font: 600 18px/1.5 var(--font-ui); margin: 0 0 16px; overflow-wrap: anywhere; }
+.lineageOverview h2, .relatedClaims h2 { font: 600 18px/1.5 var(--font-ui); margin: 0 0 16px; overflow-wrap: anywhere; }
 .lineageOverview h2 small { font: 12px/1.5 ui-sans-serif, sans-serif; color: var(--ink-2); margin-left: 12px; }
-.conclusionNodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-bottom: 16px; }
-.conclusionNode { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; padding: 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
-.conclusionNode strong { font: 600 17px/1.45 var(--font-ui); overflow-wrap: anywhere; }
-.conclusionNode small { color: var(--ink-2); }
-.conclusionNode:hover { border-color: var(--accent); }
-.relatedConclusions { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
-.relatedConclusions button { display: flex; flex-direction: column; gap: 8px; text-align: left; width: 100%; padding: 16px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; cursor: pointer; }
-.relatedConclusions span { font-size: 12px; color: var(--ink-2); }
+.claimNodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-bottom: 16px; }
+.claimNode { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; padding: 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.claimNode strong { font: 600 17px/1.45 var(--font-ui); overflow-wrap: anywhere; }
+.claimNode small { color: var(--ink-2); }
+.claimNode:hover { border-color: var(--accent); }
+.relatedClaims { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
+.relatedClaims button { display: flex; flex-direction: column; gap: 8px; text-align: left; width: 100%; padding: 16px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; cursor: pointer; }
+.relatedClaims span { font-size: 12px; color: var(--ink-2); }
 @media (max-width: 1200px) {
   .lineageFlow { grid-template-columns: minmax(0, 1fr); }
   .lineageArrow { transform: rotate(90deg); justify-self: center; }
@@ -343,7 +343,7 @@ main {
 .workspacePage.overviewOnly {
   grid-template-columns: minmax(0, 1fr);
 }
-.conclusionSelect {
+.claimSelect {
   display: block;
   width: 100%;
   border: 0;
@@ -354,14 +354,14 @@ main {
   font-weight: 600;
   cursor: pointer;
 }
-.conclusionSelect {
+.claimSelect {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.conclusionScopeInline { display: none; }
-.reviewWorkspace:not(.overviewOnly) .conclusionScopeInline { display: inline; }
+.claimScopeInline { display: none; }
+.reviewWorkspace:not(.overviewOnly) .claimScopeInline { display: inline; }
 .reviewWorkspace:not(.overviewOnly) .work th:nth-child(3),
 .reviewWorkspace:not(.overviewOnly) .work td:nth-child(3) { display: none; }
 .inspector:not(.fullReview) .inspectorTop h2 {
@@ -409,11 +409,11 @@ main {
 .revisionSection p { line-height: 1.6; overflow-wrap: anywhere; }
 .revisionSection textarea { width: 100%; min-height: 150px; padding: 12px; margin: 12px 0; border: 1px solid var(--line); }
 .revisionSection button { display: block; height: auto; white-space: normal; margin-top: 8px; text-align: left; }
-.conclusionSelect:focus-visible {
+.claimSelect:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
-.inspector, .conclusionSelect, .conclusionNode {
+.inspector, .claimSelect, .claimNode {
   overflow-wrap: anywhere;
 }
 .filterbar {
@@ -1537,8 +1537,8 @@ td small {
 .orientation strong,
 .sectionTitle h2,
 .lineageOverview h2,
-.relatedConclusions h2,
-.conclusionNode strong,
+.relatedClaims h2,
+.claimNode strong,
 .assistantHead h2,
 .assistantEmpty h3,
 .homeConversation h1 {
@@ -1570,7 +1570,7 @@ td small {
 .issueForm,
 .boundary,
 .lineageCanvas,
-.conclusionNode,
+.claimNode,
 .lineageFlow article,
 .chatComposer,
 .recommendation {
@@ -1611,7 +1611,7 @@ tbody tr.selected td:first-child b {
   line-height: 1;
 }
 
-.knowledgePath {
+.claimsPath {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0 0 24px;
@@ -1619,20 +1619,20 @@ tbody tr.selected td:first-child b {
   border: 1px solid var(--line);
   background: var(--paper);
   list-style: none;
-  counter-reset: knowledge-step;
+  counter-reset: claim-step;
 }
 
-.knowledgePath li {
+.claimsPath li {
   min-width: 0;
   padding: 18px 20px 20px;
-  counter-increment: knowledge-step;
+  counter-increment: claim-step;
 }
 
-.knowledgePath li + li {
+.claimsPath li + li {
   border-left: 1px solid var(--line);
 }
 
-.knowledgePath span {
+.claimsPath span {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -1643,18 +1643,18 @@ tbody tr.selected td:first-child b {
   text-transform: uppercase;
 }
 
-.knowledgePath span::before {
-  content: counter(knowledge-step, decimal-leading-zero);
+.claimsPath span::before {
+  content: counter(claim-step, decimal-leading-zero);
   color: var(--accent);
 }
 
-.knowledgePath strong {
+.claimsPath strong {
   display: block;
   color: var(--ink);
   font: 600 15px/1.35 var(--font-ui);
 }
 
-.knowledgePath p {
+.claimsPath p {
   max-width: 36ch;
   margin: 7px 0 0;
   color: var(--ink-2);
@@ -1877,11 +1877,11 @@ tbody tr.selected td:first-child b {
 }
 
 @media (max-width: 680px) {
-  .knowledgePath {
+  .claimsPath {
     grid-template-columns: 1fr;
   }
 
-  .knowledgePath li + li {
+  .claimsPath li + li {
     border-top: 1px solid var(--line);
     border-left: 0;
   }

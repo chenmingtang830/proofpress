@@ -424,7 +424,7 @@ interpretation while leaving the original record visible.
 ### 8.2 Supersession
 
 [//]: # (ob:2218bf81)
-When a conclusion or body later changes, create a new version and declare what
+When a claim or body later changes, create a new version and declare what
 it supersedes. The old version remains a historical fact but is no longer the
 current head.
 
@@ -440,7 +440,7 @@ make these limits explicit:
 - Old copies may still contain the original text.
 - Removing the payload may leave some history only partially verifiable.
 - An ordinary hash must not masquerade as secure deletion, especially for
-  low-entropy content such as names, short conclusions, or API keys.
+  low-entropy content such as names, short claims, or API keys.
 - V1 does not promise crypto-shredding or remote deletion.
 
 [//]: # (ob:4779c987)

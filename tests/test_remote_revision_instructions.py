@@ -20,7 +20,7 @@ class RevisionInstructionsTests(unittest.TestCase):
         self.assertIn('"revision_request_ref": "evt_request"', output.getvalue())
         self.assertIn("Limit to population A.", output.getvalue())
         self.assertIn("Do not approve or overwrite", output.getvalue())
-        client.review_conclusion.assert_not_called()
+        client.review_claim.assert_not_called()
 
     def test_missing_request_fails_without_fabricated_instructions(self):
         client = Mock()

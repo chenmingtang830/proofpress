@@ -5,7 +5,7 @@ import json
 import re
 from typing import Any
 
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 
 
 PROTOCOL_VERSION = "2025-06-18"
@@ -62,20 +62,20 @@ RETRIEVAL_EVIDENCE_SCHEMA = {
 TOOLS = [
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
     {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
-    {"name": "proofpress_propose_conclusion", "description": "Propose an evidence-bound conclusion; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected conclusion; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": {"type": "object", "description": "Discovery card: title, description, when_relevant, keywords, validity_conditions."}, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected conclusion this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["statement", "evidence_refs"]}},
+    {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": {"type": "object", "description": "Discovery card: title, description, when_relevant, keywords, validity_conditions."}, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["statement", "evidence_refs"]}},
     {"name": "proofpress_discover_context", "description": "List only admitted, current, actor-eligible context cards. Use task to rank semantic relevance; visibility is still enforced before discovery.", "inputSchema": {"type": "object", "properties": {"task": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 100}}}},
     {"name": "proofpress_get_context", "description": "Return admitted, current context eligible for this agent. Scope is an optional legacy exact filter, not required for discovery.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}, "task": {"type": "string"}}}},
-    {"name": "proofpress_get_graph", "description": "Return the bounded evidence, conclusion, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
-    {"name": "proofpress_traverse_graph", "description": "Traverse admitted conclusion relations from seed conclusions with server-enforced eligibility limits.", "inputSchema": {"type": "object", "properties": {"seed_ids": {"type": "array", "items": {"type": "string"}}, "scope": {"type": "string"}, "task": {"type": "string"}, "max_depth": {"type": "integer", "minimum": 0}, "max_claims": {"type": "integer", "minimum": 1}}, "required": ["seed_ids"]}},
-    {"name": "proofpress_get_lineage", "description": "Trace one conclusion back through all bound and derived evidence to its source records.", "inputSchema": {"type": "object", "properties": {"conclusion_id": {"type": "string"}}, "required": ["conclusion_id"]}},
+    {"name": "proofpress_get_graph", "description": "Return the bounded evidence, claim, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
+    {"name": "proofpress_traverse_graph", "description": "Traverse admitted claim relations from seed claims with server-enforced eligibility limits.", "inputSchema": {"type": "object", "properties": {"seed_ids": {"type": "array", "items": {"type": "string"}}, "scope": {"type": "string"}, "task": {"type": "string"}, "max_depth": {"type": "integer", "minimum": 0}, "max_claims": {"type": "integer", "minimum": 1}}, "required": ["seed_ids"]}},
+    {"name": "proofpress_get_lineage", "description": "Trace one claim back through all bound and derived evidence to its source records.", "inputSchema": {"type": "object", "properties": {"claim_id": {"type": "string"}}, "required": ["claim_id"]}},
     {"name": "proofpress_get_review_summary", "description": "Read review-state counts without making an authority decision.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
-    {"name": "proofpress_get_review_receipt", "description": "Read evidence, checks, advice, state, and authority receipt for a conclusion.", "inputSchema": {"type": "object", "properties": {"conclusion_id": {"type": "string"}}, "required": ["conclusion_id"]}},
-    {"name": "proofpress_get_review_link", "description": "Create a browser link for the human owner; this tool cannot approve.", "inputSchema": {"type": "object", "properties": {"conclusion_id": {"type": "string"}}, "required": ["conclusion_id"]}},
+    {"name": "proofpress_get_review_receipt", "description": "Read evidence, checks, advice, state, and authority receipt for a claim.", "inputSchema": {"type": "object", "properties": {"claim_id": {"type": "string"}}, "required": ["claim_id"]}},
+    {"name": "proofpress_get_review_link", "description": "Create a browser link for the human owner; this tool cannot approve.", "inputSchema": {"type": "object", "properties": {"claim_id": {"type": "string"}}, "required": ["claim_id"]}},
 ]
 
 
 def _request(operation: str, parameters: dict[str, Any], args: dict[str, Any]):
-    request = {"schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+    request = {"schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                "operation": operation, "parameters": parameters}
     if args.get("idempotency_key"):
         request["idempotency_key"] = args["idempotency_key"]
@@ -90,16 +90,16 @@ def _execute(control, context, operation, parameters, args=None):
     return envelope["result"]
 
 
-def _lineage(control, context, conclusion_id: str):
+def _lineage(control, context, claim_id: str):
     receipt = _execute(control, context, "review.receipt",
-                       {"conclusion_id": conclusion_id, "actor": "server-derived"})
+                       {"claim_id": claim_id, "actor": "server-derived"})
     graph = _execute(control, context, "graph.get",
-                     {"scope": receipt["conclusion"].get("scope"), "actor": "server-derived"})
+                     {"scope": receipt["claim"].get("scope"), "actor": "server-derived"})
     incoming: dict[str, list[dict[str, Any]]] = {}
     for edge in graph.get("edges", []):
         incoming.setdefault(edge["to"], []).append(edge)
-    wanted = {conclusion_id}
-    pending = [conclusion_id]
+    wanted = {claim_id}
+    pending = [claim_id]
     lineage_edges = []
     while pending:
         current = pending.pop()
@@ -112,8 +112,8 @@ def _lineage(control, context, conclusion_id: str):
                 wanted.add(edge["from"])
                 pending.append(edge["from"])
     nodes = [row for row in graph.get("nodes", []) if row["id"] in wanted]
-    return {"conclusion_id": conclusion_id, "state": receipt["state"],
-            "scope": receipt["conclusion"].get("scope"),
+    return {"claim_id": claim_id, "state": receipt["state"],
+            "scope": receipt["claim"].get("scope"),
             "nodes": nodes, "edges": lineage_edges,
             "evidence": receipt.get("evidence", []),
             "ledger_head": receipt.get("ledger_head")}
@@ -130,7 +130,7 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
                 "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
         return _execute(control, context, "evidence.submit", {
             "payload": args["payload"], "profile": profile}, args)
-    if name == "proofpress_propose_conclusion":
+    if name == "proofpress_propose_claim":
         evidence_refs = args.get("evidence_refs")
         if (not isinstance(evidence_refs, list) or not evidence_refs or
                 any(not isinstance(ref, str) or
@@ -143,7 +143,7 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
             "statement", "evidence_refs", "scope", "expires_at",
             "artifact_refs", "applicability", "reproposal_of", "qualifiers", "profile")}
         parameters["proposer"] = "server-derived"
-        return _execute(control, context, "conclusion.propose", parameters, args)
+        return _execute(control, context, "claim.propose", parameters, args)
     if name == "proofpress_discover_context":
         return _execute(control, context, "context.discover", {
             "actor": "server-derived", "task": args.get("task"),
@@ -162,20 +162,20 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
             "max_depth": args.get("max_depth", 2),
             "max_claims": args.get("max_claims", 48), "state": "admitted"})
     if name == "proofpress_get_lineage":
-        return _lineage(control, context, args["conclusion_id"])
+        return _lineage(control, context, args["claim_id"])
     if name == "proofpress_get_review_summary":
         return _execute(control, context, "review.summary", {
             "scope": args.get("scope"), "actor": "server-derived"})
     if name == "proofpress_get_review_receipt":
         return _execute(control, context, "review.receipt", {
-            "conclusion_id": args["conclusion_id"], "actor": "server-derived"})
+            "claim_id": args["claim_id"], "actor": "server-derived"})
     if name == "proofpress_get_review_link":
-        conclusion_id = args["conclusion_id"]
+        claim_id = args["claim_id"]
         receipt = _execute(control, context, "review.receipt", {
-            "conclusion_id": conclusion_id, "actor": "server-derived"})
-        return {"conclusion_id": conclusion_id, "state": receipt["state"],
+            "claim_id": claim_id, "actor": "server-derived"})
+        return {"claim_id": claim_id, "state": receipt["state"],
                 "requires_human_owner": True,
-                "url": base_url.rstrip("/") + "/review?conclusion_id=" + conclusion_id}
+                "url": base_url.rstrip("/") + "/review?claim_id=" + claim_id}
     raise ValueError("unknown Proofpress MCP tool")
 
 
@@ -189,7 +189,7 @@ def handle_rpc(control, context, request: dict[str, Any], base_url: str):
             result = {"protocolVersion": PROTOCOL_VERSION,
                       "capabilities": {"tools": {"listChanged": False}},
                       "serverInfo": SERVER_INFO,
-                      "instructions": "Submit bounded evidence, propose conclusions, and retrieve only governed context. Human Approval is never exposed."}
+                      "instructions": "Submit bounded evidence, propose claims, and retrieve only governed context. Human Approval is never exposed."}
         elif method == "ping":
             result = {}
         elif method == "tools/list":

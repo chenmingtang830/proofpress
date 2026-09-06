@@ -51,7 +51,7 @@ curl -fsSL \
 ```
 
 Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
-the durable decisions, validated conclusions, integration contracts,
+the durable decisions, validated claims, integration contracts,
 reproducible results, and incident learnings that belong in that repository's
 Proofpress workflow. The core skill reads this file before choosing `Draft
 only` or `Propose`.
@@ -125,15 +125,15 @@ OAuth sessions immediately.
 
 ## Authority boundary
 
-Remote MCP exposes evidence submission, conclusion proposal, governed-context
+Remote MCP exposes evidence submission, claim proposal, governed-context
 retrieval, bounded graph and lineage reads, and review links. It never exposes
 Human Approval, policy mutation, credential administration, or recovery.
 
-`proofpress_propose_conclusion` accepts `reproposal_of` when an agent is
-submitting a corrected successor to a rejected conclusion. The referenced
+`proofpress_propose_claim` accepts `reproposal_of` when an agent is
+submitting a corrected successor to a rejected claim. The referenced
 predecessor must exist, be rejected, and use the same scope. Proofpress records
 the lineage and supplies the prior rejection reason to the advisory Judge, but
-does not reopen, overwrite, or approve either conclusion. The new candidate
+does not reopen, overwrite, or approve either claim. The new candidate
 must bind at least one evidence reference not present on the predecessor and
 include a non-empty `qualifiers.reproposal_response` explaining how that new
 evidence addresses the recorded rejection. It still requires a fresh human
@@ -156,9 +156,9 @@ identity; new proposals do not configure per-knowledge reader lists. Historical
 rows that already contain a restrictive `allowed_actors` value retain that
 legacy restriction until an owner explicitly migrates them. Semantic matching
 never broadens access. After selecting a card, the agent still reads governed
-context and its receipt before relying on the conclusion.
+context and its receipt before relying on the claim.
 
-`proofpress_get_lineage` follows one conclusion backward through `supports`,
+`proofpress_get_lineage` follows one claim backward through `supports`,
 `derived_from`, and `bound_as` edges to the original source records.
-`proofpress_traverse_graph` follows admitted conclusion-to-conclusion relations
+`proofpress_traverse_graph` follows admitted claim-to-claim relations
 with server-enforced actor, scope, state, depth, and result limits.

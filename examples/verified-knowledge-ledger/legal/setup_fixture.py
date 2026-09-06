@@ -16,7 +16,7 @@ REVIEWER = "human:legal-lead"
 
 
 def add(statement, evidence_ref):
-    return ledger.propose_v2(statement, [evidence_ref], SCOPE, PROPOSER)["conclusion"]["id"]
+    return ledger.propose_v2(statement, [evidence_ref], SCOPE, PROPOSER)["claim"]["id"]
 
 
 def bind(path):

@@ -80,9 +80,9 @@ class RepoDogfoodTests(unittest.TestCase):
             idempotency_prefix="repo-roadmap")
         self.assertFalse(prepared["evaluation"]["eligible"])
         self.assertFalse(prepared["evaluation"]["checks"]["repo_claim_is_current_fact"])
-        self.assertEqual(self.client.context(scope="repo:proofpress")["knowledge"], [])
+        self.assertEqual(self.client.context(scope="repo:proofpress")["governed_context"], [])
         with self.assertRaises(proofpress_sdk.ProofpressError):
-            self.client.review_conclusion(
+            self.client.review_claim(
                 prepared["candidate"]["id"], "admit", "human:maintainer",
                 review_request_id="review-roadmap")
 
@@ -93,11 +93,11 @@ class RepoDogfoodTests(unittest.TestCase):
             claim_kind="capability", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-first")
         first_id = first["candidate"]["id"]
-        self.client.review_conclusion(
+        self.client.review_claim(
             first_id, "admit", "human:maintainer",
             review_request_id="review-first")
         self.assertEqual(
-            [row["id"] for row in self.client.context(scope="repo:proofpress")["knowledge"]],
+            [row["id"] for row in self.client.context(scope="repo:proofpress")["governed_context"]],
             [first_id])
 
         second_path, _ = self._change("second\n", "second")
@@ -106,13 +106,13 @@ class RepoDogfoodTests(unittest.TestCase):
             claim_kind="capability", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-second")
         second_id = second["candidate"]["id"]
-        self.client.review_conclusion(
+        self.client.review_claim(
             second_id, "admit", "human:maintainer",
             review_request_id="review-second")
-        self.client.supersede_conclusion(
+        self.client.supersede_claim(
             first_id, second_id, "human:maintainer", note="version two replaces version one")
         context_ids = [row["id"] for row in
-                       self.client.context(scope="repo:proofpress")["knowledge"]]
+                       self.client.context(scope="repo:proofpress")["governed_context"]]
         self.assertEqual(context_ids, [second_id])
 
     def test_bundle_fails_closed_for_wrong_check_commit_and_credentials(self):

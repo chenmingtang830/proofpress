@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from proofpress.profiles import experiment
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 from proofpress import ProofpressClient
 
 
@@ -146,7 +146,7 @@ def compile_plan(raw: Any) -> dict[str, Any]:
         quote = _canonical({"lineage_id": blueprint["lineage_id"],
                             "product_objective": blueprint["product_objective"],
                             "phase": phase})
-        source = {"schema_version": knowledge.RETRIEVAL_EVIDENCE_SCHEMA,
+        source = {"schema_version": kernel_ops.RETRIEVAL_EVIDENCE_SCHEMA,
                   "source": {"uri": f'{blueprint["source_uri"]}#{phase["phase_id"]}',
                              "content_digest": "sha256:" + hashlib.sha256(quote.encode()).hexdigest(),
                              "media_type": "application/json"},
@@ -165,7 +165,7 @@ def compile_plan(raw: Any) -> dict[str, Any]:
                                               "success_criteria": phase["success_criteria"],
                                               "stop_rules": phase["stop_rules"]})}
         kind = "failed-attempt" if phase["status"] == "aborted" else "decision"
-        qualifier = {"schema_version": experiment.PROFILE, "conclusion_kind": kind,
+        qualifier = {"schema_version": experiment.PROFILE, "claim_kind": kind,
                      "experiment": identity}
         if kind == "failed-attempt":
             failure = phase["failure"]
@@ -190,7 +190,7 @@ def compile_plan(raw: Any) -> dict[str, Any]:
 
 
 def sync(client: ProofpressClient, plan: dict[str, Any], proposer: str) -> dict[str, Any]:
-    conclusions: dict[str, str] = {}
+    claims: dict[str, str] = {}
     evidence: dict[str, str] = {}
     for record in plan["records"]:
         phase_id = record["phase_id"]
@@ -198,19 +198,19 @@ def sync(client: ProofpressClient, plan: dict[str, Any], proposer: str) -> dict[
                                            idempotency_key=_key(plan["plan_digest"], phase_id, "evidence"))
         evidence_ref = submitted["imported_evidence"][0]
         qualifier = json.loads(json.dumps(record["qualifier"]))
-        if qualifier["conclusion_kind"] == "failed-attempt":
+        if qualifier["claim_kind"] == "failed-attempt":
             qualifier["failure"]["feedback_evidence_refs"] = [evidence_ref]
-        proposed = client.propose_conclusion(
+        proposed = client.propose_claim(
             record["statement"], [evidence_ref], plan["scope"], proposer,
             qualifiers={"experiment": qualifier}, profile="experiment",
-            idempotency_key=_key(plan["plan_digest"], phase_id, "conclusion"))
-        conclusions[phase_id] = proposed["conclusion"]["id"]
+            idempotency_key=_key(plan["plan_digest"], phase_id, "claim"))
+        claims[phase_id] = proposed["claim"]["id"]
         evidence[phase_id] = evidence_ref
     relations = []
     for record in plan["records"]:
         for relation in record["relations"]:
             proposed = client.propose_relation(
-                conclusions[record["phase_id"]], conclusions[relation["target_phase_id"]],
+                claims[record["phase_id"]], claims[relation["target_phase_id"]],
                 relation["type"], proposer,
                 qualifiers={"rd_blueprint": {"schema_version": SCHEMA,
                                              "lineage_id": plan["lineage_id"]}},
@@ -219,7 +219,7 @@ def sync(client: ProofpressClient, plan: dict[str, Any], proposer: str) -> dict[
             relations.append(proposed["relation"]["id"])
     return {"schema_version": SCHEMA, "plan_digest": plan["plan_digest"],
             "scope": plan["scope"], "evidence": evidence,
-            "conclusions": conclusions, "relations": relations,
+            "claims": claims, "relations": relations,
             "automatic_admission": False, "human_approval_required": True}
 
 

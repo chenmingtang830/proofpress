@@ -35,7 +35,7 @@ class SQLiteEventStoreTests(unittest.TestCase):
         from proofpress.kernel import events as proofpress_event_store
         from proofpress.kernel import operations as proofpress_knowledge
         self.event_store = proofpress_event_store
-        self.knowledge = proofpress_knowledge
+        self.kernel_ops = proofpress_knowledge
         self.store = proofpress_event_store.SQLiteEventStore(
             self.root / "hosted.db", "workspace:personal", "agent:device-a")
 
@@ -43,12 +43,12 @@ class SQLiteEventStoreTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def request(self, operation, parameters, key=None):
-        request = {"schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+        request = {"schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
                    "operation": operation, "parameters": parameters}
         if key:
             request["idempotency_key"] = key
         with self.event_store.using_event_store(self.store):
-            return self.knowledge.execute_local_operation(request)
+            return self.kernel_ops.execute_local_operation(request)
 
     def test_operation_events_and_idempotency_commit_together(self):
         first = self.request("evidence.submit", {"payload": evidence_payload()},
@@ -107,8 +107,8 @@ class SQLiteEventStoreTests(unittest.TestCase):
             self.store.path, "workspace:other", "agent:device-a")
         self.request("evidence.submit", {"payload": evidence_payload()}, "same-key")
         with self.event_store.using_event_store(other_principal):
-            result = self.knowledge.execute_local_operation({
-                "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+            result = self.kernel_ops.execute_local_operation({
+                "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "operation": "evidence.submit",
                 "parameters": {"payload": evidence_payload()},
                 "idempotency_key": "same-key"})

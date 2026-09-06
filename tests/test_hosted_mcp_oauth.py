@@ -151,10 +151,10 @@ class HostedMcpOAuthTests(unittest.TestCase):
         self.assertEqual(
             retrieval["properties"]["schema_version"]["const"],
             "proofpress/retrieval-evidence/v1")
-        proposal_refs = tools["proofpress_propose_conclusion"]["inputSchema"]["properties"]["evidence_refs"]
+        proposal_refs = tools["proofpress_propose_claim"]["inputSchema"]["properties"]["evidence_refs"]
         self.assertEqual(proposal_refs["minItems"], 1)
         self.assertEqual(proposal_refs["items"]["pattern"], r"^evd_[0-9a-f]{16}$")
-        proposal_properties = tools["proofpress_propose_conclusion"][
+        proposal_properties = tools["proofpress_propose_claim"][
             "inputSchema"]["properties"]
         self.assertEqual(proposal_properties["reproposal_of"]["pattern"],
                          r"^knw_[A-Za-z0-9]+$")
@@ -207,7 +207,7 @@ class HostedMcpOAuthTests(unittest.TestCase):
 
         status, _, response = self.json_request("/mcp", {
             "jsonrpc": "2.0", "id": 21, "method": "tools/call",
-            "params": {"name": "proofpress_propose_conclusion", "arguments": {
+            "params": {"name": "proofpress_propose_claim", "arguments": {
                 "statement": "A candidate", "scope": "test",
                 "evidence_refs": ["https://example.test/source"],
             }}}, tokens["access_token"])

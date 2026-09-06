@@ -10,7 +10,7 @@
 ## What it is
 
 [//]: # (ob:1e12da99)
-The verified knowledge ledger turns **bounded** agent telemetry or artifacts
+The verified claims ledger turns **bounded** agent telemetry or artifacts
 into candidate knowledge that a later human or agent can inspect before relying
 on it. It is the trust layer above observability and memory:
 
@@ -37,7 +37,7 @@ an organization may reuse it.
 ```text
 bounded OTLP-style telemetry or artifact
   → append-only source and evidence events
-  → evidence-bound conclusions
+  → evidence-bound claims
   → deterministic checks + LM recommendation + human review
   → governed current context for a fresh human or agent
 ```
@@ -49,10 +49,10 @@ The reference fixture is
 [//]: # (ob:5c8c136b)
 ```sh
 proofpress evidence import demo.otlp.json
-proofpress propose --statement "The current conclusion" \
+proofpress propose --statement "The current claim" \
   --evidence EVIDENCE_ID --scope demo --proposer agent:runner
-proofpress evaluate CONCLUSION_ID
-proofpress review CONCLUSION_ID --admit --reviewer human:reviewer
+proofpress evaluate CLAIM_ID
+proofpress review CLAIM_ID --admit --reviewer human:reviewer
 proofpress context --scope demo --actor agent:successor
 proofpress ui --scope demo
 ```
@@ -60,7 +60,7 @@ proofpress ui --scope demo
 [//]: # (ob:58bffc74)
 `context` returns only admitted, current, in-scope and actor-eligible knowledge.
 Rejected, unresolved, expired, superseded, and unresolved contradictory
-conclusions remain in the append-only audit history but are excluded by default.
+claims remain in the append-only audit history but are excluded by default.
 `ui` renders review, receipt, context-preview, and lineage views from the same
 Git event projection.
 
@@ -72,7 +72,7 @@ The general ledger can record typed relationships between evidence-bound
 claims: `supports`, `qualifies`, `contradicts`, `supersedes`, `depends_on`, and
 `same_as`. Relationship structure is checked deterministically for valid
 endpoints, duplicates, and directed cycles. Legacy scope does not constrain a
-relationship; the applicability cards on both conclusions state their semantic
+relationship; the applicability cards on both claims state their semantic
 limits. Those checks do not
 establish semantic correctness. An external judge may recommend, but an
 independent human must admit a relationship before it appears in governed
@@ -108,11 +108,11 @@ APEX-specific rubrics and task logic remain outside Proofpress core.
 Artifact provenance remains the portable trust primitive: it binds a durable
 artifact to revision history, evidence, actors, and decisions. The knowledge
 ledger generalizes the same trust semantics across bounded workflow activity so
-that a fresh agent can start from governed conclusions rather than raw context.
+that a fresh agent can start from governed claims rather than raw context.
 
 [//]: # (ob:067a97a0)
 The two surfaces are compatible. A portable artifact can be a materialized view
-of governed knowledge; it does not need to carry the full telemetry graph.
+of governed context; it does not need to carry the full telemetry graph.
 
 [//]: # (ob:d228259c)
 ## Non-goals
@@ -150,7 +150,7 @@ Proofpress-operated cloud service, enterprise tenancy, or an SLA.
 
 [//]: # (ob:7f3b61a3)
 A two-to-four-week design-partner pilot should qualify one concrete continuity
-failure, govern two to five conclusions, compare the ordinary and governed
+failure, govern two to five claims, compare the ordinary and governed
 handoff, and measure whether the next actor reached the right current context
 and whether review changed a real decision. Only after observed friction should
 we choose a CLI wrapper, SDK, MCP adapter, or host plugin. The self-hosting
@@ -171,7 +171,7 @@ See the [open study package](../studies/agent-handoff-artifact-provenance/README
 
 [//]: # (ob:c8235573)
 The next public proof point is a design-partner workflow: select two to five
-conclusions from a real long-horizon or multi-agent run, bind them to evidence,
+claims from a real long-horizon or multi-agent run, bind them to evidence,
 apply the review path, and measure whether governed context changes the next
 decision. Until then, finance and agentic-commerce interfaces are illustrative
 product fixtures, not customer validation.

@@ -22,7 +22,7 @@ class RdBlueprintTests(unittest.TestCase):
         second = rd.compile_plan(self.fixture())
         self.assertEqual(first, second)
         self.assertEqual(len(first["records"]), 5)
-        self.assertEqual(first["records"][3]["qualifier"]["conclusion_kind"], "failed-attempt")
+        self.assertEqual(first["records"][3]["qualifier"]["claim_kind"], "failed-attempt")
 
     def test_sync_proposes_bounded_records_without_admission(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -34,9 +34,9 @@ class RdBlueprintTests(unittest.TestCase):
             try:
                 client = ProofpressClient.in_process(root)
                 result = rd.sync(client, rd.compile_plan(self.fixture()), "agent:test")
-                self.assertEqual(len(result["conclusions"]), 5)
+                self.assertEqual(len(result["claims"]), 5)
                 self.assertGreaterEqual(len(result["relations"]), 4)
-                self.assertEqual(client.context(scope="rd:proofpress")["knowledge"], [])
+                self.assertEqual(client.context(scope="rd:proofpress")["governed_context"], [])
                 summary = client.review_summary("rd:proofpress")
                 self.assertEqual(summary["counts"]["needs_review"], 5)
             finally:

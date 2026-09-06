@@ -10,7 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from proofpress.profiles import experiment
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 from proofpress import ProofpressClient
 from proofpress_mcp import ProofpressMcpGateway
 from proofpress.hosted import HostedControlPlane
@@ -43,7 +43,7 @@ class ExperimentProfileTests(unittest.TestCase):
     @staticmethod
     def retrieval_payload():
         quote = "accuracy,0.82"
-        return {"schema_version": knowledge.RETRIEVAL_EVIDENCE_SCHEMA,
+        return {"schema_version": kernel_ops.RETRIEVAL_EVIDENCE_SCHEMA,
                 "source": {"uri": "workspace://runs/003/metrics.csv",
                            "content_digest": "sha256:" + "c" * 64,
                            "media_type": "text/csv"},
@@ -68,15 +68,15 @@ class ExperimentProfileTests(unittest.TestCase):
     def test_sdk_mcp_transport_parity_and_human_admission_boundary(self):
         metric, _ = self.submit_metric()
         qualifiers = {"experiment": {"schema_version": experiment.PROFILE,
-                     "conclusion_kind": "finding", "experiment": self.identity()}}
-        sdk = self.client.propose_conclusion(
+                     "claim_kind": "finding", "experiment": self.identity()}}
+        sdk = self.client.propose_claim(
             "Validation accuracy was 0.82.", [metric], "pioneer", "agent:sdk",
             qualifiers=qualifiers, profile="experiment")
-        self.assertEqual(sdk["conclusion"]["qualifiers"]["profile"], experiment.PROFILE)
-        evaluated = self.client.evaluate_conclusion(sdk["conclusion"]["id"])
+        self.assertEqual(sdk["claim"]["qualifiers"]["profile"], experiment.PROFILE)
+        evaluated = self.client.evaluate_claim(sdk["claim"]["id"])
         self.assertTrue(evaluated["eligible"])
         self.assertTrue(all(evaluated["checks"].values()))
-        self.assertEqual(self.client.context(scope="pioneer")["knowledge"], [])
+        self.assertEqual(self.client.context(scope="pioneer")["governed_context"], [])
 
         other = Path(self.tmp.name) / "mcp"
         other.mkdir()
@@ -92,10 +92,10 @@ class ExperimentProfileTests(unittest.TestCase):
                    "version": "v1", "value": "0.82", "unit": "ratio",
                    "population": "validation", "source_evidence_ref": source}}
         mcp = gateway.submit_evidence(payload, profile="experiment")
-        projected = knowledge.v2_projection()["evidence"][mcp["imported_evidence"][0]]
+        projected = kernel_ops.v2_projection()["evidence"][mcp["imported_evidence"][0]]
         self.assertEqual(projected["experiment_profile"],
-                         sdk_metric := knowledge.proofpress_experiment.normalize_evidence(
-                             payload, knowledge.v2_projection()["evidence"]))
+                         sdk_metric := kernel_ops.proofpress_experiment.normalize_evidence(
+                             payload, kernel_ops.v2_projection()["evidence"]))
         self.assertEqual(sdk_metric["schema_version"], experiment.PROFILE)
 
     def test_hosted_transport_accepts_same_profile_without_granting_authority(self):
@@ -105,7 +105,7 @@ class ExperimentProfileTests(unittest.TestCase):
             owner["token"], "agent:pioneer", "Pioneer agent")
 
         def operation(name, parameters, key):
-            return {"schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            return {"schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                     "operation": name, "parameters": parameters,
                     "idempotency_key": key}
 
@@ -122,16 +122,16 @@ class ExperimentProfileTests(unittest.TestCase):
         self.assertTrue(submitted["ok"])
         metric = submitted["result"]["imported_evidence"][0]
         qualifiers = {"experiment": {"schema_version": experiment.PROFILE,
-                     "conclusion_kind": "finding", "experiment": self.identity()}}
+                     "claim_kind": "finding", "experiment": self.identity()}}
         proposed = control.execute(agent["token"], operation(
-            "conclusion.propose", {"statement": "Accuracy was 0.82.",
+            "claim.propose", {"statement": "Accuracy was 0.82.",
             "evidence_refs": [metric], "scope": "pioneer",
             "qualifiers": qualifiers, "profile": "experiment"}, "proposal"))
         self.assertTrue(proposed["ok"])
         context = control.execute(agent["token"], {
-            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "context.get", "parameters": {"scope": "pioneer"}})
-        self.assertEqual(context["result"]["knowledge"], [])
+        self.assertEqual(context["result"]["governed_context"], [])
 
     def test_capability_negotiation_advertises_additive_profile(self):
         capabilities = self.client.capabilities()
@@ -161,16 +161,16 @@ class ExperimentProfileTests(unittest.TestCase):
         result = self.client.submit_evidence(derivation, profile="experiment")
         self.assertEqual(len(result["imported_evidence"]), 1)
         derivation_ref = result["imported_evidence"][0]
-        proposed = self.client.propose_conclusion(
+        proposed = self.client.propose_claim(
             "The two exact counts sum to 164.", [derivation_ref], "pioneer",
             "agent:test", qualifiers={"experiment": {
                 "schema_version": experiment.PROFILE,
-                "conclusion_kind": "finding", "experiment": self.identity()}},
+                "claim_kind": "finding", "experiment": self.identity()}},
             profile="experiment")
-        graph = knowledge.graph_v2(scope="pioneer")
+        graph = kernel_ops.graph_v2(scope="pioneer")
         node_ids = {node["id"] for node in graph["nodes"]}
         self.assertTrue({metric, cell, derivation_ref,
-                         proposed["conclusion"]["id"]}.issubset(node_ids))
+                         proposed["claim"]["id"]}.issubset(node_ids))
         self.assertIn({"from": metric, "to": derivation_ref,
                        "type": "derived_from"}, graph["edges"])
         self.assertIn({"from": cell, "to": derivation_ref,
@@ -186,9 +186,9 @@ class ExperimentProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(Exception, "unknown experiment source evidence"):
             self.client.submit_evidence(payload, profile="experiment")
         qualifiers = {"experiment": {"schema_version": experiment.PROFILE,
-                     "conclusion_kind": "scientifically-proven", "experiment": self.identity()}}
-        with self.assertRaisesRegex(Exception, "unknown experiment conclusion kind"):
-            self.client.propose_conclusion("Invalid", [], "pioneer", "agent:test",
+                     "claim_kind": "scientifically-proven", "experiment": self.identity()}}
+        with self.assertRaisesRegex(Exception, "unknown experiment claim kind"):
+            self.client.propose_claim("Invalid", [], "pioneer", "agent:test",
                                            qualifiers=qualifiers, profile="experiment")
 
     def test_failed_attempt_is_a_first_class_reusable_failure_record(self):
@@ -202,19 +202,19 @@ class ExperimentProfileTests(unittest.TestCase):
                    "changed_dimension_required": "dataset or retrieval configuration",
                    "next_action": "Try cfg-c and preserve cfg-b as the control."}
         qualifiers = {"experiment": {"schema_version": experiment.PROFILE,
-                     "conclusion_kind": "failed-attempt", "experiment": self.identity(),
+                     "claim_kind": "failed-attempt", "experiment": self.identity(),
                      "failure": failure}}
-        result = self.client.propose_conclusion(
+        result = self.client.propose_claim(
             "Configuration cfg-b did not meet the accuracy target.", [metric],
             "pioneer", "agent:test", qualifiers=qualifiers, profile="experiment")
-        self.assertEqual(result["conclusion"]["qualifiers"]["experiment"]["failure"], failure)
-        evaluated = self.client.evaluate_conclusion(result["conclusion"]["id"])
+        self.assertEqual(result["claim"]["qualifiers"]["experiment"]["failure"], failure)
+        evaluated = self.client.evaluate_claim(result["claim"]["id"])
         self.assertTrue(evaluated["checks"]["experiment_failure_feedback_bound"])
 
         missing = {"experiment": {"schema_version": experiment.PROFILE,
-                   "conclusion_kind": "failed-attempt", "experiment": self.identity()}}
+                   "claim_kind": "failed-attempt", "experiment": self.identity()}}
         with self.assertRaisesRegex(Exception, "explicit failure record"):
-            self.client.propose_conclusion("Opaque failure.", [metric], "pioneer",
+            self.client.propose_claim("Opaque failure.", [metric], "pioneer",
                                            "agent:test", qualifiers=missing,
                                            profile="experiment")
 

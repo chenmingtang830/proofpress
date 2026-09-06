@@ -84,7 +84,7 @@ export function App() {
           <h2 id="value-title">
             Evidence stays attached.<br />
             Humans decide.<br />
-            <span>Only approved knowledge moves forward.</span>
+            <span>Only admitted claims move forward.</span>
           </h2>
         </section>
 
@@ -94,7 +94,7 @@ export function App() {
               Higher performance. Errors stopped from spreading.
             </h2>
             <p>
-              Using Proofpress’s governed knowledge ledger, we improved rubric completion and stopped every
+              Using Proofpress’s governed claims ledger, we improved rubric completion and stopped every
               observed unsafe propagation across 126 agent handoffs.
             </p>
           </div>
@@ -153,7 +153,7 @@ export function App() {
 
         <section className="finalCta" aria-labelledby="cta-title">
           <h2 id="cta-title">Keep agent knowledge under human control.</h2>
-          <p>Start with one workflow where a wrong conclusion could spread.</p>
+          <p>Start with one workflow where a wrong claim could spread.</p>
           <div className="heroActions">
             <ButtonLink href={contactUrl}>Contact us <Arrow /></ButtonLink>
             <ButtonLink href={repoUrl} variant="secondary">Explore the repository</ButtonLink>

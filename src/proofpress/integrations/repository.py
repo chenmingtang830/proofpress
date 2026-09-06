@@ -204,14 +204,14 @@ def propose_candidate(client, bundle_path: str | Path, *, statement: str,
     evidence_refs = imported.get("imported_evidence")
     if not evidence_refs:
         raise ValueError("repo evidence import returned no imported_evidence")
-    proposal = client.propose_conclusion(
+    proposal = client.propose_claim(
         statement, evidence_refs, scope, proposer, profile="repo",
         qualifiers=repo_qualifiers(bundle, claim_kind),
         idempotency_key=idempotency_prefix + ":proposal")
-    conclusion_id = proposal["conclusion"]["id"]
-    evaluation = client.evaluate_conclusion(
-        conclusion_id, idempotency_key=idempotency_prefix + ":evaluation")
-    return {"candidate": proposal["conclusion"], "evaluation": evaluation,
+    claim_id = proposal["claim"]["id"]
+    evaluation = client.evaluate_claim(
+        claim_id, idempotency_key=idempotency_prefix + ":evaluation")
+    return {"candidate": proposal["claim"], "evaluation": evaluation,
             "next": "independent Human Approval is required for admission"}
 
 

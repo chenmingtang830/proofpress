@@ -40,34 +40,34 @@ class EventStoreTests(unittest.TestCase):
         from proofpress.kernel import events as proofpress_event_store
         from proofpress.kernel import operations as proofpress_knowledge
         self.store = proofpress_event_store
-        self.knowledge = proofpress_knowledge
-        self.original_now = self.knowledge.now
-        self.knowledge.now = lambda: "2026-08-31T00:00:00Z"
+        self.kernel_ops = proofpress_knowledge
+        self.original_now = self.kernel_ops.now
+        self.kernel_ops.now = lambda: "2026-08-31T00:00:00Z"
         self.previous = Path.cwd()
         os.chdir(self.repo)
 
     def tearDown(self):
-        self.knowledge.now = self.original_now
+        self.kernel_ops.now = self.original_now
         os.chdir(self.previous)
         self.tmp.cleanup()
 
     def lifecycle(self):
-        imported = self.knowledge.submit_evidence_v2(retrieval_payload())
-        proposed = self.knowledge.propose_v2(
+        imported = self.kernel_ops.submit_evidence_v2(retrieval_payload())
+        proposed = self.kernel_ops.propose_v2(
             "The liability cap is one year of fees.",
             [imported["evidence"][0]], "store-parity", "agent:test")
-        self.knowledge.evaluate_v2(proposed["conclusion"]["id"])
-        self.knowledge.review_v2(
-            proposed["conclusion"]["id"], "admit", "human:owner")
-        return self.knowledge.context_v2("store-parity", "agent:next")
+        self.kernel_ops.evaluate_v2(proposed["claim"]["id"])
+        self.kernel_ops.review_v2(
+            proposed["claim"]["id"], "admit", "human:owner")
+        return self.kernel_ops.context_v2("store-parity", "agent:next")
 
     def test_memory_and_git_backends_preserve_lifecycle_results(self):
         git_context = self.lifecycle()
-        git_events = self.knowledge.v2_events()
+        git_events = self.kernel_ops.v2_events()
         memory = self.store.MemoryEventStore()
         with self.store.using_event_store(memory):
             memory_context = self.lifecycle()
-            memory_events = self.knowledge.v2_events()
+            memory_events = self.kernel_ops.v2_events()
         memory_context.pop("ledger_head")
         git_context.pop("ledger_head")
         self.assertEqual(memory_context, git_context)
@@ -78,7 +78,7 @@ class EventStoreTests(unittest.TestCase):
 
     def test_history_envelope_is_portable_and_tamper_evident(self):
         self.lifecycle()
-        envelopes = self.store.history_envelopes(self.knowledge.v2_events())
+        envelopes = self.store.history_envelopes(self.kernel_ops.v2_events())
         verified = self.store.verify_history_envelopes(envelopes)
         self.assertTrue(verified["ok"])
         self.assertEqual(verified["events"], len(envelopes))

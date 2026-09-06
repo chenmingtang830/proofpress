@@ -49,7 +49,7 @@ The repository already contains a substantial local kernel:
 [//]: # (ob:6a47626b)
 - a Git-backed append-only knowledge-event chain under
   `refs/proofpress/knowledge`;
-- bounded evidence import and evidence-bound conclusion proposals;
+- bounded evidence import and evidence-bound claim proposals;
 - deterministic evaluation, advisory LM judging, and authorized Human
   Approval as the only admission path;
 - typed claim relations, contradiction quarantine, supersession, expiry, and
@@ -59,7 +59,7 @@ The repository already contains a substantial local kernel:
 - an internal-alpha operation seam, merged in
   [PR #63](https://github.com/chenmingtang830/proofpress/pull/63), shared by
   direct Python callers and the matching CLI paths for evidence import,
-  conclusion proposal/evaluation/review, and context retrieval.
+  claim proposal/evaluation/review, and context retrieval.
 
 [//]: # (ob:9dc1491e)
 This baseline is not yet a completed control plane. The operation seam is not a
@@ -111,7 +111,7 @@ are true.
 
 [//]: # (ob:5d57b67f)
 - A documented `v1alpha` request, result, and error envelope covers evidence,
-  conclusions, relations, evaluation, judging, review, resolution,
+  claims, relations, evaluation, judging, review, resolution,
   supersession, disclosure, assimilation, graph traversal, and governed
   context.
 - Unknown versions, fields, operations, and invalid state transitions fail
@@ -195,7 +195,7 @@ are true.
 - Errors include stable codes, safe messages, retryability, and remediation
   hints.
 - A fresh user can initialize a workspace, start the service, propose one
-  evidence-bound conclusion, review it under a distinct authority, retrieve
+  evidence-bound claim, review it under a distinct authority, retrieve
   governed context, stop the service, and independently verify the receipt from
   the documented quickstart.
 

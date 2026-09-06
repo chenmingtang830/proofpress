@@ -14,7 +14,7 @@
 **Agent work compounds. Trust has to keep up.**
 
 [//]: # (ob:92fbc10e)
-Proofpress makes agent-produced conclusions first-class governed objects. Each
+Proofpress makes agent-produced claims first-class governed objects. Each
 one stays bound to evidence, scope, lifecycle, and human authority before it
 can become context for the next agent or decision.
 
@@ -29,7 +29,7 @@ can become context for the next agent or decision.
 
 [//]: # (ob:87f7edac)
 Every run can create findings, analyses, decisions, and claims that become
-premises for later work. Retrieval can make those conclusions available. A
+premises for later work. Retrieval can make those claims available. A
 trace can show where they came from. Neither decides whether they are still
 current, in scope, or authorized for reuse.
 
@@ -39,7 +39,7 @@ the enterprise corpus it started from. Informal review stops scaling at the
 point where one agent's output routinely becomes another agent's input.
 
 <p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge accelerating beyond enterprise knowledge as agent autonomy grows, with a verification inflection when conclusions shape downstream work" width="100%">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge accelerating beyond enterprise knowledge as agent autonomy grows, with a verification inflection when claims shape downstream work" width="100%">
 </p>
 
 <sub>Illustrative model, not measured data. The curve matches the model used on
@@ -49,13 +49,13 @@ the Proofpress landing page.</sub>
 [//]: # (ob:governed-handoff)
 
 [//]: # (ob:cf8ae608)
-## Make conclusions governable
+## Make claims governable
 
 [//]: # (ob:9b444bbd)
-Proofpress gives every reusable conclusion a lifecycle:
+Proofpress gives every reusable claim a lifecycle:
 
 1. **Bind evidence.** Preserve bounded support and provenance.
-2. **Propose a conclusion.** State the claim, scope, and intended reuse.
+2. **Propose a claim.** State the claim, scope, and intended reuse.
 3. **Run checks.** Apply deterministic requirements and optional model advice.
 4. **Require human authority.** An authenticated owner admits, rejects, or
    requests revision.
@@ -64,7 +64,7 @@ Proofpress gives every reusable conclusion a lifecycle:
 
 [//]: # (ob:8282eb31)
 Agents may submit, propose, evaluate, and retrieve. They may never admit their
-own conclusions or administer owner authority.
+own claims or administer owner authority.
 
 ### A different layer of the stack
 
@@ -74,7 +74,7 @@ own conclusions or administer owner authority.
 | Observability | Execution events and traces | What happened while it worked? |
 | Orchestration | Tasks, tools, and runtime flow | What should run, and in what order? |
 | Knowledge graph / ontology | Enterprise entities and relationships | What does the organization know about its world? |
-| **Proofpress** | Reusable agent-produced conclusions | **What may the next agent rely on, and under whose authority?** |
+| **Proofpress** | Reusable agent-produced claims | **What may the next agent rely on, and under whose authority?** |
 
 These layers are complementary. They can provide evidence to Proofpress or
 consume governed context from it; they do not grant admission authority.
@@ -87,7 +87,7 @@ consume governed context from it; they do not grant admission authority.
 
 [//]: # (ob:1aa1b52d)
 <p align="center">
-  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture showing agents using MCP, Python, CLI, or HTTP to submit evidence and conclusions through checks and owner review before governed context reaches successor agents" width="100%">
+  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture showing agents using MCP, Python, CLI, or HTTP to submit evidence and claims through checks and owner review before governed context reaches successor agents" width="100%">
 </p>
 
 [//]: # (ob:ed5c57b7)
@@ -99,7 +99,7 @@ The Owner workspace is the human authority layer: review the candidate and its
 support, inspect lineage, then admit, reject, or request revision.
 
 <p align="center">
-  <img src="assets/product/owner-home.png" alt="Proofpress Owner workspace showing the review queue, governed knowledge, and evidence-backed decision interface" width="100%">
+  <img src="assets/product/owner-home.png" alt="Proofpress Owner workspace showing the review queue, governed claims, and evidence-backed decision interface" width="100%">
 </p>
 
 [//]: # (ob:8db33fda)
@@ -166,7 +166,7 @@ from proofpress import ProofpressClient, ProofpressError
 
 client = ProofpressClient.in_process(".")
 evidence = client.import_evidence("run.otlp.json", idempotency_key="run-001")
-candidate = client.propose_conclusion(
+candidate = client.propose_claim(
     "The bounded result is ready for review.",
     evidence["evidence"],
     scope="experiment:demo",
@@ -242,7 +242,7 @@ storage, domain, and billing relationship.
 
 [//]: # (ob:99949965)
 [//]: # (ob:authority-boundary)
-Submitting evidence or proposing a conclusion never admits it. Agent credentials identify and constrain callers; they do not carry owner authority. Only admitted, current, in-scope, actor-eligible conclusions are returned as governed context.
+Submitting evidence or proposing a claim never admits it. Agent credentials identify and constrain callers; they do not carry owner authority. Only admitted, current, in-scope, actor-eligible claims are returned as governed context.
 
 [//]: # (ob:6bafd8a0)
 [//]: # (ob:integrations)
@@ -263,7 +263,7 @@ Submitting evidence or proposing a conclusion never admits it. Agent credentials
 ## Read this next
 
 [//]: # (ob:3159be00)
-- **Understand the product:** [Thesis](docs/THESIS.md) → [governed knowledge and context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
+- **Understand the product:** [Thesis](docs/THESIS.md) → [claims and governed context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
 - **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
 - **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
 - **Explore prior experiments:** [study catalog](studies/README.md). Research evidence is separately scoped; it is not a blanket product-efficacy claim.

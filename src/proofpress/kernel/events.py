@@ -1,4 +1,4 @@
-"""Backend-neutral append-only history contract for Proofpress knowledge events."""
+"""Backend-neutral append-only history contract for Proofpress claim events."""
 from __future__ import annotations
 
 from contextlib import contextmanager
