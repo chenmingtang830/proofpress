@@ -1373,29 +1373,31 @@ function AdminPage({
           onAction("issue", { principal_id: principal, label });
         }}
       >
-        <div>
+        <div className="issueFormHeader">
           <b>Issue agent credential</b>
           <small>
             Create a key for an agent or device. You can revoke its access later.
           </small>
         </div>
-        <label>Agent identity<input
-          aria-label="Agent identity"
-          aria-describedby="agentIdentityHelp"
-          value={principal}
-          onChange={(e) => setPrincipal(e.target.value)}
-          placeholder="agent:claude-code"
-          required
-        /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
-        <label>Key name<input
-          aria-label="Key name"
-          aria-describedby="keyNameHelp"
-          value={label}
-          onChange={(e) => setLabel(e.target.value)}
-          placeholder="Claude Code · company laptop"
-          required
-        /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
-        <Button disabled={busy}>Issue credential</Button>
+        <div className="issueFormFields">
+          <label>Agent identity<input
+            aria-label="Agent identity"
+            aria-describedby="agentIdentityHelp"
+            value={principal}
+            onChange={(e) => setPrincipal(e.target.value)}
+            placeholder="agent:claude-code"
+            required
+          /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
+          <label>Key name<input
+            aria-label="Key name"
+            aria-describedby="keyNameHelp"
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            placeholder="Claude Code · company laptop"
+            required
+          /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
+          <Button disabled={busy}>Issue credential</Button>
+        </div>
       </form>
       {secret && (
         <div className="secretReveal">
@@ -1440,6 +1442,7 @@ function AdminPage({
               <div className="credentialActions">
                 <Button
                   variant="outline"
+                  size="sm"
                   disabled={busy}
                   onClick={() =>
                     onAction("rotate", { credential_id: c.credential_id })
@@ -1449,6 +1452,7 @@ function AdminPage({
                 </Button>
                 <Button
                   variant="danger"
+                  size="sm"
                   disabled={busy}
                   onClick={() =>
                     onAction("revoke", { credential_id: c.credential_id })
