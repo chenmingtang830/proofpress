@@ -896,8 +896,8 @@ function ReviewPage({
           <Button variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history</Button>
           <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} claims`}</span>
         </div>
-        <div className="tableWrap">
-          <table>
+        <div className="tableWrap reviewTableWrap">
+          <table className="reviewTable">
             <thead>
               <tr>
                 <th>Claim</th>
@@ -918,7 +918,7 @@ function ReviewPage({
                     <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
                   </td>
                   <td data-label="Status"><Badge state={row.state} /></td>
-                  <td data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
+                  <td className="reviewScopeCell" data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
                   <td aria-label="Open claim">
                     <ChevronRight />
                   </td>

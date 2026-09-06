@@ -114,4 +114,14 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('aria-busy="true"');
     expect(source).toContain('pending={!!selected && !receipt}');
   });
+  it("keeps review claims readable at compact desktop widths", () => {
+    expect(source).toContain('className="tableWrap reviewTableWrap"');
+    expect(source).toContain('className="reviewTable"');
+    expect(source).toContain('className="reviewScopeCell"');
+    expect(css).toMatch(/\.reviewTable \.claimSelect\s*\{[^}]*text-align:\s*left;/s);
+    expect(css).toContain("@media (min-width: 681px) and (max-width: 1050px)");
+    expect(css).toMatch(/\.reviewTable th:nth-child\(3\),\s*\.reviewTable td\.reviewScopeCell\s*\{\s*display:\s*none;/s);
+    expect(css).toMatch(/\.reviewTable td\.reviewScopeCell\s*\{\s*display:\s*none;/s);
+    expect(css).toMatch(/\.reviewTable \.claimScopeInline\s*\{\s*display:\s*none;/s);
+  });
 });
