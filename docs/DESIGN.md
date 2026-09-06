@@ -58,7 +58,7 @@ The public landing page is a persuasion surface, not a compressed owner workspac
 - Use authored editorial media for the hero, native HTML/CSS for evidence visualization, and real article/video assets later in the page. Generated atmosphere must not replace trust semantics.
 - Keep public evidence bounded. Name the frozen source, population, and comparison; disclose zoomed axes; order bars by the stated comparison; and never promote a limited study into a general benchmark claim.
 - Make the CLI the first-run path. Show one GitHub install command and one runnable demo command; the local review UI is optional follow-on material, not the hero promise.
-- Preserve Boardroom Clarity responsively: editorial splits on wide screens, a single reading column on mobile, DM Sans for persuasion, IBM Plex Mono for proof metadata, and one cyan accent on a white institutional canvas.
+- Preserve Boardroom Clarity responsively: editorial splits on wide screens, a single reading column on mobile, DM Sans for persuasion and task typography, IBM Plex Mono for proof metadata, and one cyan accent on a white institutional canvas.
 
 [//]: # (ob:ca5dbbae)
 The design system is workflow-neutral. A legal product may organize work by organization, matter, and data room; a research product may organize it by project, run, and artifact. Those host structures are not Proofpress primitives. Proofpress owns the visual language for evidence, candidate claims, review receipts, admission state, trusted context, and lineage between them.
@@ -163,6 +163,7 @@ The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `�
 [//]: # (ob:f49db722)
 ## Typography
 
+
 [//]: # (ob:53b8c3a4)
 - **Owner page title:** `--font-ui` (DM Sans / system sans), fluid 2.25–4.75rem where space permits, weight 600, tight line-height and tracking. The title carries hierarchy without a decorative kicker.
 - **Section, dialog, inspector, and scope headings:** `--font-ui`, `--type-section` 1rem, weight 600, line-height 1.5.
@@ -171,7 +172,7 @@ The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `�
 - **Indexed labels and proof values:** `--font-mono` (IBM Plex Mono / system monospace) is reserved for raw IDs, hashes, versions, code, receipts, and sparse institutional index labels such as `AVAILABLE NOW`, `NEEDS REVIEW`, `SOURCE 01`, and `PROPOSED REUSE BOUNDARY`. Indexed labels may use 10px uppercase with restrained tracking; ordinary navigation, status chips, paragraphs, and metadata remain UI sans. Browser zoom and text scaling must remain usable; prose should stay within approximately 45–75 characters per line.
 
 [//]: # (ob:877970b3)
-**The Role, Not Component Rule.** Components consume shared font and size tokens; they do not invent local type ramps. IBM Plex Mono indexes the institutional record but never becomes a technical costume for ordinary copy. Slides and editorial documents may use a compatible serif for a bounded quotation or long-form reading passage, but Proofpress titles, propositions, controls, and diagrams use the canonical DM Sans hierarchy.
+**The Role, Not Component Rule.** Components consume shared font and size tokens; they do not invent local type ramps. IBM Plex Mono indexes the institutional record but never becomes a technical costume for ordinary copy. Slides and editorial documents may use a compatible serif for a bounded quotation or long-form reading passage. Proofpress titles, propositions, controls, and diagrams use the canonical DM Sans hierarchy.
 
 ## Cross-medium application
 
