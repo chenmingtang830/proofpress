@@ -60,6 +60,20 @@ class ContextDiscoveryTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.kernel_ops.propose_v2(*args, proposer="agent:test", title=invalid)
 
+    def test_public_proposals_require_title_and_statement(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        valid = {"title": "Acme cap", "statement": "One year of fees.", "evidence_refs": [evidence], "proposer": "agent:test"}
+        def submit(parameters):
+            return self.kernel_ops.execute_local_operation({"schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA, "operation": "claim.propose", "parameters": parameters})
+        self.assertTrue(submit(valid)["ok"])
+        for field in ("title", "statement"):
+            for value in (None, "", " ", 12):
+                result = submit({**valid, field: value})
+                self.assertFalse(result["ok"])
+            missing = dict(valid)
+            del missing[field]
+            self.assertFalse(submit(missing)["ok"])
+
     def test_frontmatter_card_is_discoverable_without_a_scope(self):
         evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
         proposal = self.kernel_ops.propose_v2(

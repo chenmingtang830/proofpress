@@ -208,7 +208,7 @@ class HostedMcpOAuthTests(unittest.TestCase):
         status, _, response = self.json_request("/mcp", {
             "jsonrpc": "2.0", "id": 21, "method": "tools/call",
             "params": {"name": "proofpress_propose_claim", "arguments": {
-                "statement": "A candidate", "scope": "test",
+                "title": "Test candidate", "statement": "A candidate", "scope": "test",
                 "evidence_refs": ["https://example.test/source"],
             }}}, tokens["access_token"])
         self.assertEqual(status, 200)

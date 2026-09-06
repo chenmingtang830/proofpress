@@ -83,7 +83,7 @@ class ProofpressMcpGateway:
             reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
-            idempotency_key: str | None = None, title: str | None = None) -> dict[str, Any]:
+            idempotency_key: str | None = None, *, title: str) -> dict[str, Any]:
         if (not evidence_refs or
                 any(not isinstance(ref, str) or EVIDENCE_ID_RE.fullmatch(ref) is None
                     for ref in evidence_refs)):
@@ -208,10 +208,10 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
-            idempotency_key: str | None = None, title: str | None = None) -> dict[str, Any]:
+            idempotency_key: str | None = None, *, title: str) -> dict[str, Any]:
         """Propose an evidence-bound claim as the configured agent principal.
 
-        Optional title is a short claim heading (at most 120 characters).
+        Required title is a short claim heading (at most 120 characters).
         Statement is the complete claim; title does not replace its limits.
 
         evidence_refs must be evd_ IDs returned by
@@ -232,7 +232,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """
         return gateway.propose_claim(
             statement, evidence_refs, scope, expires_at, artifact_refs,
-            applicability, reproposal_of, qualifiers, profile, idempotency_key, title)
+            applicability, reproposal_of, qualifiers, profile, idempotency_key, title=title)
 
     @server.tool(name="proofpress_discover_context")
     def proofpress_discover_context(

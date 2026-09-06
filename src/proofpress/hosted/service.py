@@ -72,7 +72,7 @@ def seed_judge_demo(control, workspace_id, owner_principal, owner_name):
         imported = execute(agent["token"], "evidence.submit", {
             "payload": _judge_demo_evidence(index, statement, quote)}, f"evidence-{index}")
         proposed = execute(agent["token"], "claim.propose", {
-            "statement": statement, "evidence_refs": imported["evidence"],
+        "title": f"Acme acquisition finding {index}", "statement": statement, "evidence_refs": imported["evidence"],
             "scope": "demo:acme-acquisition", "proposer": "ignored",
             "artifact_refs": [],
             "qualifiers": {"synthetic_demo": True}}, f"claim-{index}")

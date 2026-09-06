@@ -348,7 +348,7 @@ function App() {
         inputSchema: { type: "object", properties: { state: { type: "string", enum: ["needs_review", "needs_revision", "admitted", "rejected", "all"] }, scope: { type: "string" }, limit: { type: "integer", minimum: 1, maximum: 100 } } },
         execute: async ({ state = "needs_review", scope = "", limit = 25 }: any) => {
           const graph = await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`);
-          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim" && (state === "all" || node.state === state)).slice(0, limit).map(({ id, label, state, scope, created_at, proposer }: any) => ({ id, statement: label, state, scope, created_at, proposer }));
+          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim" && (state === "all" || node.state === state)).slice(0, limit).map(({ id, title, label, state, scope, created_at, proposer }: any) => ({ id, title, statement: label, state, scope, created_at, proposer }));
           return toolText({ claims, count: claims.length, open_in_review: `${location.origin}/review` });
         },
       },

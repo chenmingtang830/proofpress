@@ -32,7 +32,7 @@ def main(argv=None):
     submit.add_argument("--idempotency-key")
     propose = subparsers.add_parser("propose")
     propose.add_argument("--statement", required=True)
-    propose.add_argument("--title", help="short claim heading, at most 120 characters")
+    propose.add_argument("--title", required=True, help="short claim heading, at most 120 characters")
     propose.add_argument("--evidence", action="append", required=True)
     propose.add_argument("--scope", help="optional legacy exact-filter metadata")
     propose.add_argument("--applicability-json",

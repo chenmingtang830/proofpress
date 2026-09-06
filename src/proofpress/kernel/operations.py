@@ -336,9 +336,9 @@ LOCAL_OPERATION_SPECS = {
         "replay_semantics": "kernel_deduplicated",
     },
     "claim.propose": {
-        "required": ("statement", "evidence_refs", "proposer"),
+        "required": ("title", "statement", "evidence_refs", "proposer"),
         "optional": ("expires_at", "artifact_refs", "scope", "applicability",
-                     "reproposal_of", "qualifiers", "profile", "title"),
+                     "reproposal_of", "qualifiers", "profile"),
         "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
     "claim.evaluate": {
@@ -2663,6 +2663,7 @@ def add_flat_cli(sub):
     evidence_import = evidence_sub.add_parser("import", help="import an artifact, OTLP JSON, retrieval receipt, or TRACE session")
     evidence_import.add_argument("input"); evidence_import.set_defaults(f=cmd_flat)
     propose_parser = sub.add_parser("propose", help="propose an evidence-bound reusable claim")
+    propose_parser.add_argument("--title", required=True)
     propose_parser.add_argument("--statement", required=True); propose_parser.add_argument("--evidence", action="append", required=True)
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", help="optional legacy exact-filter metadata")
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
@@ -2964,6 +2965,10 @@ def _execute_local_operation(request):
             result = submit_evidence_v2(
                 parameters["payload"], parameters.get("profile"))
         elif operation == "claim.propose":
+            if not isinstance(parameters.get("title"), str) or not parameters["title"].strip():
+                raise ValueError("title is required and must be a non-empty string")
+            if not isinstance(parameters.get("statement"), str) or not parameters["statement"].strip():
+                raise ValueError("statement is required and must be a non-empty string")
             result = propose_v2(
                 parameters["statement"], parameters["evidence_refs"],
                 parameters.get("scope"), parameters["proposer"],
@@ -3096,7 +3101,7 @@ def cmd_flat(a):
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
         applicability = json.loads(Path(a.applicability).read_text(encoding="utf-8")) if a.applicability else None
         out = _local_request("claim.propose", {
-            "statement": a.statement, "evidence_refs": a.evidence,
+            "title": a.title, "statement": a.statement, "evidence_refs": a.evidence,
             "scope": a.scope, "proposer": a.proposer,
             "expires_at": a.expires_at, "artifact_refs": a.artifact,
             "applicability": applicability, "reproposal_of": a.reproposal_of,

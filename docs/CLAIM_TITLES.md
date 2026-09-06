@@ -1,6 +1,7 @@
 # Claim titles
 
-Claims accept an optional `title` (1–120 characters after trimming) through
+New proposals require `title` (1–120 characters after trimming) and a non-empty
+`statement` through
 `claim.propose`, the Python SDK, hosted and local MCP, and `proofpress remote
 propose --title`.
 
@@ -14,5 +15,7 @@ claims retain their statement as the heading; no summary is fabricated.
 
 Titles are included in claim identity and digest when supplied. Changing a
 title produces a new candidate, not a silent edit to an admitted claim.
-Omitting title preserves the historical identity and digest shape. Existing
-records are not rewritten or backfilled.
+Historical untitled records remain readable with their original identity and
+digest. The internal legacy constructor still supports that shape; public
+submission tools reject a missing title. Existing records are not rewritten
+or backfilled. Local CLI also requires `proofpress propose --title`.

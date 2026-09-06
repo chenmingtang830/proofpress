@@ -158,7 +158,7 @@ class HostedServiceTests(unittest.TestCase):
         imported = agent.submit_evidence(evidence_payload())
         proposed = agent.propose_claim(
             "The liability cap is one year of fees.", imported["evidence"],
-            "contract-review", "spoofed:owner")
+            "contract-review", "spoofed:owner", title="Test claim")
         claim = proposed["claim"]
         self.assertEqual(claim["proposer"], "agent:codex-laptop")
         agent.evaluate_claim(claim["id"])
@@ -178,7 +178,7 @@ class HostedServiceTests(unittest.TestCase):
         imported = gateway.submit_evidence(evidence_payload())
         proposed = gateway.propose_claim(
             "The liability cap is one year of fees.", imported["evidence"],
-            "mcp-test")
+            "mcp-test", title="Test claim")
         self.assertEqual(
             proposed["claim"]["proposer"], "agent:codex-laptop")
 
@@ -188,7 +188,7 @@ class HostedServiceTests(unittest.TestCase):
         imported = agent.submit_evidence(evidence_payload())
         proposed = agent.propose_claim(
             "The liability cap is one year of fees.", imported["evidence"],
-            "web-review-test", "spoofed")
+            "web-review-test", "spoofed", title="Test claim")
         claim_id = proposed["claim"]["id"]
         agent.evaluate_claim(claim_id)
 

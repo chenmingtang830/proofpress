@@ -194,7 +194,7 @@ def repo_qualifiers(bundle: dict[str, Any], claim_kind: str) -> dict[str, Any]:
                      "pull_request": bundle.get("pull_request")}}
 
 
-def propose_candidate(client, bundle_path: str | Path, *, statement: str,
+def propose_candidate(client, bundle_path: str | Path, *, title: str, statement: str,
                       claim_kind: str, scope: str, proposer: str,
                       idempotency_prefix: str) -> dict[str, Any]:
     """Import, propose, and evaluate; deliberately stop before Human Approval."""
@@ -205,7 +205,7 @@ def propose_candidate(client, bundle_path: str | Path, *, statement: str,
     if not evidence_refs:
         raise ValueError("repo evidence import returned no imported_evidence")
     proposal = client.propose_claim(
-        statement, evidence_refs, scope, proposer, profile="repo",
+        statement, evidence_refs, scope, proposer, profile="repo", title=title,
         qualifiers=repo_qualifiers(bundle, claim_kind),
         idempotency_key=idempotency_prefix + ":proposal")
     claim_id = proposal["claim"]["id"]

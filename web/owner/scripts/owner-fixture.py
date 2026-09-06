@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory(prefix="proofpress-browser-") as directory:
             "retrieval": {"adapter": "browser-fixture", "version": "1", "query": name, "config_digest": "sha256:" + "b" * 64},
         })
         proposal = client.propose_claim(quote, evidence["evidence"], "browser-test", "agent:browser-test",
-            title=f"Browser fixture {name}: human admission" if os.environ.get("PROOFPRESS_TEST_TITLES") == "1" else None)
+            title=f"Browser fixture {name}: human admission")
         cid = proposal["claim"]["id"]
         client.evaluate_claim(cid)
         ids.append(cid)
