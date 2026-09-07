@@ -18,7 +18,7 @@ read-only calls and untrusted ledger content. Credentials and provider secrets
 never appear in tool results.
 
 [//]: # (ob:4565936e)
-**Status (2026-09-04):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. PR #113 is the implementation candidate for the owner workspace; PR #115 applies the system to the public landing-page candidate. Local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
+**Status (2026-09-07):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. Product UI uses the shared shadcn component layer and must pass the localhost interaction review defined below before release. Local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
 
 [//]: # (ob:678e1b70)
 [//]: # (ob:hosted-workspace-v2)
@@ -33,7 +33,22 @@ The owner workspace keeps its 224px navigation rail and flexible primary work su
 Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, and IBM Plex Mono for proof metadata. Knowledge starts with current eligible claims and opens their evidence, use conditions, and recorded human authority. Local lineage is a secondary inspection path. Legal-specific vocabulary and demonstration claims are not copied into the product. The current owner extension remains a local implementation awaiting human visual review; its surface brief is `.impeccable/surfaces/web-owner-index-html.md`.
 
 [//]: # (ob:06711fc4)
-Use shadcn primitives as accessible construction material, not as a visual preset. Reduce their default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
+Use shadcn primitives as the required accessible construction layer for every interactive product surface. Buttons, inputs, textareas, selects, cards, tabs, accordions, dialogs, radio groups, checkboxes, tables, badges, pagination, tooltips, and loading or empty-state containers must come from, or extend, the shared `web/owner/src/components/ui/` layer. Do not create page-local imitations or place legacy form and disclosure markup inside a shadcn shell. Reduce the default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
+
+### Product UI release workflow
+
+Every frontend change follows this sequence:
+
+1. Read this document, `PRODUCT.md`, and the matching `.impeccable/surfaces/` brief before editing.
+2. Work on an isolated local branch or worktree. Keep the change unpushed, unmerged, and undeployed while visual review is pending.
+3. Build with shared shadcn components and design tokens. DM Sans is the default for navigation, headings, prose, labels, and controls. IBM Plex Mono is limited to raw IDs, hashes, versions, code, receipts, and sparse proof indexes.
+4. Run unit tests, type checking, the production build, and the Impeccable detector.
+5. Exercise the complete product workflow in a real browser. Visit Home, Review, Knowledge, Runs, Activity, and Admin; open every tab, accordion, disclosure, dialog, record, filter, pagination control, empty/loading/error state, and available decision path. Verify at 1536×1024, 1024px-wide, and 390×844.
+6. Review screenshot evidence for typography, spacing, overflow, hierarchy, keyboard focus, mobile safe areas, and the authority boundary. A shadcn outer component containing visually inconsistent legacy content fails review.
+7. Start a stable localhost preview using the persistent synthetic dataset and owner credential. Richard reviews the actual workflow there.
+8. Push, open or update the PR, bypass required checks, merge, and deploy only after Richard explicitly approves the localhost result. A backend bypass or approval from an earlier frontend change does not carry forward.
+
+The agent completing the change reports the routes and states inspected, defects fixed, test and browser results, remaining limitations, and whether any push or deployment occurred.
 
 [//]: # (ob:bd3d4bba)
 The desktop reference viewport is 1536×1024. The primary table begins on the same vertical axis as its title and filter row; the contextual inspector begins at the application header and owns its own scroll. Selection is expressed through the canonical accent-soft wash and a one-pixel cyan marker, never a glow. The mobile reference viewport is 390×844, where tables become structured records and the decision controls form a safe-area-aware bottom bar.
@@ -90,6 +105,7 @@ The current owner MVP navigation is:
 - **Home** — next candidate decision and available knowledge; no assistant or chat entry
 - **Review** — governance inbox
 - **Knowledge** — searchable current eligible claims; the stable route remains `/ledger`
+- **Runs** — task, retrieved context, declared reliance, outputs, and later observations
 - **Activity** — consumption receipts
 - **Admin** — principals, credentials, policy
 
