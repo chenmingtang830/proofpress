@@ -28,6 +28,8 @@ AGENT_OPERATIONS = frozenset({
     "claim.judge_batch", "relation.propose", "relation.evaluate",
     "relation.judge", "graph.get", "graph.traverse", "context.get", "context.discover",
     "review.summary", "review.receipt",
+    "run.start", "run.finish", "run.get", "run.list", "context.capture",
+    "reliance.record", "output.record", "observation.record",
 })
 IDENTITY_PARAMETERS = {
     "claim.propose": "proposer",
@@ -47,6 +49,14 @@ IDENTITY_PARAMETERS = {
     "graph.get": "actor",
     "review.summary": "actor",
     "review.receipt": "actor",
+    "run.start": "actor",
+    "run.finish": "actor",
+    "run.get": "actor",
+    "run.list": "actor",
+    "context.capture": "actor",
+    "reliance.record": "actor",
+    "output.record": "actor",
+    "observation.record": "actor",
 }
 
 

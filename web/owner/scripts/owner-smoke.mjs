@@ -288,7 +288,7 @@ try {
     const response = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation,parameters}});
     const body = await response.json(); assert.equal(body.ok,true,JSON.stringify(body)); return body.result;
   };
-  const revision = await operation('claim.propose',{statement:'Revised finding: evidence supports population A only.',evidence_refs:original.claim.evidence_refs,scope:'browser-test',proposer:'agent:browser-test',qualifiers:{revision_of:data.ids[2],revision_request_ref:original.revision_request.event_id}});
+  const revision = await operation('claim.propose',{title:'Revised finding: evidence supports population A only.',statement:'Revised finding: evidence supports population A only.',evidence_refs:original.claim.evidence_refs,scope:'browser-test',proposer:'agent:browser-test',qualifiers:{revision_of:data.ids[2],revision_request_ref:original.revision_request.event_id}});
   await operation('claim.evaluate',{claim_id:revision.claim.id});
   await page.reload();
   await page.getByRole('heading',{name:'Requested change',exact:true}).waitFor();
@@ -410,6 +410,18 @@ try {
   await page.getByRole('link',{name:'Sign in again',exact:true}).click();
   await page.locator('.shell[aria-busy="false"]').waitFor();
   assert.equal(await page.getByRole('link',{name:'Sign in again',exact:true}).count(),0);
+  const trackedRun = await operation('run.start',{purpose:'Browser fixture tracked task',actor:'spoofed'});
+  const trackedContext = await operation('context.capture',{run_id:trackedRun.id,actor:'spoofed',scope:'browser-test',task:'browser fixture'});
+  const trackedClaim = trackedContext.claims.find(row=>row.claim_id===data.ids[0]);
+  const trackedReliance = await operation('reliance.record',{run_id:trackedRun.id,receipt_id:trackedContext.id,claim_id:trackedClaim.claim_id,claim_digest:trackedClaim.claim_digest,purpose:'Use the approved browser fixture',actor:'spoofed'});
+  const trackedOutput = await operation('output.record',{run_id:trackedRun.id,reference:'repo://browser-fixture/result.json',content_digest:`sha256:${'a'.repeat(64)}`,actor:'spoofed',summary:'Browser fixture output',reliance_ids:[trackedReliance.id],media_type:'application/json'});
+  await operation('run.finish',{run_id:trackedRun.id,status:'completed',actor:'spoofed',summary:'Browser path complete'});
+  await operation('observation.record',{run_id:trackedRun.id,kind:'test',source:'owner-smoke.mjs',meaning:'Owner Runs page rendered the complete tracked chain.',actor:'spoofed',evidence_refs:[],output_ids:[trackedOutput.id]});
+  await page.getByRole('button',{name:'Runs',exact:true}).click();
+  await page.getByRole('button',{name:/Browser fixture tracked task/}).click();
+  await page.getByRole('heading',{name:'Retrieved context',exact:true}).waitFor();
+  await page.getByText('Browser fixture output',{exact:true}).waitFor();
+  await page.getByText('Owner Runs page rendered the complete tracked chain.',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Activity',exact:true}).click();
   await page.getByRole('columnheader',{name:'What happened',exact:true}).waitFor();
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-columns.png`});

@@ -1,6 +1,8 @@
 [//]: # (ob:d16948ea)
 # Proofpress documentation
 
+- [Task run tracking](TASK_RUNS.md) — connect governed context receipts to declared reliance, outputs, and observations.
+
 [//]: # (ob:850a2850)
 [//]: # (ob:start-here)
 

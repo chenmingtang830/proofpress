@@ -219,6 +219,13 @@ class HostedServiceTests(unittest.TestCase):
         self.assertIn("<title>Proofpress</title>", page)
         self.assertIn("/assets/index-", page)
         self.assertNotIn(self.owner["token"], page)
+        runs_request = Request(
+            self.base_url + "/runs", headers={"Cookie": cookie})
+        with urlopen(runs_request) as response:
+            runs_page = response.read().decode()
+        self.assertIn("<title>Proofpress</title>", runs_page)
+        self.assertIn("/assets/index-", runs_page)
+        self.assertNotIn(self.owner["token"], runs_page)
         with urlopen(self.base_url + "/logo.svg") as response:
             self.assertEqual(response.status, 200)
             self.assertEqual(response.headers.get_content_type(), "image/svg+xml")

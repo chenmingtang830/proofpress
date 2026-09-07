@@ -413,6 +413,43 @@ LOCAL_OPERATION_SPECS = {
         "required": ("claim_id",), "optional": ("actor",), "mutates": False,
         "replay_semantics": "read_only",
     },
+    "run.start": {
+        "required": ("purpose", "actor"), "optional": ("metadata",),
+        "mutates": True, "replay_semantics": "request_idempotency_key",
+    },
+    "run.finish": {
+        "required": ("run_id", "status", "actor"),
+        "optional": ("summary",), "mutates": True,
+        "replay_semantics": "request_idempotency_key",
+    },
+    "run.get": {
+        "required": ("run_id",), "optional": ("actor",), "mutates": False,
+        "replay_semantics": "read_only",
+    },
+    "run.list": {
+        "required": (), "optional": ("actor", "status", "limit"),
+        "mutates": False, "replay_semantics": "read_only",
+    },
+    "context.capture": {
+        "required": ("run_id", "actor"),
+        "optional": ("scope", "task"), "mutates": True,
+        "replay_semantics": "request_idempotency_key",
+    },
+    "reliance.record": {
+        "required": ("run_id", "receipt_id", "claim_id", "claim_digest", "purpose", "actor"),
+        "optional": (), "mutates": True,
+        "replay_semantics": "request_idempotency_key",
+    },
+    "output.record": {
+        "required": ("run_id", "reference", "content_digest", "actor"),
+        "optional": ("summary", "reliance_ids", "media_type"),
+        "mutates": True, "replay_semantics": "request_idempotency_key",
+    },
+    "observation.record": {
+        "required": ("run_id", "kind", "source", "meaning", "actor"),
+        "optional": ("evidence_refs", "output_ids", "observed_at"),
+        "mutates": True, "replay_semantics": "request_idempotency_key",
+    },
 }
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
@@ -647,6 +684,8 @@ def v2_projection(events=None):
         "relation_recommendations": {}, "relation_admissions": {},
         "relation_rejections": {}, "relation_revision_requests": {},
         "conflict_resolutions": {}, "events": events,
+        "runs": {}, "context_receipts": {}, "reliances": {},
+        "outputs": {}, "observations": {},
     }
     for event in events:
         kind = event.get("type")
@@ -669,6 +708,17 @@ def v2_projection(events=None):
         elif kind == "relation_rejected": result["relation_rejections"][subject] = event
         elif kind == "relation_revision_requested": result["relation_revision_requests"][subject] = event
         elif kind == "contradiction_resolved": result["conflict_resolutions"][subject] = event
+        elif kind == "run_started": result["runs"][subject] = dict(event["run"])
+        elif kind == "run_finished":
+            if subject in result["runs"]:
+                result["runs"][subject] = {**result["runs"][subject],
+                                           "status": event["status"],
+                                           "finished_at": event["created_at"],
+                                           "finish_summary": event.get("summary")}
+        elif kind == "context_captured": result["context_receipts"][subject] = event["receipt"]
+        elif kind == "reliance_recorded": result["reliances"][subject] = event["reliance"]
+        elif kind == "output_recorded": result["outputs"][subject] = event["output"]
+        elif kind == "observation_recorded": result["observations"][subject] = event["observation"]
     return result
 
 
@@ -1842,6 +1892,201 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             "actor": actor, "task": task, "policy_digest": policy["digest"],
             "governed_context": governed, "relations": relations, "blocked": blocked,
             "next_action": "continue from admitted claims; reverify or review blocked claims"}
+
+
+RUN_STATUSES = {"completed", "failed", "aborted"}
+OBSERVATION_KINDS = {"test", "human", "external_evaluation", "outcome"}
+
+
+def _require_text(value, field, maximum=4000):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{field} must be a non-empty string")
+    if len(value) > maximum:
+        raise ValueError(f"{field} must be at most {maximum} characters")
+    return value.strip()
+
+
+def _require_run(projection, run_id):
+    run = projection["runs"].get(run_id)
+    if not run:
+        raise ValueError("run not found")
+    return run
+
+
+def start_run_v1(purpose, actor, metadata=None):
+    purpose = _require_text(purpose, "purpose", 1000)
+    actor = _require_text(actor, "actor", 256)
+    if metadata is not None and not isinstance(metadata, dict):
+        raise ValueError("metadata must be an object")
+    try:
+        metadata_size = len(canon(metadata or {}))
+    except (TypeError, ValueError) as exc:
+        raise ValueError("metadata must contain JSON values") from exc
+    if metadata_size > 8192:
+        raise ValueError("metadata must be at most 8192 encoded bytes")
+    started_at = now()
+    row = {"schema_version": "proofpress/run/v1alpha1",
+           "id": ident({"purpose": purpose, "actor": actor,
+                        "started_at": started_at}, "run_"),
+           "purpose": purpose, "actor": actor, "status": "running",
+           "started_at": started_at, "metadata": metadata or {}}
+    append_v2({"type": "run_started", "subject_ref": row["id"], "run": row,
+               "created_at": started_at})
+    return row
+
+
+def finish_run_v1(run_id, status, actor, summary=None):
+    projection = v2_projection(); run = _require_run(projection, run_id)
+    if run["status"] != "running":
+        raise ValueError("run is already finished")
+    if status not in RUN_STATUSES:
+        raise ValueError("status must be completed, failed, or aborted")
+    actor = _require_text(actor, "actor", 256)
+    if actor != run["actor"]:
+        raise ValueError("only the run actor may finish the run")
+    if summary is not None: summary = _require_text(summary, "summary", 2000)
+    event = append_v2({"type": "run_finished", "subject_ref": run_id,
+                       "status": status, "actor": actor, "summary": summary})
+    return {**run, "status": status, "finished_at": event["created_at"],
+            "finish_summary": summary}
+
+
+def _run_detail(projection, run):
+    run_id = run["id"]
+    return {**run,
+            "context_receipts": [r for r in projection["context_receipts"].values()
+                                 if r["run_id"] == run_id],
+            "reliances": [r for r in projection["reliances"].values()
+                          if r["run_id"] == run_id],
+            "outputs": [r for r in projection["outputs"].values()
+                        if r["run_id"] == run_id],
+            "observations": [r for r in projection["observations"].values()
+                             if r["run_id"] == run_id]}
+
+
+def get_run_v1(run_id, actor=None):
+    projection = v2_projection()
+    return _run_detail(projection, _require_run(projection, run_id))
+
+
+def list_runs_v1(actor=None, status=None, limit=50):
+    if status is not None and status not in RUN_STATUSES | {"running"}:
+        raise ValueError("invalid run status")
+    if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 100:
+        raise ValueError("limit must be an integer from 1 to 100")
+    projection = v2_projection()
+    rows = [r for r in projection["runs"].values()
+            if (status is None or r["status"] == status)]
+    rows.sort(key=lambda row: (row["started_at"], row["id"]), reverse=True)
+    return {"schema_version": "proofpress/run-list/v1alpha1",
+            "runs": [{**row, "counts": {
+                "retrieved": sum(r["run_id"] == row["id"] for r in projection["context_receipts"].values()),
+                "relied_on": sum(r["run_id"] == row["id"] for r in projection["reliances"].values()),
+                "outputs": sum(r["run_id"] == row["id"] for r in projection["outputs"].values()),
+                "observations": sum(r["run_id"] == row["id"] for r in projection["observations"].values()),
+            }} for row in rows[:limit]]}
+
+
+def capture_context_v1(run_id, actor, scope=None, task=None):
+    projection = v2_projection(); run = _require_run(projection, run_id)
+    actor = _require_text(actor, "actor", 256)
+    if actor != run["actor"]:
+        raise ValueError("only the run actor may capture context")
+    packet = context_v2(scope, actor, task, False)
+    captured_at = now()
+    claims = []
+    for row in packet["governed_context"]:
+        claims.append({
+            "claim_id": row["id"], "claim_digest": row["digest"],
+            "title": row.get("title"), "statement": row["statement"],
+            "scope": row.get("scope"), "applicability": row.get("applicability"),
+            "state": "admitted",
+            "admission": json.loads(json.dumps(row["receipt"])),
+            "evidence_refs": list(row.get("evidence_refs", [])),
+        })
+    receipt = {"schema_version": "proofpress/context-receipt/v1alpha1",
+               "id": ident({"run_id": run_id, "actor": actor,
+                            "captured_at": captured_at, "ledger_head": packet["ledger_head"]}, "ctxr_"),
+               "run_id": run_id, "actor": actor, "captured_at": captured_at,
+               "scope": scope, "task": task, "ledger_head": packet["ledger_head"],
+               "policy_digest": packet["policy_digest"], "claims": claims,
+               "blocked_count": len(packet["blocked"])}
+    receipt["digest"] = digest(receipt)
+    append_v2({"type": "context_captured", "subject_ref": receipt["id"],
+               "receipt": receipt, "created_at": captured_at})
+    return receipt
+
+
+def record_reliance_v1(run_id, receipt_id, claim_id, claim_digest, purpose, actor):
+    projection = v2_projection(); run = _require_run(projection, run_id)
+    actor = _require_text(actor, "actor", 256)
+    if actor != run["actor"]: raise ValueError("only the run actor may record reliance")
+    receipt = projection["context_receipts"].get(receipt_id)
+    if not receipt or receipt["run_id"] != run_id:
+        raise ValueError("context receipt does not belong to run")
+    frozen = next((row for row in receipt["claims"]
+                   if row["claim_id"] == claim_id and row["claim_digest"] == claim_digest), None)
+    if not frozen: raise ValueError("claim version was not returned in context receipt")
+    created_at = now(); purpose = _require_text(purpose, "purpose", 1000)
+    row = {"schema_version": "proofpress/reliance/v1alpha1",
+           "id": ident({"run_id": run_id, "receipt_id": receipt_id,
+                        "claim_id": claim_id, "claim_digest": claim_digest,
+                        "purpose": purpose, "created_at": created_at}, "rel_"),
+           "run_id": run_id, "receipt_id": receipt_id, "claim_id": claim_id,
+           "claim_digest": claim_digest, "purpose": purpose, "actor": actor,
+           "declared_at": created_at}
+    append_v2({"type": "reliance_recorded", "subject_ref": row["id"],
+               "reliance": row, "created_at": created_at})
+    return row
+
+
+def record_output_v1(run_id, reference, content_digest, actor, summary=None,
+                     reliance_ids=None, media_type=None):
+    projection = v2_projection(); run = _require_run(projection, run_id)
+    actor = _require_text(actor, "actor", 256)
+    if actor != run["actor"]: raise ValueError("only the run actor may record output")
+    reference = _require_text(reference, "reference", 2000)
+    _required_digest(content_digest, "content_digest")
+    if summary is not None: summary = _require_text(summary, "summary", 1000)
+    reliance_ids = list(reliance_ids or [])
+    if any(rid not in projection["reliances"] or projection["reliances"][rid]["run_id"] != run_id
+           for rid in reliance_ids):
+        raise ValueError("every reliance_id must belong to the run")
+    created_at = now()
+    row = {"schema_version": "proofpress/output-reference/v1alpha1",
+           "id": ident({"run_id": run_id, "reference": reference,
+                        "content_digest": content_digest, "created_at": created_at}, "out_"),
+           "run_id": run_id, "reference": reference, "content_digest": content_digest,
+           "summary": summary, "media_type": media_type, "reliance_ids": reliance_ids,
+           "actor": actor, "recorded_at": created_at}
+    append_v2({"type": "output_recorded", "subject_ref": row["id"],
+               "output": row, "created_at": created_at})
+    return row
+
+
+def record_observation_v1(run_id, kind, source, meaning, actor, evidence_refs=None,
+                          output_ids=None, observed_at=None):
+    projection = v2_projection(); _require_run(projection, run_id)
+    actor = _require_text(actor, "actor", 256)
+    if kind not in OBSERVATION_KINDS: raise ValueError("invalid observation kind")
+    source = _require_text(source, "source", 1000)
+    meaning = _require_text(meaning, "meaning", 4000)
+    evidence_refs = list(evidence_refs or []); output_ids = list(output_ids or [])
+    if any(ref not in projection["evidence"] for ref in evidence_refs):
+        raise ValueError("evidence_refs must exist in this workspace")
+    if any(ref not in projection["outputs"] or projection["outputs"][ref]["run_id"] != run_id
+           for ref in output_ids):
+        raise ValueError("output_ids must belong to the run")
+    recorded_at = now(); observed_at = observed_at or recorded_at
+    row = {"schema_version": "proofpress/observation/v1alpha1",
+           "id": ident({"run_id": run_id, "kind": kind, "source": source,
+                        "meaning": meaning, "observed_at": observed_at}, "obs_"),
+           "run_id": run_id, "kind": kind, "source": source, "meaning": meaning,
+           "evidence_refs": evidence_refs, "output_ids": output_ids,
+           "actor": actor, "observed_at": observed_at, "recorded_at": recorded_at}
+    append_v2({"type": "observation_recorded", "subject_ref": row["id"],
+               "observation": row, "created_at": recorded_at})
+    return row
 
 
 def graph_v2(scope=None, actor=None):
@@ -3032,6 +3277,36 @@ def _execute_local_operation(request):
             result = discover_context_v2(
                 parameters.get("actor"), parameters.get("task"),
                 parameters.get("limit", 24))
+        elif operation == "run.start":
+            result = start_run_v1(parameters["purpose"], parameters["actor"],
+                                  parameters.get("metadata"))
+        elif operation == "run.finish":
+            result = finish_run_v1(parameters["run_id"], parameters["status"],
+                                   parameters["actor"], parameters.get("summary"))
+        elif operation == "run.get":
+            result = get_run_v1(parameters["run_id"], parameters.get("actor"))
+        elif operation == "run.list":
+            result = list_runs_v1(parameters.get("actor"), parameters.get("status"),
+                                  parameters.get("limit", 50))
+        elif operation == "context.capture":
+            result = capture_context_v1(parameters["run_id"], parameters["actor"],
+                                        parameters.get("scope"), parameters.get("task"))
+        elif operation == "reliance.record":
+            result = record_reliance_v1(
+                parameters["run_id"], parameters["receipt_id"], parameters["claim_id"],
+                parameters["claim_digest"], parameters["purpose"], parameters["actor"])
+        elif operation == "output.record":
+            result = record_output_v1(
+                parameters["run_id"], parameters["reference"],
+                parameters["content_digest"], parameters["actor"],
+                parameters.get("summary"), parameters.get("reliance_ids"),
+                parameters.get("media_type"))
+        elif operation == "observation.record":
+            result = record_observation_v1(
+                parameters["run_id"], parameters["kind"], parameters["source"],
+                parameters["meaning"], parameters["actor"],
+                parameters.get("evidence_refs"), parameters.get("output_ids"),
+                parameters.get("observed_at"))
         else:
             raise ValueError("unsupported local operation: " + operation)
     except ValueError as exc:

@@ -297,6 +297,15 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "task": query.get("task", [None])[-1],
                 "include_blocked_statements": True,
             })
+        elif path == "/owner/api/runs":
+            query = parse_qs(parsed.query)
+            envelope = self._owner_operation(session, "run.list", {
+                "status": query.get("status", [None])[-1],
+                "limit": int(query.get("limit", ["50"])[-1]),
+            })
+        elif path.startswith("/owner/api/runs/"):
+            envelope = self._owner_operation(
+                session, "run.get", {"run_id": path.rsplit("/", 1)[-1]})
         elif path in {"/owner/api/activity", "/owner/api/technical-logs"}:
             try:
                 limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
@@ -466,7 +475,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._owner_api(parsed, session)
         if path.startswith("/assets/") or path == "/logo.svg":
             return self._static_asset(path)
-        if path in {"/", "/home", "/review", "/ledger", "/activity", "/admin"}:
+        if path in {"/", "/home", "/review", "/ledger", "/runs", "/activity", "/admin"}:
             session = self._owner_session()
             if not session:
                 return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())

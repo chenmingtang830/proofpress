@@ -31,6 +31,14 @@ MCP_SAFE_TOOLS = (
     "proofpress_get_review_summary",
     "proofpress_get_review_receipt",
     "proofpress_get_review_link",
+    "proofpress_start_run",
+    "proofpress_finish_run",
+    "proofpress_get_run",
+    "proofpress_list_runs",
+    "proofpress_capture_context",
+    "proofpress_record_reliance",
+    "proofpress_record_output",
+    "proofpress_record_observation",
 )
 EVIDENCE_ID_RE = re.compile(r"evd_[0-9a-f]{16}\Z")
 
@@ -108,6 +116,55 @@ class ProofpressMcpGateway:
         return self.client.context(
             scope=scope, actor=self.principal, task=task,
             include_blocked_statements=False)
+
+    def start_run(self, purpose: str, metadata: dict[str, Any] | None = None,
+                  idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.start_run(purpose, actor=self.principal, metadata=metadata,
+                                     idempotency_key=idempotency_key)
+
+    def finish_run(self, run_id: str, status: str, summary: str | None = None,
+                   idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.finish_run(run_id, status, actor=self.principal,
+                                      summary=summary, idempotency_key=idempotency_key)
+
+    def get_run(self, run_id: str) -> dict[str, Any]:
+        return self.client.get_run(run_id, actor=self.principal)
+
+    def list_runs(self, status: str | None = None, limit: int = 50) -> dict[str, Any]:
+        return self.client.list_runs(actor=self.principal, status=status, limit=limit)
+
+    def capture_context(self, run_id: str, scope: str | None = None,
+                        task: str | None = None,
+                        idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.capture_context(run_id, actor=self.principal, scope=scope,
+                                           task=task, idempotency_key=idempotency_key)
+
+    def record_reliance(self, run_id: str, receipt_id: str, claim_id: str,
+                        claim_digest: str, purpose: str,
+                        idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.record_reliance(
+            run_id, receipt_id, claim_id, claim_digest, purpose,
+            actor=self.principal, idempotency_key=idempotency_key)
+
+    def record_output(self, run_id: str, reference: str, content_digest: str,
+                      summary: str | None = None,
+                      reliance_ids: list[str] | None = None,
+                      media_type: str | None = None,
+                      idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.record_output(
+            run_id, reference, content_digest, actor=self.principal, summary=summary,
+            reliance_ids=reliance_ids, media_type=media_type,
+            idempotency_key=idempotency_key)
+
+    def record_observation(self, run_id: str, kind: str, source: str, meaning: str,
+                           evidence_refs: list[str] | None = None,
+                           output_ids: list[str] | None = None,
+                           observed_at: str | None = None,
+                           idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.record_observation(
+            run_id, kind, source, meaning, actor=self.principal,
+            evidence_refs=evidence_refs, output_ids=output_ids,
+            observed_at=observed_at, idempotency_key=idempotency_key)
 
     def evaluate_claim(self, claim_id: str) -> dict[str, Any]:
         return self.client.evaluate_claim(claim_id, actor=self.principal)
@@ -259,6 +316,66 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
     def proofpress_get_graph(scope: str | None = None) -> dict[str, Any]:
         """Read the governed claim graph for an optional scope."""
         return gateway.get_graph(scope)
+
+    @server.tool(name="proofpress_start_run")
+    def proofpress_start_run(purpose: str, metadata: dict[str, Any] | None = None,
+                             idempotency_key: str | None = None) -> dict[str, Any]:
+        """Start a task run. The configured principal is recorded by the server."""
+        return gateway.start_run(purpose, metadata, idempotency_key)
+
+    @server.tool(name="proofpress_finish_run")
+    def proofpress_finish_run(run_id: str, status: str, summary: str | None = None,
+                              idempotency_key: str | None = None) -> dict[str, Any]:
+        """Finish a run as completed, failed, or aborted."""
+        return gateway.finish_run(run_id, status, summary, idempotency_key)
+
+    @server.tool(name="proofpress_get_run")
+    def proofpress_get_run(run_id: str) -> dict[str, Any]:
+        """Read one run and its frozen receipts, declared reliance, outputs, and observations."""
+        return gateway.get_run(run_id)
+
+    @server.tool(name="proofpress_list_runs")
+    def proofpress_list_runs(status: str | None = None,
+                             limit: int = 50) -> dict[str, Any]:
+        """List task runs without changing governance state."""
+        return gateway.list_runs(status, limit)
+
+    @server.tool(name="proofpress_capture_context")
+    def proofpress_capture_context(run_id: str, scope: str | None = None,
+                                   task: str | None = None,
+                                   idempotency_key: str | None = None) -> dict[str, Any]:
+        """Retrieve authorized governed context and freeze the exact returned versions for a run."""
+        return gateway.capture_context(run_id, scope, task, idempotency_key)
+
+    @server.tool(name="proofpress_record_reliance")
+    def proofpress_record_reliance(run_id: str, receipt_id: str, claim_id: str,
+                                   claim_digest: str, purpose: str,
+                                   idempotency_key: str | None = None) -> dict[str, Any]:
+        """Explicitly declare reliance on one exact claim version from a run receipt."""
+        return gateway.record_reliance(run_id, receipt_id, claim_id, claim_digest,
+                                       purpose, idempotency_key)
+
+    @server.tool(name="proofpress_record_output")
+    def proofpress_record_output(run_id: str, reference: str, content_digest: str,
+                                 summary: str | None = None,
+                                 reliance_ids: list[str] | None = None,
+                                 media_type: str | None = None,
+                                 idempotency_key: str | None = None) -> dict[str, Any]:
+        """Record an external artifact reference and content hash; content stays in its source system."""
+        return gateway.record_output(run_id, reference, content_digest, summary,
+                                     reliance_ids, media_type, idempotency_key)
+
+    @server.tool(name="proofpress_record_observation")
+    def proofpress_record_observation(run_id: str, kind: str, source: str,
+                                      meaning: str,
+                                      evidence_refs: list[str] | None = None,
+                                      output_ids: list[str] | None = None,
+                                      observed_at: str | None = None,
+                                      idempotency_key: str | None = None) -> dict[str, Any]:
+        """Append a sourced test, human, external-evaluation, or outcome observation; no score is inferred."""
+        return gateway.record_observation(run_id, kind, source, meaning,
+                                          evidence_refs, output_ids, observed_at,
+                                          idempotency_key)
 
     @server.tool(name="proofpress_traverse_graph")
     def proofpress_traverse_graph(

@@ -254,6 +254,39 @@ class ProofpressClient:
     def discover_context(self, *, actor=None, task=None, limit=24):
         return self.execute("context.discover", {
             "actor": actor, "task": task, "limit": limit})
+    def start_run(self, purpose, *, actor=None, metadata=None, **meta):
+        return self.execute("run.start", {
+            "purpose": purpose, "actor": actor, "metadata": metadata}, **meta)
+    def finish_run(self, run_id, status, *, actor=None, summary=None, **meta):
+        return self.execute("run.finish", {
+            "run_id": run_id, "status": status, "actor": actor,
+            "summary": summary}, **meta)
+    def get_run(self, run_id, *, actor=None):
+        return self.execute("run.get", {"run_id": run_id, "actor": actor})
+    def list_runs(self, *, actor=None, status=None, limit=50):
+        return self.execute("run.list", {
+            "actor": actor, "status": status, "limit": limit})
+    def capture_context(self, run_id, *, actor=None, scope=None, task=None, **meta):
+        return self.execute("context.capture", {
+            "run_id": run_id, "actor": actor, "scope": scope, "task": task}, **meta)
+    def record_reliance(self, run_id, receipt_id, claim_id, claim_digest,
+                        purpose, *, actor=None, **meta):
+        return self.execute("reliance.record", {
+            "run_id": run_id, "receipt_id": receipt_id, "claim_id": claim_id,
+            "claim_digest": claim_digest, "purpose": purpose, "actor": actor}, **meta)
+    def record_output(self, run_id, reference, content_digest, *, actor=None,
+                      summary=None, reliance_ids=None, media_type=None, **meta):
+        return self.execute("output.record", {
+            "run_id": run_id, "reference": reference,
+            "content_digest": content_digest, "actor": actor, "summary": summary,
+            "reliance_ids": list(reliance_ids or []), "media_type": media_type}, **meta)
+    def record_observation(self, run_id, kind, source, meaning, *, actor=None,
+                           evidence_refs=None, output_ids=None, observed_at=None, **meta):
+        return self.execute("observation.record", {
+            "run_id": run_id, "kind": kind, "source": source,
+            "meaning": meaning, "actor": actor,
+            "evidence_refs": list(evidence_refs or []),
+            "output_ids": list(output_ids or []), "observed_at": observed_at}, **meta)
     def review_summary(self, scope=None, actor=None):
         return self.execute("review.summary", {"scope": scope, "actor": actor})
 

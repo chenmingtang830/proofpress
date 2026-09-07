@@ -64,11 +64,12 @@ type Receipt = {
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
-type Page = "home" | "review" | "ledger" | "activity" | "admin";
+type Page = "home" | "review" | "ledger" | "runs" | "activity" | "admin";
 const labels: Record<Page, string> = {
   home: "Home",
   review: "Review",
   ledger: "Knowledge",
+  runs: "Runs",
   activity: "Activity",
   admin: "Admin",
 };
@@ -76,6 +77,7 @@ const icons = {
   home: Home,
   review: ShieldCheck,
   ledger: BookOpen,
+  runs: Activity,
   activity: Activity,
   admin: KeyRound,
 };
@@ -222,6 +224,9 @@ function App() {
   const decisionTrigger = React.useRef<HTMLElement | null>(null);
   const [credentials, setCredentials] = React.useState<any[]>([]);
   const [activity, setActivity] = React.useState<any[]>([]);
+  const [runs, setRuns] = React.useState<any[]>([]);
+  const [selectedRun, setSelectedRun] = React.useState<any>(null);
+  const [runsLoading, setRunsLoading] = React.useState(false);
   const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
   const [judgeMessage, setJudgeMessage] = React.useState("");
   const [judgeRunning, setJudgeRunning] = React.useState(false);
@@ -249,6 +254,15 @@ function App() {
       if (active) setCredentials(body.credentials || []);
     }).catch(e => { if (active) setError(e.message); })
       .finally(() => { if (active) setCredentialsLoading(false); });
+    return () => { active = false; };
+  }, [page, reloadVersion]);
+  React.useEffect(() => {
+    if (page !== "runs") return;
+    let active = true;
+    setRunsLoading(true);
+    api("/owner/api/runs").then(body => { if (active) setRuns(body.runs || []); })
+      .catch(e => { if (active) setError(`Runs could not load: ${e.message}`); })
+      .finally(() => { if (active) setRunsLoading(false); });
     return () => { active = false; };
   }, [page, reloadVersion]);
   React.useEffect(() => {
@@ -871,6 +885,13 @@ function App() {
               onChoose={choose}
             />
           )}
+          {page === "runs" && <RunsPage rows={runs} selected={selectedRun} loading={runsLoading}
+            onChoose={async (id: string) => {
+              setRunsLoading(true);
+              try { setSelectedRun(await api(`/owner/api/runs/${encodeURIComponent(id)}`)); }
+              catch (e: any) { setError(`Run could not load: ${e.message}`); }
+              finally { setRunsLoading(false); }
+            }} onClose={() => setSelectedRun(null)} />}
           {page === "activity" && <ActivityPage rows={activity} />}
           {page === "admin" && (
             <AdminPage
@@ -1277,6 +1298,30 @@ function Inspector({
 }
 function LedgerPage(props: any) {
   return <KnowledgeLibrary {...props} evidenceName={evidenceName} renderEvidence={(row: any) => <EvidenceContent row={row} />} />;
+}
+function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
+  const when = (value?: string) => value ? new Date(value).toLocaleString() : "—";
+  return <div className="pageBody runsPage">
+    <PageHead title="Runs" description="Trace each task from retrieved knowledge through declared reliance, outputs, and observed results." />
+    <div className={`runsWorkspace${selected ? " hasRun" : ""}`}>
+      <section className="runList" aria-busy={loading}>
+        {rows.map((run: any) => <button key={run.id} className={selected?.id === run.id ? "active" : ""} onClick={() => onChoose(run.id)}>
+          <span><Badge state={run.status} /><time>{when(run.started_at)}</time></span>
+          <strong>{run.purpose}</strong>
+          <small>{run.actor} · {run.counts?.retrieved || 0} receipts · {run.counts?.outputs || 0} outputs</small>
+        </button>)}
+        {!loading && !rows.length && <div className="empty"><h2>No runs recorded</h2><p>Agent-tracked tasks appear here after run.start.</p></div>}
+      </section>
+      {selected && <article className="runDetail">
+        <header><div><Badge state={selected.status} /><h2>{selected.purpose}</h2><p>{selected.actor} · started {when(selected.started_at)}{selected.finished_at ? ` · finished ${when(selected.finished_at)}` : ""}</p></div><Button variant="outline" onClick={onClose}>Close</Button></header>
+        {selected.finish_summary && <p className="runSummary">{selected.finish_summary}</p>}
+        <section><h3>Retrieved context</h3>{selected.context_receipts?.length ? selected.context_receipts.map((receipt: any) => <div className="runRecord" key={receipt.id}><b>{receipt.claims.length} claim versions</b><small className="mono">{receipt.id}</small><p>Ledger {receipt.ledger_head || "empty"} · policy {receipt.policy_digest}</p>{receipt.claims.map((claim: any) => <details key={`${claim.claim_id}:${claim.claim_digest}`}><summary>{claim.title || claim.statement}</summary><p>{claim.statement}</p><code>{claim.claim_id} · {claim.claim_digest}</code></details>)}</div>) : <p className="empty">No context receipts recorded.</p>}</section>
+        <section><h3>Declared reliance</h3>{selected.reliances?.length ? selected.reliances.map((row: any) => <div className="runRecord" key={row.id}><b>{row.purpose}</b><code>{row.claim_id} · {row.claim_digest}</code></div>) : <p className="empty">No reliance declared. Retrieved context is not treated as used.</p>}</section>
+        <section><h3>Outputs</h3>{selected.outputs?.length ? selected.outputs.map((row: any) => <div className="runRecord" key={row.id}><b>{row.summary || "Output reference"}</b><code>{row.reference}</code><code>{row.content_digest}</code>{row.reliance_ids?.length ? <small>{row.reliance_ids.length} declared reliance link(s)</small> : null}</div>) : <p className="empty">No outputs recorded.</p>}</section>
+        <section><h3>Observations</h3>{selected.observations?.length ? selected.observations.map((row: any) => <div className="runRecord" key={row.id}><span><Badge state={row.kind} /><time>{when(row.observed_at)}</time></span><b>{row.meaning}</b><small>Source: {row.source}</small></div>) : <p className="empty">No observations recorded. Proofpress does not infer a score.</p>}</section>
+      </article>}
+    </div>
+  </div>;
 }
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
