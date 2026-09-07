@@ -475,7 +475,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._owner_api(parsed, session)
         if path.startswith("/assets/") or path == "/logo.svg":
             return self._static_asset(path)
-        if path in {"/", "/home", "/review", "/ledger", "/activity", "/admin"}:
+        if path in {"/", "/home", "/review", "/ledger", "/runs", "/activity", "/admin"}:
             session = self._owner_session()
             if not session:
                 return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
