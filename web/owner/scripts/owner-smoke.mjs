@@ -152,6 +152,7 @@ try {
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
   assert.match(page.url(), /view=full/);
   await page.reload();
+  await page.locator('.reviewAudit > summary').click();
   await page.locator('.evidenceRow .expandableText > p').filter({hasText:'Browser fixture approve:'}).waitFor();
   const seededReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,
@@ -163,6 +164,7 @@ try {
   await page.getByText('Recheck required',{exact:true}).waitFor();
   assert.equal(await page.locator('.decisionStack').getByText('Passed',{exact:true}).count(),0);
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),false);
+  await page.locator('.reuseBoundary > summary').click();
   await page.locator('.reuseBoundary').getByText('Do not extrapolate to partner outcomes.',{exact:true}).waitFor();
   await page.locator('.reuseBoundary').getByText('Reviewing the synthetic owner workflow.',{exact:true}).waitFor();
   assert.match(await page.locator('.decisionStack').textContent(),/Refresh required/);
@@ -174,10 +176,12 @@ try {
   const rationale = 'The bound source directly supports the exact claim and its stated reuse boundary.';
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:{recommendation:'accept',rationale},judge_job:{state:'failed',detail:'stale failure'}}}}));
   await page.reload();
+  await page.locator('.lmRationale > summary').click();
   await page.getByText(rationale,{exact:true}).waitFor();
   assert.equal(await page.getByText('stale failure',{exact:true}).count(),0);
   await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
   await page.reload();
+  await page.locator('.reviewAudit > summary').click();
   for(const tab of ['Checks','History','Evidence']) await page.getByRole('tab',{name:tab,exact:true}).click();
   if(process.env.QA_SCREENSHOTS) {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
