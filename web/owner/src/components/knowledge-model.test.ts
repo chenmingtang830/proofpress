@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import React from "react";
 import { admissionRecord, recordedIdentity, selectKnowledge, type KnowledgeRow } from "./knowledge-model";
 import { KnowledgeRecord } from "./knowledge-library";
+import { claimDisplayTitle, hasDistinctClaimHeading } from "./claim-display";
 
 const rows: KnowledgeRow[] = [
   { id: "a", label: "Alpha deployment contract", state: "admitted", created_at: "2026-09-01", applicability: { title: "Runtime", keywords: ["Python"] } },
@@ -10,6 +11,20 @@ const rows: KnowledgeRow[] = [
   { id: "c", label: "Gamma legacy record", state: "unresolved" },
 ];
 describe("knowledge browsing", () => {
+  it("uses one title hierarchy for new and historical claims", () => {
+    expect(claimDisplayTitle({ title: "  Authored title  ", applicability: { title: "Use case" }, statement: "Exact statement" })).toBe("Authored title");
+    expect(claimDisplayTitle({ applicability: { title: "  Historical heading  " }, statement: "Exact statement" })).toBe("Historical heading");
+    expect(claimDisplayTitle({ title: " ", applicability: { title: " " }, statement: "Exact statement" })).toBe("Exact statement");
+    expect(claimDisplayTitle({})).toBe("Untitled claim");
+    expect(hasDistinctClaimHeading({ applicability: { title: "Historical heading" }, statement: "Exact statement" })).toBe(true);
+    expect(hasDistinctClaimHeading({ statement: "Exact statement" })).toBe(false);
+  });
+
+  it("shows the compatibility title and preserves the exact statement", () => {
+    const html = renderToStaticMarkup(React.createElement(KnowledgeRecord, { receipt: { claim: { id: "legacy", statement: "A historically long exact statement", applicability: { title: "Historical heading" } } }, renderEvidence: () => null, evidenceName: () => "Evidence", onClose: () => {}, onLineage: () => {} }));
+    expect(html).toContain("Historical heading");
+    expect(html).toContain("A historically long exact statement");
+  });
   it("renders recorded actor objects safely without manufacturing identity", () => {
     expect(recordedIdentity({ id: "human:richard", name: "Richard" }, "missing")).toBe("human:richard");
     expect(recordedIdentity({ name: "Richard" }, "missing")).toBe("Richard");

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
+import { claimDisplayTitle } from "./claim-display";
 
 export function LineageGraph({receipt, available, evidenceNames, selection, onSelect}: any) {
   const [limit, setLimit] = React.useState(3);
@@ -19,7 +20,7 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
         <svg width="100%" height={height} viewBox={`0 0 920 ${height}`} preserveAspectRatio="none" aria-hidden="true">{evidence.map((_:any,i:number) => <path key={i} d={`M 262 ${134+i*138} C 305 ${134+i*138}, 295 ${center}, 338 ${center}`} />)}<path className={available ? "" : tone} d={`M 582 ${center} C 620 ${center}, 622 ${center}, 662 ${center}`} /></svg>
         {evidence.map((e:any,i:number) => node(`evidence:${i}`,18,80+i*138,evidenceNames[i],"Evidence", e.id || e.evidence?.id || `Source ${i+1}`,"evidence"))}
         {!evidence.length && <p className="graphNoEvidence">No bound evidence</p>}
-        {node("claim",338,center-70,receipt.claim.statement,receipt.state.replaceAll("_"," "),[boundary, receipt.claim.created_at && new Date(receipt.claim.created_at).toLocaleString()].filter(Boolean).join(" · "),`claim ${tone}`)}
+        {node("claim",338,center-70,claimDisplayTitle(receipt.claim),receipt.state.replaceAll("_"," "),[boundary, receipt.claim.created_at && new Date(receipt.claim.created_at).toLocaleString()].filter(Boolean).join(" · "),`claim ${tone}`)}
         {node("context",662,center-70,available ? contextTitle : receipt.state === "admitted" ? "Not eligible in this view" : `Not reusable: ${receipt.state.replaceAll("_"," ")}`,"Reuse boundary", available ? `Approved by ${receipt.review?.reviewer || "actor not recorded"}` : Object.entries(receipt.evaluation?.checks || {}).filter(([,ok])=>!ok).map(([name])=>name.replaceAll("_"," ")).join(", ") || (receipt.state === "admitted" ? "Check actor eligibility" : "Human approval required"),`context ${tone}`)}
       </div>
     </div>

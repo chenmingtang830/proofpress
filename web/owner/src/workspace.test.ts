@@ -97,7 +97,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("{pageSize} per page");
   });
   it("uses a concise title and description before the exact claim statement", () => {
-    expect(source).toContain("r.claim.title || r.claim.applicability?.title || r.claim.statement");
+    expect(source).toContain("const claimTitle = claimDisplayTitle(r.claim)");
+    expect(source).toContain("{claimDisplayTitle(row)}</button>");
     expect(source).toContain('className="claimDescription"');
     expect(source).toContain("Exact claim statement");
     expect(css).toContain(".claimStatementDetails");
