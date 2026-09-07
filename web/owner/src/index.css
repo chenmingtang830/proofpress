@@ -446,6 +446,8 @@ main {
   font-size: 11px;
   white-space: nowrap;
 }
+.reviewPagination { margin: 16px 0 0; }
+.reviewPagination span { color: var(--ink-2); font-size: 12px; }
 .tableWrap {
   overflow: auto;
   border: 1px solid var(--line);
@@ -571,6 +573,10 @@ td:last-child svg {
   color: var(--ink-2);
   font-size: 11px;
 }
+.inspectorTop .claimDescription { max-width: 64ch; color: var(--ink-2); font-size: 15px; line-height: 1.65; }
+.claimStatementDetails { margin: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; }
+.claimStatementDetails summary { cursor: pointer; color: var(--ink-2); font-size: 12px; font-weight: 600; }
+.claimStatementDetails .claimFullStatement { margin: 12px 0 0; color: var(--ink); font-size: 13px; line-height: 1.65; }
 .mono {
   font-family: var(--font-proof);
 }
