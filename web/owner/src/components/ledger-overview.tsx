@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { claimDisplayTitle } from "./claim-display";
 
 /** Bounded graph projection. Selecting evidence highlights its real support edges. */
 export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
@@ -24,7 +25,7 @@ export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
     <div className="mobileLineageToggle"><Button variant="outline" onClick={() => setMobileGraph(!mobileGraph)}>{mobileGraph ? "Claim list" : "Explore graph"}</Button></div>
     <div className="mobileLineageList">{shown.map((r:any) => <article key={r.id}>
       <Badge state={r.state} />
-      <button className="mobileClaim" onClick={() => onChoose(r.id)}>{r.label}</button>
+      <button className="mobileClaim" onClick={() => onChoose(r.id)}>{claimDisplayTitle(r)}</button>
       <p>{r.scope || "Workspace"}</p>
       <details><summary>Supporting evidence ({support.filter((e:any) => e.to === r.id).length})</summary>
         <ul>{support.filter((e:any) => e.to === r.id).map((e:any) => <li key={e.from}>{nodes.find((n:any) => n.id === e.from)?.label || "Evidence receipt"}<small>{e.from}</small></li>)}</ul>
@@ -38,7 +39,7 @@ export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
           return <path key={i} className={source===e.from ? "selectedEdge" : ""} style={{opacity:source && source!==e.from ? .2:1}} d={`M 350 ${y1} C 450 ${y1},470 ${y2},570 ${y2}`} />;
         })}</svg>
         {sources.map((id,i)=>{const n=nodes.find((n:any)=>n.id===id);return <button key={id} className="globalNode source" style={{top:64+i*126}} aria-pressed={source===id} onClick={()=>setSource(source===id?null:id)}><strong>{n?.label || id}</strong><small>{id} · {support.filter((e:any)=>e.from===id).length} linked claims</small></button>;})}
-        {shown.map((r:any,i:number)=><button key={r.id} className="globalNode claimNode" data-state={r.state} style={{top:64+i*126,opacity:related(r.id)?1:.35}} onClick={()=>onChoose(r.id)}><small>{r.state.replaceAll("_"," ")} · {r.created_at ? new Date(r.created_at).toLocaleDateString() : "Time not recorded"}</small><strong>{r.label}</strong></button>)}
+        {shown.map((r:any,i:number)=><button key={r.id} className="globalNode claimNode" data-state={r.state} style={{top:64+i*126,opacity:related(r.id)?1:.35}} onClick={()=>onChoose(r.id)}><small>{r.state.replaceAll("_"," ")} · {r.created_at ? new Date(r.created_at).toLocaleDateString() : "Time not recorded"}</small><strong>{claimDisplayTitle(r)}</strong></button>)}
       </div>
     </div>
     <div className="globalToolbar">{filtered.length>limit && <Button variant="outline" onClick={()=>setLimit(limit+6)}>Show more claims</Button>}{new Set(support.map((e:any)=>e.from)).size>sourceLimit && <Button variant="outline" onClick={()=>setSourceLimit(sourceLimit+12)}>Show more evidence</Button>}</div>
