@@ -33,6 +33,8 @@ class LocalOperationContractTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def execute(self, operation, **parameters):
+        if operation == "claim.propose" and "title" not in parameters:
+            parameters["title"] = "Test claim"
         return self.kernel_ops.execute_local_operation({
             "schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation,
@@ -280,6 +282,7 @@ class LocalOperationContractTests(unittest.TestCase):
         evidence_id = self.cli("evidence", "import", str(FIXTURE))["evidence"][0]
         proposed = self.cli(
             "propose", "--statement", "The indemnity requires escalation",
+            "--title", "Indemnity escalation",
             "--evidence", evidence_id, "--scope", "msa-negotiation",
             "--proposer", "agent:runner")
         claim_id = proposed["claim"]["id"]

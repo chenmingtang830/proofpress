@@ -56,6 +56,7 @@ class HostedAuthorityTests(unittest.TestCase):
         evidence_id = imported["result"]["evidence"][0]
         proposed = self.control.execute(
             self.agent["token"], operation("claim.propose", {
+                "title": "Liability cap",
                 "statement": "The liability cap is one year of fees.",
                 "evidence_refs": [evidence_id], "scope": "contract-review",
                 "proposer": "human:owner",
@@ -95,6 +96,7 @@ class HostedAuthorityTests(unittest.TestCase):
                 "payload": evidence_payload()}, "discovery-evidence"))
         proposed = self.control.execute(
             self.agent["token"], operation("claim.propose", {
+                "title": "Acme liability cap",
                 "statement": "The Acme liability cap is one year of fees.",
                 "evidence_refs": [imported["result"]["evidence"][0]],
                 "proposer": "spoofed",
@@ -229,6 +231,7 @@ class HostedAuthorityTests(unittest.TestCase):
         evidence_id = imported["result"]["evidence"][0]
         proposed = migrated.execute(
             self.agent["token"], operation("claim.propose", {
+                "title": "Legacy credential",
                 "statement": "Legacy credential can still propose claims.",
                 "evidence_refs": [evidence_id], "scope": "legacy-migration",
             }, "legacy-proposal"))

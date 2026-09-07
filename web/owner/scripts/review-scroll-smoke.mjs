@@ -21,7 +21,7 @@ try {
   const original = await operation('review.receipt',{claim_id:data.ids[0]});
   const ids=[];
   for(let i=0;i<24;i++) {
-    const proposal=await operation('claim.propose',{statement:`Scroll regression candidate ${String(i+1).padStart(2,'0')}: inspector remains visible.`,evidence_refs:original.claim.evidence_refs,scope:'browser-test',proposer:'agent:browser-test'});
+    const proposal=await operation('claim.propose',{title:`Scroll candidate ${String(i+1).padStart(2,'0')}`,statement:`Scroll regression candidate ${String(i+1).padStart(2,'0')}: inspector remains visible.`,evidence_refs:original.claim.evidence_refs,scope:'browser-test',proposer:'agent:browser-test'});
     ids.push(proposal.claim.id);
   }
   browser=await chromium.launch();

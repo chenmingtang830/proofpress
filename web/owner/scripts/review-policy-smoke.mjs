@@ -35,7 +35,7 @@ try {
   await screen('lm-advice');
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),true);
   // Reproduce the cloud failure shape: an experiment claim bound only to retrieved prose.
-  const propose=await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation:'claim.propose',parameters:{statement:'Experiment result without typed metrics',evidence_refs:[],scope:'browser-test',proposer:'agent:fixture'}}});
+  const propose=await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation:'claim.propose',parameters:{title:'Untyped experiment result',statement:'Experiment result without typed metrics',evidence_refs:[],scope:'browser-test',proposer:'agent:fixture'}}});
   const proposal=await propose.json();
   assert.equal(proposal.ok,true);
   const cid=proposal.result.claim.id;
