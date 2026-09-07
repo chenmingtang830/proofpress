@@ -39,11 +39,11 @@ change future work. Two failures prevent that intelligence from compounding:
 | Claims travel without durable evidence, scope, review, or authority. | Useful learnings disappear into runs, traces, chats, files, tools, and people. |
 
 <p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent output growing beyond organizational verification capacity" width="100%">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge growing beyond organization-owned intelligence as output exceeds verification capacity" width="100%">
 </p>
 
-<sub>Illustrative model, not measured data. The widening gap is lost
-organizational intelligence.</sub>
+<sub>Illustrative model, not measured data. Without a trusted learning loop,
+the gap keeps widening.</sub>
 
 ## Today's stack captures pieces—not trusted intelligence
 
