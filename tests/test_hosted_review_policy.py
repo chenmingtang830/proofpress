@@ -29,7 +29,8 @@ class ReviewPolicyTests(unittest.TestCase):
     def proposal(self, label="A"):
         evidence = self.control.execute(self.agent, operation("evidence.submit", {"payload": evidence_payload()}))
         return self.control.execute(self.agent, operation("claim.propose", {
-            "statement": label, "evidence_refs": evidence["result"]["evidence"], "scope": "test",
+            "title": label, "statement": label,
+            "evidence_refs": evidence["result"]["evidence"], "scope": "test",
             "proposer": "agent:codex"}, "proposal-" + label))
 
     def test_agent_prompt_only_authors_criteria(self):
@@ -71,6 +72,7 @@ class ReviewPolicyTests(unittest.TestCase):
         owner = migrated.bootstrap("workspace:legacy", "human:owner")["token"]
         agent = migrated.issue_agent_credential(owner, "agent:codex", "Codex")["token"]
         proposal = migrated.execute(agent, operation("claim.propose", {
+            "title": "Migration receipt compatibility",
             "statement": "Migration preserves receipt reads", "evidence_refs": [],
             "scope": "test", "proposer": "agent:codex"}, "legacy-migration"))
         self.assertTrue(proposal["ok"])
@@ -207,6 +209,7 @@ class ReviewPolicyTests(unittest.TestCase):
 
     def test_failed_current_checks_are_blocked_out_of_owner_review(self):
         proposal = self.control.execute(self.agent, operation("claim.propose", {
+            "title": "Unsupported candidate",
             "statement": "Unsupported candidate", "evidence_refs": [], "scope": "test",
             "proposer": "agent:codex"}, "unsupported"))
         cid = proposal["result"]["claim"]["id"]

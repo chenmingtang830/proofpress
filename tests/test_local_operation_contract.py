@@ -42,6 +42,9 @@ class LocalOperationContractTests(unittest.TestCase):
         })
 
     def cli(self, *args):
+        if args and args[0] == "propose" and "--title" not in args:
+            statement = args[args.index("--statement") + 1]
+            args = ("propose", "--title", statement, *args[1:])
         result = subprocess.run([*CLI, *args], cwd=self.repo,
                                 text=True, capture_output=True, check=True)
         return json.loads(result.stdout)
