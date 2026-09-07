@@ -1599,8 +1599,6 @@ td:last-child svg {
     grid-template-columns: 1fr;
     align-items: stretch;
   }
-  .issueFormFields { grid-template-columns: 1fr; }
-  .issueFormFields > button { width:100%; justify-content:center; }
   .issueForm > div:first-child { padding-top:0; }
   .issueForm > button { margin-top:0; }
   .secretReveal {
@@ -2296,42 +2294,6 @@ tbody tr.selected td:first-child b {
   line-height: 1.5;
 }
 
-/* Keep the decision surface concise; supporting material stays one click away. */
-.reviewDisclosure > summary,
-.reviewAudit > summary {
-  list-style: none;
-}
-.reviewDisclosure > summary::-webkit-details-marker,
-.reviewAudit > summary::-webkit-details-marker { display: none; }
-.inspector:not(.fullReview) .reviewDisclosure > summary,
-.inspector:not(.fullReview) .reviewAudit > summary { display: none; }
-.reviewDisclosure[open] > summary,
-.reviewAudit[open] > summary { margin-bottom: 14px; }
-.fullReview { max-width: 880px; }
-.fullReview .inspectorTop { padding-bottom: 20px; }
-.fullReview .inspectorTop .fullStatement { max-width: 24ch; font-size: clamp(1.65rem, 3.2vw, 2rem); }
-.fullReview .claimDescription { max-width: 58ch; font-size: 14px !important; }
-.fullReview .quickSnapshot { padding-bottom: 18px; }
-.fullReview .quickSnapshot > dl:first-child { grid-template-columns: 1fr 1fr; }
-.fullReview .decisionStack { margin-top: 0; }
-.fullReview .reviewDisclosure,
-.fullReview .reviewAudit { margin: 0 30px; border-top: 1px solid var(--line); }
-.fullReview .reviewDisclosure > summary,
-.fullReview .reviewAudit > summary { display:flex; min-height:52px; align-items:center; justify-content:space-between; gap:16px; cursor:pointer; color:var(--ink); font:600 13px/1.4 var(--font-ui); }
-.fullReview .reviewDisclosure > summary::after,
-.fullReview .reviewAudit > summary::after { content:"+"; color:var(--ink-3); font:400 20px/1 var(--font-ui); }
-.fullReview .reviewDisclosure[open] > summary::after,
-.fullReview .reviewAudit[open] > summary::after { content:"−"; }
-.fullReview .reviewDisclosure.reuseBoundary { padding:0; }
-.fullReview .reviewDisclosure.reuseBoundary > section { padding-bottom:18px; }
-.fullReview .reviewDisclosure.lmRationale { padding:0; background:transparent; }
-.fullReview .reviewDisclosure.lmRationale > section { padding:0 0 18px; }
-.fullReview .reviewAudit > summary > span { margin-left:auto; color:var(--ink-3); font:400 11px/1.4 var(--font-proof); }
-.fullReview .reviewAudit .tabs { margin:0; padding:0; }
-.fullReview .reviewAudit .tabContent { padding:22px 0 28px; }
-.fullReview .decision { margin: 8px 30px 18px; padding:20px; border:1px solid var(--accent); border-radius:8px; box-shadow:none; background:#fff; }
-.fullReview .decisionHeading p { margin-bottom:0; }
-
 .claimScopeInline b {
   margin-right: 5px;
   color: var(--ink-3);
@@ -2374,12 +2336,8 @@ tbody tr.selected td:first-child b {
   }
 
   .fullReview .decision {
-    margin: 6px 22px 16px;
     padding: 17px 18px calc(18px + env(safe-area-inset-bottom));
   }
-
-  .fullReview .reviewDisclosure,
-  .fullReview .reviewAudit { margin-inline:22px; }
 
   .fullReview .decision > label {
     display: block;
