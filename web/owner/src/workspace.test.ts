@@ -103,6 +103,16 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Exact claim statement");
     expect(css).toContain(".claimStatementDetails");
   });
+  it("keeps escalated LM advice readable and explains why approval is unavailable", () => {
+    expect(source).toContain('className="lmRationaleHeader"');
+    expect(source).toContain("The LM marked this claim Needs Attention");
+    expect(source).toContain("Only Human Approval admits the claim");
+    expect(source).toContain(">Refresh LM advice</Button>");
+    expect(source).toContain(">Review approval policy</Button>");
+    expect(source).not.toContain('r.review_policy?.mode === "manual" && <Button className="secondaryAction"');
+    expect(css).toContain(".lmRationale > .expandableText");
+    expect(css).not.toContain(".lmRationale > div { display: flex");
+  });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
     expect(source).toContain("Human Approval is not exposed");
@@ -155,7 +165,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('<EvidencePreview row={e} />');
     expect(source).not.toContain('className="blockedAction"');
     expect(source).not.toContain('<span>Source {String(i + 1).padStart(2, "0")}</span>');
-    expect(css).toMatch(/\.lmRationale > div > span\s*\{[^}]*var\(--font-ui\)/s);
+    expect(css).toMatch(/\.lmRationale > \.lmRationaleHeader > span\s*\{[^}]*var\(--font-ui\)/s);
     expect(css).toMatch(/\.compactEvidenceExcerpt p\s*\{[^}]*-webkit-line-clamp:\s*3;/s);
     expect(css).toMatch(/\.evidenceArgument\s*\{[^}]*margin:\s*28px 0 22px;[^}]*border:\s*1px solid var\(--line\);/s);
     expect(source).toContain('<section className="reuseBoundary" aria-label="Proposed reuse boundary">');
