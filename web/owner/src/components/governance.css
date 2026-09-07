@@ -150,6 +150,15 @@
 .policyPrompt button svg { width:16px; height:16px; }
 .policyCheck { display: flex; align-items: start; gap: 10px; margin: 16px 0; font-size: 14px; }
 .policyCheck input { accent-color: var(--accent); margin-top: 3px; }
+.approvalRequirement { padding-top:0!important; border-top:0!important; }
+.reviewPolicy { padding:0; overflow:hidden; }
+.approvalChoices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:10px; }
+.approvalChoices label { display:flex; gap:12px; min-height:98px; padding:16px; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:pointer; }
+.approvalChoices label.selected { border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent); }
+.approvalChoices span,.approvalChoices b,.approvalChoices small { display:block; }
+.approvalChoices b { color:var(--ink); font-size:14px; line-height:1.4; }
+.approvalChoices small { margin-top:6px; color:var(--ink-2); font-size:12px; line-height:1.45; }
+.policyCheck input { width:16px; height:16px; flex:0 0 16px; padding:0; }
 .policyWarning, .policyError { color:var(--del)!important; font-size:13px; }
 .policyError { margin:0 0 20px; }
 .policyError button { margin-left:12px; }
@@ -171,4 +180,4 @@
 .activityTable details { margin-top:8px; max-width:64ch; }
 .activityTable details summary { display:flex; min-height:44px; align-items:center; cursor:pointer; color:var(--accent); }
 @media(max-width: 600px) { .activityTable table,.activityTable tbody { display:block; } .activityTable thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; } .activityTable tr { display:flex; flex-wrap:wrap; gap:0 16px; padding:16px; border-bottom:1px solid var(--line); } .activityTable td,.activityTable td:last-child,.activityTable td:not(:first-child):not(:last-child) { display:block; position:static; margin:0; padding:4px 0; border:0; font-size:14px; overflow-wrap:anywhere; } .activityTable td::before { display:block; margin-bottom:3px; color:var(--ink-2); content:attr(data-label); font:500 9px/1.4 var(--font-proof); letter-spacing:.08em; text-transform:uppercase; } .activityTable td[data-label="What happened"] { order:1; flex:0 0 100%; } .activityTable td[data-label="Time"] { order:2; flex:1 1 150px; color:var(--ink-2); font-size:12px; } .activityTable td[data-label="Result"] { order:3; flex:0 0 auto; } .activityTable td[data-label="Actor"] { order:4; flex:0 0 100%; margin-top:4px; } .activityTable .activitySubject { display:-webkit-box; overflow:hidden; font-size:15px; line-height:1.45; -webkit-box-orient:vertical; -webkit-line-clamp:3; } }
-@media(max-width: 700px) { .reviewPolicy { padding:20px; } .policyFields,.policyFields.three,.providerCredential,.policyPrompt { grid-template-columns:1fr; } .policyFooter,.policyHeading { align-items:flex-start; flex-direction:column; } .policyPrompt button { justify-self:start; } }
+@media(max-width: 700px) { .reviewPolicy { padding:0; } .policyFields,.policyFields.three,.providerCredential,.approvalChoices,.policyPrompt { grid-template-columns:1fr; } .policyFooter,.policyHeading { align-items:flex-start; flex-direction:column; } .policyPrompt button { justify-self:start; } }

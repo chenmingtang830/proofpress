@@ -16,11 +16,16 @@ import { Badge } from "@/components/ui/badge";
 import { ActivityResult } from "@/components/activity-result";
 import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
+import "./review-local.css";
 import "./components/governance.css";
 import "./components/workspace-home.css";
 
@@ -1107,6 +1112,30 @@ function ReviewPage({
     </div>
   );
 }
+function ReviewFact({label,value,tone="",className=""}:any){
+  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong></CardContent></Card>;
+}
+
+function ApplicabilityPanel({claim, compact = false}: {claim: Receipt["claim"]; compact?: boolean}) {
+  const relevant = claim.applicability?.when_relevant || [];
+  const conditions = claim.applicability?.validity_conditions || [];
+  return <section className="applicabilityPanel space-y-4" aria-label="Applicability and conditions">
+    <div className="space-y-1.5">
+      <h3 className="font-['DM_Sans'] text-base font-semibold leading-6 text-[var(--ink)]">{reuseBoundary(claim)}</h3>
+      {claim.applicability?.description && claim.applicability.description !== reuseBoundary(claim) && <p className="max-w-[65ch] font-['DM_Sans'] text-sm leading-6 text-[var(--ink-2)]">{claim.applicability.description}</p>}
+    </div>
+    <div className={compact ? "grid gap-3" : "grid gap-3 md:grid-cols-2"}>
+      <Card className="shadow-none"><CardContent className="space-y-2 p-5">
+        <h4 className="font-['DM_Sans'] text-sm font-semibold text-[var(--ink)]">Relevant when</h4>
+        {relevant.length ? <ul className="space-y-2 pl-5 font-['DM_Sans'] text-sm leading-6 text-[var(--ink-2)]">{relevant.map((item, i) => <li key={i}>{item}</li>)}</ul> : <p className="font-['DM_Sans'] text-sm text-[var(--ink-2)]">Not recorded</p>}
+      </CardContent></Card>
+      <Card className="shadow-none"><CardContent className="space-y-2 p-5">
+        <h4 className="font-['DM_Sans'] text-sm font-semibold text-[var(--ink)]">Validity conditions</h4>
+        {conditions.length ? <ul className="space-y-2 pl-5 font-['DM_Sans'] text-sm leading-6 text-[var(--ink-2)]">{conditions.map((item, i) => <li key={i}>{item}</li>)}</ul> : <p className="font-['DM_Sans'] text-sm text-[var(--ink-2)]">Not recorded</p>}
+      </CardContent></Card>
+    </div>
+  </section>;
+}
 function Inspector({
   receipt: r,
   onClose,
@@ -1149,6 +1178,7 @@ function Inspector({
   const claimTitle = claimDisplayTitle(r.claim);
   const claimDescription = r.claim.applicability?.description || "";
   const hasConciseHeading = hasDistinctClaimHeading(r.claim);
+  const InspectorHeader: any = fullReview ? Card : "div";
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
@@ -1156,7 +1186,7 @@ function Inspector({
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
       </button>}
-      <div className="inspectorTop">
+      <InspectorHeader className="inspectorTop">
         {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <h1 className="fullStatement">{claimTitle}</h1> : <h2>{claimTitle}</h2>}
@@ -1167,15 +1197,19 @@ function Inspector({
           <span className="mono">{r.claim.id}</span>
         </p>
         {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button>)}
-      </div>
+      </InspectorHeader>
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
-        <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
+        {fullReview ? <div className="reviewFactsGrid">
+          <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
+          <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
+          {can && <><ReviewFact label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""} /><ReviewFact label="LM advice · advisory" value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
+        </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
         {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
-        {can && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd></div><div><dt>LM advice · advisory</dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
+        {can && !fullReview && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd></div><div><dt>LM advice · advisory</dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
         {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">
@@ -1204,14 +1238,8 @@ function Inspector({
             <EvidencePreview row={e} />
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
-        {can && <section className="reuseBoundary" aria-label="Proposed reuse boundary">
-            <span>Proposed reuse boundary</span>
-            <strong>{reuseBoundary(r.claim)}</strong>
-            {r.claim.applicability?.description && r.claim.applicability.description !== reuseBoundary(r.claim) && <p>{r.claim.applicability.description}</p>}
-            <dl className="reviewUseConditions"><div><dt>Relevant when</dt><dd>{r.claim.applicability?.when_relevant?.length ? <ul>{r.claim.applicability.when_relevant.map((use: string, i: number) => <li key={i}>{use}</li>)}</ul> : "Not recorded"}</dd></div><div><dt>Validity conditions</dt><dd>{r.claim.applicability?.validity_conditions?.length ? <ul>{r.claim.applicability.validity_conditions.map((condition: string, i: number) => <li key={i}>{condition}</li>)}</ul> : "Not recorded — inspect the evidence before deciding"}</dd></div></dl>
-            {!approvalBlock && <p>Approval makes this claim discoverable to eligible agents; each agent is still checked separately.</p>}
-        </section>}
-        {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>}
+        {can && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="applicability"><AccordionTrigger>Applicability & conditions</AccordionTrigger><AccordionContent className="pt-2"><ApplicabilityPanel claim={r.claim} /></AccordionContent></AccordionItem></Accordion> : <Card className="m-5 shadow-none"><CardContent className="p-5"><ApplicabilityPanel claim={r.claim} compact /></CardContent></Card>)}
+        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">LM rationale <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
@@ -1284,13 +1312,13 @@ function Inspector({
       </Tabs.Root>
       </>}
       {can && (!onOpenFull || fullReview) ? (
-        <div className="decision">
+        <Card className="decision">
           <div className="decisionHeading">
             <span>Owner decision</span>
             <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
           </div>
           <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
-          <textarea
+          <Textarea
             id={`decision-note-${r.claim.id}`}
             aria-label="Reason for rejection or bounded clarification request"
             aria-required="true"
@@ -1322,7 +1350,7 @@ function Inspector({
               Approve
             </Button>
           </div>
-        </div>
+        </Card>
       ) : null}
     </aside>
   );
@@ -1346,7 +1374,7 @@ function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
       {selected && <article className="runDetail">
         <header><div><Badge state={selected.status} /><h2>{selected.purpose}</h2><p>{selected.actor} · started {when(selected.started_at)}{selected.finished_at ? ` · finished ${when(selected.finished_at)}` : ""}</p></div><Button variant="outline" onClick={onClose}>Close</Button></header>
         {selected.finish_summary && <p className="runSummary">{selected.finish_summary}</p>}
-        <section><h3>Retrieved context</h3>{selected.context_receipts?.length ? selected.context_receipts.map((receipt: any) => <div className="runRecord" key={receipt.id}><b>{receipt.claims.length} claim versions</b><small className="mono">{receipt.id}</small><p>Ledger {receipt.ledger_head || "empty"} · policy {receipt.policy_digest}</p>{receipt.claims.map((claim: any) => <details key={`${claim.claim_id}:${claim.claim_digest}`}><summary>{claim.title || claim.statement}</summary><p>{claim.statement}</p><code>{claim.claim_id} · {claim.claim_digest}</code></details>)}</div>) : <p className="empty">No context receipts recorded.</p>}</section>
+        <section><h3>Retrieved context</h3>{selected.context_receipts?.length ? selected.context_receipts.map((receipt: any) => <div className="runRecord" key={receipt.id}><b>{receipt.claims.length} claim versions</b><small className="mono">{receipt.id}</small>{receipt.claims.map((claim: any) => <details key={`${claim.claim_id}:${claim.claim_digest}`}><summary>{claim.title || claim.statement}</summary><p>{claim.statement}</p><code>{claim.claim_id} · {claim.claim_digest}</code></details>)}<details className="technicalDetails"><summary>Technical receipt</summary><code>Ledger {receipt.ledger_head || "empty"}</code><code>Policy {receipt.policy_digest}</code></details></div>) : <p className="empty">No context receipts recorded.</p>}</section>
         <section><h3>Declared reliance</h3>{selected.reliances?.length ? selected.reliances.map((row: any) => <div className="runRecord" key={row.id}><b>{row.purpose}</b><code>{row.claim_id} · {row.claim_digest}</code></div>) : <p className="empty">No reliance declared. Retrieved context is not treated as used.</p>}</section>
         <section><h3>Outputs</h3>{selected.outputs?.length ? selected.outputs.map((row: any) => <div className="runRecord" key={row.id}><b>{row.summary || "Output reference"}</b><code>{row.reference}</code><code>{row.content_digest}</code>{row.reliance_ids?.length ? <small>{row.reliance_ids.length} declared reliance link(s)</small> : null}</div>) : <p className="empty">No outputs recorded.</p>}</section>
         <section><h3>Observations</h3>{selected.observations?.length ? selected.observations.map((row: any) => <div className="runRecord" key={row.id}><span><Badge state={row.kind} /><time>{when(row.observed_at)}</time></span><b>{row.meaning}</b><small>Source: {row.source}</small></div>) : <p className="empty">No observations recorded. Proofpress does not infer a score.</p>}</section>
@@ -1429,7 +1457,7 @@ function AdminPage({
     <div className="pageBody">
       <PageHead
         title="Admin"
-        description="Manage the agents that can propose claims and read governed context."
+        description="Configure review policy and manage agent access."
         action={null}
       />
       {policy}
@@ -1448,7 +1476,7 @@ function AdminPage({
           </small>
         </div>
         <div className="issueFormFields">
-          <label>Agent identity<input
+          <label>Agent identity<Input
             aria-label="Agent identity"
             aria-describedby="agentIdentityHelp"
             value={principal}
@@ -1456,7 +1484,7 @@ function AdminPage({
             placeholder="agent:claude-code"
             required
           /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
-          <label>Key name<input
+          <label>Key name<Input
             aria-label="Key name"
             aria-describedby="keyNameHelp"
             value={label}

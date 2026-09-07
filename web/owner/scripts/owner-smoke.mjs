@@ -98,7 +98,7 @@ try {
     await page.setViewportSize({width:390,height:844});
     await page.locator('.evidenceArgument').scrollIntoViewIfNeeded();
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-evidence-typography-390.png`});
-    await page.locator('.reuseBoundary').scrollIntoViewIfNeeded();
+    await page.locator('.applicabilityPanel').scrollIntoViewIfNeeded();
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-boundary-390.png`});
   }
   await page.getByRole('button',{name:'Show full excerpt',exact:true}).click();
@@ -161,11 +161,12 @@ try {
   }}}));
   await page.reload();
   await page.getByText('Recheck required',{exact:true}).waitFor();
-  assert.equal(await page.locator('.decisionStack').getByText('Passed',{exact:true}).count(),0);
+  assert.equal(await page.locator('.reviewFactsGrid').getByText('Passed',{exact:true}).count(),0);
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),false);
-  await page.locator('.reuseBoundary').getByText('Do not extrapolate to partner outcomes.',{exact:true}).waitFor();
-  await page.locator('.reuseBoundary').getByText('Reviewing the synthetic owner workflow.',{exact:true}).waitFor();
-  assert.match(await page.locator('.decisionStack').textContent(),/Refresh required/);
+  await page.getByRole('button',{name:'Applicability & conditions',exact:true}).click();
+  await page.locator('.applicabilityPanel').getByText('Do not extrapolate to partner outcomes.',{exact:true}).waitFor();
+  await page.locator('.applicabilityPanel').getByText('Reviewing the synthetic owner workflow.',{exact:true}).waitFor();
+  assert.match(await page.locator('.reviewFactsGrid').textContent(),/Refresh required/);
   await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:null,judge_job:{state:'running',detail:''}}}}));
   await page.reload();
@@ -174,6 +175,7 @@ try {
   const rationale = 'The bound source directly supports the exact claim and its stated reuse boundary.';
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:{recommendation:'accept',rationale},judge_job:{state:'failed',detail:'stale failure'}}}}));
   await page.reload();
+  await page.getByRole('button',{name:/LM rationale/,exact:false}).click();
   await page.getByText(rationale,{exact:true}).waitFor();
   assert.equal(await page.getByText('stale failure',{exact:true}).count(),0);
   await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
@@ -369,7 +371,7 @@ try {
   assert.equal(await page.getByRole('textbox',{name:'Search claims'}).count(),0);
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:1024});
-    for (const name of ['Home','Review','Knowledge','Activity','Admin']) {
+    for (const name of ['Home','Review','Knowledge','Runs','Activity','Admin']) {
       await page.getByRole('button',{name,exact:true}).click();
       await page.locator('h1').waitFor();
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,`${name} overflow at ${width}`);
@@ -426,6 +428,7 @@ try {
   await page.getByRole('heading',{name:'Retrieved context',exact:true}).waitFor();
   await page.getByText('Browser fixture output',{exact:true}).waitFor();
   await page.getByText('Owner Runs page rendered the complete tracked chain.',{exact:true}).waitFor();
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/runs-detail.png`,fullPage:true});
   await page.getByRole('button',{name:'Activity',exact:true}).click();
   await page.getByRole('columnheader',{name:'What happened',exact:true}).waitFor();
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-columns.png`});

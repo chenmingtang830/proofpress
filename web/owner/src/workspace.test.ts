@@ -59,7 +59,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("You decide");
     expect(source).toContain("Approved claims become reusable");
     expect(source).toContain("Evidence for this claim");
-    expect(source).toContain("Proposed reuse boundary");
+    expect(source).toContain("Applicability and conditions");
     expect(source).toContain("Available knowledge");
     expect(source).toContain("Needs review");
     expect(source).not.toContain("Outside current context");
@@ -168,7 +168,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toMatch(/\.lmRationale > \.lmRationaleHeader > span\s*\{[^}]*var\(--font-ui\)/s);
     expect(css).toMatch(/\.compactEvidenceExcerpt p\s*\{[^}]*-webkit-line-clamp:\s*3;/s);
     expect(css).toMatch(/\.evidenceArgument\s*\{[^}]*margin:\s*28px 0 22px;[^}]*border:\s*1px solid var\(--line\);/s);
-    expect(source).toContain('<section className="reuseBoundary" aria-label="Proposed reuse boundary">');
-    expect(css).toMatch(/\.reuseBoundary\s*\{[^}]*margin:\s*20px 0 22px;[^}]*padding:\s*20px 0 0;/s);
+    expect(source).toContain('function ApplicabilityPanel');
+    expect(source).toContain('<Card className="shadow-none"><CardContent className="space-y-2 p-5">');
   });
 });

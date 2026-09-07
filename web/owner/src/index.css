@@ -1599,6 +1599,13 @@ td:last-child svg {
     grid-template-columns: 1fr;
     align-items: stretch;
   }
+  .issueFormFields {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+  .issueFormFields > button {
+    width: 100%;
+  }
   .issueForm > div:first-child { padding-top:0; }
   .issueForm > button { margin-top:0; }
   .secretReveal {
@@ -1614,6 +1621,66 @@ td:last-child svg {
   .credentialList button {
     min-height: 44px;
   }
+}
+
+/* Local review concept: calm two-column decision workspace. */
+.inspector.fullReview {
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 0 32px;
+  padding: 28px 32px 72px;
+}
+.fullReviewBack { grid-column: 1 / -1; justify-self: start; }
+.fullReview .inspectorTop,
+.fullReview .quickSnapshot,
+.fullReview > [data-orientation="horizontal"],
+.fullReview > .revisionSection,
+.fullReview > .revisionDisclosure { grid-column: 1; }
+.fullReview .inspectorTop { padding: 22px 0 24px; border-bottom: 0; }
+.fullReview .inspectorTop .fullStatement { max-width: 20ch; margin: 12px 0 10px; font-size: clamp(2rem,4vw,3rem); line-height:1.06; letter-spacing:-.045em; }
+.fullReview .claimDescription { max-width: 58ch; font-size:15px!important; line-height:1.6!important; }
+.fullReview .quickSnapshot { padding: 0; border: 0; background: transparent; }
+.fullReview .quickSnapshot > dl:first-child { border: 1px solid var(--line); border-radius: 10px; overflow:hidden; background:#fff; }
+.fullReview .decisionStack { margin: 18px 0 0; border: 1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; }
+.fullReview .decisionStack > div { padding: 14px 16px; border-bottom:1px solid var(--line); }
+.fullReview .decisionStack > div:last-child { border-bottom:0; }
+.fullReview .approvalBlock { margin:16px 0 0; padding:14px 16px; border-radius:8px; background:var(--del-bg); color:var(--del); }
+.fullReview .reviewActions { flex-direction:row; flex-wrap:wrap; margin:12px 0 4px; }
+.fullReview .reviewActions > button,
+.fullReview .reviewActions > button.secondaryAction { width:auto; align-self:auto; padding-inline:14px; }
+.fullReview .reuseBoundary { margin:22px 0 0; padding:18px 0; }
+.fullReview .lmRationale { margin:0; padding:18px 0; border-width:1px 0 0; background:transparent; }
+.fullReview .lmRationale p { font-size:14px; line-height:1.6; }
+.fullReview .tabs { margin-top:22px; border:1px solid var(--line); border-bottom:0; border-radius:10px 10px 0 0; background:#fff; }
+.fullReview .tabContent { border:1px solid var(--line); border-top:0; border-radius:0 0 10px 10px; background:#fff; }
+.fullReview .decision {
+  grid-column: 2;
+  grid-row: 2 / span 10;
+  position: sticky;
+  top: 88px;
+  margin: 22px 0 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius:12px;
+  box-shadow:0 8px 30px rgba(24,26,32,.07);
+  background:#fff;
+}
+.fullReview .decision textarea { min-height:110px; margin-top:7px; border-radius:8px; background:#fff; font-size:13px; }
+.fullReview .decision > div:last-child { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.fullReview .decision > div:last-child button:last-child { grid-column:1/-1; grid-row:1; }
+.fullReview .decision > div:last-child button { min-height:42px; }
+.fullReview .reviewDisclosure { border-top:1px solid var(--line); }
+.fullReview .reviewDisclosure + .reviewDisclosure { margin-top:0; }
+.fullReview .reviewDisclosure .reuseBoundary { margin:0; padding:0; border:0; }
+.fullReview .reviewDisclosure p { margin:0; }
+.fullReview .reviewDisclosure small { display:block; margin-top:12px; color:var(--ink-3); }
+.accordionLabel { display:flex; align-items:center; gap:10px; }
+
+@media (max-width: 899px) {
+  .inspector.fullReview { display:block; max-width:760px; padding:20px 22px 96px; }
+  .fullReview .decision { position:static; margin-top:22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
