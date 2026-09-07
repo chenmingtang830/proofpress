@@ -267,6 +267,9 @@ class LocalOperationContractTests(unittest.TestCase):
             "review", claim_id, "--admit", "--reviewer", "human:alice",
             "--request-id", "review-001")
         self.assertEqual(cli_review["result"]["type"], "claim_admitted")
+        graph = self.execute("graph.get", scope="msa-negotiation")["result"]
+        claim_node = next(row for row in graph["nodes"] if row["id"] == claim_id)
+        self.assertTrue(claim_node["decision_at"])
 
         direct_context = self.execute(
             "context.get", scope="msa-negotiation", actor="agent:successor",

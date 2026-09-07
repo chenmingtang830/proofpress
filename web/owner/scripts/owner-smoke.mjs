@@ -200,7 +200,9 @@ try {
   await page.setViewportSize({width:1536,height:1024});
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
-  await page.getByText('Approved for reuse',{exact:true}).waitFor();
+  await page.locator('tbody tr.selected').filter({hasText:data.ids[1]}).waitFor();
+  const approvalReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
+  assert.equal(approvalReceipt.result.state,'admitted');
   await page.getByRole('button',{name:'Knowledge',exact:true}).click();
   await inspectKnowledge(page,data);
   await page.getByRole('button',{name:'Review',exact:true}).click();
@@ -297,7 +299,9 @@ try {
   await page.getByRole('heading',{name:'Revision of previous claim',exact:true}).waitFor();
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
-  await page.getByText('Approved for reuse',{exact:true}).waitFor();
+  await page.getByText('You are caught up',{exact:true}).waitFor();
+  const revisionApproval = await (await page.request.get(`${data.base}/owner/api/claims/${revision.claim.id}`)).json();
+  assert.equal(revisionApproval.result.state,'admitted');
   const revisedContext = await operation('context.get',{scope:'browser-test'});
   assert.deepEqual(new Set(revisedContext.governed_context.map(row=>row.id)),new Set([data.ids[0],revision.claim.id]));
   await page.getByRole('button',{name:'Knowledge',exact:true}).click();

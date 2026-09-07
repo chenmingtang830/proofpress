@@ -88,6 +88,20 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('setFullReview(false)');
     expect(css).toContain('.decisionNotice');
   });
+  it("continues the review queue after approval and paginates recent decisions", () => {
+    expect(source).toContain('decision === "admit"');
+    expect(source).toContain("await load(nextPending)");
+    expect(source).toContain("const pageSize = 20");
+    expect(source).toContain('left.decision_at || left.created_at');
+    expect(source).toContain("Page {currentPage + 1} of {pageCount}");
+    expect(source).toContain("{pageSize} per page");
+  });
+  it("uses a concise title and description before the exact claim statement", () => {
+    expect(source).toContain("r.claim.title || r.claim.applicability?.title || r.claim.statement");
+    expect(source).toContain('className="claimDescription"');
+    expect(source).toContain("Exact claim statement");
+    expect(css).toContain(".claimStatementDetails");
+  });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
     expect(source).toContain("Human Approval is not exposed");

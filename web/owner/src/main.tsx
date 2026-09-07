@@ -32,6 +32,7 @@ type NodeRow = {
   scope?: string;
   applicability?: Receipt["claim"]["applicability"];
   created_at?: string;
+  decision_at?: string;
 };
 type Receipt = {
   state: string;
@@ -660,15 +661,24 @@ function App() {
     decisionPending.current = true;
     setBusy(true);
     try {
+      const nextPending = decision === "admit"
+        ? rows.find(row => row.state === "needs_review" && row.id !== selected)?.id || null
+        : null;
       const next = await api("/owner/api/reviews", {
         method: "POST",
         body: JSON.stringify({ csrf, claim_id: selected, decision, note }),
       });
       setDecisionConfirmation(null);
       setNote("");
-      setReceipt(next);
-      await load();
-      if (decision === "request_changes") setRevisionHandoff(next);
+      if (decision === "admit") {
+        setFullReview(false);
+        await load(nextPending);
+        requestAnimationFrame(() => document.querySelector(".stage")?.scrollTo({top: 0, behavior: "smooth"}));
+      } else {
+        setReceipt(next);
+        await load();
+        if (decision === "request_changes") setRevisionHandoff(next);
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -1005,10 +1015,19 @@ function ReviewPage({
   fullReview, onOpenFull, onBack, onLedger, detailError,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
+  const [reviewPage, setReviewPage] = React.useState(0);
+  const pageSize = 20;
   const queueFor = (state: string) => state === "unresolved" ? "needs_review" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
-  React.useEffect(() => { if (selected && receipt?.claim.id === selected) setQueue(queueFor(receipt.state)); }, [selected, receipt?.state]);
-  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
-  const switchQueue = (next: string) => { onClose(); setQueue(next); };
+  React.useEffect(() => { if (selected && receipt?.claim.id === selected) { setQueue(queueFor(receipt.state)); setReviewPage(0); } }, [selected, receipt?.state]);
+  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue).sort((left: any, right: any) => {
+    const leftTime = Date.parse(queue === "decided" ? left.decision_at || left.created_at || "" : left.created_at || "");
+    const rightTime = Date.parse(queue === "decided" ? right.decision_at || right.created_at || "" : right.created_at || "");
+    return (Number.isFinite(rightTime) ? rightTime : 0) - (Number.isFinite(leftTime) ? leftTime : 0) || right.id.localeCompare(left.id);
+  });
+  const pageCount = Math.max(1, Math.ceil(visibleRows.length / pageSize));
+  const currentPage = Math.min(reviewPage, pageCount - 1);
+  const pageRows = visibleRows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+  const switchQueue = (next: string) => { onClose(); setQueue(next); setReviewPage(0); };
   return (
     <div className={`workspacePage reviewWorkspace${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
@@ -1033,7 +1052,7 @@ function ReviewPage({
               </tr>
             </thead>
             <tbody>
-              {visibleRows.map((row: any) => (
+              {pageRows.map((row: any) => (
                 <tr
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
@@ -1060,6 +1079,11 @@ function ReviewPage({
             </div>
           )}
         </div>
+        {!loading && visibleRows.length > 0 && <nav className="pagination reviewPagination" aria-label={`${queue === "decided" ? "Decision history" : "Review queue"} pages`}>
+          <Button variant="outline" disabled={currentPage === 0} onClick={() => setReviewPage(currentPage - 1)}>Previous</Button>
+          <span>Page {currentPage + 1} of {pageCount} · {visibleRows.length} {queue === "decided" ? "decisions" : "claims"} · {pageSize} per page</span>
+          <Button variant="outline" disabled={currentPage + 1 >= pageCount} onClick={() => setReviewPage(currentPage + 1)}>Next</Button>
+        </nav>}
       </div>
       <Inspector
         pending={!!selected && !receipt}
@@ -1121,6 +1145,9 @@ function Inspector({
   const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
   const evidenceRows = r.evidence || [];
   const previewEvidence = evidenceRows.slice(0, 2);
+  const claimTitle = r.claim.title || r.claim.applicability?.title || r.claim.statement;
+  const claimDescription = r.claim.applicability?.description || "";
+  const hasConciseHeading = claimTitle !== r.claim.statement;
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
@@ -1131,7 +1158,9 @@ function Inspector({
       <div className="inspectorTop">
         {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
-        {fullReview ? <h1 className="fullStatement">{r.claim.title || r.claim.statement}</h1> : <h2>{r.claim.title || r.claim.statement}</h2>}{r.claim.title && <p className="claimFullStatement">{r.claim.statement}</p>}
+        {fullReview ? <h1 className="fullStatement">{claimTitle}</h1> : <h2>{claimTitle}</h2>}
+        {claimDescription && <p className="claimDescription">{claimDescription}</p>}
+        {hasConciseHeading && <details className="claimStatementDetails"><summary>Exact claim statement</summary><p className="claimFullStatement">{r.claim.statement}</p></details>}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>

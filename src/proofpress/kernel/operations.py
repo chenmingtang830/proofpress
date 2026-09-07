@@ -2121,15 +2121,16 @@ def graph_v2(scope=None, actor=None):
             edges += [{"from": parent, "to": eid, "type": "derived_from"}
                       for parent in evidence.get("source_evidence_refs", [])]
     for cid, row in wanted.items():
+        review = projection["reviews"].get(cid)
         nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row),
                       "scope": row["scope"],
                       "applicability": row.get("applicability"), "label": row["statement"], "title": row.get("title"),
-                      "created_at": row.get("created_at")})
+                      "created_at": row.get("created_at"),
+                      "decision_at": review.get("created_at") if review else None})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         if row.get("reproposal_of") in wanted:
             edges.append({"from": row["reproposal_of"], "to": cid,
                           "type": "re_proposed_as"})
-        review = projection["reviews"].get(cid)
         if review:
             rid = review["event_id"]
             nodes.append({"id": rid, "type": "review", "state": v2_state(projection, row),
