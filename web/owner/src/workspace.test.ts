@@ -42,7 +42,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
   });
   it("keeps the full-review entry visible before long LM advice", () => {
-    expect(source.indexOf('className="reviewEntry"')).toBeLessThan(source.indexOf('className="lmRationale"'));
+    expect(source.indexOf('className="reviewEntry"')).toBeLessThan(source.indexOf('className="reviewDisclosure lmRationale"'));
+    expect(source.indexOf("fullReview && can && <DecisionPanel")).toBeLessThan(source.indexOf('className="reviewAudit"'));
     expect(css).toContain("scrollbar-gutter: stable");
     expect(css).toContain("-webkit-line-clamp: 4");
   });
@@ -104,13 +105,13 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain(".claimStatementDetails");
   });
   it("keeps escalated LM advice readable and explains why approval is unavailable", () => {
-    expect(source).toContain('className="lmRationaleHeader"');
+    expect(source).toContain('className="reviewDisclosure lmRationale"');
     expect(source).toContain("The LM marked this claim Needs Attention");
     expect(source).toContain("Only Human Approval admits the claim");
     expect(source).toContain(">Refresh LM advice</Button>");
     expect(source).toContain(">Review approval policy</Button>");
     expect(source).not.toContain('r.review_policy?.mode === "manual" && <Button className="secondaryAction"');
-    expect(css).toContain(".lmRationale > .expandableText");
+    expect(css).toContain(".fullReview .reviewDisclosure.lmRationale");
     expect(css).not.toContain(".lmRationale > div { display: flex");
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
@@ -168,7 +169,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toMatch(/\.lmRationale > \.lmRationaleHeader > span\s*\{[^}]*var\(--font-ui\)/s);
     expect(css).toMatch(/\.compactEvidenceExcerpt p\s*\{[^}]*-webkit-line-clamp:\s*3;/s);
     expect(css).toMatch(/\.evidenceArgument\s*\{[^}]*margin:\s*28px 0 22px;[^}]*border:\s*1px solid var\(--line\);/s);
-    expect(source).toContain('<section className="reuseBoundary" aria-label="Proposed reuse boundary">');
+    expect(source).toContain('className="reviewDisclosure reuseBoundary"');
     expect(css).toMatch(/\.reuseBoundary\s*\{[^}]*margin:\s*20px 0 22px;[^}]*padding:\s*20px 0 0;/s);
   });
 });

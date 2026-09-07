@@ -1204,22 +1204,26 @@ function Inspector({
             <EvidencePreview row={e} />
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
-        {can && <section className="reuseBoundary" aria-label="Proposed reuse boundary">
+        {can && <details className="reviewDisclosure reuseBoundary" open={!fullReview}>
+            <summary>Applicability & conditions</summary>
+            <section aria-label="Proposed reuse boundary">
             <span>Proposed reuse boundary</span>
             <strong>{reuseBoundary(r.claim)}</strong>
             {r.claim.applicability?.description && r.claim.applicability.description !== reuseBoundary(r.claim) && <p>{r.claim.applicability.description}</p>}
             <dl className="reviewUseConditions"><div><dt>Relevant when</dt><dd>{r.claim.applicability?.when_relevant?.length ? <ul>{r.claim.applicability.when_relevant.map((use: string, i: number) => <li key={i}>{use}</li>)}</ul> : "Not recorded"}</dd></div><div><dt>Validity conditions</dt><dd>{r.claim.applicability?.validity_conditions?.length ? <ul>{r.claim.applicability.validity_conditions.map((condition: string, i: number) => <li key={i}>{condition}</li>)}</ul> : "Not recorded — inspect the evidence before deciding"}</dd></div></dl>
             {!approvalBlock && <p>Approval makes this claim discoverable to eligible agents; each agent is still checked separately.</p>}
-        </section>}
-        {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>}
+            </section>
+        </details>}
+        {r.recommendation?.rationale && <details className="reviewDisclosure lmRationale" open={!fullReview}><summary>LM rationale <Badge state={r.recommendation.recommendation} /></summary><section aria-label="LM review rationale"><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section></details>}
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
+      {fullReview && can && <DecisionPanel claimId={r.claim.id} note={note} setNote={setNote} busy={busy} approvalBlock={approvalBlock} onDecide={onDecide} />}
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.claim.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
       {r.reproposal_parent && <details className="revisionDisclosure"><summary><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></summary><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></details>}
       {!!r.reproposals?.length && <section className="revisionSection"><h3>Re-proposals after this rejection</h3><p>These are separate candidates. The rejection above remains part of the append-only history.</p>{r.reproposals.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose?.(candidate.id)}>{candidate.statement} · {candidate.state.replaceAll("_", " ")}</Button>)}</section>}
-      <Tabs.Root defaultValue="evidence">
+      <details className="reviewAudit" open={!fullReview}><summary>Evidence, checks & history <span>{evidenceRows.length} {evidenceRows.length === 1 ? "source" : "sources"}</span></summary><Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
           <Tabs.Trigger value="checks">Checks</Tabs.Trigger>
@@ -1281,51 +1285,19 @@ function Inspector({
             </div>
           ))}
         </Tabs.Content>
-      </Tabs.Root>
+      </Tabs.Root></details>
       </>}
-      {can && (!onOpenFull || fullReview) ? (
-        <div className="decision">
-          <div className="decisionHeading">
-            <span>Owner decision</span>
-            <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
-          </div>
-          <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
-          <textarea
-            id={`decision-note-${r.claim.id}`}
-            aria-label="Reason for rejection or bounded clarification request"
-            aria-required="true"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Explain why the evidence does not support this claim, or describe a bounded change."
-          />
-          <small className="decisionHint">A reason is required for Reject and Request changes, so a future re-proposal can address it.</small>
-          <div>
-            <Button
-              variant="danger"
-              disabled={busy}
-              onClick={() => onDecide("reject")}
-            >
-              Reject
-            </Button>
-            <Button
-              variant="request"
-              disabled={busy}
-              onClick={() => onDecide("request_changes")}
-            >
-              Request changes
-            </Button>
-            <Button
-              variant="approve"
-              disabled={busy || !!approvalBlock}
-              onClick={() => onDecide("admit")}
-            >
-              Approve
-            </Button>
-          </div>
-        </div>
-      ) : null}
+      {can && !fullReview && !onOpenFull && <DecisionPanel claimId={r.claim.id} note={note} setNote={setNote} busy={busy} approvalBlock={approvalBlock} onDecide={onDecide} />}
     </aside>
   );
+}
+function DecisionPanel({claimId, note, setNote, busy, approvalBlock, onDecide}: any) {
+  return <div className="decision">
+    <div className="decisionHeading"><span>Owner decision</span><p>Approve, request a bounded revision, or reject.</p></div>
+    <label htmlFor={`decision-note-${claimId}`}>Decision note <small>Required for reject or request changes</small></label>
+    <textarea id={`decision-note-${claimId}`} aria-label="Reason for rejection or bounded clarification request" aria-required="true" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Add a reason or bounded change…" />
+    <div><Button variant="danger" disabled={busy} onClick={() => onDecide("reject")}>Reject</Button><Button variant="request" disabled={busy} onClick={() => onDecide("request_changes")}>Request changes</Button><Button variant="approve" disabled={busy || !!approvalBlock} onClick={() => onDecide("admit")}>Approve</Button></div>
+  </div>;
 }
 function LedgerPage(props: any) {
   return <KnowledgeLibrary {...props} evidenceName={evidenceName} renderEvidence={(row: any) => <EvidenceContent row={row} />} />;
@@ -1429,7 +1401,7 @@ function AdminPage({
     <div className="pageBody">
       <PageHead
         title="Admin"
-        description="Manage the agents that can propose claims and read governed context."
+        description="Configure review policy and manage agent access."
         action={null}
       />
       {policy}
