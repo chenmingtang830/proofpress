@@ -27,10 +27,10 @@ never appear in tool results.
 ## Hosted Workspace V2 direction
 
 [//]: # (ob:efc880ec)
-The owner workspace uses a compact, three-part operating frame: a 224px navigation rail, a flexible primary work surface, and a 384–416px contextual inspector. At desktop widths the selected row and its inspector remain visible together; on smaller screens the inspector becomes a sheet. This spatial contract is the benchmark for Home, Review, Ledger, Activity, and Admin.
+The owner workspace keeps its 224px navigation rail and flexible primary work surface. Review pairs its queue with a contextual inspector; Knowledge uses a searchable library and a spacious claim record rather than requiring the same inspector on every page. Home leads with the next decision and current knowledge. At widths below 1100px, opening a Knowledge record replaces the library until the reader closes it; focus returns to its opening control or search.
 
 [//]: # (ob:cfee6f69)
-Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, IBM Plex Mono for proof metadata, curved evidence-to-claim connections, and a persistent node inspector. Legal-specific vocabulary and demonstration claims are not copied into the product.
+Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, and IBM Plex Mono for proof metadata. Knowledge starts with current eligible claims and opens their evidence, use conditions, and recorded human authority. Local lineage is a secondary inspection path. Legal-specific vocabulary and demonstration claims are not copied into the product. The current owner extension remains a local implementation awaiting human visual review; its surface brief is `.impeccable/surfaces/web-owner-index-html.md`.
 
 [//]: # (ob:06711fc4)
 Use shadcn primitives as accessible construction material, not as a visual preset. Reduce their default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
@@ -87,9 +87,9 @@ Do not optimize for "looks like a 2026 AI product." Optimize for this: a future 
 The current owner MVP navigation is:
 
 [//]: # (ob:4ffeef89)
-- **Home** — orientation and next actions; no assistant or chat entry
+- **Home** — next candidate decision and available knowledge; no assistant or chat entry
 - **Review** — governance inbox
-- **Ledger** — current authoritative knowledge
+- **Knowledge** — searchable current eligible claims; the stable route remains `/ledger`
 - **Activity** — consumption receipts
 - **Admin** — principals, credentials, policy
 
@@ -197,8 +197,9 @@ Boardroom Clarity is one system with four expression modes, not one app styleshe
 [//]: # (ob:8aa0ba5a)
 - **Focused review:** single reading column with a maximum width of 760px and body lines no wider than 70 characters. Use the order navigation → metadata → claim → recommendation and checks → evidence → decision.
 - **Review with a human gate:** a flexible reading column may pair with a fixed 320–344px decision or receipt panel. Keep the claim and its evidence visually dominant.
+- **Knowledge library and record:** browse readable statement rows with search, applicability filtering, and proposal-date or alphabetical sorting. At desktop widths, the library and record share the work surface; at 1099px and below, the record becomes the sole reading surface. Keep proposer, admitting reviewer, permitted uses, and validity conditions visible before the evidence and history disclosures. Missing fields are explicitly unrecorded, never inferred as unrestricted permission.
 - **Local lineage:** a bounded canvas may pair with a 300–320px inspector. Read left to right as Bound Evidence → Candidate Claim → Governed Context. Use a subtle 21px dot grid only when it materially improves spatial orientation.
-- **Responsive:** below approximately 820px, stack reading and decision surfaces. Replace decorative graph connectors with a vertical evidence → claim → context sequence; preserve state and keyboard order.
+- **Responsive:** stack reading and decision surfaces on narrow screens. In Knowledge at 820px and below, local lineage becomes a vertical evidence → claim → context sequence with readable nodes and a visible admission boundary; preserve state and keyboard order.
 - **Rendered artifacts:** Markdown tables, lists, bold text, code, and citations must render as content. Exposed raw markup is a defect.
 
 [//]: # (ob:0855c398)
@@ -241,7 +242,7 @@ The owner workspace uses `web/owner/src/components/ui/icon.tsx` as the only appl
 Shared owners: `ui/button.tsx` and `ui/badge.tsx` consume palette tokens; `ui/modal-surface.tsx` owns dialog geometry/accessibility; `review-feedback.tsx` owns DecisionNotice, RevisionPanel, clipboard handoff, and history identity; `ledger-overview.tsx` owns the bounded workspace support graph; `lineage-graph.tsx` owns focused nodes, curves, and source expansion; `governance.css` owns their visual rules and typography roles. Reuse or extend these components rather than copying page-specific markup and hardcoded tokens.
 
 [//]: # (ob:8bd7754c)
-The Ledger starts with a workspace evidence-to-claim graph including recorded lifecycle states, with six claims and twelve sources initially, scope filtering, shared-source highlighting, and incremental expansion. Selecting a claim opens focused provenance with at most three initial sources. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Current knowledge remains a separate eligible-only projection: showing rejected or revision history in the graph never admits it. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
+Knowledge starts with the server's current eligible owner projection, rendered by `knowledge-library.tsx` with search, applicability filtering, and sorting from `knowledge-model.ts`. A selected claim opens a readable record; evidence and history remain inspectable through disclosures. View lineage opens focused provenance with at most three initial sources, then incremental expansion. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Rejected or revision history never enters this current-knowledge projection merely because it is recorded. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
 
 [//]: # (ob:0287d639)
 - **Status chip:** compact sans-serif label using the shared Badge. Admitted/current is green; needs review uses labeled cyan on accent-soft; needs revision is muted violet; blocked/rejected is red. Decision history tables display status explicitly, without requiring selection. Pending and recommendation surfaces must not use yellow/orange. Never express authority through confidence percentages.
@@ -283,7 +284,7 @@ Every mutation must produce immediate, consistent feedback: prevent duplicate su
 [//]: # (ob:hosted-review-policy)
 **Hosted review policy.** Owner-only settings are workspace-scoped, versioned, audited, and persisted server-side. They control off/manual/automatic LM review, provider and model, bounded workspace criteria, external bounded-evidence consent, and whether current supporting advice is required before approval. The recommended first-run template is automatic review with required advice, but it remains inactive until the owner explicitly configures a provider, credential, criteria, and data handling. Provider credentials are encrypted at rest, write-only in the UI, and never enter policy history or model packets. Automatic review evaluates the existing pending queue when a policy is activated and evaluates new proposals after deterministic checks. A failed current deterministic evaluation is **Blocked**, leaves the human queue, and never calls the model. Review jobs are durable and idempotent, never admit claims, and do not silently retry an interrupted provider call.
 
-The Review inspector exposes one primary action for the current state. Before checks pass, that action is the required recovery step. After checks pass, **Open full review** is the solid cyan primary action; manual LM review is explicitly optional and remains a secondary outline action. A policy may require current supporting advice before approval, but it must never make the candidate record itself inaccessible. The queue and inspector scroll independently on desktop; selecting another claim resets the inspector to its summary.
+The Review inspector exposes one primary action for the current state. Before checks pass, that action is the required recovery step. After checks pass, **Open full review** is the solid cyan primary action; manual LM review is explicitly optional and remains a secondary outline action. A policy may require current supporting advice before approval, but it must never make the candidate record itself inaccessible. The proposed reuse boundary includes the complete recorded Relevant when and Validity conditions lists in both the inspector and full review; absent conditions are marked not recorded. The queue and inspector scroll independently on desktop; selecting another claim resets the inspector to its summary.
 
 [//]: # (ob:1ca206ee)
 [//]: # (ob:semantic-activity)
@@ -325,7 +326,7 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Do** make selected graph nodes keyboard-operable and expose the same receipt information without relying on color alone.
 - **Do** project a recorded admission consistently across review, ledger, lineage, history, and governed context.
 - **Do** let a host product apply its own brand shell while retaining Proofpress trust-state semantics.
-- **Do** keep current owner navigation as Home, Review, Ledger, Activity, and Admin; do not restore assistant/chat entry points as a design cleanup.
+- **Do** keep current owner navigation as Home, Review, Knowledge, Activity, and Admin, retaining `/ledger` as Knowledge's stable route; do not restore assistant/chat entry points as a design cleanup.
 - **Do** fail closed: unavailable data or invalid lineage must render as blocked or not ready, never as a plausible placeholder.
 
 [//]: # (ob:70e00445)

@@ -202,6 +202,7 @@ def sync(client: ProofpressClient, plan: dict[str, Any], proposer: str) -> dict[
             qualifier["failure"]["feedback_evidence_refs"] = [evidence_ref]
         proposed = client.propose_claim(
             record["statement"], [evidence_ref], plan["scope"], proposer,
+            title=f"Research phase: {phase_id}"[:120],
             qualifiers={"experiment": qualifier}, profile="experiment",
             idempotency_key=_key(plan["plan_digest"], phase_id, "claim"))
         claims[phase_id] = proposed["claim"]["id"]

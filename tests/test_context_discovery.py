@@ -44,6 +44,36 @@ class ContextDiscoveryTests(unittest.TestCase):
         os.chdir(self.previous)
         self.tmp.cleanup()
 
+    def test_optional_claim_title_is_immutable_and_legacy_compatible(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        args = ("The Acme liability cap is one year of fees.", [evidence])
+        old = self.kernel_ops.propose_v2(*args, proposer="agent:test")["claim"]
+        self.assertNotIn("title", old)
+        repeated = self.kernel_ops.propose_v2(*args, proposer="agent:test", title=None)["claim"]
+        self.assertEqual(old, repeated)
+        titled = self.kernel_ops.propose_v2(*args, proposer="agent:test", title="  Acme liability cap  ")["claim"]
+        self.assertEqual(titled["title"], "Acme liability cap")
+        self.assertEqual(titled["statement"], old["statement"])
+        self.assertNotEqual(titled["id"], old["id"])
+        self.assertNotEqual(titled["digest"], old["digest"])
+        for invalid in ("", " ", 12, "a" * 121):
+            with self.assertRaises(ValueError):
+                self.kernel_ops.propose_v2(*args, proposer="agent:test", title=invalid)
+
+    def test_public_proposals_require_title_and_statement(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        valid = {"title": "Acme cap", "statement": "One year of fees.", "evidence_refs": [evidence], "proposer": "agent:test"}
+        def submit(parameters):
+            return self.kernel_ops.execute_local_operation({"schema_version": self.kernel_ops.LOCAL_OPERATION_SCHEMA, "operation": "claim.propose", "parameters": parameters})
+        self.assertTrue(submit(valid)["ok"])
+        for field in ("title", "statement"):
+            for value in (None, "", " ", 12):
+                result = submit({**valid, field: value})
+                self.assertFalse(result["ok"])
+            missing = dict(valid)
+            del missing[field]
+            self.assertFalse(submit(missing)["ok"])
+
     def test_frontmatter_card_is_discoverable_without_a_scope(self):
         evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
         proposal = self.kernel_ops.propose_v2(

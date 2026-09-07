@@ -5,6 +5,7 @@ import json
 import os
 import stat
 import subprocess
+import sys
 import threading
 from pathlib import Path
 
@@ -154,6 +155,19 @@ def ensure_admitted_preview(base, agent_token, owner_token):
 
 
 def main():
+    if "--serve-only" in sys.argv:
+        # Manual UI review against an existing synthetic workspace. Do not read
+        # credentials, create proposals, or record admissions on this path.
+        if not DATABASE.exists():
+            raise SystemExit("No existing local preview database. Run the normal local preview setup manually first.")
+        os.environ["PROOFPRESS_WORKSPACE_LABEL"] = "Local preview · persistent synthetic data"
+        server = create_hosted_server(DATABASE, port=PORT)
+        print(json.dumps({"event": "local_preview_ready", "base": f"http://127.0.0.1:{server.server_port}", "mode": "serve-only"}), flush=True)
+        try:
+            server.serve_forever()
+        finally:
+            server.server_close()
+        return
     STATE_DIRECTORY.mkdir(parents=True, exist_ok=True)
     database_exists = DATABASE.exists()
     credentials_exist = CREDENTIALS.exists()

@@ -71,7 +71,7 @@ class ExperimentProfileTests(unittest.TestCase):
                      "claim_kind": "finding", "experiment": self.identity()}}
         sdk = self.client.propose_claim(
             "Validation accuracy was 0.82.", [metric], "pioneer", "agent:sdk",
-            qualifiers=qualifiers, profile="experiment")
+            qualifiers=qualifiers, profile="experiment", title="Test claim")
         self.assertEqual(sdk["claim"]["qualifiers"]["profile"], experiment.PROFILE)
         evaluated = self.client.evaluate_claim(sdk["claim"]["id"])
         self.assertTrue(evaluated["eligible"])
@@ -124,7 +124,7 @@ class ExperimentProfileTests(unittest.TestCase):
         qualifiers = {"experiment": {"schema_version": experiment.PROFILE,
                      "claim_kind": "finding", "experiment": self.identity()}}
         proposed = control.execute(agent["token"], operation(
-            "claim.propose", {"statement": "Accuracy was 0.82.",
+            "claim.propose", {"title": "Validation accuracy", "statement": "Accuracy was 0.82.",
             "evidence_refs": [metric], "scope": "pioneer",
             "qualifiers": qualifiers, "profile": "experiment"}, "proposal"))
         self.assertTrue(proposed["ok"])
@@ -166,7 +166,7 @@ class ExperimentProfileTests(unittest.TestCase):
             "agent:test", qualifiers={"experiment": {
                 "schema_version": experiment.PROFILE,
                 "claim_kind": "finding", "experiment": self.identity()}},
-            profile="experiment")
+            profile="experiment", title="Test claim")
         graph = kernel_ops.graph_v2(scope="pioneer")
         node_ids = {node["id"] for node in graph["nodes"]}
         self.assertTrue({metric, cell, derivation_ref,
@@ -189,7 +189,7 @@ class ExperimentProfileTests(unittest.TestCase):
                      "claim_kind": "scientifically-proven", "experiment": self.identity()}}
         with self.assertRaisesRegex(Exception, "unknown experiment claim kind"):
             self.client.propose_claim("Invalid", [], "pioneer", "agent:test",
-                                           qualifiers=qualifiers, profile="experiment")
+                                           qualifiers=qualifiers, profile="experiment", title="Test claim")
 
     def test_failed_attempt_is_a_first_class_reusable_failure_record(self):
         metric, _ = self.submit_metric(value="0.61")
@@ -206,7 +206,7 @@ class ExperimentProfileTests(unittest.TestCase):
                      "failure": failure}}
         result = self.client.propose_claim(
             "Configuration cfg-b did not meet the accuracy target.", [metric],
-            "pioneer", "agent:test", qualifiers=qualifiers, profile="experiment")
+            "pioneer", "agent:test", qualifiers=qualifiers, profile="experiment", title="Test claim")
         self.assertEqual(result["claim"]["qualifiers"]["experiment"]["failure"], failure)
         evaluated = self.client.evaluate_claim(result["claim"]["id"])
         self.assertTrue(evaluated["checks"]["experiment_failure_feedback_bound"])
@@ -216,7 +216,7 @@ class ExperimentProfileTests(unittest.TestCase):
         with self.assertRaisesRegex(Exception, "explicit failure record"):
             self.client.propose_claim("Opaque failure.", [metric], "pioneer",
                                            "agent:test", qualifiers=missing,
-                                           profile="experiment")
+                                           profile="experiment", title="Test claim")
 
 
 if __name__ == "__main__":

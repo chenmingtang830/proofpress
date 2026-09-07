@@ -1,9 +1,11 @@
 import { chromium } from 'playwright';
-import { spawn } from 'node:child_process';
+import { spawn, execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { createInterface } from 'node:readline';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
+import { inspectKnowledge, inspectKnowledgeRace } from './knowledge-smoke.mjs';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 const fixture = spawn(process.env.PYTHON || 'python3', [fileURLToPath(new URL('owner-fixture.py', import.meta.url))], {
@@ -12,12 +14,20 @@ const fixture = spawn(process.env.PYTHON || 'python3', [fileURLToPath(new URL('o
 let diagnostics = '';
 fixture.stderr.on('data', c => { diagnostics += c; });
 let browser;
+const execFileAsync = promisify(execFile);
+const agentBrowser = (...args) => execFileAsync('npx', ['--yes', 'agent-browser', '--session', 'proofpress-product-fixture', ...args], {timeout:30000});
 try {
   const data = await new Promise((resolve,reject) => {
     const timer=setTimeout(()=>reject(new Error('Fixture startup timed out')),20000);
     createInterface({input:fixture.stdout}).once('line',line=>{clearTimeout(timer);resolve(JSON.parse(line));});
     fixture.once('exit',code=>{clearTimeout(timer);reject(new Error(`Fixture exited ${code}: ${diagnostics}`));});
   });
+  if (process.env.QA_AGENT_BROWSER) {
+    await agentBrowser('open', `${data.base}/home`);
+    const snapshot = await agentBrowser('snapshot', '-i');
+    assert.match(snapshot.stdout, /sign in|token|credential/i, 'The isolated fixture must present an owner sign-in surface');
+    await agentBrowser('close');
+  }
   browser = await chromium.launch();
   const page = await browser.newPage({viewport:{width:1536,height:1024}});
   await page.addInitScript(() => {
@@ -35,12 +45,24 @@ try {
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
   assert.match(page.url(), /\/home$/);
+  await page.locator('.nextClaim h3').waitFor();
+  assert.equal(await page.locator('.homeLifecycle').getAttribute('open'),null);
+  assert.equal(await page.locator('.homeKnowledgeList button').count(),0,'Candidates must not appear as available knowledge');
+  if (process.env.QA_SCREENSHOTS) {
+    await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+    for (const width of [1536,1024,390]) {
+      await page.setViewportSize({width,height:width === 390 ? 844 : 1024});
+      await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/home-pending-${width}.png`});
+    }
+    await page.setViewportSize({width:1536,height:1024});
+  }
   await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
   await page.waitForFunction(() => window.__proofpressWebMcpTools?.length >= 12);
   const reviewRow = page.locator('tbody tr').filter({hasText:data.ids[0]});
   assert.equal(await reviewRow.locator('.claimSelect').evaluate(el=>getComputedStyle(el).textAlign),'left');
   assert.equal(await reviewRow.locator('.reviewScopeCell').isVisible(),true);
   assert.equal(await reviewRow.locator('.claimScopeInline').isVisible(),false);
+  await page.locator('.inspector h2').filter({hasText:'Browser fixture approve:'}).waitFor();
   if(process.env.QA_SCREENSHOTS) {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-columns-1536.png`});
@@ -132,6 +154,19 @@ try {
   await page.reload();
   await page.locator('.evidenceRow .expandableText > p').filter({hasText:'Browser fixture approve:'}).waitFor();
   const seededReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
+  await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,
+    claim:{...seededReceipt.result.claim,applicability:{title:'Synthetic browser evaluation',description:'Bounded browser fixture only.',when_relevant:['Reviewing the synthetic owner workflow.'],validity_conditions:['Do not extrapolate to partner outcomes.']}},
+    review_policy:{...seededReceipt.result.review_policy,checks_current:false,advice_current:false},
+    recommendation:{recommendation:'accept',rationale:'Previously supported evidence; current checks are still required.'},
+  }}}));
+  await page.reload();
+  await page.getByText('Recheck required',{exact:true}).waitFor();
+  assert.equal(await page.locator('.decisionStack').getByText('Passed',{exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),false);
+  await page.locator('.reuseBoundary').getByText('Do not extrapolate to partner outcomes.',{exact:true}).waitFor();
+  await page.locator('.reuseBoundary').getByText('Reviewing the synthetic owner workflow.',{exact:true}).waitFor();
+  assert.match(await page.locator('.decisionStack').textContent(),/Refresh required/);
+  await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:null,judge_job:{state:'running',detail:''}}}}));
   await page.reload();
   await page.getByText('LM is reviewing the bound evidence',{exact:true}).waitFor();
@@ -166,42 +201,22 @@ try {
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Approved for reuse',{exact:true}).waitFor();
-  await page.getByRole('button',{name:'Ledger',exact:true}).click();
-  const tabGeometry = () => page.locator('.ledgerViews button').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect(); const s=getComputedStyle(el);return {x:r.x,y:r.y,width:r.width,height:r.height,weight:s.fontWeight};}));
-  const beforeTab = await tabGeometry();
-  assert.equal(await page.getByRole('button',{name:'Current claims',exact:true}).getAttribute('aria-pressed'),'true');
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
-  assert.equal(await page.locator('tbody tr').count(),1);
-  assert.equal(await page.getByRole('textbox',{name:'Ledger scope'}).count(),0);
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.locator('.inspector h2').filter({hasText:'fixture approve:'}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Selected lineage',exact:true}).isEnabled(),true);
-  await page.getByRole('button',{name:'View lineage',exact:true}).click();
-  assert.deepEqual(await tabGeometry(),beforeTab,'Tab geometry and weight must not change on selection');
-  await page.locator('.graphNode').getByText('Scope: browser-test',{exact:true}).waitFor();
-  assert.equal(await page.locator('.graphPlane .technicalDetails').count(),0);
-  await page.locator('.graphNode.evidence').first().click();
-  await page.locator('.graphInspector .technicalDetails').waitFor();
-  await page.getByRole('button',{name:'Back to claim',exact:true}).click();
-  await page.getByRole('button',{name:'Back to current claims',exact:true}).click();
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
-  await page.setViewportSize({width:390,height:900});
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.locator('.inspector h2').filter({hasText:'fixture approve:'}).waitFor();
-  await page.getByRole('button',{name:'Close details',exact:true}).click();
-  assert.equal(await page.locator('.inspector').count(),0);
-  await page.setViewportSize({width:1536,height:1024});
-  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/ledger-current-claims.png`});
+  await page.getByRole('button',{name:'Knowledge',exact:true}).click();
+  await inspectKnowledge(page,data);
   await page.getByRole('button',{name:'Review',exact:true}).click();
   assert.equal(await page.locator('tbody tr').filter({hasText:data.ids[0]}).count(),0);
+  let finishDelayedSelection;
+  const delayedSelectionFinished = new Promise(resolve=>{ finishDelayedSelection=resolve; });
   await page.route(`**/owner/api/claims/${data.ids[1]}`, async route => {
     const response = await route.fetch();
     await new Promise(resolve=>setTimeout(resolve,250));
     await route.fulfill({response});
+    finishDelayedSelection();
   });
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
   await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
+  await delayedSelectionFinished;
   await page.waitForLoadState('networkidle');
   assert.match(await page.locator('.inspector h2').textContent(),/fixture clarify:/);
   await page.unroute(`**/owner/api/claims/${data.ids[1]}`);
@@ -218,11 +233,19 @@ try {
   await page.locator('.decision textarea').fill('The evidence does not support the claim as currently bounded.');
   await page.getByRole('button',{name:'Reject',exact:true}).click();
   await page.getByRole('dialog',{name:'Reject this claim?'}).getByText('The evidence does not support the claim as currently bounded.',{exact:true}).waitFor();
+  const rejectionRecorded = page.waitForResponse(response=>response.url().endsWith('/owner/api/reviews') && response.request().method()==='POST',{timeout:20000});
   await page.getByRole('button',{name:'Confirm rejection',exact:true}).click();
-  await page.locator('.decisionNotice').getByText('Rejected',{exact:true}).waitFor();
+  await page.getByText('Not recorded yet',{exact:true}).waitFor();
+  assert.equal(await page.locator('.decisionNotice').getByText('Rejected',{exact:true}).count(),0,'Undo countdown must not appear as a recorded rejection');
+  assert.equal((await rejectionRecorded).ok(),true);
   await page.waitForLoadState('networkidle');
   await page.locator('.shell[aria-busy="false"]').waitFor();
-  await page.getByRole('button',{name:'Back to review',exact:true}).click();
+  await page.getByRole('button',{name:'Decision history',exact:true}).click();
+  await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
+  await page.locator('.decisionNotice').getByText('Rejected',{exact:true}).waitFor();
+  const rejectionReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[1]}`)).json();
+  assert.equal(rejectionReceipt.result.state,'rejected');
+  assert.equal(rejectionReceipt.result.review.note,'The evidence does not support the claim as currently bounded.');
   await page.getByRole('button',{name:'Needs review',exact:true}).click();
   assert.equal(await page.getByRole('complementary',{name:'Claim details'}).count(),0);
   await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
@@ -277,7 +300,9 @@ try {
   await page.getByText('Approved for reuse',{exact:true}).waitFor();
   const revisedContext = await operation('context.get',{scope:'browser-test'});
   assert.deepEqual(new Set(revisedContext.governed_context.map(row=>row.id)),new Set([data.ids[0],revision.claim.id]));
-  for(const name of ['Home','Review','Ledger','Activity','Admin']) {
+  await page.getByRole('button',{name:'Knowledge',exact:true}).click();
+  await inspectKnowledgeRace(page,data);
+  for(const name of ['Home','Review','Knowledge','Activity','Admin']) {
     await page.getByRole('button',{name,exact:true}).click();
     await page.locator('h1').waitFor();
   }
@@ -340,7 +365,7 @@ try {
   assert.equal(await page.getByRole('textbox',{name:'Search claims'}).count(),0);
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:1024});
-    for (const name of ['Home','Review','Ledger','Activity','Admin']) {
+    for (const name of ['Home','Review','Knowledge','Activity','Admin']) {
       await page.getByRole('button',{name,exact:true}).click();
       await page.locator('h1').waitFor();
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,`${name} overflow at ${width}`);
@@ -351,17 +376,10 @@ try {
   for(const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:900});
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
-    const statusRows=await page.locator('.simpleList > div').evaluateAll(rows=>rows.map(row=>{
-      const badge=row.querySelector('.badge');
-      const statement=row.querySelector('b');
-      if(!badge || !statement) return null;
-      const badgeRect=badge.getBoundingClientRect();
-      const statementRect=statement.getBoundingClientRect();
-      return {badgeRight:badgeRect.right,statementLeft:statementRect.left};
-    }).filter(Boolean));
-    for(const row of statusRows) {
-      assert.ok(row.badgeRight <= row.statementLeft,`Home status overlaps its claim at ${width}px`);
-    }
+    assert.equal(await page.locator('.homeKnowledgeList button').count(),2,'Home contains only both admitted, current claims');
+    assert.equal(await page.locator('.homeKnowledgeList').getByText('Browser fixture reject:',{exact:false}).count(),0);
+    assert.equal(await page.locator('.homeKnowledgeList').getByText('Browser fixture clarify:',{exact:false}).count(),0);
+    assert.equal(await page.locator('.homeLifecycle').getAttribute('open'),null);
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
       await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/home-${width}.png`});
@@ -370,19 +388,20 @@ try {
   await page.setViewportSize({width:1280,height:900});
   await page.route('**/owner/api/context?*',route=>route.fulfill({status:503,json:{error:'Context unavailable'}}));
   await page.goto(`${data.base}/ledger`);
-  await page.getByRole('button',{name:'Current claims',exact:true}).click();
-  await page.getByText('Current claims could not be loaded.',{exact:false}).waitFor();
-  assert.equal(await page.locator('.claimNode').count(),0);
+  await page.getByRole('heading',{name:'Current claims could not be loaded',exact:true}).waitFor();
+  assert.equal(await page.locator('.knowledgeList > li').count(),0);
+  assert.equal(await page.getByText('Available for reuse',{exact:true}).count(),0);
   await page.unroute('**/owner/api/context?*');
   await page.getByRole('button',{name:'Reload workspace',exact:true}).click();
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
+  const availableClaim = page.locator('.knowledgeList > li > button').filter({hasText:'Browser fixture approve:'});
+  await availableClaim.waitFor();
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.getByText('Detail unavailable',{exact:false}).waitFor();
-  assert.equal(await page.locator('.inspector').count(),0);
+  await availableClaim.click();
+  await page.getByRole('heading',{name:'Record unavailable',exact:true}).waitFor();
+  assert.equal(await page.getByText('Available for reuse',{exact:true}).count(),0);
   await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.locator('.inspector h2').waitFor();
+  await page.getByRole('button',{name:'Retry details',exact:true}).click();
+  await page.locator('.knowledgeRecord h2').filter({hasText:'Browser fixture approve:'}).waitFor();
   await page.route('**/owner/api/graph',route=>route.fulfill({status:401,json:{error:'owner_session_required'}}));
   await page.goto(`${data.base}/review`);
   await page.getByRole('link',{name:'Sign in again',exact:true}).waitFor();
@@ -398,5 +417,6 @@ try {
   console.log('PASS isolated real browser: evidence quote, tabs, approve/reject/request changes submission, canonical scope projection, successor read, selection race/error safety, navigation, credential issue/rotate/revoke, responsive Home. No production data or model calls.');
 } finally {
   await browser?.close();
+  if (process.env.QA_AGENT_BROWSER) await agentBrowser('close').catch(()=>{});
   fixture.stdin.end('\n');
 }

@@ -83,7 +83,7 @@ class McpAdapterTests(unittest.TestCase):
 
         proposed = self.gateway.propose_claim(
             "The liability cap is one year of fees.", [evidence_id],
-            "contract-review", idempotency_key="mcp-proposal-001")
+            "contract-review", idempotency_key="mcp-proposal-001", title="Test claim")
         claim = proposed["claim"]
         self.assertEqual(claim["proposer"], "agent:example-client")
         self.assertEqual(self.gateway.get_context("contract-review")["governed_context"], [])
@@ -122,7 +122,7 @@ class McpAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(
                 ValueError, "evd_ IDs returned by proofpress_submit_evidence"):
             self.gateway.propose_claim(
-                "A candidate", ["https://example.test/source"], "test")
+                "A candidate", ["https://example.test/source"], "test", title="Test claim")
 
 
 if __name__ == "__main__":
