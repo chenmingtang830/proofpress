@@ -8,7 +8,7 @@ const modelResults = [
   { model: "Inkling", ordinary: 89.67136150234741, proofpress: 90.19953051643192 },
 ];
 
-const scaleFloor = 75;
+const scaleFloor = 85;
 const scaleRange = 100 - scaleFloor;
 const scaleWidth = (value: number) =>
   `${Math.max(0, Math.min(100, ((value - scaleFloor) / scaleRange) * 100))}%`;
@@ -25,7 +25,7 @@ export function ModelResultsChart() {
       </div>
 
       <div className="modelScale" aria-hidden="true">
-        <span>75</span><span>80</span><span>85</span><span>90</span><span>95</span><span>100%</span>
+        <span>85</span><span>88</span><span>91</span><span>94</span><span>97</span><span>100%</span>
       </div>
 
       <div className="modelRows">
@@ -53,7 +53,7 @@ export function ModelResultsChart() {
       </div>
 
       <figcaption id="model-chart-caption">
-        Seven models, 18 paired runs per model. Ordered by uplift; zoomed 75–100% scale. Points show rubric completion, not bar length.
+        Seven models, 18 paired runs per model. Ordered by uplift; zoomed 85–100% scale. Points show rubric completion, not bar length.
       </figcaption>
     </figure>
   );
