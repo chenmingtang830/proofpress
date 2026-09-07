@@ -180,6 +180,8 @@ def propose(
     write_json(qualifier_path, qualifiers)
     command = [
         "propose",
+        "--title",
+        "OpenWiki physical-horizon claim",
         "--statement",
         statement,
         "--scope",

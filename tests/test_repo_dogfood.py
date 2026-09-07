@@ -75,6 +75,7 @@ class RepoDogfoodTests(unittest.TestCase):
         bundle_path, _ = self._change("head\n", "head")
         prepared = proofpress_repo.propose_candidate(
             self.client, bundle_path,
+            title="Cloud deployment roadmap",
             statement="The repository dogfood profile is planned for Cloud deployment.",
             claim_kind="roadmap", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-roadmap")
@@ -89,7 +90,8 @@ class RepoDogfoodTests(unittest.TestCase):
     def test_admitted_capability_reaches_context_and_can_be_superseded(self):
         first_path, _ = self._change("first\n", "first")
         first = proofpress_repo.propose_candidate(
-            self.client, first_path, statement="The repo workflow supports version one.",
+            self.client, first_path, title="Repository workflow version one",
+            statement="The repo workflow supports version one.",
             claim_kind="capability", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-first")
         first_id = first["candidate"]["id"]
@@ -102,7 +104,8 @@ class RepoDogfoodTests(unittest.TestCase):
 
         second_path, _ = self._change("second\n", "second")
         second = proofpress_repo.propose_candidate(
-            self.client, second_path, statement="The repo workflow supports version two.",
+            self.client, second_path, title="Repository workflow version two",
+            statement="The repo workflow supports version two.",
             claim_kind="capability", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-second")
         second_id = second["candidate"]["id"]

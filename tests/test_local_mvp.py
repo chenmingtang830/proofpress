@@ -39,6 +39,9 @@ class LocalMVPTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def cli(self, *args, check=True):
+        if args and args[0] == "propose" and "--title" not in args:
+            statement = args[args.index("--statement") + 1]
+            args = ("propose", "--title", statement, *args[1:])
         result = subprocess.run([*CLI, *args], cwd=self.repo,
                                 text=True, capture_output=True)
         if check and result.returncode:
