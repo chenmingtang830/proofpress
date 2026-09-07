@@ -1143,7 +1143,7 @@ function Inspector({
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
   const judgeInProgress = judgeRunning || (!r.recommendation && ["queued", "running"].includes(r.judge_job?.state));
   const judgeFailed = !r.recommendation && ["failed", "interrupted"].includes(r.judge_job?.state);
-  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
+  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting LM advice. Refresh the LM review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The LM marked this claim Needs Attention. This workspace requires supporting LM advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The LM found that the evidence does not support this claim. This workspace requires supporting LM advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting LM advice before approval." : "";
   const evidenceRows = r.evidence || [];
   const previewEvidence = evidenceRows.slice(0, 2);
   const claimTitle = claimDisplayTitle(r.claim);
@@ -1191,7 +1191,8 @@ function Inspector({
                       ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional LM review</Button>
                       : null}
             </>}
-          {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+          {r.recommendation && onJudge && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+          {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
           <div className="evidenceArgumentHead">
@@ -1210,7 +1211,7 @@ function Inspector({
             <dl className="reviewUseConditions"><div><dt>Relevant when</dt><dd>{r.claim.applicability?.when_relevant?.length ? <ul>{r.claim.applicability.when_relevant.map((use: string, i: number) => <li key={i}>{use}</li>)}</ul> : "Not recorded"}</dd></div><div><dt>Validity conditions</dt><dd>{r.claim.applicability?.validity_conditions?.length ? <ul>{r.claim.applicability.validity_conditions.map((condition: string, i: number) => <li key={i}>{condition}</li>)}</ul> : "Not recorded — inspect the evidence before deciding"}</dd></div></dl>
             {!approvalBlock && <p>Approval makes this claim discoverable to eligible agents; each agent is still checked separately.</p>}
         </section>}
-        {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>Advisory only — this does not approve or reject the claim.</small></section>}
+        {r.recommendation?.rationale && <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>}
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
