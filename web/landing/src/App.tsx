@@ -196,10 +196,11 @@ export function App() {
             </g>
           </svg>
           <div className="organizationStory" aria-label="The long-term outcome of continuous organizational learning">
-            <div><span>START AHEAD</span><strong>Every agent begins with what the organization has learned.</strong></div>
-            <div><span>LEARN FROM WORK</span><strong>Validated learnings improve the next run.</strong></div>
-            <div><span>KEEP WHAT COMPOUNDS</span><strong>The intelligence stays with the organization.</strong></div>
+            <div><span>01 USE KNOWLEDGE</span><strong>Record which knowledge the agent uses.</strong></div>
+            <div><span>02 EVALUATE RESULTS</span><strong>Evaluate the output. Link it to the knowledge used.</strong></div>
+            <div><span>03 WEIGHT KNOWLEDGE BY TRUST</span><strong>Improve results. Guide new conclusions.</strong></div>
           </div>
+          <p className="organizationOutcome">Organization intelligence compounds with each use.</p>
         </section>
 
         <section className="teams" id="teams" aria-labelledby="teams-title">
