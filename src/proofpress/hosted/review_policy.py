@@ -17,6 +17,7 @@ PROVIDERS = {
     "azure_openai": {"label": "Azure OpenAI", "endpoint": "", "zdr": False,
                        "default_model": "gpt-5.4",
                        "models": ["gpt-5.4", "gpt-5.4-mini", "gpt-5.4-nano"],
+                       "editable_model": True,
                        "endpoint_required": True,
                        "endpoint_placeholder": "https://your-resource.openai.azure.com/openai/v1/chat/completions"},
     "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "default_model": "claude-sonnet-4-5", "models": ["claude-opus-4-6", "claude-sonnet-4-5", "claude-haiku-4-5"], "zdr": False},

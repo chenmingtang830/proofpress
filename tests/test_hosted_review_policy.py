@@ -45,6 +45,7 @@ class ReviewPolicyTests(unittest.TestCase):
             ["Azure OpenAI", "Amazon Bedrock", "Google Gemini", "xAI", "Groq", "Mistral AI"],
         )
         self.assertTrue(PROVIDERS["azure_openai"]["endpoint_required"])
+        self.assertTrue(PROVIDERS["azure_openai"]["editable_model"])
         self.assertTrue(PROVIDERS["amazon_bedrock"]["endpoint_required"])
         for key, provider in PROVIDERS.items():
             if key != "custom":
