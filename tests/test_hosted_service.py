@@ -173,10 +173,11 @@ class HostedServiceTests(unittest.TestCase):
         agent = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])
         imported = agent.submit_evidence(spreadsheet_evidence_payload())
-        proposed = agent.propose_conclusion(
+        proposed = agent.propose_claim(
             "Revenue!F12 was revised for the FY2026 base case.", imported["evidence"],
-            "finance:annual-plan:fy2026", "spoofed:owner")
-        receipt = agent.review_receipt(proposed["conclusion"]["id"])
+            "finance:annual-plan:fy2026", "spoofed:owner",
+            title="FY2026 revenue revision")
+        receipt = agent.review_receipt(proposed["claim"]["id"])
         locator = receipt["evidence"][0]["retrieval_receipt"]["locator"]
         self.assertEqual(locator["kind"], "spreadsheet_cell")
         self.assertEqual(locator["previous_source_content_digest"], "sha256:" + "e" * 64)
@@ -187,18 +188,18 @@ class HostedServiceTests(unittest.TestCase):
         owner = self.sdk.ProofpressClient.localhost(
             self.base_url, self.owner["token"])
         imported = agent.submit_evidence(evidence_payload())
-        proposed = agent.propose_conclusion(
+        proposed = agent.propose_claim(
             "The liability cap is one year of fees.", imported["evidence"],
-            "contract-review", "spoofed:owner")
-        conclusion = proposed["conclusion"]
-        self.assertEqual(conclusion["proposer"], "agent:codex-laptop")
-        agent.evaluate_conclusion(conclusion["id"])
-        owner.review_conclusion(
-            conclusion["id"], "admit", "spoofed:agent",
+            "contract-review", "spoofed:owner", title="Test claim")
+        claim = proposed["claim"]
+        self.assertEqual(claim["proposer"], "agent:codex-laptop")
+        agent.evaluate_claim(claim["id"])
+        owner.review_claim(
+            claim["id"], "admit", "spoofed:agent",
             review_request_id="owner-review-1")
         context = agent.context(scope="contract-review", actor="spoofed:owner")
         self.assertEqual(context["actor"], "agent:codex-laptop")
-        self.assertEqual(context["knowledge"][0]["id"], conclusion["id"])
+        self.assertEqual(context["governed_context"][0]["id"], claim["id"])
 
     def test_stdio_mcp_bridge_uses_hosted_credential_identity(self):
         client = self.sdk.ProofpressClient.localhost(
@@ -207,21 +208,21 @@ class HostedServiceTests(unittest.TestCase):
         capabilities = gateway.capabilities()
         self.assertEqual(capabilities["mcp"]["principal"], "agent:codex-laptop")
         imported = gateway.submit_evidence(evidence_payload())
-        proposed = gateway.propose_conclusion(
+        proposed = gateway.propose_claim(
             "The liability cap is one year of fees.", imported["evidence"],
-            "mcp-test")
+            "mcp-test", title="Test claim")
         self.assertEqual(
-            proposed["conclusion"]["proposer"], "agent:codex-laptop")
+            proposed["claim"]["proposer"], "agent:codex-laptop")
 
     def test_owner_web_login_review_and_successor_context(self):
         agent = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])
         imported = agent.submit_evidence(evidence_payload())
-        proposed = agent.propose_conclusion(
+        proposed = agent.propose_claim(
             "The liability cap is one year of fees.", imported["evidence"],
-            "web-review-test", "spoofed")
-        conclusion_id = proposed["conclusion"]["id"]
-        agent.evaluate_conclusion(conclusion_id)
+            "web-review-test", "spoofed", title="Test claim")
+        claim_id = proposed["claim"]["id"]
+        agent.evaluate_claim(claim_id)
 
         status, _, login = self.form("/owner/login", {"token": "wrong"})
         self.assertEqual(status, 401)
@@ -243,13 +244,20 @@ class HostedServiceTests(unittest.TestCase):
         raised.exception.close()
 
         review_request = Request(
-            self.base_url + "/review?" + urlencode({"conclusion_id": conclusion_id}),
+            self.base_url + "/review?" + urlencode({"claim_id": claim_id}),
             headers={"Cookie": cookie})
         with urlopen(review_request) as response:
             page = response.read().decode()
         self.assertIn("<title>Proofpress</title>", page)
         self.assertIn("/assets/index-", page)
         self.assertNotIn(self.owner["token"], page)
+        runs_request = Request(
+            self.base_url + "/runs", headers={"Cookie": cookie})
+        with urlopen(runs_request) as response:
+            runs_page = response.read().decode()
+        self.assertIn("<title>Proofpress</title>", runs_page)
+        self.assertIn("/assets/index-", runs_page)
+        self.assertNotIn(self.owner["token"], runs_page)
         with urlopen(self.base_url + "/logo.svg") as response:
             self.assertEqual(response.status, 200)
             self.assertEqual(response.headers.get_content_type(), "image/svg+xml")
@@ -266,27 +274,27 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(summary["result"]["counts"]["needs_review"], 1)
         status, receipt = self.owner_json(
-            "/owner/api/conclusions/" + conclusion_id, cookie)
+            "/owner/api/claims/" + claim_id, cookie)
         self.assertEqual(status, 200)
         self.assertEqual(receipt["result"]["state"], "needs_review")
         status, _ = self.owner_json("/owner/api/judge", "", {
-            "csrf": csrf, "conclusion_id": conclusion_id, "confirmed": True})
+            "csrf": csrf, "claim_id": claim_id, "confirmed": True})
         self.assertEqual(status, 401)
         status, _ = self.owner_json("/owner/api/judge", cookie, {
-            "csrf": "wrong", "conclusion_id": conclusion_id, "confirmed": True})
+            "csrf": "wrong", "claim_id": claim_id, "confirmed": True})
         self.assertEqual(status, 403)
         status, _ = self.owner_json("/owner/api/judge", cookie, {
-            "csrf": csrf, "conclusion_id": conclusion_id})
+            "csrf": csrf, "claim_id": claim_id})
         self.assertEqual(status, 400)
         status, reviewed = self.owner_json("/owner/api/reviews", cookie, {
-            "csrf": csrf, "conclusion_id": conclusion_id,
+            "csrf": csrf, "claim_id": claim_id,
             "decision": "admit", "note": "Richard dogfood"})
         self.assertEqual(status, 200)
         self.assertEqual(reviewed["result"]["state"], "admitted")
         successor = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])
         context = successor.context(scope="web-review-test", actor="spoofed")
-        self.assertEqual([row["id"] for row in context["knowledge"]], [conclusion_id])
+        self.assertEqual([row["id"] for row in context["governed_context"]], [claim_id])
 
     def test_owner_review_rejects_csrf_failure(self):
         request = Request(
@@ -302,7 +310,7 @@ class HostedServiceTests(unittest.TestCase):
         cookie = raised.exception.headers["Set-Cookie"].split(";", 1)[0]
         raised.exception.close()
         status, _, body = self.form("/owner/review", {
-            "csrf": "wrong", "conclusion_id": "missing", "decision": "admit",
+            "csrf": "wrong", "claim_id": "missing", "decision": "admit",
         }, cookie)
         self.assertEqual(status, 403)
         self.assertIn("csrf_failed", body)
@@ -310,7 +318,7 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(status, 401)
         self.assertEqual(denied["error"]["code"], "owner_session_required")
         status, denied = self.owner_json("/owner/api/reviews", cookie, {
-            "csrf": "wrong", "conclusion_id": "missing", "decision": "admit"})
+            "csrf": "wrong", "claim_id": "missing", "decision": "admit"})
         self.assertEqual(status, 403)
         self.assertEqual(denied["error"]["code"], "csrf_failed")
 

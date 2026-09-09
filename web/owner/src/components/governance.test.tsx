@@ -16,15 +16,15 @@ describe("governance components", () => {
     expect(renderToStaticMarkup(<Badge state="admitted" />)).toContain("--add-bg");
     expect(renderToStaticMarkup(<Badge state="unresolved" />)).toContain("Needs revalidation");
   });
-  it("keeps request outcomes distinct from knowledge admission", () => {
+  it("keeps request outcomes distinct from claim admission", () => {
     expect(activityResult("ok")).toEqual({label:"Recorded",tone:"neutral"});
     expect(activityResult("operation_forbidden")).toEqual({label:"Access denied",tone:"danger"});
     expect(activityResult("ledger_head_conflict")).toEqual({label:"Version conflict",tone:"attention"});
     expect(activityResult("unknown_error").label).toBe("Request failed");
   });
   it("does not color a revision request as rejection", () => {
-    const html = renderToStaticMarkup(<LineageGraph receipt={{conclusion:{id:"r",statement:"Revise units",scope:"test"},state:"needs_revision",evidence:[]}} available={false} evidenceNames={[]} selection="conclusion" onSelect={()=>{}} />);
-    expect(html).toContain('class="graphNode conclusion revision"');
+    const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"r",statement:"Revise units",scope:"test"},state:"needs_revision",evidence:[]}} available={false} evidenceNames={[]} selection="claim" onSelect={()=>{}} />);
+    expect(html).toContain('class="graphNode claim revision"');
     expect(html).toContain('class="revision"');
     expect(html).not.toContain('class="graphNode excluded"');
   });
@@ -37,7 +37,7 @@ describe("governance components", () => {
   });
   it("does not invent historical actors", () => {
     expect(historyActor({})).toBe("Actor not recorded");
-    expect(historyActor({conclusion:{proposer:"agent:codex"}})).toBe("agent:codex");
+    expect(historyActor({claim:{proposer:"agent:codex"}})).toBe("agent:codex");
     expect(historyActor({verifier:"verifier:deterministic"})).toBe("verifier:deterministic");
     expect(historyActor({judge:"judge:review",model:"test-model"})).toBe("judge:review · test-model");
     expect(historyActor({reviewer:"owner:richard"})).toBe("owner:richard");
@@ -49,10 +49,10 @@ describe("governance components", () => {
   });
   it("binds handoff instructions to a recorded request", () => {
     expect(revisionInstructions({})).toBe("");
-    expect(revisionInstructions({conclusion:{id:"knw_a"},review:{note:"Fix units"},revision_request:{event_id:"evt_b"}})).toContain('"revision_request_ref":"evt_b"');
+    expect(revisionInstructions({claim:{id:"knw_a"},review:{note:"Fix units"},revision_request:{event_id:"evt_b"}})).toContain('"revision_request_ref":"evt_b"');
   });
   it("bounds graph disclosure and does not equate admission with eligibility", () => {
-    const html = renderToStaticMarkup(<LineageGraph receipt={{conclusion:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[{},{},{},{}]}} available={false} evidenceNames={["A","B","C","D"]} selection="conclusion" onSelect={()=>{}} />);
+    const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[{},{},{},{}]}} available={false} evidenceNames={["A","B","C","D"]} selection="claim" onSelect={()=>{}} />);
     expect(html).toContain("Not eligible in this view");
     expect(html).toContain("Show 1 more sources");
     expect(html).not.toContain("Available for reuse");

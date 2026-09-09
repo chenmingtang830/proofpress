@@ -14,7 +14,7 @@ web
 ## Users
 
 [//]: # (ob:54dc4824)
-The primary user is the owner of a knowledge workspace who works through multiple coding agents and devices. Agents submit bounded evidence and candidate conclusions; the owner reviews what may become reusable knowledge; successor agents read only governed context.
+The primary user is the owner of a knowledge workspace who works through multiple coding agents and devices. Agents submit bounded evidence and candidate claims; the owner reviews what may become reusable knowledge; successor agents read only governed context.
 
 [//]: # (ob:f1f48c9c)
 ## Product Purpose
@@ -39,7 +39,7 @@ The current product is a Python-first local and single-owner hosted control plan
 
 [//]: # (ob:966cc484)
 - One owner authorizes admission in the current hosted workspace.
-- Agent credentials can submit evidence, propose conclusions, and read governed context but cannot approve, reject, supersede, or change policy.
+- Agent credentials can submit evidence, propose claims, and read governed context but cannot approve, reject, supersede, or change policy.
 - The hosted assistant is advisory and may not perform admission decisions.
 - Verification and model recommendations are inputs to review, never authority.
 - Current scope excludes multi-owner governance, general OCR/RAG, Notion ingestion, multi-repository ingestion, and customer VPC deployment.
@@ -48,7 +48,7 @@ The current product is a Python-first local and single-owner hosted control plan
 ## Brand Commitments
 
 [//]: # (ob:6006a6d0)
-The product name is always one word: **Proofpress**. The operating experience is precise, calm, evidence-forward, and deliberately free of generic AI-product decoration. Product vocabulary includes Evidence, Candidate Conclusion, Review, Approve/Admit, Receipt, Ledger, Lineage, and Governed Context.
+The product name is always one word: **Proofpress**. The operating experience is precise, calm, evidence-forward, and deliberately free of generic AI-product decoration. Product vocabulary includes Evidence, Candidate Claim, Review, Approve/Admit, Receipt, Ledger, Lineage, and Governed Context.
 
 [//]: # (ob:3aad66a1)
 ## Evidence on Hand
@@ -61,7 +61,7 @@ The repository contains the canonical governance kernel, Python SDK, HTTP and MC
 
 [//]: # (ob:7fdb0a67)
 1. Make authority visible: a user can always distinguish evidence, checks, recommendations, and human decisions.
-2. Preserve bounded provenance: every reusable conclusion remains connected to evidence and receipts.
+2. Preserve bounded provenance: every reusable claim remains connected to evidence and receipts.
 3. Project only admitted, current, in-scope knowledge to successor agents.
 4. Integrate with customer-owned agents rather than replacing their runtime.
 5. Prefer one coherent product surface and contract over parallel interfaces with different semantics.

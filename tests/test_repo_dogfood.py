@@ -75,44 +75,47 @@ class RepoDogfoodTests(unittest.TestCase):
         bundle_path, _ = self._change("head\n", "head")
         prepared = proofpress_repo.propose_candidate(
             self.client, bundle_path,
+            title="Cloud deployment roadmap",
             statement="The repository dogfood profile is planned for Cloud deployment.",
             claim_kind="roadmap", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-roadmap")
         self.assertFalse(prepared["evaluation"]["eligible"])
         self.assertFalse(prepared["evaluation"]["checks"]["repo_claim_is_current_fact"])
-        self.assertEqual(self.client.context(scope="repo:proofpress")["knowledge"], [])
+        self.assertEqual(self.client.context(scope="repo:proofpress")["governed_context"], [])
         with self.assertRaises(proofpress_sdk.ProofpressError):
-            self.client.review_conclusion(
+            self.client.review_claim(
                 prepared["candidate"]["id"], "admit", "human:maintainer",
                 review_request_id="review-roadmap")
 
     def test_admitted_capability_reaches_context_and_can_be_superseded(self):
         first_path, _ = self._change("first\n", "first")
         first = proofpress_repo.propose_candidate(
-            self.client, first_path, statement="The repo workflow supports version one.",
+            self.client, first_path, title="Repository workflow version one",
+            statement="The repo workflow supports version one.",
             claim_kind="capability", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-first")
         first_id = first["candidate"]["id"]
-        self.client.review_conclusion(
+        self.client.review_claim(
             first_id, "admit", "human:maintainer",
             review_request_id="review-first")
         self.assertEqual(
-            [row["id"] for row in self.client.context(scope="repo:proofpress")["knowledge"]],
+            [row["id"] for row in self.client.context(scope="repo:proofpress")["governed_context"]],
             [first_id])
 
         second_path, _ = self._change("second\n", "second")
         second = proofpress_repo.propose_candidate(
-            self.client, second_path, statement="The repo workflow supports version two.",
+            self.client, second_path, title="Repository workflow version two",
+            statement="The repo workflow supports version two.",
             claim_kind="capability", scope="repo:proofpress", proposer="agent:coder",
             idempotency_prefix="repo-second")
         second_id = second["candidate"]["id"]
-        self.client.review_conclusion(
+        self.client.review_claim(
             second_id, "admit", "human:maintainer",
             review_request_id="review-second")
-        self.client.supersede_conclusion(
+        self.client.supersede_claim(
             first_id, second_id, "human:maintainer", note="version two replaces version one")
         context_ids = [row["id"] for row in
-                       self.client.context(scope="repo:proofpress")["knowledge"]]
+                       self.client.context(scope="repo:proofpress")["governed_context"]]
         self.assertEqual(context_ids, [second_id])
 
     def test_bundle_fails_closed_for_wrong_check_commit_and_credentials(self):

@@ -17,7 +17,7 @@ PROVIDERS = {
     "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "zdr": False},
     "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False},
 }
-POLICY_AUTHORING_PROMPT = """Help me author evaluation criteria for a Proofpress workspace. Ask concise questions about the knowledge being reviewed, evidence requirements, sensitive or high-stakes cases, and when a human must decide. Then return only JSON in this shape: {"criteria":"the complete criteria text"}. Do not choose a model or provider, and do not request or include API keys, secrets, raw private traces, or credentials. The workspace owner configures model access separately."""
+POLICY_AUTHORING_PROMPT = """Help me author evaluation criteria for a Proofpress workspace. Ask concise questions about the claims being reviewed, evidence requirements, sensitive or high-stakes cases, and when a human must decide. Then return only JSON in this shape: {"criteria":"the complete criteria text"}. Do not choose a model or provider, and do not request or include API keys, secrets, raw private traces, or credentials. The workspace owner configures model access separately."""
 
 
 def migrate(connection):
@@ -30,7 +30,7 @@ def migrate(connection):
         );
         CREATE TABLE IF NOT EXISTS hosted_judge_jobs (
             job_id TEXT PRIMARY KEY, workspace_id TEXT NOT NULL,
-            conclusion_id TEXT NOT NULL, policy_digest TEXT NOT NULL,
+            claim_id TEXT NOT NULL, policy_digest TEXT NOT NULL,
             requested_by TEXT NOT NULL, state TEXT NOT NULL,
             created_at TEXT NOT NULL, updated_at TEXT NOT NULL,
             detail TEXT NOT NULL DEFAULT ''
@@ -38,13 +38,26 @@ def migrate(connection):
         CREATE TABLE IF NOT EXISTS hosted_context_reads (
             read_id INTEGER PRIMARY KEY AUTOINCREMENT,
             workspace_id TEXT NOT NULL, actor TEXT NOT NULL,
-            scope TEXT, conclusion_ids_json TEXT NOT NULL, created_at TEXT NOT NULL
+            scope TEXT, claim_ids_json TEXT NOT NULL, created_at TEXT NOT NULL
         );
         CREATE TABLE IF NOT EXISTS hosted_provider_secrets (
             workspace_id TEXT PRIMARY KEY, ciphertext BLOB NOT NULL,
             last_four TEXT NOT NULL, updated_at TEXT NOT NULL
         );
     """)
+    # PR #131 renamed the governed entity from “conclusion” to “claim”.
+    # Existing hosted databases keep their SQLite tables across deployments, so
+    # CREATE TABLE IF NOT EXISTS above cannot update the old job column.
+    columns = {row["name"] for row in connection.execute(
+        "PRAGMA table_info(hosted_judge_jobs)")}
+    if "conclusion_id" in columns and "claim_id" not in columns:
+        connection.execute(
+            "ALTER TABLE hosted_judge_jobs RENAME COLUMN conclusion_id TO claim_id")
+    read_columns = {row["name"] for row in connection.execute(
+        "PRAGMA table_info(hosted_context_reads)")}
+    if "conclusion_ids_json" in read_columns and "claim_ids_json" not in read_columns:
+        connection.execute(
+            "ALTER TABLE hosted_context_reads RENAME COLUMN conclusion_ids_json TO claim_ids_json")
 
 
 def current(connection, workspace_id):
@@ -185,16 +198,16 @@ def validate(settings, prior):
 
 def semantic_event(event, initiator):
     kind = event.get("type")
-    labels = {"conclusion_proposed": "Proposed a conclusion", "evidence_bound": "Submitted evidence",
+    labels = {"claim_proposed": "Proposed a claim", "evidence_bound": "Submitted evidence",
               "policy_evaluated": "Checked evidence", "judge_recommended": "Reviewed evidence with LM",
-              "conclusion_admitted": "Approved for reuse", "conclusion_rejected": "Rejected a conclusion",
-              "conclusion_revision_requested": "Requested changes", "conclusion_superseded": "Replaced a conclusion",
+              "claim_admitted": "Approved for reuse", "claim_rejected": "Rejected a claim",
+              "claim_revision_requested": "Requested changes", "claim_superseded": "Replaced a claim",
               "relation_proposed": "Proposed a relationship", "relation_admitted": "Approved a relationship"}
     if kind not in labels:
         return None
-    actor = event.get("verifier") or event.get("judge") or event.get("reviewer") or event.get("conclusion", {}).get("proposer") or initiator
-    outcome = {"conclusion_admitted": "admitted", "conclusion_rejected": "rejected",
-               "conclusion_revision_requested": "needs_revision"}.get(kind, "recorded")
+    actor = event.get("verifier") or event.get("judge") or event.get("reviewer") or event.get("claim", {}).get("proposer") or initiator
+    outcome = {"claim_admitted": "admitted", "claim_rejected": "rejected",
+               "claim_revision_requested": "needs_revision"}.get(kind, "recorded")
     detail = event.get("note") or ""
     if kind == "policy_evaluated":
         failed = [name.replace("_", " ") for name, passed in event.get("checks", {}).items() if not passed]

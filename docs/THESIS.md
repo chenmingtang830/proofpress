@@ -21,7 +21,7 @@ Enterprise knowledge is what the organization already knows: documents,
 databases, policies, domain ontology, and memory. Agents reason from it.
 
 [//]: # (ob:f33711e5)
-Agent-produced knowledge is what agent work newly creates: conclusions, claims,
+Agent-produced knowledge is what agent work newly creates: claims, verdicts,
 findings, analyses, and decisions. It is derived through research and reasoning,
 then increasingly reused by other agents and humans.
 
@@ -30,7 +30,7 @@ then increasingly reused by other agents and humans.
 flowchart LR
   EK["Enterprise Knowledge<br/>documents · data · policies<br/>ontology · memory"]
   A["Agents<br/>research · reason · work"]
-  APK["Agent-Produced Knowledge<br/>conclusions · claims<br/>analyses · decisions"]
+  APK["Agent-Produced Knowledge<br/>claims · verdicts<br/>analyses · decisions"]
   PP["Proofpress<br/>evidence · verification<br/>authority · lifecycle"]
   GK["Governed Agent Knowledge<br/>current · scoped · authorized"]
   D["Downstream<br/>agents · humans"]
@@ -54,10 +54,10 @@ are different. From granular execution events upward:
 | **Observability** | Runs, traces, tool calls, execution events | What happened while the agent worked? |
 | **Memory** | Retrieved context and prior interactions | What should the agent remember or read next? |
 | **Knowledge graph / ontology** | Enterprise entities, concepts, relationships | What does the organization know about its world? |
-| **Proofpress** | Agent-produced conclusions, evidence, authority, lifecycle | Which conclusions may future agents or humans rely on—and why? |
+| **Proofpress** | Agent-produced claims, evidence, authority, lifecycle | Which claims may future agents or humans rely on—and why? |
 
 [//]: # (ob:5db8ab79)
-Observability can supply evidence. Memory can retrieve governed conclusions.
+Observability can supply evidence. Memory can retrieve governed claims.
 Enterprise knowledge graphs can supply the knowledge agents reason from.
 Proofpress governs the reusable knowledge that agent work produces.
 
@@ -66,18 +66,18 @@ Proofpress governs the reusable knowledge that agent work produces.
 
 [//]: # (ob:77ec9918)
 As agent adoption and autonomy increase, enterprise knowledge may continue to
-grow relatively steadily while accumulated agent-produced conclusions and work
+grow relatively steadily while accumulated agent-produced claims and work
 grow much faster. More agents, more runs, branching research, and agent-to-agent
 reuse all create derived knowledge without requiring the original enterprise
 corpus to grow at the same rate.
 
 [//]: # (ob:7fdd1756)
-![Directional why-now curve showing enterprise knowledge growing gradually while accumulated agent-produced conclusions and work accelerate as agent adoption and autonomy increase, crossing a governance threshold where verification becomes infrastructure.](../assets/architecture/agent-produced-knowledge-growth.png)
+![Directional why-now curve showing enterprise knowledge growing gradually while accumulated agent-produced claims and work accelerate as agent adoption and autonomy increase, crossing a governance threshold where verification becomes infrastructure.](../assets/architecture/agent-produced-knowledge-growth.png)
 
 [//]: # (ob:5665c586)
 This is a directional product model, not a claim of a universal mathematical
 growth law. The important shift is operational: beyond a threshold, teams can
-no longer review every conclusion informally. Verification, authority, and
+no longer review every claim informally. Verification, authority, and
 lifecycle become infrastructure.
 
 [//]: # (ob:475de7e5)
@@ -85,12 +85,12 @@ lifecycle become infrastructure.
 
 [//]: # (ob:3117375a)
 An agent reads enterprise knowledge, researches and reasons, and produces a
-conclusion. A later agent then receives that conclusion as context. Without a
+claim. A later agent then receives that claim as context. Without a
 governance layer, a derived claim can lose the source, scope, assumptions,
 review state, or authority that made it usable in the first place.
 
 [//]: # (ob:73e8bfe9)
-The failure compounds across handoffs. Retrieval can surface an old conclusion
+The failure compounds across handoffs. Retrieval can surface an old claim
 without showing that its dependency was revoked. A trace can show how an agent
 worked without deciding whether the result is approved for reuse. A knowledge
 graph can represent the claim without establishing who may rely on it.
@@ -103,30 +103,30 @@ only through governed admission and scoped projection.
 ## The Governed Claim Graph
 
 [//]: # (ob:ecbaa093)
-The product object is a graph of conclusions and the claims they depend on. It
-binds each reusable conclusion to evidence and provenance, verification and
+The product object is a graph of claims and the claims they depend on. It
+binds each reusable claim to evidence and provenance, verification and
 review, authority and scope, dependencies, and later contradiction or
 supersession.
 
 [//]: # (ob:5efeb3f3)
 ```mermaid
 flowchart LR
-  C["Conclusion"] -->|depends_on| K["Claim"]
+  C["Claim"] -->|depends_on| K["Claim"]
   K -->|supported_by| E["Evidence"]
   C -->|scoped_by| A["Authority"]
-  C -->|supersedes| P["Previous Conclusion"]
+  C -->|supersedes| P["Previous Claim"]
 ```
 
 [//]: # (ob:1521197a)
 This is not a generic graph of enterprise entities. It is a graph for answering
-whether a concrete conclusion is currently eligible to enter a downstream
+whether a concrete claim is currently eligible to enter a downstream
 human or agent's context.
 
 [//]: # (ob:f30c0b28)
 ## Three distinct governance gates
 
 [//]: # (ob:0b24e759)
-Agent work becomes governed knowledge through **extraction → evidence binding →
+Agent work becomes governed context through **extraction → evidence binding →
 verification → admission or review → governed claim graph**.
 
 [//]: # (ob:9c35c79e)
@@ -134,12 +134,12 @@ verification → admission or review → governed claim graph**.
    return pass or fail.
 2. **LM Judge:** evaluates meaning against organizational policy, then
    recommends or escalates. It cannot authorize reuse.
-3. **Human Approval:** an authorized human admits or rejects the conclusion for
+3. **Human Approval:** an authorized human admits or rejects the claim for
    a defined scope. Only this gate enables downstream reuse.
 
 [//]: # (ob:ad9d90e4)
 Rejected, unresolved, expired, superseded, unauthorized, or
-dependency-blocked conclusions remain auditable but stay out of default
+dependency-blocked claims remain auditable but stay out of default
 context. Admission is not a declaration of universal truth. It is a scoped,
 inspectable decision about reliance.
 
@@ -150,7 +150,7 @@ inspectable decision about reliance.
 Proofpress currently provides a local ledger and CLI, local review and context
 UI, supported agent adapters, artifact provenance, and portable Markdown and
 static-HTML carriers. The `context` projection returns admitted, current
-conclusions that match the requested scope and actor.
+claims that match the requested scope and actor.
 
 [//]: # (ob:903521b2)
 A supported public API/SDK, MCP server, hosted service, and production
@@ -178,7 +178,7 @@ the [public results](../studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md).
 ## The thesis in one sentence
 
 [//]: # (ob:7afb2fab)
-As agents create and reuse more of an organization's conclusions, governance
+As agents create and reuse more of an organization's claims, governance
 must attach to the knowledge produced by agent work—not only to the data the
 agents started from.
 

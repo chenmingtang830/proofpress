@@ -1,0 +1,23 @@
+{
+  "name": "proofpress-plugins",
+  "owner": {
+    "name": "Proofpress"
+  },
+  "description": "Evidence-bound governance workflows for agent-produced knowledge.",
+  "plugins": [
+    {
+      "name": "proofpress",
+      "source": "./plugins/proofpress",
+      "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Proofpress"
+      },
+      "homepage": "https://github.com/chenmingtang830/proofpress/tree/main/plugins/proofpress",
+      "repository": "https://github.com/chenmingtang830/proofpress",
+      "license": "Apache-2.0",
+      "keywords": ["governance", "evidence", "mcp", "human-approval"],
+      "category": "Productivity"
+    }
+  ]
+}

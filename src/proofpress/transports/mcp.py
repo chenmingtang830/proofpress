@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import os
 from pathlib import Path
+import re
 from typing import Any
 from urllib.parse import urlencode, urlparse
 
@@ -13,7 +14,7 @@ from proofpress.client import ProofpressClient
 MCP_SERVER_NAME = "Proofpress"
 MCP_INSTRUCTIONS = (
     "Proofpress governs agent-produced knowledge. Submit only bounded evidence; "
-    "propose conclusions with evidence references; retrieve only governed context. "
+    "propose claims with evidence references; retrieve only governed context. "
     "This server intentionally exposes no Human Approval, rejection, supersession, "
     "policy, credential, or owner-recovery tool. Ask the human owner to use the "
     "separate review surface for authority-bearing decisions."
@@ -21,7 +22,8 @@ MCP_INSTRUCTIONS = (
 MCP_SAFE_TOOLS = (
     "proofpress_capabilities",
     "proofpress_submit_evidence",
-    "proofpress_propose_conclusion",
+    "proofpress_propose_claim",
+    "proofpress_discover_context",
     "proofpress_get_context",
     "proofpress_get_graph",
     "proofpress_traverse_graph",
@@ -29,7 +31,16 @@ MCP_SAFE_TOOLS = (
     "proofpress_get_review_summary",
     "proofpress_get_review_receipt",
     "proofpress_get_review_link",
+    "proofpress_start_run",
+    "proofpress_finish_run",
+    "proofpress_get_run",
+    "proofpress_list_runs",
+    "proofpress_capture_context",
+    "proofpress_record_reliance",
+    "proofpress_record_output",
+    "proofpress_record_observation",
 )
+EVIDENCE_ID_RE = re.compile(r"evd_[0-9a-f]{16}\Z")
 
 
 class ProofpressMcpGateway:
@@ -65,22 +76,40 @@ class ProofpressMcpGateway:
     def submit_evidence(self, payload: dict[str, Any],
                         idempotency_key: str | None = None, *,
                         profile: str | None = None) -> dict[str, Any]:
+        if profile not in {None, "experiment"}:
+            raise ValueError(
+                "unsupported evidence profile: " + str(profile) +
+                "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
         return self.client.submit_evidence(
             payload, profile=profile, idempotency_key=idempotency_key)
 
-    def propose_conclusion(
-            self, statement: str, evidence_refs: list[str], scope: str,
+    def propose_claim(
+            self, statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
-            allowed_actors: list[str] | None = None,
+            applicability: dict[str, Any] | None = None,
+            reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
-            idempotency_key: str | None = None) -> dict[str, Any]:
-        return self.client.propose_conclusion(
+            idempotency_key: str | None = None, *, title: str) -> dict[str, Any]:
+        if (not evidence_refs or
+                any(not isinstance(ref, str) or EVIDENCE_ID_RE.fullmatch(ref) is None
+                    for ref in evidence_refs)):
+            raise ValueError(
+                "evidence_refs must contain evd_ IDs returned by "
+                "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
+        return self.client.propose_claim(
             statement, evidence_refs, scope, self.principal,
             expires_at=expires_at, artifact_refs=artifact_refs,
-            allowed_actors=allowed_actors, qualifiers=qualifiers,
-            profile=profile, idempotency_key=idempotency_key)
+            applicability=applicability,
+            reproposal_of=reproposal_of,
+            qualifiers=qualifiers,
+            profile=profile, idempotency_key=idempotency_key, title=title)
+
+    def discover_context(self, task: str | None = None,
+                         limit: int = 24) -> dict[str, Any]:
+        return self.client.discover_context(
+            actor=self.principal, task=task, limit=limit)
 
     def get_context(self, scope: str | None = None,
                     task: str | None = None) -> dict[str, Any]:
@@ -88,8 +117,63 @@ class ProofpressMcpGateway:
             scope=scope, actor=self.principal, task=task,
             include_blocked_statements=False)
 
+    def start_run(self, purpose: str, metadata: dict[str, Any] | None = None,
+                  idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.start_run(purpose, actor=self.principal, metadata=metadata,
+                                     idempotency_key=idempotency_key)
+
+    def finish_run(self, run_id: str, status: str, summary: str | None = None,
+                   idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.finish_run(run_id, status, actor=self.principal,
+                                      summary=summary, idempotency_key=idempotency_key)
+
+    def get_run(self, run_id: str) -> dict[str, Any]:
+        return self.client.get_run(run_id, actor=self.principal)
+
+    def list_runs(self, status: str | None = None, limit: int = 50) -> dict[str, Any]:
+        return self.client.list_runs(actor=self.principal, status=status, limit=limit)
+
+    def capture_context(self, run_id: str, scope: str | None = None,
+                        task: str | None = None,
+                        idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.capture_context(run_id, actor=self.principal, scope=scope,
+                                           task=task, idempotency_key=idempotency_key)
+
+    def record_reliance(self, run_id: str, receipt_id: str, claim_id: str,
+                        claim_digest: str, purpose: str,
+                        idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.record_reliance(
+            run_id, receipt_id, claim_id, claim_digest, purpose,
+            actor=self.principal, idempotency_key=idempotency_key)
+
+    def record_output(self, run_id: str, reference: str, content_digest: str,
+                      summary: str | None = None,
+                      reliance_ids: list[str] | None = None,
+                      media_type: str | None = None,
+                      idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.record_output(
+            run_id, reference, content_digest, actor=self.principal, summary=summary,
+            reliance_ids=reliance_ids, media_type=media_type,
+            idempotency_key=idempotency_key)
+
+    def record_observation(self, run_id: str, kind: str, source: str, meaning: str,
+                           evidence_refs: list[str] | None = None,
+                           output_ids: list[str] | None = None,
+                           observed_at: str | None = None,
+                           idempotency_key: str | None = None) -> dict[str, Any]:
+        return self.client.record_observation(
+            run_id, kind, source, meaning, actor=self.principal,
+            evidence_refs=evidence_refs, output_ids=output_ids,
+            observed_at=observed_at, idempotency_key=idempotency_key)
+
+    def evaluate_claim(self, claim_id: str) -> dict[str, Any]:
+        return self.client.evaluate_claim(claim_id, actor=self.principal)
+
+    def judge_claim(self, claim_id: str) -> dict[str, Any]:
+        return self.client.judge_claim(claim_id, actor=self.principal)
+
     def get_graph(self, scope: str | None = None) -> dict[str, Any]:
-        return self.client.graph(scope)
+        return self.client.graph(scope, actor=self.principal)
 
     def traverse_graph(self, seed_ids: list[str], scope: str | None = None,
                        task: str | None = None, max_depth: int = 2,
@@ -98,13 +182,13 @@ class ProofpressMcpGateway:
             seed_ids, scope=scope, actor=self.principal, task=task,
             max_depth=max_depth, max_claims=max_claims, state="admitted")
 
-    def get_lineage(self, conclusion_id: str) -> dict[str, Any]:
-        receipt = self.get_review_receipt(conclusion_id)
-        graph = self.get_graph(receipt["conclusion"].get("scope"))
+    def get_lineage(self, claim_id: str) -> dict[str, Any]:
+        receipt = self.get_review_receipt(claim_id)
+        graph = self.get_graph(receipt["claim"].get("scope"))
         incoming: dict[str, list[dict[str, Any]]] = {}
         for edge in graph.get("edges", []):
             incoming.setdefault(edge["to"], []).append(edge)
-        wanted, pending, edges = {conclusion_id}, [conclusion_id], []
+        wanted, pending, edges = {claim_id}, [claim_id], []
         while pending:
             current = pending.pop()
             for edge in incoming.get(current, []):
@@ -114,29 +198,29 @@ class ProofpressMcpGateway:
                 if edge["from"] not in wanted:
                     wanted.add(edge["from"])
                     pending.append(edge["from"])
-        return {"conclusion_id": conclusion_id, "state": receipt["state"],
-                "scope": receipt["conclusion"].get("scope"),
+        return {"claim_id": claim_id, "state": receipt["state"],
+                "scope": receipt["claim"].get("scope"),
                 "nodes": [row for row in graph.get("nodes", [])
                           if row["id"] in wanted], "edges": edges,
                 "evidence": receipt.get("evidence", []),
                 "ledger_head": receipt.get("ledger_head")}
 
     def get_review_summary(self, scope: str | None = None) -> dict[str, Any]:
-        return self.client.review_summary(scope)
+        return self.client.review_summary(scope, actor=self.principal)
 
-    def get_review_receipt(self, conclusion_id: str) -> dict[str, Any]:
-        return self.client.review_receipt(conclusion_id)
+    def get_review_receipt(self, claim_id: str) -> dict[str, Any]:
+        return self.client.review_receipt(claim_id, actor=self.principal)
 
-    def get_review_link(self, conclusion_id: str) -> dict[str, Any]:
-        receipt = self.get_review_receipt(conclusion_id)
+    def get_review_link(self, claim_id: str) -> dict[str, Any]:
+        receipt = self.get_review_receipt(claim_id)
         result: dict[str, Any] = {
-            "conclusion_id": conclusion_id,
+            "claim_id": claim_id,
             "state": receipt["state"],
             "requires_human_owner": True,
         }
         if self.review_base_url:
             result["url"] = self.review_base_url + "/review?" + urlencode(
-                {"conclusion_id": conclusion_id})
+                {"claim_id": claim_id})
         else:
             result["url"] = None
             result["configuration_required"] = "PROOFPRESS_REVIEW_BASE_URL"
@@ -164,36 +248,68 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             payload: dict[str, Any],
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
-        """Submit one bounded evidence envelope under an optional profile."""
+        """Submit bounded evidence.
+
+        Omit profile for a proofpress/retrieval-evidence/v1 envelope. The only
+        supported evidence profile is experiment.
+        """
         return gateway.submit_evidence(
             payload, idempotency_key=idempotency_key, profile=profile)
 
-    @server.tool(name="proofpress_propose_conclusion")
-    def proofpress_propose_conclusion(
-            statement: str, evidence_refs: list[str], scope: str,
+    @server.tool(name="proofpress_propose_claim")
+    def proofpress_propose_claim(
+            statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
-            allowed_actors: list[str] | None = None,
+            applicability: dict[str, Any] | None = None,
+            reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
-            idempotency_key: str | None = None) -> dict[str, Any]:
-        """Propose an evidence-bound conclusion as the configured agent principal.
+            idempotency_key: str | None = None, *, title: str) -> dict[str, Any]:
+        """Propose an evidence-bound claim as the configured agent principal.
 
-        To answer request_changes, read the original review receipt and pass
-        qualifiers.revision_of (original conclusion ID) and
-        qualifiers.revision_request_ref (revision_request.event_id). Keep the
-        same scope and any required profile qualifiers. The revised candidate
+        Required title is a short claim heading (at most 120 characters).
+        Statement is the complete claim; title does not replace its limits.
+
+        evidence_refs must be evd_ IDs returned by
+        proofpress_submit_evidence, not source or artifact URLs.
+
+        Scope is optional legacy exact-filter metadata. Applicability is a
+        small discoverable card: title, description, when_relevant, keywords,
+        and validity_conditions. To answer request_changes, read the original review receipt and pass
+        qualifiers.revision_of (original claim ID) and
+        qualifiers.revision_request_ref (revision_request.event_id). Preserve
+        any required profile qualifiers and state the revised applicability.
+        The revised candidate
         still needs human approval; proposing never replaces or admits it.
+
+        To propose a corrected successor after a rejection, pass
+        reproposal_of with the rejected claim ID. The old rejection remains
+        immutable and the new candidate requires a new human decision.
         """
-        return gateway.propose_conclusion(
+        return gateway.propose_claim(
             statement, evidence_refs, scope, expires_at, artifact_refs,
-            allowed_actors, qualifiers, profile, idempotency_key)
+            applicability, reproposal_of, qualifiers, profile, idempotency_key, title=title)
+
+    @server.tool(name="proofpress_discover_context")
+    def proofpress_discover_context(
+            task: str | None = None, limit: int = 24) -> dict[str, Any]:
+        """Discover only admitted, current context visible to this agent.
+
+        Task words rank the frontmatter-style applicability cards. This does
+        not weaken credential or actor visibility checks.
+        """
+        return gateway.discover_context(task, limit)
 
     @server.tool(name="proofpress_get_context")
     def proofpress_get_context(
             scope: str | None = None,
             task: str | None = None) -> dict[str, Any]:
-        """Return only admitted, current, in-scope context eligible for this agent."""
+        """Return admitted, current context eligible for this agent.
+
+        Scope remains an optional legacy exact filter; discover_context is the
+        normal starting point when an agent does not know a scope name.
+        """
         return gateway.get_context(scope, task)
 
     @server.tool(name="proofpress_get_graph")
@@ -201,19 +317,79 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """Read the governed claim graph for an optional scope."""
         return gateway.get_graph(scope)
 
+    @server.tool(name="proofpress_start_run")
+    def proofpress_start_run(purpose: str, metadata: dict[str, Any] | None = None,
+                             idempotency_key: str | None = None) -> dict[str, Any]:
+        """Start a task run. The configured principal is recorded by the server."""
+        return gateway.start_run(purpose, metadata, idempotency_key)
+
+    @server.tool(name="proofpress_finish_run")
+    def proofpress_finish_run(run_id: str, status: str, summary: str | None = None,
+                              idempotency_key: str | None = None) -> dict[str, Any]:
+        """Finish a run as completed, failed, or aborted."""
+        return gateway.finish_run(run_id, status, summary, idempotency_key)
+
+    @server.tool(name="proofpress_get_run")
+    def proofpress_get_run(run_id: str) -> dict[str, Any]:
+        """Read one run and its frozen receipts, declared reliance, outputs, and observations."""
+        return gateway.get_run(run_id)
+
+    @server.tool(name="proofpress_list_runs")
+    def proofpress_list_runs(status: str | None = None,
+                             limit: int = 50) -> dict[str, Any]:
+        """List task runs without changing governance state."""
+        return gateway.list_runs(status, limit)
+
+    @server.tool(name="proofpress_capture_context")
+    def proofpress_capture_context(run_id: str, scope: str | None = None,
+                                   task: str | None = None,
+                                   idempotency_key: str | None = None) -> dict[str, Any]:
+        """Retrieve authorized governed context and freeze the exact returned versions for a run."""
+        return gateway.capture_context(run_id, scope, task, idempotency_key)
+
+    @server.tool(name="proofpress_record_reliance")
+    def proofpress_record_reliance(run_id: str, receipt_id: str, claim_id: str,
+                                   claim_digest: str, purpose: str,
+                                   idempotency_key: str | None = None) -> dict[str, Any]:
+        """Explicitly declare reliance on one exact claim version from a run receipt."""
+        return gateway.record_reliance(run_id, receipt_id, claim_id, claim_digest,
+                                       purpose, idempotency_key)
+
+    @server.tool(name="proofpress_record_output")
+    def proofpress_record_output(run_id: str, reference: str, content_digest: str,
+                                 summary: str | None = None,
+                                 reliance_ids: list[str] | None = None,
+                                 media_type: str | None = None,
+                                 idempotency_key: str | None = None) -> dict[str, Any]:
+        """Record an external artifact reference and content hash; content stays in its source system."""
+        return gateway.record_output(run_id, reference, content_digest, summary,
+                                     reliance_ids, media_type, idempotency_key)
+
+    @server.tool(name="proofpress_record_observation")
+    def proofpress_record_observation(run_id: str, kind: str, source: str,
+                                      meaning: str,
+                                      evidence_refs: list[str] | None = None,
+                                      output_ids: list[str] | None = None,
+                                      observed_at: str | None = None,
+                                      idempotency_key: str | None = None) -> dict[str, Any]:
+        """Append a sourced test, human, external-evaluation, or outcome observation; no score is inferred."""
+        return gateway.record_observation(run_id, kind, source, meaning,
+                                          evidence_refs, output_ids, observed_at,
+                                          idempotency_key)
+
     @server.tool(name="proofpress_traverse_graph")
     def proofpress_traverse_graph(
             seed_ids: list[str], scope: str | None = None,
             task: str | None = None, max_depth: int = 2,
             max_claims: int = 48) -> dict[str, Any]:
-        """Traverse eligible admitted relations from one or more conclusions."""
+        """Traverse eligible admitted relations from one or more claims."""
         return gateway.traverse_graph(
             seed_ids, scope, task, max_depth, max_claims)
 
     @server.tool(name="proofpress_get_lineage")
-    def proofpress_get_lineage(conclusion_id: str) -> dict[str, Any]:
-        """Trace a conclusion through evidence derivations to source records."""
-        return gateway.get_lineage(conclusion_id)
+    def proofpress_get_lineage(claim_id: str) -> dict[str, Any]:
+        """Trace a claim through evidence derivations to source records."""
+        return gateway.get_lineage(claim_id)
 
     @server.tool(name="proofpress_get_review_summary")
     def proofpress_get_review_summary(
@@ -223,14 +399,14 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
 
     @server.tool(name="proofpress_get_review_receipt")
     def proofpress_get_review_receipt(
-            conclusion_id: str) -> dict[str, Any]:
-        """Read the evidence, checks, state, and authority receipt for a conclusion."""
-        return gateway.get_review_receipt(conclusion_id)
+            claim_id: str) -> dict[str, Any]:
+        """Read the evidence, checks, state, and authority receipt for a claim."""
+        return gateway.get_review_receipt(claim_id)
 
     @server.tool(name="proofpress_get_review_link")
-    def proofpress_get_review_link(conclusion_id: str) -> dict[str, Any]:
-        """Create a link for the human owner; this tool cannot approve the conclusion."""
-        return gateway.get_review_link(conclusion_id)
+    def proofpress_get_review_link(claim_id: str) -> dict[str, Any]:
+        """Create a link for the human owner; this tool cannot approve the claim."""
+        return gateway.get_review_link(claim_id)
 
     return server
 

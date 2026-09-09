@@ -10,7 +10,7 @@ from typing import Any
 
 PROFILE = "proofpress/profile/experiment/v1"
 EVIDENCE_KINDS = frozenset({"metric_observation", "table_cell", "derivation"})
-CONCLUSION_KINDS = frozenset({
+CLAIM_KINDS = frozenset({
     "finding", "regression", "no-change", "failed-attempt", "decision",
 })
 OPERATIONS = frozenset({"sum", "difference", "product", "ratio"})
@@ -223,21 +223,21 @@ def normalize_evidence(payload: Any, evidence_rows: dict[str, dict[str, Any]]) -
     return result
 
 
-def normalize_conclusion(qualifiers: Any) -> dict[str, Any]:
+def normalize_claim(qualifiers: Any) -> dict[str, Any]:
     qualifiers = qualifiers or {}
     raw = qualifiers.get("experiment")
     if not isinstance(raw, dict):
         raise ValueError("experiment profile requires qualifiers.experiment")
-    allowed = {"schema_version", "conclusion_kind", "experiment", "failure"}
+    allowed = {"schema_version", "claim_kind", "experiment", "failure"}
     unknown = sorted(set(raw) - allowed)
     if unknown:
-        raise ValueError("unknown experiment conclusion fields: " + ", ".join(unknown))
+        raise ValueError("unknown experiment claim fields: " + ", ".join(unknown))
     if raw.get("schema_version") != PROFILE:
-        raise ValueError(f"experiment conclusion schema_version must be {PROFILE}")
-    kind = raw.get("conclusion_kind")
-    if kind not in CONCLUSION_KINDS:
-        raise ValueError("unknown experiment conclusion kind")
-    normalized = {"schema_version": PROFILE, "conclusion_kind": kind,
+        raise ValueError(f"experiment claim schema_version must be {PROFILE}")
+    kind = raw.get("claim_kind")
+    if kind not in CLAIM_KINDS:
+        raise ValueError("unknown experiment claim kind")
+    normalized = {"schema_version": PROFILE, "claim_kind": kind,
                   "experiment": normalize_identity(raw.get("experiment"))}
     failure = raw.get("failure")
     if kind != "failed-attempt" and failure is not None:

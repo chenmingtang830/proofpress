@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "proofpress": {
+      "type": "http",
+      "url": "https://proofpress-personal-hosted.onrender.com/mcp"
+    }
+  }
+}

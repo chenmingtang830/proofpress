@@ -180,6 +180,8 @@ def propose(
     write_json(qualifier_path, qualifiers)
     command = [
         "propose",
+        "--title",
+        "OpenWiki physical-horizon claim",
         "--statement",
         statement,
         "--scope",
@@ -195,7 +197,7 @@ def propose(
     ]
     for evidence_id in evidence:
         command.extend(("--evidence", evidence_id))
-    return proofpress(root, *command)["conclusion"]["id"]
+    return proofpress(root, *command)["claim"]["id"]
 
 
 def execute_demo(work_root: Path) -> dict[str, Any]:
@@ -268,7 +270,7 @@ def execute_demo(work_root: Path) -> dict[str, Any]:
     proofpress(work_root, "review", winner, "--admit", "--reviewer", "human:fixture-reviewer")
 
     before_conflict = proofpress(work_root, "context", "--scope", SCOPE)
-    if {row["id"] for row in before_conflict["knowledge"]} != {loser, winner}:
+    if {row["id"] for row in before_conflict["governed_context"]} != {loser, winner}:
         raise AssertionError("both otherwise-current candidates were not admitted before the conflict")
 
     relation_qualifiers = work_root / "relation-qualifiers.json"
@@ -312,7 +314,7 @@ def execute_demo(work_root: Path) -> dict[str, Any]:
         "--include-blocked-statements",
     )
     blocked = {row["id"]: row for row in quarantined["blocked"]}
-    if quarantined["knowledge"]:
+    if quarantined["governed_context"]:
         raise AssertionError("admitted contradiction leaked into governed context")
     if {blocked[loser]["reason"], blocked[winner]["reason"]} != {"contradiction_unresolved"}:
         raise AssertionError("contradiction did not deterministically quarantine both endpoints")
@@ -345,12 +347,12 @@ def execute_demo(work_root: Path) -> dict[str, Any]:
         raise RuntimeError(fresh_process.stderr.strip())
     fresh_raw = fresh_process.stdout
     successor = json.loads(fresh_raw)
-    if [row["id"] for row in successor["knowledge"]] != [winner]:
+    if [row["id"] for row in successor["governed_context"]] != [winner]:
         raise AssertionError("fresh successor did not receive exactly the winning claim")
     if losing_statement in fresh_raw:
         raise AssertionError("fresh successor received the losing statement")
 
-    receipt = successor["knowledge"][0]["receipt"]
+    receipt = successor["governed_context"][0]["receipt"]
     conflict_receipts = receipt["conflict_resolutions"]
     if len(conflict_receipts) != 1:
         raise AssertionError("fresh successor is missing the conflict decision receipt")
@@ -385,14 +387,14 @@ def execute_demo(work_root: Path) -> dict[str, Any]:
             "rechecked_claims": sum(page["claimCount"] for page in frozen_preflight["pages"]),
         },
         "handoff": {
-            "otherwise_admitted_before_relation": len(before_conflict["knowledge"]),
+            "otherwise_admitted_before_relation": len(before_conflict["governed_context"]),
             "relation_id": relation,
-            "quarantined_knowledge": len(quarantined["knowledge"]),
+            "quarantined_claims": len(quarantined["governed_context"]),
             "blocked_reasons": {cid: blocked[cid]["reason"] for cid in (loser, winner)},
             "semantic_detection": "human_admitted",
         },
         "fresh_successor": {
-            "knowledge_count": len(successor["knowledge"]),
+            "governed_context_count": len(successor["governed_context"]),
             "winner_id": winner,
             "winner_statement": winning_statement,
             "loser_statement_absent": losing_statement not in fresh_raw,
@@ -435,7 +437,7 @@ def print_human(result: dict[str, Any]) -> None:
     )
     print(
         f"PASS Proofpress quarantine: {handoff['otherwise_admitted_before_relation']} admitted before conflict, "
-        f"{handoff['quarantined_knowledge']} released after conflict"
+        f"{handoff['quarantined_claims']} released after conflict"
     )
     print(
         "PASS Fresh successor: 1 winner, losing statement absent, "

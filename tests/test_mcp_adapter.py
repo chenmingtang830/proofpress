@@ -84,7 +84,7 @@ class McpAdapterTests(unittest.TestCase):
 
     def test_safe_surface_has_no_authority_bearing_tools(self):
         tools = set(self.mcp.MCP_SAFE_TOOLS)
-        self.assertIn("proofpress_propose_conclusion", tools)
+        self.assertIn("proofpress_propose_claim", tools)
         self.assertIn("proofpress_get_review_link", tools)
         self.assertIn("proofpress_traverse_graph", tools)
         self.assertIn("proofpress_get_lineage", tools)
@@ -101,10 +101,11 @@ class McpAdapterTests(unittest.TestCase):
             self.spreadsheet_evidence_payload(), "mcp-spreadsheet-evidence-001")
         evidence_id = imported["evidence"][0]
         receipt = self.gateway.get_review_receipt(
-            self.gateway.propose_conclusion(
+            self.gateway.propose_claim(
                 "Revenue!F12 was revised for the FY2026 base case.", [evidence_id],
                 "finance:annual-plan:fy2026",
-                idempotency_key="mcp-spreadsheet-proposal-001")["conclusion"]["id"])
+                idempotency_key="mcp-spreadsheet-proposal-001",
+                title="FY2026 revenue revision")["claim"]["id"])
         locator = receipt["evidence"][0]["retrieval_receipt"]["locator"]
         self.assertEqual(locator["kind"], "spreadsheet_cell")
         self.assertEqual(locator["sheet"], "Revenue")
@@ -118,38 +119,48 @@ class McpAdapterTests(unittest.TestCase):
             self.evidence_payload(), "mcp-evidence-001")
         self.assertEqual(replay, imported)
 
-        proposed = self.gateway.propose_conclusion(
+        proposed = self.gateway.propose_claim(
             "The liability cap is one year of fees.", [evidence_id],
-            "contract-review", idempotency_key="mcp-proposal-001")
-        conclusion = proposed["conclusion"]
-        self.assertEqual(conclusion["proposer"], "agent:example-client")
-        self.assertEqual(self.gateway.get_context("contract-review")["knowledge"], [])
+            "contract-review", idempotency_key="mcp-proposal-001", title="Test claim")
+        claim = proposed["claim"]
+        self.assertEqual(claim["proposer"], "agent:example-client")
+        self.assertEqual(self.gateway.get_context("contract-review")["governed_context"], [])
 
-        receipt = self.gateway.get_review_receipt(conclusion["id"])
+        receipt = self.gateway.get_review_receipt(claim["id"])
         self.assertEqual(receipt["state"], "needs_review")
-        lineage = self.gateway.get_lineage(conclusion["id"])
-        self.assertEqual(lineage["conclusion_id"], conclusion["id"])
+        lineage = self.gateway.get_lineage(claim["id"])
+        self.assertEqual(lineage["claim_id"], claim["id"])
         self.assertEqual(
             {node["type"] for node in lineage["nodes"]},
-            {"raw", "evidence", "conclusion"})
+            {"raw", "evidence", "claim"})
         self.assertEqual(
             {edge["type"] for edge in lineage["edges"]},
             {"bound_as", "supports"})
-        link = self.gateway.get_review_link(conclusion["id"])
+        link = self.gateway.get_review_link(claim["id"])
         self.assertTrue(link["requires_human_owner"])
-        self.assertIn(conclusion["id"], link["url"])
+        self.assertIn(claim["id"], link["url"])
 
-        self.gateway.client.review_conclusion(
-            conclusion["id"], "admit", "human:owner",
+        self.gateway.client.review_claim(
+            claim["id"], "admit", "human:owner",
             review_request_id="human-review-001")
         context = self.gateway.get_context("contract-review")
-        self.assertEqual(context["knowledge"][0]["id"], conclusion["id"])
+        self.assertEqual(context["governed_context"][0]["id"], claim["id"])
 
     def test_principal_is_configuration_not_tool_input(self):
-        parameters = self.gateway.propose_conclusion.__annotations__
+        parameters = self.gateway.propose_claim.__annotations__
         self.assertNotIn("proposer", parameters)
         with self.assertRaisesRegex(ValueError, "principal"):
             self.mcp.ProofpressMcpGateway(self.gateway.client, "")
+
+    def test_mutation_contract_errors_are_actionable(self):
+        with self.assertRaisesRegex(
+                ValueError, "unsupported evidence profile: repository_change"):
+            self.gateway.submit_evidence(
+                {"repository": "example/repo"}, profile="repository_change")
+        with self.assertRaisesRegex(
+                ValueError, "evd_ IDs returned by proofpress_submit_evidence"):
+            self.gateway.propose_claim(
+                "A candidate", ["https://example.test/source"], "test", title="Test claim")
 
 
 if __name__ == "__main__":

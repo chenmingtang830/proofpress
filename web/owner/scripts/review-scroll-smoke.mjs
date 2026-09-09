@@ -18,11 +18,11 @@ try {
     const response = await fetch(`${data.base}/v1/operations`, {method:'POST', headers:{Authorization:`Bearer ${data.agent}`,'Content-Type':'application/json'}, body:JSON.stringify({schema_version:'proofpress/local-operation/v1alpha1',operation,parameters})});
     const body=await response.json(); assert.equal(body.ok,true,JSON.stringify(body)); return body.result;
   };
-  const original = await operation('review.receipt',{conclusion_id:data.ids[0]});
+  const original = await operation('review.receipt',{claim_id:data.ids[0]});
   const ids=[];
   for(let i=0;i<24;i++) {
-    const proposal=await operation('conclusion.propose',{statement:`Scroll regression candidate ${String(i+1).padStart(2,'0')}: inspector remains visible.`,evidence_refs:original.conclusion.evidence_refs,scope:'browser-test',proposer:'agent:browser-test'});
-    ids.push(proposal.conclusion.id);
+    const proposal=await operation('claim.propose',{title:`Scroll candidate ${String(i+1).padStart(2,'0')}`,statement:`Scroll regression candidate ${String(i+1).padStart(2,'0')}: inspector remains visible.`,evidence_refs:original.claim.evidence_refs,scope:'browser-test',proposer:'agent:browser-test'});
+    ids.push(proposal.claim.id);
   }
   browser=await chromium.launch();
   const page=await browser.newPage({viewport:{width:1280,height:560}});

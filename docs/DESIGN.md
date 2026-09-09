@@ -18,7 +18,7 @@ read-only calls and untrusted ledger content. Credentials and provider secrets
 never appear in tool results.
 
 [//]: # (ob:4565936e)
-**Status (2026-09-04):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. PR #113 is the implementation candidate for the owner workspace; PR #115 applies the system to the public landing-page candidate. Local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
+**Status (2026-09-07):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. Product UI uses the shared shadcn component layer and must pass the localhost interaction review defined below before release. Local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
 
 [//]: # (ob:678e1b70)
 [//]: # (ob:hosted-workspace-v2)
@@ -27,13 +27,28 @@ never appear in tool results.
 ## Hosted Workspace V2 direction
 
 [//]: # (ob:efc880ec)
-The owner workspace uses a compact, three-part operating frame: a 224px navigation rail, a flexible primary work surface, and a 384–416px contextual inspector. At desktop widths the selected row and its inspector remain visible together; on smaller screens the inspector becomes a sheet. This spatial contract is the benchmark for Home, Review, Ledger, Activity, and Admin.
+The owner workspace keeps its 224px navigation rail and flexible primary work surface. Review pairs its queue with a contextual inspector; Knowledge uses a searchable library and a spacious claim record rather than requiring the same inspector on every page. Home leads with the next decision and current knowledge. At widths below 1100px, opening a Knowledge record replaces the library until the reader closes it; focus returns to its opening control or search.
 
 [//]: # (ob:cfee6f69)
-Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, IBM Plex Mono for proof metadata, curved evidence-to-conclusion connections, and a persistent node inspector. Legal-specific vocabulary and demonstration claims are not copied into the product.
+Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, and IBM Plex Mono for proof metadata. Knowledge starts with current eligible claims and opens their evidence, use conditions, and recorded human authority. Local lineage is a secondary inspection path. Legal-specific vocabulary and demonstration claims are not copied into the product. The current owner extension remains a local implementation awaiting human visual review; its surface brief is `.impeccable/surfaces/web-owner-index-html.md`.
 
 [//]: # (ob:06711fc4)
-Use shadcn primitives as accessible construction material, not as a visual preset. Reduce their default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
+Use shadcn primitives as the required accessible construction layer for every interactive product surface. Buttons, inputs, textareas, selects, cards, tabs, accordions, dialogs, radio groups, checkboxes, tables, badges, pagination, tooltips, and loading or empty-state containers must come from, or extend, the shared `web/owner/src/components/ui/` layer. Do not create page-local imitations or place legacy form and disclosure markup inside a shadcn shell. Reduce the default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
+
+### Product UI release workflow
+
+Every frontend change follows this sequence:
+
+1. Read this document, `PRODUCT.md`, and the matching `.impeccable/surfaces/` brief before editing.
+2. Work on an isolated local branch or worktree. Keep the change unpushed, unmerged, and undeployed while visual review is pending.
+3. Build with shared shadcn components and design tokens. DM Sans is the default for navigation, headings, prose, labels, and controls. IBM Plex Mono is limited to raw IDs, hashes, versions, code, receipts, and sparse proof indexes.
+4. Run unit tests, type checking, the production build, and the Impeccable detector.
+5. Exercise the complete product workflow in a real browser. Visit Home, Review, Knowledge, Runs, Activity, and Admin; open every tab, accordion, disclosure, dialog, record, filter, pagination control, empty/loading/error state, and available decision path. Verify at 1536×1024, 1024px-wide, and 390×844.
+6. Review screenshot evidence for typography, spacing, overflow, hierarchy, keyboard focus, mobile safe areas, and the authority boundary. A shadcn outer component containing visually inconsistent legacy content fails review.
+7. Start a stable localhost preview using the persistent synthetic dataset and owner credential. Richard reviews the actual workflow there.
+8. Push, open or update the PR, bypass required checks, merge, and deploy only after Richard explicitly approves the localhost result. A backend bypass or approval from an earlier frontend change does not carry forward.
+
+The agent completing the change reports the routes and states inspected, defects fixed, test and browser results, remaining limitations, and whether any push or deployment occurred.
 
 [//]: # (ob:bd3d4bba)
 The desktop reference viewport is 1536×1024. The primary table begins on the same vertical axis as its title and filter row; the contextual inspector begins at the application header and owns its own scroll. Selection is expressed through the canonical accent-soft wash and a one-pixel cyan marker, never a glow. The mobile reference viewport is 390×844, where tables become structured records and the decision controls form a safe-area-aware bottom bar.
@@ -45,23 +60,25 @@ Hosted Workspace V2 does not define a second palette. It uses the canonical toke
 ## Overview
 
 [//]: # (ob:e21f2b5d)
-In one phrase: **boardroom clarity for governed knowledge**. A white institutional surface, ink-colored text, precise rules, and one cyan-blue accent govern interaction. Semantic colors describe verification and review state; they are never decoration.
+In one phrase: **boardroom clarity for governed context**. A white institutional surface, ink-colored text, precise rules, and one cyan-blue accent govern interaction. Semantic colors describe verification and review state; they are never decoration.
 
 [//]: # (ob:6ba0b871)
-Proofpress interfaces make one boundary legible: evidence and model recommendations can support a candidate conclusion, but only policy-compliant human admission makes it governed knowledge. Information density serves that decision. Show the conclusion before its machinery, the evidence bundle before raw sources, and pending work before completed work.
+Proofpress interfaces make one boundary legible: evidence and model recommendations can support a candidate claim, but only policy-compliant human admission makes it governed context. Information density serves that decision. Show the claim before its machinery, the evidence bundle before raw sources, and pending work before completed work.
 
 ### Public landing-page application
 
-The public landing page is a persuasion surface, not a compressed owner workspace. Its information architecture is: promise → compounding risk → human authority → bounded proof → GitHub install → published writing → brand film → contact. Each section should make one claim and earn the next scroll.
+The public landing page is a persuasion surface in the existing Boardroom Clarity identity. Its information architecture is: trust bottleneck → compounding risk → handoff problems → existing-stack gap → four-step mechanism and synthetic handoff specimen → separate architecture → qualified teams → bounded study → commercial partner invitation → collapsed local evaluation → published writing → brand film → final contact. Each section should make one claim and earn the next scroll.
 
-- Lead with one plain-language promise and two distinct actions. The primary action installs Proofpress; the secondary action jumps to evidence. Do not repeat the same GitHub destination under two labels.
-- Use authored editorial media for the hero, native HTML/CSS for evidence visualization, and real article/video assets later in the page. Generated atmosphere must not replace trust semantics.
-- Keep public evidence bounded. Name the frozen source, population, and comparison; disclose zoomed axes; order bars by the stated comparison; and never promote a limited study into a general benchmark claim.
-- Make the CLI the first-run path. Show one GitHub install command and one runnable demo command; the local review UI is optional follow-on material, not the hero promise.
-- Preserve Boardroom Clarity responsively: editorial splits on wide screens, a single reading column on mobile, DM Sans for persuasion, IBM Plex Mono for proof metadata, and one cyan accent on a white institutional canvas.
+- Lead with one plain-language promise and two distinct actions. The primary action, “Join as an early design partner,” anchors to the commercial invitation at `#partners`; the secondary action opens the GitHub repository. The partner invitation and final contact action open the public Notion intake form.
+- Keep the four-step lifecycle on the dark product section, followed by a narrative handoff example and warm-paper claim specimen. Clearly label its synthetic evidence; show the proposer, human admission, permitted use, and excluded use, with attached evidence behind a native disclosure. Keep the separate architecture diagram focused on evidence, three gates, four interfaces, and downstream reuse.
+- Name the current ICP without implying validation: AI NeoLabs; AI-native professional services in legal, accounting, and consulting; regulated vertical AI in banking, insurance, and healthcare; and knowledge-intensive R&D in pharmaceuticals and biotech.
+- Use authored editorial media for the hero, native SVG for the explicitly illustrative compounding chart, HTML/CSS for the architecture and study visualization, and real article/video assets later in the page. Generated atmosphere must not replace trust semantics.
+- Keep public evidence bounded. The paired dot plot shows seven models ordered by uplift on an explicitly zoomed 75–100% rubric-completion scale, with numerical values and accessible descriptions. Distinguish 126 paired quality runs from 63 controlled stress pairs for unsafe propagation. Preserve the Harvey LAB-derived source and limited-study caveat beside the results.
+- Give the partner invitation priority over technical setup. Present hosted/managed and self-hosted options as topics for discussion. Follow it with a native disclosure, collapsed by default, containing the three-step Skill → MCP/CLI → synthetic workspace evaluation path; retain prerequisites, copy controls, expected outcome, and the separate contribution link inside that disclosure.
+- Preserve Boardroom Clarity responsively: editorial splits on wide screens, a single reading column on mobile, DM Sans for persuasion and task typography, IBM Plex Mono for proof metadata, and one cyan accent on a white institutional canvas.
 
 [//]: # (ob:ca5dbbae)
-The design system is workflow-neutral. A legal product may organize work by organization, matter, and data room; a research product may organize it by project, run, and artifact. Those host structures are not Proofpress primitives. Proofpress owns the visual language for evidence, candidate conclusions, review receipts, admission state, trusted context, and lineage between them.
+The design system is workflow-neutral. A legal product may organize work by organization, matter, and data room; a research product may organize it by project, run, and artifact. Those host structures are not Proofpress primitives. Proofpress owns the visual language for evidence, candidate claims, review receipts, admission state, trusted context, and lineage between them.
 
 [//]: # (ob:ab42e61c)
 **The Trust Boundary Rule.** A surface must never imply that retrieval, deterministic integrity, a model recommendation, or staging alone authorizes reliance. Governed context begins only after the configured admission gate succeeds.
@@ -85,9 +102,10 @@ Do not optimize for "looks like a 2026 AI product." Optimize for this: a future 
 The current owner MVP navigation is:
 
 [//]: # (ob:4ffeef89)
-- **Home** — orientation and next actions; no assistant or chat entry
+- **Home** — next candidate decision and available knowledge; no assistant or chat entry
 - **Review** — governance inbox
-- **Ledger** — current authoritative knowledge
+- **Knowledge** — searchable current eligible claims; the stable route remains `/ledger`
+- **Runs** — task, retrieved context, declared reliance, outputs, and later observations
 - **Activity** — consumption receipts
 - **Admin** — principals, credentials, policy
 
@@ -107,7 +125,7 @@ These patterns make Proofpress look like generic AI software and hide the trust 
 - Decorative gradients, glow, glassmorphism, or aurora backgrounds. Paper is flat.
 - Ad hoc font families, sizes, weights, uppercase kickers, or tracked labels in operating UI. Use the role-based type system below; keep editorial typography outside task content.
 - KPI tiles, sparkline dashboards, or metrics-that-look-important as Home.
-- Sparkle, magic-wand, or ✦ as a mark of authority. A host may use a small mark on the Ask Proofpress toggle; it must never sit on Admit/Approve, a status chip, or a candidate conclusion.
+- Sparkle, magic-wand, or ✦ as a mark of authority. A host may use a small mark on the Ask Proofpress toggle; it must never sit on Admit/Approve, a status chip, or a candidate claim.
 - Green, red, or orange used for decoration or visual variety. A green copy confirmation or Active credential label confirms only that operation, never knowledge admission.
 - **Draft** as a Proofpress lifecycle term. A proposal is a **candidate**. Draft belongs to documents, not admission state.
 - Copy that treats Ask Proofpress, a model recommendation, or a passing check as admission.
@@ -146,7 +164,7 @@ The human, not the critic, decides when to stop. A critic that is also asked "ar
 | line | #D7DCD9 | #2C2F38 | Rules, connectors, and inactive boundaries |
 | card / wash | #FFFFFF / #F5F6F5 | #1D2027 / #22252D | Working surfaces / quiet hover wash |
 | accent / accent-soft | #0E6675 / #F4F8F8 | #5FB3C4 / #173741 | Proofpress brand, action, selection, and labeled needs-review state |
-| add / add-bg | #2F6B54 / #EDF5F0 | #6FBF8E / #1B3226 | Verified checks, admitted knowledge, active governed context |
+| add / add-bg | #2F6B54 / #EDF5F0 | #6FBF8E / #1B3226 | Verified checks, admitted claims, active governed context |
 | del / del-bg | #963F38 / #F8EEEC | #C87E82 / #3A2320 | Rejected, invalid, blocked, removed |
 | review / review-bg | #0E6675 / #F4F8F8 | #5FB3C4 / #173741 | Candidate and needs review, always paired with an explicit status label |
 | move / move-bg | #665A8A / #EFEDF5 | #AAA0D2 / #29263A | Moved content only; never review state or generic attention |
@@ -163,15 +181,16 @@ The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `�
 [//]: # (ob:f49db722)
 ## Typography
 
+
 [//]: # (ob:53b8c3a4)
 - **Owner page title:** `--font-ui` (DM Sans / system sans), fluid 2.25–4.75rem where space permits, weight 600, tight line-height and tracking. The title carries hierarchy without a decorative kicker.
 - **Section, dialog, inspector, and scope headings:** `--font-ui`, `--type-section` 1rem, weight 600, line-height 1.5.
-- **Conclusions, evidence excerpts, controls, and prose:** `--font-ui`, `--type-body` .875rem, weights 400–500, line-height 1.5–1.6. Dense operating text uses this role; sustained editorial documents may retain their separate reading typography.
+- **Claims, evidence excerpts, controls, and prose:** `--font-ui`, `--type-body` .875rem, weights 400–500, line-height 1.5–1.6. Dense operating text uses this role; sustained editorial documents may retain their separate reading typography.
 - **Metadata and labels:** `--font-ui`, `--type-meta` .75rem, weight 400, line-height 1.5. Compact badges are an explicit 11px dense-label exception.
 - **Indexed labels and proof values:** `--font-mono` (IBM Plex Mono / system monospace) is reserved for raw IDs, hashes, versions, code, receipts, and sparse institutional index labels such as `AVAILABLE NOW`, `NEEDS REVIEW`, `SOURCE 01`, and `PROPOSED REUSE BOUNDARY`. Indexed labels may use 10px uppercase with restrained tracking; ordinary navigation, status chips, paragraphs, and metadata remain UI sans. Browser zoom and text scaling must remain usable; prose should stay within approximately 45–75 characters per line.
 
 [//]: # (ob:877970b3)
-**The Role, Not Component Rule.** Components consume shared font and size tokens; they do not invent local type ramps. IBM Plex Mono indexes the institutional record but never becomes a technical costume for ordinary copy. Slides and editorial documents may use a compatible serif for a bounded quotation or long-form reading passage, but Proofpress titles, propositions, controls, and diagrams use the canonical DM Sans hierarchy.
+**The Role, Not Component Rule.** Components consume shared font and size tokens; they do not invent local type ramps. IBM Plex Mono indexes the institutional record but never becomes a technical costume for ordinary copy. Slides and editorial documents may use a compatible serif for a bounded quotation or long-form reading passage. Proofpress titles, propositions, controls, and diagrams use the canonical DM Sans hierarchy.
 
 ## Cross-medium application
 
@@ -180,7 +199,7 @@ Boardroom Clarity is one system with four expression modes, not one app styleshe
 - **Operate UI:** dense, task-first, rectilinear, accessible, and state-explicit. Color primarily carries action and governance status.
 - **Presentation:** one proposition per slide, large DM Sans hierarchy, generous white space, fine black rules, and one purposeful cyan diagram or emphasis. Avoid ornamental dashboards and card grids.
 - **Public editorial:** strong thesis-led typography, real product or evidence imagery, restrained cyan indexing, and prose designed for reading rather than feature marketing.
-- **Data and infographic:** begin with the conclusion, bind every visual claim to a source, use direct labels, and reserve green/red for admitted or rejected/blocked states. Cyan may show Proofpress flow or review, but never imply admission by itself.
+- **Data and infographic:** begin with the claim, bind every visual claim to a source, use direct labels, and reserve green/red for admitted or rejected/blocked states. Cyan may show Proofpress flow or review, but never imply admission by itself.
 
 **The One Argument Rule.** Every composition should make one principal claim legible before its supporting machinery.
 
@@ -192,10 +211,11 @@ Boardroom Clarity is one system with four expression modes, not one app styleshe
 ## Layout
 
 [//]: # (ob:8aa0ba5a)
-- **Focused review:** single reading column with a maximum width of 760px and body lines no wider than 70 characters. Use the order navigation → metadata → conclusion → recommendation and checks → evidence → decision.
-- **Review with a human gate:** a flexible reading column may pair with a fixed 320–344px decision or receipt panel. Keep the conclusion and its evidence visually dominant.
-- **Local lineage:** a bounded canvas may pair with a 300–320px inspector. Read left to right as Bound Evidence → Candidate Conclusion → Governed Context. Use a subtle 21px dot grid only when it materially improves spatial orientation.
-- **Responsive:** below approximately 820px, stack reading and decision surfaces. Replace decorative graph connectors with a vertical evidence → conclusion → context sequence; preserve state and keyboard order.
+- **Focused review:** single reading column with a maximum width of 760px and body lines no wider than 70 characters. Use the order navigation → metadata → claim → recommendation and checks → evidence → decision.
+- **Review with a human gate:** a flexible reading column may pair with a fixed 320–344px decision or receipt panel. Keep the claim and its evidence visually dominant.
+- **Knowledge library and record:** browse readable statement rows with search, applicability filtering, and proposal-date or alphabetical sorting. At desktop widths, the library and record share the work surface; at 1099px and below, the record becomes the sole reading surface. Keep proposer, admitting reviewer, permitted uses, and validity conditions visible before the evidence and history disclosures. Missing fields are explicitly unrecorded, never inferred as unrestricted permission.
+- **Local lineage:** a bounded canvas may pair with a 300–320px inspector. Read left to right as Bound Evidence → Candidate Claim → Governed Context. Use a subtle 21px dot grid only when it materially improves spatial orientation.
+- **Responsive:** stack reading and decision surfaces on narrow screens. In Knowledge at 820px and below, local lineage becomes a vertical evidence → claim → context sequence with readable nodes and a visible admission boundary; preserve state and keyboard order.
 - **Rendered artifacts:** Markdown tables, lists, bold text, code, and citations must render as content. Exposed raw markup is a defect.
 
 [//]: # (ob:0855c398)
@@ -220,10 +240,10 @@ Node selection may use a two-ring cyan focus halo without changing node dimensio
 Records, tables, evidence rows, and source material remain rectilinear. Use 7–8px radii for controls and compact graph nodes, 10px for bounded recommendation surfaces, 12px for a decision panel or the outer lineage workspace, and full pills only for status chips or a host-supplied floating assistant.
 
 [//]: # (ob:6bb05de6)
-Connectors are two-pixel paths with no arrowheads unless direction would otherwise be ambiguous. Evidence-to-conclusion connectors are quiet solid rules. Candidate-to-context connectors encode the admission boundary: gray dashed while pending, muted blue dashed while revision is requested, red dashed while blocked or rejected, and solid green only after admission. Back to overview uses a leading left arrow and text, not an ambiguous icon alone.
+Connectors are two-pixel paths with no arrowheads unless direction would otherwise be ambiguous. Evidence-to-claim connectors are quiet solid rules. Candidate-to-context connectors encode the admission boundary: gray dashed while pending, muted blue dashed while revision is requested, red dashed while blocked or rejected, and solid green only after admission. Back to overview uses a leading left arrow and text, not an ambiguous icon alone.
 
 [//]: # (ob:54961ec9)
-**The Visible Boundary Rule.** The connector, destination node, inspector copy, and available action must agree. Never draw a solid path into governed context while the conclusion is pending, blocked, rejected, expired, superseded, or awaiting revision.
+**The Visible Boundary Rule.** The connector, destination node, inspector copy, and available action must agree. Never draw a solid path into governed context while the claim is pending, blocked, rejected, expired, superseded, or awaiting revision.
 
 [//]: # (ob:f43f7a30)
 ## Components
@@ -238,59 +258,59 @@ The owner workspace uses `web/owner/src/components/ui/icon.tsx` as the only appl
 Shared owners: `ui/button.tsx` and `ui/badge.tsx` consume palette tokens; `ui/modal-surface.tsx` owns dialog geometry/accessibility; `review-feedback.tsx` owns DecisionNotice, RevisionPanel, clipboard handoff, and history identity; `ledger-overview.tsx` owns the bounded workspace support graph; `lineage-graph.tsx` owns focused nodes, curves, and source expansion; `governance.css` owns their visual rules and typography roles. Reuse or extend these components rather than copying page-specific markup and hardcoded tokens.
 
 [//]: # (ob:8bd7754c)
-The Ledger starts with a workspace evidence-to-conclusion graph including recorded lifecycle states, with six conclusions and twelve sources initially, scope filtering, shared-source highlighting, and incremental expansion. Selecting a conclusion opens focused provenance with at most three initial sources. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Current knowledge remains a separate eligible-only projection: showing rejected or revision history in the graph never admits it. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
+Knowledge starts with the server's current eligible owner projection, rendered by `knowledge-library.tsx` with search, applicability filtering, and sorting from `knowledge-model.ts`. A selected claim opens a readable record; evidence and history remain inspectable through disclosures. View lineage opens focused provenance with at most three initial sources, then incremental expansion. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Rejected or revision history never enters this current-knowledge projection merely because it is recorded. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
 
 [//]: # (ob:0287d639)
 - **Status chip:** compact sans-serif label using the shared Badge. Admitted/current is green; needs review uses labeled cyan on accent-soft; needs revision is muted violet; blocked/rejected is red. Decision history tables display status explicitly, without requiring selection. Pending and recommendation surfaces must not use yellow/orange. Never express authority through confidence percentages.
 - **Diff tag:** compact inline marker. New is green, modified cyan, removed red, and moved violet.
-- **Evidence bundle:** the reviewable support unit for a conclusion. Summarize its bound evidence blocks and source count; do not present the bundle as a raw file.
+- **Evidence bundle:** the reviewable support unit for a claim. Summarize its bound evidence blocks and source count; do not present the bundle as a raw file.
 - **Evidence block row:** filename or artifact identity, verified locator, bounded quotation, integrity state, and a clear route to the immutable source. Use a bottom rule instead of an independent promotional card.
-- **Candidate conclusion:** state, proposition, evidence count, recommendation, and material impact. Its review state must remain distinct from deterministic integrity and model evaluation.
+- **Candidate claim:** state, proposition, evidence count, recommendation, and material impact. Its review state must remain distinct from deterministic integrity and model evaluation.
 - **Review panel:** presents recommendation, deterministic checks, evidence sufficiency, and explicit Approve / Request changes / Reject consequences. Keep the human decision available without obscuring the record.
 - **Admission receipt:** replaces decision controls after approval and records reviewer, decision, ledger head or version, timestamp, and append-only history. A success message without projected ledger state is incomplete.
-- **Governed-context projection:** contains only admitted and currently applicable knowledge. Blocked, pending, rejected, expired, superseded, and needs-revision conclusions may remain auditable but must not appear available to downstream consumers.
+- **Governed-context projection:** contains only admitted and currently applicable knowledge. Blocked, pending, rejected, expired, superseded, and needs-revision claims may remain auditable but must not appear available to downstream consumers.
 - **Source viewer:** preserves original identity, digest, locator, and citation highlight. Moving from evidence to source must preserve orientation and provide a clear return path.
 
 [//]: # (ob:c8ecfb15)
 ### Local Lineage Workspace
 
 [//]: # (ob:4495ce20)
-A lineage view is an inspectable trust path, not a free-form network graph. Default to the selected conclusion's local provenance. Bound evidence nodes converge into the candidate conclusion; the final edge crosses the human-admission boundary into governed context.
+A lineage view is an inspectable trust path, not a free-form network graph. Default to the selected claim's local provenance. Bound evidence nodes converge into the candidate claim; the final edge crosses the human-admission boundary into governed context.
 
 [//]: # (ob:a9b6733b)
 Clicking or keyboard-activating a node first updates a persistent inspector with node type, identifier, state, integrity or receipt information, and one explicit next action. Evidence opens the bound excerpt before the raw source. A candidate opens review or history. Governed context opens the exact downstream projection only when admitted; while pending it remains inspectable but visibly unavailable.
 
 [//]: # (ob:f4762698)
-**The Local Lineage Rule.** Render the smallest graph that answers “why can this conclusion be trusted?” Expand through selection, filtering, or a separate ledger projection—not by loading the entire knowledge graph into the default canvas.
+**The Local Lineage Rule.** Render the smallest graph that answers “why can this claim be trusted?” Expand through selection, filtering, or a separate ledger projection—not by loading the entire knowledge graph into the default canvas.
 
 [//]: # (ob:0bd4799e)
 ### Review State Machine
 
 [//]: # (ob:7578205b)
-The canonical review states are candidate / needs review → admitted, needs revision, rejected, or blocked. A revised conclusion is a new version with preserved lineage; it is not a silent edit of the reviewed proposition. Only an admitted, current conclusion may enter governed context.
+The canonical review states are candidate / needs review → admitted, needs revision, rejected, or blocked. A revised claim is a new version with preserved lineage; it is not a silent edit of the reviewed proposition. A rejected claim may be corrected only by a new candidate carrying `reproposal_of`; the prior rejection stays append-only, the predecessor must be rejected in the same scope, the successor must bind at least one new evidence reference and explain its response in `qualifiers.reproposal_response`, and it requires fresh checks, advisory review when configured, and a new human decision. Reject and request-changes decisions require a durable human note so the remediation target is never implicit. Only an admitted, current claim may enter governed context.
 
 [//]: # (ob:aae4f716)
-Every mutation must produce immediate, consistent feedback: prevent duplicate submission, show loading/error state, and project the recorded result through queue, conclusion, history, and context. Review separates Needs review, Needs revision, and Decision history; deep links select the matching group and switching groups clears an unrelated inspector. The shared DecisionNotice appears at the top. Request changes opens the shared ModalSurface and attempts clipboard copy; claim success only after the browser confirms it. If denied, offer explicit copy or manual selection. No agent is notified or awakened automatically. The agent receives pasted instructions, submits a linked new proposal, and the owner reviews it again. RevisionPanel shows the requested change, one copy action, and actual revised proposals only; long instructions appear only for manual-copy fallback. History displays recorded proposer/verifier/judge/model/reviewer identities; missing identity is explicitly unknown. Deterministic policy evaluation, optional LM advice, and owner admission remain separate.
+Every mutation must produce immediate, consistent feedback: prevent duplicate submission, show loading/error state, and project the recorded result through queue, claim, history, and context. Review separates Needs review, Needs revision, and Decision history; deep links select the matching group and switching groups clears an unrelated inspector. The shared DecisionNotice appears at the top. Request changes opens the shared ModalSurface and attempts clipboard copy; claim success only after the browser confirms it. If denied, offer explicit copy or manual selection. No agent is notified or awakened automatically. The agent receives pasted instructions, submits a linked new proposal, and the owner reviews it again. RevisionPanel shows the requested change, one copy action, and actual revised proposals only; long instructions appear only for manual-copy fallback. History displays recorded proposer/verifier/judge/model/reviewer identities; missing identity is explicitly unknown. Deterministic policy evaluation, optional LM advice, and owner admission remain separate.
 
 [//]: # (ob:2c93777d)
 [//]: # (ob:owner-review-policy)
-**Decision hierarchy.** The review surface shows three explicit layers in this order: deterministic checks, LM advice, and human authorization. A failed check names the missing or invalid requirement in recovery language; never display a false check name as though its presence caused the block. LM `accept` is labeled **Evidence supported**, uses the action/advisory color rather than admission green, names its provider/model and criteria version, and never enables admission by itself. The owner action is labeled **Approve**; approval records the human decision and admits the conclusion to current knowledge only when every required condition passes.
+**Decision hierarchy.** The review surface shows three explicit layers in this order: deterministic checks, LM advice, and human authorization. A failed check names the missing or invalid requirement in recovery language; never display a false check name as though its presence caused the block. LM `accept` is labeled **Evidence supported**, uses the action/advisory color rather than admission green, names its provider/model and criteria version, and never enables admission by itself. The owner action is labeled **Approve**; approval records the human decision and admits the claim to current knowledge only when every required condition passes.
 
 [//]: # (ob:22728d20)
 [//]: # (ob:hosted-review-policy)
-**Hosted review policy.** Owner-only settings are workspace-scoped, versioned, audited, and persisted server-side. They control off/manual/automatic LM review, provider and model, bounded workspace criteria, external bounded-evidence consent, and whether current supporting advice is required before approval. The recommended first-run template is automatic review with required advice, but it remains inactive until the owner explicitly configures a provider, credential, criteria, and data handling. Provider credentials are encrypted at rest, write-only in the UI, and never enter policy history or model packets. Automatic review evaluates the existing pending queue when a policy is activated and evaluates new proposals after deterministic checks. A failed current deterministic evaluation is **Blocked**, leaves the human queue, and never calls the model. Review jobs are durable and idempotent, never admit knowledge, and do not silently retry an interrupted provider call.
+**Hosted review policy.** Owner-only settings are workspace-scoped, versioned, audited, and persisted server-side. They control off/manual/automatic LM review, provider and model, bounded workspace criteria, external bounded-evidence consent, and whether current supporting advice is required before approval. The recommended first-run template is automatic review with required advice, but it remains inactive until the owner explicitly configures a provider, credential, criteria, and data handling. Provider credentials are encrypted at rest, write-only in the UI, and never enter policy history or model packets. Automatic review evaluates the existing pending queue when a policy is activated and evaluates new proposals after deterministic checks. A failed current deterministic evaluation is **Blocked**, leaves the human queue, and never calls the model. Review jobs are durable and idempotent, never admit claims, and do not silently retry an interrupted provider call.
 
-The Review inspector exposes one primary action for the current state. Before checks pass, that action is the required recovery step. After checks pass, **Open full review** is the solid cyan primary action; manual LM review is explicitly optional and remains a secondary outline action. A policy may require current supporting advice before approval, but it must never make the candidate record itself inaccessible. The queue and inspector scroll independently on desktop; selecting another conclusion resets the inspector to its summary.
+The Review inspector exposes one primary action for the current state. Before checks pass, that action is the required recovery step. After checks pass, **Open full review** is the solid cyan primary action; manual LM review is explicitly optional and remains a secondary outline action. A policy may require current supporting advice before approval, but it must never make the candidate record itself inaccessible. The proposed reuse boundary includes the complete recorded Relevant when and Validity conditions lists in both the inspector and full review; absent conditions are marked not recorded. The queue and inspector scroll independently on desktop; selecting another claim resets the inspector to its summary.
 
 [//]: # (ob:1ca206ee)
 [//]: # (ob:semantic-activity)
-**Semantic activity.** Activity is an owner-readable history of knowledge work: which actor submitted evidence, proposed a conclusion, ran deterministic checks, requested LM advice, made a human decision, revised knowledge, or retrieved governed context. It distinguishes the initiator from the verifier, judge, or authorizer. A retrieval record says **retrieved**, never **used**. Raw request outcomes remain available in a separate **Technical logs** view and do not dominate the default activity feed.
+**Semantic activity.** Activity is an owner-readable history of knowledge work: which actor submitted evidence, proposed a claim, ran deterministic checks, requested LM advice, made a human decision, revised knowledge, or retrieved governed context. It distinguishes the initiator from the verifier, judge, or authorizer. A retrieval record says **retrieved**, never **used**. Raw request outcomes remain available in a separate **Technical logs** view and do not dominate the default activity feed.
 
 [//]: # (ob:308103b7)
 Selection loading preserves list and inspector geometry; it must not collapse and recreate columns. Never show a previous record's actionable receipt as if it belonged to the new selection. Copy success is a borderless green check with explicit text, shown only after clipboard success; failure retains manual fallback. Primary actions—including Approve—use Proofpress cyan, secondary navigation and optional analysis use outline/ghost, admitted state uses green, and destructive actions use red. An Active credential badge is a non-interactive state, not an Activate button. Admin labels are Agent identity (recorded author, e.g. agent:claude-code) and Key name (recognizable device/client label); underlying principal IDs and authority rules remain unchanged.
 
 [//]: # (ob:02a0b481)
-Status badges share the same neutral one-pixel border; semantic meaning comes from the tinted fill and text, not a heavier outline. Underline tabs reserve their border space in both states and keep font weight, height and baseline fixed, including Evidence/Checks/History. Admin desktop fields and their primary action align on the input row; helper text sits below without pulling the action down. Narrow layouts stack deliberately and separate the brand from workspace identity. Cross-page navigation starts at the top; returning from full review preserves the review position. Graph column labels align with their nodes, and narrow graph canvases indicate sideways scrolling. Activity results describe requests, not conclusion lifecycle: Recorded is neutral, access/request failures red, and version or duplicate conflicts muted blue. Preserve the recorded error code and never infer an admission decision from request success. Release QA must traverse Home, all Review groups and full details, Ledger overview/focus/current knowledge, Activity and Admin at 1536, 1024 and 390 pixels, with isolated decisions, revision handoff, denied clipboard, credential lifecycle, stale writes, failed loads and keyboard return paths. Never use partner data to manufacture test states.
+Status badges share the same neutral one-pixel border; semantic meaning comes from the tinted fill and text, not a heavier outline. Underline tabs reserve their border space in both states and keep font weight, height and baseline fixed, including Evidence/Checks/History. Admin desktop fields and their primary action align on the input row; helper text sits below without pulling the action down. Narrow layouts stack deliberately and separate the brand from workspace identity. Cross-page navigation starts at the top; returning from full review preserves the review position. Graph column labels align with their nodes, and narrow graph canvases indicate sideways scrolling. Activity results describe requests, not claim lifecycle: Recorded is neutral, access/request failures red, and version or duplicate conflicts muted blue. Preserve the recorded error code and never infer an admission decision from request success. Release QA must traverse Home, all Review groups and full details, Ledger overview/focus/current knowledge, Activity and Admin at 1536, 1024 and 390 pixels, with isolated decisions, revision handoff, denied clipboard, credential lifecycle, stale writes, failed loads and keyboard return paths. Never use partner data to manufacture test states.
 
 [//]: # (ob:bcd36484)
 ### Review and Diff Patterns
@@ -305,10 +325,10 @@ Status badges share the same neutral one-pixel border; semantic meaning comes fr
 ### Voice and Language
 
 [//]: # (ob:300ee19f)
-Use product-facing trust terms: Source, Evidence, Candidate Conclusion, Review, Admit, Request changes, Reject, Receipt, Ledger, Lineage, and Governed Context. Reserve storage or implementation terms such as event, ref, blob, projection algorithm, and lock for developer diagnostics. Host chrome may label Admit as **Approve**; the lifecycle event, API, and `data-decision` value remain `admit`.
+Use product-facing trust terms: Source, Evidence, Candidate Claim, Review, Admit, Request changes, Reject, Receipt, Ledger, Lineage, and Governed Context. Reserve storage or implementation terms such as event, ref, blob, projection algorithm, and lock for developer diagnostics. Host chrome may label Admit as **Approve**; the lifecycle event, API, and `data-decision` value remain `admit`.
 
 [//]: # (ob:cab7f711)
-English is the source language for UI strings, CLI output, and documentation surfaces. Interfaces may adapt through `Accept-Language`, with Chinese as the first locale. Stable Proofpress vocabulary—especially Evidence, Conclusion, Review, Admit, Receipt, Ledger, Lineage, and Governed Context—must retain one documented mapping across locales and host products.
+English is the source language for UI strings, CLI output, and documentation surfaces. Interfaces may adapt through `Accept-Language`, with Chinese as the first locale. Stable Proofpress vocabulary—especially Evidence, Claim, Review, Admit, Receipt, Ledger, Lineage, and Governed Context—must retain one documented mapping across locales and host products.
 
 [//]: # (ob:b01d87ba)
 ## Do's and Don'ts
@@ -317,12 +337,12 @@ English is the source language for UI strings, CLI output, and documentation sur
 ### Do
 
 [//]: # (ob:3ba94c8c)
-- **Do** preserve progressive disclosure from conclusion to evidence bundle to bound excerpt to immutable source.
+- **Do** preserve progressive disclosure from claim to evidence bundle to bound excerpt to immutable source.
 - **Do** keep deterministic integrity, model recommendation, policy outcome, and human admission visibly separate.
 - **Do** make selected graph nodes keyboard-operable and expose the same receipt information without relying on color alone.
 - **Do** project a recorded admission consistently across review, ledger, lineage, history, and governed context.
 - **Do** let a host product apply its own brand shell while retaining Proofpress trust-state semantics.
-- **Do** keep current owner navigation as Home, Review, Ledger, Activity, and Admin; do not restore assistant/chat entry points as a design cleanup.
+- **Do** keep current owner navigation as Home, Review, Knowledge, Activity, and Admin, retaining `/ledger` as Knowledge's stable route; do not restore assistant/chat entry points as a design cleanup.
 - **Do** fail closed: unavailable data or invalid lineage must render as blocked or not ready, never as a plausible placeholder.
 
 [//]: # (ob:70e00445)
@@ -334,7 +354,7 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Don't** show pending, blocked, rejected, expired, superseded, or needs-revision knowledge as available to an agent or API.
 - **Don't** make evaluation metrics, model confidence, or recommendation the visual equivalent of admission.
 - **Don't** treat Ask Proofpress, a passing check, or a cyan glow as admission.
-- **Don't** use Draft as a Proofpress lifecycle term for a candidate conclusion.
+- **Don't** use Draft as a Proofpress lifecycle term for a candidate claim.
 - **Don't** use Inter as narrative type, decorative gradients, or KPI tiles as the Home metaphor.
 - **Don't** bake legal-specific matter, counsel, or data-room concepts into Proofpress core components.
 - **Don't** expose mock counts, synthetic receipts, or hardcoded lineage without an explicit preview label.

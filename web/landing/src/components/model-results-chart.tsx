@@ -8,7 +8,7 @@ const modelResults = [
   { model: "Inkling", ordinary: 89.67136150234741, proofpress: 90.19953051643192 },
 ];
 
-const scaleFloor = 75;
+const scaleFloor = 85;
 const scaleRange = 100 - scaleFloor;
 const scaleWidth = (value: number) =>
   `${Math.max(0, Math.min(100, ((value - scaleFloor) / scaleRange) * 100))}%`;
@@ -25,7 +25,7 @@ export function ModelResultsChart() {
       </div>
 
       <div className="modelScale" aria-hidden="true">
-        <span>75</span><span>80</span><span>85</span><span>90</span><span>95</span><span>100%</span>
+        <span>85</span><span>88</span><span>91</span><span>94</span><span>97</span><span>100%</span>
       </div>
 
       <div className="modelRows">
@@ -34,22 +34,18 @@ export function ModelResultsChart() {
           const description = `${result.model}: ordinary ${result.ordinary.toFixed(1)} percent, Proofpress ${result.proofpress.toFixed(1)} percent, an improvement of ${delta} percentage points.`;
 
           return (
-            <div className="modelResult" key={result.model} aria-label={description}>
+            <div className="modelResult" role="group" key={result.model} aria-label={description}>
               <div className="modelResultLabel">
                 <span>{result.model}</span>
                 <strong>+{delta} pp</strong>
               </div>
-              <div className="modelBarPair" aria-hidden="true">
-                <div className="modelTrack">
-                  <div className="modelBar ordinaryBar" style={{ width: scaleWidth(result.ordinary) }}>
-                    <span>{result.ordinary.toFixed(1)}</span>
-                  </div>
+              <div className="modelDotPlot" aria-hidden="true">
+                <div className="modelDotTrack">
+                  <i className="modelConnector" style={{left: scaleWidth(result.ordinary), width: scaleWidth(scaleFloor + result.proofpress - result.ordinary)}} />
+                  <i className="resultDot ordinaryDot" style={{left: scaleWidth(result.ordinary)}} />
+                  <i className="resultDot proofpressDot" style={{left: scaleWidth(result.proofpress)}} />
                 </div>
-                <div className="modelTrack">
-                  <div className="modelBar proofpressBar" style={{ width: scaleWidth(result.proofpress) }}>
-                    <span>{result.proofpress.toFixed(1)}</span>
-                  </div>
-                </div>
+                <span className="modelValues">{result.ordinary.toFixed(1)} → {result.proofpress.toFixed(1)}%</span>
               </div>
             </div>
           );
@@ -57,7 +53,7 @@ export function ModelResultsChart() {
       </div>
 
       <figcaption id="model-chart-caption">
-        Seven complete frozen panels, 18 paired runs per model. Ordered by uplift; zoomed 75–100% scale.
+        Seven models, 18 paired runs per model. Ordered by uplift; zoomed 85–100% scale. Points show rubric completion, not bar length.
       </figcaption>
     </figure>
   );

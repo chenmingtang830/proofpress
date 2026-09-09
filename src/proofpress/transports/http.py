@@ -13,7 +13,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 
 
 MAX_REQUEST_BYTES = 1024 * 1024
@@ -98,14 +98,14 @@ class LocalOperationHandler(BaseHTTPRequestHandler):
             return self._json(HTTPStatus.OK, {
                 "status": "ready",
                 "workspace": str(self.server.proofpress_workspace),
-                "contract": knowledge.LOCAL_OPERATION_SCHEMA,
+                "contract": kernel_ops.LOCAL_OPERATION_SCHEMA,
             })
         if path == "/v1/capabilities":
             if not self._authorized():
                 return self._json(HTTPStatus.UNAUTHORIZED,
                                   {"error": "unauthorized"})
-            envelope = knowledge.execute_local_operation({
-                "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            envelope = kernel_ops.execute_local_operation({
+                "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "operation": "capabilities.get", "parameters": {},
             })
             envelope = _service_transport(envelope)
@@ -136,7 +136,7 @@ class LocalOperationHandler(BaseHTTPRequestHandler):
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_json"})
         with _WRITE_LOCK:
-            envelope = knowledge.execute_local_operation(request)
+            envelope = kernel_ops.execute_local_operation(request)
         envelope = _service_transport(envelope)
         self._json(_status_for(envelope), envelope)
 

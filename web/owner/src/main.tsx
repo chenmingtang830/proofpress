@@ -16,41 +16,67 @@ import { Badge } from "@/components/ui/badge";
 import { ActivityResult } from "@/components/activity-result";
 import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
-import { LineageGraph } from "@/components/lineage-graph";
+import { KnowledgeLibrary } from "@/components/knowledge-library";
+import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
+import "./review-local.css";
 import "./components/governance.css";
+import "./components/workspace-home.css";
 
 type NodeRow = {
   id: string;
   type: string;
   label: string;
+  title?: string;
   state: string;
   scope?: string;
+  applicability?: Receipt["claim"]["applicability"];
   created_at?: string;
+  decision_at?: string;
 };
 type Receipt = {
   state: string;
-  conclusion: {
+  claim: {
     id: string;
     statement: string;
+    title?: string;
+    evidence_refs: string[];
+    reproposal_of?: string | null;
+    qualifiers?: { reproposal_response?: string };
     scope?: string;
     proposer?: string;
     created_at?: string;
+    applicability?: {
+      title?: string;
+      description?: string;
+      when_relevant?: string[];
+      keywords?: string[];
+      validity_conditions?: string[];
+    } | null;
   };
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean> };
   recommendation?: { recommendation?: string; rationale?: string };
+  revision_request?: any;
+  revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
+  reproposal_parent?: {id:string;statement:string;evidence_refs:string[];new_evidence_refs?:string[];reused_evidence_refs?:string[];reproposal_response?:string;rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
+  reproposals?: {id:string;statement:string;state:string}[];
   history?: any[];
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
-type Page = "home" | "review" | "ledger" | "activity" | "admin";
+type Page = "home" | "review" | "ledger" | "runs" | "activity" | "admin";
 const labels: Record<Page, string> = {
   home: "Home",
   review: "Review",
-  ledger: "Ledger",
+  ledger: "Knowledge",
+  runs: "Runs",
   activity: "Activity",
   admin: "Admin",
 };
@@ -58,6 +84,7 @@ const icons = {
   home: Home,
   review: ShieldCheck,
   ledger: BookOpen,
+  runs: Activity,
   activity: Activity,
   admin: KeyRound,
 };
@@ -98,8 +125,20 @@ function evidenceText(row: any) {
     return `${p.derivation.formula?.operation || "recompute"} → ${p.derivation.output?.value}`;
   return row?.retrieval_receipt?.quote || row?.quote || "No quote available in this receipt.";
 }
+function reuseBoundary(claim: Receipt["claim"]) {
+  const card = claim.applicability;
+  return card?.title || card?.description || claim.scope || "No reuse boundary recorded";
+}
 
-function EvidenceContent({ row }: { row: any }) {
+function ExpandableText({ text, label = "Show full text" }: { text: string; label?: string }) {
+  const [open, setOpen] = React.useState(false);
+  return <div className={`expandableText${open ? " expanded" : ""}`}>
+    <p>{text}</p>
+    <button type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : label}</button>
+  </div>;
+}
+
+function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?: boolean }) {
   const text = evidenceText(row);
   const receipt = row?.retrieval_receipt;
   const locator = receipt?.locator;
@@ -126,9 +165,42 @@ function EvidenceContent({ row }: { row: any }) {
     if (Array.isArray(value)) return <ul>{value.map((item, i) => <li key={i}>{renderValue(item)}</li>)}</ul>;
     return <dl className="evidenceFields">{Object.entries(value).map(([key, value]) => <div key={key}><dt>{key.replaceAll("_", " ")}</dt><dd>{renderValue(value)}</dd></div>)}</dl>;
   };
-  return <>{structured !== null ? renderValue(structured) : <p>{text}</p>}
+  return <>{structured !== null ? renderValue(structured) : collapsible ? <ExpandableText text={text} label="Show full excerpt" /> : <p>{text}</p>}
     <details className="technicalDetails"><summary>Technical receipt</summary><pre>{JSON.stringify(row, null, 2)}</pre></details>
   </>;
+}
+
+function CompactEvidenceExcerpt({ text }: { text: string }) {
+  const [open, setOpen] = React.useState(false);
+  const expandable = text.length > 220;
+  return <div className={`compactEvidenceExcerpt${open ? " expanded" : ""}`}>
+    <p>{text}</p>
+    {expandable && <button type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : "Show full excerpt"}</button>}
+  </div>;
+}
+
+function EvidencePreview({ row }: { row: any }) {
+  const text = evidenceText(row);
+  if (typeof text !== "string") return <CompactEvidenceExcerpt text={String(text)} />;
+  try {
+    const structured = JSON.parse(text);
+    const preferred = ["finding", "summary", "result", "observation", "hypothesis", "decision"];
+    const findExcerpt = (value: any, depth = 0): string | null => {
+      if (!value || typeof value !== "object" || depth > 2) return null;
+      for (const key of preferred) {
+        const candidate = value[key];
+        if (["string", "number", "boolean"].includes(typeof candidate)) return String(candidate);
+      }
+      for (const candidate of Object.values(value)) {
+        const excerpt = findExcerpt(candidate, depth + 1);
+        if (excerpt) return excerpt;
+      }
+      return null;
+    };
+    const excerpt = findExcerpt(structured);
+    if (excerpt) return <CompactEvidenceExcerpt text={excerpt} />;
+  } catch { /* Plain evidence remains readable prose. */ }
+  return <CompactEvidenceExcerpt text={text} />;
 }
 
 function App() {
@@ -149,7 +221,7 @@ function App() {
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
   const [selected, setSelected] = React.useState<string | null>(
-    new URLSearchParams(location.search).get("conclusion_id"),
+    new URLSearchParams(location.search).get("claim_id"),
   );
   const [receipt, setReceipt] = React.useState<Receipt | null>(null);
   const selectionRequest = React.useRef(0);
@@ -168,25 +240,36 @@ function App() {
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [decisionConfirmation, setDecisionConfirmation] = React.useState<{decision: string; id: string; statement: string; scope: string} | null>(null);
+  const [pendingRejection, setPendingRejection] = React.useState<{id: string; note: string; nextId: string | null; seconds: number} | null>(null);
+  const rejectTimeout = React.useRef<number | null>(null);
+  const rejectCountdown = React.useRef<number | null>(null);
   const [revisionHandoff, setRevisionHandoff] = React.useState<any>(null);
   const cancelDecision = React.useRef<HTMLButtonElement>(null);
   const decisionTrigger = React.useRef<HTMLElement | null>(null);
   const [credentials, setCredentials] = React.useState<any[]>([]);
   const [activity, setActivity] = React.useState<any[]>([]);
+  const [runs, setRuns] = React.useState<any[]>([]);
+  const [selectedRun, setSelectedRun] = React.useState<any>(null);
+  const [runsLoading, setRunsLoading] = React.useState(false);
   const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
   const [judgeMessage, setJudgeMessage] = React.useState("");
+  const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [credentialSecret, setCredentialSecret] = React.useState("");
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  React.useEffect(() => () => {
+    if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
+    if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
+  }, []);
   React.useEffect(() => {
     if (!receipt || !["queued", "running"].includes(receipt.judge_job?.state || "")) return;
-    const id = receipt.conclusion.id;
+    const id = receipt.claim.id;
     let active = true;
     const timer = window.setInterval(async () => {
-      try { const next = await api(`/owner/api/conclusions/${encodeURIComponent(id)}`); if(active) setReceipt(previous=>previous?.conclusion.id===id?next:previous); }
+      try { const next = await api(`/owner/api/claims/${encodeURIComponent(id)}`); if(active) setReceipt(previous=>previous?.claim.id===id?next:previous); }
       catch (e:any) { if(active) setError(`LM status could not refresh: ${e.message}`); }
     }, 2500);
     return ()=>{ active=false;window.clearInterval(timer); };
-  }, [receipt?.conclusion.id,receipt?.judge_job?.state]);
+  }, [receipt?.claim.id,receipt?.judge_job?.state]);
   React.useEffect(() => {
     if (page !== "admin") return;
     let active = true;
@@ -198,12 +281,22 @@ function App() {
     return () => { active = false; };
   }, [page, reloadVersion]);
   React.useEffect(() => {
+    if (page !== "runs") return;
+    let active = true;
+    setRunsLoading(true);
+    api("/owner/api/runs").then(body => { if (active) setRuns(body.runs || []); })
+      .catch(e => { if (active) setError(`Runs could not load: ${e.message}`); })
+      .finally(() => { if (active) setRunsLoading(false); });
+    return () => { active = false; };
+  }, [page, reloadVersion]);
+  React.useEffect(() => {
     let active = true;
     api("/owner/api/activity").then(audit => { if (active) setActivity(audit); })
       .catch(e => { if (active) setError(`Activity could not load: ${e.message}`); });
     return () => { active = false; };
   }, [page, reloadVersion]);
-  const load = React.useCallback(async () => {
+  const load = React.useCallback(async (selectionOverride?: string | null) => {
+    const targetSelection = selectionOverride === undefined ? selected : selectionOverride;
     const request = ++selectionRequest.current;
     setLoading(true);
     setError("");
@@ -215,7 +308,7 @@ function App() {
         api("/owner/api/session"),
       ]);
       const next = (graph.nodes || []).filter(
-        (n: NodeRow) => n.type === "conclusion",
+        (n: NodeRow) => n.type === "claim",
       );
       setRows(next);
       setGraphNodes(graph.nodes || []);
@@ -223,22 +316,25 @@ function App() {
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setWorkspaceLabel(session.workspace || "Owner workspace");
       setCsrf(session.csrf);
-      const desired =
-        selected && next.some((n: NodeRow) => n.id === selected)
-          ? selected
-          : next.find((n: NodeRow) => n.state === "needs_review")?.id ||
-            null;
+      const selectedExists = Boolean(targetSelection && next.some((n: NodeRow) => n.id === targetSelection));
+      const desired = targetSelection
+        ? selectedExists ? targetSelection : null
+        : next.find((n: NodeRow) => n.state === "needs_review")?.id || null;
       if (request === selectionRequest.current) {
-        setSelected(desired);
         setReceipt(null);
+        if (targetSelection && !selectedExists) {
+          setDetailError("This claim was not found. No substitute receipt has been shown.");
+          return;
+        }
+        setSelected(desired);
         if (desired) {
-          const detail = await api(`/owner/api/conclusions/${encodeURIComponent(desired)}`);
+          const detail = await api(`/owner/api/claims/${encodeURIComponent(desired)}`);
           if (request === selectionRequest.current) setReceipt(detail);
         }
       }
     } catch (e: any) {
-      setError(e.message);
-      setDetailError(e.message);
+      if (targetSelection) setDetailError(e.message);
+      else setError(e.message);
     } finally {
       setLoading(false);
     }
@@ -252,8 +348,8 @@ function App() {
     setContextLoading(true);
     setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
-      if (active) { setContextRelations(context.relations || []); setEligible((context.knowledge || []).map((row: any) => ({
-        ...row, label: row.statement, type: "conclusion", state: "admitted",
+      if (active) { setContextRelations(context.relations || []); setEligible((context.governed_context || []).map((row: any) => ({
+        ...row, label: row.statement, type: "claim", state: "admitted",
       }))); }
     }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
       .finally(() => { if (active) setContextLoading(false); });
@@ -269,35 +365,35 @@ function App() {
     const tools = [
       {
         name: "get_workspace_summary",
-        description: "Summarize the signed-in workspace, review queue, and current governed knowledge without changing state.",
+        description: "Summarize the signed-in workspace, review queue, and current governed context without changing state.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: { type: "object", properties: {} },
         execute: async () => {
           const [graph, context, summary] = await Promise.all([api("/owner/api/graph"), api("/owner/api/context"), api("/owner/api/summary")]);
-          const conclusions = (graph.nodes || []).filter((node: any) => node.type === "conclusion");
+          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim");
           return toolText({
             review: summary,
-            current_knowledge_count: (context.knowledge || []).length,
-            conclusion_states: conclusions.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
+            current_governed_context_count: (context.governed_context || []).length,
+            claim_states: claims.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
             authority: "Agents may inspect and prepare work. Human Approval is not exposed.",
           });
         },
       },
       {
         name: "list_review_queue",
-        description: "List candidate conclusions by review state and optional scope. This is a read-only queue view.",
+        description: "List candidate claims by review state and optional scope. This is a read-only queue view.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: { type: "object", properties: { state: { type: "string", enum: ["needs_review", "needs_revision", "admitted", "rejected", "all"] }, scope: { type: "string" }, limit: { type: "integer", minimum: 1, maximum: 100 } } },
         execute: async ({ state = "needs_review", scope = "", limit = 25 }: any) => {
           const graph = await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`);
-          const conclusions = (graph.nodes || []).filter((node: any) => node.type === "conclusion" && (state === "all" || node.state === state)).slice(0, limit).map(({ id, label, state, scope, created_at, proposer }: any) => ({ id, statement: label, state, scope, created_at, proposer }));
-          return toolText({ conclusions, count: conclusions.length, open_in_review: `${location.origin}/review` });
+          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim" && (state === "all" || node.state === state)).slice(0, limit).map((node: any) => ({ id: node.id, title: claimDisplayTitle(node), claim_title: node.title || null, statement: node.label, applicability: node.applicability || null, state: node.state, scope: node.scope, created_at: node.created_at, proposer: node.proposer }));
+          return toolText({ claims, count: claims.length, open_in_review: `${location.origin}/review` });
         },
       },
       {
         name: "get_current_context",
         description:
-          "Retrieve eligible governed conclusions for a scope. Does not approve knowledge.",
+          "Retrieve eligible governed claims for a scope. Does not approve claims.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
@@ -318,32 +414,32 @@ function App() {
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
-          properties: { conclusion_id: { type: "string" } },
-          required: ["conclusion_id"],
+          properties: { claim_id: { type: "string" } },
+          required: ["claim_id"],
         },
-        execute: async ({ conclusion_id }: any) =>
+        execute: async ({ claim_id }: any) =>
           toolText(
             await api(
-              `/owner/api/conclusions/${encodeURIComponent(conclusion_id)}`,
+              `/owner/api/claims/${encodeURIComponent(claim_id)}`,
             ),
           ),
       },
       {
         name: "get_lineage",
         description:
-          "Inspect the evidence and decision history bound to a conclusion.",
+          "Inspect the evidence and decision history bound to a claim.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
-          properties: { conclusion_id: { type: "string" } },
-          required: ["conclusion_id"],
+          properties: { claim_id: { type: "string" } },
+          required: ["claim_id"],
         },
-        execute: async ({ conclusion_id }: any) => {
+        execute: async ({ claim_id }: any) => {
           const r = await api(
-            `/owner/api/conclusions/${encodeURIComponent(conclusion_id)}`,
+            `/owner/api/claims/${encodeURIComponent(claim_id)}`,
           );
           return toolText({
-            conclusion: r.conclusion,
+            claim: r.claim,
             state: r.state,
             evidence: r.evidence,
             history: r.history,
@@ -352,24 +448,24 @@ function App() {
       },
       {
         name: "run_deterministic_checks",
-        description: "Run deterministic integrity and policy-prerequisite checks for one candidate. This appends evaluation receipts but cannot approve knowledge.",
+        description: "Run deterministic integrity and policy-prerequisite checks for one candidate. This appends evaluation receipts but cannot approve claims.",
         annotations: { readOnlyHint: false, untrustedContentHint: true },
-        inputSchema: { type: "object", properties: { conclusion_id: { type: "string" } }, required: ["conclusion_id"] },
-        execute: async ({ conclusion_id }: any) => {
-          await api("/owner/api/evaluate", { method: "POST", body: JSON.stringify({ csrf: csrfRef.current, conclusion_id }) });
-          const result = await api(`/owner/api/conclusions/${encodeURIComponent(conclusion_id)}`);
+        inputSchema: { type: "object", properties: { claim_id: { type: "string" } }, required: ["claim_id"] },
+        execute: async ({ claim_id }: any) => {
+          await api("/owner/api/evaluate", { method: "POST", body: JSON.stringify({ csrf: csrfRef.current, claim_id }) });
+          const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
           setReloadVersion(version => version + 1);
-          return toolText({ conclusion_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "LM advice is required by policy before Human Approval." : "Open the review surface for the owner decision." });
+          return toolText({ claim_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "LM advice is required by policy before Human Approval." : "Open the review surface for the owner decision." });
         },
       },
       {
         name: "open_review",
-        description: "Open a conclusion in the owner review surface. Navigation does not make a decision.",
+        description: "Open a claim in the owner review surface. Navigation does not make a decision.",
         annotations: { readOnlyHint: true, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: { conclusion_id: { type: "string" }, full: { type: "boolean" } }, required: ["conclusion_id"] },
-        execute: async ({ conclusion_id, full = true }: any) => {
-          setSelected(conclusion_id); setPage("review"); setFullReview(Boolean(full));
-          return toolText({ opened: true, decision_recorded: false, url: `${location.origin}/review?conclusion_id=${encodeURIComponent(conclusion_id)}${full ? "&view=full" : ""}` });
+        inputSchema: { type: "object", properties: { claim_id: { type: "string" }, full: { type: "boolean" } }, required: ["claim_id"] },
+        execute: async ({ claim_id, full = true }: any) => {
+          setSelected(claim_id); setPage("review"); setFullReview(Boolean(full));
+          return toolText({ opened: true, decision_recorded: false, url: `${location.origin}/review?claim_id=${encodeURIComponent(claim_id)}${full ? "&view=full" : ""}` });
         },
       },
       {
@@ -379,14 +475,14 @@ function App() {
         inputSchema: {
           type: "object",
           properties: {
-            conclusion_id: { type: "string" },
+            claim_id: { type: "string" },
             response: { type: "string" },
           },
-          required: ["conclusion_id", "response"],
+          required: ["claim_id", "response"],
         },
-        execute: async ({ conclusion_id, response }: any) =>
+        execute: async ({ claim_id, response }: any) =>
           toolText({
-            conclusion_id,
+            claim_id,
             response,
             prepared: true,
             recorded: false,
@@ -397,7 +493,7 @@ function App() {
       {
         name: "get_activity",
         description:
-          "Read semantic workspace activity and knowledge-consumption receipts. Does not return provider secrets or owner credentials.",
+          "Read semantic workspace activity and claim-consumption receipts. Does not return provider secrets or owner credentials.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
@@ -475,18 +571,18 @@ function App() {
     history.replaceState(
       history.state,
       "",
-      `/${page}${page === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
+      `/${page}${page === "review" && selected ? `?claim_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
     );
   }, [page, selected, fullReview]);
   function openFullReview() {
     if (fullReview) { document.querySelector(".stage")?.scrollTo({top: 0}); return; }
     reviewScroll.current = document.querySelector(".stage")?.scrollTop || 0;
-    history.pushState({proofpressFullReview: true}, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}&view=full`);
+    history.pushState({proofpressFullReview: true}, "", `/review?claim_id=${encodeURIComponent(selected || "")}&view=full`);
     setFullReview(true);
   }
   function backToReview() {
     if (history.state?.proofpressFullReview) { history.back(); return; }
-    history.pushState(null, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}`);
+    history.pushState(null, "", `/review?claim_id=${encodeURIComponent(selected || "")}`);
     setFullReview(false);
   }
   function navigate(next: Page) {
@@ -502,7 +598,7 @@ function App() {
       const next = location.pathname.split("/")[1] as Page;
       setPage(labels[next] ? next : "review");
       setFullReview(new URLSearchParams(location.search).get("view") === "full");
-      const id = new URLSearchParams(location.search).get("conclusion_id");
+      const id = new URLSearchParams(location.search).get("claim_id");
       if (id) void choose(id);
       else { ++selectionRequest.current; setSelected(null); setReceipt(null); setDetailError(""); }
     };
@@ -511,7 +607,7 @@ function App() {
   }, []);
   async function choose(id: string) {
     if (decisionPending.current) return;
-    if (selected === id && receipt?.conclusion.id === id) return;
+    if (selected === id && receipt?.claim.id === id) return;
     const request = ++selectionRequest.current;
     setSelected(id);
     setReceipt(null);
@@ -519,36 +615,93 @@ function App() {
     setError("");
     setDetailError("");
     try {
-      const detail = await api(`/owner/api/conclusions/${encodeURIComponent(id)}`);
+      const detail = await api(`/owner/api/claims/${encodeURIComponent(id)}`);
       if (request === selectionRequest.current) setReceipt(detail);
     } catch (e: any) {
-      if (request === selectionRequest.current) { setError(e.message); setDetailError(e.message); }
+      if (request === selectionRequest.current) {
+        setDetailError(e.message);
+        if (page !== "review") setError(e.message);
+      }
     }
   }
   async function decide(decision: string, confirmed = false) {
-    if (decisionPending.current || !receipt || receipt.conclusion.id !== selected) return;
+    if (decisionPending.current || !receipt || receipt.claim.id !== selected) return;
+    if (pendingRejection) {
+      setError("Finish or undo the pending rejection before making another decision.");
+      return;
+    }
+    if (["reject", "request_changes"].includes(decision) && !note.trim()) {
+      setError(decision === "reject" ? "Explain why the evidence does not support this claim." : "Describe the bounded change the proposer should make.");
+      return;
+    }
     if (["admit", "reject"].includes(decision) && !confirmed) {
       decisionTrigger.current = document.activeElement as HTMLElement;
       setError("");
-      setDecisionConfirmation({decision, id: receipt.conclusion.id, statement: receipt.conclusion.statement, scope: receipt.conclusion.scope || "this workspace"});
+      setDecisionConfirmation({decision, id: receipt.claim.id, statement: receipt.claim.statement, scope: reuseBoundary(receipt.claim)});
       return;
     }
-    if (decision === "request_changes" && !note.trim()) {
-      setError("Describe the bounded change the proposer should make.");
+    if (decision === "reject") {
+      const rejectedId = receipt.claim.id;
+      const rejectionNote = note.trim();
+      const nextPending = rows.find(row => row.state === "needs_review" && row.id !== rejectedId)?.id || null;
+      setDecisionConfirmation(null);
+      setNote("");
+      setFullReview(false);
+      setPendingRejection({id: rejectedId, note: rejectionNote, nextId: nextPending, seconds: 10});
+      if (nextPending) void choose(nextPending);
+      else { setSelected(null); setReceipt(null); }
+      requestAnimationFrame(() => document.querySelector(".reviewWorkspace > .work")?.scrollTo({top: 0, behavior: "smooth"}));
+      rejectCountdown.current = window.setInterval(() => {
+        setPendingRejection(current => current ? {...current, seconds: Math.max(0, current.seconds - 1)} : null);
+      }, 1000);
+      rejectTimeout.current = window.setTimeout(async () => {
+        if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
+        rejectCountdown.current = null;
+        rejectTimeout.current = null;
+        decisionPending.current = true;
+        setBusy(true);
+        try {
+          await api("/owner/api/reviews", {
+            method: "POST",
+            body: JSON.stringify({csrf, claim_id: rejectedId, decision: "reject", note: rejectionNote}),
+          });
+          setPendingRejection(null);
+          await load(nextPending);
+        } catch (e: any) {
+          setPendingRejection(null);
+          setError(`Rejection was not recorded: ${e.message}`);
+          setFullReview(true);
+          setSelected(rejectedId);
+          try { setReceipt(await api(`/owner/api/claims/${encodeURIComponent(rejectedId)}`)); }
+          catch (detail: any) { setDetailError(detail.message); }
+        } finally {
+          decisionPending.current = false;
+          setBusy(false);
+        }
+      }, 10000);
       return;
     }
     decisionPending.current = true;
     setBusy(true);
     try {
+      const nextPending = decision === "admit"
+        ? rows.find(row => row.state === "needs_review" && row.id !== selected)?.id || null
+        : null;
       const next = await api("/owner/api/reviews", {
         method: "POST",
-        body: JSON.stringify({ csrf, conclusion_id: selected, decision, note }),
+        body: JSON.stringify({ csrf, claim_id: selected, decision, note }),
       });
-      setReceipt(next);
       setDecisionConfirmation(null);
       setNote("");
-      await load();
-      if (decision === "request_changes") setRevisionHandoff(next);
+      if (decision === "admit") {
+        setFullReview(false);
+        await load(nextPending);
+        requestAnimationFrame(() => document.querySelector(".stage")?.scrollTo({top: 0, behavior: "smooth"}));
+      } else {
+        setReceipt(next);
+        await load();
+        if (decision === "request_changes") setRevisionHandoff(next);
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -561,21 +714,22 @@ function App() {
     setJudgeConfirmation(false);
     decisionPending.current = true;
     setBusy(true);
+    setJudgeRunning(true);
     setError("");
-    setJudgeMessage("Reviewing bound evidence… You can keep reading this conclusion.");
+    setJudgeMessage("Reviewing bound evidence… You can keep reading this claim.");
     try {
-      await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, conclusion_id: receipt.conclusion.id, confirmed: true})});
-      const next = await api(`/owner/api/conclusions/${encodeURIComponent(receipt.conclusion.id)}`);
+      await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, claim_id: receipt.claim.id, confirmed: true})});
+      const next = await api(`/owner/api/claims/${encodeURIComponent(receipt.claim.id)}`);
       setReceipt(next);
       setJudgeMessage("LM advice recorded. See Checks for the reasoning.");
     } catch { setJudgeMessage("LM review did not complete. You can retry; no approval was recorded."); }
-    finally { decisionPending.current = false; setBusy(false); }
+    finally { decisionPending.current = false; setBusy(false); setJudgeRunning(false); }
   }
   async function runChecks() {
     if (!receipt || decisionPending.current) return;
     decisionPending.current = true; setBusy(true); setError("");
     try {
-      await api("/owner/api/evaluate", {method:"POST",body:JSON.stringify({csrf,conclusion_id:receipt.conclusion.id})});
+      await api("/owner/api/evaluate", {method:"POST",body:JSON.stringify({csrf,claim_id:receipt.claim.id})});
       await load();
     } catch (e:any) { setError(e.message); }
     finally { decisionPending.current=false; setBusy(false); }
@@ -612,22 +766,23 @@ function App() {
       setBusy(false);
     }
   }
-  const pending = rows.filter((r) => r.state === "needs_review").length;
+  const pending = rows.filter((r) => r.state === "needs_review" && r.id !== pendingRejection?.id).length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
       <Dialog.Root open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
           <ModalSurface onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
-            <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this conclusion?" : "Reject this conclusion?"}</Dialog.Title>
-            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion within its scope. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
-            <dl><dt>Scope</dt><dd>{decisionConfirmation?.scope}</dd></dl>
+            <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this claim?" : "Reject this claim?"}</Dialog.Title>
+            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this claim where its applicability card fits. You are making the human approval decision." : "This decision will be recorded. The claim will remain excluded from governed context."}</Dialog.Description>
+            <dl><dt>Applicability</dt><dd>{decisionConfirmation?.scope}</dd></dl>
             <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
+            {decisionConfirmation?.decision === "reject" && <dl><dt>Reason for rejection</dt><dd>{note.trim()}</dd></dl>}
             {error && <p role="alert">{error}</p>}
             <div className="confirmationActions">
               <Button ref={cancelDecision} variant="outline" disabled={busy} onClick={() => setDecisionConfirmation(null)}>Cancel</Button>
               <Button variant={decisionConfirmation?.decision === "admit" ? "approve" : "danger"} disabled={busy} onClick={() => {
                 if (!decisionConfirmation) return;
-                if (selected !== decisionConfirmation.id) { setError("The selected conclusion changed. Close this dialog and review it again."); return; }
+                if (selected !== decisionConfirmation.id) { setError("The selected claim changed. Close this dialog and review it again."); return; }
                 void decide(decisionConfirmation.decision, true);
               }}>{busy ? "Recording decision…" : decisionConfirmation?.decision === "admit" ? "Confirm approval" : "Confirm rejection"}</Button>
             </div>
@@ -646,7 +801,7 @@ function App() {
           <span className="brandMark"><img src="/logo.svg" alt="" /></span>
           <strong>Proofpress</strong>
         </div>
-        <nav>
+        <nav aria-label="Workspace navigation">
           {(Object.keys(labels) as Page[]).map((id) => {
             const Icon = icons[id];
             return (
@@ -676,7 +831,7 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <span className="workspaceLabel">{workspaceLabel} · {labels[page]}</span>
+          <span className="workspaceLabel"><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
         </header>
         {error && (
           <div className="error" role="alert">
@@ -687,13 +842,34 @@ function App() {
             </button>
           </div>
         )}
+        {pendingRejection && (
+          <div className="decisionNotice" role="status" aria-live="polite">
+            <span>Rejection pending · {pendingRejection.seconds}s <small>Not recorded yet</small></span>
+            <button onClick={() => {
+              const id = pendingRejection.id;
+              if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
+              if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
+              rejectTimeout.current = null;
+              rejectCountdown.current = null;
+              setPendingRejection(null);
+              setPage("review");
+              setFullReview(true);
+              void choose(id);
+            }}>Undo</button>
+          </div>
+        )}
         <section className="stage">
           {page === "home" && (
             <HomePage
               pending={pending}
               admitted={admitted}
-              rows={rows}
+              eligible={eligible}
+              loading={loading}
+              contextLoading={contextLoading}
+              contextError={contextError}
+              rows={rows.filter(row => row.id !== pendingRejection?.id)}
               onChoose={(id: string) => { navigate("review"); choose(id); }}
+              onKnowledgeChoose={(id: string) => { navigate("ledger"); choose(id); }}
               onReview={() => navigate("review")}
               onLedger={() => navigate("ledger")}
               onAdmin={() => navigate("admin")}
@@ -707,6 +883,7 @@ function App() {
               onBack={backToReview}
               selected={selected}
               receipt={receipt}
+              detailError={detailError}
               loading={loading}
               onChoose={choose}
               onClose={() => {
@@ -718,6 +895,7 @@ function App() {
               setNote={setNote}
               onDecide={decide}
               busy={busy}
+              judgeRunning={judgeRunning}
               onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
               onEvaluate={runChecks}
               onConfigurePolicy={showAdmin}
@@ -740,6 +918,13 @@ function App() {
               onChoose={choose}
             />
           )}
+          {page === "runs" && <RunsPage rows={runs} selected={selectedRun} loading={runsLoading}
+            onChoose={async (id: string) => {
+              setRunsLoading(true);
+              try { setSelectedRun(await api(`/owner/api/runs/${encodeURIComponent(id)}`)); }
+              catch (e: any) { setError(`Run could not load: ${e.message}`); }
+              finally { setRunsLoading(false); }
+            }} onClose={() => setSelectedRun(null)} />}
           {page === "activity" && <ActivityPage rows={activity} />}
           {page === "admin" && (
             <AdminPage
@@ -756,7 +941,7 @@ function App() {
       </main>
       {judgeMessage && page === "review" && <div className="judgeProgress" role="status">{judgeMessage}<button aria-label="Dismiss LM review status" onClick={()=>setJudgeMessage("")}><X /></button></div>}
       <Dialog.Root open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
-        <ModalSurface><Dialog.Title>Review evidence with LM</Dialog.Title><Dialog.Description>Send this conclusion and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</Dialog.Description><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run LM review</Button></div></ModalSurface>
+        <ModalSurface><Dialog.Title>Review evidence with LM</Dialog.Title><Dialog.Description>Send this claim and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</Dialog.Description><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run LM review</Button></div></ModalSurface>
       </Dialog.Root>
     </div>
   );
@@ -781,18 +966,46 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ pending, admitted, rows, onReview, onLedger, onAdmin, onChoose }: any) {
+function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, contextError, onReview, onLedger, onAdmin, onChoose, onKnowledgeChoose }: any) {
+  const queue = rows.filter((row: NodeRow) => ["needs_review", "unresolved"].includes(row.state));
+  const next = queue[0];
+  const recentKnowledge = [...eligible].sort((a: NodeRow, b: NodeRow) => (b.created_at || "").localeCompare(a.created_at || "")).slice(0, 4);
   return (
-    <div className="pageBody">
+    <div className="pageBody workspaceHome">
       <PageHead
-        title="Governed knowledge at a glance"
-        description="Review candidate conclusions before they become reusable, then inspect the evidence behind admitted knowledge."
+        title="Your knowledge workspace"
+        description="Decide what enters. Find what you can rely on. Keep the evidence in reach."
       />
-      <ol className="knowledgePath" aria-label="How knowledge moves through Proofpress">
+      <div className="homeWorkGrid">
+        <section className="homeReview" aria-labelledby="home-review-title">
+          <div className="sectionTitle"><h2 id="home-review-title">Needs your decision</h2><span>{loading ? "Loading…" : `${queue.length} to review`}</span></div>
+          {loading ? <p role="status">Loading candidate claims…</p> : next ? <>
+            <article className="nextClaim">
+              <Badge state={next.state} />
+              <h3>{claimDisplayTitle(next)}</h3>{hasDistinctClaimHeading(next) && <p className="claimBodyPreview">{next.label}</p>}
+              <dl><dt>Proposed use</dt><dd>{next.applicability?.title || next.applicability?.description || next.scope || "Not recorded"}</dd></dl>
+              <p>Inspect the evidence and usage conditions before making a decision.</p>
+              <Button onClick={() => onChoose(next.id)}>Review this claim <ChevronRight /></Button>
+            </article>
+            {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <button key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><ChevronRight /></button>)}</div>}
+            <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}<ChevronRight /></Button>
+          </> : <div className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></div>}
+          {rows.some((r: NodeRow) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
+        </section>
+        <section className="homeKnowledge" aria-labelledby="home-knowledge-title">
+          <div className="sectionTitle"><h2 id="home-knowledge-title">Available knowledge</h2><span>{contextLoading ? "Loading…" : contextError ? "Unavailable" : `${admitted} current`}</span></div>
+          <p>Admitted and eligible for this owner view. Each agent’s access is checked separately.</p>
+          {contextLoading ? <p role="status">Loading current knowledge…</p> : contextError ? <p role="alert">Knowledge could not be loaded. Use Reload workspace to retry.</p> : recentKnowledge.length ? <div className="homeKnowledgeList">{recentKnowledge.map((row: NodeRow) => <button key={row.id} onClick={() => onKnowledgeChoose(row.id)}><strong>{claimDisplayTitle(row)}</strong>{hasDistinctClaimHeading(row) && <p className="claimBodyPreview">{row.label}</p>}<span>{row.applicability?.title || row.applicability?.description || row.scope || "Applicability not recorded"}</span><ChevronRight /></button>)}</div> : <div className="emptyState"><strong>No claims are available for reuse</strong><p>Approved claims appear here when they are current and eligible.</p></div>}
+          <Button variant="outline" onClick={onLedger}>Browse knowledge <BookOpen /></Button>
+        </section>
+      </div>
+      {!loading && !rows.length && <section className="homeGettingStarted"><div><h2>No claims yet</h2><p>Connect an agent to submit evidence and propose the first claim. Nothing becomes reusable without your approval.</p></div><Button variant="outline" onClick={onAdmin}>Manage agent access</Button></section>}
+      <details className="homeLifecycle"><summary>How claims move through Proofpress</summary>
+      <ol className="claimsPath" aria-label="How claims move through Proofpress">
         <li>
           <span>Candidate</span>
           <strong>Agents propose</strong>
-          <p>Evidence and a scoped conclusion enter the review queue.</p>
+          <p>Evidence and a scoped claim enter the review queue.</p>
         </li>
         <li>
           <span>Review</span>
@@ -800,45 +1013,12 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onAdmin, onChoo
           <p>Inspect the evidence, checks, recommendation, and reuse boundary.</p>
         </li>
         <li>
-          <span>Current knowledge</span>
-          <strong>Approved conclusions become reusable</strong>
+          <span>Current claims</span>
+          <strong>Approved claims become reusable</strong>
           <p>Eligibility is still checked for each scope and identity.</p>
         </li>
       </ol>
-      <div className="orientation">
-        <button className="reviewOrientation" onClick={onReview} aria-label={`${pending} candidate conclusions need review`}>
-          <span>Review queue</span>
-          <strong>{pending}</strong>
-          <small>{pending ? "Candidate conclusions remain excluded until you decide" : "You are caught up; new candidates remain excluded until approval"}</small>
-          <ChevronRight />
-        </button>
-        <button className="admittedOrientation" onClick={onLedger} aria-label={`${admitted} conclusions are current knowledge`}>
-          <span>Current knowledge</span>
-          <strong>{admitted}</strong>
-          <small>Admitted and eligible for this owner view</small>
-          <BookOpen />
-        </button>
-      </div>
-      <section className="section">
-        {rows.some((r: any) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: any) => r.state === "needs_revision").id)}>{rows.filter((r: any) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
-        <div className="sectionTitle">
-          <h2>Recent conclusions</h2>
-          <span>{rows.length} total conclusions</span>
-        </div>
-        {rows.length ? <div className="simpleList">
-          {rows.slice(0, 6).map((r: any) => (
-            <div key={r.id} role="button" tabIndex={0} onClick={() => onChoose(r.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onChoose(r.id); } }}>
-              <Badge state={r.state} />
-              <b>{r.label}</b>
-              <small>{r.scope || "Workspace"}</small>
-            </div>
-          ))}
-        </div> : <div className="emptyState">
-          <strong>No conclusions yet</strong>
-          <p>Connect an agent to submit evidence and propose the first conclusion. Nothing becomes reusable without your approval.</p>
-          <Button variant="outline" onClick={onAdmin}>Manage agent access</Button>
-        </div>}
-      </section>
+      </details>
     </div>
   );
 }
@@ -853,51 +1033,61 @@ function ReviewPage({
   setNote,
   onDecide,
   busy,
+  judgeRunning,
   onJudge, onEvaluate, onConfigurePolicy,
-  fullReview, onOpenFull, onBack, onLedger,
+  fullReview, onOpenFull, onBack, onLedger, detailError,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
+  const [reviewPage, setReviewPage] = React.useState(0);
+  const pageSize = 20;
   const queueFor = (state: string) => state === "unresolved" ? "needs_review" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
-  React.useEffect(() => { if (selected && receipt?.conclusion.id === selected) setQueue(queueFor(receipt.state)); }, [selected, receipt?.state]);
-  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
-  const switchQueue = (next: string) => { onClose(); setQueue(next); };
+  React.useEffect(() => { if (selected && receipt?.claim.id === selected) { setQueue(queueFor(receipt.state)); setReviewPage(0); } }, [selected, receipt?.state]);
+  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue).sort((left: any, right: any) => {
+    const leftTime = Date.parse(queue === "decided" ? left.decision_at || left.created_at || "" : left.created_at || "");
+    const rightTime = Date.parse(queue === "decided" ? right.decision_at || right.created_at || "" : right.created_at || "");
+    return (Number.isFinite(rightTime) ? rightTime : 0) - (Number.isFinite(leftTime) ? leftTime : 0) || right.id.localeCompare(left.id);
+  });
+  const pageCount = Math.max(1, Math.ceil(visibleRows.length / pageSize));
+  const currentPage = Math.min(reviewPage, pageCount - 1);
+  const pageRows = visibleRows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+  const switchQueue = (next: string) => { onClose(); setQueue(next); setReviewPage(0); };
   return (
     <div className={`workspacePage reviewWorkspace${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
           title="Review"
-          description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
+          description="Evidence and recommendations inform the decision. Only your approval admits claims."
         />
         <div className="filterbar">
           <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review</Button>
           <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision</Button>
           <Button variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history</Button>
-          <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} conclusions`}</span>
+          <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} claims`}</span>
         </div>
-        <div className="tableWrap">
-          <table>
+        <div className="tableWrap reviewTableWrap">
+          <table className="reviewTable">
             <thead>
               <tr>
-                <th>Conclusion</th>
+                <th>Claim</th>
                 <th>Status</th>
-                <th>Scope</th>
+                <th>Applicability</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              {visibleRows.map((row: any) => (
+              {pageRows.map((row: any) => (
                 <tr
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
                   onClick={() => onChoose(row.id)}
                 >
-                  <td>
-                    <button className="conclusionSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.label}</button>
-                    <small>{row.id}</small>
+                  <td data-label="Claim">
+                    <button className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{claimDisplayTitle(row)}</button>
+                    <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
                   </td>
-                  <td><Badge state={row.state} /></td>
-                  <td>{row.scope || "—"}</td>
-                  <td>
+                  <td data-label="Status"><Badge state={row.state} /></td>
+                  <td className="reviewScopeCell" data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
+                  <td aria-label="Open claim">
                     <ChevronRight />
                   </td>
                 </tr>
@@ -907,20 +1097,27 @@ function ReviewPage({
           {!loading && visibleRows.length === 0 && (
             <div className="emptyState reviewEmpty">
               <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_revision" ? "No revision requests" : "No decisions yet"}</strong>
-              <p>{queue === "needs_review" ? "New candidate conclusions will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised conclusion is submitted." : "Your approval, rejection, and revision decisions will appear here."}</p>
-              {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current knowledge</Button>}
+              <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : "Your approval, rejection, and revision decisions will appear here."}</p>
+              {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current claims</Button>}
             </div>
           )}
         </div>
+        {!loading && visibleRows.length > 0 && <nav className="pagination reviewPagination" aria-label={`${queue === "decided" ? "Decision history" : "Review queue"} pages`}>
+          <Button variant="outline" disabled={currentPage === 0} onClick={() => setReviewPage(currentPage - 1)}>Previous</Button>
+          <span>Page {currentPage + 1} of {pageCount} · {visibleRows.length} {queue === "decided" ? "decisions" : "claims"} · {pageSize} per page</span>
+          <Button variant="outline" disabled={currentPage + 1 >= pageCount} onClick={() => setReviewPage(currentPage + 1)}>Next</Button>
+        </nav>}
       </div>
       <Inspector
         pending={!!selected && !receipt}
+        detailError={detailError}
         receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
         onClose={onClose}
         note={note}
         setNote={setNote}
         onDecide={onDecide}
         busy={busy}
+        judgeRunning={judgeRunning}
         onJudge={onJudge}
         onEvaluate={onEvaluate}
         onConfigurePolicy={onConfigurePolicy}
@@ -932,6 +1129,30 @@ function ReviewPage({
     </div>
   );
 }
+function ReviewFact({label,value,tone="",className=""}:any){
+  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong></CardContent></Card>;
+}
+
+function ApplicabilityPanel({claim, compact = false}: {claim: Receipt["claim"]; compact?: boolean}) {
+  const relevant = claim.applicability?.when_relevant || [];
+  const conditions = claim.applicability?.validity_conditions || [];
+  return <section className="applicabilityPanel space-y-4" aria-label="Applicability and conditions">
+    <div className="space-y-1.5">
+      <h3 className="font-['DM_Sans'] text-base font-semibold leading-6 text-[var(--ink)]">{reuseBoundary(claim)}</h3>
+      {claim.applicability?.description && claim.applicability.description !== reuseBoundary(claim) && <p className="max-w-[65ch] font-['DM_Sans'] text-sm leading-6 text-[var(--ink-2)]">{claim.applicability.description}</p>}
+    </div>
+    <div className={compact ? "grid gap-3" : "grid gap-3 md:grid-cols-2"}>
+      <Card className="shadow-none"><CardContent className="space-y-2 p-5">
+        <h4 className="font-['DM_Sans'] text-sm font-semibold text-[var(--ink)]">Relevant when</h4>
+        {relevant.length ? <ul className="space-y-2 pl-5 font-['DM_Sans'] text-sm leading-6 text-[var(--ink-2)]">{relevant.map((item, i) => <li key={i}>{item}</li>)}</ul> : <p className="font-['DM_Sans'] text-sm text-[var(--ink-2)]">Not recorded</p>}
+      </CardContent></Card>
+      <Card className="shadow-none"><CardContent className="space-y-2 p-5">
+        <h4 className="font-['DM_Sans'] text-sm font-semibold text-[var(--ink)]">Validity conditions</h4>
+        {conditions.length ? <ul className="space-y-2 pl-5 font-['DM_Sans'] text-sm leading-6 text-[var(--ink-2)]">{conditions.map((item, i) => <li key={i}>{item}</li>)}</ul> : <p className="font-['DM_Sans'] text-sm text-[var(--ink-2)]">Not recorded</p>}
+      </CardContent></Card>
+    </div>
+  </section>;
+}
 function Inspector({
   receipt: r,
   onClose,
@@ -939,61 +1160,78 @@ function Inspector({
   setNote,
   onDecide,
   busy,
+  judgeRunning = false,
   onJudge, onEvaluate,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false,
+  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false, detailError = "",
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     setExpanded(false);
     panel.current?.scrollTo({top: 0, behavior: "auto"});
-  }, [r?.conclusion.id]);
+  }, [r?.claim.id]);
   React.useEffect(() => {
     if (!r || !window.matchMedia("(max-width: 899px)").matches) return;
-    const opener = document.querySelector<HTMLElement>(".work tr.selected .conclusionSelect") || document.activeElement as HTMLElement | null;
+    const opener = document.querySelector<HTMLElement>(".work tr.selected .claimSelect") || document.activeElement as HTMLElement | null;
     panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
-  }, [r?.conclusion.id]);
-  if (!r) return pending ? <aside className="inspector" aria-label="Conclusion details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
+  }, [r?.claim.id]);
+  if (!r) {
+    if (detailError) return <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details"><div className="missingConclusion"><strong>Claim not found</strong><p>{detailError}</p><Button variant="outline" onClick={fullReview ? onBack : onClose}>Back to review queue</Button></div></aside>;
+    return pending ? <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
+  }
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
-  const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The conclusion has expired","not superseded":"The conclusion was superseded","scope present":"A reuse scope is missing"} as Record<string,string>)[name] || `${name} did not pass`;
-  const checksMissing = !r.evaluation || (r.review_policy && !r.review_policy.checks_current);
+  const checkReason = (name:string) => ({"evidence present":"Required evidence missing","evidence integrity":"Evidence integrity unverified","experiment evidence present":"Typed experiment evidence missing","experiment evidence valid":"Experiment evidence invalid","experiment identity bound":"Experiment identity unbound","not expired":"Claim expired","not superseded":"Claim superseded","reuse boundary present":"Reuse boundary missing"} as Record<string,string>)[name] || `${name} failed`;
+  const checksMissing = !Object.keys(r.evaluation?.checks || {}).length || (r.review_policy && !r.review_policy.checks_current);
   const judgeNeedsSetup = r.review_policy?.mode === "off";
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
-  const judgeFailed = ["failed", "interrupted"].includes(r.judge_job?.state);
-  const approvalBlock = !r.evaluation ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(". ") + "." : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
+  const judgeInProgress = judgeRunning || (!r.recommendation && ["queued", "running"].includes(r.judge_job?.state));
+  const judgeFailed = !r.recommendation && ["failed", "interrupted"].includes(r.judge_job?.state);
+  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting LM advice. Refresh the LM review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The LM marked this claim Needs Attention. This workspace requires supporting LM advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The LM found that the evidence does not support this claim. This workspace requires supporting LM advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting LM advice before approval." : "";
+  const evidenceRows = r.evidence || [];
+  const previewEvidence = evidenceRows.slice(0, 2);
+  const claimTitle = claimDisplayTitle(r.claim);
+  const claimDescription = r.claim.applicability?.description || "";
+  const hasConciseHeading = hasDistinctClaimHeading(r.claim);
+  const InspectorHeader: any = fullReview ? Card : "div";
   return (
-    <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
+    <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
-      {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
+      {fullReview && <Button className="fullReviewBack" variant="ghost" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
       </button>}
-      <div className="inspectorTop">
-        <Badge state={r.state} />
+      <InspectorHeader className="inspectorTop">
+        {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
-        <h2>{r.conclusion.statement}</h2>
+        {fullReview ? <h1 className="fullStatement">{claimTitle}</h1> : <h2>{claimTitle}</h2>}
+        {claimDescription && <p className="claimDescription">{claimDescription}</p>}
+        {hasConciseHeading && <details className="claimStatementDetails"><summary>Exact claim statement</summary><p className="claimFullStatement">{r.claim.statement}</p></details>}
         <p>
-          Proposed by {r.conclusion.proposer || "agent"} ·{" "}
-          <span className="mono">{r.conclusion.id}</span>
+          Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
+          <span className="mono">{r.claim.id}</span>
         </p>
-      </div>
+        {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button>)}
+      </InspectorHeader>
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
-        <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
+        {fullReview ? <div className="reviewFactsGrid">
+          <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
+          <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
+          {can && <><ReviewFact label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""} /><ReviewFact label="LM advice · advisory" value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
+        </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
-        {!fullReview && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>
-        {can && <div className="decisionStack"><div><strong>Automated checks</strong><span className={r.evaluation ? (failedChecks.length ? "fail" : "pass") : ""}>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
+        {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
+        {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
+        {can && !fullReview && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd></div><div><dt>LM advice · advisory</dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
-        {r.judge_job && ["failed","interrupted","blocked"].includes(r.judge_job.state) && <p>{r.judge_job.detail}</p>}
-        {can && <div className="reviewActions">
+        {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
+        {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
-            : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
             : <>
-              {onOpenFull && !fullReview && <Button variant="approve" onClick={onOpenFull}>Open full review</Button>}
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
                 ? <Button variant="outline" onClick={onConfigurePolicy}>Set up LM review</Button>
                 : judgeFailed && onJudge
@@ -1004,29 +1242,28 @@ function Inspector({
                       ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional LM review</Button>
                       : null}
             </>}
-          {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+          {r.recommendation && onJudge && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+          {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
           <div className="evidenceArgumentHead">
-            <h3 id="evidence-argument-title">Evidence for this conclusion</h3>
-            <span>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</span>
+            <h3 id="evidence-argument-title">Evidence for this claim</h3>
+            <span>{previewEvidence.length < evidenceRows.length ? `${previewEvidence.length} of ${evidenceRows.length} sources` : `${evidenceRows.length} ${evidenceRows.length === 1 ? "source" : "sources"}`}</span>
           </div>
-          {(r.evidence || []).length ? <div className="evidenceArgumentList">{(r.evidence || []).slice(0, 2).map((e: any, i: number) => <article key={e.id || i}>
-            <span>Source {String(i + 1).padStart(2, "0")}</span>
-            <strong>{evidenceName(e)}</strong>
-            <p>{evidenceText(e)}</p>
-          </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This conclusion cannot be approved.</p>}
-          <div className="reuseBoundary">
-            <span>Proposed reuse boundary</span>
-            <strong>{r.conclusion.scope || "No scope recorded"}</strong>
-            <p>{approvalBlock ? "This conclusion remains excluded until every required condition passes." : "Approval would make this conclusion eligible within this scope; each agent is still checked separately."}</p>
-          </div>
+          {evidenceRows.length ? <div className="evidenceArgumentList">{previewEvidence.map((e: any, i: number) => <article key={e.id || i}>
+            <strong title={evidenceName(e)}>{evidenceName(e)}</strong>
+            <EvidencePreview row={e} />
+          </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
-        {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
+        {can && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="applicability"><AccordionTrigger>Applicability & conditions</AccordionTrigger><AccordionContent className="pt-2"><ApplicabilityPanel claim={r.claim} /></AccordionContent></AccordionItem></Accordion> : <Card className="m-5 shadow-none"><CardContent className="p-5"><ApplicabilityPanel claim={r.claim} compact /></CardContent></Card>)}
+        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">LM rationale <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
+        {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
       {(fullReview || expanded) && <>
-      {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
+      {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.claim.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
+      {r.reproposal_parent && <details className="revisionDisclosure"><summary><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></summary><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></details>}
+      {!!r.reproposals?.length && <section className="revisionSection"><h3>Re-proposals after this rejection</h3><p>These are separate candidates. The rejection above remains part of the append-only history.</p>{r.reproposals.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose?.(candidate.id)}>{candidate.statement} · {candidate.state.replaceAll("_", " ")}</Button>)}</section>}
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
@@ -1040,8 +1277,8 @@ function Inspector({
                 <ShieldCheck />
                 <b>{evidenceName(e)}</b>
               </div>
-              <EvidenceContent row={e} />
-              <small>Bound to this conclusion</small>
+              <EvidenceContent row={e} collapsible={fullReview} />
+              <small>Bound to this claim</small>
             </article>
           ))}
           {!(r.evidence || []).length && (
@@ -1073,10 +1310,7 @@ function Inspector({
             <span>LM advice</span>
             {r.recommendation ? <Badge state={r.recommendation.recommendation} /> : <b>No recommendation recorded</b>}
             {r.recommendation?.model && <small>{r.recommendation.model} · {r.recommendation.judge}</small>}
-            <p>
-              {r.recommendation?.rationale ||
-                ""}
-            </p>
+            {r.recommendation && <p>Read the complete advisory rationale in the review summary above.</p>}
           </div>
         </Tabs.Content>
         <Tabs.Content value="history" className="tabContent">
@@ -1085,7 +1319,7 @@ function Inspector({
               <span></span>
               <div>
                 <b>{h.type.replaceAll("_", " ")}</b>
-                <p>{historyActor({...([r.evaluation, r.recommendation, r.review, r.admission, r.rejection].find(event => event?.event_id === h.event_id) || {}), ...(h.type === "conclusion_proposed" ? {conclusion:r.conclusion} : {}), ...h})}</p>
+                <p>{historyActor({...([r.evaluation, r.recommendation, r.review, r.admission, r.rejection].find(event => event?.event_id === h.event_id) || {}), ...(h.type === "claim_proposed" ? {claim:r.claim} : {}), ...h})}</p>
                 {h.note && <p>{h.note}</p>}
                 <small>{h.created_at}</small>
               </div>
@@ -1095,13 +1329,21 @@ function Inspector({
       </Tabs.Root>
       </>}
       {can && (!onOpenFull || fullReview) ? (
-        <div className="decision">
-          <textarea
-            aria-label="Review note or bounded clarification request"
+        <Card className="decision">
+          <div className="decisionHeading">
+            <span>Owner decision</span>
+            <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
+          </div>
+          <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
+          <Textarea
+            id={`decision-note-${r.claim.id}`}
+            aria-label="Reason for rejection or bounded clarification request"
+            aria-required="true"
             value={note}
             onChange={(e) => setNote(e.target.value)}
-            placeholder="Review note or bounded clarification request"
+            placeholder="Explain why the evidence does not support this claim, or describe a bounded change."
           />
+          <small className="decisionHint">A reason is required for Reject and Request changes, so a future re-proposal can address it.</small>
           <div>
             <Button
               variant="danger"
@@ -1125,126 +1367,37 @@ function Inspector({
               Approve
             </Button>
           </div>
-        </div>
+        </Card>
       ) : null}
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
-  const [view, setView] = React.useState("list");
-  const [focused, setFocused] = React.useState(false);
-  const [graphSelection, setGraphSelection] = React.useState("conclusion");
-  const available = new Set(rows.map((row: any) => row.id));
-  const awaitingReview = allRows.filter((row: any) => ["needs_review", "needs_revision", "unresolved"].includes(row.state));
-  const reviewCounts = awaitingReview.reduce((counts: Record<string, number>, row: any) => {
-    const state = row.state || "unresolved";
-    counts[state] = (counts[state] || 0) + 1;
-    return counts;
-  }, {});
-  const reviewLabels: Record<string, string> = {
-    needs_review: "need review",
-    needs_revision: "need revision",
-    unresolved: "need revalidation",
-  };
-  const reviewSummary = Object.entries(reviewCounts).map(([state, count]) => `${count} ${reviewLabels[state] || "need attention"}`).join(" · ");
-  const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
-  const visibleIds = new Set(rows.map((row: any) => row.id));
-  const links = relations.filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
-  const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
-  const focus = (id: string) => { setFocused(true); setGraphSelection("conclusion"); onChoose(id); };
-  const viewLineage = () => { setView("lineage"); setGraphSelection("conclusion"); };
-  React.useEffect(() => { setGraphSelection("conclusion"); }, [selected]);
-  return (
-    <div className={`workspacePage${focused ? "" : " overviewOnly"}`}>
-      <div className="work">
-        <PageHead
-          title="Ledger"
-          description="Browse the knowledge currently eligible for reuse, then inspect the evidence and decisions behind each conclusion."
-        />
-        <section className="contextBoundarySummary" aria-label="Current governed context boundary">
-          <div className="availableKnowledge">
-            <span>Available now</span>
-            <strong>{rows.length} current {rows.length === 1 ? "conclusion" : "conclusions"}</strong>
-            <p>Admitted and eligible for this owner view. Agent access remains scope- and credential-specific.</p>
-          </div>
-          <div className="awaitingKnowledge">
-            <span>Needs review</span>
-            <strong>{awaitingReview.length} candidate {awaitingReview.length === 1 ? "conclusion" : "conclusions"}</strong>
-            <p>{reviewSummary || "No candidate conclusions need attention."}</p>
-          </div>
-        </section>
-        <div className="ledgerViews" role="group" aria-label="Ledger view">
-          <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
-          <Button aria-pressed={view === "lineage"} variant="outline" disabled={!current} onClick={viewLineage}>Selected lineage</Button>
-        </div>
-        {view === "lineage" && <p className="graphScrollHint">Scroll sideways to explore the graph.</p>}
-        {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
-          <div className="lineageToolbar">
-            <Button variant="outline" onClick={() => { setView("list"); setFocused(false); }}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to current knowledge</Button>
-          </div>
-          {focused && current ? <><LineageGraph receipt={current} available={available.has(selected)} evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} /><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
-            const other = rows.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
-            return other ? <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button> : null;
-          }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <div className="empty">{detailError ? <><p>Could not load this conclusion. No stale receipt is shown.</p><Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button></> : "Loading selected lineage…"}</div>}
-        </section>}
-        {view === "list" &&
-        <div className="tableWrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Current conclusion</th>
-                <th>Scope</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r: any) => (
-                <tr
-                  key={r.id}
-                  className={selected === r.id ? "selected" : ""}
-                  onClick={() => focus(r.id)}
-                >
-                  <td>
-                    <button className="conclusionSelect" onClick={e => { e.stopPropagation(); focus(r.id); }}>{r.label}</button>
-                    <small>{r.id}</small>
-                  </td>
-                  <td>{r.scope || "—"}</td>
-                  <td>
-                    <Badge state={r.state} />
-                  </td>
-                  <td>
-                    <ChevronRight />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {rows.length === 0 && (
-            loading || contextError ? <div className="empty">
-              {loading ? "Loading eligible knowledge…" : "Current knowledge could not be loaded. Use Reload workspace to retry."}
-            </div> : <div className="emptyState ledgerEmpty">
-              <strong>No knowledge is available for reuse</strong>
-              <p>A conclusion appears here only after human approval and when it is eligible for this owner view.</p>
-              <Button variant="outline" onClick={onReview}>Review candidate conclusions</Button>
-            </div>
-          )}
-        </div>
-        }
-      </div>
-      {focused && current && graphSelection !== "conclusion" ? <aside className="inspector graphInspector" aria-label="Selected node details"><Button variant="outline" onClick={() => setGraphSelection("conclusion")}>Back to conclusion</Button>{graphSelection === "context" ? <><h2>{available.has(selected) ? "Available for reuse" : "Excluded from context"}</h2><p>Scope: {current.conclusion.scope}</p><p>{available.has(selected) ? "Admitted, current, and eligible for the signed-in owner. Each agent's permissions are checked separately." : "This conclusion is not eligible for the current owner context."}</p></> : <><h2>{evidenceName(current.evidence[Number(graphSelection.split(":")[1])])}</h2><EvidenceContent row={current.evidence[Number(graphSelection.split(":")[1])]} /></>}</aside> : <Inspector
-        receipt={focused ? current : null}
-        pending={focused && !current && !detailError}
-        onClose={() => setFocused(false)}
-        readOnly
-        note=""
-        setNote={() => {}}
-        onDecide={() => {}}
-        busy={false}
-        onViewLineage={viewLineage}
-      />}
+function LedgerPage(props: any) {
+  return <KnowledgeLibrary {...props} evidenceName={evidenceName} renderEvidence={(row: any) => <EvidenceContent row={row} />} />;
+}
+function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
+  const when = (value?: string) => value ? new Date(value).toLocaleString() : "—";
+  return <div className="pageBody runsPage">
+    <PageHead title="Runs" description="Trace each task from retrieved knowledge through declared reliance, outputs, and observed results." />
+    <div className={`runsWorkspace${selected ? " hasRun" : ""}`}>
+      <section className="runList" aria-busy={loading}>
+        {rows.map((run: any) => <button key={run.id} className={selected?.id === run.id ? "active" : ""} onClick={() => onChoose(run.id)}>
+          <span><Badge state={run.status} /><time>{when(run.started_at)}</time></span>
+          <strong>{run.purpose}</strong>
+          <small>{run.actor} · {run.counts?.retrieved || 0} receipts · {run.counts?.outputs || 0} outputs</small>
+        </button>)}
+        {!loading && !rows.length && <div className="empty"><h2>No runs recorded</h2><p>Agent-tracked tasks appear here after run.start.</p></div>}
+      </section>
+      {selected && <article className="runDetail">
+        <header><div><Badge state={selected.status} /><h2>{selected.purpose}</h2><p>{selected.actor} · started {when(selected.started_at)}{selected.finished_at ? ` · finished ${when(selected.finished_at)}` : ""}</p></div><Button variant="outline" onClick={onClose}>Close</Button></header>
+        {selected.finish_summary && <p className="runSummary">{selected.finish_summary}</p>}
+        <section><h3>Retrieved context</h3>{selected.context_receipts?.length ? selected.context_receipts.map((receipt: any) => <div className="runRecord" key={receipt.id}><b>{receipt.claims.length} claim versions</b><small className="mono">{receipt.id}</small>{receipt.claims.map((claim: any) => <details key={`${claim.claim_id}:${claim.claim_digest}`}><summary>{claim.title || claim.statement}</summary><p>{claim.statement}</p><code>{claim.claim_id} · {claim.claim_digest}</code></details>)}<details className="technicalDetails"><summary>Technical receipt</summary><code>Ledger {receipt.ledger_head || "empty"}</code><code>Policy {receipt.policy_digest}</code></details></div>) : <p className="empty">No context receipts recorded.</p>}</section>
+        <section><h3>Declared reliance</h3>{selected.reliances?.length ? selected.reliances.map((row: any) => <div className="runRecord" key={row.id}><b>{row.purpose}</b><code>{row.claim_id} · {row.claim_digest}</code></div>) : <p className="empty">No reliance declared. Retrieved context is not treated as used.</p>}</section>
+        <section><h3>Outputs</h3>{selected.outputs?.length ? selected.outputs.map((row: any) => <div className="runRecord" key={row.id}><b>{row.summary || "Output reference"}</b><code>{row.reference}</code><code>{row.content_digest}</code>{row.reliance_ids?.length ? <small>{row.reliance_ids.length} declared reliance link(s)</small> : null}</div>) : <p className="empty">No outputs recorded.</p>}</section>
+        <section><h3>Observations</h3>{selected.observations?.length ? selected.observations.map((row: any) => <div className="runRecord" key={row.id}><span><Badge state={row.kind} /><time>{when(row.observed_at)}</time></span><b>{row.meaning}</b><small>Source: {row.source}</small></div>) : <p className="empty">No observations recorded. Proofpress does not infer a score.</p>}</section>
+      </article>}
     </div>
-  );
+  </div>;
 }
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
@@ -1264,10 +1417,10 @@ function ActivityPage({ rows }: any) {
     <div className="pageBody">
       <PageHead
         title="Activity"
-        description="Who contributed knowledge, reviewed it, and retrieved context. Technical requests are kept separately."
+        description="Who contributed claims, reviewed it, and retrieved context. Technical requests are kept separately."
       />
       <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
-        {[["activity","Knowledge activity"],["retrievals","Context retrievals"],["logs","Technical logs"]].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");}}>{label}</Button>)}
+        {[["activity","Claims activity"],["retrievals","Context retrievals"],["logs","Technical logs"]].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");}}>{label}</Button>)}
       </div>
       {error && <p role="alert">{error}</p>}
       <div className="tableWrap activityTable">
@@ -1275,7 +1428,7 @@ function ActivityPage({ rows }: any) {
         {filtered.slice(current * 20, (current + 1) * 20).map((r: any) => (
           <tr key={r.id || r.audit_id}>
             <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
-            <td data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?conclusion_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <details><summary>Details</summary><p>{r.detail}</p></details>}{r.scope && <small>{r.scope}</small>}</>}</td>
+            <td data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?claim_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <details><summary>Details</summary><p>{r.detail}</p></details>}{r.scope && <small>{r.scope}</small>}</>}</td>
             <td data-label="Actor">{r.actor || r.principal_id || "Actor not recorded"}{r.model && <small>{r.model}</small>}{r.initiator && r.initiator!==r.actor && <small>Requested by {r.initiator}</small>}</td>
             <td data-label="Result">{view==="logs" ? <ActivityResult outcome={r.outcome} /> : <Badge state={r.outcome} />}</td>
           </tr>
@@ -1321,7 +1474,7 @@ function AdminPage({
     <div className="pageBody">
       <PageHead
         title="Admin"
-        description="Manage the agents that can propose knowledge and read governed context."
+        description="Configure review policy and manage agent access."
         action={null}
       />
       {policy}
@@ -1333,29 +1486,31 @@ function AdminPage({
           onAction("issue", { principal_id: principal, label });
         }}
       >
-        <div>
+        <div className="issueFormHeader">
           <b>Issue agent credential</b>
           <small>
             Create a key for an agent or device. You can revoke its access later.
           </small>
         </div>
-        <label>Agent identity<input
-          aria-label="Agent identity"
-          aria-describedby="agentIdentityHelp"
-          value={principal}
-          onChange={(e) => setPrincipal(e.target.value)}
-          placeholder="agent:claude-code"
-          required
-        /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
-        <label>Key name<input
-          aria-label="Key name"
-          aria-describedby="keyNameHelp"
-          value={label}
-          onChange={(e) => setLabel(e.target.value)}
-          placeholder="Claude Code · company laptop"
-          required
-        /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
-        <Button disabled={busy}>Issue credential</Button>
+        <div className="issueFormFields">
+          <label>Agent identity<Input
+            aria-label="Agent identity"
+            aria-describedby="agentIdentityHelp"
+            value={principal}
+            onChange={(e) => setPrincipal(e.target.value)}
+            placeholder="agent:claude-code"
+            required
+          /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
+          <label>Key name<Input
+            aria-label="Key name"
+            aria-describedby="keyNameHelp"
+            value={label}
+            onChange={(e) => setLabel(e.target.value)}
+            placeholder="Claude Code · company laptop"
+            required
+          /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
+          <Button disabled={busy}>Issue credential</Button>
+        </div>
       </form>
       {secret && (
         <div className="secretReveal">
@@ -1400,6 +1555,7 @@ function AdminPage({
               <div className="credentialActions">
                 <Button
                   variant="outline"
+                  size="sm"
                   disabled={busy}
                   onClick={() =>
                     onAction("rotate", { credential_id: c.credential_id })
@@ -1409,6 +1565,7 @@ function AdminPage({
                 </Button>
                 <Button
                   variant="danger"
+                  size="sm"
                   disabled={busy}
                   onClick={() =>
                     onAction("revoke", { credential_id: c.credential_id })
@@ -1428,8 +1585,8 @@ function AdminPage({
         <div>
           <b>Authority boundary</b>
           <p>
-            Agent credentials can submit evidence, propose conclusions, and read
-            admitted context. They cannot approve knowledge or change policy.
+            Agent credentials can submit evidence, propose claims, and read
+            admitted context. They cannot approve claims or change policy.
           </p>
         </div>
       </div>

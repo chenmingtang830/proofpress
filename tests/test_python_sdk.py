@@ -1,3 +1,5 @@
+import json
+import hashlib
 import os
 from pathlib import Path
 import subprocess
@@ -47,43 +49,124 @@ class PythonSDKTests(unittest.TestCase):
 
         imported = self.direct.import_evidence(
             FIXTURE, idempotency_key="sdk-import-001")
-        proposed = self.http.propose_conclusion(
+        proposed = self.http.propose_claim(
             "The SDK proposal remains governed until Human Approval",
             [imported["evidence"][0]], "sdk-test", "agent:sdk",
-            idempotency_key="sdk-propose-001")
-        conclusion_id = proposed["conclusion"]["id"]
-        evaluation = self.direct.evaluate_conclusion(conclusion_id)
+            idempotency_key="sdk-propose-001", title="Test claim")
+        claim_id = proposed["claim"]["id"]
+        evaluation = self.direct.evaluate_claim(claim_id)
         self.assertTrue(evaluation["eligible"])
-        reviewed = self.http.review_conclusion(
-            conclusion_id, "admit", "human:reviewer",
+        reviewed = self.http.review_claim(
+            claim_id, "admit", "human:reviewer",
             review_request_id="sdk-review-001",
             idempotency_key="sdk-review-envelope-001")
-        self.assertEqual(reviewed["result"]["type"], "conclusion_admitted")
+        self.assertEqual(reviewed["result"]["type"], "claim_admitted")
 
         direct_context = self.direct.context(scope="sdk-test", actor="agent:next")
         http_context = self.http.context(scope="sdk-test", actor="agent:next")
         self.assertEqual(http_context, direct_context)
-        self.assertEqual(direct_context["knowledge"][0]["id"], conclusion_id)
+        self.assertEqual(direct_context["governed_context"][0]["id"], claim_id)
 
     def test_revision_links_require_request_and_new_human_approval(self):
         refs = self.direct.import_evidence(FIXTURE)["evidence"][:1]
-        old = self.direct.propose_conclusion("Original finding", refs, "revision-test", "agent:sdk")["conclusion"]["id"]
+        old = self.direct.propose_claim("Original finding", refs, "revision-test", "agent:sdk", title="Test claim")["claim"]["id"]
         with self.assertRaises(self.sdk.ProofpressError):
-            self.direct.propose_conclusion("Premature revision", refs, "revision-test", "agent:sdk", qualifiers={"revision_of": old})
-        self.direct.review_conclusion(old, "request_changes", "human:reviewer", note="Specify the population.")
+            self.direct.propose_claim("Premature revision", refs, "revision-test", "agent:sdk", qualifiers={"revision_of": old}, title="Test claim")
+        self.direct.review_claim(old, "request_changes", "human:reviewer", note="Specify the population.")
         request = self.direct.review_receipt(old)["revision_request"]["event_id"]
         qualifiers = {"revision_of": old, "revision_request_ref": request}
         with self.assertRaises(self.sdk.ProofpressError):
-            self.direct.propose_conclusion("Cross-scope revision", refs, "other", "agent:sdk", qualifiers=qualifiers)
-        with self.assertRaises(self.sdk.ProofpressError):
-            self.direct.propose_conclusion("Stale request", refs, "revision-test", "agent:sdk", qualifiers={**qualifiers, "revision_request_ref": "missing"})
-        new = self.http.propose_conclusion("Finding for population A", refs, "revision-test", "agent:sdk", qualifiers=qualifiers)["conclusion"]["id"]
+            self.direct.propose_claim("Stale request", refs, "revision-test", "agent:sdk", qualifiers={**qualifiers, "revision_request_ref": "missing"}, title="Test claim")
+        new = self.http.propose_claim("Finding for population A", refs, "other", "agent:sdk", qualifiers=qualifiers, title="Test claim")["claim"]["id"]
         self.assertEqual(self.direct.review_receipt(new)["revision_parent"]["id"], old)
         self.assertEqual(self.direct.review_receipt(old)["revisions"][0]["id"], new)
-        self.assertEqual(self.direct.context(scope="revision-test")["knowledge"], [])
-        self.direct.review_conclusion(new, "admit", "human:reviewer")
-        self.assertEqual([row["id"] for row in self.direct.context(scope="revision-test")["knowledge"]], [new])
+        self.assertEqual(self.direct.context()["governed_context"], [])
+        self.direct.review_claim(new, "admit", "human:reviewer")
+        self.assertEqual([row["id"] for row in self.direct.context(scope="other")["governed_context"]], [new])
         self.assertEqual(self.direct.review_receipt(old)["state"], "needs_revision")
+
+    def test_reproposal_links_only_to_rejected_predecessor_and_needs_new_approval(self):
+        refs = self.direct.import_evidence(FIXTURE)["evidence"][:1]
+        pending = self.direct.propose_claim(
+            "Initial bounded finding", refs, "reproposal-test", "agent:sdk"
+        , title="Test claim")["claim"]["id"]
+
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "must be rejected"):
+            self.direct.propose_claim(
+                "Corrected too early", refs, "reproposal-test", "agent:sdk",
+                reproposal_of=pending, title="Test claim")
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "existing rejected"):
+            self.direct.propose_claim(
+                "Missing predecessor", refs, "reproposal-test", "agent:sdk",
+                reproposal_of="knw_missing", title="Test claim")
+
+        self.direct.review_claim(
+            pending, "reject", "human:reviewer", note="The statement was too broad.")
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "preserve the predecessor scope"):
+            self.direct.propose_claim(
+                "Corrected in the wrong scope", refs, "other", "agent:sdk",
+                reproposal_of=pending, title="Test claim")
+
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "at least one new evidence"):
+            self.direct.propose_claim(
+                "Still bound only to the old source", refs, "reproposal-test", "agent:sdk",
+                reproposal_of=pending,
+                qualifiers={"reproposal_response": "Claims to address the rejection."}, title="Test claim")
+        quote = "The bounded fixture result applies only to this recorded run."
+        new_ref = self.direct.submit_evidence({
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {"uri": "workspace://bounded-fixture-note.txt", "content_digest": "sha256:" + "c" * 64},
+            "evidence": {"quote": quote, "locator": {"kind": "text_span", "start": 0, "end": len(quote), "text_digest": "sha256:" + hashlib.sha256(quote.encode()).hexdigest()}},
+            "retrieval": {"adapter": "test", "version": "1", "query": "fixture boundary", "config_digest": "sha256:" + "d" * 64},
+        })["imported_evidence"][0]
+        with self.assertRaisesRegex(self.sdk.ProofpressError, "reproposal_response"):
+            self.direct.propose_claim(
+                "New evidence without a response", refs + [new_ref], "reproposal-test", "agent:sdk",
+                reproposal_of=pending, title="Test claim")
+
+        successor = self.http.propose_claim(
+            "Bounded finding for the recorded fixture only", refs + [new_ref],
+            "reproposal-test", "agent:sdk", reproposal_of=pending,
+            qualifiers={"reproposal_response": "The new source explicitly limits the finding to the recorded run."}
+        , title="Test claim")["claim"]["id"]
+        receipt = self.direct.review_receipt(successor)
+        self.assertEqual(receipt["state"], "needs_review")
+        self.assertEqual(receipt["reproposal_parent"]["id"], pending)
+        self.assertEqual(
+            receipt["reproposal_parent"]["rejection_reason"],
+            "The statement was too broad.")
+        self.assertEqual(receipt["reproposal_parent"]["new_evidence_refs"], [new_ref])
+        self.assertEqual(receipt["reproposal_parent"]["reproposal_response"],
+                         "The new source explicitly limits the finding to the recorded run.")
+        self.assertEqual(
+            self.direct.review_receipt(pending)["reproposals"][0]["id"], successor)
+        self.assertIn(
+            {"from": pending, "to": successor, "type": "re_proposed_as"},
+            self.direct.graph(scope="reproposal-test")["edges"])
+        self.assertEqual(self.direct.review_receipt(pending)["state"], "rejected")
+        self.assertEqual(self.direct.context(scope="reproposal-test")["governed_context"], [])
+
+        policy_dir = self.repo / ".proofpress"
+        policy_dir.mkdir(exist_ok=True)
+        judge_code = (
+            "import json,sys; p=json.load(sys.stdin); "
+            "assert p['reproposal_parent']['id']=='" + pending + "'; "
+            "assert p['reproposal_parent']['rejection_reason']=='The statement was too broad.'; "
+            "print(json.dumps({'recommendation':'accept','rationale':'evd fixture supports the bounded successor','adapter':'fixture'}))"
+        )
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "judge": {"identity": "judge:test-advisory",
+                      "command": [sys.executable, "-c", judge_code],
+                      "timeout_seconds": 5}
+        }))
+        self.direct.evaluate_claim(successor)
+        self.assertEqual(
+            self.direct.judge_claim(successor)["recommendation"], "accept")
+        self.direct.review_claim(successor, "admit", "human:reviewer")
+        self.assertEqual(
+            [row["id"] for row in self.direct.context(scope="reproposal-test")["governed_context"]],
+            [successor])
+        self.assertEqual(self.direct.review_receipt(pending)["state"], "rejected")
 
     def test_sdk_exposes_stable_errors_and_replay_metadata(self):
         first = self.http.import_evidence(
@@ -102,7 +185,7 @@ class PythonSDKTests(unittest.TestCase):
         self.assertFalse(raised.exception.retryable)
 
         with self.assertRaises(self.sdk.ProofpressError) as missing:
-            self.direct.evaluate_conclusion("missing")
+            self.direct.evaluate_claim("missing")
         self.assertEqual(missing.exception.code, "operation_rejected")
 
     def test_sdk_rejects_unsafe_transport_and_workspace_ambiguity(self):

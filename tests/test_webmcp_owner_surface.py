@@ -37,7 +37,7 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
     def test_approval_is_not_exposed_as_a_webmcp_tool(self):
         names = re.findall(r'name:\s*"([a-z_]+)"', self.page)
         self.assertNotIn("approve", names)
-        self.assertNotIn("approve_conclusion", names)
+        self.assertNotIn("approve_claim", names)
         self.assertNotIn("admit", names)
         self.assertIn("Human Approval is not exposed", self.page)
 

@@ -151,6 +151,15 @@ class QuickstartExampleTests(unittest.TestCase):
             "governance-threshold.jpg",
         ):
             self.assertTrue((ROOT / "assets" / "product" / image).is_file())
+        for image in (
+            "agent-knowledge-inflection.svg",
+            "product-architecture.svg",
+        ):
+            self.assertTrue((ROOT / "assets" / "architecture" / image).is_file())
+            self.assertIn(f"assets/architecture/{image}", readme)
+        self.assertNotIn("assets/product/category-map.jpg", readme)
+        self.assertNotIn("assets/product/governance-threshold.jpg", readme)
+        self.assertIn('uv tool install --with "mcp>=2,<3"', readme)
         self.assertFalse((ROOT / "docs" / "WEBMCP_HACKATHON_SUBMISSION.md").exists())
         self.assertIn("Portable handoff example", legacy_index)
 

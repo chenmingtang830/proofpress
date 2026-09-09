@@ -29,7 +29,7 @@ base commit + head commit + changed paths + diff digest + check receipts
                     bounded repository evidence bundle
                                   |
                                   v
-                 candidate conclusion + deterministic evaluation
+                 candidate claim + deterministic evaluation
                                   |
                                   v
                  independent human review before downstream reuse
@@ -91,9 +91,9 @@ proofpress repo bundle \
 [//]: # (ob:7d5873e2)
 [//]: # (ob:repository-dogfood-next-text)
 An SDK, localhost/hosted HTTP client, or MCP-capable agent imports this bundle,
-proposes a candidate conclusion, and runs deterministic evaluation. The helper
+proposes a candidate claim, and runs deterministic evaluation. The helper
 intentionally stops before Human Approval. The owner reviews the candidate in
-the review surface; only an admitted, current, in-scope conclusion is later
+the review surface; only an admitted, current, in-scope claim is later
 returned to a successor agent as governed context.
 
 [//]: # (ob:96dbd16b)

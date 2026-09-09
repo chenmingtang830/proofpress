@@ -1,0 +1,12 @@
+{
+  "name": "proofpress",
+  "version": "0.1.0",
+  "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
+  "author": {
+    "name": "Proofpress"
+  },
+  "homepage": "https://github.com/chenmingtang830/proofpress/tree/main/plugins/proofpress",
+  "repository": "https://github.com/chenmingtang830/proofpress",
+  "license": "Apache-2.0",
+  "keywords": ["governance", "evidence", "mcp", "human-approval"]
+}

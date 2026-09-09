@@ -1,6 +1,16 @@
-"""Canonical Proofpress command-line entry point."""
+"""Canonical CLI with isolated governed-run tracking and legacy portable flows."""
 
-from proofpress.legacy.portable import main
+import sys
+
+from proofpress.legacy.portable import main as portable_main
+
+
+def main(argv=None):
+    args = list(sys.argv[1:] if argv is None else argv)
+    if args[:1] == ["run"]:
+        from proofpress.run_tracking import main as run_main
+        return run_main(args[1:])
+    return portable_main(args)
 
 __all__ = ["main"]
 

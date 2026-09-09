@@ -194,7 +194,7 @@ def repo_qualifiers(bundle: dict[str, Any], claim_kind: str) -> dict[str, Any]:
                      "pull_request": bundle.get("pull_request")}}
 
 
-def propose_candidate(client, bundle_path: str | Path, *, statement: str,
+def propose_candidate(client, bundle_path: str | Path, *, title: str, statement: str,
                       claim_kind: str, scope: str, proposer: str,
                       idempotency_prefix: str) -> dict[str, Any]:
     """Import, propose, and evaluate; deliberately stop before Human Approval."""
@@ -204,14 +204,14 @@ def propose_candidate(client, bundle_path: str | Path, *, statement: str,
     evidence_refs = imported.get("imported_evidence")
     if not evidence_refs:
         raise ValueError("repo evidence import returned no imported_evidence")
-    proposal = client.propose_conclusion(
-        statement, evidence_refs, scope, proposer, profile="repo",
+    proposal = client.propose_claim(
+        statement, evidence_refs, scope, proposer, profile="repo", title=title,
         qualifiers=repo_qualifiers(bundle, claim_kind),
         idempotency_key=idempotency_prefix + ":proposal")
-    conclusion_id = proposal["conclusion"]["id"]
-    evaluation = client.evaluate_conclusion(
-        conclusion_id, idempotency_key=idempotency_prefix + ":evaluation")
-    return {"candidate": proposal["conclusion"], "evaluation": evaluation,
+    claim_id = proposal["claim"]["id"]
+    evaluation = client.evaluate_claim(
+        claim_id, idempotency_key=idempotency_prefix + ":evaluation")
+    return {"candidate": proposal["claim"], "evaluation": evaluation,
             "next": "independent Human Approval is required for admission"}
 
 

@@ -32,13 +32,17 @@ def main(argv=None):
     submit.add_argument("--idempotency-key")
     propose = subparsers.add_parser("propose")
     propose.add_argument("--statement", required=True)
+    propose.add_argument("--title", required=True, help="short claim heading, at most 120 characters")
     propose.add_argument("--evidence", action="append", required=True)
-    propose.add_argument("--scope", required=True)
+    propose.add_argument("--scope", help="optional legacy exact-filter metadata")
+    propose.add_argument("--applicability-json",
+                         help="JSON context card: title, description, when_relevant, keywords, validity_conditions")
+    propose.add_argument("--reproposal-of", help="rejected claim this candidate corrects")
     propose.add_argument("--idempotency-key")
     evaluate = subparsers.add_parser("evaluate")
-    evaluate.add_argument("conclusion_id")
+    evaluate.add_argument("claim_id")
     review = subparsers.add_parser("review")
-    review.add_argument("conclusion_id")
+    review.add_argument("claim_id")
     decisions = review.add_mutually_exclusive_group(required=True)
     decisions.add_argument("--admit", action="store_true")
     decisions.add_argument("--reject", action="store_true")
@@ -49,12 +53,15 @@ def main(argv=None):
     context = subparsers.add_parser("context")
     context.add_argument("--scope")
     context.add_argument("--task")
+    discover = subparsers.add_parser("discover-context")
+    discover.add_argument("--task")
+    discover.add_argument("--limit", type=int, default=24)
     summary = subparsers.add_parser("review-summary")
     summary.add_argument("--scope")
     receipt = subparsers.add_parser("review-receipt")
-    receipt.add_argument("conclusion_id")
+    receipt.add_argument("claim_id")
     instructions = subparsers.add_parser("revision-instructions", help="Print a recorded change request to paste into your agent")
-    instructions.add_argument("conclusion_id")
+    instructions.add_argument("claim_id")
     args = parser.parse_args(argv)
     client = _client(args)
     try:
@@ -65,39 +72,46 @@ def main(argv=None):
             result = client.submit_evidence(
                 payload, idempotency_key=args.idempotency_key)
         elif args.command == "propose":
-            result = client.propose_conclusion(
+            result = client.propose_claim(
                 args.statement, args.evidence, args.scope, "server-derived",
+                title=args.title,
+                applicability=(json.loads(args.applicability_json)
+                               if args.applicability_json else None),
+                reproposal_of=args.reproposal_of,
                 idempotency_key=args.idempotency_key)
         elif args.command == "evaluate":
-            result = client.evaluate_conclusion(args.conclusion_id)
+            result = client.evaluate_claim(args.claim_id)
         elif args.command == "review":
             decision = "admit" if args.admit else "reject" if args.reject \
                 else "request_changes"
-            result = client.review_conclusion(
-                args.conclusion_id, decision, "server-derived", note=args.note,
+            result = client.review_claim(
+                args.claim_id, decision, "server-derived", note=args.note,
                 review_request_id=args.request_id,
                 expected_head=args.expected_head)
             if decision == "request_changes":
                 print("Changes requested. No agent was notified automatically. "
-                      "Use revision-instructions with this conclusion ID to print the handoff; "
+                      "Use revision-instructions with this claim ID to print the handoff; "
                       "keep the same --base-url and --token-env options.", file=sys.stderr)
         elif args.command == "context":
             result = client.context(
                 scope=args.scope, actor="server-derived", task=args.task)
+        elif args.command == "discover-context":
+            result = client.discover_context(
+                actor="server-derived", task=args.task, limit=args.limit)
         elif args.command == "review-summary":
             result = client.review_summary(args.scope)
         elif args.command == "revision-instructions":
-            result = client.review_receipt(args.conclusion_id)
+            result = client.review_receipt(args.claim_id)
             request = result.get("revision_request")
             if not request:
-                raise ValueError("No revision request recorded for this conclusion")
-            qualifiers = json.dumps({"revision_of": args.conclusion_id, "revision_request_ref": request["event_id"]})
-            print(f'Read proofpress_get_review_receipt for {args.conclusion_id}. Requested change: {result.get("review", {}).get("note", "")}\n'
-                  f'Submit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: {qualifiers}. '
-                  'Preserve other required profile qualifiers. Run evaluation, then return the new review link. Do not approve or overwrite the original.')
+                raise ValueError("No revision request recorded for this claim")
+            qualifiers = json.dumps({"revision_of": args.claim_id, "revision_request_ref": request["event_id"]})
+            print(f'Read proofpress_get_review_receipt for {args.claim_id}. Requested change: {result.get("review", {}).get("note", "")}\n'
+                  f'Submit supporting evidence, then use proofpress_propose_claim with qualifiers: {qualifiers}. '
+                  'Preserve other required profile qualifiers and state the revised applicability. Run evaluation, then return the new review link. Do not approve or overwrite the original.')
             return
         else:
-            result = client.review_receipt(args.conclusion_id)
+            result = client.review_receipt(args.claim_id)
     except (ProofpressError, OSError, ValueError) as exc:
         raise SystemExit(str(exc)) from exc
     print(json.dumps(result, ensure_ascii=False, indent=2))

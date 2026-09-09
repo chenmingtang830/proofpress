@@ -55,30 +55,31 @@ class HostedAuthorityTests(unittest.TestCase):
         self.assertTrue(imported["ok"])
         evidence_id = imported["result"]["evidence"][0]
         proposed = self.control.execute(
-            self.agent["token"], operation("conclusion.propose", {
+            self.agent["token"], operation("claim.propose", {
+                "title": "Liability cap",
                 "statement": "The liability cap is one year of fees.",
                 "evidence_refs": [evidence_id], "scope": "contract-review",
                 "proposer": "human:owner",
             }, "proposal-1"))
         self.assertTrue(proposed["ok"])
-        conclusion = proposed["result"]["conclusion"]
-        self.assertEqual(conclusion["proposer"], "agent:codex-laptop")
+        claim = proposed["result"]["claim"]
+        self.assertEqual(claim["proposer"], "agent:codex-laptop")
 
         evaluated = self.control.execute(
             self.agent["token"], operation(
-                "conclusion.evaluate", {"conclusion_id": conclusion["id"]}))
+                "claim.evaluate", {"claim_id": claim["id"]}))
         self.assertTrue(evaluated["ok"])
         forbidden = self.control.execute(
-            self.agent["token"], operation("conclusion.review", {
-                "conclusion_id": conclusion["id"], "decision": "admit",
+            self.agent["token"], operation("claim.review", {
+                "claim_id": claim["id"], "decision": "admit",
                 "reviewer": "human:owner",
             }))
         self.assertFalse(forbidden["ok"])
         self.assertEqual(forbidden["error"]["code"], "operation_forbidden")
 
         reviewed = self.control.execute(
-            self.owner["token"], operation("conclusion.review", {
-                "conclusion_id": conclusion["id"], "decision": "admit",
+            self.owner["token"], operation("claim.review", {
+                "claim_id": claim["id"], "decision": "admit",
                 "reviewer": "agent:codex-laptop", "request_id": "review-1",
             }))
         self.assertTrue(reviewed["ok"])
@@ -87,7 +88,41 @@ class HostedAuthorityTests(unittest.TestCase):
             self.agent["token"], operation("context.get", {
                 "scope": "contract-review", "actor": "human:owner"}))
         self.assertEqual(context["result"]["actor"], "agent:codex-laptop")
-        self.assertEqual(context["result"]["knowledge"][0]["id"], conclusion["id"])
+        self.assertEqual(context["result"]["governed_context"][0]["id"], claim["id"])
+
+    def test_hosted_discovery_uses_server_identity_and_never_requires_scope(self):
+        imported = self.control.execute(
+            self.agent["token"], operation("evidence.submit", {
+                "payload": evidence_payload()}, "discovery-evidence"))
+        proposed = self.control.execute(
+            self.agent["token"], operation("claim.propose", {
+                "title": "Acme liability cap",
+                "statement": "The Acme liability cap is one year of fees.",
+                "evidence_refs": [imported["result"]["evidence"][0]],
+                "proposer": "spoofed",
+                "applicability": {
+                    "title": "Acme liability-cap interpretation",
+                    "keywords": ["Acme", "liability cap"],
+                    "when_relevant": ["Reviewing Acme commercial contracts"],
+                },
+            }, "discovery-proposal"))
+        self.assertTrue(proposed["ok"])
+        claim = proposed["result"]["claim"]
+        self.assertIsNone(claim["scope"])
+        self.assertTrue(self.control.execute(
+            self.agent["token"], operation("claim.evaluate", {
+                "claim_id": claim["id"]}))["ok"])
+        self.assertTrue(self.control.execute(
+            self.owner["token"], operation("claim.review", {
+                "claim_id": claim["id"], "decision": "admit",
+                "reviewer": "spoofed", "request_id": "discovery-review"}))["ok"])
+
+        discovery = self.control.execute(
+            self.agent["token"], operation("context.discover", {
+                "actor": "agent:other", "task": "Acme liability cap"}))
+        self.assertTrue(discovery["ok"])
+        self.assertEqual(discovery["result"]["actor"], "agent:codex-laptop")
+        self.assertEqual(discovery["result"]["cards"][0]["id"], claim["id"])
 
     def test_revocation_is_immediate_and_agent_cannot_administer_credentials(self):
         with self.assertRaises(self.hosted.HostedAuthError):
@@ -131,7 +166,7 @@ class HostedAuthorityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "safe-operation subset"):
             self.control.issue_agent_credential(
                 self.owner["token"], "agent:unsafe", "unsafe",
-                permissions={"conclusion.review"})
+                permissions={"claim.review"})
 
     def test_credentials_are_slow_hashes_and_audit_excludes_payloads(self):
         connection = sqlite3.connect(self.database)
@@ -162,6 +197,61 @@ class HostedAuthorityTests(unittest.TestCase):
         self.assertTrue(first["ok"])
         self.assertTrue(other["ok"])
 
+
+
+    def test_legacy_conclusion_permissions_migrated_to_claim_names(self):
+        # Simulate a credential issued before PR #131 (claim vocabulary
+        # consolidation), when agent operation names used conclusion.*.
+        legacy_perms = json.dumps(sorted([
+            "capabilities.get", "configuration.get", "evidence.submit",
+            "conclusion.propose", "conclusion.evaluate", "conclusion.judge",
+            "graph.get", "graph.traverse", "context.get", "context.discover",
+            "review.summary", "review.receipt",
+        ]))
+        connection = sqlite3.connect(self.database)
+        connection.row_factory = sqlite3.Row
+        try:
+            connection.execute(
+                "UPDATE hosted_credentials SET permissions_json = ? "
+                "WHERE credential_id = ?",
+                (legacy_perms, self.agent["credential_id"]))
+            connection.commit()
+        finally:
+            connection.close()
+
+        # Re-instantiating the control plane triggers _migrate, which should
+        # rewrite conclusion.* to claim.* in permissions_json.
+        from proofpress.hosted import control_plane
+        migrated = control_plane.HostedControlPlane(self.database)
+        imported = migrated.execute(
+            self.agent["token"],
+            operation("evidence.submit", {"payload": evidence_payload()},
+                      "legacy-evidence"))
+        self.assertTrue(imported["ok"])
+        evidence_id = imported["result"]["evidence"][0]
+        proposed = migrated.execute(
+            self.agent["token"], operation("claim.propose", {
+                "title": "Legacy credential",
+                "statement": "Legacy credential can still propose claims.",
+                "evidence_refs": [evidence_id], "scope": "legacy-migration",
+            }, "legacy-proposal"))
+        self.assertTrue(proposed["ok"])
+        self.assertEqual(
+            proposed["result"]["claim"]["proposer"], "agent:codex-laptop")
+
+        # Verify the stored permissions were actually rewritten.
+        connection = sqlite3.connect(self.database)
+        connection.row_factory = sqlite3.Row
+        try:
+            row = connection.execute(
+                "SELECT permissions_json FROM hosted_credentials "
+                "WHERE credential_id = ?",
+                (self.agent["credential_id"],)).fetchone()
+            perms = json.loads(row["permissions_json"])
+            self.assertIn("claim.propose", perms)
+            self.assertNotIn("conclusion.propose", perms)
+        finally:
+            connection.close()
 
 if __name__ == "__main__":
     unittest.main()

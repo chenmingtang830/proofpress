@@ -66,7 +66,7 @@ reasoning.
 Before continuing a governed multi-agent workflow, request scoped context with
 `python3 proofpress.py context --scope <scope> --actor <agent-id> --format json`.
 Treat only `knowledge` rows as eligible inherited context. Do not resurrect
-blocked, rejected, expired, unresolved, or superseded conclusions; follow each
+blocked, rejected, expired, unresolved, or superseded claims; follow each
 blocked row's `required_action` instead.
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzcwM2MzZmE5MjZhYmI1MTJlNzE5OTMzMiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjUxMDEzZDljIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV85OTFlMjJjOTJmM2U4ODQ4ODg0ZmQ0OTYiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzhkZTU1ZDI2NDlmMjAzZTgyZjQxNzAwMyIsInByb29mcHJlc3MiOjF9)

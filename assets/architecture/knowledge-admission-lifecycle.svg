@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 760" role="img" aria-labelledby="knowledge-gates-title knowledge-gates-desc">
   <title id="knowledge-gates-title">Three gates before reuse</title>
-  <desc id="knowledge-gates-desc">An evidence-bound candidate conclusion passes Deterministic Checks, an LM Judge applying organizational policy, and authorized Human Approval before becoming governed knowledge. Only Human Approval authorizes downstream reuse.</desc>
+  <desc id="knowledge-gates-desc">An evidence-bound candidate claim passes Deterministic Checks, an LM Judge applying organizational policy, and authorized Human Approval before becoming governed knowledge. Only Human Approval authorizes downstream reuse.</desc>
   <defs>
     <style>
       .sans { font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
@@ -20,7 +20,7 @@
 
   <rect width="1440" height="760" fill="#faf9f5"/>
   <text class="sans" x="72" y="64" fill="#20222b" font-size="32" font-weight="600">Three gates before reuse</text>
-  <text class="sans" x="72" y="100" fill="#5a5d6b" font-size="16">Candidate conclusion → Deterministic Checks → LM Judge → Human Approval → Governed knowledge</text>
+  <text class="sans" x="72" y="100" fill="#5a5d6b" font-size="16">Candidate claim → Deterministic Checks → LM Judge → Human Approval → Governed knowledge</text>
   <line x1="72" y1="144" x2="1368" y2="144" stroke="#e3e1d9" stroke-width="1"/>
 
   <!-- Connectors are drawn before nodes. -->
@@ -34,7 +34,7 @@
 
   <rect x="72" y="220" width="208" height="180" rx="8" fill="#e3eef0" stroke="#0e5e6f" stroke-width="1"/>
   <text class="mono" x="92" y="252" fill="#0e5e6f" font-size="8" font-weight="600" letter-spacing="1">CANDIDATE</text>
-  <text class="sans" x="92" y="296" fill="#20222b" font-size="16" font-weight="600">Conclusion + evidence</text>
+  <text class="sans" x="92" y="296" fill="#20222b" font-size="16" font-weight="600">Claim + evidence</text>
   <text class="mono" x="92" y="336" fill="#5a5d6b" font-size="12">claim · source · scope</text>
   <text class="mono" x="92" y="364" fill="#5a5d6b" font-size="12">version · digest · locator</text>
 
@@ -65,7 +65,7 @@
   <rect x="304" y="472" width="768" height="112" rx="8" fill="#f3f1ec" stroke="#b9b6ad" stroke-width="1"/>
   <text class="mono" x="328" y="508" fill="#5a5d6b" font-size="8" font-weight="600" letter-spacing="1">AUDITABLE · NOT ADMITTED</text>
   <text class="sans" x="328" y="544" fill="#20222b" font-size="16" font-weight="600">failed · blocked · escalated · rejected</text>
-  <text class="sans" x="328" y="568" fill="#5a5d6b" font-size="12">Evidence and receipts remain inspectable, but the conclusion is excluded from reusable context.</text>
+  <text class="sans" x="328" y="568" fill="#5a5d6b" font-size="12">Evidence and receipts remain inspectable, but the claim is excluded from reusable context.</text>
 
   <rect x="72" y="628" width="1296" height="64" rx="8" fill="#ffffff" stroke="#e3e1d9" stroke-width="1"/>
   <text class="sans" x="96" y="668" fill="#20222b" font-size="16" font-weight="600">Deterministic Checks verify required evidence. LM Judge applies organizational policy. Only Human Approval authorizes reuse.</text>

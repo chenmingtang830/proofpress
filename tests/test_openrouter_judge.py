@@ -18,7 +18,7 @@ class OpenRouterJudgeTests(unittest.TestCase):
         def opener(request, timeout):
             requests.append(json.loads(request.data))
             return self.response({"recommendation": "accept", "rationale": "Evidence ev_1 supports this bound assertion."})
-        result = judge({"conclusion": {"id": "c1"}, "evidence": []}, opener=opener)
+        result = judge({"claim": {"id": "c1"}, "evidence": []}, opener=opener)
         self.assertEqual(requests[0]["model"], "deepseek/deepseek-v4-flash")
         self.assertEqual(result["model"], DEFAULT_MODEL)
         self.assertEqual(set(result), {"recommendation", "rationale", "adapter", "model"})

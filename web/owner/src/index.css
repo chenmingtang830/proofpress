@@ -135,7 +135,7 @@ textarea {
 }
 .sidebar nav button {
   display: flex;
-  height: 40px;
+  min-height: 44px;
   align-items: center;
   gap: 11px;
   border: 0;
@@ -291,7 +291,8 @@ main {
   max-width: 660px;
   margin: 0;
   color: var(--ink-2);
-  font-size: 13px;
+  font-size: var(--type-body);
+  line-height: 1.5;
 }
 .confirmationOverlay {
   position: fixed; inset: 0; z-index: 80; background: rgba(32, 34, 43, 0.4);
@@ -346,6 +347,7 @@ main {
 .conclusionSelect {
   display: block;
   width: 100%;
+  min-height: 44px;
   border: 0;
   background: transparent;
   color: inherit;
@@ -403,14 +405,12 @@ main {
 }
 .filterbar {
   display: flex;
-  height: 52px;
+  min-height: 52px;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--line);
-  border-bottom: 0;
-  border-radius: 7px 7px 0 0;
-  background: #fff;
-  padding: 8px;
+  margin-bottom: 16px;
+  padding: 4px 0;
+  background: transparent;
 }
 .filterbar label {
   display: flex;
@@ -446,10 +446,12 @@ main {
   font-size: 11px;
   white-space: nowrap;
 }
+.reviewPagination { margin: 16px 0 0; }
+.reviewPagination span { color: var(--ink-2); font-size: 12px; }
 .tableWrap {
   overflow: auto;
   border: 1px solid var(--line);
-  border-radius: 0 0 7px 7px;
+  border-radius: 7px;
   background: #fff;
 }
 table {
@@ -499,6 +501,44 @@ td small {
   font-family: var(--font-proof);
   font-size: 9px;
 }
+.reviewTable {
+  table-layout: fixed;
+}
+.reviewTable th:nth-child(2) { width: 126px; }
+.reviewTable th:nth-child(3) { width: 168px; }
+.reviewTable th:last-child { width: 42px; }
+.reviewTable .claimSelect {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1.45;
+  text-align: left;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.reviewTable .claimScopeInline {
+  display: none;
+}
+
+@media (min-width: 681px) and (max-width: 1050px) {
+  .reviewTable th:nth-child(2) { width: 122px; }
+  .reviewTable th:last-child { width: 38px; }
+  .reviewTable th:nth-child(3),
+  .reviewTable td.reviewScopeCell {
+    display: none;
+  }
+  .reviewTable .claimScopeInline {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-left: 12px;
+  }
+}
 td:last-child svg {
   width: 14px;
   color: var(--ink-3);
@@ -506,6 +546,9 @@ td:last-child svg {
 .inspector {
   height: calc(100vh - 68px);
   overflow: auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--ink-3) transparent;
+  scrollbar-width: thin;
   background: var(--paper);
 }
 .mobileBack {
@@ -530,6 +573,10 @@ td:last-child svg {
   color: var(--ink-2);
   font-size: 11px;
 }
+.inspectorTop .claimDescription { max-width: 64ch; color: var(--ink-2); font-size: 15px; line-height: 1.65; }
+.claimStatementDetails { margin: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; }
+.claimStatementDetails summary { cursor: pointer; color: var(--ink-2); font-size: 12px; font-weight: 600; }
+.claimStatementDetails .claimFullStatement { margin: 12px 0 0; color: var(--ink); font-size: 13px; line-height: 1.65; }
 .mono {
   font-family: var(--font-proof);
 }
@@ -590,6 +637,13 @@ td:last-child svg {
   font-size: 13px;
   line-height: 1.65;
 }
+.expandableText p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+.expandableText.expanded p { display: block; }
 .evidenceRow small {
   color: var(--ink-2);
   font-size: 10px;
@@ -635,6 +689,26 @@ td:last-child svg {
   font-size: 11px;
   line-height: 1.5;
 }
+.lmReviewProgress, .lmRationale { margin-top: 16px; border: 1px solid var(--line); background: #fff; padding: 18px; }
+.lmReviewProgress { display: flex; gap: 12px; align-items: flex-start; }
+.lmReviewProgress p, .lmRationale p { max-width: 68ch; margin: 10px 0 0; color: var(--ink-2); font: 400 14px/1.62 var(--font-ui); }
+.lmSpinner { width: 18px; height: 18px; flex: 0 0 18px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: lm-spin .8s linear infinite; }
+.lmRationale > .lmRationaleHeader { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lmRationale > .lmRationaleHeader > span { color: var(--ink); font: 600 13px/1.45 var(--font-ui); }
+.lmRationale > .expandableText { display: block; min-width: 0; }
+.lmRationale > .expandableText > button { width: auto; max-width: 100%; justify-content: flex-start; white-space: normal; text-align: left; }
+.lmRationale small, .decisionHint { font: 400 12px/1.5 var(--font-ui); }
+.lmRationale small { display: block; margin-top: 12px; color: var(--ink-3); }
+.inspector:not(.fullReview) .lmRationale p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+.decisionHint { display: block; margin-top: 8px; color: var(--ink-3); line-height: 1.45; }
+@keyframes lm-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .lmSpinner { animation: none; border-top-color: var(--line); background: var(--accent); } }
+
 .historyRow {
   display: flex;
   gap: 11px;
@@ -725,10 +799,12 @@ td:last-child svg {
   cursor: pointer;
 }
 .orientation > .reviewOrientation {
-  background: var(--accent-soft);
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 .orientation > .admittedOrientation {
-  background: var(--add-bg);
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--add);
 }
 .orientation > .reviewOrientation strong,
 .orientation > .reviewOrientation svg {
@@ -745,16 +821,18 @@ td:last-child svg {
 }
 .orientation span {
   color: var(--ink-2);
-  font-size: 11px;
+  font: 500 var(--type-meta)/1.4 var(--font-ui);
 }
 .orientation strong {
   margin: 8px 0;
   font-family: var(--font-ui);
-  font-size: 32px;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 .orientation small {
-  color: var(--ink-3);
-  font-size: 11px;
+  color: var(--ink-2);
+  font: 400 var(--type-meta)/1.5 var(--font-ui);
 }
 .orientation svg {
   position: absolute;
@@ -778,8 +856,8 @@ td:last-child svg {
   font-weight:600;
 }
 .sectionTitle span {
-  color: var(--ink-3);
-  font-size: 11px;
+  color: var(--ink-2);
+  font: 500 var(--type-meta)/1.4 var(--font-ui);
 }
 .simpleList {
   border: 1px solid var(--line);
@@ -814,6 +892,7 @@ td:last-child svg {
   border: 1px solid var(--line);
   border-radius: 7px;
   background: #fff;
+  overflow: hidden;
 }
 .timeline > div {
   display: flex;
@@ -845,131 +924,162 @@ td:last-child svg {
   display: grid;
   grid-template-columns: 38px 1fr auto auto;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   border-bottom: 1px solid var(--line);
-  padding: 13px;
+  padding: 16px 20px;
+  transition: background-color 120ms ease;
+}
+.credentialList > div:hover {
+  background: var(--wash);
+}
+.credentialList > div:last-child {
+  border-bottom: 0;
 }
 .issueForm {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(170px, 240px) minmax(
-      210px,
-      280px
-    ) auto;
-  align-items: start;
-  gap: 10px;
-  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
   border: 1px solid var(--line);
   border-radius: 7px;
   background: #fff;
-  padding: 14px;
+  padding: 20px;
 }
-.issueForm b,
-.issueForm small {
+.issueFormHeader b,
+.issueFormHeader small {
   display: block;
 }
-.issueForm b {
-  font-size: 12px;
+.issueFormHeader b {
+  font-size: var(--type-body);
+  font-weight: 600;
 }
-.issueForm small {
-  margin-top: 3px;
+.issueFormHeader small {
+  margin-top: 6px;
   color: var(--ink-2);
-  font-size: 10px;
+  font-size: var(--type-meta);
+  line-height: 1.5;
 }
-.issueForm input {
-  height: 36px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 0 9px;
-  font-size: 11px;
-  outline: none;
-}
-.issueForm label {
+.issueFormFields {
   display: grid;
-  gap: 6px;
+  grid-template-columns: 1fr 1fr auto;
+  align-items: end;
+  gap: 16px;
+}
+.issueFormFields label {
+  display: grid;
+  gap: 8px;
   color: var(--ink-2);
-  font-size: 12px;
+  font-size: var(--type-meta);
   min-width: 0;
 }
-.issueForm > div:first-child { padding-top:26px; }
-.issueForm > button { margin-top:24px; white-space:nowrap; }
-.issueForm input:focus-visible {
+.issueFormFields input {
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 13px;
+  outline: none;
+}
+.issueFormFields input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+.issueFormFields small {
+  color: var(--ink-3);
+  font-size: 11px;
+  line-height: 1.45;
+}
+.issueFormFields > button {
+  white-space: nowrap;
+}
 .secretReveal {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 18px;
-  border: 1px solid var(--ink-3);
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+  border: 1px solid var(--line);
   border-radius: 7px;
-  background: var(--wash);
-  padding: 16px;
+  background: var(--panel-soft);
+  padding: 20px;
 }
 .secretReveal b {
-  font-size: 12px;
+  font-size: var(--type-body);
+  font-weight: 600;
 }
 .secretReveal p {
-  margin: 3px 0 10px;
+  margin: 6px 0 14px;
   color: var(--ink-2);
-  font-size: 10px;
+  font-size: var(--type-meta);
+  line-height: 1.5;
 }
 .secretReveal code {
   display: block;
   max-width: 720px;
   overflow-wrap: anywhere;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 14px;
   color: var(--ink);
-  font-size: 11px;
+  font: 500 12px/1.5 var(--font-mono);
 }
-.secretReveal > div:last-child,
+.secretReveal > div:last-child {
+  display: flex;
+  gap: 10px;
+}
 .credentialActions {
   display: flex;
-  gap: 7px;
+  gap: 8px;
 }
 .credentialIcon {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--wash);
 }
 .credentialIcon svg {
-  width: 15px;
+  width: 17px;
+  color: var(--ink-2);
 }
 .credentialList b,
 .credentialList small {
   display: block;
 }
 .credentialList b {
-  font-size: 12px;
+  font-size: var(--type-body);
+  font-weight: 600;
 }
 .credentialList small {
-  margin-top: 2px;
+  margin-top: 4px;
   color: var(--ink-3);
-  font-size: 10px;
+  font-size: var(--type-meta);
 }
 .boundary {
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 14px;
+  margin-top: 24px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: var(--wash);
-  padding: 16px;
+  background: var(--panel-soft);
+  padding: 18px 20px;
 }
 .boundary svg {
-  width: 18px;
+  width: 20px;
+  flex-shrink: 0;
+  color: var(--ink-2);
 }
 .boundary b {
-  font-size: 12px;
+  font-size: var(--type-body);
+  font-weight: 600;
 }
 .boundary p {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   color: var(--ink-2);
-  font-size: 11px;
+  font-size: var(--type-meta);
+  line-height: 1.5;
 }
 .assistantPanel {
   position: fixed;
@@ -1132,8 +1242,11 @@ td:last-child svg {
   left: 50%;
   z-index: 80;
   display: flex;
+  width: min(calc(100vw - 24px), 640px);
   transform: translateX(-50%);
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 12px;
   border: 1px solid #e9c9c5;
   border-radius: 6px;
@@ -1150,11 +1263,63 @@ td:last-child svg {
 .error svg {
   width: 14px;
 }
+.decisionNotice {
+  position: fixed;
+  top: 78px;
+  left: 50%;
+  z-index: 79;
+  display: flex;
+  width: min(calc(100vw - 24px), 560px);
+  transform: translateX(-50%);
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--ink);
+  padding: 11px 14px;
+  color: var(--paper);
+  box-shadow: 0 12px 30px rgba(32, 34, 43, 0.18);
+  font-size: 14px;
+}
+.decisionNotice span {
+  margin-right: auto;
+  font-weight: 650;
+}
+.decisionNotice span small {
+  margin-left: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 450;
+}
+.decisionNotice button {
+  min-height: 32px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
 .empty {
   padding: 32px;
   color: var(--ink-2);
   text-align: center;
   font-size: 12px;
+}
+.missingConclusion {
+  max-width: 620px;
+  margin: 56px auto;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  padding: 32px;
+}
+.missingConclusion strong { font-size: 20px; }
+.missingConclusion p {
+  margin: 8px 0 20px;
+  color: var(--ink-2);
+  line-height: 1.55;
 }
 @media (max-width: 1050px) {
   .workspacePage:not(.overviewOnly) > .work {
@@ -1276,6 +1441,13 @@ td:last-child svg {
   .topbar .search {
     display: none;
   }
+  .workspaceLabel {
+    overflow: hidden;
+    max-width: 42vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .workspaceContext { display: none; }
   .stage {
     height: auto;
     min-height: calc(100vh - 58px);
@@ -1329,7 +1501,7 @@ td:last-child svg {
     flex: 1;
   }
   .tableWrap {
-    border-radius: 0 0 7px 7px;
+    border-radius: 7px;
   }
   table thead {
     display: none;
@@ -1358,11 +1530,37 @@ td:last-child svg {
     top: 23px;
     right: 12px;
   }
+  .reviewTable td.reviewScopeCell {
+    display: none;
+  }
+  .reviewTable .claimScopeInline {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-left: 10px;
+  }
   .inspector {
     top: 58px;
     bottom: 66px;
     width: 100%;
     height: auto;
+  }
+  .reviewWorkspace > .inspector:not(.fullReview) {
+    top: 58px;
+    bottom: auto;
+    height: calc(100dvh - 58px - 66px - env(safe-area-inset-bottom));
+  }
+  .error {
+    top: 66px;
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .error button,
+  .error a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
   }
   .mobileBack {
     display: block;
@@ -1401,6 +1599,13 @@ td:last-child svg {
     grid-template-columns: 1fr;
     align-items: stretch;
   }
+  .issueFormFields {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+  .issueFormFields > button {
+    width: 100%;
+  }
   .issueForm > div:first-child { padding-top:0; }
   .issueForm > button { margin-top:0; }
   .secretReveal {
@@ -1417,6 +1622,67 @@ td:last-child svg {
     min-height: 44px;
   }
 }
+
+/* Local review concept: calm two-column decision workspace. */
+.inspector.fullReview {
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 0 32px;
+  padding: 28px 32px 72px;
+}
+.fullReviewBack { grid-column: 1 / -1; justify-self: start; }
+.fullReview .inspectorTop,
+.fullReview .quickSnapshot,
+.fullReview > [data-orientation="horizontal"],
+.fullReview > .revisionSection,
+.fullReview > .revisionDisclosure { grid-column: 1; }
+.fullReview .inspectorTop { padding: 22px 0 24px; border-bottom: 0; }
+.fullReview .inspectorTop .fullStatement { max-width: 20ch; margin: 12px 0 10px; font-size: clamp(2rem,4vw,3rem); line-height:1.06; letter-spacing:-.045em; }
+.fullReview .claimDescription { max-width: 58ch; font-size:15px!important; line-height:1.6!important; }
+.fullReview .quickSnapshot { padding: 0; border: 0; background: transparent; }
+.fullReview .quickSnapshot > dl:first-child { border: 1px solid var(--line); border-radius: 10px; overflow:hidden; background:#fff; }
+.fullReview .decisionStack { margin: 18px 0 0; border: 1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; }
+.fullReview .decisionStack > div { padding: 14px 16px; border-bottom:1px solid var(--line); }
+.fullReview .decisionStack > div:last-child { border-bottom:0; }
+.fullReview .approvalBlock { margin:16px 0 0; padding:14px 16px; border-radius:8px; background:var(--del-bg); color:var(--del); }
+.fullReview .reviewActions { flex-direction:row; flex-wrap:wrap; margin:12px 0 4px; }
+.fullReview .reviewActions > button,
+.fullReview .reviewActions > button.secondaryAction { width:auto; align-self:auto; padding-inline:14px; }
+.fullReview .reuseBoundary { margin:22px 0 0; padding:18px 0; }
+.fullReview .lmRationale { margin:0; padding:18px 0; border-width:1px 0 0; background:transparent; }
+.fullReview .lmRationale p { font-size:14px; line-height:1.6; }
+.fullReview .tabs { margin-top:22px; border:1px solid var(--line); border-bottom:0; border-radius:10px 10px 0 0; background:#fff; }
+.fullReview .tabContent { border:1px solid var(--line); border-top:0; border-radius:0 0 10px 10px; background:#fff; }
+.fullReview .decision {
+  grid-column: 2;
+  grid-row: 2 / span 10;
+  position: sticky;
+  top: 88px;
+  margin: 22px 0 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius:12px;
+  box-shadow:0 8px 30px rgba(24,26,32,.07);
+  background:#fff;
+}
+.fullReview .decision textarea { min-height:110px; margin-top:7px; border-radius:8px; background:#fff; font-size:13px; }
+.fullReview .decision > div:last-child { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.fullReview .decision > div:last-child button:last-child { grid-column:1/-1; grid-row:1; }
+.fullReview .decision > div:last-child button { min-height:42px; }
+.fullReview .reviewDisclosure { border-top:1px solid var(--line); }
+.fullReview .reviewDisclosure + .reviewDisclosure { margin-top:0; }
+.fullReview .reviewDisclosure .reuseBoundary { margin:0; padding:0; border:0; }
+.fullReview .reviewDisclosure p { margin:0; }
+.fullReview .reviewDisclosure small { display:block; margin-top:12px; color:var(--ink-3); }
+.accordionLabel { display:flex; align-items:center; gap:10px; }
+
+@media (max-width: 899px) {
+  .inspector.fullReview { display:block; max-width:760px; padding:20px 22px 96px; }
+  .fullReview .decision { position:static; margin-top:22px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;
@@ -1511,7 +1777,6 @@ td small {
 
 .sidebar nav button,
 .filterbar,
-.tableWrap,
 .orientation,
 .simpleList,
 .timeline,
@@ -1556,11 +1821,11 @@ tbody tr.selected td:first-child b {
 
 .orientation strong {
   color: var(--ink);
-  font-size: 44px;
+  font-size: 28px;
   line-height: 1;
 }
 
-.knowledgePath {
+.claimsPath {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0 0 24px;
@@ -1571,43 +1836,43 @@ tbody tr.selected td:first-child b {
   counter-reset: knowledge-step;
 }
 
-.knowledgePath li {
+.claimsPath li {
   min-width: 0;
   padding: 18px 20px 20px;
   counter-increment: knowledge-step;
 }
 
-.knowledgePath li + li {
+.claimsPath li + li {
   border-left: 1px solid var(--line);
 }
 
-.knowledgePath span {
+.claimsPath span {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 9px;
-  color: var(--ink-3);
-  font: 500 10px/1.4 var(--font-proof);
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  color: var(--ink-2);
+  font: 500 var(--type-meta)/1.4 var(--font-ui);
+  letter-spacing: normal;
+  text-transform: none;
 }
 
-.knowledgePath span::before {
+.claimsPath span::before {
   content: counter(knowledge-step, decimal-leading-zero);
-  color: var(--accent);
+  color: var(--ink-2);
 }
 
-.knowledgePath strong {
+.claimsPath strong {
   display: block;
   color: var(--ink);
-  font: 600 15px/1.35 var(--font-ui);
+  font: 600 var(--type-body)/1.35 var(--font-ui);
 }
 
-.knowledgePath p {
+.claimsPath p {
   max-width: 36ch;
   margin: 7px 0 0;
   color: var(--ink-2);
-  font-size: 12px;
+  font-size: var(--type-meta);
   line-height: 1.5;
 }
 
@@ -1709,11 +1974,13 @@ tbody tr.selected td:first-child b {
 }
 
 .contextBoundarySummary .availableKnowledge {
-  background: var(--admitted-soft);
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--add);
 }
 
 .contextBoundarySummary .awaitingKnowledge {
-  background: var(--review-queue-soft);
+  background: #fff;
+  box-shadow: inset 3px 0 0 var(--review-queue);
 }
 
 .contextBoundarySummary span,
@@ -1749,9 +2016,8 @@ tbody tr.selected td:first-child b {
 }
 
 .evidenceArgument {
-  margin: 4px 0 22px;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  margin: 28px 0 22px;
+  border: 1px solid var(--line);
   background: #fff;
 }
 
@@ -1760,7 +2026,7 @@ tbody tr.selected td:first-child b {
   justify-content: space-between;
   align-items: baseline;
   gap: 16px;
-  padding: 18px 0 14px;
+  padding: 16px;
 }
 
 .evidenceArgumentHead h3 {
@@ -1785,20 +2051,51 @@ tbody tr.selected td:first-child b {
 }
 
 .evidenceArgument article strong {
-  display: block;
+  display: -webkit-box;
+  overflow: hidden;
   color: var(--evidence);
-  font: 600 13px/1.45 var(--font-ui);
+  font: 500 12px/1.5 var(--font-ui);
   overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .evidenceArgument article p {
   display: -webkit-box;
-  margin: 6px 0 0;
+  max-width: 68ch;
+  margin: 8px 0 0;
   overflow: hidden;
   color: var(--ink);
-  font: 400 13px/1.55 var(--font-ui);
+  font: 400 14px/1.6 var(--font-ui);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.compactEvidenceExcerpt {
+  max-width: 68ch;
+  margin-top: 10px;
+}
+
+.compactEvidenceExcerpt p {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.compactEvidenceExcerpt.expanded p {
+  display: block;
+}
+
+.compactEvidenceExcerpt button {
+  min-height: 36px;
+  border: 0;
+  padding: 8px 0 0;
+  background: transparent;
+  color: var(--evidence);
+  font: 500 12px/1.4 var(--font-ui);
+  cursor: pointer;
 }
 
 .evidenceArgumentEmpty {
@@ -1810,7 +2107,14 @@ tbody tr.selected td:first-child b {
 }
 
 .reuseBoundary {
-  padding: 16px 0 18px;
+  margin: 20px 0 22px;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.reuseBoundary > span {
+  color: var(--ink-2);
+  font-size: 11px;
 }
 
 .reuseBoundary strong {
@@ -1826,11 +2130,11 @@ tbody tr.selected td:first-child b {
 }
 
 @media (max-width: 680px) {
-  .knowledgePath {
+  .claimsPath {
     grid-template-columns: 1fr;
   }
 
-  .knowledgePath li + li {
+  .claimsPath li + li {
     border-top: 1px solid var(--line);
     border-left: 0;
   }
@@ -1869,6 +2173,270 @@ tbody tr.selected td:first-child b {
   background: #fff;
 }
 
+/* Canonical ledger treatment for the deliberate full-review surface. */
+.fullReviewBack {
+  min-height: 36px;
+  height: 36px;
+  margin: 0 0 2px;
+  padding: 0 4px;
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+.fullReviewBack:hover {
+  background: transparent;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.fullReview .inspectorTop,
+.fullReview .quickSnapshot,
+.fullReview .tabs,
+.fullReview .tabContent,
+.fullReview .decision {
+  background: var(--paper);
+}
+
+.fullReview .inspectorTop {
+  padding: 20px 30px 26px;
+}
+
+.fullReview .inspectorTop .fullStatement {
+  max-width: 30ch;
+  margin: 16px 0 14px;
+  color: var(--ink);
+  font: 500 clamp(1.75rem, 4vw, 2.2rem)/1.18 var(--font-ui);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.fullReview .inspectorTop p {
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.fullReview .quickSnapshot {
+  padding: 0 30px 28px;
+}
+
+.fullReview .quickSnapshot dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.fullReview .quickSnapshot dl > div {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.fullReview .quickSnapshot dl > div:nth-child(odd) {
+  padding-right: 24px;
+}
+
+.fullReview .quickSnapshot dl > div:nth-child(even) {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+
+.fullReview .quickSnapshot dt,
+.fullReview .decisionStack dt,
+.fullReview .decision > label,
+.fullReview .decisionHeading > span {
+  color: var(--ink-3);
+  font: 500 10px/1.4 var(--font-proof);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.fullReview .quickSnapshot dd,
+.fullReview .decisionStack dd {
+  margin: 7px 0 0;
+  color: var(--ink);
+  font: 500 15px/1.45 var(--font-ui);
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.fullReview .decisionStack {
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.fullReview .decisionStack > div {
+  display: grid;
+  grid-template-columns: minmax(150px, .72fr) minmax(0, 1fr);
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.fullReview .decisionStack dd {
+  margin-top: 0;
+}
+
+.fullReview .decisionStack .authorityStep {
+  border-bottom-color: var(--accent);
+}
+
+.fullReview .decisionStack .authorityStep dt,
+.fullReview .decisionStack .authorityStep dd {
+  color: var(--accent);
+}
+
+.fullReview .tabs {
+  margin-top: 10px;
+  padding: 0 18px;
+}
+
+.fullReview .tabContent {
+  padding: 26px 30px 34px;
+}
+
+.fullReview .evidenceRow b {
+  font-size: 14px;
+}
+
+.fullReview .evidenceRow p {
+  max-width: 70ch;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.evidenceRow > .expandableText {
+  display: block;
+}
+
+.expandableText > button,
+.technicalDetails > summary {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+}
+
+.fullReview .decision {
+  position: static;
+  padding: 20px 30px 24px;
+  border-top: 1px solid var(--accent);
+  box-shadow: 0 -14px 34px rgba(24, 26, 32, .08);
+}
+
+.decisionHeading {
+  display: block !important;
+  margin: 0 0 14px !important;
+}
+
+.decisionHeading p {
+  margin: 5px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.fullReview .decision > label {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 7px;
+}
+
+.fullReview .decision > label small {
+  color: var(--ink-3);
+  font: 400 10px/1.4 var(--font-proof);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.fullReview .decision textarea {
+  min-height: 72px;
+  background: var(--paper);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.claimScopeInline b {
+  margin-right: 5px;
+  color: var(--ink-3);
+  font: 500 9px/1.4 var(--font-proof);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 680px) {
+  .fullReview .inspectorTop {
+    padding: 14px 22px 22px;
+  }
+
+  .fullReview .inspectorTop .fullStatement {
+    max-width: none;
+    font-size: 1.65rem;
+    line-height: 1.17;
+  }
+
+  .fullReview .quickSnapshot {
+    padding: 0 22px 24px;
+  }
+
+  .fullReview .quickSnapshot dl {
+    grid-template-columns: 1fr;
+  }
+
+  .fullReview .quickSnapshot dl > div:nth-child(n) {
+    padding: 14px 0 16px;
+    border-left: 0;
+  }
+
+  .fullReview .decisionStack > div {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .fullReview .tabContent {
+    padding: 22px;
+  }
+
+  .fullReview .decision {
+    padding: 17px 18px calc(18px + env(safe-area-inset-bottom));
+  }
+
+  .fullReview .decision > label {
+    display: block;
+  }
+
+  .fullReview .decision > label small {
+    display: block;
+    margin-top: 3px;
+  }
+
+  table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  td[data-label="Status"]::before,
+  td[data-label="Applicability"]::before {
+    display: inline-block;
+    margin-right: 7px;
+    color: var(--ink-3);
+    content: attr(data-label);
+    font: 500 9px/1.4 var(--font-proof);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+}
+
 @media (max-width: 680px) {
   .sidebar {
     border-top: 1px solid var(--line);
@@ -1888,6 +2456,45 @@ tbody tr.selected td:first-child b {
   }
 
   .orientation strong {
-    font-size: 40px;
+    font-size: 24px;
   }
 }
+
+@media (max-width: 280px) {
+  .workspaceLabel { display: none; }
+  .sidebar {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-inline: 0;
+  }
+  .sidebar nav {
+    display: flex;
+    width: max-content;
+    min-width: max-content;
+    flex-direction: row;
+  }
+  .sidebar nav button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 50px;
+    flex: 0 0 44px;
+  }
+  .sidebar nav span { display: none; }
+}
+
+.runsWorkspace { display:grid; grid-template-columns:minmax(260px, 36%) minmax(0, 1fr); gap:1rem; align-items:start; }
+.runList, .runDetail { border:1px solid var(--line, #d9d7d2); border-radius:14px; background:var(--surface, #fff); overflow:hidden; }
+.runList > button { width:100%; border:0; border-bottom:1px solid var(--line, #e5e2dc); background:transparent; padding:1rem; text-align:left; display:grid; gap:.45rem; color:inherit; }
+.runList > button:hover, .runList > button.active { background:#f5f2eb; }
+.runList > button > span, .runDetail header, .runRecord > span { display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+.runList small, .runList time, .runDetail small, .runDetail time { color:var(--muted, #68645e); }
+.runDetail { padding:1.25rem; display:grid; gap:1.25rem; }
+.runDetail header { align-items:flex-start; }
+.runDetail header h2 { margin:.55rem 0 .25rem; }
+.runDetail section { display:grid; gap:.6rem; }
+.runDetail section h3 { margin:0; font-size:.85rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted, #68645e); }
+.runRecord { border:1px solid var(--line, #e5e2dc); border-radius:10px; padding:.85rem; display:grid; gap:.45rem; overflow-wrap:anywhere; }
+.runRecord p { margin:0; }
+.runRecord code { font-size:.75rem; white-space:normal; overflow-wrap:anywhere; }
+.runSummary { border-left:3px solid #5f6f52; padding-left:.8rem; }
+@media (max-width: 900px) { .runsWorkspace { grid-template-columns:1fr; } .runsWorkspace.hasRun .runList { display:none; } }

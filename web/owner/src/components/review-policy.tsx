@@ -2,6 +2,8 @@ import React from "react";
 import { CheckmarkCircle02Icon, Copy01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Button } from "./ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 const AGENT_POLICY_FIELDS = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent"];
 
@@ -68,10 +70,16 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
-  return <section className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
-    <div className="policyHeading"><div><h2 id="reviewPolicyTitle">Judge & policy</h2><p>Configure advisory review for this workspace. Human approval remains required.</p></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</div>
+  return <Card className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
+    <CardHeader className="policyHeading"><div><CardTitle id="reviewPolicyTitle">Review policy</CardTitle><CardDescription>Set the approval gate first. Provider and evaluation details follow.</CardDescription></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</CardHeader>
     {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload</Button></div>}
-    {!settings ? <p role="status">Loading policy…</p> : <form onSubmit={save}>
+    {!settings ? <CardContent><p role="status">Loading policy…</p></CardContent> : <CardContent><form onSubmit={save}>
+      <fieldset className="approvalRequirement"><legend>Approval gate</legend>
+        <RadioGroup className="approvalChoices" value={settings.require_judge ? "required" : "advisory"} onValueChange={value=>change("require_judge",value==="required")}>
+          <label className={!settings.require_judge ? "selected" : ""}><RadioGroupItem value="advisory"/><span><b>Human decision anytime</b><small>LM advice informs the review but does not block Approve.</small></span></label>
+          <label className={settings.require_judge ? "selected" : ""}><RadioGroupItem value="required" disabled={settings.mode==="off"}/><span><b>Require supporting LM advice</b><small>Approve unlocks only when current LM advice supports the evidence.</small></span></label>
+        </RadioGroup>
+      </fieldset>
       <fieldset><legend>Model provider</legend>
         <div className="policyFields three">
           <label>Provider<select aria-label="Model provider" value={settings.provider} onChange={e=>change("provider",e.target.value)}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</select></label>
@@ -86,20 +94,19 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
         </div>
       </fieldset>
       <fieldset><legend>Evaluation</legend>
-        <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a conclusion? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
+        <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
         <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
           <div className="policyPrompt"><textarea readOnly value={record.authoring_prompt} aria-label="Policy authoring prompt" /><Button type="button" variant="outline" onClick={copyPrompt}>{copied?<><HugeiconsIcon icon={CheckmarkCircle02Icon}/>Copied</>:<><HugeiconsIcon icon={Copy01Icon}/>Copy prompt</>}</Button></div>
           <label className="criteriaLabel">Agent response<textarea value={draft} placeholder={'Paste JSON such as {"criteria":"…"}'} onChange={e=>setDraft(e.target.value)} /></label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
         </details>
       </fieldset>
       <fieldset><legend>Data & approval</legend>
-        <p>LM review sends the conclusion and bounded evidence to the selected provider. The recommendation is advisory.</p>
+        <p>LM review sends the claim and bounded evidence to the selected provider. The recommendation is advisory.</p>
         <label className="policyCheck"><input type="checkbox" checked={settings.external_consent} onChange={e=>change("external_consent",e.target.checked)} />Allow external model processing for this workspace</label>
         {settings.provider==="openrouter" && <label className="policyCheck"><input type="checkbox" checked={settings.zdr} onChange={e=>change("zdr",e.target.checked)} />Require OpenRouter Zero Data Retention routing</label>}
-        <label className="policyCheck"><input type="checkbox" checked={settings.require_judge} onChange={e=>change("require_judge",e.target.checked)} />Require current supporting LM advice before human approval</label>
       </fieldset>
       <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":"Save & activate"}</Button></div>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}
-    </form>}
-  </section>;
+    </form></CardContent>}
+  </Card>;
 }

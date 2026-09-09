@@ -25,14 +25,14 @@
 .handoffInstructions > p { margin:12px 0; line-height:1.5; font-size:14px; }
 .handoffInstructions > button { margin:8px 8px 0 0; }
 .graphScroll { overflow:auto; max-width:100%; }
-.graphPlane { position:relative; width:100%; min-width:720px; min-height:330px; background:radial-gradient(var(--line) .8px, transparent .8px) 0 0 / 20px 20px; }
+.graphPlane { position:relative; width:100%; min-width:720px; min-height:330px; height:var(--graph-height, 360px); background:radial-gradient(var(--line) .8px, transparent .8px) 0 0 / 20px 20px; }
 .graphPlane svg { position:absolute; inset:0; pointer-events:none; }
 .graphPlane path { fill:none; stroke:var(--line); stroke-width:2; }
 .graphPlane path.excluded { stroke:#b64c43; stroke-dasharray:6 5; }
 .graphColumns { position:absolute; top:24px; left:1.96%; right:1.52%; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8.6%; font-size:12px; color:var(--ink-2); }
 .graphNode { position:absolute; width:26.52%; height:108px; border:1px solid #7396a3; border-radius:6px; padding:12px 16px; text-align:left; background:var(--card); color:var(--ink); display:flex; flex-direction:column; gap:6px; cursor:pointer; }
-.graphNode.conclusion, .graphNode.context { height:140px; }
-.graphNode.conclusion strong { -webkit-line-clamp:4; }
+.graphNode.claim, .graphNode.context { height:140px; }
+.graphNode.claim strong { -webkit-line-clamp:4; }
 .graphNode strong { font-family:inherit; font-weight:550; font-size:14px; line-height:1.4; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
 .graphNode small { font-size:11px; text-transform:uppercase; letter-spacing:.04em; }
 .graphNode span { font-size:11px; color:var(--ink-2); text-overflow:ellipsis; overflow:hidden; white-space:nowrap; margin-top:auto; }
@@ -44,12 +44,12 @@
 .graphInspector { padding:24px; }
 .graphInspector h2 { font-size:24px; line-height:1.25; margin:24px 0; overflow-wrap:anywhere; }
 .graphInspector p { line-height:1.6; overflow-wrap:anywhere; }
-.ledgerViews button { background:transparent; color:var(--ink-2); border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 0; height:42px; font-weight:500; box-shadow:none; }
+.ledgerViews button { background:transparent; color:var(--ink-2); border:0; border-bottom:3px solid transparent; border-radius:0; padding:8px 0; min-height:44px; font-weight:500; box-shadow:none; }
 .ledgerViews button[aria-pressed="true"] { color:var(--accent); border-bottom-color:var(--accent); }
 .lineageCanvas { padding:0; }
 .lineageToolbar { margin:0; padding:16px 24px; border-bottom:1px solid var(--line); }
-.lineageOverview, .relatedConclusions { padding:24px; }
-.relatedConclusions { margin-top:0; }
+.lineageOverview, .relatedClaims { padding:24px; }
+.relatedClaims { margin-top:0; }
 .lineageDiagram > button { margin:12px 24px; }
 .historyRow p { font-size:13px; color:var(--ink-2); margin:6px 0; overflow-wrap:anywhere; }
 
@@ -63,18 +63,18 @@
   --type-meta: .75rem;
 }
 .pageHead h1 { font-family:var(--font-ui); font-size:var(--type-page); font-weight:600; line-height:1.2; }
-.lineageOverview h2, .relatedConclusions h2, .inspector h2, .graphInspector h2,
+.lineageOverview h2, .relatedClaims h2, .inspector h2, .graphInspector h2,
 .confirmationDialog h2, .revisionPanel h3, .revisionSection h3 {
   font-family:var(--font-ui); font-size:var(--type-section); font-weight:600; line-height:1.5; letter-spacing:normal;
 }
-.conclusionNode strong, .graphNode strong, .fullStatement, .evidenceRow p {
+.claimNode strong, .graphNode strong, .fullStatement, .evidenceRow p {
   font-family:var(--font-ui); font-size:var(--type-body); line-height:1.6; letter-spacing:normal;
 }
-.conclusionNode strong { font-weight:500; }
+.claimNode strong { font-weight:500; }
 .pageHead p, .ledgerViews button, .lineageToolbar, .quickSnapshot dd, .revisionPanel blockquote { font-family:var(--font-ui); font-size:var(--type-body); line-height:1.5; }
-.lineageOverview h2 small, .conclusionNode small, .graphNode small, .graphNode span,
+.lineageOverview h2 small, .claimNode small, .graphNode small, .graphNode span,
 .graphColumns, .quickSnapshot dt, .inspectorTop > p, .evidenceRow small, .technicalDetails { font-family:var(--font-ui); font-size:var(--type-meta); line-height:1.5; font-weight:400; letter-spacing:normal; text-transform:none; }
-.conclusionNode { gap:10px; }
+.claimNode { gap:10px; }
 .lineageOverview h2 { margin-bottom:16px; }
 .pageHead p { max-width:75ch; }
 .globalToolbar { display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:16px 24px; font-size:var(--type-meta); color:var(--ink-2); }
@@ -86,7 +86,7 @@
 .globalColumns { position:absolute; top:22px; left:4%; right:4%; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:26.087%; font-size:var(--type-meta); color:var(--ink-2); }
 .globalNode { position:absolute; height:100px; width:34%; margin:0; padding:14px 16px; border:1px solid var(--line); border-radius:6px; background:var(--card); text-align:left; display:flex; flex-direction:column; gap:8px; cursor:pointer; }
 .globalNode.source { left:4%; border-color:#7396a3; }
-.globalNode.conclusionNode { left:62%; }
+.globalNode.claimNode { left:62%; }
 .globalNode strong { font:500 var(--type-body)/1.5 var(--font-ui); overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
 .globalNode small { font:400 var(--type-meta)/1.5 var(--font-ui); color:var(--ink-2); }
 .globalNode[data-state="admitted"] { background:var(--add-bg); border-color:var(--add); }
@@ -110,7 +110,7 @@
   .mobileLineageToggle { display:block; padding:0 24px 16px; }
   .mobileLineageList { display:block; padding:0 24px; }
   .mobileLineageList article { border-top:1px solid var(--line); padding:20px 0; }
-  .mobileConclusion { display:block; width:100%; text-align:left; border:0; background:none; color:var(--ink); font:600 14px/1.6 var(--font-ui); margin:12px 0 8px; padding:0; cursor:pointer; overflow-wrap:anywhere; }
+  .mobileClaim { display:block; width:100%; text-align:left; border:0; background:none; color:var(--ink); font:600 14px/1.6 var(--font-ui); margin:12px 0 8px; padding:0; cursor:pointer; overflow-wrap:anywhere; }
   .mobileLineageList p, .mobileLineageList summary { font:400 13px/1.5 var(--font-ui); color:var(--ink-2); }
   .mobileLineageList summary { cursor:pointer; padding:8px 0; }
   .mobileLineageList ul { padding-left:18px; }
@@ -136,7 +136,7 @@
 .policyFields.three { grid-template-columns:repeat(3,minmax(0,1fr)); }
 .policyFields .wide { grid-column:1/-1; }
 .policyFields label { display: grid; gap: 8px; font-size: 13px; }
-.policyFields input, .policyFields select, .providerCredential input { height:40px; width:100%; min-width:0; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); padding:0 12px; font:inherit; }
+.policyFields input, .policyFields select, .providerCredential input { height:44px; width:100%; min-width:0; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); padding:0 12px; font:inherit; }
 .providerCredential { display:grid; grid-template-columns:minmax(260px,1fr) 1.3fr; align-items:end; gap:8px 20px; padding:16px; background:var(--card); border:1px solid var(--line); border-radius:6px; }
 .providerCredential > label:first-child { display:grid; gap:8px; font-size:13px; }
 .providerCredential p { margin:0; font-size:12px; }
@@ -144,21 +144,29 @@
 .criteriaLabel { display:grid; gap:8px; font-size:13px; }
 .criteriaLabel textarea, .policyPrompt textarea { width:100%; min-height:112px; resize:vertical; border:1px solid var(--line); border-radius:6px; background:white; color:var(--ink); padding:12px; font:13px/1.5 var(--font-ui); }
 .agentPolicyDraft { margin-top:20px; border-top:1px solid var(--line); padding-top:16px; }
-.agentPolicyDraft summary { cursor:pointer; color:var(--accent); font-size:13px; font-weight:600; }
+.agentPolicyDraft summary { display:flex; min-height:44px; align-items:center; cursor:pointer; color:var(--accent); font-size:13px; font-weight:600; }
 .agentPolicyDraft > p { font-size:13px; }
 .policyPrompt { display:grid; grid-template-columns:minmax(0,1fr) max-content; align-items:end; gap:12px; margin:12px 0 20px; }
 .policyPrompt button svg { width:16px; height:16px; }
 .policyCheck { display: flex; align-items: start; gap: 10px; margin: 16px 0; font-size: 14px; }
 .policyCheck input { accent-color: var(--accent); margin-top: 3px; }
+.approvalRequirement { padding-top:0!important; border-top:0!important; }
+.reviewPolicy { padding:0; overflow:hidden; }
+.approvalChoices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:10px; }
+.approvalChoices label { display:flex; gap:12px; min-height:98px; padding:16px; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:pointer; }
+.approvalChoices label.selected { border-color:var(--accent); background:var(--accent-soft); box-shadow:0 0 0 1px var(--accent); }
+.approvalChoices span,.approvalChoices b,.approvalChoices small { display:block; }
+.approvalChoices b { color:var(--ink); font-size:14px; line-height:1.4; }
+.approvalChoices small { margin-top:6px; color:var(--ink-2); font-size:12px; line-height:1.45; }
+.policyCheck input { width:16px; height:16px; flex:0 0 16px; padding:0; }
 .policyWarning, .policyError { color:var(--del)!important; font-size:13px; }
 .policyError { margin:0 0 20px; }
 .policyError button { margin-left:12px; }
 .policyFooter { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 20px; }
-.approvalBlock { color: var(--del); font-size: 14px; line-height: 1.5; }
+.approvalBlock { max-width:68ch; margin:16px 0 0; color:var(--del); font:500 13px/1.55 var(--font-ui); }
 .reviewActions { display:flex; flex-direction:column; align-items:stretch; gap:8px; margin-top:16px; }
 .reviewActions > button { width:100%; justify-content:center; }
 .reviewActions > button.secondaryAction { width:auto; align-self:flex-start; padding-inline:0; color:var(--ink-2); }
-.blockedAction { display:flex; min-height:44px; align-items:center; padding:0 12px; border:1px solid var(--del); background:var(--del-bg); color:var(--del); font-size:13px; font-weight:600; }
 .queuedAction { display:flex; min-height:44px; align-items:center; padding:0 12px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:600; }
 .decisionStack { margin:16px 0; border-top:1px solid var(--line); }
 .decisionStack div { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
@@ -170,5 +178,6 @@
 .activitySubject { display: block; max-width: 64ch; margin: 8px 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .activityTable td small { display:block; margin-top:6px; }
 .activityTable details { margin-top:8px; max-width:64ch; }
-@media(max-width: 600px) { .activityTable table,.activityTable tbody { display:block; } .activityTable thead { display:none; } .activityTable tr { display:block; padding:16px; border-bottom:1px solid var(--line); } .activityTable td { display:block; padding:3px 0; border:0; font-size:14px; } .activityTable td::before { display:none; } .activityTable td[data-label="Time"] { color:var(--ink-2); font-size:12px; } .activityTable td[data-label="Actor"] { margin-top:8px; } .activityTable td[data-label="Result"] { margin-top:10px; } .activityTable .activitySubject { font-size:15px; line-height:1.45; } }
-@media(max-width: 700px) { .reviewPolicy { padding:20px; } .policyFields,.policyFields.three,.providerCredential,.policyPrompt { grid-template-columns:1fr; } .policyFooter,.policyHeading { align-items:flex-start; flex-direction:column; } .policyPrompt button { justify-self:start; } }
+.activityTable details summary { display:flex; min-height:44px; align-items:center; cursor:pointer; color:var(--accent); }
+@media(max-width: 600px) { .activityTable table,.activityTable tbody { display:block; } .activityTable thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; } .activityTable tr { display:flex; flex-wrap:wrap; gap:0 16px; padding:16px; border-bottom:1px solid var(--line); } .activityTable td,.activityTable td:last-child,.activityTable td:not(:first-child):not(:last-child) { display:block; position:static; margin:0; padding:4px 0; border:0; font-size:14px; overflow-wrap:anywhere; } .activityTable td::before { display:block; margin-bottom:3px; color:var(--ink-2); content:attr(data-label); font:500 9px/1.4 var(--font-proof); letter-spacing:.08em; text-transform:uppercase; } .activityTable td[data-label="What happened"] { order:1; flex:0 0 100%; } .activityTable td[data-label="Time"] { order:2; flex:1 1 150px; color:var(--ink-2); font-size:12px; } .activityTable td[data-label="Result"] { order:3; flex:0 0 auto; } .activityTable td[data-label="Actor"] { order:4; flex:0 0 100%; margin-top:4px; } .activityTable .activitySubject { display:-webkit-box; overflow:hidden; font-size:15px; line-height:1.45; -webkit-box-orient:vertical; -webkit-line-clamp:3; } }
+@media(max-width: 700px) { .reviewPolicy { padding:0; } .policyFields,.policyFields.three,.providerCredential,.approvalChoices,.policyPrompt { grid-template-columns:1fr; } .policyFooter,.policyHeading { align-items:flex-start; flex-direction:column; } .policyPrompt button { justify-self:start; } }

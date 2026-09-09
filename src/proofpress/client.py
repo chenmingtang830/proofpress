@@ -9,7 +9,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
-from proofpress.kernel import operations as knowledge
+from proofpress.kernel import operations as kernel_ops
 
 
 JsonObject = dict[str, Any]
@@ -48,7 +48,7 @@ class InProcessTransport:
             raise ProofpressTransportError(
                 "workspace_mismatch",
                 "in-process transport requires the process working directory to equal workspace")
-        return knowledge.execute_local_operation(dict(request))
+        return kernel_ops.execute_local_operation(dict(request))
 
 
 @dataclass(frozen=True)
@@ -141,7 +141,7 @@ class ProofpressClient:
                     *, request_id: str | None = None,
                     idempotency_key: str | None = None) -> JsonObject:
         request: JsonObject = {
-            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation,
             "parameters": dict(parameters or {}),
         }
@@ -186,31 +186,35 @@ class ProofpressClient:
             parameters["profile"] = profile
         return self.execute("evidence.submit", parameters, **meta)
 
-    def propose_conclusion(self, statement, evidence_refs, scope, proposer,
+    def propose_claim(self, statement, evidence_refs, scope=None, proposer=None,
                            *, expires_at=None, artifact_refs=None,
-                           allowed_actors=None, qualifiers=None, profile=None, **meta):
-        return self.execute("conclusion.propose", {
+                           applicability=None, reproposal_of=None, qualifiers=None,
+                           profile=None, title, **meta):
+        return self.execute("claim.propose", {
             "statement": statement, "evidence_refs": list(evidence_refs),
+            "title": title,
             "scope": scope, "proposer": proposer, "expires_at": expires_at,
             "artifact_refs": list(artifact_refs or []),
-            "allowed_actors": allowed_actors, "qualifiers": qualifiers,
+            "applicability": applicability,
+            "reproposal_of": reproposal_of,
+            "qualifiers": qualifiers,
             "profile": profile}, **meta)
-    def evaluate_conclusion(self, conclusion_id, **meta):
-        return self.execute("conclusion.evaluate", {"conclusion_id": conclusion_id}, **meta)
-    def judge_conclusion(self, conclusion_id, **meta):
-        return self.execute("conclusion.judge", {"conclusion_id": conclusion_id}, **meta)
-    def judge_scope(self, scope, **meta):
-        return self.execute("conclusion.judge_batch", {"scope": scope}, **meta)
-    def review_conclusion(self, conclusion_id, decision, reviewer, *, note=None,
+    def evaluate_claim(self, claim_id, *, actor=None, **meta):
+        return self.execute("claim.evaluate", {"claim_id": claim_id, "actor": actor}, **meta)
+    def judge_claim(self, claim_id, *, actor=None, **meta):
+        return self.execute("claim.judge", {"claim_id": claim_id, "actor": actor}, **meta)
+    def judge_scope(self, scope, *, actor=None, **meta):
+        return self.execute("claim.judge_batch", {"scope": scope, "actor": actor}, **meta)
+    def review_claim(self, claim_id, decision, reviewer, *, note=None,
                           review_request_id=None, expected_head=None, **meta):
-        return self.execute("conclusion.review", {
-            "conclusion_id": conclusion_id, "decision": decision,
+        return self.execute("claim.review", {
+            "claim_id": claim_id, "decision": decision,
             "reviewer": reviewer, "note": note,
             "request_id": review_request_id, "expected_head": expected_head}, **meta)
-    def supersede_conclusion(self, conclusion_id, replacement_id, reviewer,
+    def supersede_claim(self, claim_id, replacement_id, reviewer,
                              *, note=None, **meta):
-        return self.execute("conclusion.supersede", {
-            "conclusion_id": conclusion_id, "replacement_id": replacement_id,
+        return self.execute("claim.supersede", {
+            "claim_id": claim_id, "replacement_id": replacement_id,
             "reviewer": reviewer, "note": note}, **meta)
     def propose_relation(self, source_id, target_id, relation_type, proposer,
                          *, confidence=None, qualifiers=None, **meta):
@@ -234,8 +238,8 @@ class ProofpressClient:
             "relation_id": relation_id, "disposition": disposition,
             "reviewer": reviewer, "winner": winner, "note": note,
             "expected_head": expected_head}, **meta)
-    def graph(self, scope=None):
-        return self.execute("graph.get", {"scope": scope})
+    def graph(self, scope=None, actor=None):
+        return self.execute("graph.get", {"scope": scope, "actor": actor})
     def traverse_graph(self, seed_ids, *, scope=None, actor=None, task=None,
                        max_depth=2, max_claims=48, state="admitted"):
         return self.execute("graph.traverse", {
@@ -247,8 +251,44 @@ class ProofpressClient:
         return self.execute("context.get", {
             "scope": scope, "actor": actor, "task": task,
             "include_blocked_statements": include_blocked_statements})
-    def review_summary(self, scope=None):
-        return self.execute("review.summary", {"scope": scope})
+    def discover_context(self, *, actor=None, task=None, limit=24):
+        return self.execute("context.discover", {
+            "actor": actor, "task": task, "limit": limit})
+    def start_run(self, purpose, *, actor=None, metadata=None, **meta):
+        return self.execute("run.start", {
+            "purpose": purpose, "actor": actor, "metadata": metadata}, **meta)
+    def finish_run(self, run_id, status, *, actor=None, summary=None, **meta):
+        return self.execute("run.finish", {
+            "run_id": run_id, "status": status, "actor": actor,
+            "summary": summary}, **meta)
+    def get_run(self, run_id, *, actor=None):
+        return self.execute("run.get", {"run_id": run_id, "actor": actor})
+    def list_runs(self, *, actor=None, status=None, limit=50):
+        return self.execute("run.list", {
+            "actor": actor, "status": status, "limit": limit})
+    def capture_context(self, run_id, *, actor=None, scope=None, task=None, **meta):
+        return self.execute("context.capture", {
+            "run_id": run_id, "actor": actor, "scope": scope, "task": task}, **meta)
+    def record_reliance(self, run_id, receipt_id, claim_id, claim_digest,
+                        purpose, *, actor=None, **meta):
+        return self.execute("reliance.record", {
+            "run_id": run_id, "receipt_id": receipt_id, "claim_id": claim_id,
+            "claim_digest": claim_digest, "purpose": purpose, "actor": actor}, **meta)
+    def record_output(self, run_id, reference, content_digest, *, actor=None,
+                      summary=None, reliance_ids=None, media_type=None, **meta):
+        return self.execute("output.record", {
+            "run_id": run_id, "reference": reference,
+            "content_digest": content_digest, "actor": actor, "summary": summary,
+            "reliance_ids": list(reliance_ids or []), "media_type": media_type}, **meta)
+    def record_observation(self, run_id, kind, source, meaning, *, actor=None,
+                           evidence_refs=None, output_ids=None, observed_at=None, **meta):
+        return self.execute("observation.record", {
+            "run_id": run_id, "kind": kind, "source": source,
+            "meaning": meaning, "actor": actor,
+            "evidence_refs": list(evidence_refs or []),
+            "output_ids": list(output_ids or []), "observed_at": observed_at}, **meta)
+    def review_summary(self, scope=None, actor=None):
+        return self.execute("review.summary", {"scope": scope, "actor": actor})
 
-    def review_receipt(self, conclusion_id):
-        return self.execute("review.receipt", {"conclusion_id": conclusion_id})
+    def review_receipt(self, claim_id, actor=None):
+        return self.execute("review.receipt", {"claim_id": claim_id, "actor": actor})

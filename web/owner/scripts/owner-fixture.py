@@ -35,9 +35,10 @@ with tempfile.TemporaryDirectory(prefix="proofpress-browser-") as directory:
                 "text_digest": "sha256:" + hashlib.sha256(quote.encode()).hexdigest()}},
             "retrieval": {"adapter": "browser-fixture", "version": "1", "query": name, "config_digest": "sha256:" + "b" * 64},
         })
-        proposal = client.propose_conclusion(quote, evidence["evidence"], "browser-test", "agent:browser-test")
-        cid = proposal["conclusion"]["id"]
-        client.evaluate_conclusion(cid)
+        proposal = client.propose_claim(quote, evidence["evidence"], "browser-test", "agent:browser-test",
+            title=f"Browser fixture {name}: human admission")
+        cid = proposal["claim"]["id"]
+        client.evaluate_claim(cid)
         ids.append(cid)
     print(json.dumps({"base": base, "owner": owner["token"], "agent": agent["token"], "ids": ids}), flush=True)
     try:
