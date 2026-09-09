@@ -13,7 +13,9 @@
     "developerName": "Proofpress",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
-    "defaultPrompt": "Retrieve eligible Proofpress governed context for this task."
+    "defaultPrompt": [
+      "Retrieve eligible Proofpress governed context for this task."
+    ]
   },
   "mcpServers": "./.mcp.json"
 }

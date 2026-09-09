@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "proofpress": {
-      "type": "streamable-http",
+      "type": "http",
       "url": "https://proofpress-personal-hosted.onrender.com/mcp"
     }
   }

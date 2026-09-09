@@ -39,7 +39,11 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         )
         self.assertEqual(
             claude_mcp["mcpServers"]["proofpress"],
-            {"type": "streamable-http", "url": MANAGED_MCP_URL},
+            {"type": "http", "url": MANAGED_MCP_URL},
+        )
+        self.assertEqual(
+            codex["interface"]["defaultPrompt"],
+            ["Retrieve eligible Proofpress governed context for this task."],
         )
         interface = portable["extensions"]["com.openai"]["interface"]
         self.assertEqual(interface["privacyPolicyURL"].split("/")[-1], "PLUGIN_PRIVACY.md")
@@ -138,8 +142,9 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         remote_mcp = (ROOT / "docs" / "REMOTE_MCP.md").read_text(encoding="utf-8")
         privacy = (ROOT / "docs" / "PLUGIN_PRIVACY.md").read_text(encoding="utf-8")
 
-        self.assertIn("--no-clobber", remote_mcp)
-        self.assertIn("does not replace\nan existing customer policy", remote_mcp)
+        self.assertIn("if [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then", remote_mcp)
+        self.assertNotIn("--no-clobber", remote_mcp)
+        self.assertIn("does not create a\nnumbered copy or replace an existing customer policy", remote_mcp)
         self.assertIn("Installing the plugin does not itself transfer workspace content", privacy)
         self.assertIn("may use the configured MCP", privacy)
         self.assertNotIn("only when a user directs it to use", privacy)

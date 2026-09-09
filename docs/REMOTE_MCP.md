@@ -65,15 +65,18 @@ remote MCP server for the same client.
 Install the maintained customer policy template once per target repository:
 
 ```sh
-mkdir -p .proofpress
-curl -fsSL \
-  --no-clobber \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
-  -o .proofpress/context-policy.yaml
+if [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then
+  printf '%s\n' 'Existing Proofpress policy preserved; no file was changed.'
+else
+  mkdir -p .proofpress
+  curl -fsSL \
+    https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
+    -o .proofpress/context-policy.yaml
+fi
 ```
 
-This command creates the template only when it is absent; it does not replace
-an existing customer policy. Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
+This command creates the template only when it is absent; it does not create a
+numbered copy or replace an existing customer policy. Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
 the durable decisions, validated claims, integration contracts,
 reproducible results, and incident learnings that belong in that repository's
 Proofpress workflow. The core skill reads this file before choosing `Draft
