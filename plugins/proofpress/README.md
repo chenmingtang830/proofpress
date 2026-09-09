@@ -26,7 +26,9 @@ Before connecting, choose a workspace: use a Hosted endpoint that Proofpress
 has provisioned for your team, or replace the preconfigured MCP URL with your
 own self-hosted `/mcp` endpoint. Installing this package alone does not create
 an account, workspace, or ledger, and unprovisioned users are not authorized to
-use the reference endpoint.
+use the reference endpoint. Codex/ChatGPT defers authentication until first
+use so this choice can be made before any authorization request; see
+[Remote MCP](../../docs/REMOTE_MCP.md) for manual remote-server setup.
 
 Complete the OAuth flow when the client requests it. Each client receives a
 separate, revocable agent credential. The plugin never asks for an owner or

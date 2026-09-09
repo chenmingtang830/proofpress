@@ -62,7 +62,7 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         codex_entry = codex_marketplace["plugins"][0]
         self.assertEqual(codex_entry["name"], "proofpress")
         self.assertEqual(codex_entry["source"]["path"], "./plugins/proofpress")
-        self.assertEqual(codex_entry["policy"], {"installation": "AVAILABLE", "authentication": "ON_INSTALL"})
+        self.assertEqual(codex_entry["policy"], {"installation": "AVAILABLE", "authentication": "ON_USE"})
         self.assertEqual(claude_marketplace["name"], "proofpress-plugins")
         self.assertEqual(claude_marketplace["plugins"][0]["name"], "proofpress")
         self.assertEqual(claude_marketplace["plugins"][0]["source"], "./plugins/proofpress")
