@@ -12,10 +12,25 @@ from proofpress.kernel import operations as kernel
 
 RUBRICS = {"evidence-support/v1": "Evidence support, source binding, missing evidence and limitations"}
 PROVIDERS = {
-    "openrouter": {"label": "OpenRouter", "endpoint": "https://openrouter.ai/api/v1/chat/completions", "zdr": True},
-    "openai": {"label": "OpenAI", "endpoint": "https://api.openai.com/v1/chat/completions", "zdr": False},
-    "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "zdr": False},
-    "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False},
+    "openrouter": {"label": "OpenRouter", "endpoint": "https://openrouter.ai/api/v1/chat/completions", "default_model": "deepseek/deepseek-v4-flash", "zdr": True},
+    "openai": {"label": "OpenAI", "endpoint": "https://api.openai.com/v1/chat/completions", "default_model": "gpt-5.4", "zdr": False},
+    "azure_openai": {"label": "Azure OpenAI", "endpoint": "", "zdr": False,
+                       "default_model": "gpt-5.4",
+                       "endpoint_required": True,
+                       "endpoint_placeholder": "https://your-resource.openai.azure.com/openai/v1/chat/completions"},
+    "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "default_model": "claude-sonnet-4-5", "zdr": False},
+    "amazon_bedrock": {"label": "Amazon Bedrock", "endpoint": "", "zdr": False,
+                       "default_model": "openai.gpt-oss-120b",
+                       "endpoint_required": True,
+                       "endpoint_placeholder": "https://bedrock-runtime.us-east-1.amazonaws.com/openai/v1/chat/completions"},
+    "google_gemini": {"label": "Google Gemini", "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", "default_model": "gemini-3.8-flash", "zdr": False},
+    "xai": {"label": "xAI", "endpoint": "https://api.x.ai/v1/chat/completions", "default_model": "grok-4.6", "zdr": False},
+    "groq": {"label": "Groq", "endpoint": "https://api.groq.com/openai/v1/chat/completions", "default_model": "openai/gpt-oss-20b", "zdr": False},
+    "mistral": {"label": "Mistral AI", "endpoint": "https://api.mistral.ai/v1/chat/completions", "default_model": "mistral-large-latest", "zdr": False},
+    "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False,
+               "default_model": "",
+               "endpoint_required": True,
+               "endpoint_placeholder": "https://models.example.com/v1/chat/completions"},
 }
 POLICY_AUTHORING_PROMPT = """Help me author evaluation criteria for a Proofpress workspace. Ask concise questions about the claims being reviewed, evidence requirements, sensitive or high-stakes cases, and when a human must decide. Then return only JSON in this shape: {"criteria":"the complete criteria text"}. Do not choose a model or provider, and do not request or include API keys, secrets, raw private traces, or credentials. The workspace owner configures model access separately."""
 
@@ -137,17 +152,17 @@ def public(record, credential=None):
 
 def _endpoint(settings):
     provider = settings["provider"]
-    if provider != "custom":
+    if not PROVIDERS[provider].get("endpoint_required"):
         return PROVIDERS[provider]["endpoint"]
     value = settings["endpoint"].strip()
     parsed = urlparse(value)
     if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
-        raise ValueError("Custom endpoints must use a public HTTPS URL.")
+        raise ValueError("Provider endpoints must use a public HTTPS URL.")
     if parsed.hostname in {"localhost", "localhost.localdomain"}:
-        raise ValueError("Custom endpoints must use a public HTTPS URL.")
+        raise ValueError("Provider endpoints must use a public HTTPS URL.")
     try:
         if ipaddress.ip_address(parsed.hostname).is_private:
-            raise ValueError("Custom endpoints must use a public HTTPS URL.")
+            raise ValueError("Provider endpoints must use a public HTTPS URL.")
     except ValueError as exc:
         if "public HTTPS" in str(exc):
             raise

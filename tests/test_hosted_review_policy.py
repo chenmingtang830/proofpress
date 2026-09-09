@@ -8,7 +8,7 @@ from unittest.mock import patch
 from cryptography.fernet import Fernet
 
 from proofpress.hosted.control_plane import HostedControlPlane, HostedAuthError
-from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT
+from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT, PROVIDERS
 from proofpress.kernel import operations as kernel
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from test_hosted_authority import evidence_payload, operation
@@ -37,6 +37,25 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertIn('{"criteria":', POLICY_AUTHORING_PROMPT)
         self.assertIn("Do not choose a model or provider", POLICY_AUTHORING_PROMPT)
         self.assertNotIn("return only JSON with these fields: provider", POLICY_AUTHORING_PROMPT)
+
+    def test_common_model_providers_are_available_individually(self):
+        self.assertEqual(
+            [PROVIDERS[key]["label"] for key in (
+                "azure_openai", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral")],
+            ["Azure OpenAI", "Amazon Bedrock", "Google Gemini", "xAI", "Groq", "Mistral AI"],
+        )
+        self.assertTrue(PROVIDERS["azure_openai"]["endpoint_required"])
+        self.assertTrue(PROVIDERS["amazon_bedrock"]["endpoint_required"])
+
+    def test_tenant_specific_provider_endpoint_is_validated(self):
+        azure = {**self.settings, "provider": "azure_openai", "model": "gpt-5", "endpoint": ""}
+        with self.assertRaisesRegex(ValueError, "public HTTPS URL"):
+            self.control.save_review_policy(self.owner, azure, 0, "azure-provider-key")
+        bedrock = {**self.settings, "provider": "amazon_bedrock", "model": "openai.gpt-oss-120b",
+                   "endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com/openai/v1/chat/completions"}
+        with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
+            record = self.control.save_review_policy(self.owner, bedrock, 0, "bedrock-provider-key")
+        self.assertEqual(record["settings"]["provider"], "amazon_bedrock")
 
     def test_legacy_judge_job_column_migrates_without_losing_jobs(self):
         legacy_path = Path(self.tmp.name) / "legacy-judge-jobs.db"

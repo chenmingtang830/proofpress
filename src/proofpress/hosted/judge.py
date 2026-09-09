@@ -23,6 +23,10 @@ PROVIDERS = {
     "openrouter": "https://openrouter.ai/api/v1/chat/completions",
     "openai": "https://api.openai.com/v1/chat/completions",
     "anthropic": "https://api.anthropic.com/v1/messages",
+    "google_gemini": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    "xai": "https://api.x.ai/v1/chat/completions",
+    "groq": "https://api.groq.com/openai/v1/chat/completions",
+    "mistral": "https://api.mistral.ai/v1/chat/completions",
 }
 
 
@@ -47,6 +51,8 @@ def judge(packet, model=DEFAULT_MODEL, provider="openrouter", endpoint="", crite
             payload["provider"] = {"zdr": True, "data_collection": "deny"}
         body = json.dumps(payload).encode()
         headers = {"Authorization": "Bearer " + key, "Content-Type": "application/json"}
+        if provider == "azure_openai":
+            headers["api-key"] = key
     request = Request(target, data=body, headers=headers)
     try:
         with opener(request, timeout=45) as response:

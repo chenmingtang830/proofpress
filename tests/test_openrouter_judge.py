@@ -23,6 +23,28 @@ class OpenRouterJudgeTests(unittest.TestCase):
         self.assertEqual(result["model"], DEFAULT_MODEL)
         self.assertEqual(set(result), {"recommendation", "rationale", "adapter", "model"})
 
+    @patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "azure-test-only"})
+    def test_azure_openai_uses_tenant_endpoint_and_api_key_header(self):
+        requests = []
+        def opener(request, timeout):
+            requests.append(request)
+            return self.response({"recommendation": "escalate", "rationale": "Evidence is incomplete."})
+        endpoint = "https://customer.openai.azure.com/openai/v1/chat/completions"
+        result = judge({}, model="gpt-5.4", provider="azure_openai", endpoint=endpoint, opener=opener)
+        self.assertEqual(requests[0].full_url, endpoint)
+        self.assertEqual(requests[0].get_header("Api-key"), "azure-test-only")
+        self.assertEqual(result["adapter"], "proofpress-azure_openai-judge/v1")
+
+    @patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "gemini-test-only"})
+    def test_openai_compatible_provider_uses_registered_endpoint(self):
+        requests = []
+        def opener(request, timeout):
+            requests.append(request)
+            return self.response({"recommendation": "accept", "rationale": "Evidence ev_1 supports the claim."})
+        judge({}, model="gemini-3.8-flash", provider="google_gemini", opener=opener)
+        self.assertEqual(requests[0].full_url, "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions")
+        self.assertEqual(requests[0].get_header("Authorization"), "Bearer gemini-test-only")
+
     @patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-only"})
     def test_invalid_verdict_fails_closed(self):
         for verdict in [{"recommendation": "admit", "rationale": "approve"}, {}, [],
