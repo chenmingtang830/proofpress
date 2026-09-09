@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="knowledge-title knowledge-desc">
-  <title id="knowledge-title">Agent-produced knowledge grows faster as agent autonomy increases</title>
-  <desc id="knowledge-desc">An illustrative curve shows agent-produced knowledge growing faster than enterprise knowledge. A verification inflection marks when claims begin shaping downstream work.</desc>
+  <title id="knowledge-title">Agent output outgrows the organization’s verification capacity</title>
+  <desc id="knowledge-desc">An illustrative curve shows agent-produced knowledge growing faster than the intelligence retained by the organization as agent autonomy increases. A marked point shows where output exceeds the organization’s existing verification capacity.</desc>
   <defs>
     <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0 0L10 5L0 10Z" fill="#181a20"/>
@@ -20,10 +20,9 @@
   <circle cx="744" cy="348" r="7.5" fill="#0e6675" stroke="#fff" stroke-width="5"/>
   <path d="M584 260L730 337" fill="none" stroke="#0e6675" stroke-width="1.5" marker-end="url(#teal-arrow)"/>
   <g font-family="DM Sans, Arial, sans-serif">
-    <text x="426" y="228" fill="#0e6675" font-size="18" font-weight="700" letter-spacing=".02em">VERIFICATION INFLECTION</text>
-    <text x="426" y="255" fill="#555b66" font-size="16">Claims shape downstream work</text>
+    <text x="426" y="242" fill="#0e6675" font-size="18" font-weight="700" letter-spacing=".02em">OUTPUT EXCEEDS VERIFICATION CAPACITY</text>
     <text x="1000" y="94" fill="#0e6675" font-size="20" font-weight="700"><tspan x="1000" dy="0">Agent-produced</tspan><tspan x="1000" dy="31">knowledge</tspan></text>
-    <text x="890" y="326" fill="#555b66" font-size="19" font-weight="600">Enterprise knowledge</text>
+    <text x="850" y="326" fill="#555b66" font-size="19" font-weight="600">Organization-owned intelligence</text>
     <text x="610" y="620" text-anchor="middle" fill="#181a20" font-size="18" font-weight="600">Agent adoption and autonomy over time</text>
     <text x="42" y="310" text-anchor="middle" transform="rotate(-90 42 310)" fill="#181a20" font-size="18" font-weight="600">Reusable claims and work</text>
   </g>

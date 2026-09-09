@@ -11,12 +11,14 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [//]: # (ob:e667d986)
-**Agent work compounds. Trust has to keep up.**
+**Trust infrastructure for RSI.**
 
 [//]: # (ob:92fbc10e)
-Proofpress makes agent-produced claims first-class governed objects. Each
-one stays bound to evidence, scope, lifecycle, and human authority before it
-can become context for the next agent or decision.
+Proofpress is the **Intelligence Ledger for agent-native organizations**. It
+turns agent-produced learnings into organization-owned intelligence with
+evidence, evaluation, scope, human authority, declared use, and outcomes.
+
+**Own your intelligence. Verified. Governed. Cumulative.**
 
 [Website](https://proofpress.dev) · [Quick start](#quick-start) ·
 [Product thesis](docs/THESIS.md) · [Remote MCP](docs/REMOTE_MCP.md)
@@ -25,75 +27,83 @@ can become context for the next agent or decision.
 [//]: # (ob:thesis-summary)
 
 [//]: # (ob:53ef8f8a)
-## Agents are creating a new knowledge layer
+## Agent output is growing faster than organizations can trust—or retain
 
 [//]: # (ob:87f7edac)
-Every run can create findings, analyses, decisions, and claims that become
-premises for later work. Retrieval can make those claims available. A
-trace can show where they came from. Neither decides whether they are still
-current, in scope, or authorized for reuse.
+Every run can produce findings, decisions, failures, and learnings that should
+change future work. Two failures prevent that intelligence from compounding:
 
-[//]: # (ob:9727fa6a)
-As agent adoption grows, this derived knowledge can compound much faster than
-the enterprise corpus it started from. Informal review stops scaling at the
-point where one agent's output routinely becomes another agent's input.
+| Unverified | Scattered |
+|---|---|
+| **Output scales. Verification does not.** | **Agents learn. Organizations forget.** |
+| Claims travel without durable evidence, scope, review, or authority. | Useful learnings disappear into runs, traces, chats, files, tools, and people. |
 
 <p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge accelerating beyond enterprise knowledge as agent autonomy grows, with a verification inflection when claims shape downstream work" width="100%">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge growing beyond organization-owned intelligence as output exceeds verification capacity" width="100%">
 </p>
 
-<sub>Illustrative model, not measured data. The curve matches the model used on
-the Proofpress landing page.</sub>
+<sub>Illustrative model, not measured data. Without a trusted learning loop,
+the gap keeps widening.</sub>
+
+## Today's stack captures pieces—not trusted intelligence
+
+| Layer | Primary role | What remains unresolved |
+|---|---|---|
+| Observability | Records activity | Activity is not reusable knowledge. |
+| Memory | Recalls history | Recall is not durable learning. |
+| Knowledge graphs and ontologies | Map relationships | Structure is not verified knowledge. |
+| **Proofpress** | **Governs agent-produced learnings and reliance** | **What may future agents trust and reuse?** |
+
+These systems are complementary. They can provide evidence to Proofpress or
+consume governed context from it. Proofpress supplies the governed record of
+what agents learned, why it is trusted, and where it may be reused.
 
 [//]: # (ob:41b3a522)
 [//]: # (ob:governed-handoff)
 
 [//]: # (ob:cf8ae608)
-## Make claims governable
+## The Intelligence Ledger
 
-[//]: # (ob:9b444bbd)
-Proofpress gives every reusable claim a lifecycle:
+Any agent can propose a learning with evidence through MCP, CLI, Python, or
+HTTP. Proofpress records the exact version, evaluates its support and scope,
+and routes it through Human Admission. Only admitted, current, in-scope
+knowledge becomes governed context for future work.
 
-1. **Bind evidence.** Preserve bounded support and provenance.
-2. **Propose a claim.** State the claim, scope, and intended reuse.
-3. **Run checks.** Apply deterministic requirements and optional model advice.
-4. **Require human authority.** An authenticated owner admits, rejects, or
-   requests revision.
-5. **Project governed context.** Return only admitted, current, in-scope,
-   actor-eligible knowledge.
+1. **Propose with evidence.** Preserve the source, version, and intended scope.
+2. **Evaluate.** Apply deterministic checks and optional model or external
+   assessments.
+3. **Govern.** An authenticated human admits, rejects, or requests revision.
+4. **Reuse deliberately.** Record the exact governed context presented and the
+   claim versions an agent explicitly relied on.
+5. **Connect outputs and outcomes.** Keep artifact hashes, tests, feedback, and
+   later observations attached to the work.
+6. **Improve through governance.** Use new evidence and outcomes to propose the
+   next review without silently rewriting organizational truth.
 
 [//]: # (ob:8282eb31)
 Agents may submit, propose, evaluate, and retrieve. They may never admit their
 own claims or administer owner authority.
 
-### A different layer of the stack
-
-| Layer | Governs | Core question |
-|---|---|---|
-| RAG and memory | Context entering a run | What should the agent read next? |
-| Observability | Execution events and traces | What happened while it worked? |
-| Orchestration | Tasks, tools, and runtime flow | What should run, and in what order? |
-| Knowledge graph / ontology | Enterprise entities and relationships | What does the organization know about its world? |
-| **Proofpress** | Reusable agent-produced claims | **What may the next agent rely on, and under whose authority?** |
-
-These layers are complementary. They can provide evidence to Proofpress or
-consume governed context from it; they do not grant admission authority.
-
 [//]: # (ob:612fa08f)
 [//]: # (ob:product-surfaces)
 
 [//]: # (ob:57f61eb0)
-## One governance contract, four surfaces
+## An open intelligence layer
 
 [//]: # (ob:1aa1b52d)
 <p align="center">
-  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture showing agents using MCP, Python, CLI, or HTTP to submit evidence and claims through checks and owner review before governed context reaches successor agents" width="100%">
+  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture connecting agents through MCP, Python, CLI, or HTTP to evaluation, Human Admission, and governed reuse" width="100%">
 </p>
 
 [//]: # (ob:ed5c57b7)
-MCP, Python, CLI, and HTTP call the same versioned lifecycle. Local Git-backed
-and hosted SQLite-backed deployments differ in storage, not in what counts as
-evidence, admission, or authorized reuse.
+MCP, CLI, Python, and HTTP call the same versioned lifecycle. Models, agents,
+workflows, and harnesses can change while the Intelligence Ledger stays with
+the organization.
+
+The ledger records the relationship between a task, the governed context it
+received, declared reliance, external outputs, and later observations. This is
+the foundation for continuous organizational learning; it does not collapse
+evaluation, real-world outcomes, and Human Admission into one score.
 
 The Owner workspace is the human authority layer: review the candidate and its
 support, inspect lineage, then admit, reject, or request revision.
@@ -101,6 +111,9 @@ support, inspect lineage, then admit, reject, or request revision.
 <p align="center">
   <img src="assets/product/owner-home.png" alt="Proofpress Owner workspace showing the review queue, governed claims, and evidence-backed decision interface" width="100%">
 </p>
+
+[Task run tracking](docs/TASK_RUNS.md) documents the append-only Run,
+ContextReceipt, Reliance, Output, and Observation contracts.
 
 [//]: # (ob:8db33fda)
 [//]: # (ob:quickstart)
