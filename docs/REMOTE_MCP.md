@@ -71,15 +71,23 @@ elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.y
   printf '%s\n' 'Existing Proofpress policy preserved; no file was changed.'
 else
   mkdir -p .proofpress
-  curl -fsSL \
+  temporary_policy=$(mktemp .proofpress/context-policy.yaml.XXXXXX) || {
+    printf '%s\n' 'Could not create a temporary Proofpress policy file.' >&2
+  }
+  if [ -n "${temporary_policy:-}" ] && curl -fsSL --remove-on-error \
     https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
-    -o .proofpress/context-policy.yaml
+    -o "$temporary_policy"; then
+    mv "$temporary_policy" .proofpress/context-policy.yaml
+  else
+    printf '%s\n' 'Proofpress policy download failed; no policy was created.' >&2
+  fi
 fi
 ```
 
 This command refuses a symbolic-link `.proofpress` directory and creates the
-template only when it is absent; it does not create a numbered copy or replace
-an existing customer policy. Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
+template only when a complete download succeeds; it does not create a numbered
+copy, partial file, or replace an existing customer policy. Commit and
+customize `.proofpress/context-policy.yaml` with narrow examples of
 the durable decisions, validated claims, integration contracts,
 reproducible results, and incident learnings that belong in that repository's
 Proofpress workflow. The core skill reads this file before choosing `Draft
