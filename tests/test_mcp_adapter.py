@@ -59,6 +59,29 @@ class McpAdapterTests(unittest.TestCase):
             },
         }
 
+    @staticmethod
+    def spreadsheet_evidence_payload():
+        quote = "Revenue!F12 changed from 1180000 to 1050000."
+        return {
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {
+                "uri": "workspace://finance/annual-plan.xlsx?revision=v18",
+                "content_digest": "sha256:" + "c" * 64,
+                "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            },
+            "evidence": {"quote": quote, "locator": {
+                "kind": "spreadsheet_cell", "sheet": "Revenue", "cell": "F12",
+                "cell_digest": "sha256:" + "d" * 64,
+                "previous_source_content_digest": "sha256:" + "e" * 64,
+                "previous_cell_digest": "sha256:" + "f" * 64,
+            }},
+            "retrieval": {
+                "adapter": "company.workbook-diff", "version": "1.0.0",
+                "query": "Annual Plan Revenue!F12 revision",
+                "config_digest": "sha256:" + "b" * 64,
+            },
+        }
+
     def test_safe_surface_has_no_authority_bearing_tools(self):
         tools = set(self.mcp.MCP_SAFE_TOOLS)
         self.assertIn("proofpress_propose_claim", tools)
@@ -72,6 +95,21 @@ class McpAdapterTests(unittest.TestCase):
         self.assertIn("mcp", capabilities["clients"])
         self.assertNotIn("mcp", capabilities["not_available"])
         self.assertFalse(capabilities["mcp"]["human_approval_available"])
+
+    def test_mcp_submits_a_source_bound_spreadsheet_cell(self):
+        imported = self.gateway.submit_evidence(
+            self.spreadsheet_evidence_payload(), "mcp-spreadsheet-evidence-001")
+        evidence_id = imported["evidence"][0]
+        receipt = self.gateway.get_review_receipt(
+            self.gateway.propose_claim(
+                "Revenue!F12 was revised for the FY2026 base case.", [evidence_id],
+                "finance:annual-plan:fy2026",
+                idempotency_key="mcp-spreadsheet-proposal-001",
+                title="FY2026 revenue revision")["claim"]["id"])
+        locator = receipt["evidence"][0]["retrieval_receipt"]["locator"]
+        self.assertEqual(locator["kind"], "spreadsheet_cell")
+        self.assertEqual(locator["sheet"], "Revenue")
+        self.assertEqual(locator["cell"], "F12")
 
     def test_bounded_evidence_proposal_and_context_close_the_loop(self):
         imported = self.gateway.submit_evidence(

@@ -28,6 +28,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
+    expect(source).toContain("Spreadsheet cell");
+    expect(source).toContain("Previous revision");
     expect(knowledgeSource).toContain("<LineageGraph");
     expect(source).toContain("(current + 1) * 20");
   });
