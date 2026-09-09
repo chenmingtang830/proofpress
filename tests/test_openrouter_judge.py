@@ -33,7 +33,23 @@ class OpenRouterJudgeTests(unittest.TestCase):
         result = judge({}, model="gpt-5.4", provider="azure_openai", endpoint=endpoint, opener=opener)
         self.assertEqual(requests[0].full_url, endpoint)
         self.assertEqual(requests[0].get_header("Api-key"), "azure-test-only")
+        self.assertIsNone(requests[0].get_header("Authorization"))
+        payload = json.loads(requests[0].data)
+        self.assertEqual(payload["max_completion_tokens"], 1800)
+        self.assertNotIn("max_tokens", payload)
         self.assertEqual(result["adapter"], "proofpress-azure_openai-judge/v1")
+
+    @patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "openai-test-only"})
+    def test_openai_gpt5_uses_completion_token_limit(self):
+        requests = []
+        def opener(request, timeout):
+            requests.append(request)
+            return self.response({"recommendation": "accept", "rationale": "Evidence ev_1 supports the claim."})
+        judge({}, model="gpt-5.4", provider="openai", opener=opener)
+        payload = json.loads(requests[0].data)
+        self.assertEqual(payload["max_completion_tokens"], 1800)
+        self.assertNotIn("max_tokens", payload)
+        self.assertEqual(requests[0].get_header("Authorization"), "Bearer openai-test-only")
 
     @patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "gemini-test-only"})
     def test_openai_compatible_provider_uses_registered_endpoint(self):
