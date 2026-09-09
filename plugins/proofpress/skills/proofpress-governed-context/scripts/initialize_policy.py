@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import os
 import re
 import sys
 from pathlib import Path
@@ -21,26 +22,70 @@ def policy_paths(workspace: Path) -> tuple[Path, Path]:
     )
 
 
-def policy_target_is_safe(workspace: Path, target: Path) -> bool:
-    """Reject policy paths that traverse a symlink or leave the workspace."""
+class PolicyPathError(Exception):
+    """The policy path is unsafe or cannot be opened without following links."""
+
+
+def open_policy_directory(workspace: Path, *, create: bool) -> int | None:
+    """Open `.proofpress` without following a symlink in the target repository."""
+    if not hasattr(os, "O_NOFOLLOW") or not hasattr(os, "O_DIRECTORY"):
+        raise PolicyPathError("this platform cannot safely initialize a policy")
+
     root = workspace.resolve()
-    for candidate in (target.parent, target):
-        if candidate.is_symlink():
-            print(
-                f"Policy initialization blocked: {candidate} is a symbolic link; "
-                "no file was changed.",
-                file=sys.stderr,
-            )
-            return False
+    root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY)
     try:
-        target.parent.resolve().relative_to(root)
-    except ValueError:
-        print(
-            f"Policy initialization blocked: {target.parent} resolves outside {root}; "
-            "no file was changed.",
-            file=sys.stderr,
+        if create:
+            try:
+                os.mkdir(".proofpress", mode=0o755, dir_fd=root_fd)
+            except FileExistsError:
+                pass
+        try:
+            return os.open(
+                ".proofpress",
+                os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW,
+                dir_fd=root_fd,
+            )
+        except FileNotFoundError:
+            return None
+        except OSError as error:
+            raise PolicyPathError(".proofpress is not a safe directory or is a symbolic link") from error
+    finally:
+        os.close(root_fd)
+
+
+def read_existing_policy(policy_fd: int) -> str | None:
+    """Read a regular policy file through an already-open policy directory."""
+    try:
+        target_fd = os.open(
+            "context-policy.yaml",
+            os.O_RDONLY | os.O_NOFOLLOW,
+            dir_fd=policy_fd,
         )
+    except FileNotFoundError:
+        return None
+    except OSError as error:
+        raise PolicyPathError("context-policy.yaml is not a safe regular file") from error
+    with os.fdopen(target_fd, "r", encoding="utf-8") as file:
+        return file.read()
+
+
+def create_policy_exclusively(policy_fd: int, template: str) -> bool:
+    """Create the policy exactly once, without truncating an existing file."""
+    try:
+        target_fd = os.open(
+            "context-policy.yaml",
+            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+            0o600,
+            dir_fd=policy_fd,
+        )
+    except FileExistsError:
         return False
+    try:
+        with os.fdopen(target_fd, "w", encoding="utf-8") as file:
+            file.write(template)
+    except Exception:
+        os.unlink("context-policy.yaml", dir_fd=policy_fd)
+        raise
     return True
 
 
@@ -73,15 +118,21 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     target, template_path = policy_paths(args.workspace)
-    if not policy_target_is_safe(args.workspace, target):
-        return 2
     template = template_path.read_text(encoding="utf-8")
     if schema_version(template) != EXPECTED_SCHEMA:
         print(f"Template schema is invalid: {template_path}", file=sys.stderr)
         return 2
 
-    if target.exists():
-        existing = target.read_text(encoding="utf-8")
+    try:
+        policy_fd = open_policy_directory(args.workspace, create=args.apply)
+        existing = read_existing_policy(policy_fd) if policy_fd is not None else None
+    except (OSError, PolicyPathError) as error:
+        print(f"Policy initialization blocked: {error}; no file was changed.", file=sys.stderr)
+        return 2
+
+    if existing is not None:
+        assert policy_fd is not None
+        os.close(policy_fd)
         version = schema_version(existing)
         if version != EXPECTED_SCHEMA:
             observed = version or "missing"
@@ -95,12 +146,35 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if not args.apply:
+        if policy_fd is not None:
+            os.close(policy_fd)
         sys.stdout.write(preview(target, template))
         print("Preview only. Re-run with --apply after explicit user direction to create this file.")
         return 0
 
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(template, encoding="utf-8")
+    assert policy_fd is not None
+    try:
+        created = create_policy_exclusively(policy_fd, template)
+        if not created:
+            existing = read_existing_policy(policy_fd)
+            if existing is None:
+                raise PolicyPathError("policy appeared but could not be read safely")
+            version = schema_version(existing)
+            if version != EXPECTED_SCHEMA:
+                observed = version or "missing"
+                print(
+                    f"Policy initialization blocked: {target} has schema_version {observed!r}; "
+                    "no file was changed.",
+                    file=sys.stderr,
+                )
+                return 2
+            print(f"Policy already exists: {target}; no file was changed.")
+            return 0
+    except (OSError, PolicyPathError) as error:
+        print(f"Policy initialization blocked: {error}; no file was changed.", file=sys.stderr)
+        return 2
+    finally:
+        os.close(policy_fd)
     print(f"Created {target}. Review, narrow, version, and commit this repository policy.")
     return 0
 

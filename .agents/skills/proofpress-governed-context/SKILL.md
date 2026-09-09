@@ -36,8 +36,9 @@ is never permission to write one.
 
 1. Resolve the current repository root and inspect
    `.proofpress/context-policy.yaml` without modifying it.
-2. If the file is absent and the bundled helper exists, run
-   `python3 scripts/initialize_policy.py --workspace <repository-root>` to
+2. If the file is absent and the bundled helper exists, resolve the directory
+   containing this `SKILL.md` as `<skill-root>`, then run
+   `python3 <skill-root>/scripts/initialize_policy.py --workspace <repository-root>` to
    show the proposed addition. After the explicit request to initialize, run
    it again with `--apply` to create the template unchanged. If the helper is
    not bundled, show the proposed addition from `assets/context-policy.yaml`
