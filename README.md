@@ -123,79 +123,70 @@ ContextReceipt, Reliance, Output, and Observation contracts.
 [//]: # (ob:4ccd51b9)
 ## Quick start
 
-### Agent plugin (recommended)
+Choose the path that matches what you want to do:
 
-The public [`proofpress` plugin](plugins/proofpress/README.md) packages the
-governed-context workflow, its default repository policy, and the OAuth-protected
-Hosted MCP server. It is a distribution layer: the hosted service remains the
-authority for workspace access and Human Approval.
+| Goal | Start here |
+|---|---|
+| See Proofpress work on your machine | Run the two-minute local demo below. No account or token is required. |
+| Connect an agent to an existing Hosted workspace | [Install the agent plugin](plugins/proofpress/README.md), then use the workspace's assigned MCP URL. |
+| Run your own server | Follow the [self-hosting guide](docs/SELF_HOSTING.md). |
 
-**Connection prerequisite:** installing the plugin does not create a ledger or
-a Hosted Proofpress workspace. It connects an agent to an existing Proofpress
-workspace. The checked-in default MCP endpoint is the maintainer's private
-reference service, not a public multi-tenant cloud; an unprovisioned user must
-not use it. Use either a separately provisioned Hosted workspace and its
-agent-specific authorization, or replace the MCP URL with a self-hosted
-Proofpress `/mcp` endpoint.
-
-- **Codex / ChatGPT:** add this repository's `.agents/plugins` marketplace,
-  then install `proofpress` from the Plugins Directory.
-- **Claude Code:** add this repository as a plugin marketplace, then install
-  `proofpress@proofpress-plugins`.
-- **Cursor:** install the portable Agent Plugin from the Cursor Marketplace
-  after its listing is approved, or load `plugins/proofpress` locally while
-  evaluating the package.
-
-The source package is public now; third-party marketplace listings are pending
-their independent review. See the [plugin release checklist](docs/PLUGIN_RELEASE.md)
-for the exact publication state and fallback installation paths.
-
-### Manual skill and MCP setup
+### Try the local demo in two minutes
 
 [//]: # (ob:70af4929)
-Proofpress requires Python 3.11 or newer. Install both the project-level agent
-skill and the local MCP/CLI in the repository where the governed work happens.
+You need [Python 3.11+](https://www.python.org/downloads/),
+[Git](https://git-scm.com/downloads), and
+[`uv`](https://docs.astral.sh/uv/getting-started/installation/). Run these
+commands from any directory where you want the demo folder to be created:
 
 [//]: # (ob:1522656b)
-1. **Install the governance skill.** It tells compatible agents when to retrieve,
-   propose, and stop for Human Approval.
-
-```sh
-mkdir -p .agents/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .agents/skills/proofpress-governed-context/SKILL.md
-```
-
-2. **Add a repository policy.** Edit and commit it to define what this workflow
-   should and should not propose.
-
-```sh
-mkdir -p .proofpress
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
-  -o .proofpress/context-policy.yaml
-```
-
-3. **Install the local MCP and CLI.**
 
 ```sh
 uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
+proofpress quickstart --ui
 ```
 
-4. **Create a governed demo workspace.**
+The second command creates a new `./proofpress-demo` Git repository, loads
+synthetic evidence and claims, and opens the local review UI. You can inspect a
+candidate, make the human admission decision, and see which admitted claims are
+available as governed context. Stop the UI with `Ctrl-C`; the demo stays in
+`./proofpress-demo`.
 
-```sh
-proofpress quickstart
-```
+<p align="center">
+  <img src="assets/quickstart/local-ui-review-queue.png" alt="Proofpress local demo review queue with synthetic claims ready for human review" width="100%">
+</p>
 
-- Creates a new `./proofpress-demo` Git repository with synthetic evidence.
-- Prints a ready-to-copy local `proofpress-mcp.json`.
-- Requires no account, token, hosted service, or model call.
-- Add `--ui` for local review, or `--no-browser` to keep it terminal-only.
-- Configure the optional LM Judge separately with the
-  [evidence-support criteria](.agents/skills/proofpress-governed-context/assets/judge-criteria.md).
-- Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
+The command also writes `proofpress-demo/proofpress-mcp.json`, a ready-to-copy
+local MCP configuration with absolute paths filled in. To create the demo
+without opening a browser, run `proofpress quickstart --no-browser` instead.
+Choose another empty destination with `--workspace PATH`.
+
+### Onboard an agent in your own repository
+
+Do this after the local demo, from the root of the repository whose agent work
+you want Proofpress to govern:
+
+1. Install the
+   [`proofpress-governed-context` skill](docs/REMOTE_MCP.md#manual-connection-or-self-hosting)
+   for Codex, Claude Code, or Cursor.
+2. Ask the agent: **“Initialize a Proofpress policy for this repository.”**
+   Review and commit the generated `.proofpress/context-policy.yaml`; it defines
+   which durable outcomes should be proposed and which routine work should not.
+3. Connect the agent to either your provisioned Hosted `/mcp` URL or your own
+   self-hosted endpoint, then complete OAuth with that agent's credential.
+4. Give the agent a real task. It will retrieve eligible context when available,
+   submit bounded proposals when warranted, and stop for Human Approval.
+
+Installing the plugin or skill does not create a Hosted workspace or grant
+access to the maintainer's private reference service. Each team needs a
+separately provisioned Hosted workspace or a self-hosted deployment. See
+[Remote MCP](docs/REMOTE_MCP.md) for client-specific setup and the full
+authorization boundary.
+
+Want a managed Hosted Proofpress session and to work with us as a design
+partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).
+
+Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
 
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)
