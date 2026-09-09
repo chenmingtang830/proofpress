@@ -184,22 +184,33 @@ class ProofpressPluginPackageTests(unittest.TestCase):
             self.assertEqual(blocked.returncode, 2)
             self.assertIn("safe regular file", blocked.stderr)
 
+    def test_policy_initializer_blocks_non_utf8_policy(self):
+        script = PACKAGED_SKILL / "scripts" / "initialize_policy.py"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp)
+            policy_dir = workspace / ".proofpress"
+            policy_dir.mkdir()
+            (policy_dir / "context-policy.yaml").write_bytes(b"schema_version: \xff\n")
+
+            blocked = subprocess.run(
+                [sys.executable, str(script), "--workspace", str(workspace), "--apply"],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(blocked.returncode, 2)
+            self.assertIn("not valid UTF-8", blocked.stderr)
+
     def test_documented_manual_install_and_privacy_boundary_are_non_overwriting(self):
         remote_mcp = (ROOT / "docs" / "REMOTE_MCP.md").read_text(encoding="utf-8")
         privacy = (ROOT / "docs" / "PLUGIN_PRIVACY.md").read_text(encoding="utf-8")
 
-        self.assertIn("if [ -L .proofpress ]; then", remote_mcp)
-        self.assertIn("Refusing to write through a symbolic-link .proofpress directory.", remote_mcp)
-        self.assertIn("  false\nelif [ -e .proofpress/context-policy.yaml ]", remote_mcp)
-        self.assertIn("elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then", remote_mcp)
-        self.assertIn("mktemp .proofpress/context-policy.yaml.XXXXXX", remote_mcp)
-        self.assertIn("--remove-on-error", remote_mcp)
-        self.assertIn('ln "$temporary_policy" .proofpress/context-policy.yaml', remote_mcp)
-        self.assertNotIn('mv "$temporary_policy" .proofpress/context-policy.yaml', remote_mcp)
-        self.assertNotIn("--no-clobber", remote_mcp)
-        self.assertIn('rm -f "$temporary_policy"', remote_mcp)
-        self.assertIn("    false", remote_mcp)
-        self.assertIn("template only when a complete download succeeds; it does not create a numbered", remote_mcp)
+        self.assertEqual(remote_mcp.count('assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"'), 3)
+        self.assertEqual(remote_mcp.count('scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"'), 3)
+        self.assertIn("Do not substitute a path-based shell script for that helper.", remote_mcp)
+        self.assertNotIn("mktemp .proofpress", remote_mcp)
+        self.assertNotIn('ln "$temporary_policy"', remote_mcp)
         self.assertIn("Installing the plugin does not itself transfer workspace content", privacy)
         self.assertIn("may use the configured MCP", privacy)
         self.assertIn("task summary", privacy)

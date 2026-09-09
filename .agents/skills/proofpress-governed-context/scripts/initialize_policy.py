@@ -72,8 +72,11 @@ def read_existing_policy(policy_fd: int) -> str | None:
     if not stat.S_ISREG(os.fstat(target_fd).st_mode):
         os.close(target_fd)
         raise PolicyPathError("context-policy.yaml is not a safe regular file")
-    with os.fdopen(target_fd, "r", encoding="utf-8") as file:
-        return file.read()
+    try:
+        with os.fdopen(target_fd, "r", encoding="utf-8") as file:
+            return file.read()
+    except UnicodeDecodeError as error:
+        raise PolicyPathError("context-policy.yaml is not valid UTF-8") from error
 
 
 def create_policy_exclusively(policy_fd: int, template: str) -> bool:

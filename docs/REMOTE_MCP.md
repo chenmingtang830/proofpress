@@ -34,73 +34,49 @@ adding the MCP server. Run the matching setup from the root of that project.
 ### Codex
 
 ```sh
-mkdir -p .agents/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .agents/skills/proofpress-governed-context/SKILL.md
+skill_root=.agents/skills/proofpress-governed-context
+mkdir -p "$skill_root/assets" "$skill_root/scripts"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
 ```
 
 ### Claude Code
 
 ```sh
-mkdir -p .claude/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .claude/skills/proofpress-governed-context/SKILL.md
+skill_root=.claude/skills/proofpress-governed-context
+mkdir -p "$skill_root/assets" "$skill_root/scripts"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
 ```
 
 ### Cursor
 
 ```sh
-mkdir -p .cursor/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .cursor/skills/proofpress-governed-context/SKILL.md
+skill_root=.cursor/skills/proofpress-governed-context
+mkdir -p "$skill_root/assets" "$skill_root/scripts"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
 ```
 
 These are project-level installations, so the skill travels with the
 repository. Review the downloaded `SKILL.md` before committing it. Then add the
 remote MCP server for the same client.
 
-Install the maintained customer policy template once per target repository:
-
-```sh
-if [ -L .proofpress ]; then
-  printf '%s\n' 'Refusing to write through a symbolic-link .proofpress directory.' >&2
-  false
-elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then
-  printf '%s\n' 'Existing Proofpress policy preserved; no file was changed.'
-else
-  mkdir -p .proofpress
-  if ! temporary_policy=$(mktemp .proofpress/context-policy.yaml.XXXXXX); then
-    printf '%s\n' 'Could not create a temporary Proofpress policy file.' >&2
-    false
-  elif curl -fsSL --remove-on-error \
-    https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
-    -o "$temporary_policy"; then
-    if ln "$temporary_policy" .proofpress/context-policy.yaml; then
-      rm -f "$temporary_policy"
-    else
-      rm -f "$temporary_policy"
-      printf '%s\n' 'Proofpress policy was not created because the target appeared during download.' >&2
-      false
-    fi
-  else
-    rm -f "$temporary_policy"
-    printf '%s\n' 'Proofpress policy download failed; no policy was created.' >&2
-    false
-  fi
-fi
-```
-
-This command refuses a symbolic-link `.proofpress` directory and creates the
-template only when a complete download succeeds; it does not create a numbered
-copy, partial file, or replace an existing customer policy. Commit and
-customize `.proofpress/context-policy.yaml` with narrow examples of
-the durable decisions, validated claims, integration contracts,
-reproducible results, and incident learnings that belong in that repository's
-Proofpress workflow. The core skill reads this file before choosing `Draft
-only` or `Propose`.
+To initialize a customer policy, the user must explicitly ask an agent to do
+so. The installed Skill previews its bundled template first and uses its helper
+to create `.proofpress/context-policy.yaml` only with `--apply`; it refuses
+symbolic links, partial targets, replacements, and unknown policy versions.
+Do not substitute a path-based shell script for that helper. Commit and
+customize the created policy with narrow examples of the durable decisions,
+validated claims, integration contracts, reproducible results, and incident
+learnings that belong in that repository's Proofpress workflow. The core skill
+reads this file before choosing `Draft only` or `Propose`.
 
 This is an agent-side proposal-selection policy, not a server authorization
 policy. It may narrow what an agent proposes, but cannot weaken server checks,
