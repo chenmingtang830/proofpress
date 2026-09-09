@@ -22,7 +22,10 @@ Marketplace review is independent for each client. Until a listing is approved,
 the public repository is the direct installation fallback; do not claim that a
 directory listing is live before the platform confirms it.
 
-The plugin's default server is the managed endpoint used in this document. A
+The plugin's checked-in default server is the maintainer's private reference
+endpoint, not a public multi-tenant Hosted service. Installing the plugin does
+not create a workspace or grant access to that service. A provisioned Hosted
+customer must configure its own assigned `/mcp` URL and agent authorization; a
 self-hosted operator should retain the bundled Skill but configure its own
 `/mcp` URL instead.
 
