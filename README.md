@@ -183,6 +183,9 @@ separately provisioned Hosted workspace or a self-hosted deployment. See
 [Remote MCP](docs/REMOTE_MCP.md) for client-specific setup and the full
 authorization boundary.
 
+Want a managed Hosted Proofpress session and to work with us as a design
+partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).
+
 Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
 
 [//]: # (ob:6b08a324)
