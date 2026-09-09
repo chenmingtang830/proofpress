@@ -7,6 +7,8 @@
 # Proofpress
 
 [//]: # (ob:7542280e)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![MCP](https://img.shields.io/badge/MCP-supported-0E6675)](docs/REMOTE_MCP.md)
 [![CI](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml/badge.svg)](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
@@ -316,8 +318,9 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 Python is the supported SDK and CLI installation path. Older Python imports,
 console aliases, and portable top-level commands remain deprecated forwarding
 shims; new integrations should use `ProofpressClient`, `proofpress`, and
-`proofpress legacy ...` for the portable artifact ledger. npm is used only to
-build the owner workspace and is not a customer SDK.
+`proofpress legacy ...` for the portable artifact ledger. Browser tooling is
+used internally to build the landing page and Owner workspace; it is not a
+customer integration surface.
 
 [//]: # (ob:85117b99)
 [//]: # (ob:docs-release)
