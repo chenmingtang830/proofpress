@@ -16,11 +16,19 @@ upload.
 Installing the plugin does not itself transfer workspace content. When a user
 asks an agent to perform a task that requires eligible Proofpress context or
 produces a durable outcome, the selected skill may use the configured MCP
-server to retrieve context or submit a bounded proposal. Policy initialization
-remains an explicit user request. The server's agent surface is limited to
-bounded evidence submission, claim proposals, context and lineage reads, and
-review links. It does not expose Human Approval, policy administration, or
-credential administration to the agent.
+server to retrieve context, submit a bounded proposal, or optionally record a
+task run. Policy initialization remains an explicit user request. Optional run
+tracking may send and store a task summary; governed-context receipt and
+reliance identifiers; output references, content digests, media types, and
+user-provided summaries; plus observation kinds, sources, meanings, linked
+references, and timestamps. It records references and digests, not the output
+content itself, unless that content is separately submitted as bounded evidence.
+
+The server's agent surface is limited to bounded evidence submission, claim
+proposals, context and lineage reads, run start/finish/read, context capture,
+reliance, output, and observation records, and review links. It does not expose
+Human Approval, policy administration, or credential administration to the
+agent.
 
 ## Data choices and boundaries
 
@@ -30,10 +38,10 @@ dumps, and unvalidated hypotheses. Submit only the minimum Evidence Projection
 needed to support a bounded claim; do not upload raw prompts, private reasoning,
 or material that is not necessary for the stated purpose.
 
-Proofpress records the evidence references and claim lifecycle needed for the
-configured workspace. Human Approval, not plugin installation or model output,
-is the gate for downstream reuse. An agent must not use owner or recovery
-credentials.
+Proofpress records the submitted evidence references, claim lifecycle, and any
+optional run records described above for the configured workspace. Human
+Approval, not plugin installation or model output, is the gate for downstream
+reuse. An agent must not use owner or recovery credentials.
 
 ## Authentication and self-hosting
 

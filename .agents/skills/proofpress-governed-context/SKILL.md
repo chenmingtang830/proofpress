@@ -36,14 +36,17 @@ is never permission to write one.
 
 1. Resolve the current repository root and inspect
    `.proofpress/context-policy.yaml` without modifying it.
-2. If the file is absent and the bundled helper exists, resolve the directory
-   containing this `SKILL.md` as `<skill-root>`, then run
-   `python3 <skill-root>/scripts/initialize_policy.py --workspace <repository-root>` to
-   show the proposed addition. After the explicit request to initialize, run
-   it again with `--apply` to create the template unchanged. If the helper is
-   not bundled, show the proposed addition from `assets/context-policy.yaml`
-   and create that template unchanged only after the same explicit request.
-   State that the customer should review, narrow, version, and commit the copy.
+2. If the file is absent and the bundled helper is supported by the current
+   platform, resolve the directory containing this `SKILL.md` as `<skill-root>`,
+   then run `python3 <skill-root>/scripts/initialize_policy.py --workspace
+   <repository-root>` to show the proposed addition. After the explicit request
+   to initialize, run it again with `--apply` to create the template unchanged.
+   If the helper is not bundled or reports that its platform safeguards are
+   unavailable, use the same asset-based fallback: show the proposed addition
+   from `assets/context-policy.yaml`, then create that exact template only after
+   the same explicit request, refusing a symbolic-link target and never
+   replacing an existing file. State that the customer should review, narrow,
+   version, and commit the copy.
 3. If the file exists, make no change. If its `schema_version` is unknown or
    malformed, report that policy initialization is blocked and keep the task in
    `Draft only`; never replace, merge, or repair the file automatically.

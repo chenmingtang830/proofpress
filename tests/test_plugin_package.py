@@ -202,6 +202,10 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         self.assertIn("template only when a complete download succeeds; it does not create a numbered", remote_mcp)
         self.assertIn("Installing the plugin does not itself transfer workspace content", privacy)
         self.assertIn("may use the configured MCP", privacy)
+        self.assertIn("task summary", privacy)
+        self.assertIn("output references, content digests", privacy)
+        self.assertIn("observation kinds, sources, meanings", privacy)
+        self.assertIn("run start/finish/read", privacy)
         self.assertNotIn("only when a user directs it to use", privacy)
 
     def test_policy_template_carries_no_secrets_or_owner_permissions(self):
@@ -217,6 +221,7 @@ class ProofpressPluginPackageTests(unittest.TestCase):
 
         self.assertIn("`claim.propose`", skill)
         self.assertNotIn("`conclusion.propose`", skill)
+        self.assertIn("reports that its platform safeguards are\n   unavailable", skill)
 
 
 if __name__ == "__main__":
