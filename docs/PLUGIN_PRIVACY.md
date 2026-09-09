@@ -13,11 +13,14 @@ configuration for the Proofpress MCP endpoint. The package itself has no
 analytics, telemetry, lifecycle hooks, embedded credentials, or hidden data
 upload.
 
-The plugin asks an agent to send data only when a user directs it to use a
-Proofpress MCP operation. The server's agent surface is limited to bounded
-evidence submission, claim proposals, context and lineage reads, and review
-links. It does not expose Human Approval, policy administration, or credential
-administration to the agent.
+Installing the plugin does not itself transfer workspace content. When a user
+asks an agent to perform a task that requires eligible Proofpress context or
+produces a durable outcome, the selected skill may use the configured MCP
+server to retrieve context or submit a bounded proposal. Policy initialization
+remains an explicit user request. The server's agent surface is limited to
+bounded evidence submission, claim proposals, context and lineage reads, and
+review links. It does not expose Human Approval, policy administration, or
+credential administration to the agent.
 
 ## Data choices and boundaries
 

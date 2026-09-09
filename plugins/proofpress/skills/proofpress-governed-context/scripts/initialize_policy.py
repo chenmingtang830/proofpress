@@ -21,6 +21,29 @@ def policy_paths(workspace: Path) -> tuple[Path, Path]:
     )
 
 
+def policy_target_is_safe(workspace: Path, target: Path) -> bool:
+    """Reject policy paths that traverse a symlink or leave the workspace."""
+    root = workspace.resolve()
+    for candidate in (target.parent, target):
+        if candidate.is_symlink():
+            print(
+                f"Policy initialization blocked: {candidate} is a symbolic link; "
+                "no file was changed.",
+                file=sys.stderr,
+            )
+            return False
+    try:
+        target.parent.resolve().relative_to(root)
+    except ValueError:
+        print(
+            f"Policy initialization blocked: {target.parent} resolves outside {root}; "
+            "no file was changed.",
+            file=sys.stderr,
+        )
+        return False
+    return True
+
+
 def schema_version(content: str) -> str | None:
     match = re.search(r"^schema_version:\s*([^#\s]+)", content, re.MULTILINE)
     return match.group(1) if match else None
@@ -50,6 +73,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     target, template_path = policy_paths(args.workspace)
+    if not policy_target_is_safe(args.workspace, target):
+        return 2
     template = template_path.read_text(encoding="utf-8")
     if schema_version(template) != EXPECTED_SCHEMA:
         print(f"Template schema is invalid: {template_path}", file=sys.stderr)

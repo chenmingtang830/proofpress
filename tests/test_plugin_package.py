@@ -114,6 +114,36 @@ class ProofpressPluginPackageTests(unittest.TestCase):
             self.assertIn("blocked", blocked.stderr)
             self.assertEqual(target.read_text(encoding="utf-8"), "schema_version: unknown/v9\n")
 
+    def test_policy_initializer_rejects_a_symlinked_policy_directory(self):
+        script = PACKAGED_SKILL / "scripts" / "initialize_policy.py"
+
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp) / "workspace"
+            outside = Path(tmp) / "outside"
+            workspace.mkdir()
+            outside.mkdir()
+            (workspace / ".proofpress").symlink_to(outside, target_is_directory=True)
+
+            blocked = subprocess.run(
+                [sys.executable, str(script), "--workspace", str(workspace), "--apply"],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(blocked.returncode, 2)
+            self.assertIn("symbolic link", blocked.stderr)
+            self.assertFalse((outside / "context-policy.yaml").exists())
+
+    def test_documented_manual_install_and_privacy_boundary_are_non_overwriting(self):
+        remote_mcp = (ROOT / "docs" / "REMOTE_MCP.md").read_text(encoding="utf-8")
+        privacy = (ROOT / "docs" / "PLUGIN_PRIVACY.md").read_text(encoding="utf-8")
+
+        self.assertIn("--no-clobber", remote_mcp)
+        self.assertIn("does not replace\nan existing customer policy", remote_mcp)
+        self.assertIn("Installing the plugin does not itself transfer workspace content", privacy)
+        self.assertIn("may use the configured MCP", privacy)
+        self.assertNotIn("only when a user directs it to use", privacy)
+
     def test_policy_template_carries_no_secrets_or_owner_permissions(self):
         template = (PACKAGED_SKILL / "assets" / "context-policy.yaml").read_text(encoding="utf-8").lower()
 
