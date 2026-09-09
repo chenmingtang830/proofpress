@@ -7,6 +7,7 @@ import argparse
 import difflib
 import os
 import re
+import stat
 import sys
 from pathlib import Path
 
@@ -55,16 +56,21 @@ def open_policy_directory(workspace: Path, *, create: bool) -> int | None:
 
 def read_existing_policy(policy_fd: int) -> str | None:
     """Read a regular policy file through an already-open policy directory."""
+    if not hasattr(os, "O_NONBLOCK"):
+        raise PolicyPathError("this platform cannot safely inspect policy file types")
     try:
         target_fd = os.open(
             "context-policy.yaml",
-            os.O_RDONLY | os.O_NOFOLLOW,
+            os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK,
             dir_fd=policy_fd,
         )
     except FileNotFoundError:
         return None
     except OSError as error:
         raise PolicyPathError("context-policy.yaml is not a safe regular file") from error
+    if not stat.S_ISREG(os.fstat(target_fd).st_mode):
+        os.close(target_fd)
+        raise PolicyPathError("context-policy.yaml is not a safe regular file")
     with os.fdopen(target_fd, "r", encoding="utf-8") as file:
         return file.read()
 

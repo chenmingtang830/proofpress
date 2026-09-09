@@ -77,7 +77,12 @@ else
   if [ -n "${temporary_policy:-}" ] && curl -fsSL --remove-on-error \
     https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
     -o "$temporary_policy"; then
-    mv "$temporary_policy" .proofpress/context-policy.yaml
+    if ln "$temporary_policy" .proofpress/context-policy.yaml; then
+      rm -f "$temporary_policy"
+    else
+      rm -f "$temporary_policy"
+      printf '%s\n' 'Proofpress policy was not created because the target appeared during download.' >&2
+    fi
   else
     printf '%s\n' 'Proofpress policy download failed; no policy was created.' >&2
   fi
