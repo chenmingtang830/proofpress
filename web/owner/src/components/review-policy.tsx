@@ -102,7 +102,9 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       <fieldset><legend>Model provider</legend>
         <div className="policyFields three">
           <label>Provider<select aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</select></label>
-          <label>Model<input list={modelOptions.length?"provider-model-options":undefined} value={settings.model} placeholder="provider/model-name" onChange={e=>change("model",e.target.value)} />{modelOptions.length>0 && <datalist id="provider-model-options">{modelOptions.map((model:string)=><option key={model} value={model}/>)}</datalist>}<small>Choose a suggested model or enter any model ID supported by this provider.</small></label>
+          <label>Model<input list={modelOptions.length?"provider-model-options":undefined} value={settings.model} placeholder="provider/model-name" onChange={e=>change("model",e.target.value)} />
+            {modelOptions.length>0 && <datalist id="provider-model-options">{modelOptions.map((model:string)=><option key={model} value={model}/>)}</datalist>}
+            <small>Choose one of 10 ranked defaults or enter another supported model ID.</small></label>
           <label>LM review<select aria-label="LM review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></select></label>
           {selectedProvider?.endpoint_required && <label className="wide">HTTPS endpoint<input type="url" required={settings.mode!=="off"} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} /></label>}
         </div>

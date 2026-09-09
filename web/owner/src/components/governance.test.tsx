@@ -74,6 +74,10 @@ describe("governance components", () => {
     expect(providerModelOptions(provider, "gpt-5.4")).toEqual(["gpt-5.4", "gpt-5.4-mini"]);
     expect(providerModelOptions(provider, "legacy-deployment")).toEqual(["legacy-deployment", "gpt-5.4", "gpt-5.4-mini"]);
   });
+  it("keeps all ten ranked provider defaults in order", () => {
+    const models = Array.from({length:10}, (_, index) => `model-${index}`);
+    expect(providerModelOptions({models}, "model-0")).toEqual(models);
+  });
   it("initializes a fresh workspace with the selected provider default", () => {
     const settings = {provider:"openrouter", model:"", mode:"automatic"};
     const providers = {openrouter:{default_model:"deepseek/deepseek-v4-flash"}};
