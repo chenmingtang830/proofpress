@@ -101,7 +101,7 @@ class ContentAddressedReceiptAdapter:
             retrieval["selection_reason"] = _nonempty(selection_reason,
                                                          "selection_reason")
         try:
-            return normalize_retrieval_evidence_v1({
+            normalized = normalize_retrieval_evidence_v1({
                 "schema_version": RETRIEVAL_EVIDENCE_SCHEMA,
                 "source": source,
                 "evidence": {"quote": _nonempty(quote, "quote"),
@@ -110,6 +110,16 @@ class ContentAddressedReceiptAdapter:
             })
         except ValueError as error:
             raise ContentAddressedReceiptError(str(error)) from error
+        # The normalizer's canonical receipt is an internal ledger projection.
+        # Return the validated public envelope so callers can pass it directly
+        # to ``ProofpressClient.submit_evidence`` and every other transport.
+        return {
+            "schema_version": normalized["schema_version"],
+            "source": normalized["source"],
+            "evidence": {"quote": normalized["quote"],
+                         "locator": normalized["locator"]},
+            "retrieval": normalized["retrieval"],
+        }
 
 
 def build_retrieval_evidence(*, adapter: str, version: str,

@@ -1,6 +1,11 @@
 import hashlib
+import os
+from pathlib import Path
+import subprocess
+import tempfile
 import unittest
 
+from proofpress import ProofpressClient
 from proofpress.integrations import (
     ContentAddressedReceiptAdapter,
     ContentAddressedReceiptError,
@@ -32,12 +37,9 @@ class ContentAddressedAdapterTests(unittest.TestCase):
         self.assertEqual(receipt["retrieval"]["config_digest"], adapter.bound_config_digest)
         self.assertNotIn("config", receipt["retrieval"])
         self.assertNotIn("source_content", receipt["source"])
-        self.assertEqual(knowledge.normalize_retrieval_evidence_v1({
-            "schema_version": receipt["schema_version"],
-            "source": receipt["source"],
-            "evidence": {"quote": receipt["quote"], "locator": receipt["locator"]},
-            "retrieval": receipt["retrieval"],
-        }), receipt)
+        normalized = knowledge.normalize_retrieval_evidence_v1(receipt)
+        self.assertEqual(normalized["quote"], receipt["evidence"]["quote"])
+        self.assertEqual(normalized["locator"], receipt["evidence"]["locator"])
 
     def test_reuses_the_same_seam_for_a_spreadsheet_locator(self):
         quote = "Revenue!F12 changed from 1180000 to 1050000."
@@ -53,8 +55,33 @@ class ContentAddressedAdapterTests(unittest.TestCase):
                 "previous_cell_digest": digest("v17:Revenue!F12:1180000"),
             }, query="Annual Plan Revenue!F12 revision",
         )
-        self.assertEqual(receipt["locator"]["kind"], "spreadsheet_cell")
+        self.assertEqual(receipt["evidence"]["locator"]["kind"], "spreadsheet_cell")
         self.assertEqual(receipt["source"]["content_digest"], digest("annual-plan-v18"))
+
+    def test_output_is_directly_ingestible_by_the_python_sdk(self):
+        quote = "The liability cap is one year of fees."
+        receipt = build_retrieval_evidence(
+            adapter="company.contract-index", version="1.0.0",
+            config={"projection": "clause-v1"},
+            source_uri="workspace://contracts/msa.pdf?revision=4",
+            source_content_digest=digest("msa-r4"), quote=quote,
+            locator={"kind": "text_span", "start": 0, "end": len(quote),
+                     "text_digest": digest("msa-r4-text")},
+            query="liability cap",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            for command in (("git", "init", "-q"),
+                            ("git", "config", "user.email", "test@example.com"),
+                            ("git", "config", "user.name", "Test User")):
+                subprocess.run(command, cwd=repo, check=True)
+            previous = Path.cwd()
+            try:
+                os.chdir(repo)
+                result = ProofpressClient.in_process(repo).submit_evidence(receipt)
+            finally:
+                os.chdir(previous)
+        self.assertEqual(len(result["imported_evidence"]), 1)
 
     def test_requires_one_non_secret_configuration_binding(self):
         with self.assertRaisesRegex(ContentAddressedReceiptError, "exactly one"):
