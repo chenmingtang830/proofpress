@@ -115,9 +115,9 @@ def _cipher():
         raise ValueError("Secure credential storage is misconfigured.") from exc
 
 
-def credential_status(connection, workspace_id):
+def credential_status(connection, workspace_id, provider="openrouter"):
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
-    configured = bool(row) or bool(os.environ.get("OPENROUTER_API_KEY", "").strip())
+    configured = bool(row) or (provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
     return {"configured": configured, "last_four": row["last_four"] if row else None,
             "updated_at": row["updated_at"] if row else None,
             "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))}
@@ -135,10 +135,10 @@ def delete_credential(connection, workspace_id):
     connection.execute("DELETE FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,))
 
 
-def credential(connection, workspace_id):
+def credential(connection, workspace_id, provider="openrouter"):
     row = connection.execute("SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     if not row:
-        legacy = os.environ.get("OPENROUTER_API_KEY", "").strip()
+        legacy = os.environ.get("OPENROUTER_API_KEY", "").strip() if provider == "openrouter" else ""
         return legacy or None
     from cryptography.fernet import InvalidToken
     try:

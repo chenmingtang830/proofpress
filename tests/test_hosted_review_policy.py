@@ -7,6 +7,7 @@ import unittest
 from unittest.mock import patch
 from cryptography.fernet import Fernet
 
+from proofpress.hosted import review_policy
 from proofpress.hosted.control_plane import HostedControlPlane, HostedAuthError
 from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT, PROVIDERS
 from proofpress.kernel import operations as kernel
@@ -176,6 +177,16 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertTrue(record["credential"]["configured"])
         self.assertIsNone(record["credential"]["last_four"])
         self.assertNotIn("deployment-only-secret", json.dumps(record))
+
+    def test_openrouter_deployment_key_cannot_cross_provider_boundary(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "deployment-only-secret"}):
+            switched = {**self.settings, "provider": "openai", "model": "gpt-5.4"}
+            with self.assertRaisesRegex(ValueError, "API key for the selected provider"):
+                self.control.save_review_policy(self.owner, switched, 0, delete_key=True)
+            with self.control._db() as connection:
+                self.assertIsNone(review_policy.credential(connection, "workspace:test", "openai"))
+                self.assertFalse(review_policy.credential_status(
+                    connection, "workspace:test", "openai")["configured"])
 
     def test_required_advice_cannot_be_bypassed_and_receipt_explains_it(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):

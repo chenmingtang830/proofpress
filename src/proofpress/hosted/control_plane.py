@@ -553,8 +553,9 @@ class HostedControlPlane:
     def get_review_policy(self, token):
         owner = self._owner(token)
         with self._db() as connection:
-            return review_policy.public(review_policy.current(connection, owner.workspace_id),
-                                        review_policy.credential_status(connection, owner.workspace_id))
+            record = review_policy.current(connection, owner.workspace_id)
+            return review_policy.public(record, review_policy.credential_status(
+                connection, owner.workspace_id, record["settings"]["provider"]))
 
     def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False):
         owner = self._owner(token)
@@ -566,16 +567,21 @@ class HostedControlPlane:
                 raise HostedAuthError("stale_policy", "Review policy changed. Reload before saving.")
             policy = review_policy.validate(settings, prior["policy"])
             changed_at = _now()
+            provider_changed = settings["provider"] != prior["settings"].get("provider")
+            if api_key and delete_key:
+                raise ValueError("Add or remove the provider API key, not both.")
+            if provider_changed and not api_key:
+                raise ValueError("Add the API key for the selected provider.")
             if delete_key:
                 review_policy.delete_credential(connection, owner.workspace_id)
             elif api_key:
                 review_policy.save_credential(connection, owner.workspace_id, api_key, changed_at)
-            elif settings["provider"] != prior["settings"].get("provider"):
-                raise ValueError("Add the API key for the selected provider.")
-            if settings["mode"] != "off" and not review_policy.credential(connection, owner.workspace_id):
+            if settings["mode"] != "off" and not review_policy.credential(
+                    connection, owner.workspace_id, settings["provider"]):
                 raise ValueError("Add a provider API key before enabling LM review.")
             if settings == prior["settings"] and not api_key and not delete_key:
-                return review_policy.public(prior, review_policy.credential_status(connection, owner.workspace_id))
+                return review_policy.public(prior, review_policy.credential_status(
+                    connection, owner.workspace_id, prior["settings"]["provider"]))
             record = {"version": prior["version"] + 1, "settings": settings, "policy": policy,
                       "actor": owner.principal_id, "updated_at": changed_at}
             connection.execute("INSERT INTO hosted_review_policies VALUES (?, ?, ?, ?, ?, ?)",
@@ -592,7 +598,8 @@ class HostedControlPlane:
                     self._schedule_judge(owner, claim, record, start=False)
                 if candidates:
                     threading.Thread(target=self.run_judge_jobs, daemon=True).start()
-            return review_policy.public(record, review_policy.credential_status(connection, owner.workspace_id))
+            return review_policy.public(record, review_policy.credential_status(
+                connection, owner.workspace_id, settings["provider"]))
         finally:
             connection.close()
 
@@ -671,7 +678,8 @@ class HostedControlPlane:
                 record = self._policy(job["workspace_id"])
                 store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
                 with self._db() as secret_connection:
-                    provider_secret = review_policy.credential(secret_connection, job["workspace_id"])
+                    provider_secret = review_policy.credential(
+                        secret_connection, job["workspace_id"], record["settings"]["provider"])
                 with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or ""}):
                     if record["settings"]["mode"] != "automatic" or record["policy"]["digest"] != job["policy_digest"]:
                         state, detail = "skipped", "Review policy changed."
@@ -857,7 +865,8 @@ class HostedControlPlane:
         judge_environment = {}
         if operation in {"claim.judge", "claim.judge_batch", "relation.judge"}:
             with self._db() as connection:
-                provider_secret = review_policy.credential(connection, context.workspace_id)
+                provider_secret = review_policy.credential(
+                    connection, context.workspace_id, record["settings"]["provider"])
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
         with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
             envelope = kernel_ops.execute_local_operation(normalized)
