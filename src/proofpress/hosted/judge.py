@@ -44,10 +44,12 @@ def judge(packet, model=DEFAULT_MODEL, provider="openrouter", endpoint="", crite
             "system": instruction, "messages": [{"role": "user", "content": packed}]}).encode()
         headers = {"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"}
     else:
-        token_limit = "max_completion_tokens" if model.split("/")[-1].startswith("gpt-5") else "max_tokens"
-        payload = {"model": model, token_limit: 1800,
+        payload = {"model": model,
             "messages": [{"role": "system", "content": instruction}, {"role": "user", "content": packed}],
             "response_format": {"type": "json_object"}}
+        if provider != "azure_openai":
+            token_limit = "max_completion_tokens" if model.split("/")[-1].startswith("gpt-5") else "max_tokens"
+            payload[token_limit] = 1800
         if provider == "openrouter" and zdr:
             payload["provider"] = {"zdr": True, "data_collection": "deny"}
         body = json.dumps(payload).encode()

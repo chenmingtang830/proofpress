@@ -35,7 +35,7 @@ class OpenRouterJudgeTests(unittest.TestCase):
         self.assertEqual(requests[0].get_header("Api-key"), "azure-test-only")
         self.assertIsNone(requests[0].get_header("Authorization"))
         payload = json.loads(requests[0].data)
-        self.assertEqual(payload["max_completion_tokens"], 1800)
+        self.assertNotIn("max_completion_tokens", payload)
         self.assertNotIn("max_tokens", payload)
         self.assertEqual(result["adapter"], "proofpress-azure_openai-judge/v1")
 

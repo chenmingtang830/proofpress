@@ -55,7 +55,7 @@ class ReviewPolicyTests(unittest.TestCase):
         azure = {**self.settings, "provider": "azure_openai", "model": "gpt-5", "endpoint": ""}
         with self.assertRaisesRegex(ValueError, "public HTTPS URL"):
             self.control.save_review_policy(self.owner, azure, 0, "azure-provider-key")
-        bedrock = {**self.settings, "provider": "amazon_bedrock", "model": "openai.gpt-oss-120b",
+        bedrock = {**self.settings, "provider": "amazon_bedrock", "model": "openai.gpt-oss-120b-1:0",
                    "endpoint": "https://bedrock-runtime.us-east-1.amazonaws.com/openai/v1/chat/completions"}
         with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
             record = self.control.save_review_policy(self.owner, bedrock, 0, "bedrock-provider-key")
