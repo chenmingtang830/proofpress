@@ -46,6 +46,9 @@ class ReviewPolicyTests(unittest.TestCase):
         )
         self.assertTrue(PROVIDERS["azure_openai"]["endpoint_required"])
         self.assertTrue(PROVIDERS["amazon_bedrock"]["endpoint_required"])
+        for key, provider in PROVIDERS.items():
+            if key != "custom":
+                self.assertIn(provider["default_model"], provider["models"])
 
     def test_tenant_specific_provider_endpoint_is_validated(self):
         azure = {**self.settings, "provider": "azure_openai", "model": "gpt-5", "endpoint": ""}

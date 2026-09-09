@@ -6,7 +6,7 @@ import { LineageGraph } from "./lineage-graph";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
-import { applyProviderPreset, mergeAgentPolicyDraft } from "./review-policy";
+import { applyProviderPreset, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
 
 describe("governance components", () => {
   it("keeps advisory support visually separate from admission", () => {
@@ -68,5 +68,10 @@ describe("governance components", () => {
     const providers = {openai:{default_model:"gpt-5.4"}, custom:{default_model:""}};
     expect(applyProviderPreset(current, "openai", providers)).toEqual({provider:"openai", model:"gpt-5.4", endpoint:""});
     expect(applyProviderPreset(current, "custom", providers)).toEqual({provider:"custom", model:"", endpoint:""});
+  });
+  it("shows provider models while preserving a saved model outside the current catalog", () => {
+    const provider = {models:["gpt-5.4", "gpt-5.4-mini"]};
+    expect(providerModelOptions(provider, "gpt-5.4")).toEqual(["gpt-5.4", "gpt-5.4-mini"]);
+    expect(providerModelOptions(provider, "legacy-deployment")).toEqual(["legacy-deployment", "gpt-5.4", "gpt-5.4-mini"]);
   });
 });

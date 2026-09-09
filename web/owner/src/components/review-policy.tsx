@@ -24,6 +24,11 @@ export function applyProviderPreset(settings: any, provider: string, providers: 
   return {...settings, provider, model:preset.default_model || "", endpoint:""};
 }
 
+export function providerModelOptions(provider: any, current: string) {
+  const models = Array.isArray(provider?.models) ? provider.models : [];
+  return current && !models.includes(current) ? [current, ...models] : models;
+}
+
 export function ReviewPolicy({csrf, api, onSaved}: any) {
   const [record, setRecord] = React.useState<any>(null);
   const [settings, setSettings] = React.useState<any>(null);
@@ -76,6 +81,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
   const selectedProvider = record?.providers?.[settings?.provider];
+  const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
   return <Card className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
     <CardHeader className="policyHeading"><div><CardTitle id="reviewPolicyTitle">Review policy</CardTitle><CardDescription>Set the approval gate first. Provider and evaluation details follow.</CardDescription></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</CardHeader>
     {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload</Button></div>}
@@ -89,7 +95,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       <fieldset><legend>Model provider</legend>
         <div className="policyFields three">
           <label>Provider<select aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</select></label>
-          <label>Model<input value={settings.model} placeholder={selectedProvider?.default_model || "provider/model-name"} onChange={e=>change("model",e.target.value)} /></label>
+          <label>Model{settings.provider==="custom" ? <input value={settings.model} placeholder="provider/model-name" onChange={e=>change("model",e.target.value)} /> : <select aria-label="Model" value={settings.model} onChange={e=>change("model",e.target.value)}>{modelOptions.map((model:string)=><option key={model} value={model}>{model}</option>)}</select>}</label>
           <label>LM review<select aria-label="LM review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></select></label>
           {selectedProvider?.endpoint_required && <label className="wide">HTTPS endpoint<input type="url" required={settings.mode!=="off"} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} /></label>}
         </div>
