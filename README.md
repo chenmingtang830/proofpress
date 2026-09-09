@@ -130,6 +130,14 @@ governed-context workflow, its default repository policy, and the OAuth-protecte
 Hosted MCP server. It is a distribution layer: the hosted service remains the
 authority for workspace access and Human Approval.
 
+**Connection prerequisite:** installing the plugin does not create a ledger or
+a Hosted Proofpress workspace. It connects an agent to an existing Proofpress
+workspace. The checked-in default MCP endpoint is the maintainer's private
+reference service, not a public multi-tenant cloud; an unprovisioned user must
+not use it. Use either a separately provisioned Hosted workspace and its
+agent-specific authorization, or replace the MCP URL with a self-hosted
+Proofpress `/mcp` endpoint.
+
 - **Codex / ChatGPT:** add this repository's `.agents/plugins` marketplace,
   then install `proofpress` from the Plugins Directory.
 - **Claude Code:** add this repository as a plugin marketplace, then install
