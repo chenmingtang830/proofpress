@@ -25,7 +25,7 @@ PROVIDERS = {
                        "default_model": "openai.gpt-6-astra",
                        "models": ["openai.gpt-6-astra", "openai.gpt-5.6-sol", "openai.gpt-5.6-terra", "openai.gpt-5.6-luna", "openai.gpt-5.5", "openai.gpt-5.4", "xai.grok-4.6", "openai.gpt-oss-120b-1:0", "openai.gpt-oss-safeguard-120b", "openai.gpt-oss-20b-1:0"],
                        "endpoint_required": True,
-                       "endpoint_placeholder": "https://bedrock-mantle.us-east-1.api.aws/openai/v1/chat/completions"},
+                       "endpoint_placeholder": "https://bedrock-mantle.us-east-1.api.aws/v1/chat/completions"},
     "google_gemini": {"label": "Google Gemini", "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", "default_model": "gemini-3.8-flash", "models": ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.1-pro-preview", "gemini-3-flash-preview", "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-pro", "gemini-2.5-flash"], "zdr": False},
     "xai": {"label": "xAI", "endpoint": "https://api.x.ai/v1/chat/completions", "default_model": "grok-4.6", "models": ["grok-4.6", "grok-4.3", "grok-build-0.1", "grok-4.1-fast", "grok-4-fast", "grok-4", "grok-3", "grok-3-mini", "grok-2-vision-1212", "grok-2-1212"], "zdr": False},
     "groq": {"label": "Groq", "endpoint": "https://api.groq.com/openai/v1/chat/completions", "default_model": "openai/gpt-oss-120b", "models": ["openai/gpt-oss-120b", "minimaxai/minimax-m2.7", "qwen/qwen3.8-27b", "qwen/qwen3.6-27b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "groq/compound", "groq/compound-mini", "llama-3.1-8b-instant", "openai/gpt-oss-safeguard-20b"], "zdr": False},

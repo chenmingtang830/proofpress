@@ -59,7 +59,7 @@ class ReviewPolicyTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "public HTTPS URL"):
             self.control.save_review_policy(self.owner, azure, 0, "azure-provider-key")
         bedrock = {**self.settings, "provider": "amazon_bedrock", "model": "openai.gpt-oss-120b-1:0",
-                   "endpoint": "https://bedrock-mantle.us-east-1.api.aws/openai/v1/chat/completions"}
+                   "endpoint": "https://bedrock-mantle.us-east-1.api.aws/v1/chat/completions"}
         with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
             record = self.control.save_review_policy(self.owner, bedrock, 0, "bedrock-provider-key")
         self.assertEqual(record["settings"]["provider"], "amazon_bedrock")
