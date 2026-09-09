@@ -5,7 +5,28 @@ endpoint at `/mcp`. The endpoint uses OAuth 2.1 authorization-code flow with
 PKCE and is backed by the same hosted operation contract as the Python SDK,
 CLI, and local stdio bridge.
 
-## Connect
+## Recommended plugin installation
+
+The public [`proofpress` Agent Plugin](../plugins/proofpress/README.md) bundles
+the governed-context Skill, the same policy template, and this managed MCP
+endpoint. Prefer it when the client supports plugins:
+
+- **Codex / ChatGPT:** add this repository's `.agents/plugins` marketplace and
+  install `proofpress` from the Plugins Directory.
+- **Claude Code:** add this repository as a marketplace, then install
+  `proofpress@proofpress-plugins`.
+- **Cursor:** install the portable package from the Cursor Marketplace after
+  its listing is approved, or import `plugins/proofpress` locally for testing.
+
+Marketplace review is independent for each client. Until a listing is approved,
+the public repository is the direct installation fallback; do not claim that a
+directory listing is live before the platform confirms it.
+
+The plugin's default server is the managed endpoint used in this document. A
+self-hosted operator should retain the bundled Skill but configure its own
+`/mcp` URL instead.
+
+## Manual connection or self-hosting
 
 Install the `proofpress-governed-context` skill in the target project before
 adding the MCP server. Run the matching setup from the root of that project.
@@ -13,48 +34,49 @@ adding the MCP server. Run the matching setup from the root of that project.
 ### Codex
 
 ```sh
-mkdir -p .agents/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .agents/skills/proofpress-governed-context/SKILL.md
+skill_root=.agents/skills/proofpress-governed-context
+mkdir -p "$skill_root/assets" "$skill_root/scripts"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
 ```
 
 ### Claude Code
 
 ```sh
-mkdir -p .claude/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .claude/skills/proofpress-governed-context/SKILL.md
+skill_root=.claude/skills/proofpress-governed-context
+mkdir -p "$skill_root/assets" "$skill_root/scripts"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
 ```
 
 ### Cursor
 
 ```sh
-mkdir -p .cursor/skills/proofpress-governed-context
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md \
-  -o .cursor/skills/proofpress-governed-context/SKILL.md
+skill_root=.cursor/skills/proofpress-governed-context
+mkdir -p "$skill_root/assets" "$skill_root/scripts"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
 ```
 
 These are project-level installations, so the skill travels with the
 repository. Review the downloaded `SKILL.md` before committing it. Then add the
 remote MCP server for the same client.
 
-Install the maintained customer policy template once per target repository:
-
-```sh
-mkdir -p .proofpress
-curl -fsSL \
-  https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
-  -o .proofpress/context-policy.yaml
-```
-
-Commit and customize `.proofpress/context-policy.yaml` with narrow examples of
-the durable decisions, validated claims, integration contracts,
-reproducible results, and incident learnings that belong in that repository's
-Proofpress workflow. The core skill reads this file before choosing `Draft
-only` or `Propose`.
+To initialize a customer policy, the user must explicitly ask an agent to do
+so. The installed Skill previews its bundled template first and uses its helper
+to create `.proofpress/context-policy.yaml` only with `--apply`; it refuses
+symbolic links, partial targets, replacements, and unknown policy versions.
+Do not substitute a path-based shell script for that helper. Commit and
+customize the created policy with narrow examples of the durable decisions,
+validated claims, integration contracts, reproducible results, and incident
+learnings that belong in that repository's Proofpress workflow. The core skill
+reads this file before choosing `Draft only` or `Propose`.
 
 This is an agent-side proposal-selection policy, not a server authorization
 policy. It may narrow what an agent proposes, but cannot weaken server checks,
