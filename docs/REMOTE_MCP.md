@@ -71,10 +71,10 @@ elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.y
   printf '%s\n' 'Existing Proofpress policy preserved; no file was changed.'
 else
   mkdir -p .proofpress
-  temporary_policy=$(mktemp .proofpress/context-policy.yaml.XXXXXX) || {
+  if ! temporary_policy=$(mktemp .proofpress/context-policy.yaml.XXXXXX); then
     printf '%s\n' 'Could not create a temporary Proofpress policy file.' >&2
-  }
-  if [ -n "${temporary_policy:-}" ] && curl -fsSL --remove-on-error \
+    false
+  elif curl -fsSL --remove-on-error \
     https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml \
     -o "$temporary_policy"; then
     if ln "$temporary_policy" .proofpress/context-policy.yaml; then
@@ -82,9 +82,12 @@ else
     else
       rm -f "$temporary_policy"
       printf '%s\n' 'Proofpress policy was not created because the target appeared during download.' >&2
+      false
     fi
   else
+    rm -f "$temporary_policy"
     printf '%s\n' 'Proofpress policy download failed; no policy was created.' >&2
+    false
   fi
 fi
 ```

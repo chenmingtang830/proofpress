@@ -119,6 +119,18 @@ class ProofpressPluginPackageTests(unittest.TestCase):
             self.assertIn("blocked", blocked.stderr)
             self.assertEqual(target.read_text(encoding="utf-8"), "schema_version: unknown/v9\n")
 
+            target.write_text(
+                "schema_version: proofpress/context-policy/v1alpha1 trailing-text\n",
+                encoding="utf-8",
+            )
+            malformed = subprocess.run(command + ["--apply"], text=True, capture_output=True, check=False)
+            self.assertEqual(malformed.returncode, 2)
+            self.assertIn("blocked", malformed.stderr)
+            self.assertEqual(
+                target.read_text(encoding="utf-8"),
+                "schema_version: proofpress/context-policy/v1alpha1 trailing-text\n",
+            )
+
     def test_policy_initializer_rejects_a_symlinked_policy_directory(self):
         script = PACKAGED_SKILL / "scripts" / "initialize_policy.py"
 
@@ -170,6 +182,8 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         self.assertIn('ln "$temporary_policy" .proofpress/context-policy.yaml', remote_mcp)
         self.assertNotIn('mv "$temporary_policy" .proofpress/context-policy.yaml', remote_mcp)
         self.assertNotIn("--no-clobber", remote_mcp)
+        self.assertIn('rm -f "$temporary_policy"', remote_mcp)
+        self.assertIn("    false", remote_mcp)
         self.assertIn("template only when a complete download succeeds; it does not create a numbered", remote_mcp)
         self.assertIn("Installing the plugin does not itself transfer workspace content", privacy)
         self.assertIn("may use the configured MCP", privacy)
@@ -182,6 +196,12 @@ class ProofpressPluginPackageTests(unittest.TestCase):
             self.assertNotIn(sensitive_field, template)
         self.assertIn("agent_may_not_self_approve: true", template)
         self.assertIn("owner_or_recovery_credentials_forbidden: true", template)
+
+    def test_skill_uses_the_current_claim_proposal_operation(self):
+        skill = (PACKAGED_SKILL / "SKILL.md").read_text(encoding="utf-8")
+
+        self.assertIn("`claim.propose`", skill)
+        self.assertNotIn("`conclusion.propose`", skill)
 
 
 if __name__ == "__main__":

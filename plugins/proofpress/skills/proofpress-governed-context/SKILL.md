@@ -121,9 +121,8 @@ metadata, summaries, output records, or observations.
    artifact references, test or experiment receipts, observed outputs, and
    relevant provenance. Exclude secrets, tokens, raw prompts, private source
    material, and unnecessary traces.
-3. Use the configured proposal operation (`conclusion.propose` or
-   `relation.propose`) and bind the submitted evidence. Use an idempotency key
-   when the client supports one.
+3. Use `claim.propose` or the matching discovered MCP proposal tool, and bind
+   the submitted evidence. Use an idempotency key when the client supports one.
 4. Read back the proposal and obtain its review summary or receipt. Report its
    identifier, scope, evidence references, status, and review URL or receipt.
 

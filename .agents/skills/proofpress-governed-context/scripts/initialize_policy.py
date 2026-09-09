@@ -7,6 +7,7 @@ import argparse
 import difflib
 import os
 import re
+import secrets
 import stat
 import sys
 from pathlib import Path
@@ -76,28 +77,44 @@ def read_existing_policy(policy_fd: int) -> str | None:
 
 
 def create_policy_exclusively(policy_fd: int, template: str) -> bool:
-    """Create the policy exactly once, without truncating an existing file."""
-    try:
-        target_fd = os.open(
-            "context-policy.yaml",
-            os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
-            0o600,
-            dir_fd=policy_fd,
-        )
-    except FileExistsError:
-        return False
+    """Publish a complete policy once, without exposing a partial target file."""
+    temporary_name = f".context-policy-{secrets.token_hex(16)}.tmp"
+    target_fd = os.open(
+        temporary_name,
+        os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW,
+        0o600,
+        dir_fd=policy_fd,
+    )
     try:
         with os.fdopen(target_fd, "w", encoding="utf-8") as file:
             file.write(template)
-    except Exception:
-        os.unlink("context-policy.yaml", dir_fd=policy_fd)
-        raise
-    return True
+            file.flush()
+            os.fsync(file.fileno())
+        try:
+            os.link(
+                temporary_name,
+                "context-policy.yaml",
+                src_dir_fd=policy_fd,
+                dst_dir_fd=policy_fd,
+                follow_symlinks=False,
+            )
+        except FileExistsError:
+            return False
+        return True
+    finally:
+        try:
+            os.unlink(temporary_name, dir_fd=policy_fd)
+        except FileNotFoundError:
+            pass
 
 
 def schema_version(content: str) -> str | None:
-    match = re.search(r"^schema_version:\s*([^#\s]+)", content, re.MULTILINE)
-    return match.group(1) if match else None
+    match = re.search(
+        r"^schema_version:\s*([^#\r\n]+?)(?:\s+#.*)?\s*$",
+        content,
+        re.MULTILINE,
+    )
+    return match.group(1).strip() if match else None
 
 
 def preview(path: Path, template: str) -> str:
