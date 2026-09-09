@@ -5,7 +5,28 @@ endpoint at `/mcp`. The endpoint uses OAuth 2.1 authorization-code flow with
 PKCE and is backed by the same hosted operation contract as the Python SDK,
 CLI, and local stdio bridge.
 
-## Connect
+## Recommended plugin installation
+
+The public [`proofpress` Agent Plugin](../plugins/proofpress/README.md) bundles
+the governed-context Skill, the same policy template, and this managed MCP
+endpoint. Prefer it when the client supports plugins:
+
+- **Codex / ChatGPT:** add this repository's `.agents/plugins` marketplace and
+  install `proofpress` from the Plugins Directory.
+- **Claude Code:** add this repository as a marketplace, then install
+  `proofpress@proofpress-plugins`.
+- **Cursor:** install the portable package from the Cursor Marketplace after
+  its listing is approved, or import `plugins/proofpress` locally for testing.
+
+Marketplace review is independent for each client. Until a listing is approved,
+the public repository is the direct installation fallback; do not claim that a
+directory listing is live before the platform confirms it.
+
+The plugin's default server is the managed endpoint used in this document. A
+self-hosted operator should retain the bundled Skill but configure its own
+`/mcp` URL instead.
+
+## Manual connection or self-hosting
 
 Install the `proofpress-governed-context` skill in the target project before
 adding the MCP server. Run the matching setup from the root of that project.

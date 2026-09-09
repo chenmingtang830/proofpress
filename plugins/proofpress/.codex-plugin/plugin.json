@@ -1,0 +1,19 @@
+{
+  "name": "proofpress",
+  "version": "0.1.0",
+  "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
+  "author": {
+    "name": "Proofpress"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Proofpress",
+    "shortDescription": "Govern what agent-produced knowledge may be reused.",
+    "longDescription": "Use the governed-context workflow with the hosted Proofpress MCP server. Human Approval remains outside the agent tool surface.",
+    "developerName": "Proofpress",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": "Retrieve eligible Proofpress governed context for this task."
+  },
+  "mcpServers": "./.mcp.json"
+}

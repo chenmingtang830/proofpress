@@ -121,6 +121,27 @@ ContextReceipt, Reliance, Output, and Observation contracts.
 [//]: # (ob:4ccd51b9)
 ## Quick start
 
+### Agent plugin (recommended)
+
+The public [`proofpress` plugin](plugins/proofpress/README.md) packages the
+governed-context workflow, its default repository policy, and the OAuth-protected
+Hosted MCP server. It is a distribution layer: the hosted service remains the
+authority for workspace access and Human Approval.
+
+- **Codex / ChatGPT:** add this repository's `.agents/plugins` marketplace,
+  then install `proofpress` from the Plugins Directory.
+- **Claude Code:** add this repository as a plugin marketplace, then install
+  `proofpress@proofpress-plugins`.
+- **Cursor:** install the portable Agent Plugin from the Cursor Marketplace
+  after its listing is approved, or load `plugins/proofpress` locally while
+  evaluating the package.
+
+The source package is public now; third-party marketplace listings are pending
+their independent review. See the [plugin release checklist](docs/PLUGIN_RELEASE.md)
+for the exact publication state and fallback installation paths.
+
+### Manual skill and MCP setup
+
 [//]: # (ob:70af4929)
 Proofpress requires Python 3.11 or newer. Install both the project-level agent
 skill and the local MCP/CLI in the repository where the governed work happens.

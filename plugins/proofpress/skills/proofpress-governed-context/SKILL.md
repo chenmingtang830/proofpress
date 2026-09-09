@@ -97,21 +97,6 @@ and scope are sufficient; otherwise explain what is missing.
    rejected candidate, expired item, or unresolved conflict is not reusable
    context.
 
-## Optional task tracking
-
-When the client exposes run operations and the task benefits from a durable
-usage trail, start a run before retrieval. Use `context.capture` to retrieve and
-freeze the exact governed claim versions returned for that run. Record
-`reliance.record` only for versions actually used; retrieval alone is not
-reliance. Record external outputs by reference and content digest, then append
-sourced observations when available. Observations preserve what a test, person,
-external evaluator, or later outcome reported; they do not approve claims,
-create a score, or authorize future reuse.
-
-Run tracking is optional and separate from the portable artifact ledger. Never
-include credentials, raw private traces, or full private artifacts in run
-metadata, summaries, output records, or observations.
-
 ## Submit a bounded proposal
 
 1. State one precise candidate conclusion or relation. Include its intended
