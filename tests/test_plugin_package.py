@@ -142,9 +142,11 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         remote_mcp = (ROOT / "docs" / "REMOTE_MCP.md").read_text(encoding="utf-8")
         privacy = (ROOT / "docs" / "PLUGIN_PRIVACY.md").read_text(encoding="utf-8")
 
-        self.assertIn("if [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then", remote_mcp)
+        self.assertIn("if [ -L .proofpress ]; then", remote_mcp)
+        self.assertIn("Refusing to write through a symbolic-link .proofpress directory.", remote_mcp)
+        self.assertIn("elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then", remote_mcp)
         self.assertNotIn("--no-clobber", remote_mcp)
-        self.assertIn("does not create a\nnumbered copy or replace an existing customer policy", remote_mcp)
+        self.assertIn("template only when it is absent; it does not create a numbered copy or replace", remote_mcp)
         self.assertIn("Installing the plugin does not itself transfer workspace content", privacy)
         self.assertIn("may use the configured MCP", privacy)
         self.assertNotIn("only when a user directs it to use", privacy)
