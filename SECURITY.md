@@ -5,9 +5,9 @@
 ## Supported versions
 
 [//]: # (ob:18228539)
-Only the latest version published to npm and the current `main` branch receive
-security fixes. Upgrade before reporting an issue that affects an older
-release.
+The current `main` branch receives security fixes. Proofpress does not support
+a public npm distribution. Update to current source before reporting an issue
+that affects an older revision.
 
 [//]: # (ob:c413522b)
 ## Reporting a vulnerability
