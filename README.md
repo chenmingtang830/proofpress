@@ -230,7 +230,7 @@ Submitting evidence or proposing a conclusion never admits it. Agent credentials
 
 [//]: # (ob:3159be00)
 - **Understand the product:** [Thesis](docs/THESIS.md) → [governed knowledge and context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
-- **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
+- **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [content-addressed receipt adapter](docs/CONTENT_ADDRESSED_ADAPTER.md) → [spreadsheet cell evidence](docs/SPREADSHEET_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
 - **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
 - **Explore prior experiments:** [study catalog](studies/README.md). Research evidence is separately scoped; it is not a blanket product-efficacy claim.
 

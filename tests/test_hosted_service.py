@@ -29,6 +29,25 @@ def evidence_payload():
     }
 
 
+def spreadsheet_evidence_payload():
+    quote = "Revenue!F12 changed from 1180000 to 1050000."
+    return {
+        "schema_version": "proofpress/retrieval-evidence/v1",
+        "source": {"uri": "workspace://finance/annual-plan.xlsx?revision=v18",
+                   "content_digest": "sha256:" + "c" * 64,
+                   "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+        "evidence": {"quote": quote, "locator": {
+            "kind": "spreadsheet_cell", "sheet": "Revenue", "cell": "F12",
+            "cell_digest": "sha256:" + "d" * 64,
+            "previous_source_content_digest": "sha256:" + "e" * 64,
+            "previous_cell_digest": "sha256:" + "f" * 64,
+        }},
+        "retrieval": {"adapter": "company.workbook-diff", "version": "1.0.0",
+                      "query": "Annual Plan Revenue!F12 revision",
+                      "config_digest": "sha256:" + "b" * 64},
+    }
+
+
 class HostedServiceTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -149,6 +168,18 @@ class HostedServiceTests(unittest.TestCase):
             self.service.seed_judge_demo(
                 control, "workspace:webmcp-judge-demo",
                 "human:webmcp-judge", "WebMCP Judge")
+
+    def test_hosted_agent_submits_a_source_bound_spreadsheet_cell(self):
+        agent = self.sdk.ProofpressClient.localhost(
+            self.base_url, self.agent["token"])
+        imported = agent.submit_evidence(spreadsheet_evidence_payload())
+        proposed = agent.propose_conclusion(
+            "Revenue!F12 was revised for the FY2026 base case.", imported["evidence"],
+            "finance:annual-plan:fy2026", "spoofed:owner")
+        receipt = agent.review_receipt(proposed["conclusion"]["id"])
+        locator = receipt["evidence"][0]["retrieval_receipt"]["locator"]
+        self.assertEqual(locator["kind"], "spreadsheet_cell")
+        self.assertEqual(locator["previous_source_content_digest"], "sha256:" + "e" * 64)
 
     def test_two_clients_close_proposal_review_context_loop(self):
         agent = self.sdk.ProofpressClient.localhost(

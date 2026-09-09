@@ -259,6 +259,36 @@ class LocalMVPTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("locator.page_digest", result.stderr)
 
+    def test_spreadsheet_cell_locator_imports_and_passes_receipt_checks(self):
+        quote = "Revenue!F12 changed from 1180000 to 1050000."
+        payload = {
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {
+                "uri": "workspace://finance/annual-plan.xlsx?revision=v18",
+                "content_digest": "sha256:" + "a" * 64,
+                "media_type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            },
+            "evidence": {"quote": quote, "locator": {
+                "kind": "spreadsheet_cell", "sheet": "Revenue", "cell": "F12",
+                "cell_digest": "sha256:" + "b" * 64,
+                "previous_source_content_digest": "sha256:" + "c" * 64,
+                "previous_cell_digest": "sha256:" + "d" * 64,
+            }},
+            "retrieval": {
+                "adapter": "company.workbook-diff", "version": "1.0.0",
+                "query": "Annual Plan Revenue!F12 revision",
+                "config_digest": "sha256:" + "e" * 64,
+            },
+        }
+        path = self.repo / "annual-plan-f12-evidence.json"
+        path.write_text(json.dumps(payload))
+        evidence_id = self.data("evidence", "import", str(path))["evidence"][0]
+        cid = self.data("propose", "--statement", "Revenue!F12 was revised for the FY2026 base case.",
+                        "--evidence", evidence_id, "--scope", "finance:annual-plan:fy2026",
+                        "--proposer", "agent:runner")["conclusion"]["id"]
+        evaluation = self.data("evaluate", cid)
+        self.assertTrue(evaluation["checks"]["retrieval_receipts"])
+
     def test_admission_and_context_gate(self):
         _, cid = self.seed()
         evaluation = self.data("evaluate", cid)

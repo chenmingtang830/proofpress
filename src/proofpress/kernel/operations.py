@@ -718,6 +718,9 @@ def review_state_v2(projection, conclusion, policy=None):
 
 
 _SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
+_SPREADSHEET_CELL = re.compile(r"^([A-Z]{1,3})([1-9][0-9]*)$")
+_MAX_SPREADSHEET_COLUMN = 16384  # XFD
+_MAX_SPREADSHEET_ROW = 1048576
 
 
 def _required_string(value, field):
@@ -737,6 +740,42 @@ def _required_positive_int(value, field, minimum=1):
     if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
         raise ValueError(f"retrieval evidence {field} must be an integer >= {minimum}")
     return value
+
+
+def _normalize_spreadsheet_cell(raw):
+    """Normalize a source-bound A1 cell locator without reading the workbook.
+
+    The source envelope's content_digest identifies the current workbook bytes.
+    A cell digest is supplied by the adapter for its canonical cell projection;
+    Proofpress deliberately does not retain the workbook or recompute it.
+    """
+    sheet = _required_string(raw.get("sheet"), "locator.sheet")
+    cell = _required_string(raw.get("cell"), "locator.cell")
+    match = _SPREADSHEET_CELL.fullmatch(cell)
+    if not match:
+        raise ValueError("retrieval evidence locator.cell must be a canonical A1 address")
+    column, row = match.groups()
+    column_number = 0
+    for letter in column:
+        column_number = column_number * 26 + ord(letter) - ord("A") + 1
+    if column_number > _MAX_SPREADSHEET_COLUMN or int(row) > _MAX_SPREADSHEET_ROW:
+        raise ValueError("retrieval evidence locator.cell is outside spreadsheet bounds")
+    locator = {
+        "kind": "spreadsheet_cell",
+        "sheet": sheet,
+        "cell": cell,
+        "cell_digest": _required_digest(raw.get("cell_digest"), "locator.cell_digest"),
+    }
+    previous_source = raw.get("previous_source_content_digest")
+    previous_cell = raw.get("previous_cell_digest")
+    if (previous_source is None) != (previous_cell is None):
+        raise ValueError("retrieval evidence spreadsheet_cell previous source and cell digests must be paired")
+    if previous_source is not None:
+        locator["previous_source_content_digest"] = _required_digest(
+            previous_source, "locator.previous_source_content_digest")
+        locator["previous_cell_digest"] = _required_digest(
+            previous_cell, "locator.previous_cell_digest")
+    return locator
 
 
 def _normalize_locator(raw, quote):
@@ -768,10 +807,12 @@ def _normalize_locator(raw, quote):
                 "section_id": _required_string(raw.get("section_id"), "locator.section_id"),
                 "section_digest": _required_digest(raw.get("section_digest"), "locator.section_digest"),
                 "page_start": page_start, "page_end": page_end}
-    raise ValueError("retrieval evidence locator.kind must be text_span, page_span, or section_span")
+    if kind == "spreadsheet_cell":
+        return _normalize_spreadsheet_cell(raw)
+    raise ValueError("retrieval evidence locator.kind must be text_span, page_span, section_span, or spreadsheet_cell")
 
 
-def _retrieval_receipt(payload):
+def normalize_retrieval_evidence_v1(payload):
     """Validate the portable retrieval contract and return its canonical receipt.
 
     The receipt deliberately binds a locator to the source and the retrieval
@@ -799,6 +840,11 @@ def _retrieval_receipt(payload):
             "quote": quote, "quote_digest": "sha256:" + hashlib.sha256(quote.encode("utf-8")).hexdigest(),
             "locator": _normalize_locator(evidence_row.get("locator"), quote),
             "retrieval": retrieval}
+
+
+def _retrieval_receipt(payload):
+    """Compatibility wrapper for the public retrieval-evidence normalizer."""
+    return normalize_retrieval_evidence_v1(payload)
 
 
 def _retrieval_receipt_valid(evidence_row):

@@ -42,6 +42,8 @@ matches what you need to do:
 
 [//]: # (ob:ca78112f)
 - [TRACE evidence adapter (developer reference)](TRACE_ADAPTER.md)
+- [Content-addressed receipt adapter](CONTENT_ADDRESSED_ADAPTER.md)
+- [Spreadsheet cell evidence](SPREADSHEET_ADAPTER.md)
 - [Repository dogfood](REPOSITORY_DOGFOOD.md)
 - Experiment profile: `proofpress.profiles.experiment`
 - Optional document extraction: `proofpress.integrations.document_extraction`

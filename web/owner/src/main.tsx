@@ -81,6 +81,8 @@ async function api(path: string, options: RequestInit = {}) {
   return body.result ?? body;
 }
 function evidenceName(row: any) {
+  const locator = row?.retrieval_receipt?.locator;
+  if (locator?.kind === "spreadsheet_cell") return `${locator.sheet}!${locator.cell}`;
   const p = row?.experiment_profile || {};
   if (p.cell) return p.cell.table?.identity || "Table cell";
   if (p.observation) return p.observation.metric?.name || "Metric observation";
@@ -99,6 +101,21 @@ function evidenceText(row: any) {
 
 function EvidenceContent({ row }: { row: any }) {
   const text = evidenceText(row);
+  const receipt = row?.retrieval_receipt;
+  const locator = receipt?.locator;
+  if (locator?.kind === "spreadsheet_cell") {
+    const hasPreviousRevision = locator.previous_source_content_digest && locator.previous_cell_digest;
+    return <>
+      <dl className="evidenceFields">
+        <div><dt>Spreadsheet cell</dt><dd>{locator.sheet}!{locator.cell}</dd></div>
+        <div><dt>Source</dt><dd>{receipt.source?.uri || "Source not recorded"}</dd></div>
+        <div><dt>Current revision</dt><dd>Bound to the recorded workbook digest</dd></div>
+        {hasPreviousRevision && <div><dt>Previous revision</dt><dd>Bound to the recorded prior workbook and cell digests</dd></div>}
+      </dl>
+      <p>{text}</p>
+      <details className="technicalDetails"><summary>Technical receipt</summary><pre>{JSON.stringify(row, null, 2)}</pre></details>
+    </>;
+  }
   let structured: any = null;
   if (typeof text === "string") {
     try { structured = JSON.parse(text); } catch { /* A source quote is usually plain text. */ }

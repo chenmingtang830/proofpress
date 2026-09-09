@@ -27,6 +27,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
+    expect(source).toContain("Spreadsheet cell");
+    expect(source).toContain("Previous revision");
     expect(source).toContain("Evidence to governed knowledge");
     expect(source).toContain("(current + 1) * 20");
   });
