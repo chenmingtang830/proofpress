@@ -518,7 +518,7 @@ function App() {
         inputSchema: {
           type: "object",
           properties: {
-            provider: { type: "string", enum: ["openrouter", "openai", "anthropic", "custom"] },
+            provider: { type: "string", enum: ["openrouter", "openai", "azure_openai", "anthropic", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "custom"] },
             endpoint: { type: "string" },
             model: { type: "string" },
             criteria: { type: "string", maxLength: 8000 },

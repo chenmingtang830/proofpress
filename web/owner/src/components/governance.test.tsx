@@ -6,7 +6,7 @@ import { LineageGraph } from "./lineage-graph";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
-import { mergeAgentPolicyDraft } from "./review-policy";
+import { applyProviderPreset, ensureProviderDefault, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
 
 describe("governance components", () => {
   it("keeps advisory support visually separate from admission", () => {
@@ -62,5 +62,26 @@ describe("governance components", () => {
     expect(mergeAgentPolicyDraft(current, {criteria:"Require primary evidence."})).toEqual({...current, criteria:"Require primary evidence."});
     expect(mergeAgentPolicyDraft(current, {policy:{criteria:"Escalate high-stakes claims."}}).criteria).toBe("Escalate high-stakes claims.");
     expect(() => mergeAgentPolicyDraft(current, {unrelated:true})).toThrow();
+  });
+  it("updates the default model when the provider changes", () => {
+    const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", endpoint:"https://old.example/v1"};
+    const providers = {openai:{default_model:"gpt-5.4"}, custom:{default_model:""}};
+    expect(applyProviderPreset(current, "openai", providers)).toEqual({provider:"openai", model:"gpt-5.4", endpoint:""});
+    expect(applyProviderPreset(current, "custom", providers)).toEqual({provider:"custom", model:"", endpoint:""});
+  });
+  it("shows provider models while preserving a saved model outside the current catalog", () => {
+    const provider = {models:["gpt-5.4", "gpt-5.4-mini"]};
+    expect(providerModelOptions(provider, "gpt-5.4")).toEqual(["gpt-5.4", "gpt-5.4-mini"]);
+    expect(providerModelOptions(provider, "legacy-deployment")).toEqual(["legacy-deployment", "gpt-5.4", "gpt-5.4-mini"]);
+  });
+  it("keeps all ten ranked provider defaults in order", () => {
+    const models = Array.from({length:10}, (_, index) => `model-${index}`);
+    expect(providerModelOptions({models}, "model-0")).toEqual(models);
+  });
+  it("initializes a fresh workspace with the selected provider default", () => {
+    const settings = {provider:"openrouter", model:"", mode:"automatic"};
+    const providers = {openrouter:{default_model:"deepseek/deepseek-v4-flash"}};
+    expect(ensureProviderDefault(settings, providers).model).toBe("deepseek/deepseek-v4-flash");
+    expect(ensureProviderDefault({...settings, model:"saved-model"}, providers).model).toBe("saved-model");
   });
 });

@@ -12,10 +12,30 @@ from proofpress.kernel import operations as kernel
 
 RUBRICS = {"evidence-support/v1": "Evidence support, source binding, missing evidence and limitations"}
 PROVIDERS = {
-    "openrouter": {"label": "OpenRouter", "endpoint": "https://openrouter.ai/api/v1/chat/completions", "zdr": True},
-    "openai": {"label": "OpenAI", "endpoint": "https://api.openai.com/v1/chat/completions", "zdr": False},
-    "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "zdr": False},
-    "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False},
+    "openrouter": {"label": "OpenRouter", "endpoint": "https://openrouter.ai/api/v1/chat/completions", "default_model": "openai/gpt-6-astra", "models": ["openai/gpt-6-astra", "anthropic/claude-opus-5", "anthropic/claude-sonnet-5", "x-ai/grok-4.6", "openai/gpt-5.6-sol", "google/gemini-3.8-flash", "deepseek/deepseek-v4-flash", "mistralai/mistral-medium-3.5", "openai/gpt-5.6-terra", "openai/gpt-5.6-luna"], "zdr": True},
+    "openai": {"label": "OpenAI", "endpoint": "https://api.openai.com/v1/chat/completions", "default_model": "gpt-6-astra", "models": ["gpt-6-astra", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini", "gpt-5.4-nano", "gpt-5.3-codex"], "zdr": False},
+    "azure_openai": {"label": "Azure OpenAI", "endpoint": "", "zdr": False,
+                       "default_model": "gpt-6-astra",
+                       "models": ["gpt-6-astra", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini", "gpt-5.4-nano", "gpt-5.3-codex"],
+                       "editable_model": True,
+                       "endpoint_required": True,
+                       "endpoint_placeholder": "https://your-resource.openai.azure.com/openai/v1/chat/completions"},
+    "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "default_model": "claude-opus-5", "models": ["claude-opus-5", "claude-sonnet-5", "claude-fable-5", "claude-opus-4-8", "claude-opus-4-7", "claude-opus-4-6", "claude-sonnet-4-6", "claude-opus-4-5-20251101", "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001"], "zdr": False},
+    "amazon_bedrock": {"label": "Amazon Bedrock", "endpoint": "", "zdr": False,
+                       "default_model": "openai.gpt-6-astra",
+                       "models": ["openai.gpt-6-astra", "openai.gpt-5.6-sol", "openai.gpt-5.6-terra", "openai.gpt-5.6-luna", "openai.gpt-5.5", "openai.gpt-5.4", "xai.grok-4.6", "openai.gpt-oss-120b-1:0", "openai.gpt-oss-safeguard-120b", "openai.gpt-oss-20b-1:0"],
+                       "endpoint_required": True,
+                       "endpoint_placeholder": "https://bedrock-mantle.us-east-1.api.aws/v1/chat/completions"},
+    "google_gemini": {"label": "Google Gemini", "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", "default_model": "gemini-3.8-flash", "models": ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.1-pro-preview", "gemini-3-flash-preview", "gemini-3.5-flash", "gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-2.5-pro", "gemini-2.5-flash"], "zdr": False},
+    "xai": {"label": "xAI", "endpoint": "https://api.x.ai/v1/chat/completions", "default_model": "grok-4.6", "models": ["grok-4.6", "grok-4.3", "grok-build-0.1", "grok-4.1-fast", "grok-4-fast", "grok-4", "grok-3", "grok-3-mini", "grok-2-vision-1212", "grok-2-1212"], "zdr": False},
+    "groq": {"label": "Groq", "endpoint": "https://api.groq.com/openai/v1/chat/completions", "default_model": "openai/gpt-oss-120b", "models": ["openai/gpt-oss-120b", "minimaxai/minimax-m2.7", "qwen/qwen3.8-27b", "qwen/qwen3.6-27b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "groq/compound", "groq/compound-mini", "llama-3.1-8b-instant", "openai/gpt-oss-safeguard-20b"], "zdr": False},
+    "mistral": {"label": "Mistral AI", "endpoint": "https://api.mistral.ai/v1/chat/completions", "default_model": "mistral-medium-latest", "models": ["mistral-medium-latest", "mistral-large-latest", "mistral-small-latest", "magistral-medium-latest", "codestral-latest", "devstral-medium-latest", "ministral-14b-latest", "ministral-8b-latest", "ministral-3b-latest", "open-mistral-nemo"], "zdr": False},
+    "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False,
+               "default_model": "",
+               "models": [],
+               "editable_model": True,
+               "endpoint_required": True,
+               "endpoint_placeholder": "https://models.example.com/v1/chat/completions"},
 }
 POLICY_AUTHORING_PROMPT = """Help me author evaluation criteria for a Proofpress workspace. Ask concise questions about the claims being reviewed, evidence requirements, sensitive or high-stakes cases, and when a human must decide. Then return only JSON in this shape: {"criteria":"the complete criteria text"}. Do not choose a model or provider, and do not request or include API keys, secrets, raw private traces, or credentials. The workspace owner configures model access separately."""
 
@@ -96,9 +116,9 @@ def _cipher():
         raise ValueError("Secure credential storage is misconfigured.") from exc
 
 
-def credential_status(connection, workspace_id):
+def credential_status(connection, workspace_id, provider="openrouter"):
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
-    configured = bool(row) or bool(os.environ.get("OPENROUTER_API_KEY", "").strip())
+    configured = bool(row) or (provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
     return {"configured": configured, "last_four": row["last_four"] if row else None,
             "updated_at": row["updated_at"] if row else None,
             "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))}
@@ -116,10 +136,10 @@ def delete_credential(connection, workspace_id):
     connection.execute("DELETE FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,))
 
 
-def credential(connection, workspace_id):
+def credential(connection, workspace_id, provider="openrouter"):
     row = connection.execute("SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     if not row:
-        legacy = os.environ.get("OPENROUTER_API_KEY", "").strip()
+        legacy = os.environ.get("OPENROUTER_API_KEY", "").strip() if provider == "openrouter" else ""
         return legacy or None
     from cryptography.fernet import InvalidToken
     try:
@@ -137,17 +157,17 @@ def public(record, credential=None):
 
 def _endpoint(settings):
     provider = settings["provider"]
-    if provider != "custom":
+    if not PROVIDERS[provider].get("endpoint_required"):
         return PROVIDERS[provider]["endpoint"]
     value = settings["endpoint"].strip()
     parsed = urlparse(value)
     if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
-        raise ValueError("Custom endpoints must use a public HTTPS URL.")
+        raise ValueError("Provider endpoints must use a public HTTPS URL.")
     if parsed.hostname in {"localhost", "localhost.localdomain"}:
-        raise ValueError("Custom endpoints must use a public HTTPS URL.")
+        raise ValueError("Provider endpoints must use a public HTTPS URL.")
     try:
         if ipaddress.ip_address(parsed.hostname).is_private:
-            raise ValueError("Custom endpoints must use a public HTTPS URL.")
+            raise ValueError("Provider endpoints must use a public HTTPS URL.")
     except ValueError as exc:
         if "public HTTPS" in str(exc):
             raise

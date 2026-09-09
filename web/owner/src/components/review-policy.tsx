@@ -19,6 +19,22 @@ export function mergeAgentPolicyDraft(current: any, draft: any) {
   return next;
 }
 
+export function applyProviderPreset(settings: any, provider: string, providers: any) {
+  const preset = providers?.[provider] || {};
+  return {...settings, provider, model:preset.default_model || "", endpoint:""};
+}
+
+export function providerModelOptions(provider: any, current: string) {
+  const models = Array.isArray(provider?.models) ? provider.models : [];
+  return current && !models.includes(current) ? [current, ...models] : models;
+}
+
+export function ensureProviderDefault(settings: any, providers: any) {
+  if (settings?.model) return settings;
+  const defaultModel = providers?.[settings?.provider]?.default_model || "";
+  return {...settings, model:defaultModel};
+}
+
 export function ReviewPolicy({csrf, api, onSaved}: any) {
   const [record, setRecord] = React.useState<any>(null);
   const [settings, setSettings] = React.useState<any>(null);
@@ -33,7 +49,8 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     try {
       const row = await api("/owner/api/review-policy");
       setRecord(row);
-      const base = row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true} : row.settings;
+      const initial = row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true} : row.settings;
+      const base = ensureProviderDefault(initial, row.providers);
       const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
       if (prepared) {
         const parsed = JSON.parse(prepared);
@@ -70,6 +87,8 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
+  const selectedProvider = record?.providers?.[settings?.provider];
+  const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
   return <Card className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
     <CardHeader className="policyHeading"><div><CardTitle id="reviewPolicyTitle">Review policy</CardTitle><CardDescription>Set the approval gate first. Provider and evaluation details follow.</CardDescription></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</CardHeader>
     {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload</Button></div>}
@@ -82,10 +101,15 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       </fieldset>
       <fieldset><legend>Model provider</legend>
         <div className="policyFields three">
-          <label>Provider<select aria-label="Model provider" value={settings.provider} onChange={e=>change("provider",e.target.value)}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</select></label>
-          <label>Model<input value={settings.model} placeholder={settings.provider==="anthropic"?"claude-sonnet-4-5":"provider/model-name"} onChange={e=>change("model",e.target.value)} /></label>
+          <label>Provider<select aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</select></label>
+          <label>Model{modelOptions.length>0 && <select aria-label="Model" value={selectedProvider.models.includes(settings.model)?settings.model:"__custom__"} onChange={e=>change("model",e.target.value==="__custom__"?"":e.target.value)}>
+            {modelOptions.filter((model:string)=>selectedProvider.models.includes(model)).map((model:string)=><option key={model} value={model}>{model}</option>)}
+            <option value="__custom__">Enter another model ID…</option>
+          </select>}
+            {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
+            <small>Choose one of 10 ranked defaults or enter another supported model ID.</small></label>
           <label>LM review<select aria-label="LM review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></select></label>
-          {settings.provider==="custom" && <label className="wide">HTTPS endpoint<input type="url" value={settings.endpoint} placeholder="https://models.example.com/v1/chat/completions" onChange={e=>change("endpoint",e.target.value)} /></label>}
+          {selectedProvider?.endpoint_required && <label className="wide">HTTPS endpoint<input type="url" required={settings.mode!=="off"} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} /></label>}
         </div>
         <div className="providerCredential"><label>API key<input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></label>
           <p>{record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>

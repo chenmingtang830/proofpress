@@ -7,8 +7,9 @@ import unittest
 from unittest.mock import patch
 from cryptography.fernet import Fernet
 
+from proofpress.hosted import review_policy
 from proofpress.hosted.control_plane import HostedControlPlane, HostedAuthError
-from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT
+from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT, PROVIDERS
 from proofpress.kernel import operations as kernel
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from test_hosted_authority import evidence_payload, operation
@@ -37,6 +38,31 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertIn('{"criteria":', POLICY_AUTHORING_PROMPT)
         self.assertIn("Do not choose a model or provider", POLICY_AUTHORING_PROMPT)
         self.assertNotIn("return only JSON with these fields: provider", POLICY_AUTHORING_PROMPT)
+
+    def test_common_model_providers_are_available_individually(self):
+        self.assertEqual(
+            [PROVIDERS[key]["label"] for key in (
+                "azure_openai", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral")],
+            ["Azure OpenAI", "Amazon Bedrock", "Google Gemini", "xAI", "Groq", "Mistral AI"],
+        )
+        self.assertTrue(PROVIDERS["azure_openai"]["endpoint_required"])
+        self.assertTrue(PROVIDERS["azure_openai"]["editable_model"])
+        self.assertTrue(PROVIDERS["amazon_bedrock"]["endpoint_required"])
+        for key, provider in PROVIDERS.items():
+            if key != "custom":
+                self.assertIn(provider["default_model"], provider["models"])
+                self.assertEqual(len(provider["models"]), 10)
+                self.assertEqual(provider["default_model"], provider["models"][0])
+
+    def test_tenant_specific_provider_endpoint_is_validated(self):
+        azure = {**self.settings, "provider": "azure_openai", "model": "gpt-5", "endpoint": ""}
+        with self.assertRaisesRegex(ValueError, "public HTTPS URL"):
+            self.control.save_review_policy(self.owner, azure, 0, "azure-provider-key")
+        bedrock = {**self.settings, "provider": "amazon_bedrock", "model": "openai.gpt-oss-120b-1:0",
+                   "endpoint": "https://bedrock-mantle.us-east-1.api.aws/v1/chat/completions"}
+        with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
+            record = self.control.save_review_policy(self.owner, bedrock, 0, "bedrock-provider-key")
+        self.assertEqual(record["settings"]["provider"], "amazon_bedrock")
 
     def test_legacy_judge_job_column_migrates_without_losing_jobs(self):
         legacy_path = Path(self.tmp.name) / "legacy-judge-jobs.db"
@@ -153,6 +179,16 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertTrue(record["credential"]["configured"])
         self.assertIsNone(record["credential"]["last_four"])
         self.assertNotIn("deployment-only-secret", json.dumps(record))
+
+    def test_openrouter_deployment_key_cannot_cross_provider_boundary(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "deployment-only-secret"}):
+            switched = {**self.settings, "provider": "openai", "model": "gpt-5.4"}
+            with self.assertRaisesRegex(ValueError, "API key for the selected provider"):
+                self.control.save_review_policy(self.owner, switched, 0, delete_key=True)
+            with self.control._db() as connection:
+                self.assertIsNone(review_policy.credential(connection, "workspace:test", "openai"))
+                self.assertFalse(review_policy.credential_status(
+                    connection, "workspace:test", "openai")["configured"])
 
     def test_required_advice_cannot_be_bypassed_and_receipt_explains_it(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
