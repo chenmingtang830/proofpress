@@ -67,7 +67,6 @@ Install the maintained customer policy template once per target repository:
 ```sh
 if [ -L .proofpress ]; then
   printf '%s\n' 'Refusing to write through a symbolic-link .proofpress directory.' >&2
-  exit 2
 elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then
   printf '%s\n' 'Existing Proofpress policy preserved; no file was changed.'
 else
