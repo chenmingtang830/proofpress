@@ -131,6 +131,20 @@ class ProofpressPluginPackageTests(unittest.TestCase):
                 "schema_version: proofpress/context-policy/v1alpha1 trailing-text\n",
             )
 
+            target.write_text(
+                "schema_version: proofpress/context-policy/v1alpha1\n"
+                "schema_version: unknown/v9\n",
+                encoding="utf-8",
+            )
+            duplicate = subprocess.run(command + ["--apply"], text=True, capture_output=True, check=False)
+            self.assertEqual(duplicate.returncode, 2)
+            self.assertIn("blocked", duplicate.stderr)
+            self.assertEqual(
+                target.read_text(encoding="utf-8"),
+                "schema_version: proofpress/context-policy/v1alpha1\n"
+                "schema_version: unknown/v9\n",
+            )
+
     def test_policy_initializer_rejects_a_symlinked_policy_directory(self):
         script = PACKAGED_SKILL / "scripts" / "initialize_policy.py"
 
@@ -176,6 +190,7 @@ class ProofpressPluginPackageTests(unittest.TestCase):
 
         self.assertIn("if [ -L .proofpress ]; then", remote_mcp)
         self.assertIn("Refusing to write through a symbolic-link .proofpress directory.", remote_mcp)
+        self.assertIn("  false\nelif [ -e .proofpress/context-policy.yaml ]", remote_mcp)
         self.assertIn("elif [ -e .proofpress/context-policy.yaml ] || [ -L .proofpress/context-policy.yaml ]; then", remote_mcp)
         self.assertIn("mktemp .proofpress/context-policy.yaml.XXXXXX", remote_mcp)
         self.assertIn("--remove-on-error", remote_mcp)

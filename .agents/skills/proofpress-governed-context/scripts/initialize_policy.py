@@ -109,12 +109,16 @@ def create_policy_exclusively(policy_fd: int, template: str) -> bool:
 
 
 def schema_version(content: str) -> str | None:
-    match = re.search(
-        r"^schema_version:\s*([^#\r\n]+?)(?:\s+#.*)?\s*$",
-        content,
-        re.MULTILINE,
+    matches = list(
+        re.finditer(
+            r"^schema_version:\s*([^#\r\n]+?)(?:\s+#.*)?\s*$",
+            content,
+            re.MULTILINE,
+        )
     )
-    return match.group(1).strip() if match else None
+    if len(matches) != 1:
+        return None
+    return matches[0].group(1).strip()
 
 
 def preview(path: Path, template: str) -> str:
