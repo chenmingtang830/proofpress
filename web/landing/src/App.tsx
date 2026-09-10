@@ -11,8 +11,8 @@ import posts from "./content/post-index.json";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
 const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
-// Temporary fixed deployment asset. Replace with the permanent media host before production.
-const brandFilmUrl = "https://proofpress-pof8cyu29-tangchenming0830-4020s-projects.vercel.app/proofpress-shoulders-film-20260910-direct1080p.mp4";
+// Public media lives in Vercel Blob; source footage and renders stay out of Git.
+const brandFilmUrl = "https://qj4v3hgnvu4pvbdd.public.blob.vercel-storage.com/films/proofpress-shoulders-20260910-1080p.mp4";
 
 const writing = [...posts]
   .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
