@@ -7,11 +7,11 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-title knowledge-chart-description"
       >
-        <title id="knowledge-chart-title">Agent output outgrows the organization’s verification capacity</title>
+        <title id="knowledge-chart-title">Agent output outgrows human curation capacity</title>
         <desc id="knowledge-chart-description">
-          An illustrative curve shows agent-produced knowledge growing faster than the intelligence
-          retained by the organization as agent autonomy increases. A marked point shows where output
-          exceeds the organization’s existing verification capacity.
+          An illustrative curve shows agent-produced knowledge growing faster than human-curated
+          knowledge as agent autonomy increases. A marked point shows where output exceeds the
+          research team’s existing verification capacity.
         </desc>
         <defs>
           <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -41,7 +41,7 @@ export function KnowledgeChart() {
           <tspan x="1000" dy="0">Agent-produced</tspan>
           <tspan x="1000" dy="31">knowledge</tspan>
         </text>
-        <text x="850" y="326" className="curveLabel enterpriseLabel">Organization-owned intelligence</text>
+        <text x="850" y="326" className="curveLabel enterpriseLabel">Human-curated knowledge</text>
         <text x="610" y="620" textAnchor="middle" className="axisLabel">Agent adoption and autonomy over time</text>
         <text x="42" y="310" textAnchor="middle" transform="rotate(-90 42 310)" className="axisLabel">Reusable claims and work</text>
       </svg>
@@ -51,10 +51,10 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-mobile-title knowledge-chart-mobile-description"
       >
-        <title id="knowledge-chart-mobile-title">Agent output outgrows the organization’s verification capacity</title>
+        <title id="knowledge-chart-mobile-title">Agent output outgrows human curation capacity</title>
         <desc id="knowledge-chart-mobile-description">
-          An illustrative mobile chart shows agent-produced knowledge rising faster than intelligence
-          retained by the organization, with a marked point where output exceeds verification capacity.
+          An illustrative mobile chart shows agent-produced knowledge rising faster than human-curated
+          knowledge, with a marked point where output exceeds verification capacity.
         </desc>
         <defs>
           <marker id="mobile-axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -82,7 +82,7 @@ export function KnowledgeChart() {
       </svg>
       <div className="mobileChartLegend" aria-hidden="true">
         <span><i className="agentSwatch" />Agent-produced knowledge</span>
-        <span><i className="enterpriseSwatch" />Organization-owned intelligence</span>
+        <span><i className="enterpriseSwatch" />Human-curated knowledge</span>
       </div>
       <figcaption id="knowledge-chart-note">
         Illustrative model — not measured data. Without a trusted learning loop, the gap keeps widening.

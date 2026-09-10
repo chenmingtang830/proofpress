@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "agents-create-a-new-knowledge-layer",
+    "title": "Agents Are Creating a New Knowledge Layer—and We Need to Govern It",
+    "date": "2026-08-29T18:54:14.000Z",
+    "label": "ARTICLE",
+    "image": "/article-knowledge-layer.webp"
+  },
+  {
+    "slug": "what-may-the-next-agent-rely-on",
+    "title": "What May the Next Agent Rely On?",
+    "date": "2026-08-28T20:13:03.000Z",
+    "label": "ARTICLE",
+    "image": "/article-agent-rely.webp"
+  },
+  {
+    "slug": "proofpress-webmcp-challenge",
+    "title": "Proofpress for the WebMCP Challenge",
+    "date": "2026-09-03T19:41:47.000Z",
+    "label": "FIELD NOTE",
+    "image": "/article-webmcp.png"
+  },
+  {
+    "slug": "memory-is-not-enough",
+    "title": "Memory Is Not Enough: Multiplayer AI Needs a Trust and Verification Layer",
+    "date": "2026-09-08T22:33:46.000Z",
+    "label": "ARTICLE",
+    "image": "/blog-media/2097453369535386089-cover.jpg"
+  }
+]

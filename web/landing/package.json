@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "test": "node scripts/check.mjs"
+    "test": "node scripts/check.mjs && node --test scripts/blog.test.mjs",
+    "blog:import": "node scripts/import-blog.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.0",

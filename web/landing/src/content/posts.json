@@ -1,0 +1,2035 @@
+[
+  {
+    "slug": "agents-create-a-new-knowledge-layer",
+    "label": "ARTICLE",
+    "image": "/article-knowledge-layer.webp",
+    "title": "Agents Are Creating a New Knowledge Layer—and We Need to Govern It",
+    "author": "Richard Tang",
+    "source": "https://x.com/richardt830/status/2093774242429206969",
+    "date": "2026-08-29T18:54:14.000Z",
+    "modified": "2026-08-29T18:54:14.000Z",
+    "description": "Most enterprise AI infrastructure is built around a familiar problem: how do we give agents better access to what the organization already knows?",
+    "blocks": [
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "814b7",
+        "text": "Most enterprise AI infrastructure is built around a familiar problem: how do we give agents better access to what the organization already knows?",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "akcci",
+        "text": "We add retrieval. Memory. Ontologies. Knowledge graphs. Better context.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9gslu",
+        "text": "All of that matters. But it addresses only one side of the system.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 83,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "dj3i3",
+        "text": "Agents do not just consume enterprise knowledge. They create a new knowledge layer.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "6p3pt",
+        "text": "They research, compare sources, synthesize findings, make decisions, and pass conclusions to the next agent or human. Once that work is reused, the agent's output has become part of the organization's operating knowledge.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "4kan6",
+        "text": "That creates a different question:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 73,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "f4mhr",
+        "text": "What may the next agent or human rely on, why, and under whose authority?",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 22,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "2t7a6",
+        "text": "Two kinds of knowledge",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 20,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "fagbe",
+        "text": "Enterprise knowledge is what agents reason from: documents, databases, policies, domain ontology, and memory.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 24,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "5lpoc",
+        "text": "Agent-produced knowledge is what their work produces: conclusions, claims, findings, analyses, and decisions.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "8v2gq",
+        "text": "Existing knowledge infrastructure organizes the first. Proofpress governs the second.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "f3969",
+        "text": "This distinction matters because a conclusion is not safe to reuse merely because it is retrievable. A future agent also needs to know:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "3jtvl",
+        "text": "What evidence supports it?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "esj3q",
+        "text": "Which version of the source was used?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1in01",
+        "text": "What scope and assumptions apply?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1hn8s",
+        "text": "Was it verified?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cs3cp",
+        "text": "Who was authorized to admit it?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "8gf9j",
+        "text": "Does it depend on another conclusion that has since changed?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "d6fsq",
+        "text": "Has it been contradicted, expired, or superseded?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 0,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "9fmr0",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "efcok",
+        "text": "A memory system can retrieve a conclusion. An observability system can show how an agent arrived there. A knowledge graph can represent relationships. None of those facts alone decides whether this conclusion is currently eligible for a specific actor to rely on.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 23,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "ce6v0",
+        "text": "Why this becomes urgent",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 1,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "5qqnb",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "et3g6",
+        "text": "Enterprise knowledge often grows relatively steadily. Agent-produced work can grow much faster as adoption, autonomy, branching research, and agent-to-agent handoffs increase.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "7o3us",
+        "text": "That is not a claim that every organization follows a mathematically exponential curve. It is a practical systems observation: once agents generate more conclusions than people can review informally, verification and authority stop being optional workflow polish. They become infrastructure.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "4m6tb",
+        "text": "The risk is not only a wrong answer. It is a conclusion that was once reasonable but has lost its evidence, scope, review state, or authority as it travels.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "2cdnr",
+        "text": "Output becomes input. Then input becomes output again. Small ambiguities become organizational memory.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 42,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "b01jj",
+        "text": "The product object: a Governed Claim Graph",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "330bk",
+        "text": "Proofpress turns selected agent work into a governed claim graph.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 2,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "fs3af",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1is7c",
+        "text": "The core objects are conclusions, claims, evidence, provenance, verification, authority, scope, dependencies, and supersession. A conclusion may depend on several claims. A claim is supported by evidence. Authority scopes who may rely on the result. A later conclusion can supersede an earlier one without erasing its history.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "asb2o",
+        "text": "Agent work crosses three separate gates:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 20,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "9uvs1",
+        "text": "Deterministic Checks — Enforce fixed rules and required evidence; return pass or fail.",
+        "type": "ordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 8,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "53koa",
+        "text": "LM Judge — Evaluate the meaning, then recommend or escalate; it cannot authorize reuse.",
+        "type": "ordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 14,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "f5veo",
+        "text": "Human Approval — An authorized human admits or rejects the conclusion; only this gate enables downstream reuse.",
+        "type": "ordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 3,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "47bmm",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "6hi7f",
+        "text": "Deterministic Checks and LM Judge cannot authorize reuse. Human Approval can.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "eme4b",
+        "text": "Admission does not declare universal truth. It creates an inspectable, scope-bound answer to whether a future agent or human may rely on a conclusion now.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "6t8n0",
+        "text": "Proof, not product definition",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 4,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "8ajvl",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "22v6s",
+        "text": "We tested this mechanism in a frozen panel of 7 models, 3 Harvey LAB-derived legal task families, and 126 valid paired runs.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "7cdnq",
+        "text": "Within that bounded panel, Proofpress-governed handoffs raised rubric completion from 89.3% to 93.4% and reduced observed unsafe propagation from 8 to 0 across 63 controlled stress pairs.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "nsuq",
+        "text": "Those results are deliberately narrow. They are not an official Harvey leaderboard score, a population-level causal claim, or evidence that the models became more legally intelligent. They are evidence that governing what crosses the handoff boundary can change downstream behavior under controlled conditions.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "fl925",
+        "text": "The study supports the thesis. It does not define the category.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 27,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "cea7f",
+        "text": "What Proofpress is building",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "46st3",
+        "text": "Today, Proofpress has a local ledger and CLI, a local review and context UI, agent adapters, artifact provenance, and portable Markdown and static-HTML carriers. Public API/SDK and MCP surfaces are planned, not shipped.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9409q",
+        "text": "The longer-term idea is simple:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 118,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "9mh4k",
+        "text": "Existing knowledge infrastructure organizes what agents reason from. Proofpress governs what their reasoning produces.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "a26cq",
+        "text": "If your agents are already producing research, decisions, or analyses that other agents and humans reuse, I would like to hear where the handoff breaks.",
+        "type": "unstyled"
+      },
+      {
+        "data": {
+          "urls": [
+            {
+              "fromIndex": 47,
+              "text": "https://github.com/chenmingtang830/proofpress",
+              "toIndex": 92
+            }
+          ]
+        },
+        "entityRanges": [
+          {
+            "key": 5,
+            "length": 45,
+            "offset": 47
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "4s7nu",
+        "text": "Read the full thesis and technical repository: https://github.com/chenmingtang830/proofpress",
+        "type": "unstyled"
+      }
+    ],
+    "entities": [
+      {
+        "key": "4",
+        "value": {
+          "data": {
+            "entityKey": "d7f8d1c5-a040-40f8-b75a-65653c12ee71",
+            "mediaItems": [
+              {
+                "localMediaId": "2",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2093771073192153088"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "5",
+        "value": {
+          "data": {
+            "url": "https://github.com/chenmingtang830/proofpress"
+          },
+          "mutability": "Mutable",
+          "type": "LINK"
+        }
+      },
+      {
+        "key": "1",
+        "value": {
+          "data": {
+            "entityKey": "ea2ce750-304e-4716-94c6-4fec53bef89c",
+            "mediaItems": [
+              {
+                "localMediaId": "4",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2093771798097825792"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "0",
+        "value": {
+          "data": {
+            "entityKey": "8cea28d4-157a-465f-a970-5e35cb8d7256",
+            "mediaItems": [
+              {
+                "localMediaId": "11",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2093773362820796416"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "2",
+        "value": {
+          "data": {
+            "entityKey": "6590180f-c321-4aaf-a5d5-5ee025b10a5b",
+            "mediaItems": [
+              {
+                "localMediaId": "8",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2093772414782160896"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "3",
+        "value": {
+          "data": {
+            "entityKey": "62bab6ac-e514-4321-93e4-c1f381714043",
+            "mediaItems": [
+              {
+                "localMediaId": "6",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2093771868683808768"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      }
+    ],
+    "media": [
+      {
+        "id": "2093771073192153088",
+        "src": "/blog-media/2093771073192153088.jpg",
+        "width": 1400,
+        "height": 1549,
+        "source": "https://pbs.twimg.com/media/HQ6RsqKbUAA_xJN.jpg"
+      },
+      {
+        "id": "2093773362820796416",
+        "src": "/blog-media/2093773362820796416.jpg",
+        "width": 2090,
+        "height": 506,
+        "source": "https://pbs.twimg.com/media/HQ6Tx7sb0AAZ62E.jpg"
+      },
+      {
+        "id": "2093771798097825792",
+        "src": "/blog-media/2093771798097825792.jpg",
+        "width": 1536,
+        "height": 1024,
+        "source": "https://pbs.twimg.com/media/HQ6SW2paEAA8uuM.jpg"
+      },
+      {
+        "id": "2093771868683808768",
+        "src": "/blog-media/2093771868683808768.jpg",
+        "width": 1440,
+        "height": 760,
+        "source": "https://pbs.twimg.com/media/HQ6Sa9masAAX994.jpg"
+      },
+      {
+        "id": "2093772414782160896",
+        "src": "/blog-media/2093772414782160896.jpg",
+        "width": 1762,
+        "height": 866,
+        "source": "https://pbs.twimg.com/media/HQ6S6v-aQAAqRSA.jpg"
+      }
+    ],
+    "importReceipt": {
+      "retrievedFrom": "https://api.fxtwitter.com/status/2093774242429206969",
+      "retrievedAt": "2026-09-10T07:32:44.031Z",
+      "sha256": "536919da3e28abd281249dd85d078c144f7a388170587a9d3653db390ed5966e"
+    }
+  },
+  {
+    "slug": "what-may-the-next-agent-rely-on",
+    "label": "ARTICLE",
+    "image": "/article-agent-rely.webp",
+    "title": "What May the Next Agent Rely On?",
+    "author": "Richard Tang",
+    "source": "https://x.com/richardt830/status/2093431690379317346",
+    "date": "2026-08-28T20:13:03.000Z",
+    "modified": "2026-08-28T20:13:03.000Z",
+    "description": "A seven-model study of governed knowledge in Harvey LAB-derived legal agent handoffs.",
+    "blocks": [
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 85,
+            "offset": 0,
+            "style": "Italic"
+          }
+        ],
+        "key": "7rrtb",
+        "text": "A seven-model study of governed knowledge in Harvey LAB-derived legal agent handoffs.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ev3g0",
+        "text": "When one agent hands work to the next, a summary is not enough.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cltri",
+        "text": "The receiving agent—or the human reviewing its work—still needs to answer three questions:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "fmn0d",
+        "text": "What may I rely on now?",
+        "type": "ordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "d5gbo",
+        "text": "Why may I rely on it?",
+        "type": "ordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "7qbsb",
+        "text": "Under whose authority?",
+        "type": "ordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9s9g3",
+        "text": "Memory can retrieve what happened. A trace can show what the system did. A wiki can organize what people wrote. None of those systems, by themselves, determines which conclusions are current, in scope, supported by evidence, and authorized for reuse.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 29,
+            "offset": 52,
+            "style": "Bold"
+          }
+        ],
+        "key": "4dl44",
+        "text": "That is the problem Proofpress is built to address: governed knowledge for agents.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "daf4h",
+        "text": "The experiment",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "14j7h",
+        "text": "We tested whether governed knowledge changes what happens after an agent handoff.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "5pmpk",
+        "text": "The frozen study covers seven models, three multi-step legal task episodes, and 126 valid paired runs. The tasks were composed by Proofpress from version-pinned public Harvey LAB Contracts materials. They are not official Harvey benchmark tasks or leaderboard scores.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "fkkpd",
+        "text": "Each paired run held the model, task, evaluator, tools, and operating limits fixed. What changed was the handoff condition:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 17,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "2q46o",
+        "text": "Ordinary handoff: the receiving agent received a readable summary of prior work.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 19,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "1e2e",
+        "text": "Proofpress handoff: the receiving agent received selected conclusions bound to evidence, scope, version, lifecycle, policy, and review authority.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9s8ab",
+        "text": "The study evaluated Claude Opus 4.8, Qwen 3.8 27B, GLM 5.2, GPT-5.6 Sol, Muse Spark 1.1, DeepSeek V4 Flash 0731, and Inkling.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ekpdl",
+        "text": "What we observed",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 0,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "4iqvj",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 48,
+            "offset": 59,
+            "style": "Bold"
+          },
+          {
+            "length": 24,
+            "offset": 136,
+            "style": "Bold"
+          }
+        ],
+        "key": "9an5l",
+        "text": "Across the complete frozen panel, ordinary handoffs passed 10,654 of 11,928 matched rubric criteria (89.3%). Proofpress handoffs passed 11,141 of 11,928 (93.4%).",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 31,
+            "offset": 34,
+            "style": "Bold"
+          },
+          {
+            "length": 21,
+            "offset": 70,
+            "style": "Bold"
+          }
+        ],
+        "key": "3otml",
+        "text": "That is an observed difference of 487 additional matched criteria, or 4.1 percentage points. The Proofpress condition had higher rubric completion for every model in the panel, although the size of the difference varied by model and task.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 36,
+            "offset": 132,
+            "style": "Bold"
+          },
+          {
+            "length": 1,
+            "offset": 199,
+            "style": "Bold"
+          }
+        ],
+        "key": "deb1q",
+        "text": "We also ran 63 controlled stress pairs containing stale, superseded, unsupported, or out-of-scope state. Ordinary handoffs produced 8 observed unsafe-propagation events. Proofpress handoffs produced 0.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "dc90j",
+        "text": "These are descriptive frozen-panel results. They do not establish population-level causality or statistical significance.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1s8td",
+        "text": "Why the handoff changed",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "dsg32",
+        "text": "The intervention was not simply a longer prompt or a second memory store.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "abuu0",
+        "text": "Proofpress treated prior conclusions as candidate knowledge rather than automatically reusable context. Evidence and deterministic integrity checks were evaluated first. Policy could recommend admission, rejection, or escalation. Only the configured review authority could authorize a conclusion for reuse. Rejected, unresolved, expired, superseded, or actor-mismatched conclusions were excluded from the governed context delivered to the next agent.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9ucno",
+        "text": "The separation matters:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cl5ke",
+        "text": "Retrieval finds potentially relevant information.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "atme5",
+        "text": "Evidence shows where a conclusion came from.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "e4o13",
+        "text": "Policy evaluates whether stated conditions are satisfied.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1uct5",
+        "text": "Authorized review determines whether the conclusion may be relied on.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "59bjv",
+        "text": "The ledger, receipts, and verification checks are mechanisms. The product outcome is governed knowledge that a receiving agent or human can evaluate before continuing the work.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cl763",
+        "text": "What this result does—and does not—say",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "d5m05",
+        "text": "The study provides a bounded product-mechanism signal: in these frozen Harvey LAB-derived handoff episodes, governed knowledge coincided with higher rubric completion and no observed unsafe propagation.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 3,
+            "offset": 8,
+            "style": "Bold"
+          }
+        ],
+        "key": "8k3nd",
+        "text": "It does not establish:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "6pipl",
+        "text": "an official Harvey leaderboard result;",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "f6bq3",
+        "text": "a general improvement in legal intelligence;",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "e5p39",
+        "text": "a population-level causal effect across agent workflows;",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "27t4f",
+        "text": "statistical significance;",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "e46b6",
+        "text": "that every workflow should adopt the same policy or review design.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ad1bn",
+        "text": "The result is deliberately narrower. It shows that the state passed between agents can be treated as a governed object—and that this treatment was associated with materially different downstream behavior in the frozen panel.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "3higv",
+        "text": "Read the technical record",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 1,
+            "length": 23,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "f9ucg",
+        "text": "Formal technical report",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 2,
+            "length": 35,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "dgrdh",
+        "text": "Public results and claim boundaries",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 3,
+            "length": 12,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "5nces",
+        "text": "Study design",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 4,
+            "length": 40,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "a5s2m",
+        "text": "Content-addressed final receipt manifest",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 5,
+            "length": 30,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "bm1iu",
+        "text": "Per-model and per-task results",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9vkg0",
+        "text": "The result was frozen on August 26, 2026. Additional models or scenarios require a new preregistered study rather than modifying this result after outcomes are known.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "85nq3",
+        "text": "The broader question",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cv5fv",
+        "text": "Agents are becoming better at remembering, searching, and acting. The next infrastructure problem is deciding what should survive from one execution context to another.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "f4k21",
+        "text": "For every important handoff, the receiving agent or human should be able to ask:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 55,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "7kk1p",
+        "text": "What may I rely on now? Why, and under whose authority?",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "7hv5i",
+        "text": "Proofpress is building the governed knowledge layer that makes that question answerable.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "eabap",
+        "text": "",
+        "type": "unstyled"
+      }
+    ],
+    "entities": [
+      {
+        "key": "4",
+        "value": {
+          "data": {
+            "url": "https://github.com/chenmingtang830/proofpress/blob/main/studies/long-horizon-eval/ara/evidence/FINAL_RESULTS_RECEIPTS.json"
+          },
+          "mutability": "Mutable",
+          "type": "LINK"
+        }
+      },
+      {
+        "key": "5",
+        "value": {
+          "data": {
+            "url": "https://github.com/chenmingtang830/proofpress/tree/main/studies/long-horizon-eval/relaybench/results"
+          },
+          "mutability": "Mutable",
+          "type": "LINK"
+        }
+      },
+      {
+        "key": "1",
+        "value": {
+          "data": {
+            "url": "https://github.com/chenmingtang830/proofpress/blob/main/studies/long-horizon-eval/ara/PAPER.md"
+          },
+          "mutability": "Mutable",
+          "type": "LINK"
+        }
+      },
+      {
+        "key": "0",
+        "value": {
+          "data": {
+            "entityKey": "557534ab-8e58-486c-9b42-7197b9ebdc2d",
+            "mediaItems": [
+              {
+                "localMediaId": "4",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2093431611346100224"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "2",
+        "value": {
+          "data": {
+            "url": "https://github.com/chenmingtang830/proofpress/blob/main/studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md"
+          },
+          "mutability": "Mutable",
+          "type": "LINK"
+        }
+      },
+      {
+        "key": "3",
+        "value": {
+          "data": {
+            "url": "https://github.com/chenmingtang830/proofpress/blob/main/studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md"
+          },
+          "mutability": "Mutable",
+          "type": "LINK"
+        }
+      }
+    ],
+    "media": [
+      {
+        "id": "2093431611346100224",
+        "src": "/blog-media/2093431611346100224.jpg",
+        "width": 1400,
+        "height": 1549,
+        "source": "https://pbs.twimg.com/media/HQ1c9YPboAA4xou.jpg"
+      }
+    ],
+    "importReceipt": {
+      "retrievedFrom": "https://api.fxtwitter.com/status/2093431690379317346",
+      "retrievedAt": "2026-09-10T07:32:44.233Z",
+      "sha256": "363edf72f01220d29d7b2aeed6af3872f6d2fd4ba7ded484409d1ff0225104d7"
+    }
+  },
+  {
+    "slug": "proofpress-webmcp-challenge",
+    "label": "FIELD NOTE",
+    "image": "/article-webmcp.png",
+    "title": "Proofpress for the WebMCP Challenge",
+    "author": "Richard Tang",
+    "source": "https://x.com/richardt830/status/2095598146546229263",
+    "date": "2026-09-03T19:41:47.000Z",
+    "modified": "2026-09-03T19:41:47.000Z",
+    "description": "We built Proofpress for the WebMCP Challenge: a governed layer from agent-produced knowledge that the next agent and human can rely on with trust.",
+    "blocks": [
+      {
+        "type": "unstyled",
+        "text": "We built Proofpress for the WebMCP Challenge: a governed layer from agent-produced knowledge that the next agent and human can rely on with trust.",
+        "entityRanges": [],
+        "inlineStyleRanges": []
+      },
+      {
+        "type": "unstyled",
+        "text": "WebMCP lets agents do the work in the browser. Approval and admission stays human.",
+        "entityRanges": [],
+        "inlineStyleRanges": []
+      },
+      {
+        "type": "unstyled",
+        "text": "Demo:",
+        "entityRanges": [],
+        "inlineStyleRanges": []
+      }
+    ],
+    "entities": [],
+    "media": [],
+    "video": "/blog-media/2095598146546229263.mp4",
+    "importReceipt": {
+      "retrievedFrom": "https://api.fxtwitter.com/status/2095598146546229263",
+      "retrievedAt": "2026-09-10T07:32:44.790Z",
+      "sha256": "41445ffd0978ff618b97eb969e027859dea1cd88f476614064c99e853c8acac8"
+    }
+  },
+  {
+    "title": "Memory Is Not Enough: Multiplayer AI Needs a Trust and Verification Layer",
+    "author": "Richard Tang",
+    "date": "2026-09-08T22:33:46.000Z",
+    "modified": "2026-09-08T22:33:46.000Z",
+    "blocks": [
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ce0or",
+        "text": "The next bottleneck is not remembering more",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "72pnr",
+        "text": "Multiplayer AI is moving from individual copilots to teams of agents and humans working across research, analysis, decisions, and execution. As these systems enter the enterprise, the obvious infrastructure question is memory:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 65,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "dbi5k",
+        "text": "How can every participant retain context and build on prior work?",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1ef24",
+        "text": "Memory matters. But memory alone does not make agent-produced knowledge safe to reuse.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cinrm",
+        "text": "A system can remember a claim and still not know:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "cmi3h",
+        "text": "where it came from,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "158al",
+        "text": "what evidence supports it,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ad3mm",
+        "text": "which assumptions limit it,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9sknp",
+        "text": "who approved it,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "464qs",
+        "text": "whether it is still current,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1jd4e",
+        "text": "what later finding superseded it,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "7qfm0",
+        "text": "or whether another agent should act on it.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 64,
+            "offset": 31,
+            "style": "Bold"
+          }
+        ],
+        "key": "160pt",
+        "text": "That is the difference between remembering an output and trusting it as enterprise intelligence.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ktqa",
+        "text": "Shared memory can amplify shared mistakes",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1ldi0",
+        "text": "In a single-agent workflow, a weak output may create one bad answer. In a multiplayer workflow, that output can become an input to many downstream agents.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "e3q35",
+        "text": "One agent summarizes a customer interview. Another extracts product requirements. A third creates a roadmap. A fourth produces an executive memo. If the original interpretation was unsupported, stale, or scoped incorrectly, memory helps the error travel faster.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 0,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "4n9f0",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "fbfmd",
+        "text": "The more connected the system becomes, the more important the admission question becomes:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "ed3n",
+        "text": "What is allowed to enter shared memory—and under what conditions may humans and agents reuse it?",
+        "type": "blockquote"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "40q75",
+        "text": "Without an answer, shared memory is not institutional intelligence. It is a highly efficient accumulation layer for both insight and uncertainty.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "b5jro",
+        "text": "Retrieval is not verification",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "bvbj1",
+        "text": "Most AI memory systems optimize for storage, retrieval, and relevance. They help an agent find something that was said or produced before.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1e4kj",
+        "text": "But relevance does not establish reliability.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "bdsmi",
+        "text": "Finding a prior claim does not tell an agent whether the claim was reviewed. A citation does not automatically show whether the evidence supports the exact conclusion. A recent document may still rely on expired assumptions. A confident answer may conflict with a decision already made elsewhere.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "bj361",
+        "text": "Enterprise reuse requires more than, “Can the system retrieve it?” It requires:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 10,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "3otul",
+        "text": "Provenance: What produced this claim, and from which sources?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 8,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "1l3cr",
+        "text": "Evidence: What supports it—and what contradicts it?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 5,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "fhbeh",
+        "text": "Scope: Where, when, and for whom is it valid?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 9,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "3uk44",
+        "text": "Authority: Who or what is permitted to approve it?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 9,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "fjrpc",
+        "text": "Lifecycle: Is it proposed, admitted, disputed, expired, or superseded?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 7,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "4gceo",
+        "text": "Outcome: What happened when the organization acted on it?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "f7scn",
+        "text": "These are not memory features. They are the foundation of a trust and verification layer.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "enemj",
+        "text": "The missing object is the governed claim",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "c6atl",
+        "text": "Documents are useful containers, but multiplayer AI needs a smaller unit of coordination: the claim.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "f0lb6",
+        "text": "A claim can be inspected, challenged, approved, reused, and superseded. It can carry evidence and scope. It can show which human or agent admitted it and what happened downstream.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 1,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "4klo0",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "555af",
+        "text": "Instead of asking every agent to reread an entire history and independently decide what to trust, the system can expose a governed state:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 8,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "1eelu",
+        "text": "Proposed: generated but not yet safe to reuse",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 8,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "3da7a",
+        "text": "Verified: checked against required evidence or policy",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 8,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "avl5j",
+        "text": "Admitted: approved for a defined workflow and audience",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 8,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "c63l3",
+        "text": "Disputed: challenged and awaiting resolution",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 10,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "7276c",
+        "text": "Superseded: replaced by a newer claim while preserving history",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 7,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "4l34",
+        "text": "Expired: no longer valid without renewed review",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "5qkng",
+        "text": "This turns memory from a passive archive into an operational intelligence layer.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "n276",
+        "text": "Trust must be multiplayer, too",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "74sut",
+        "text": "Verification cannot mean adding a single human approval button to every workflow. That would recreate the bottleneck AI was supposed to remove.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "64kur",
+        "text": "The trust layer has to coordinate different forms of authority:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "80jq4",
+        "text": "agents can run evidence and consistency checks,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "5fnu0",
+        "text": "domain experts can approve claims within their scope,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "eol5a",
+        "text": "policies can define which claims require escalation,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "4mdp4",
+        "text": "systems can block expired or disputed knowledge from downstream use,",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "e5eoc",
+        "text": "and every participant can see why a claim is reusable.",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "d2o3a",
+        "text": "The goal is not to eliminate uncertainty. It is to make uncertainty explicit and govern how it propagates.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "e2d5m",
+        "text": "That is what allows multiplayer AI to scale without forcing every new participant to start from zero blindly trust everything already in memory.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "iueu",
+        "text": "From impressive output to reusable intelligence",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "44a58",
+        "text": "Enterprise buyers are rarely blocked because an AI system cannot produce enough content. They are blocked at the moment of commitment:",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1t4us",
+        "text": "Can this analysis enter the knowledge base?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "22epm",
+        "text": "Can another team rely on it?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "d7vtp",
+        "text": "Can the next agent use it without rereading every source?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "fvb9e",
+        "text": "Can we explain the decision later?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "36j6j",
+        "text": "Can we correct the record without losing history?",
+        "type": "unordered-list-item"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "5141b",
+        "text": "Memory helps agents continue a conversation. A trust and verification layer helps an enterprise continue operating on what those agents produce.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "4oju",
+        "text": "That distinction will shape the next generation of multiplayer AI infrastructure.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 14,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "1rphk",
+        "text": "Memory answers: What happened before?",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 30,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "3ved8",
+        "text": "Trust and verification answer: What are we willing to carry forward?",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "b9fqu",
+        "text": "The winning multiplayer AI systems will need both.",
+        "type": "unstyled"
+      }
+    ],
+    "entities": [
+      {
+        "key": "0",
+        "value": {
+          "data": {
+            "caption": "Shared memory can amplify a weak claim across many downstream agents.",
+            "entityKey": "5473a278-1623-43ff-afdf-bedabf932a1a",
+            "mediaItems": [
+              {
+                "localMediaId": "10",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2097398576871886848"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "1",
+        "value": {
+          "data": {
+            "caption": "A governed claim moves from evidence gathering through verification and admission into reusable intelligence.",
+            "entityKey": "d3f536d8-114a-4d3c-8ae4-b9273061a11b",
+            "mediaItems": [
+              {
+                "localMediaId": "12",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2097399297633591296"
+              }
+            ]
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      }
+    ],
+    "media": [
+      {
+        "id": "2097398576871886848",
+        "src": "/blog-media/2097398576871886848.jpg",
+        "width": 1600,
+        "height": 900,
+        "source": "https://pbs.twimg.com/media/HRt05Kbb0AAQfMB.jpg"
+      },
+      {
+        "id": "2097399297633591296",
+        "src": "/blog-media/2097399297633591296.jpg",
+        "width": 1600,
+        "height": 900,
+        "source": "https://pbs.twimg.com/media/HRt1jHeaoAA0U-7.jpg"
+      }
+    ],
+    "slug": "memory-is-not-enough",
+    "label": "ARTICLE",
+    "image": "/blog-media/2097453369535386089-cover.jpg",
+    "source": "https://x.com/richardt830/status/2097453369535386089",
+    "platform": "X",
+    "description": "Multiplayer AI is moving from individual copilots to teams of agents and humans working across research, analysis, decisions, and execution. As these systems enter the enterprise, the obvious infrastructure question is memory:",
+    "importReceipt": {
+      "retrievedFrom": "https://api.fxtwitter.com/status/2097453369535386089",
+      "retrievedAt": "2026-09-10T07:48:13.554Z",
+      "sha256": "bcadd89d410f477c152d39b0fefe35609976113a1eac2fed4aebd5d87f14d9ae"
+    }
+  }
+]
