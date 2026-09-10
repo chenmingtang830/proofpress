@@ -11,3 +11,9 @@ node_modules/
 # intentionally local. Public protocol and implementation docs live directly
 # under docs/.
 /docs/internal/
+
+# Video sources and renders live outside this repository in proofpress-dev.
+*.mp4
+*.mov
+*.webm
+*.mkv

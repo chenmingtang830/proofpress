@@ -1,50 +1,61 @@
 import {
-  AiChemistry01Icon,
   AiInnovation01Icon,
   ArrowRight01Icon,
-  ServiceIcon,
+  GitCompareIcon,
   Shield02Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ButtonLink } from "./components/button";
 import { KnowledgeChart } from "./components/knowledge-chart";
-import { ModelResultsChart } from "./components/model-results-chart";
-import { Quickstart } from "./components/quickstart";
+import posts from "./content/post-index.json";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
-const resultsUrl = `${repoUrl}/tree/main/studies/long-horizon-eval/relaybench`;
 const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
+// Public media lives in Vercel Blob; source footage and renders stay out of Git.
+const brandFilmUrl = "https://qj4v3hgnvu4pvbdd.public.blob.vercel-storage.com/films/proofpress-shoulders-20260910-1080p.mp4";
 
-const writing = [
-  {
-    label: "ARTICLE",
-    title: "Agents Are Creating a New Knowledge Layer—and We Need to Govern It",
-    href: "https://x.com/richardt830/status/2093774242429206969",
-    image: "/article-knowledge-layer.webp",
-    width: 1672,
-    height: 941,
-  },
-  {
-    label: "ARTICLE",
-    title: "What May the Next Agent Rely On?",
-    href: "https://x.com/richardt830/status/2093431690379317346",
-    image: "/article-agent-rely.webp",
-    width: 1536,
-    height: 1024,
-  },
-  {
-    label: "FIELD NOTE",
-    title: "Proofpress for the WebMCP Challenge",
-    href: "https://x.com/richardt830/status/2095598146546229263",
-    image: "/article-webmcp.png",
-    width: 1440,
-    height: 1050,
-  },
-];
+const writing = [...posts]
+  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
+  .slice(0, 3);
 
 function Arrow() {
   return <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.6} aria-hidden="true" />;
 }
+
+function closeMobileNav(event: React.MouseEvent<HTMLAnchorElement>) {
+  event.currentTarget.closest("details")?.removeAttribute("open");
+}
+
+function LedgerDetails({ mobile = false }: { mobile?: boolean }) {
+  const details = (
+    <>
+      <div className="ledgerFacts">
+        <div><span>EVIDENCE</span><strong>4 sources</strong></div>
+        <div><span>EVALUATION</span><strong>2 assessments</strong></div>
+        <div><span>SCOPE</span><strong>Tested model, dataset &amp; harness</strong></div>
+      </div>
+      <div className="ledgerHumanGate"><span>HUMAN APPROVAL</span><strong>Admitted for declared reuse: next-experiment planning</strong></div>
+      <div className="ledgerSignals">
+        <div><span>USED</span><strong>12 runs</strong></div>
+        <div><span>OUTCOMES</span><strong>5 observations</strong></div>
+      </div>
+    </>
+  );
+
+  return mobile ? (
+    <details className="ledgerDisclosure">
+      <summary>View evidence and reuse scope</summary>
+      <div className="ledgerDisclosureBody">{details}</div>
+    </details>
+  ) : <div className="ledgerDesktopDetails">{details}</div>;
+}
+
+const formatArticleDate = (date: string) => new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+}).format(new Date(date));
 
 export function App() {
   return (
@@ -58,22 +69,31 @@ export function App() {
         <nav aria-label="Primary navigation">
           <a href="#product">How it works</a>
           <a href="#teams">For teams</a>
-          <a href="#evidence">Evidence</a>
-          <a href="#quickstart">Evaluate</a>
+          <a href="/blog">Blog</a>
+          <a href={`${repoUrl}#quick-start`}>Docs</a>
           <a className="navContact" href="#partners">Let’s talk <Arrow /></a>
         </nav>
+        <details className="mobileNav">
+          <summary aria-label="Open navigation">Menu</summary>
+          <nav aria-label="Mobile navigation">
+            <a href="#product" onClick={closeMobileNav}>How it works</a>
+            <a href="#teams" onClick={closeMobileNav}>For teams</a>
+            <a href="/blog" onClick={closeMobileNav}>Blog</a>
+            <a href={`${repoUrl}#quick-start`} onClick={closeMobileNav}>Docs</a>
+          </nav>
+        </details>
       </header>
 
       <main id="main">
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="heroCopy">
             <h1 id="hero-title">
-              Own your intelligence.
-              <span className="heroQualifier">Verified. Governed. Cumulative.</span>
+              Verified knowledge<br /> infrastructure.
             </h1>
-            <p className="heroLead">Trust infrastructure for RSI.</p>
+            <p className="heroAudience">For agent-native research teams.</p>
+            <p className="heroLead">Turn research output into knowledge your team can build on.</p>
             <div className="heroActions" aria-label="Get started">
-              <ButtonLink href="#partners">Join as an early design partner <Arrow /></ButtonLink>
+              <ButtonLink href="#partners">Explore a design partnership <Arrow /></ButtonLink>
               <ButtonLink href={repoUrl} variant="secondary">Explore open source on GitHub</ButtonLink>
             </div>
           </div>
@@ -85,19 +105,19 @@ export function App() {
         </section>
 
         <section className="why" aria-labelledby="why-title">
-          <h2 id="why-title">Agents produce more knowledge than organizations can trust—or keep.</h2>
+          <h2 id="why-title">Agents produce more knowledge than researchers can verify—or keep.</h2>
           <div className="problemFrame">
             <KnowledgeChart />
             <div className="handoffProblems" aria-label="Two failures behind the intelligence gap">
               <div className="handoffProblem">
                 <span>UNVERIFIED</span>
                 <h3>Output scales. Verification doesn’t.</h3>
-                <p>Unsupported claims become the next agent’s premise.</p>
+                <p>Claims travel without evidence, review, or clear limits.</p>
               </div>
               <div className="handoffProblem">
                 <span>SCATTERED</span>
-                <h3>Agents learn. Organizations forget.</h3>
-                <p>Learnings disappear across runs, chats, traces, and documents.</p>
+                <h3>Agents learn. Research teams forget.</h3>
+                <p>Dead ends disappear. Teams repeat them.</p>
               </div>
             </div>
           </div>
@@ -105,30 +125,29 @@ export function App() {
 
         <section className="stackGap" id="stack-gap" aria-labelledby="stack-gap-title">
           <div className="sectionIntro sectionIntroSolo">
-            <h2 id="stack-gap-title">Today’s stack captures pieces—not trusted intelligence.</h2>
+            <h2 id="stack-gap-title">The research stack captures the work. It still loses the learning.</h2>
           </div>
-          <div className="stackGrid" aria-label="Limits of existing agent infrastructure">
+          <div className="stackGrid" aria-label="Where research learning is lost across the existing stack">
             <div className="stackItem">
               <h3>Observability</h3>
-              <p>Records activity.</p><small>Activity, not reusable knowledge.</small>
+              <p>Raw traces and execution details.</p><small>More activity creates a larger sea of signals.</small>
             </div>
             <div className="stackItem">
-              <h3>Memory</h3>
-              <p>Recalls history.</p><small>Recall, not durable learning.</small>
+              <h3>Experiment trackers</h3>
+              <p>Runs, metrics, and artifacts.</p><small>They organize experiments—not what the team learned.</small>
             </div>
             <div className="stackItem">
-              <h3>Knowledge graphs &amp; ontologies</h3>
-              <p>Maps relationships.</p><small>Structure, not verified knowledge.</small>
+              <h3>Papers &amp; reports</h3>
+              <p>Selected, distilled findings.</p><small>Much of the failed work, scope, and decision history is left behind.</small>
             </div>
           </div>
-          <p className="stackConclusion">The missing layer is a governed record of what agents learned—and what future agents may trust and reuse.</p>
+          <p className="stackConclusion">Across the gaps, valuable learnings and dead ends disappear before the next research cycle can build on them.</p>
         </section>
 
         <section className="product" id="product" aria-labelledby="product-title">
           <div className="productIntro productIntroSolo">
             <div>
-              <span className="eyebrow">Proofpress</span>
-              <h2 id="product-title">The Intelligence Ledger for agent-native organizations.</h2>
+              <h2 id="product-title">The Intelligence Ledger for agent-native research labs.</h2>
             </div>
           </div>
           <figure className="productSystem" aria-labelledby="ledger-system-title" aria-describedby="ledger-system-note">
@@ -143,13 +162,13 @@ export function App() {
                 <path d="M52 170C10 260 10 650 58 730" markerEnd="url(#mechanism-arrow-mobile)" />
                 <path d="M262 730C310 650 310 260 268 170" markerEnd="url(#mechanism-arrow-mobile)" />
               </svg>
-              <div className="mechanismLabel mechanismLabelPropose"><span>Propose + evidence</span><div className="agentInterfaces"><b>MCP</b><b>CLI</b><b>Python</b><b>HTTP</b></div></div>
-              <span className="mechanismLabel mechanismLabelGoverned">Governed context + feedback</span>
+              <div className="mechanismLabel mechanismLabelPropose"><div className="mechanismActions"><span>Propose claims</span><span>Attach evidence</span></div><div className="agentInterfaces"><b>MCP</b><b>CLI</b><b>Python</b><b>HTTP</b></div></div>
+              <span className="mechanismLabel mechanismLabelGoverned">Governed context</span>
               <div className="productAgents">
                 <span>ANY AGENT</span>
-                <strong>Research</strong><strong>Code</strong><strong>Operations</strong>
+                <strong>Experimentation</strong><strong>Evaluation</strong><strong>Analysis</strong>
               </div>
-              <div className="mechanismValue"><span>Evaluate</span><span>Govern</span><span>Improve</span></div>
+              <div className="mechanismValue">Research cycle</div>
               <div className="ledgerStack" aria-label="A growing stack of governed intelligence records">
                 <span className="ledgerGhost ledgerGhostOne" aria-hidden="true" />
                 <span className="ledgerGhost ledgerGhostTwo" aria-hidden="true" />
@@ -157,27 +176,30 @@ export function App() {
                 <div className="ledgerPanel">
                   <div className="ledgerPanelHead"><img src="/logo.svg" alt="" width="28" height="28" /><span>INTELLIGENCE LEDGER</span><small>LIVE RECORD</small></div>
                   <div className="ledgerRecordMeta"><span>LR-204 · VERSION 03</span><b>ADMITTED</b></div>
-                  <h3 id="ledger-system-title">Protocol B reduced processing time.</h3>
-                  <div className="ledgerFacts">
-                    <div><span>EVIDENCE</span><strong>4 sources</strong></div>
-                    <div><span>EVALUATION</span><strong>2 assessments</strong></div>
-                    <div><span>SCOPE</span><strong>Research workflows</strong></div>
-                  </div>
-                  <div className="ledgerHumanGate"><span>HUMAN ADMISSION</span><strong>Authorized for declared reuse</strong></div>
-                  <div className="ledgerSignals">
-                    <div><span>USED</span><strong>12 runs</strong></div>
-                    <div><span>OUTCOMES</span><strong>5 observations</strong></div>
-                  </div>
+                  <h3 id="ledger-system-title">Harness B improved performance on the evaluated task set.</h3>
+                  <LedgerDetails />
+                  <LedgerDetails mobile />
                 </div>
               </div>
             </div>
-            <figcaption id="ledger-system-note">Trust, use, and outcomes stay attached as intelligence moves across agents. · Illustrative record</figcaption>
+            <div className="productSystemFooter">
+              <p className="productClosingStatement">Verified. Governed. Cumulative.</p>
+              <figcaption id="ledger-system-note">Evidence, scope, approval, use, and outcomes stay attached to the claim. · Illustrative record</figcaption>
+            </div>
           </figure>
+          <div className="verificationFlow">
+            <h3>Verification informs the decision. Human Approval authorizes reuse.</h3>
+            <div className="stackGrid">
+              <div className="stackItem"><h3>Deterministic checks</h3><p>Reproducible checks against evidence and explicit requirements.</p></div>
+              <div className="stackItem"><h3>LM as a judge</h3><p>Assess findings against your organization’s configured review criteria.</p></div>
+              <div className="stackItem"><h3>Human review &amp; approval</h3><p>Decide which findings may be reused, and where.</p></div>
+            </div>
+          </div>
         </section>
 
         <section className="intelligenceLoop" id="intelligence-loop" aria-labelledby="intelligence-loop-title">
           <div className="loopIntro loopIntroSolo">
-            <h2 id="intelligence-loop-title">The engine for <span>continuous organizational learning.</span></h2>
+            <h2 id="intelligence-loop-title">The learning loop.</h2>
           </div>
           <svg className="compoundingGraph" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <g className="graphEdges">
@@ -196,93 +218,58 @@ export function App() {
             </g>
           </svg>
           <div className="organizationStory" aria-label="The long-term outcome of continuous organizational learning">
-            <div><span>01 USE KNOWLEDGE</span><strong>Record which knowledge the agent uses.</strong></div>
-            <div><span>02 EVALUATE RESULTS</span><strong>Evaluate the output. Link it to the knowledge used.</strong></div>
-            <div><span>03 WEIGHT KNOWLEDGE BY TRUST</span><strong>Improve results. Guide new conclusions.</strong></div>
+            <div><span>01 USE GOVERNED CONTEXT</span><strong>Agents build new work and claims on admitted knowledge.</strong></div>
+            <div><span>02 EVALUATE OUTCOMES</span><strong>Connect results to the knowledge and claims that shaped them.</strong></div>
+            <div><span>03 REFINE KNOWLEDGE</span><strong>Use new evidence to reinforce, revise, or retire findings.</strong></div>
           </div>
-          <p className="organizationOutcome">Organization intelligence compounds with each use.</p>
+          <p className="organizationOutcome">A trusted foundation for recursive self-improvement.</p>
         </section>
 
         <section className="teams" id="teams" aria-labelledby="teams-title">
           <div className="sectionIntro sectionIntroSolo">
-            <h2 id="teams-title">Built for teams where trust has consequences.</h2>
+            <h2 id="teams-title">For teams advancing AI.</h2>
+            <p className="narrativeLead">Produce knowledge the next researcher or agent can build on.</p>
           </div>
           <div className="icpGrid" aria-label="Current target teams">
             <div className="icpItem">
               <HugeiconsIcon className="problemIcon" icon={AiInnovation01Icon} size={30} strokeWidth={1.5} aria-hidden="true" />
-              <h3>AI NeoLabs</h3>
-              <p>Long-horizon, multi-agent research where findings compound across runs.</p>
+              <h3>AI research labs</h3>
+              <p>Carry findings across researchers, agents, and experiments.</p>
             </div>
             <div className="icpItem">
-              <HugeiconsIcon className="problemIcon" icon={ServiceIcon} size={30} strokeWidth={1.5} aria-hidden="true" />
-              <h3>AI-native services</h3>
-              <p>Legal, accounting, and consulting work reviewed across agents, experts, and clients.</p>
+              <HugeiconsIcon className="problemIcon" icon={GitCompareIcon} size={30} strokeWidth={1.5} aria-hidden="true" />
+              <h3>Benchmark &amp; evaluation teams</h3>
+              <p>Preserve evaluation conclusions as models, datasets, and harnesses change.</p>
             </div>
             <div className="icpItem">
               <HugeiconsIcon className="problemIcon" icon={Shield02Icon} size={30} strokeWidth={1.5} aria-hidden="true" />
-              <h3>Regulated vertical AI</h3>
-              <p>Banking, insurance, and healthcare workflows with strict review and accountability.</p>
-            </div>
-            <div className="icpItem">
-              <HugeiconsIcon className="problemIcon" icon={AiChemistry01Icon} size={30} strokeWidth={1.5} aria-hidden="true" />
-              <h3>Knowledge-intensive R&amp;D</h3>
-              <p>Pharmaceuticals and biotech, where evidence moves from experiments to decisions.</p>
+              <h3>Post-training teams</h3>
+              <p>Keep fine-tuning findings, model decisions, and failed approaches available for the next cycle.</p>
             </div>
           </div>
-        </section>
-
-        <section className="evidence" id="evidence" aria-labelledby="evidence-title">
-          <div className="evidenceIntro evidenceIntroSolo">
-            <div>
-              <span className="evidenceEyebrow">Initial promising evidence · Harvey-style relay test</span>
-              <h2 id="evidence-title">
-                Higher completion.<br />Less unsafe propagation.
-              </h2>
-              <p className="evidenceMeta">Seven models · Three legal task families · Frozen paired study</p>
-            </div>
-          </div>
-          <div className="study">
-            <ModelResultsChart />
-            <div className="studySummary">
-              <div><strong>89.3 → 93.4%</strong><span>Rubric completion · 126 paired runs</span></div>
-              <div><strong>8 → 0</strong><span>Observed unsafe propagation · 63 controlled stress pairs</span></div>
-              <p>Proofpress-composed tasks derived from Harvey LAB public materials. Bounded mechanism evidence—not an official Harvey benchmark or a general efficacy claim.</p>
-              <a href={resultsUrl}>Read the public results <Arrow /></a>
-            </div>
-          </div>
-        </section>
-
-        <section className="quickstart" id="quickstart" aria-labelledby="quickstart-title">
-          <div className="compactIntro">
-            <h2 id="quickstart-title">Evaluate Proofpress in your environment.</h2>
-          </div>
-          <details className="evaluationDisclosure">
-            <summary><span>Run the local evaluation</span><span className="evaluationMeta">3 steps <span aria-hidden="true">+</span></span></summary>
-            <Quickstart />
-          </details>
         </section>
 
         <section className="writing" id="writing" aria-labelledby="writing-title">
           <div className="compactIntro">
             <h2 id="writing-title">Writing from the field.</h2>
-            <a href="https://x.com/richardt830">Follow on X <Arrow /></a>
+            <a href="/blog">Read the blog <Arrow /></a>
           </div>
           <div className="writingGrid">
             {writing.map((item) => (
-              <a className="writingCard" href={item.href} key={item.href}>
+              <a className="writingCard" href={`/blog/${item.slug}`} key={item.slug}>
                 <div className="writingImage">
                   <img
                     src={item.image}
                     alt=""
-                    width={item.width}
-                    height={item.height}
+                    width={1600}
+                    height={900}
                     loading="lazy"
                     decoding="async"
                   />
                 </div>
-                <span>{item.label}</span>
+                <span>{item.label} · {formatArticleDate(item.date)}</span>
                 <h3>{item.title}</h3>
-                <small>Read on X <Arrow /></small>
+                <small>Read article <Arrow /></small>
               </a>
             ))}
           </div>
@@ -291,20 +278,20 @@ export function App() {
         <section className="film" aria-labelledby="film-title">
           <span className="eyebrow">Our mission</span>
           <h2 id="film-title">Knowledge worth building on.</h2>
-          <video controls playsInline preload="metadata" poster="/proofpress-brand-film-poster.webp">
-            <source src="/proofpress-brand-film.mp4" type="video/mp4" />
+          <video controls playsInline preload="metadata" poster="/proofpress-shoulders-poster-20260910.webp">
+            <source src={brandFilmUrl} type="video/mp4" />
             Your browser does not support embedded video.
           </video>
         </section>
 
         <section className="finalCta" id="partners" aria-labelledby="cta-title">
           <div>
-            <span className="eyebrow">Your agents are already learning</span>
+            <span className="eyebrow">Your experiments already produce learnings</span>
             <h2 id="cta-title">Don’t waste your intelligence.</h2>
           </div>
           <div className="finalCtaAction">
-            <p>Bring us one consequential agent workflow. We’ll help you turn its learnings into governed intelligence.</p>
-            <ButtonLink href={contactUrl}>Become a design partner <Arrow /></ButtonLink>
+            <p>Show us one research workflow—and where its findings get lost between runs.</p>
+            <ButtonLink href={contactUrl}>Share a research workflow <Arrow /></ButtonLink>
           </div>
         </section>
       </main>
@@ -314,7 +301,9 @@ export function App() {
           <img src="/logo-on-dark.svg" alt="" width="28" height="28" />
           <span>Proofpress</span>
         </a>
-        <p>The Intelligence Ledger for agent-native organizations.</p>
+        <div className="footerIdentity">
+          <small>by <span>Only Then Labs</span></small>
+        </div>
         <a href={repoUrl}>GitHub</a>
       </footer>
     </div>
