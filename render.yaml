@@ -19,6 +19,8 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.13.7
+      - key: PROOFPRESS_SECRET_ENCRYPTION_KEY
+        generateValue: true
       # Non-secret model routing. Add OPENROUTER_API_KEY as a secret in the
       # Render dashboard; never commit it to this Blueprint.
       - key: OPENROUTER_MODEL
