@@ -11,6 +11,8 @@ import posts from "./content/post-index.json";
 
 const repoUrl = "https://github.com/chenmingtang830/proofpress";
 const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105";
+// Temporary fixed deployment asset. Replace with the permanent media host before production.
+const brandFilmUrl = "https://proofpress-pof8cyu29-tangchenming0830-4020s-projects.vercel.app/proofpress-shoulders-film-20260910-direct1080p.mp4";
 
 const writing = [...posts]
   .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
@@ -277,7 +279,7 @@ export function App() {
           <span className="eyebrow">Our mission</span>
           <h2 id="film-title">Knowledge worth building on.</h2>
           <video controls playsInline preload="metadata" poster="/proofpress-shoulders-poster-20260910.webp">
-            <source src="/proofpress-shoulders-film-20260910-direct1080p.mp4" type="video/mp4" />
+            <source src={brandFilmUrl} type="video/mp4" />
             Your browser does not support embedded video.
           </video>
         </section>
