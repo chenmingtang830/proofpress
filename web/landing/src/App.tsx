@@ -277,7 +277,7 @@ export function App() {
           <span className="eyebrow">Our mission</span>
           <h2 id="film-title">Knowledge worth building on.</h2>
           <video controls playsInline preload="metadata" poster="/proofpress-shoulders-poster-20260910.webp">
-            <source src="/proofpress-shoulders-film-20260910.mp4" type="video/mp4" />
+            <source src="/proofpress-shoulders-film-20260910-1080p.mp4" type="video/mp4" />
             Your browser does not support embedded video.
           </video>
         </section>
