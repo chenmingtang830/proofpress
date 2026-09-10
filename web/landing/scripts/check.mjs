@@ -35,7 +35,7 @@ const requirements = [
   [html.includes('property="og:url" content="https://proofpress.dev/"') && html.includes('property="og:image" content="https://proofpress.dev/og-proofpress.png"') && html.includes('property="og:image:width" content="1200"') && html.includes('property="og:image:height" content="630"') && html.includes('property="og:image:alt"'), "complete Open Graph image metadata is declared"],
   [html.includes('name="twitter:card" content="summary_large_image"') && html.includes('name="twitter:title"') && html.includes('name="twitter:description"') && html.includes('name="twitter:image" content="https://proofpress.dev/og-proofpress.png"') && html.includes('name="twitter:image:alt"'), "complete Twitter large-image metadata is declared"],
   [socialCard.subarray(1, 4).toString("ascii") === "PNG" && socialCardWidth === 1200 && socialCardHeight === 630, "social card is a real 1200 by 630 PNG"],
-  [html.includes("Proofpress — Verified knowledge infrastructure") && html.includes("For agent-native research teams."), "page and social text metadata use the current research positioning"],
+  [html.includes("Proofpress — Verified knowledge infrastructure for agent-native research teams") && html.includes("Turn research output into knowledge your team can build on."), "page and social text metadata use the current research positioning"],
 ];
 
 await Promise.all([
