@@ -1,13 +1,13 @@
 {
   "asset": "og-proofpress.png",
   "dimensions": "1200x630",
-  "updated": "2026-09-07",
+  "updated": "2026-09-10",
   "source": "hero-editorial-v1.webp",
   "method": "Deterministic browser composition using the landing page's DM Sans, IBM Plex Mono, official logo, and Boardroom Clarity tokens.",
   "copy": {
-    "headline": "Own your intelligence.",
-    "support": "Verified. Governed. Cumulative.",
-    "positioning": "Trust infrastructure for RSI."
+    "headline": "Verified knowledge infrastructure.",
+    "support": "For agent-native research teams.",
+    "positioning": "Knowledge your team can build on."
   },
   "usage": "Open Graph and Twitter large-image preview for https://proofpress.dev/"
 }
