@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="title description">
-  <title id="title">Research output outgrows human verification capacity</title>
-  <desc id="description">Illustrative curve showing agent-produced research output growing faster than human-curated research knowledge as agent autonomy increases. A marked point shows where output exceeds a research team's verification capacity.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="research-gap-title research-gap-description">
+  <title id="research-gap-title">Research output outgrows human verification capacity</title>
+  <desc id="research-gap-description">Illustrative curve showing agent-produced research output growing faster than human-curated research knowledge as agent autonomy increases. A marked point shows where output exceeds a research team's verification capacity.</desc>
   <defs>
     <marker id="ink-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#181A20"/></marker>
     <marker id="teal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#0E6675"/></marker>
@@ -17,8 +17,8 @@
   <circle cx="744" cy="348" r="7" fill="#0E6675" stroke="#FFFFFF" stroke-width="3"/>
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="426" y="242" fill="#0E6675" font-size="17" font-weight="700" letter-spacing=".6">OUTPUT EXCEEDS VERIFICATION CAPACITY</text>
-    <text x="960" y="94" fill="#0E6675" font-size="18" font-weight="700">Agent-produced</text>
-    <text x="960" y="119" fill="#0E6675" font-size="18" font-weight="700">research output</text>
+    <text x="1008" y="96" fill="#0E6675" font-size="16" font-weight="700">Agent-produced</text>
+    <text x="1008" y="120" fill="#0E6675" font-size="16" font-weight="700">research output</text>
     <text x="812" y="326" fill="#686F78" font-size="18" font-weight="600">Human-curated research knowledge</text>
     <text x="610" y="620" fill="#181A20" font-size="18" font-weight="600" text-anchor="middle">Agent adoption and autonomy over time</text>
     <text x="42" y="310" fill="#181A20" font-size="18" font-weight="600" text-anchor="middle" transform="rotate(-90 42 310)">Reusable research knowledge</text>
