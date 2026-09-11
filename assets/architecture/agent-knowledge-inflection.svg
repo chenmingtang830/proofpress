@@ -1,29 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="knowledge-title knowledge-desc">
-  <title id="knowledge-title">Agent output outgrows the organization’s verification capacity</title>
-  <desc id="knowledge-desc">An illustrative curve shows agent-produced knowledge growing faster than the intelligence retained by the organization as agent autonomy increases. A marked point shows where output exceeds the organization’s existing verification capacity.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="research-gap-title research-gap-description">
+  <title id="research-gap-title">Research output outgrows human verification capacity</title>
+  <desc id="research-gap-description">Illustrative curve showing agent-produced research output growing faster than human-curated research knowledge as agent autonomy increases. A marked point shows where output exceeds a research team's verification capacity.</desc>
   <defs>
-    <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0L10 5L0 10Z" fill="#181a20"/>
-    </marker>
-    <marker id="teal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0L10 5L0 10Z" fill="#0e6675"/>
-    </marker>
+    <marker id="ink-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#181A20"/></marker>
+    <marker id="teal-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#0E6675"/></marker>
   </defs>
-  <rect width="1200" height="650" fill="#fff"/>
-  <g fill="none" stroke="#181a20" stroke-width="2">
-    <path d="M120 548V66" marker-end="url(#axis-arrow)"/>
-    <path d="M120 548H1110" marker-end="url(#axis-arrow)"/>
+  <rect width="1200" height="650" fill="#FFFFFF"/>
+  <g fill="none" stroke-linecap="square">
+    <path d="M120 548V66" stroke="#181A20" stroke-width="2" marker-end="url(#ink-arrow)"/>
+    <path d="M120 548H1110" stroke="#181A20" stroke-width="2" marker-end="url(#ink-arrow)"/>
+    <path d="M122 516C330 455 620 390 1054 346" stroke="#686F78" stroke-width="4" marker-end="url(#ink-arrow)"/>
+    <path d="M122 516C420 451 700 397 820 284C905 204 952 123 984 62" stroke="#0E6675" stroke-width="5" marker-end="url(#teal-arrow)"/>
+    <path d="M744 548V348" stroke="#0E6675" stroke-width="2" stroke-dasharray="6 8"/>
+    <path d="M584 260L730 337" stroke="#0E6675" stroke-width="2" marker-end="url(#teal-arrow)"/>
   </g>
-  <path d="M122 516C330 455 620 390 1054 346" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round" marker-end="url(#axis-arrow)"/>
-  <path d="M122 516C420 451 700 397 820 284C905 204 952 123 984 62" fill="none" stroke="#0e6675" stroke-width="4" stroke-linecap="round" marker-end="url(#teal-arrow)"/>
-  <path d="M744 548V348" fill="none" stroke="#0e6675" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
-  <circle cx="744" cy="348" r="7.5" fill="#0e6675" stroke="#fff" stroke-width="5"/>
-  <path d="M584 260L730 337" fill="none" stroke="#0e6675" stroke-width="1.5" marker-end="url(#teal-arrow)"/>
-  <g font-family="DM Sans, Arial, sans-serif">
-    <text x="426" y="242" fill="#0e6675" font-size="18" font-weight="700" letter-spacing=".02em">OUTPUT EXCEEDS VERIFICATION CAPACITY</text>
-    <text x="1000" y="94" fill="#0e6675" font-size="20" font-weight="700"><tspan x="1000" dy="0">Agent-produced</tspan><tspan x="1000" dy="31">knowledge</tspan></text>
-    <text x="850" y="326" fill="#555b66" font-size="19" font-weight="600">Organization-owned intelligence</text>
-    <text x="610" y="620" text-anchor="middle" fill="#181a20" font-size="18" font-weight="600">Agent adoption and autonomy over time</text>
-    <text x="42" y="310" text-anchor="middle" transform="rotate(-90 42 310)" fill="#181a20" font-size="18" font-weight="600">Reusable claims and work</text>
+  <circle cx="744" cy="348" r="7" fill="#0E6675" stroke="#FFFFFF" stroke-width="3"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="426" y="242" fill="#0E6675" font-size="17" font-weight="700" letter-spacing=".6">OUTPUT EXCEEDS VERIFICATION CAPACITY</text>
+    <text x="1008" y="96" fill="#0E6675" font-size="16" font-weight="700">Agent-produced</text>
+    <text x="1008" y="120" fill="#0E6675" font-size="16" font-weight="700">research output</text>
+    <text x="812" y="326" fill="#686F78" font-size="18" font-weight="600">Human-curated research knowledge</text>
+    <text x="610" y="620" fill="#181A20" font-size="18" font-weight="600" text-anchor="middle">Agent adoption and autonomy over time</text>
+    <text x="42" y="310" fill="#181A20" font-size="18" font-weight="600" text-anchor="middle" transform="rotate(-90 42 310)">Reusable research knowledge</text>
   </g>
 </svg>
