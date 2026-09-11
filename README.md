@@ -43,7 +43,7 @@ compounding:
 | Claims travel without durable evidence, scope, review, or authority. | Useful learnings disappear into runs, traces, chats, files, tools, and people. |
 
 <p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge growing beyond organization-owned intelligence as output exceeds verification capacity" width="100%">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced research output growing faster than human-curated research knowledge as it exceeds a team's verification capacity" width="100%">
 </p>
 
 <sub>Illustrative model, not measured data. Without a trusted learning loop,
@@ -113,7 +113,7 @@ The Owner workspace is the Human Approval layer: review the candidate and its
 support, inspect lineage, then admit, reject, or request revision.
 
 <p align="center">
-  <img src="assets/product/owner-home.png" alt="Proofpress Owner workspace showing the review queue, governed claims, and evidence-backed decision interface" width="100%">
+  <img src="assets/product/research-ledger-record.svg" alt="Illustrative Intelligence Ledger record showing a scoped Harness B research conclusion admitted through Human Approval for next-experiment reuse" width="100%">
 </p>
 
 [Task run tracking](docs/TASK_RUNS.md) documents the append-only Run,
