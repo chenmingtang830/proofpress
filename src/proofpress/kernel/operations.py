@@ -13,6 +13,7 @@ from contextlib import contextmanager
 from contextvars import ContextVar
 
 from proofpress.integrations import repository as proofpress_repo
+from proofpress.integrations import external_experiment as proofpress_external_experiment
 from proofpress.profiles import experiment as proofpress_experiment
 from proofpress.kernel.events import current_event_store
 
@@ -335,6 +336,10 @@ LOCAL_OPERATION_SPECS = {
         "required": ("payload",), "optional": ("profile",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
+    "experiment.ingest": {
+        "required": ("payload", "actor"), "optional": (), "mutates": True,
+        "replay_semantics": "request_idempotency_key",
+    },
     "claim.propose": {
         "required": ("title", "statement", "evidence_refs", "proposer"),
         "optional": ("expires_at", "artifact_refs", "scope", "applicability",
@@ -453,6 +458,7 @@ LOCAL_OPERATION_SPECS = {
 }
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
+EXTERNAL_EXPERIMENT_INGESTION_SCHEMA = "proofpress/external-experiment-ingestion/v0"
 DISCLOSURE_SCHEMA = "proofpress/governed-disclosure/v1"
 ASSIMILATION_SCHEMA = "proofpress/assimilation-recommendation/v1"
 PAGEINDEX_SIDECAR_SCHEMA = "proofpress/pageindex-sidecar/v1"
@@ -885,7 +891,14 @@ def _normalize_locator(raw, quote):
                 "page_start": page_start, "page_end": page_end}
     if kind == "spreadsheet_cell":
         return _normalize_spreadsheet_cell(raw)
-    raise ValueError("retrieval evidence locator.kind must be text_span, page_span, section_span, or spreadsheet_cell")
+    if kind == "json_pointer":
+        if set(raw) != {"kind", "value"}:
+            raise ValueError("retrieval evidence json_pointer locator requires kind and value")
+        pointer = _required_string(raw.get("value"), "locator.value")
+        if len(pointer) > 2000 or not re.fullmatch(r"(?:/(?:[^~]|~[01])*)*", pointer):
+            raise ValueError("retrieval evidence locator.value must be an RFC 6901 JSON pointer")
+        return {"kind": kind, "value": pointer}
+    raise ValueError("retrieval evidence locator.kind must be text_span, page_span, section_span, spreadsheet_cell, or json_pointer")
 
 
 def normalize_retrieval_evidence_v1(payload):
@@ -1108,6 +1121,123 @@ def submit_evidence_v2(payload, profile=None):
     return {"ok": True, "events_added": len(created),
             "imported_evidence": imported_evidence,
             "evidence": sorted(projection["evidence"]), "ref": KNOWLEDGE_REF}
+
+
+def ingest_external_experiment_v0(payload, actor):
+    """Bind a normalized external run manifest to one existing Proofpress run.
+
+    This operation imports selected, content-addressed evidence only.  It never
+    fetches the provider, stores credentials or raw traces, creates a claim, or
+    grants downstream reuse authority.
+    """
+    normalized = proofpress_external_experiment.normalize_manifest(payload)
+    projection = v2_projection()
+    binding = normalized["binding"]
+    run = _require_run(projection, binding["proofpress_run_id"])
+    actor = _require_text(actor, "actor", 256)
+    if actor != run["actor"]:
+        raise ValueError("only the run actor may ingest external experiment evidence")
+
+    # Normalize every bounded receipt before the first append.  Git-backed
+    # local operation execution has no transaction wrapper, so invalid item N
+    # must not leave items 1..N-1 partially recorded.
+    imported_at = now()
+    prepared = []
+    external_base = {
+        "schema_version": proofpress_external_experiment.SCHEMA,
+        "source": normalized["source"],
+        "binding": binding,
+        "adapter": normalized["adapter"],
+        "ingested_by": actor,
+    }
+    for item in normalized["evidence"]:
+        retrieval = {
+            "adapter": normalized["adapter"]["name"],
+            "version": normalized["adapter"]["version"],
+            "query": (f"external experiment {normalized['source']['run_id']} "
+                      f"{item['artifact_type']}"),
+            "config_digest": binding["config_digest"],
+        }
+        if item.get("selection_reason"):
+            retrieval["selection_reason"] = item["selection_reason"]
+        source_payload = {"uri": item["source_uri"],
+                          "content_digest": item["source_digest"]}
+        if item.get("media_type"):
+            source_payload["media_type"] = item["media_type"]
+        receipt = _retrieval_receipt({
+            "schema_version": RETRIEVAL_EVIDENCE_SCHEMA,
+            "source": source_payload,
+            "evidence": {"quote": item["observation"],
+                         "locator": item["locator"]},
+            "retrieval": retrieval,
+        })
+        source = receipt["source"]
+        source_row = {
+            "id": ident({"uri": source["uri"],
+                         "digest": source["content_digest"]}, "src_"),
+            "kind": "retrieval_source", "uri": source["uri"],
+            "content_digest": source["content_digest"],
+        }
+        if "media_type" in source:
+            source_row["media_type"] = source["media_type"]
+        source_row["record_hash"] = digest(source_row)
+        stable_external = {**external_base,
+                           "artifact_type": item["artifact_type"]}
+        evidence_id = ident({"source": source_row["id"],
+                             "receipt": digest(receipt),
+                             "external_experiment": stable_external}, "evd_")
+        prior = projection["evidence"].get(evidence_id)
+        evidence_row = {
+            "id": evidence_id,
+            "kind": "retrieval_evidence",
+            "source_ref": source_row["id"],
+            "source_digest": source_row["record_hash"],
+            "source_content_digest": source["content_digest"],
+            "quote_digest": receipt["quote_digest"],
+            "retrieval_receipt": receipt,
+            "retrieval_receipt_digest": digest(receipt),
+            "run_id": run["id"],
+            "artifact_type": item["artifact_type"],
+            "external_experiment": {
+                **external_base,
+                "ingested_at": (prior or {}).get("external_experiment", {}).get(
+                    "ingested_at", imported_at),
+            },
+        }
+        evidence_row["digest"] = digest(evidence_row)
+        prepared.append((source_row, evidence_row))
+
+    existing_event_ids = {row["event_id"] for row in projection["events"]}
+    added = 0
+    imported_evidence = []
+    for source_row, evidence_row in prepared:
+        for event in (
+            append_v2({"type": "source_recorded",
+                       "subject_ref": source_row["id"], "record": source_row}),
+            append_v2({"type": "evidence_bound",
+                       "subject_ref": evidence_row["id"],
+                       "source_ref": source_row["id"],
+                       "run_ref": run["id"], "actor": actor,
+                       "evidence": evidence_row}),
+        ):
+            if event["event_id"] not in existing_event_ids:
+                added += 1
+                existing_event_ids.add(event["event_id"])
+        imported_evidence.append(evidence_row["id"])
+    return {
+        "schema_version": EXTERNAL_EXPERIMENT_INGESTION_SCHEMA,
+        "external_system": normalized["source"]["system"],
+        "external_run_id": normalized["source"]["run_id"],
+        "proofpress_run_id": run["id"],
+        "capture_mode": normalized["source"]["capture_mode"],
+        "provenance_status": normalized["source"]["provenance_status"],
+        "coverage": normalized["source"]["coverage"],
+        "known_omissions": normalized["source"]["known_omissions"],
+        "imported_evidence": imported_evidence,
+        "events_added": added,
+        "idempotent": added == 0,
+        "authority": "evidence_only_human_approval_required",
+    }
 
 
 def _repo_profile_checks(row, evidence_rows):
@@ -2007,7 +2137,10 @@ def _run_detail(projection, run):
             "outputs": [r for r in projection["outputs"].values()
                         if r["run_id"] == run_id],
             "observations": [r for r in projection["observations"].values()
-                             if r["run_id"] == run_id]}
+                             if r["run_id"] == run_id],
+            "external_evidence": [r for r in projection["evidence"].values()
+                                  if r.get("run_id") == run_id and
+                                  r.get("external_experiment")]}
 
 
 def get_run_v1(run_id, actor=None):
@@ -3064,8 +3197,10 @@ def local_operation_capabilities():
         "clients": ["python_sdk"],
         "profiles": {
             "claim": ["legal", "repo", "experiment"],
-            "evidence": ["experiment"],
+            "evidence": ["experiment", "external_experiment"],
             "experiment_schema": proofpress_experiment.PROFILE,
+            "external_experiment_manifest_schema":
+                proofpress_external_experiment.SCHEMA,
         },
         "idempotency": {
             "field": "idempotency_key",
@@ -3256,6 +3391,9 @@ def _execute_local_operation(request):
         elif operation == "evidence.submit":
             result = submit_evidence_v2(
                 parameters["payload"], parameters.get("profile"))
+        elif operation == "experiment.ingest":
+            result = ingest_external_experiment_v0(
+                parameters["payload"], parameters["actor"])
         elif operation == "claim.propose":
             if not isinstance(parameters.get("title"), str) or not parameters["title"].strip():
                 raise ValueError("title is required and must be a non-empty string")

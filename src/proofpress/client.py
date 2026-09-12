@@ -186,6 +186,11 @@ class ProofpressClient:
             parameters["profile"] = profile
         return self.execute("evidence.submit", parameters, **meta)
 
+    def ingest_external_experiment(self, payload, *, actor=None, **meta):
+        """Ingest a bounded external-experiment manifest into an existing run."""
+        return self.execute("experiment.ingest", {
+            "payload": dict(payload), "actor": actor}, **meta)
+
     def propose_claim(self, statement, evidence_refs, scope=None, proposer=None,
                            *, expires_at=None, artifact_refs=None,
                            applicability=None, reproposal_of=None, qualifiers=None,

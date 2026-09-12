@@ -110,6 +110,8 @@ async function api(path: string, options: RequestInit = {}) {
 function evidenceName(row: any) {
   const locator = row?.retrieval_receipt?.locator;
   if (locator?.kind === "spreadsheet_cell") return `${locator.sheet}!${locator.cell}`;
+  const external = row?.external_experiment;
+  if (external) return `${external.source?.system || "External experiment"} · ${row.artifact_type || "evidence"}`;
   const p = row?.experiment_profile || {};
   if (p.cell) return p.cell.table?.identity || "Table cell";
   if (p.observation) return p.observation.metric?.name || "Metric observation";
@@ -142,6 +144,26 @@ function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?:
   const text = evidenceText(row);
   const receipt = row?.retrieval_receipt;
   const locator = receipt?.locator;
+  const external = row?.external_experiment;
+  if (external) {
+    const source = external.source || {};
+    const omissions = source.known_omissions || [];
+    return <>
+      <dl className="evidenceFields">
+        <div><dt>External system</dt><dd>{source.system || "Not recorded"}</dd></div>
+        <div><dt>External run</dt><dd>{source.run_id || "Not recorded"}</dd></div>
+        <div><dt>Capture method</dt><dd>{String(source.capture_mode || "unknown").replaceAll("_", " ")}</dd></div>
+        <div><dt>Provenance</dt><dd>{String(source.provenance_status || "unknown").replaceAll("_", " ")}</dd></div>
+        <div><dt>Coverage</dt><dd>{source.coverage || "unknown"}</dd></div>
+        <div><dt>Known omissions</dt><dd>{omissions.length ? omissions.join(", ") : "None declared"}</dd></div>
+        <div><dt>Bound Proofpress run</dt><dd>{row.run_id || "Not recorded"}</dd></div>
+        <div><dt>Source</dt><dd>{receipt?.source?.uri || source.uri || "Source not recorded"}</dd></div>
+      </dl>
+      <p>{text}</p>
+      <small>External evidence remains evidence only. Human Approval is required before a claim becomes reusable.</small>
+      <details className="technicalDetails"><summary>Technical receipt</summary><pre>{JSON.stringify(row, null, 2)}</pre></details>
+    </>;
+  }
   if (locator?.kind === "spreadsheet_cell") {
     const hasPreviousRevision = locator.previous_source_content_digest && locator.previous_cell_digest;
     return <>

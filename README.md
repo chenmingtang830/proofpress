@@ -296,7 +296,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 
 [//]: # (ob:3159be00)
 - **Understand the product:** [Thesis](docs/THESIS.md) → [claims and governed context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
-- **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [content-addressed receipt adapter](docs/CONTENT_ADDRESSED_ADAPTER.md) → [spreadsheet cell evidence](docs/SPREADSHEET_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
+- **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [content-addressed receipt adapter](docs/CONTENT_ADDRESSED_ADAPTER.md) → [external experiment evidence](docs/EXTERNAL_EXPERIMENT_INGESTION.md) → [spreadsheet cell evidence](docs/SPREADSHEET_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
 - **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
 - **Explore prior experiments:** [study catalog](studies/README.md). Research evidence is separately scoped; it is not a blanket product-efficacy claim.
 

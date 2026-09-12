@@ -10,6 +10,9 @@ def main(argv=None):
     if args[:1] == ["run"]:
         from proofpress.run_tracking import main as run_main
         return run_main(args[1:])
+    if args[:1] == ["experiment"]:
+        from proofpress.external_experiment import main as experiment_main
+        return experiment_main(args[1:])
     return portable_main(args)
 
 __all__ = ["main"]

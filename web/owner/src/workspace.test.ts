@@ -30,6 +30,9 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Technical receipt");
     expect(source).toContain("Spreadsheet cell");
     expect(source).toContain("Previous revision");
+    expect(source).toContain("External system");
+    expect(source).toContain("Known omissions");
+    expect(source).toContain("External evidence remains evidence only");
     expect(knowledgeSource).toContain("<LineageGraph");
     expect(source).toContain("(current + 1) * 20");
   });
