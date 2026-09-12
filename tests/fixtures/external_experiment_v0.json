@@ -1,0 +1,41 @@
+{
+  "schema_version": "proofpress.external_experiment.v0",
+  "source": {
+    "system": "example-rl-vendor",
+    "run_id": "vendor-run-42",
+    "uri": "https://provider.example/runs/vendor-run-42",
+    "capture_mode": "exported_bundle",
+    "provenance_status": "importer_attested",
+    "coverage": "partial",
+    "known_omissions": [
+      "raw_trajectories"
+    ]
+  },
+  "binding": {
+    "proofpress_run_id": "replace-with-proofpress-run-id",
+    "work_item_id": "research-program-7",
+    "code_revision": "git:abc123",
+    "dataset_refs": [
+      "dataset:eval-v4"
+    ],
+    "config_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "evidence": [
+    {
+      "source_uri": "s3://customer-controlled/results/vendor-run-42.json",
+      "source_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "locator": {
+        "kind": "json_pointer",
+        "value": "/metrics/pass_rate"
+      },
+      "observation": "Pass rate was 0.74 on evaluation set v4.",
+      "artifact_type": "metric",
+      "media_type": "application/json",
+      "selection_reason": "Primary preregistered evaluation metric"
+    }
+  ],
+  "adapter": {
+    "name": "experiment_manifest",
+    "version": "0"
+  }
+}
