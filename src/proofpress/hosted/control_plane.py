@@ -886,8 +886,22 @@ class HostedControlPlane:
                     "advice_current": advice.get("policy_digest") == record["policy"]["digest"],
                 }
                 with self._db() as connection:
-                    job = connection.execute("SELECT state, detail FROM hosted_judge_jobs WHERE workspace_id=? AND claim_id=? ORDER BY created_at DESC LIMIT 1", (context.workspace_id, result["claim"]["id"])).fetchone()
-                    result["judge_job"] = dict(job) if job else None
+                    job = connection.execute("SELECT job_id, state, detail FROM hosted_judge_jobs WHERE workspace_id=? AND claim_id=? ORDER BY created_at DESC LIMIT 1", (context.workspace_id, result["claim"]["id"])).fetchone()
+                    result["judge_job"] = ({key: job[key] for key in
+                                             ("state", "detail")} if job else None)
+                    if (job and advice.get("claim_digest") == result["claim"]["digest"] and
+                            advice.get("policy_digest") == record["policy"]["digest"] and
+                            job["state"] != "completed"):
+                        # The append-only recommendation is the durable source of
+                        # truth. A worker can record it and still leave its mutable
+                        # queue row stale (for example, if status bookkeeping is
+                        # interrupted after the event commit). Reconcile that row
+                        # before returning a contradictory failed/running receipt.
+                        detail = "LM advice recorded."
+                        connection.execute(
+                            "UPDATE hosted_judge_jobs SET state='completed', detail=?, updated_at=? "
+                            "WHERE job_id=?", (detail, _now(), job["job_id"]))
+                        result["judge_job"] = {"state": "completed", "detail": detail}
         if envelope.get("ok") and operation == "capabilities.get":
             result = dict(envelope["result"])
             result["transport"] = "hosted_https"
