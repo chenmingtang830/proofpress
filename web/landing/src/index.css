@@ -42,7 +42,7 @@ h1, h2, h3, p { margin-top: 0; }
 
 .hero { min-height: calc(100svh - 72px); display: grid; grid-template-rows: 1fr auto; padding: clamp(72px, 9vw, 136px) 72px 40px; overflow: hidden; background: var(--warm-paper) url("/hero-editorial-v1.webp") center / cover no-repeat; }
 .heroCopy { width: min(760px, 58vw); min-width: 0; align-self: center; position: relative; z-index: 1; }
-.heroCopy h1 { font-size: clamp(3rem, 6.4vw, 5.8rem); line-height: .98; }
+.heroCopy h1 { margin-bottom: 24px; font-size: clamp(3rem, 4.8vw, 4.5rem); font-weight: 600; line-height: 1.04; }
 .blogIndex { padding: 80px 72px 100px; }
 .blogIndex > h1 { max-width: 900px; font-size: clamp(3rem, 6vw, 5.5rem); }
 .blogGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px 40px; margin-top: 64px; }
@@ -78,10 +78,10 @@ h1, h2, h3, p { margin-top: 0; }
 .verificationFlow { margin-top: 64px; }
 .verificationFlow > h3 { max-width: 32ch; font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 1.15; letter-spacing: -.03em; }
 .verificationFlow .stackGrid { margin-top: 32px; }
-.heroAudience { max-width: 720px; margin-bottom: 32px; color: var(--accent); font-size: clamp(1.65rem, 2.7vw, 2.55rem); font-weight: 600; line-height: 1.08; letter-spacing: -.025em; }
+.heroAudience { max-width: 720px; margin-bottom: 20px; color: var(--accent); font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 400; line-height: 1.3; letter-spacing: -.015em; }
 h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem); font-weight: 600; line-height: .94; letter-spacing: -.04em; text-wrap: balance; }
 .heroQualifier { display: block; max-width: 720px; margin-top: 22px; color: var(--accent); font-size: clamp(1.65rem, 2.7vw, 2.55rem); font-weight: 600; line-height: 1.08; letter-spacing: -.025em; }
-.heroLead { max-width: 610px; margin-bottom: 34px; color: #444b55; font-size: clamp(1.02rem, 1.35vw, 1.22rem); font-weight: 500; line-height: 1.5; }
+.heroLead { max-width: 550px; margin-bottom: 32px; color: var(--ink-2); font-size: clamp(1rem, 1.2vw, 1.1rem); font-weight: 400; line-height: 1.6; }
 .heroActions { display: flex; flex-wrap: wrap; gap: 12px; }
 .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 19px; border: 1px solid transparent; border-radius: 6px; font-size: 14px; font-weight: 600; text-decoration: none; transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease; }
 .buttonPrimary { border-color: var(--accent); background: var(--accent); color: #fff; }
@@ -131,12 +131,15 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .handoffProblems, .stackGrid, .icpGrid { display: grid; margin-top: 64px; border-block: 1px solid var(--ink); }
 .handoffProblems { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .stackGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.icpGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 28px; }
+.icpGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
 .icpItem { display: grid; grid-template-rows: subgrid; grid-row: span 3; align-content: start; row-gap: 0; }
 .handoffProblem, .stackItem, .icpItem { min-width: 0; padding: 30px 32px 32px; }
 .handoffProblem:first-child, .stackItem:first-child, .icpItem:first-child { padding-left: 0; }
 .handoffProblem:last-child, .stackItem:last-child, .icpItem:last-child { padding-right: 0; }
 .handoffProblem + .handoffProblem, .stackItem + .stackItem, .icpItem + .icpItem { border-left: 1px solid var(--line); }
+.icpItem { padding: 28px 0; }
+.icpItem + .icpItem { border-left: 0; }
+.icpItem:nth-child(n+3) { border-top: 1px solid var(--line); }
 .problemIcon { display: block; margin-bottom: 40px; color: var(--accent); }
 .handoffProblem > span { display: block; margin-bottom: 14px; color: var(--accent); font: 600 12px/1 var(--font-proof); letter-spacing: .1em; }
 .handoffProblem h3, .stackItem h3, .icpItem h3 { margin: 0; font-size: clamp(1.3rem, 1.8vw, 1.65rem); font-weight: 600; line-height: 1.2; letter-spacing: -.025em; }
@@ -194,9 +197,9 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .ledgerHumanGate strong { font-size: 13px; font-weight: 650; line-height: 1.35; }
 .ledgerSignals { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .ledgerDisclosure { display: none; }
-.productSystemFooter { display: grid; gap: 30px; margin-top: 8px; }
+.productSystemFooter { display: grid; grid-template-columns: minmax(0, 1fr); gap: 30px; margin-top: 8px; }
 .productSystem figcaption { color: var(--ink-3); font: 500 12px/1.5 var(--font-proof); text-align: center; }
-.productClosingStatement { width: max-content; max-width: 100%; margin: 0 0 0 auto; color: var(--accent); font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 600; line-height: 1; letter-spacing: -.035em; text-align: right; text-wrap: balance; }
+.productClosingStatement { width: 100%; max-width: 100%; margin: 0 0 0 auto; color: var(--accent); font-size: clamp(1.5rem, 2.6vw, 2.3rem); font-weight: 400; line-height: 1.2; letter-spacing: -.025em; text-align: right; text-wrap: balance; }
 
 .intelligenceLoop { min-height: 680px; position: relative; overflow: hidden; isolation: isolate; background: var(--paper); }
 .loopIntroSolo { display: block; }
@@ -213,10 +216,10 @@ h1 { max-width: 760px; margin-bottom: 32px; font-size: clamp(4rem, 6.4vw, 5.8rem
 .organizationStory > div:first-child { padding-left: 0; }
 .organizationStory > div:last-child { padding-right: 0; }
 .organizationStory > div + div { border-left: 1px solid var(--line); }
-.organizationStory span { color: var(--accent); font: 600 12px/1.4 var(--font-proof); letter-spacing: .08em; }
-.organizationStory strong { font-size: clamp(1.7rem, 2.15vw, 2.25rem); line-height: 1.1; letter-spacing: -.03em; }
+.organizationStory span { color: var(--accent); font: 500 12px/1.4 var(--font-ui); letter-spacing: .06em; }
+.organizationStory strong { font-size: clamp(1.5rem, 2vw, 2rem); font-weight: 400; line-height: 1.3; letter-spacing: -.02em; }
 .organizationStory > div:last-child strong { color: var(--accent); }
-.organizationOutcome { position: relative; z-index: 1; margin: 40px 0 0; max-width: 1100px; font-size: clamp(1.5rem, 2.15vw, 2.25rem); font-weight: 600; line-height: 1.15; letter-spacing: -.03em; }
+.organizationOutcome { position: relative; z-index: 1; margin: 40px 0 0; max-width: 1100px; font-size: clamp(1.5rem, 2.15vw, 2.25rem); font-weight: 400; line-height: 1.3; letter-spacing: -.02em; }
 .film { background: var(--paper); }
 .film .eyebrow { color: var(--accent); }
 .film h2 { max-width: 1040px; margin: 0; font-size: clamp(2.8rem, 5vw, 4.8rem); font-weight: 600; line-height: 1.02; letter-spacing: -.035em; text-wrap: balance; }
@@ -374,7 +377,7 @@ footer > a:last-child { min-height: 44px; display: inline-flex; align-items: cen
   .organizationStory { grid-template-columns: 1fr; margin-top: 54px; }
   .organizationStory > div, .organizationStory > div:first-child, .organizationStory > div:last-child { min-height: 0; gap: 28px; padding: 28px 0; }
   .organizationStory > div + div { border-top: 1px solid var(--line); border-left: 0; }
-  .icpGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .icpGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .evidenceIntro { gap: 28px; }
   .evidenceIntro p { margin: 0; }
   .writingGrid { grid-template-columns: 1fr 1fr; }
@@ -401,6 +404,7 @@ footer > a:last-child { min-height: 44px; display: inline-flex; align-items: cen
   h1 { font-size: clamp(3.15rem, 14vw, 4.25rem); line-height: .96; text-wrap: wrap; }
   .heroCopy h1 { font-size: clamp(2.4rem, 12.3vw, 3rem); }
   .heroLead { font-size: 1.06rem; }
+  .why .handoffProblems { order: -1; }
   .heroActions { display: grid; }
   .button { width: 100%; }
   .heroFoot { min-width: 0; flex-wrap: wrap; justify-content: space-between; margin-top: 64px; gap: 12px; font-size: 11px; }

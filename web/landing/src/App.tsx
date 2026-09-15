@@ -88,10 +88,10 @@ export function App() {
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="heroCopy">
             <h1 id="hero-title">
-              Verified knowledge<br /> infrastructure.
+              Verified knowledge infra for AI research teams.
             </h1>
-            <p className="heroAudience">For agent-native research teams.</p>
-            <p className="heroLead">Turn research output into knowledge your team can build on.</p>
+            <p className="heroAudience">Reuse trusted findings. Reduce repeated work.</p>
+            <p className="heroLead">Spend less time and compute rebuilding context—and more on new research.</p>
             <div className="heroActions" aria-label="Get started">
               <ButtonLink href="#partners">Explore a design partnership <Arrow /></ButtonLink>
               <ButtonLink href={repoUrl} variant="secondary">Explore open source on GitHub</ButtonLink>
@@ -111,13 +111,13 @@ export function App() {
             <div className="handoffProblems" aria-label="Two failures behind the intelligence gap">
               <div className="handoffProblem">
                 <span>UNVERIFIED</span>
-                <h3>Output scales. Verification doesn’t.</h3>
-                <p>Claims travel without evidence, review, or clear limits.</p>
+                <h3>Researchers rebuild trust.</h3>
+                <p>Without evidence and clear limits, researchers spend time checking the same findings again.</p>
               </div>
               <div className="handoffProblem">
                 <span>SCATTERED</span>
-                <h3>Agents learn. Research teams forget.</h3>
-                <p>Dead ends disappear. Teams repeat them.</p>
+                <h3>Agents repeat work.</h3>
+                <p>When findings and failed approaches get lost, agents repeat analysis and experiments—using more time and compute.</p>
               </div>
             </div>
           </div>
@@ -134,20 +134,20 @@ export function App() {
             </div>
             <div className="stackItem">
               <h3>Experiment trackers</h3>
-              <p>Runs, metrics, and artifacts.</p><small>They organize experiments—not what the team learned.</small>
+              <p>Runs, metrics, and artifacts.</p><small>Findings and their limits still need to carry into the next run.</small>
             </div>
             <div className="stackItem">
               <h3>Papers &amp; reports</h3>
               <p>Selected, distilled findings.</p><small>Much of the failed work, scope, and decision history is left behind.</small>
             </div>
           </div>
-          <p className="stackConclusion">Across the gaps, valuable learnings and dead ends disappear before the next research cycle can build on them.</p>
+          <p className="stackConclusion">The next research cycle needs the findings, their limits, and what has already been tried.</p>
         </section>
 
         <section className="product" id="product" aria-labelledby="product-title">
           <div className="productIntro productIntroSolo">
             <div>
-              <h2 id="product-title">The Intelligence Ledger for agent-native research labs.</h2>
+              <h2 id="product-title">The Intelligence Ledger for agent-native research teams.</h2>
             </div>
           </div>
           <figure className="productSystem" aria-labelledby="ledger-system-title" aria-describedby="ledger-system-note">
@@ -183,7 +183,7 @@ export function App() {
               </div>
             </div>
             <div className="productSystemFooter">
-              <p className="productClosingStatement">Verified. Governed. Cumulative.</p>
+              <p className="productClosingStatement">Less repeated work. More time for new research.</p>
               <figcaption id="ledger-system-note">Evidence, scope, approval, use, and outcomes stay attached to the claim. · Illustrative record</figcaption>
             </div>
           </figure>
@@ -245,6 +245,11 @@ export function App() {
               <HugeiconsIcon className="problemIcon" icon={Shield02Icon} size={30} strokeWidth={1.5} aria-hidden="true" />
               <h3>Post-training teams</h3>
               <p>Keep fine-tuning findings, model decisions, and failed approaches available for the next cycle.</p>
+            </div>
+            <div className="icpItem">
+              <HugeiconsIcon className="problemIcon" icon={AiInnovation01Icon} size={30} strokeWidth={1.5} aria-hidden="true" />
+              <h3>Applied AI teams</h3>
+              <p>Carry evaluation conclusions and workflow learnings forward as systems and deployments evolve.</p>
             </div>
           </div>
         </section>
