@@ -1,9 +1,9 @@
 # Proofpress plugin
 
 Proofpress governs whether an evidence-backed, agent-produced claim may be
-reused downstream. This plugin bundles the governed-context workflow with the
-hosted Proofpress MCP server. It is not a memory store, an approval bot, or an
-owner administration client.
+reused downstream. This plugin bundles the governed-context workflow for use
+with a Proofpress Hosted or self-hosted workspace. It is not a memory store, an
+approval bot, or an owner administration client.
 
 ## What is included
 
@@ -11,9 +11,11 @@ owner administration client.
   proposals, and stops for Human Approval.
 - A default repository policy template at
   `skills/proofpress-governed-context/assets/context-policy.yaml`.
-- One preconfigured OAuth-protected Streamable HTTP MCP server at
-  `https://proofpress-personal-hosted.onrender.com/mcp`. This is the
-  maintainer's private reference service, not a public hosted workspace.
+
+The generic package intentionally does not bundle a customer MCP URL. Hosted
+workspaces are isolated, so each customer connects the plugin to the `/mcp`
+endpoint assigned to that team. This prevents an installed plugin from
+silently targeting another customer's workspace.
 
 ## First use
 
@@ -22,13 +24,12 @@ skill creates `.proofpress/context-policy.yaml` only when that file is absent;
 it never overwrites or repairs an existing policy. Review, narrow, and commit
 the generated copy before relying on it for proposal selection.
 
-Before connecting, choose a workspace: use a Hosted endpoint that Proofpress
-has provisioned for your team, or replace the preconfigured MCP URL with your
-own self-hosted `/mcp` endpoint. Installing this package alone does not create
-an account, workspace, or ledger, and unprovisioned users are not authorized to
-use the reference endpoint. Codex/ChatGPT defers authentication until first
-use so this choice can be made before any authorization request; see
-[Remote MCP](../../docs/REMOTE_MCP.md) for manual remote-server setup.
+Before connecting, choose a workspace: use the Hosted endpoint that Proofpress
+provisioned for your team, or your own self-hosted `/mcp` endpoint. Installing
+this package alone does not create an account, workspace, ledger, or MCP
+connection. Add the assigned endpoint using the client instructions in
+[Remote MCP](../../docs/REMOTE_MCP.md), then authenticate with the credential
+issued for that client.
 
 Complete the OAuth flow when the client requests it. Each client receives a
 separate, revocable agent credential. The plugin never asks for an owner or
@@ -41,12 +42,11 @@ context, traverse bounded lineage, and return review links. It cannot approve,
 admit, reject, supersede, mutate policy, or administer credentials. Human
 Approval remains in the Owner surface.
 
-## Self-hosted Proofpress
+## Hosted and self-hosted Proofpress
 
-The default server is a private Proofpress reference endpoint. Self-hosted
-operators can use this same skill and replace the MCP URL with their own `/mcp`
-endpoint; provisioned Hosted users should use their team's endpoint instead.
-See [Remote MCP](../../docs/REMOTE_MCP.md).
+Provisioned Hosted users must use their team's assigned endpoint. Self-hosted
+operators use the same plugin and configure their own `/mcp` endpoint. See
+[Remote MCP](../../docs/REMOTE_MCP.md).
 
 See [Plugin privacy](../../docs/PLUGIN_PRIVACY.md) and
 [Plugin terms](../../docs/PLUGIN_TERMS.md).
@@ -63,7 +63,7 @@ Until a directory listing is approved, install from this repository:
 - **Cursor:** clone this repository and add `plugins/proofpress` as a local
   plugin.
 
-Each client should show one `proofpress` plugin, the
-`proofpress-governed-context` skill, and one remote MCP server. Complete the
-OAuth flow in that client; never copy another user's token or agent
-credentials.
+Each client should show one `proofpress` plugin and the
+`proofpress-governed-context` skill. After adding the assigned endpoint, it
+should also show one remote MCP server for that workspace. Complete the OAuth
+flow in that client; never copy another user's token or agent credentials.

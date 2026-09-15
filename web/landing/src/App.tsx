@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import {
   AiInnovation01Icon,
   ArrowRight01Icon,
@@ -5,7 +6,7 @@ import {
   Shield02Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ButtonLink } from "./components/button";
+import { Button, ButtonLink } from "./components/button";
 import { KnowledgeChart } from "./components/knowledge-chart";
 import posts from "./content/post-index.json";
 
@@ -14,9 +15,12 @@ const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f7289
 // Public media lives in Vercel Blob; source footage and renders stay out of Git.
 const brandFilmUrl = "https://qj4v3hgnvu4pvbdd.public.blob.vercel-storage.com/films/proofpress-shoulders-20260910-1080p.mp4";
 
-const writing = [...posts]
-  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date))
-  .slice(0, 3);
+const featuredSlug = "agents-create-a-new-knowledge-layer";
+const writing = [...posts].sort((a, b) => {
+  if (a.slug === featuredSlug) return -1;
+  if (b.slug === featuredSlug) return 1;
+  return Date.parse(b.date) - Date.parse(a.date);
+});
 
 function Arrow() {
   return <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.6} aria-hidden="true" />;
@@ -58,6 +62,25 @@ const formatArticleDate = (date: string) => new Intl.DateTimeFormat("en-US", {
 }).format(new Date(date));
 
 export function App() {
+  const writingRail = useRef<HTMLDivElement>(null);
+  const [railEdges, setRailEdges] = useState({ start: true, end: false });
+  const syncRail = () => {
+    const rail = writingRail.current;
+    if (rail) setRailEdges({ start: rail.scrollLeft < 2, end: rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 2 });
+  };
+  useEffect(() => {
+    const rail = writingRail.current;
+    if (!rail) return;
+    const observer = new ResizeObserver(syncRail);
+    observer.observe(rail);
+    syncRail();
+    return () => observer.disconnect();
+  }, []);
+  const moveWriting = (direction: number) => {
+    const rail = writingRail.current;
+    const card = rail?.firstElementChild as HTMLElement | null;
+    if (rail && card) rail.scrollBy({ left: direction * (card.offsetWidth + 24), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  };
   return (
     <div className="siteShell">
       <a className="skipLink" href="#main">Skip to content</a>
@@ -97,11 +120,6 @@ export function App() {
               <ButtonLink href={repoUrl} variant="secondary">Explore open source on GitHub</ButtonLink>
             </div>
           </div>
-          <div className="heroFoot" aria-label="Proofpress product attributes">
-            <span>Open source</span>
-            <span>Self-hostable</span>
-            <span>Human-gated</span>
-          </div>
         </section>
 
         <section className="why" aria-labelledby="why-title">
@@ -127,21 +145,14 @@ export function App() {
           <div className="sectionIntro sectionIntroSolo">
             <h2 id="stack-gap-title">The research stack captures the work. It still loses the learning.</h2>
           </div>
-          <div className="stackGrid" aria-label="Where research learning is lost across the existing stack">
-            <div className="stackItem">
-              <h3>Observability</h3>
-              <p>Raw traces and execution details.</p><small>More activity creates a larger sea of signals.</small>
-            </div>
-            <div className="stackItem">
-              <h3>Experiment trackers</h3>
-              <p>Runs, metrics, and artifacts.</p><small>Findings and their limits still need to carry into the next run.</small>
-            </div>
-            <div className="stackItem">
-              <h3>Papers &amp; reports</h3>
-              <p>Selected, distilled findings.</p><small>Much of the failed work, scope, and decision history is left behind.</small>
-            </div>
-          </div>
-          <p className="stackConclusion">The next research cycle needs the findings, their limits, and what has already been tried.</p>
+          <table className="stackComparison">
+            <thead><tr><th scope="col">Research tools</th><th scope="col">What they capture</th><th scope="col">What gets lost</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Observability</th><td data-label="What they capture">Traces &amp; execution</td><td data-label="What gets lost">Findings within the noise</td></tr>
+              <tr><th scope="row">Experiment trackers</th><td data-label="What they capture">Runs, metrics &amp; artifacts</td><td data-label="What gets lost">Findings &amp; their limits</td></tr>
+              <tr><th scope="row">Papers &amp; reports</th><td data-label="What they capture">Selected findings</td><td data-label="What gets lost">Dead ends &amp; decision history</td></tr>
+            </tbody>
+          </table>
         </section>
 
         <section className="product" id="product" aria-labelledby="product-title">
@@ -189,10 +200,18 @@ export function App() {
           </figure>
           <div className="verificationFlow">
             <h3>Verification informs the decision. Human Approval authorizes reuse.</h3>
-            <div className="stackGrid">
-              <div className="stackItem"><h3>Deterministic checks</h3><p>Reproducible checks against evidence and explicit requirements.</p></div>
-              <div className="stackItem"><h3>LM as a judge</h3><p>Assess findings against your organization’s configured review criteria.</p></div>
-              <div className="stackItem"><h3>Human review &amp; approval</h3><p>Decide which findings may be reused, and where.</p></div>
+            <div className="verificationDecision">
+              <div className="verificationInputs">
+                <p className="verificationRole">Inputs to the decision</p>
+                <div><h4>Deterministic checks</h4><p>Reproducible checks against evidence and explicit requirements.</p></div>
+                <div><h4>LM as a judge</h4><p>Assess findings against your organization’s configured review criteria.</p></div>
+              </div>
+              <div className="verificationConnector" aria-hidden="true"><Arrow /></div>
+              <div className="verificationAuthority">
+                <p className="verificationRole">Permission to reuse</p>
+                <h4>Human review &amp; approval</h4>
+                <p>Decide which findings may be reused, and where.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -259,7 +278,11 @@ export function App() {
             <h2 id="writing-title">Writing from the field.</h2>
             <a href="/blog">Read the blog <Arrow /></a>
           </div>
-          <div className="writingGrid">
+          <div className="writingNavigation" aria-label="Browse articles">
+            <Button variant="secondary" aria-label="Previous articles" aria-controls="writing-rail" disabled={railEdges.start} onClick={() => moveWriting(-1)}><span className="previousArrow"><Arrow /></span></Button>
+            <Button variant="secondary" aria-label="Next articles" aria-controls="writing-rail" disabled={railEdges.end} onClick={() => moveWriting(1)}><Arrow /></Button>
+          </div>
+          <div className="writingGrid" id="writing-rail" ref={writingRail} onScroll={syncRail} tabIndex={0} role="region" aria-label="Articles, featured first; scroll horizontally">
             {writing.map((item) => (
               <a className="writingCard" href={`/blog/${item.slug}`} key={item.slug}>
                 <div className="writingImage">

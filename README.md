@@ -13,12 +13,13 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [//]: # (ob:e667d986)
-**Trust infrastructure for RSI.**
+**Verified knowledge infrastructure for agent-native research teams.**
 
 [//]: # (ob:92fbc10e)
-Proofpress is the **Intelligence Ledger for agent-native organizations**. It
-turns agent-produced learnings into organization-owned intelligence with
-evidence, evaluation, scope, human authority, declared use, and outcomes.
+Proofpress is the **Intelligence Ledger for agent-native research teams**. It
+turns experiment findings, evaluation conclusions, model and harness decisions,
+and negative results into organization-owned knowledge with evidence,
+evaluation, scope, Human Approval, declared use, and outcomes.
 
 **Own your intelligence. Verified. Governed. Cumulative.**
 
@@ -29,19 +30,20 @@ evidence, evaluation, scope, human authority, declared use, and outcomes.
 [//]: # (ob:thesis-summary)
 
 [//]: # (ob:53ef8f8a)
-## Agent output is growing faster than organizations can trust—or retain
+## Research output is growing faster than teams can trust—or retain
 
 [//]: # (ob:87f7edac)
-Every run can produce findings, decisions, failures, and learnings that should
-change future work. Two failures prevent that intelligence from compounding:
+Every research run can produce findings, decisions, failures, and learnings
+that should change future work. Two failures prevent that intelligence from
+compounding:
 
 | Unverified | Scattered |
 |---|---|
-| **Output scales. Verification does not.** | **Agents learn. Organizations forget.** |
+| **Research output scales. Verification does not.** | **Agents learn. Research teams forget.** |
 | Claims travel without durable evidence, scope, review, or authority. | Useful learnings disappear into runs, traces, chats, files, tools, and people. |
 
 <p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced knowledge growing beyond organization-owned intelligence as output exceeds verification capacity" width="100%">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced research output growing faster than human-curated research knowledge as it exceeds a team's verification capacity" width="100%">
 </p>
 
 <sub>Illustrative model, not measured data. Without a trusted learning loop,
@@ -54,11 +56,11 @@ the gap keeps widening.</sub>
 | Observability | Records activity | Activity is not reusable knowledge. |
 | Memory | Recalls history | Recall is not durable learning. |
 | Knowledge graphs and ontologies | Map relationships | Structure is not verified knowledge. |
-| **Proofpress** | **Governs agent-produced learnings and reliance** | **What may future agents trust and reuse?** |
+| **Proofpress** | **Governs evidence-backed research learnings and reliance** | **What may future researchers and agents trust and reuse?** |
 
 These systems are complementary. They can provide evidence to Proofpress or
 consume governed context from it. Proofpress supplies the governed record of
-what agents learned, why it is trusted, and where it may be reused.
+what research teams learned, why it is trusted, and where it may be reused.
 
 [//]: # (ob:41b3a522)
 [//]: # (ob:governed-handoff)
@@ -68,13 +70,13 @@ what agents learned, why it is trusted, and where it may be reused.
 
 Any agent can propose a learning with evidence through MCP, CLI, Python, or
 HTTP. Proofpress records the exact version, evaluates its support and scope,
-and routes it through Human Admission. Only admitted, current, in-scope
+and routes it through Human Approval. Only human-approved, current, in-scope
 knowledge becomes governed context for future work.
 
 1. **Propose with evidence.** Preserve the source, version, and intended scope.
 2. **Evaluate.** Apply deterministic checks and optional model or external
    assessments.
-3. **Govern.** An authenticated human admits, rejects, or requests revision.
+3. **Approve.** An authenticated human admits, rejects, or requests revision.
 4. **Reuse deliberately.** Record the exact governed context presented and the
    claim versions an agent explicitly relied on.
 5. **Connect outputs and outcomes.** Keep artifact hashes, tests, feedback, and
@@ -83,8 +85,8 @@ knowledge becomes governed context for future work.
    next review without silently rewriting organizational truth.
 
 [//]: # (ob:8282eb31)
-Agents may submit, propose, evaluate, and retrieve. They may never admit their
-own claims or administer owner authority.
+Agents may submit, propose, evaluate, and retrieve. They may never approve
+their own claims or administer owner authority.
 
 [//]: # (ob:612fa08f)
 [//]: # (ob:product-surfaces)
@@ -94,7 +96,7 @@ own claims or administer owner authority.
 
 [//]: # (ob:1aa1b52d)
 <p align="center">
-  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture connecting agents through MCP, Python, CLI, or HTTP to evaluation, Human Admission, and governed reuse" width="100%">
+  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture connecting agents through MCP, Python, CLI, or HTTP to evaluation, Human Approval, and governed reuse" width="100%">
 </p>
 
 [//]: # (ob:ed5c57b7)
@@ -105,13 +107,13 @@ the organization.
 The ledger records the relationship between a task, the governed context it
 received, declared reliance, external outputs, and later observations. This is
 the foundation for continuous organizational learning; it does not collapse
-evaluation, real-world outcomes, and Human Admission into one score.
+evaluation, real-world outcomes, and Human Approval into one score.
 
-The Owner workspace is the human authority layer: review the candidate and its
+The Owner workspace is the Human Approval layer: review the candidate and its
 support, inspect lineage, then admit, reject, or request revision.
 
 <p align="center">
-  <img src="assets/product/owner-home.png" alt="Proofpress Owner workspace showing the review queue, governed claims, and evidence-backed decision interface" width="100%">
+  <img src="assets/product/research-ledger-record.svg" alt="Illustrative Intelligence Ledger record showing a scoped Harness B research conclusion admitted through Human Approval for next-experiment reuse" width="100%">
 </p>
 
 [Task run tracking](docs/TASK_RUNS.md) documents the append-only Run,
@@ -148,7 +150,7 @@ proofpress quickstart --ui
 
 The second command creates a new `./proofpress-demo` Git repository, loads
 synthetic evidence and claims, and opens the local review UI. You can inspect a
-candidate, make the human admission decision, and see which admitted claims are
+candidate, make the Human Approval decision, and see which admitted claims are
 available as governed context. Stop the UI with `Ctrl-C`; the demo stays in
 `./proofpress-demo`.
 
@@ -161,27 +163,38 @@ local MCP configuration with absolute paths filled in. To create the demo
 without opening a browser, run `proofpress quickstart --no-browser` instead.
 Choose another empty destination with `--workspace PATH`.
 
-### Onboard an agent in your own repository
+### Connect an agent to a Hosted workspace
 
-Do this after the local demo, from the root of the repository whose agent work
-you want Proofpress to govern:
+From the repository whose agent work you want Proofpress to govern:
 
-1. Install the
-   [`proofpress-governed-context` skill](docs/REMOTE_MCP.md#manual-connection-or-self-hosting)
-   for Codex, Claude Code, or Cursor.
-2. Ask the agent: **“Initialize a Proofpress policy for this repository.”**
-   Review and commit the generated `.proofpress/context-policy.yaml`; it defines
-   which durable outcomes should be proposed and which routine work should not.
-3. Connect the agent to either your provisioned Hosted `/mcp` URL or your own
-   self-hosted endpoint, then complete OAuth with that agent's credential.
-4. Give the agent a real task. It will retrieve eligible context when available,
+1. Install the [`proofpress` Agent Plugin](plugins/proofpress/README.md) for
+   Codex, Claude Code, or Cursor. It bundles the governed-context skill and
+   policy assets; a separate skill download is unnecessary on the normal path.
+2. Add the `/mcp` URL assigned to your team. The generic plugin intentionally
+   contains no customer endpoint, so it cannot silently connect to another
+   workspace.
+3. Complete OAuth with the separate agent credential issued for that client.
+   Never use an owner or recovery credential in an agent client.
+4. Start a fresh agent session. If you want repository-specific proposal
+   selection, ask: **“Initialize a Proofpress policy for this repository.”**
+   Review and commit the generated `.proofpress/context-policy.yaml`.
+5. Give the agent a real task. It will retrieve eligible context when available,
    submit bounded proposals when warranted, and stop for Human Approval.
 
-Installing the plugin or skill does not create a Hosted workspace or grant
-access to the maintainer's private reference service. Each team needs a
-separately provisioned Hosted workspace or a self-hosted deployment. See
-[Remote MCP](docs/REMOTE_MCP.md) for client-specific setup and the full
-authorization boundary.
+For example, Codex users can install from this repository and connect an
+assigned Hosted workspace as follows:
+
+```sh
+codex plugin marketplace add chenmingtang830/proofpress --ref main
+codex plugin add proofpress@proofpress-plugins
+codex mcp add proofpress --url https://YOUR-PROOFPRESS-HOST/mcp
+codex mcp login proofpress
+```
+
+Installing the plugin does not create a Hosted workspace, MCP connection, or
+ledger. Each team needs a separately provisioned Hosted workspace or a
+self-hosted deployment. See [Remote MCP](docs/REMOTE_MCP.md) for Claude Code,
+Cursor, manual fallback, and the full authorization boundary.
 
 Want a managed Hosted Proofpress session and to work with us as a design
 partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).

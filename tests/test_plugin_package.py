@@ -13,9 +13,6 @@ ROOT = Path(__file__).resolve().parents[1]
 PLUGIN = ROOT / "plugins" / "proofpress"
 CANONICAL_SKILL = ROOT / ".agents" / "skills" / "proofpress-governed-context"
 PACKAGED_SKILL = PLUGIN / "skills" / "proofpress-governed-context"
-MANAGED_MCP_URL = "https://proofpress-personal-hosted.onrender.com/mcp"
-
-
 def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -23,25 +20,18 @@ def load_json(path: Path) -> dict:
 class ProofpressPluginPackageTests(unittest.TestCase):
     def test_portable_package_has_consistent_manifests(self):
         portable = load_json(PLUGIN / "plugin.json")
-        portable_mcp = load_json(PLUGIN / "mcp.json")
         codex = load_json(PLUGIN / ".codex-plugin" / "plugin.json")
         claude = load_json(PLUGIN / ".claude-plugin" / "plugin.json")
-        claude_mcp = load_json(PLUGIN / ".mcp.json")
 
         self.assertEqual(portable["name"], "proofpress")
-        self.assertEqual(portable["version"], "0.1.0")
+        self.assertEqual(portable["version"], "0.2.0")
         self.assertEqual(codex["name"], portable["name"])
         self.assertEqual(codex["version"], portable["version"])
         self.assertEqual(claude["name"], portable["name"])
         self.assertEqual(claude["version"], portable["version"])
-        self.assertEqual(
-            portable_mcp["mcpServers"]["proofpress"],
-            {"type": "streamable-http", "url": MANAGED_MCP_URL},
-        )
-        self.assertEqual(
-            claude_mcp["mcpServers"]["proofpress"],
-            {"type": "http", "url": MANAGED_MCP_URL},
-        )
+        self.assertNotIn("mcpServers", codex)
+        self.assertFalse((PLUGIN / "mcp.json").exists())
+        self.assertFalse((PLUGIN / ".mcp.json").exists())
         self.assertEqual(
             codex["interface"]["defaultPrompt"],
             ["Retrieve eligible Proofpress governed context for this task."],
@@ -80,13 +70,14 @@ class ProofpressPluginPackageTests(unittest.TestCase):
                 relative.as_posix(),
             )
 
-    def test_package_has_no_hooks_or_mcp_credentials(self):
+    def test_package_has_no_hooks_or_bundled_customer_endpoint(self):
         self.assertFalse((PLUGIN / "hooks").exists())
-        for path in (PLUGIN / "mcp.json", PLUGIN / ".mcp.json"):
-            server = load_json(path)["mcpServers"]["proofpress"]
-            self.assertNotIn("headers", server)
-            self.assertNotIn("env", server)
-            self.assertNotIn("token", json.dumps(server).lower())
+        package_text = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in PLUGIN.rglob("*")
+            if path.is_file() and path.suffix in {".json", ".md", ".py", ".yaml"}
+        ).lower()
+        self.assertNotIn("proofpress-personal-hosted.onrender.com", package_text)
         readme = (PLUGIN / "README.md").read_text(encoding="utf-8").lower()
         self.assertIn("cannot approve", readme)
         self.assertIn("or administer credentials", readme)

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "proofpress",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
   "author": {
     "name": "Proofpress",
@@ -16,7 +16,7 @@
       "interface": {
         "displayName": "Proofpress",
         "shortDescription": "Govern what agent-produced knowledge may be reused.",
-        "longDescription": "Proofpress combines a governed-context workflow with a hosted MCP server for evidence submission, bounded claim proposals, and approved-context retrieval. Human Approval remains outside the agent tool surface.",
+        "longDescription": "Proofpress provides a governed-context workflow for evidence submission, bounded claim proposals, and approved-context retrieval. Connect it to the Hosted or self-hosted workspace assigned to your team. Human Approval remains outside the agent tool surface.",
         "developerName": "Proofpress",
         "category": "Productivity",
         "capabilities": ["Read", "Write"],

@@ -85,7 +85,7 @@ export function KnowledgeChart() {
         <span><i className="enterpriseSwatch" />Human-curated knowledge</span>
       </div>
       <figcaption id="knowledge-chart-note">
-        Illustrative model — not measured data. Without a trusted learning loop, the gap keeps widening.
+        Illustrative model
       </figcaption>
     </figure>
   );
