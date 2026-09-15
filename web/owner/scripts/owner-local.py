@@ -134,23 +134,24 @@ def ensure_admitted_preview(base, agent_token, owner_token):
         },
         idempotency_key="local-preview-admitted-evidence-v1",
     )
-    proposal = agent.propose_conclusion(
+    proposal = agent.propose_claim(
         statement,
         evidence["evidence"],
         "local-preview",
         "agent:local-preview",
-        idempotency_key="local-preview-admitted-conclusion-v1",
+        title="Synthetic admitted lineage preview",
+        idempotency_key="local-preview-admitted-claim-v2",
     )
-    conclusion_id = proposal["conclusion"]["id"]
-    agent.evaluate_conclusion(
-        conclusion_id, idempotency_key="local-preview-admitted-evaluation-v1"
+    claim_id = proposal["claim"]["id"]
+    agent.evaluate_claim(
+        claim_id, idempotency_key="local-preview-admitted-evaluation-v2"
     )
-    owner.review_conclusion(
-        conclusion_id,
+    owner.review_claim(
+        claim_id,
         "admit",
         "human:local-owner",
         note="Synthetic localhost fixture admitted for Ledger and lineage UI verification.",
-        idempotency_key="local-preview-admitted-review-v1",
+        idempotency_key="local-preview-admitted-review-v2",
     )
 
 

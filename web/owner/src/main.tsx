@@ -1242,8 +1242,8 @@ function Inspector({
                       ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional LM review</Button>
                       : null}
             </>}
-          {r.recommendation && onJudge && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
-          {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
+          {r.recommendation && onJudge && <Button variant="outline" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+          {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
           <div className="evidenceArgumentHead">
