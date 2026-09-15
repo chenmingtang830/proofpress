@@ -13,12 +13,9 @@ import hashlib
 import json
 import mailbox
 import os
-import re
 import subprocess
 import tempfile
-from datetime import datetime, timezone
 from email import policy
-from email.parser import BytesParser
 from pathlib import Path
 from typing import Any
 

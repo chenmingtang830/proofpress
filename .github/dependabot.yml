@@ -15,3 +15,27 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+
+  - package-ecosystem: npm
+    directory: /web/landing
+    schedule:
+      interval: weekly
+    groups:
+      npm:
+        patterns: ["*"]
+
+  - package-ecosystem: npm
+    directory: /studies/long-horizon-eval/relaybench
+    schedule:
+      interval: weekly
+    groups:
+      npm:
+        patterns: ["*"]
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      python:
+        patterns: ["*"]

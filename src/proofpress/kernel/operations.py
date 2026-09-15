@@ -2,13 +2,12 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, json, math, os, re, secrets, subprocess, sys, tempfile, threading, webbrowser
+import hashlib, json, math, os, re, secrets, subprocess, sys, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
 from contextlib import contextmanager
 from contextvars import ContextVar
 

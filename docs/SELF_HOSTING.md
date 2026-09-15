@@ -44,6 +44,47 @@ both outside the repository and deployment manifest. Before relying on the
 instance, configure backup/export, test recovery, restrict administrative shell
 access, and verify that the public endpoint is protected by platform TLS.
 
+The checked-in deployment installs runtime dependencies from
+`requirements-deploy.txt` with hashes, then installs Proofpress without resolving
+dependencies again. Refresh that file deliberately when `pyproject.toml` changes;
+CI separately tests the supported Python range and the exact Render Python 3.13
+line.
+
+Owner browser sessions expire after eight hours by default and can be revoked
+with **Sign out**. Authentication endpoints are rate limited per source address,
+and accepted connections have a 30-second socket timeout. Operators can tune the
+positive integer environment variables
+`PROOFPRESS_OWNER_SESSION_TTL_SECONDS`, `PROOFPRESS_AUTH_ATTEMPT_LIMIT`,
+`PROOFPRESS_AUTH_ATTEMPT_WINDOW_SECONDS`, and
+`PROOFPRESS_SOCKET_TIMEOUT_SECONDS`. The server also bounds active request
+threads to 32 by default; tune `PROOFPRESS_MAX_CONCURRENT_REQUESTS` only after
+measuring instance capacity.
+
+Create an application-consistent, integrity-checked SQLite backup from an
+administrative shell:
+
+```sh
+proofpress hosted --database /var/data/proofpress.db backup \
+  /var/data/backups/proofpress-$(date +%Y%m%dT%H%M%SZ).db
+
+proofpress hosted verify-backup \
+  /var/data/backups/proofpress-20260915T120000Z.db
+
+# Recovery is deliberately fail-closed: the destination must not exist.
+proofpress hosted restore-backup \
+  /var/data/backups/proofpress-20260915T120000Z.db \
+  /tmp/proofpress-restore-drill.db
+```
+
+Backup creation refuses to overwrite an existing file, verifies SQLite
+integrity, and creates the file with owner-only permissions. Restore also
+refuses to overwrite an existing database and deletes a partial destination if
+verification fails. Store a copy outside the service disk and periodically run
+the recovery drill on a clean instance. Render disk snapshots are a platform
+safety net, not a substitute for this database-aware backup; [Render
+specifically cautions](https://render.com/docs/disks#disk-snapshots) against
+treating a whole-disk snapshot as a custom-database restore mechanism.
+
 [//]: # (ob:c3ffa3ff)
 [//]: # (ob:self-hosting-owner-assistant)
 

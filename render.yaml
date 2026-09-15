@@ -7,7 +7,7 @@ services:
     plan: starter
     region: oregon
     branch: main
-    buildCommand: pip install .
+    buildCommand: pip install --require-hashes -r requirements-deploy.txt && pip install --no-deps .
     startCommand: proofpress hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
     healthCheckPath: /readyz
     # A self-hosted operator chooses when to adopt upstream changes.
@@ -21,6 +21,16 @@ services:
         value: 3.13.7
       - key: PROOFPRESS_SECRET_ENCRYPTION_KEY
         generateValue: true
+      - key: PROOFPRESS_OWNER_SESSION_TTL_SECONDS
+        value: 28800
+      - key: PROOFPRESS_SOCKET_TIMEOUT_SECONDS
+        value: 30
+      - key: PROOFPRESS_AUTH_ATTEMPT_LIMIT
+        value: 10
+      - key: PROOFPRESS_AUTH_ATTEMPT_WINDOW_SECONDS
+        value: 60
+      - key: PROOFPRESS_MAX_CONCURRENT_REQUESTS
+        value: 32
       # Non-secret model routing. Add OPENROUTER_API_KEY as a secret in the
       # Render dashboard; never commit it to this Blueprint.
       - key: OPENROUTER_MODEL

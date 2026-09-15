@@ -5,9 +5,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[5]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
-import proofpress_knowledge as pp  # noqa: E402
+from proofpress.kernel import operations as pp  # noqa: E402
 
 
 def append_cached(event, rows):
@@ -59,11 +59,11 @@ def main():
             "qualifiers": packet.get("qualifiers") or {},
             "created_at": pp.now(),
         }
-        conclusion["digest"] = pp._conclusion_digest(conclusion)
-        proposed = append_cached({"type": "conclusion_proposed",
+        conclusion["digest"] = pp._claim_digest(conclusion)
+        proposed = append_cached({"type": "claim_proposed",
                                   "subject_ref": conclusion["id"],
-                                  "conclusion": conclusion}, rows)
-        projection["conclusions"][conclusion["id"]] = conclusion
+                                  "claim": conclusion}, rows)
+        projection["claims"][conclusion["id"]] = conclusion
         checks = {
             "evidence_present": len(refs) >= int(policy["min_evidence"]),
             "evidence_integrity": all(
@@ -77,7 +77,7 @@ def main():
         }
         evaluation = append_cached({
             "type": "policy_evaluated", "subject_ref": conclusion["id"],
-            "conclusion_digest": conclusion["digest"],
+            "claim_digest": conclusion["digest"],
             "policy_digest": policy["digest"], "checks": checks,
             "eligible": all(checks.values()),
         }, rows)

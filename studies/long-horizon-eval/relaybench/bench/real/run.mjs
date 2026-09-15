@@ -230,7 +230,7 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
       selectedKnowledgeIds = selected.knowledge_ids;
       const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
       const evidenceFiles = [...new Set(selected.knowledge_ids.flatMap((id) => admitted.get(id)?.evidence_files ?? []))];
-      const knowledgeById = new Map(trusted.knowledge.map((x) => [x.id, x]));
+      const knowledgeById = new Map(governedRows(trusted).map((x) => [x.id, x]));
       const expandedEvidence = await extractEvidence(root, evidenceFiles.map((name) =>
         path.join(state.packet_dir, "source", findStageForFile(packet, name), name)));
       const compiled = deterministicWorkingSet({ selected, knowledgeById, admitted });
@@ -440,7 +440,7 @@ function parseTraceSelection(raw, trusted, maxIds, excludedIds = []) {
   let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error("trace selector returned invalid JSON"); }
   if (!Array.isArray(value.selected_knowledge_ids) || !Array.isArray(value.checklist) || typeof value.rationale !== "string")
     throw new Error("trace selector must return checklist, selected_knowledge_ids, and rationale");
-  const allowed = new Set(trusted.knowledge.map((x) => x.id));
+  const allowed = new Set(governedRows(trusted).map((x) => x.id));
   const excluded = new Set(excludedIds);
   const ids = [...new Set(value.selected_knowledge_ids)].filter((id) => !excluded.has(id));
   if (ids.length > maxIds || ids.some((id) => !allowed.has(id)))
@@ -454,7 +454,7 @@ function parseTraceSelection(raw, trusted, maxIds, excludedIds = []) {
 }
 export function deterministicTraceSelection(trusted, maxIds, excludedIds = []) {
   const excluded = new Set(excludedIds);
-  const candidates = trusted.knowledge.filter((row) => !excluded.has(row.id));
+  const candidates = governedRows(trusted).filter((row) => !excluded.has(row.id));
   const selected = candidates.slice(0, maxIds).map((row) => row.id);
   return {
     knowledge_ids: selected,
@@ -462,6 +462,11 @@ export function deterministicTraceSelection(trusted, maxIds, excludedIds = []) {
       knowledge_ids: selected, coverage: candidates.length <= maxIds ? "covered" : "gap" }],
     rationale: `Deterministic ledger-order selection: ${selected.length}/${candidates.length} current admitted receipts.`,
   };
+}
+function governedRows(trusted) {
+  const rows = trusted?.governed_context ?? trusted?.knowledge;
+  if (!Array.isArray(rows)) throw new Error("context response is missing governed claims");
+  return rows;
 }
 function deterministicWorkingSet({ selected, knowledgeById, admitted }) {
   return {
@@ -514,7 +519,7 @@ function evidencePathForName(packetDir, packet, name) {
   return path.join(packetDir, "source", findStageForFile(packet, name), name);
 }
 async function extractEvidence(root, paths) {
-  const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/extract-evidence.py"),
+  const { stdout } = await execFileAsync(pythonExecutable(), [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/extract-evidence.py"),
     JSON.stringify({ paths, max_chars_per_file: 12000 })], { maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
@@ -534,18 +539,21 @@ function receiverSourceStart(packet) {
   return index;
 }
 async function researchPolicyAdmitBatch(root, cwd, packets) {
-  const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
+  const { stdout } = await execFileAsync(pythonExecutable(), [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
     JSON.stringify(packets)], { cwd, maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
 async function researchProposeEvaluateBatch(root, cwd, packets) {
-  const { stdout } = await execFileAsync("python3", [path.join(root,
+  const { stdout } = await execFileAsync(pythonExecutable(), [path.join(root,
     "studies/long-horizon-eval/relaybench/bench/real/research-propose-evaluate.py"),
     JSON.stringify(packets)], { cwd, maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
 async function pathExists(target) {
   try { await fs.access(target); return true; } catch { return false; }
+}
+function pythonExecutable() {
+  return process.env.PROOFPRESS_PYTHON || process.env.PYTHON || "python3";
 }
 async function initLedger(cwd) {
   await fs.mkdir(cwd, { recursive: true });
@@ -556,7 +564,12 @@ async function initLedger(cwd) {
   await execFileAsync("git", ["add", "README.md"], { cwd }); await execFileAsync("git", ["commit", "-qm", "init"], { cwd });
 }
 async function proofpress(root, cwd, args) {
-  const { stdout } = await execFileAsync(process.execPath, [path.join(root, "bin/proofpress.js"), ...args], { cwd, maxBuffer: 16 * 1024 * 1024 });
+  const pythonPath = [path.join(root, "src"), process.env.PYTHONPATH].filter(Boolean).join(path.delimiter);
+  const { stdout } = await execFileAsync(pythonExecutable(), ["-m", "proofpress.cli", ...args], {
+    cwd,
+    env: { ...process.env, PYTHONPATH: pythonPath },
+    maxBuffer: 16 * 1024 * 1024,
+  });
   return JSON.parse(stdout);
 }
 async function importSources(root, ledger, sourceRoot, stages) {

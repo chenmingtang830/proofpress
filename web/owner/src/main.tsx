@@ -832,6 +832,14 @@ function App() {
             <strong>Proofpress</strong>
           </div>
           <span className="workspaceLabel"><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
+          <Button variant="outline" onClick={() => {
+            const body = new URLSearchParams({ csrf });
+            void fetch("/owner/logout", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body,
+            }).finally(() => location.assign("/"));
+          }}>Sign out</Button>
         </header>
         {error && (
           <div className="error" role="alert">
@@ -1337,8 +1345,7 @@ function Inspector({
           <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
           <Textarea
             id={`decision-note-${r.claim.id}`}
-            aria-label="Reason for rejection or bounded clarification request"
-            aria-required="true"
+            aria-label="Decision note, required for rejection or bounded clarification requests"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Explain why the evidence does not support this claim, or describe a bounded change."
