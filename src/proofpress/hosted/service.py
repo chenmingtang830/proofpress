@@ -302,9 +302,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "<meta name=viewport content='width=device-width,initial-scale=1'>"
                 f"<title>{escape(title)}</title><style>"
                 "*{box-sizing:border-box}::selection{background:#e3eef0;color:#20222b}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;font:14px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#20222b;background:#faf9f5}"
-                ".auth{width:min(100%,392px);border:1px solid #e3e1d9;border-radius:8px;background:#fff;padding:32px;box-shadow:0 18px 44px rgba(32,34,43,.055)}"
-                ".brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}.mark{display:grid;width:30px;height:30px;place-items:center;color:#20222b}.mark svg{display:block;width:30px;height:30px}"
-                "h1{margin:0 0 9px;font:700 27px/1.2 Georgia,'Times New Roman',serif;letter-spacing:-.02em}.muted{margin:0 0 24px;color:#5a5d6b;font-size:13px}"
+                ".auth{width:min(100%,392px);border:1px solid #d8d6ce;border-radius:8px;background:#fff;padding:32px;box-shadow:0 18px 44px rgba(32,34,43,.055)}"
+                ".brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}.brand strong{font-size:15px;letter-spacing:-.01em}.mark{display:grid;width:30px;height:30px;place-items:center;color:#20222b}.mark svg{display:block;width:30px;height:30px}"
+                "h1{max-width:15ch;margin:0 0 9px;font:700 27px/1.18 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:-.025em}.muted{margin:0 0 24px;color:#5a5d6b;font-size:13px}.help{margin:18px 0 0;padding-top:16px;border-top:1px solid #e3e1d9;color:#5a5d6b;font-size:12px}"
                 "label{display:block;color:#20222b;font-size:12px;font-weight:600}input,textarea,button{font:inherit}input{width:100%;height:40px;margin-top:7px;border:1px solid #c9c7bf;border-radius:6px;padding:0 11px;color:#20222b;background:#fff;outline:none}input:focus{border-color:#0e5e6f;box-shadow:0 0 0 3px #e3eef0}button{width:100%;height:40px;margin-top:14px;border:0;border-radius:6px;background:#0e5e6f;color:#fff;font-weight:600;cursor:pointer}button:hover{background:#0a4b59}button:focus-visible{outline:2px solid #5fb3c4;outline-offset:2px}"
                 "pre{white-space:pre-wrap;background:#f1efe8;padding:16px;border:1px solid #e3e1d9}.row{display:flex;gap:8px}</style></head><body>"
                 f"{body}</body></html>")
@@ -412,7 +412,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             "<p class=muted>Sign in to review what agents may rely on. Your credential stays in an HttpOnly session and never enters the URL.</p>"
             "<form method=post action=/owner/login><label>Owner credential<br>"
             "<input type=password name=token required autocomplete=current-password></label><br>"
-            "<button type=submit>Continue</button></form></main>")
+            "<button type=submit>Continue</button></form>"
+            "<p class=help>Owner access is created during workspace bootstrap. If access was rotated or lost, use the documented recovery procedure from an administrative shell.</p></main>")
 
     def _authorize_page(self, query, message=""):
         note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""

@@ -1345,8 +1345,7 @@ function Inspector({
           <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
           <Textarea
             id={`decision-note-${r.claim.id}`}
-            aria-label="Reason for rejection or bounded clarification request"
-            aria-required="true"
+            aria-label="Decision note, required for rejection or bounded clarification requests"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Explain why the evidence does not support this claim, or describe a bounded change."
