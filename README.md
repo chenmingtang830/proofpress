@@ -163,27 +163,38 @@ local MCP configuration with absolute paths filled in. To create the demo
 without opening a browser, run `proofpress quickstart --no-browser` instead.
 Choose another empty destination with `--workspace PATH`.
 
-### Onboard an agent in your own repository
+### Connect an agent to a Hosted workspace
 
-Do this after the local demo, from the root of the repository whose agent work
-you want Proofpress to govern:
+From the repository whose agent work you want Proofpress to govern:
 
-1. Install the
-   [`proofpress-governed-context` skill](docs/REMOTE_MCP.md#manual-connection-or-self-hosting)
-   for Codex, Claude Code, or Cursor.
-2. Ask the agent: **“Initialize a Proofpress policy for this repository.”**
-   Review and commit the generated `.proofpress/context-policy.yaml`; it defines
-   which durable outcomes should be proposed and which routine work should not.
-3. Connect the agent to either your provisioned Hosted `/mcp` URL or your own
-   self-hosted endpoint, then complete OAuth with that agent's credential.
-4. Give the agent a real task. It will retrieve eligible context when available,
+1. Install the [`proofpress` Agent Plugin](plugins/proofpress/README.md) for
+   Codex, Claude Code, or Cursor. It bundles the governed-context skill and
+   policy assets; a separate skill download is unnecessary on the normal path.
+2. Add the `/mcp` URL assigned to your team. The generic plugin intentionally
+   contains no customer endpoint, so it cannot silently connect to another
+   workspace.
+3. Complete OAuth with the separate agent credential issued for that client.
+   Never use an owner or recovery credential in an agent client.
+4. Start a fresh agent session. If you want repository-specific proposal
+   selection, ask: **“Initialize a Proofpress policy for this repository.”**
+   Review and commit the generated `.proofpress/context-policy.yaml`.
+5. Give the agent a real task. It will retrieve eligible context when available,
    submit bounded proposals when warranted, and stop for Human Approval.
 
-Installing the plugin or skill does not create a Hosted workspace or grant
-access to the maintainer's private reference service. Each team needs a
-separately provisioned Hosted workspace or a self-hosted deployment. See
-[Remote MCP](docs/REMOTE_MCP.md) for client-specific setup and the full
-authorization boundary.
+For example, Codex users can install from this repository and connect an
+assigned Hosted workspace as follows:
+
+```sh
+codex plugin marketplace add chenmingtang830/proofpress --ref main
+codex plugin add proofpress@proofpress-plugins
+codex mcp add proofpress --url https://YOUR-PROOFPRESS-HOST/mcp
+codex mcp login proofpress
+```
+
+Installing the plugin does not create a Hosted workspace, MCP connection, or
+ledger. Each team needs a separately provisioned Hosted workspace or a
+self-hosted deployment. See [Remote MCP](docs/REMOTE_MCP.md) for Claude Code,
+Cursor, manual fallback, and the full authorization boundary.
 
 Want a managed Hosted Proofpress session and to work with us as a design
 partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).
