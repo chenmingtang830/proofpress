@@ -8,8 +8,9 @@ CLI, and local stdio bridge.
 ## Recommended plugin installation
 
 The public [`proofpress` Agent Plugin](../plugins/proofpress/README.md) bundles
-the governed-context Skill, the same policy template, and this managed MCP
-endpoint. Prefer it when the client supports plugins:
+the governed-context Skill and the same policy template. Prefer it when the
+client supports plugins, then add the Hosted or self-hosted `/mcp` endpoint
+assigned to that team:
 
 - **Codex / ChatGPT:** add this repository's `.agents/plugins` marketplace and
   install `proofpress` from the Plugins Directory.
@@ -22,12 +23,10 @@ Marketplace review is independent for each client. Until a listing is approved,
 the public repository is the direct installation fallback; do not claim that a
 directory listing is live before the platform confirms it.
 
-The plugin's checked-in default server is the maintainer's private reference
-endpoint, not a public multi-tenant Hosted service. Installing the plugin does
-not create a workspace or grant access to that service. A provisioned Hosted
-customer must configure its own assigned `/mcp` URL and agent authorization; a
-self-hosted operator should retain the bundled Skill but configure its own
-`/mcp` URL instead.
+The generic plugin does not bundle a customer MCP URL. Installing it does not
+create a workspace or connection. A provisioned Hosted customer must configure
+its assigned `/mcp` URL and agent authorization; a self-hosted operator uses
+the same plugin with its own `/mcp` URL.
 
 ## Manual connection or self-hosting
 

@@ -1,6 +1,6 @@
 {
   "name": "proofpress",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
   "author": {
     "name": "Proofpress"
