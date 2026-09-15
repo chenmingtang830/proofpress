@@ -56,21 +56,34 @@ and accepted connections have a 30-second socket timeout. Operators can tune the
 positive integer environment variables
 `PROOFPRESS_OWNER_SESSION_TTL_SECONDS`, `PROOFPRESS_AUTH_ATTEMPT_LIMIT`,
 `PROOFPRESS_AUTH_ATTEMPT_WINDOW_SECONDS`, and
-`PROOFPRESS_SOCKET_TIMEOUT_SECONDS`.
+`PROOFPRESS_SOCKET_TIMEOUT_SECONDS`. The server also bounds active request
+threads to 32 by default; tune `PROOFPRESS_MAX_CONCURRENT_REQUESTS` only after
+measuring instance capacity.
 
 Create an application-consistent, integrity-checked SQLite backup from an
 administrative shell:
 
 ```sh
 proofpress hosted --database /var/data/proofpress.db backup \
-  /var/data/backups/proofpress-$(date +%Y%m%dT%H%M%SZ).db \
-  --workspace-id workspace:personal
+  /var/data/backups/proofpress-$(date +%Y%m%dT%H%M%SZ).db
+
+proofpress hosted verify-backup \
+  /var/data/backups/proofpress-20260915T120000Z.db
+
+# Recovery is deliberately fail-closed: the destination must not exist.
+proofpress hosted restore-backup \
+  /var/data/backups/proofpress-20260915T120000Z.db \
+  /tmp/proofpress-restore-drill.db
 ```
 
-Store a copy outside the service disk and periodically test recovery on a clean
-instance. Render disk snapshots are a platform safety net, not a substitute for
-this database-aware backup; [Render specifically cautions](https://render.com/docs/disks#disk-snapshots)
-against treating a whole-disk snapshot as a custom-database restore mechanism.
+Backup creation refuses to overwrite an existing file, verifies SQLite
+integrity, and creates the file with owner-only permissions. Restore also
+refuses to overwrite an existing database and deletes a partial destination if
+verification fails. Store a copy outside the service disk and periodically run
+the recovery drill on a clean instance. Render disk snapshots are a platform
+safety net, not a substitute for this database-aware backup; [Render
+specifically cautions](https://render.com/docs/disks#disk-snapshots) against
+treating a whole-disk snapshot as a custom-database restore mechanism.
 
 [//]: # (ob:c3ffa3ff)
 [//]: # (ob:self-hosting-owner-assistant)

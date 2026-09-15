@@ -6,11 +6,13 @@ from contextvars import ContextVar
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import sqlite3
 import subprocess
 import threading
 from typing import Any, Iterator, Mapping, Protocol
+from urllib.parse import quote
 
 
 JsonObject = dict[str, Any]
@@ -330,17 +332,113 @@ class SQLiteEventStore:
     def backup_to(self, target: str | Path) -> Path:
         target_path = Path(target)
         target_path.parent.mkdir(parents=True, exist_ok=True)
-        source = self._connect()
+        _reserve_database_path(target_path)
+        source = None
+        try:
+            source = self._connect()
+            destination = sqlite3.connect(target_path)
+            try:
+                source.backup(destination)
+            finally:
+                destination.close()
+            verify_sqlite_backup(target_path)
+        except BaseException:
+            target_path.unlink(missing_ok=True)
+            raise
+        finally:
+            if source is not None:
+                source.close()
+        return target_path
+
+
+def _reserve_database_path(path: Path) -> None:
+    descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    os.close(descriptor)
+
+
+def _readonly_sqlite(path: Path) -> sqlite3.Connection:
+    uri = "file:" + quote(str(path.resolve()), safe="/") + "?mode=ro"
+    return sqlite3.connect(uri, uri=True)
+
+
+def verify_sqlite_backup(source: str | Path) -> JsonObject:
+    """Verify that a SQLite backup is readable and internally consistent."""
+    source_path = Path(source)
+    if not source_path.is_file():
+        raise FileNotFoundError(f"backup file not found: {source_path}")
+    connection = _readonly_sqlite(source_path)
+    try:
+        integrity_rows = [row[0] for row in connection.execute("PRAGMA quick_check")]
+        if integrity_rows != ["ok"]:
+            raise ValueError(
+                "backup integrity check failed: " + "; ".join(integrity_rows))
+        tables = {row[0] for row in connection.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'")}
+        if "events" not in tables or "schema_migrations" not in tables:
+            raise ValueError("backup does not contain the Proofpress event schema")
+        schema_version = connection.execute(
+            "SELECT MAX(version) FROM schema_migrations").fetchone()[0]
+        prior_by_workspace: dict[str, str | None] = {}
+        sequence_by_workspace: dict[str, int] = {}
+        event_count = 0
+        for row in connection.execute(
+                "SELECT workspace_id, sequence, prior_head, event_head, "
+                "principal_id, payload_json FROM events "
+                "ORDER BY workspace_id, sequence"):
+            workspace_id, sequence, prior_head, event_head, principal_id, raw = row
+            expected_sequence = sequence_by_workspace.get(workspace_id, 0) + 1
+            expected_prior = prior_by_workspace.get(workspace_id)
+            if sequence != expected_sequence or prior_head != expected_prior:
+                raise ValueError(
+                    f"backup event chain is discontinuous for {workspace_id}")
+            event = json.loads(raw)
+            expected_head = content_digest({
+                "workspace_id": workspace_id, "sequence": sequence,
+                "prior_head": prior_head, "principal_id": principal_id,
+                "event": event,
+            })
+            if event_head != expected_head:
+                raise ValueError(
+                    f"backup event digest is invalid for {workspace_id} sequence {sequence}")
+            sequence_by_workspace[workspace_id] = sequence
+            prior_by_workspace[workspace_id] = event_head
+            event_count += 1
+        workspace_count = (connection.execute(
+            "SELECT COUNT(*) FROM hosted_workspaces").fetchone()[0]
+            if "hosted_workspaces" in tables else len(sequence_by_workspace))
+        return {
+            "database_integrity": "ok",
+            "event_history": "ok",
+            "schema_version": schema_version,
+            "events": event_count,
+            "workspaces": workspace_count,
+        }
+    finally:
+        connection.close()
+
+
+def restore_sqlite_backup(source: str | Path, target: str | Path) -> JsonObject:
+    """Restore a verified backup to a new path, never over an existing database."""
+    source_path = Path(source)
+    target_path = Path(target)
+    verification = verify_sqlite_backup(source_path)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    _reserve_database_path(target_path)
+    try:
+        source_connection = _readonly_sqlite(source_path)
         destination = sqlite3.connect(target_path)
         try:
-            source.backup(destination)
-            integrity = destination.execute("PRAGMA quick_check").fetchone()[0]
-            if integrity != "ok":
-                raise ValueError(f"backup integrity check failed: {integrity}")
+            source_connection.backup(destination)
         finally:
             destination.close()
-            source.close()
-        return target_path
+            source_connection.close()
+        restored = verify_sqlite_backup(target_path)
+        if restored != verification:
+            raise ValueError("restored database verification does not match its source")
+    except BaseException:
+        target_path.unlink(missing_ok=True)
+        raise
+    return restored
 
 
 _ACTIVE_EVENT_STORE: ContextVar[EventStore | None] = ContextVar(

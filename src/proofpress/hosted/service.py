@@ -29,6 +29,7 @@ DEFAULT_OWNER_SESSION_TTL_SECONDS = 8 * 60 * 60
 DEFAULT_SOCKET_TIMEOUT_SECONDS = 30
 DEFAULT_AUTH_ATTEMPT_LIMIT = 10
 DEFAULT_AUTH_ATTEMPT_WINDOW_SECONDS = 60
+DEFAULT_MAX_CONCURRENT_REQUESTS = 32
 
 
 class HostedThreadingHTTPServer(ThreadingHTTPServer):
@@ -37,6 +38,24 @@ class HostedThreadingHTTPServer(ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = True
     request_queue_size = 64
+
+    def __init__(self, server_address, handler_class, max_concurrent_requests):
+        self._request_slots = threading.BoundedSemaphore(max_concurrent_requests)
+        super().__init__(server_address, handler_class)
+
+    def process_request(self, request, client_address):
+        self._request_slots.acquire()
+        try:
+            super().process_request(request, client_address)
+        except BaseException:
+            self._request_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._request_slots.release()
 
 
 def _judge_demo_evidence(index, title, quote):
@@ -265,7 +284,17 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             if session and session["expires_at"] <= time.time():
                 self.server.proofpress_owner_sessions.pop(session_id, None)
                 return None
-            return dict(session) if session else None
+            session = dict(session) if session else None
+        if not session:
+            return None
+        try:
+            session["context"] = self.server.proofpress_control.refresh_context(
+                session["context"])
+        except HostedAuthError:
+            with self.server.proofpress_owner_session_lock:
+                self.server.proofpress_owner_sessions.pop(session_id, None)
+            return None
+        return session
 
     @staticmethod
     def _page(title, body):
@@ -315,7 +344,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         self.wfile.write(encoded)
 
     def _owner_operation(self, session, operation, parameters=None):
-        return self.server.proofpress_control.execute(session["token"], {
+        return self.server.proofpress_control.execute_as(session["context"], {
             "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": operation, "parameters": parameters or {},
         })
@@ -331,7 +360,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     "judge": self._owner_operation(session, "configuration.get")["result"]["judge"]["configured"],
                 }}})
         if path == "/owner/api/review-policy":
-            return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["token"])})
+            return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["context"])})
         if path == "/owner/api/summary":
             envelope = self._owner_operation(
                 session, "review.summary",
@@ -364,7 +393,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             try:
                 limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
                 control = self.server.proofpress_control
-                rows = (control.list_activity if path.endswith("/activity") else control.list_audit)(session["token"], limit)
+                rows = (control.list_activity if path.endswith("/activity") else control.list_audit)(session["context"], limit)
             except ValueError:
                 return self._json(HTTPStatus.BAD_REQUEST,
                                   {"error": "invalid_limit"})
@@ -401,7 +430,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def _review_page(self, claim_id, session):
         control = self.server.proofpress_control
         if claim_id:
-            envelope = control.execute(session["token"], {
+            envelope = control.execute_as(session["context"], {
                 "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "operation": "review.receipt",
                 "parameters": {"claim_id": claim_id},
@@ -423,7 +452,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 f"<p>State: <strong>{escape(receipt['state'])}</strong></p>"
                 "<h2>Evidence and receipts</h2><pre>" +
                 escape(json.dumps(receipt, ensure_ascii=False, indent=2)) + "</pre>" + decision)
-        graph = control.execute(session["token"], {
+        graph = control.execute_as(session["context"], {
             "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
             "operation": "graph.get", "parameters": {},
         })
@@ -514,7 +543,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             try:
                 session = self._owner_session()
                 credentials = self.server.proofpress_control.list_credentials(
-                    session["token"] if session else self._token())
+                    session["context"] if session else self._token())
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             return self._json(HTTPStatus.OK, {
@@ -635,7 +664,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     envelope = self._owner_operation(session, "claim.evaluate", {"claim_id": request.get("claim_id", "")})
                     return self._json(_status_for(envelope), envelope)
                 result = self.server.proofpress_control.save_review_policy(
-                    session["token"], request.get("settings"), request.get("expected_version"),
+                    session["context"], request.get("settings"), request.get("expected_version"),
                     request.get("api_key"), request.get("delete_key") is True)
                 return self._json(HTTPStatus.OK, {"ok": True, "result": result})
             except HostedAuthError as exc:
@@ -726,7 +755,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     return self._json(HTTPStatus.FORBIDDEN, {"ok": False,
                         "error": {"code": "csrf_failed",
                                   "message": "Refresh the page and try again."}})
-                owner_token = session["token"] if session else self._token()
+                owner_token = session["context"] if session else self._token()
                 if action == "issue":
                     result = control.issue_agent_credential(
                         owner_token, request.get("principal_id", ""),
@@ -768,7 +797,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 for key in expired:
                     self.server.proofpress_owner_sessions.pop(key, None)
                 self.server.proofpress_owner_sessions[session_id] = {
-                    "token": form["token"], "csrf": secrets.token_urlsafe(24),
+                    "context": context, "csrf": secrets.token_urlsafe(24),
                     "expires_at": expires_at}
             cookie = (f"pp_owner={session_id}; Path=/; HttpOnly; SameSite=Strict"
                       f"; Max-Age={self.server.proofpress_owner_session_ttl_seconds}"
@@ -819,7 +848,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             decision = form.get("decision", "")
             if decision not in {"admit", "reject", "request_changes"}:
                 return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_decision"})
-            envelope = self.server.proofpress_control.execute(session["token"], {
+            envelope = self.server.proofpress_control.execute_as(session["context"], {
                 "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
                 "operation": "claim.review",
                 "parameters": {"claim_id": claim_id,
@@ -864,21 +893,25 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
                          owner_session_ttl_seconds=DEFAULT_OWNER_SESSION_TTL_SECONDS,
                          socket_timeout_seconds=DEFAULT_SOCKET_TIMEOUT_SECONDS,
                          auth_attempt_limit=DEFAULT_AUTH_ATTEMPT_LIMIT,
-                         auth_attempt_window_seconds=DEFAULT_AUTH_ATTEMPT_WINDOW_SECONDS):
+                         auth_attempt_window_seconds=DEFAULT_AUTH_ATTEMPT_WINDOW_SECONDS,
+                         max_concurrent_requests=DEFAULT_MAX_CONCURRENT_REQUESTS):
     if host not in LOOPBACK_HOSTS and not allow_public_bind:
         raise ValueError(
             "hosted origin binds loopback only; terminate public HTTPS at a same-host reverse proxy")
     numeric_options = {
+        "max_request_bytes": max_request_bytes,
         "owner_session_ttl_seconds": owner_session_ttl_seconds,
         "socket_timeout_seconds": socket_timeout_seconds,
         "auth_attempt_limit": auth_attempt_limit,
         "auth_attempt_window_seconds": auth_attempt_window_seconds,
+        "max_concurrent_requests": max_concurrent_requests,
     }
     if any(not isinstance(value, int) or value <= 0
            for value in numeric_options.values()):
         raise ValueError("hosted server limits must be positive integers")
     control = HostedControlPlane(database)
-    server = HostedThreadingHTTPServer((host, port), HostedOperationHandler)
+    server = HostedThreadingHTTPServer(
+        (host, port), HostedOperationHandler, max_concurrent_requests)
     server.proofpress_control = control
     server.proofpress_max_request_bytes = max_request_bytes
     server.proofpress_owner_sessions = {}
@@ -887,6 +920,7 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     server.proofpress_socket_timeout_seconds = socket_timeout_seconds
     server.proofpress_auth_attempt_limit = auth_attempt_limit
     server.proofpress_auth_attempt_window_seconds = auth_attempt_window_seconds
+    server.proofpress_max_concurrent_requests = max_concurrent_requests
     server.proofpress_auth_attempts = {}
     server.proofpress_auth_attempt_lock = threading.Lock()
     configured_url = (public_base_url or os.environ.get("PROOFPRESS_PUBLIC_BASE_URL")
@@ -949,7 +983,13 @@ def main(argv=None):
                          default="PROOFPRESS_RECOVERY_SECRET")
     backup = subparsers.add_parser("backup")
     backup.add_argument("target")
-    backup.add_argument("--workspace-id", required=True)
+    backup.add_argument("--workspace-id", default="workspace:backup",
+                        help=argparse.SUPPRESS)
+    verify_backup = subparsers.add_parser("verify-backup")
+    verify_backup.add_argument("file")
+    restore_backup = subparsers.add_parser("restore-backup")
+    restore_backup.add_argument("source")
+    restore_backup.add_argument("target")
     export = subparsers.add_parser("export")
     export.add_argument("--workspace-id", required=True)
     verify_export = subparsers.add_parser("verify-export")
@@ -973,6 +1013,9 @@ def main(argv=None):
     serve.add_argument("--auth-attempt-window-seconds", type=_positive_int, default=(
         os.environ.get("PROOFPRESS_AUTH_ATTEMPT_WINDOW_SECONDS",
                        str(DEFAULT_AUTH_ATTEMPT_WINDOW_SECONDS))))
+    serve.add_argument("--max-concurrent-requests", type=_positive_int, default=(
+        os.environ.get("PROOFPRESS_MAX_CONCURRENT_REQUESTS",
+                       str(DEFAULT_MAX_CONCURRENT_REQUESTS))))
     args = parser.parse_args(argv)
     if args.command == "verify-export":
         from proofpress.kernel.events import verify_history_envelopes
@@ -983,6 +1026,16 @@ def main(argv=None):
         print(json.dumps(result, ensure_ascii=False))
         if not result["ok"]:
             raise SystemExit(1)
+        return
+    if args.command == "verify-backup":
+        from proofpress.kernel.events import verify_sqlite_backup
+        print(json.dumps(verify_sqlite_backup(args.file), ensure_ascii=False))
+        return
+    if args.command == "restore-backup":
+        from proofpress.kernel.events import restore_sqlite_backup
+        result = restore_sqlite_backup(args.source, args.target)
+        print(json.dumps({"restored": str(Path(args.target)), **result},
+                         ensure_ascii=False))
         return
     if not args.database:
         parser.error("--database is required for this command")
@@ -1013,10 +1066,11 @@ def main(argv=None):
         print(json.dumps(control.recover_owner(
             args.workspace_id, recovery_secret), ensure_ascii=False))
     elif args.command == "backup":
-        from proofpress.kernel.events import SQLiteEventStore
+        from proofpress.kernel.events import SQLiteEventStore, verify_sqlite_backup
         path = SQLiteEventStore(
             args.database, args.workspace_id).backup_to(args.target)
-        print(json.dumps({"backup": str(path), "database_integrity": "ok"}))
+        print(json.dumps({"backup": str(path),
+                          **verify_sqlite_backup(path)}, ensure_ascii=False))
     elif args.command == "export":
         from proofpress.kernel.events import SQLiteEventStore
         print(json.dumps(SQLiteEventStore(
@@ -1028,7 +1082,8 @@ def main(argv=None):
             owner_session_ttl_seconds=args.owner_session_ttl_seconds,
             socket_timeout_seconds=args.socket_timeout_seconds,
             auth_attempt_limit=args.auth_attempt_limit,
-            auth_attempt_window_seconds=args.auth_attempt_window_seconds)
+            auth_attempt_window_seconds=args.auth_attempt_window_seconds,
+            max_concurrent_requests=args.max_concurrent_requests)
         print(json.dumps({"event": "hosted_service_ready", "host": args.host,
                           "port": server.server_port}), flush=True)
         try:

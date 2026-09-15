@@ -1,9 +1,6 @@
 import hashlib
-import json
-import os
 from pathlib import Path
 import sqlite3
-import subprocess
 import sys
 import tempfile
 import threading
@@ -128,6 +125,36 @@ class SQLiteEventStoreTests(unittest.TestCase):
         finally:
             connection.close()
         self.assertEqual(count, len(self.store.list_events()))
+        verification = self.event_store.verify_sqlite_backup(backup)
+        self.assertEqual(verification["database_integrity"], "ok")
+        self.assertEqual(verification["events"], len(self.store.list_events()))
+        self.assertEqual(backup.stat().st_mode & 0o777, 0o600)
+
+        restored = self.root / "restored.db"
+        restored_result = self.event_store.restore_sqlite_backup(backup, restored)
+        self.assertEqual(restored_result, verification)
+        self.assertEqual(restored.stat().st_mode & 0o777, 0o600)
+
+        with self.assertRaises(FileExistsError):
+            self.store.backup_to(backup)
+        with self.assertRaises(FileExistsError):
+            self.event_store.restore_sqlite_backup(backup, restored)
+
+    def test_backup_verification_rejects_non_proofpress_database(self):
+        unrelated = self.root / "unrelated.db"
+        with sqlite3.connect(unrelated) as connection:
+            connection.execute("CREATE TABLE unrelated(value TEXT)")
+        with self.assertRaisesRegex(ValueError, "Proofpress event schema"):
+            self.event_store.verify_sqlite_backup(unrelated)
+
+    def test_backup_verification_detects_event_tampering(self):
+        self.request("evidence.submit", {"payload": evidence_payload()}, "tamper-1")
+        backup = self.store.backup_to(self.root / "tampered.db")
+        with sqlite3.connect(backup) as connection:
+            connection.execute(
+                "UPDATE events SET payload_json = '{}' WHERE sequence = 1")
+        with self.assertRaisesRegex(ValueError, "event digest is invalid"):
+            self.event_store.verify_sqlite_backup(backup)
 
 
 if __name__ == "__main__":

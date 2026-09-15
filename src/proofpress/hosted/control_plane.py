@@ -461,12 +461,10 @@ class HostedControlPlane:
         finally:
             connection.close()
 
-    def issue_agent_credential(self, owner_token: str, principal_id: str,
+    def issue_agent_credential(self, owner_token: str | PrincipalContext, principal_id: str,
                                label: str, display_name: str | None = None,
                                permissions: set[str] | None = None) -> dict[str, str]:
-        owner = self.authenticate(owner_token)
-        if owner.role != "owner":
-            raise HostedAuthError("owner_required", "owner credential required")
+        owner = self._owner(owner_token)
         granted = frozenset(permissions or AGENT_OPERATIONS)
         if not granted or not granted <= AGENT_OPERATIONS:
             raise ValueError("agent permissions must be a non-empty safe-operation subset")
@@ -496,10 +494,8 @@ class HostedControlPlane:
         return {"workspace_id": owner.workspace_id, "principal_id": principal_id,
                 "credential_id": credential_id, "token": token}
 
-    def list_credentials(self, owner_token: str) -> list[dict[str, Any]]:
-        owner = self.authenticate(owner_token)
-        if owner.role != "owner":
-            raise HostedAuthError("owner_required", "owner credential required")
+    def list_credentials(self, owner_token: str | PrincipalContext) -> list[dict[str, Any]]:
+        owner = self._owner(owner_token)
         connection = self._connect()
         try:
             rows = connection.execute(
@@ -516,10 +512,9 @@ class HostedControlPlane:
         finally:
             connection.close()
 
-    def list_audit(self, owner_token: str, limit: int = 100) -> list[dict[str, Any]]:
-        owner = self.authenticate(owner_token)
-        if owner.role != "owner":
-            raise HostedAuthError("owner_required", "owner credential required")
+    def list_audit(self, owner_token: str | PrincipalContext,
+                   limit: int = 100) -> list[dict[str, Any]]:
+        owner = self._owner(owner_token)
         safe_limit = max(1, min(int(limit), 250))
         connection = self._connect()
         try:
@@ -531,8 +526,31 @@ class HostedControlPlane:
         finally:
             connection.close()
 
-    def _owner(self, token):
-        context = self.authenticate(token)
+    def refresh_context(self, context: PrincipalContext) -> PrincipalContext:
+        """Revalidate a server-issued context without retaining its bearer secret."""
+        connection = self._connect()
+        try:
+            row = connection.execute(
+                "SELECT c.workspace_id, c.principal_id, c.credential_id, "
+                "c.permissions_json, p.role FROM hosted_credentials c "
+                "JOIN hosted_principals p USING(workspace_id, principal_id) "
+                "WHERE c.credential_id = ? AND c.workspace_id = ? "
+                "AND c.principal_id = ? AND c.revoked_at IS NULL",
+                (context.credential_id, context.workspace_id,
+                 context.principal_id)).fetchone()
+            if not row:
+                raise HostedAuthError(
+                    "invalid_credential", "hosted session credential is no longer active")
+            return PrincipalContext(
+                row["workspace_id"], row["principal_id"], row["role"],
+                row["credential_id"],
+                frozenset(json.loads(row["permissions_json"])))
+        finally:
+            connection.close()
+
+    def _owner(self, token: str | PrincipalContext) -> PrincipalContext:
+        context = (self.refresh_context(token) if isinstance(token, PrincipalContext)
+                   else self.authenticate(token))
         if context.role != "owner":
             raise HostedAuthError("owner_required", "owner credential required")
         return context
@@ -725,10 +743,9 @@ class HostedControlPlane:
                         connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')", (job_id, workspace["workspace_id"], claim["id"], record["policy"]["digest"], raw["principal_id"], _now(), _now()))
         threading.Thread(target=self.run_judge_jobs, daemon=True).start()
 
-    def revoke_credential(self, owner_token: str, credential_id: str) -> None:
-        owner = self.authenticate(owner_token)
-        if owner.role != "owner":
-            raise HostedAuthError("owner_required", "owner credential required")
+    def revoke_credential(self, owner_token: str | PrincipalContext,
+                          credential_id: str) -> None:
+        owner = self._owner(owner_token)
         if credential_id == owner.credential_id:
             raise ValueError("rotate the owner credential before revoking the active credential")
         connection = self._connect()
@@ -743,11 +760,10 @@ class HostedControlPlane:
         finally:
             connection.close()
 
-    def rotate_agent_credential(self, owner_token: str, credential_id: str,
+    def rotate_agent_credential(self, owner_token: str | PrincipalContext,
+                                credential_id: str,
                                 label: str | None = None) -> dict[str, str]:
-        owner = self.authenticate(owner_token)
-        if owner.role != "owner":
-            raise HostedAuthError("owner_required", "owner credential required")
+        owner = self._owner(owner_token)
         new_id, token, salt, secret_hash = self._new_credential_values()
         created_at = _now()
         connection = self._connect()

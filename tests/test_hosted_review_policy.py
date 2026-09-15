@@ -11,7 +11,6 @@ from proofpress.hosted import review_policy
 from proofpress.hosted.control_plane import HostedControlPlane, HostedAuthError
 from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT, PROVIDERS
 from proofpress.kernel import operations as kernel
-from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from test_hosted_authority import evidence_payload, operation
 
 

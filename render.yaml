@@ -29,6 +29,8 @@ services:
         value: 10
       - key: PROOFPRESS_AUTH_ATTEMPT_WINDOW_SECONDS
         value: 60
+      - key: PROOFPRESS_MAX_CONCURRENT_REQUESTS
+        value: 32
       # Non-secret model routing. Add OPENROUTER_API_KEY as a secret in the
       # Render dashboard; never commit it to this Blueprint.
       - key: OPENROUTER_MODEL

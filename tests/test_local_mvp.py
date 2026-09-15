@@ -4,7 +4,6 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
-import time
 import unittest
 from unittest.mock import patch
 from urllib.request import Request, urlopen

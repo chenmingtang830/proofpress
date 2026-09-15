@@ -62,7 +62,6 @@ class EventStoreTests(unittest.TestCase):
         return self.kernel_ops.context_v2("store-parity", "agent:next")
 
     def test_legacy_conclusion_events_still_project_and_dedupe(self):
-        quote = "The liability cap is one year of fees."
         imported = self.kernel_ops.submit_evidence_v2(retrieval_payload())
         legacy_event = {
             "schema_version": self.kernel_ops.EVENT_SCHEMA,

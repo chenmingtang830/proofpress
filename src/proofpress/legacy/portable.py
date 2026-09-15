@@ -2603,7 +2603,6 @@ def cmd_verify(a):
         print()
         for r in results:
             cl, comp = r["claim"], r["computed"]
-            ctx = (comp or {}).get("context", "")
             note = f' — "{cl["note"]}"' if cl.get("note") else ""
             if r["ok"]:
                 what = cl.get("kind")

@@ -2,6 +2,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -354,9 +355,37 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(self.owner_json("/owner/api/session", cookie)[0], 401)
 
         self.server.proofpress_owner_sessions[session_id] = {
-            "token": self.owner["token"], "csrf": csrf,
+            "context": self.server.proofpress_control.authenticate(
+                self.owner["token"]), "csrf": csrf,
             "expires_at": time.time() - 1,
         }
+        self.assertEqual(self.owner_json("/owner/api/session", cookie)[0], 401)
+        self.assertNotIn(session_id, self.server.proofpress_owner_sessions)
+
+    def test_owner_session_does_not_retain_bearer_credential(self):
+        request = Request(
+            self.base_url + "/owner/login",
+            data=urlencode({"token": self.owner["token"]}).encode(), method="POST",
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        class NoRedirect(__import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                return None
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(NoRedirect())
+        with self.assertRaises(HTTPError) as raised:
+            opener.open(request)
+        self.assertEqual(raised.exception.code, 303)
+        session_id = raised.exception.headers["Set-Cookie"].split(
+            "pp_owner=", 1)[1].split(";", 1)[0]
+        raised.exception.close()
+        session = self.server.proofpress_owner_sessions[session_id]
+        self.assertNotIn("token", session)
+        self.assertEqual(session["context"].principal_id, "human:owner")
+
+        with sqlite3.connect(self.server.proofpress_control.database) as connection:
+            connection.execute(
+                "UPDATE hosted_credentials SET revoked_at = 'test' "
+                "WHERE credential_id = ?", (self.owner["credential_id"],))
+        cookie = f"pp_owner={session_id}"
         self.assertEqual(self.owner_json("/owner/api/session", cookie)[0], 401)
         self.assertNotIn(session_id, self.server.proofpress_owner_sessions)
 
@@ -375,6 +404,7 @@ class HostedServiceTests(unittest.TestCase):
                 Path(self.tmp.name) / "invalid-limits.db", port=0,
                 socket_timeout_seconds=0)
         self.assertEqual(self.server.proofpress_socket_timeout_seconds, 30)
+        self.assertEqual(self.server.proofpress_max_concurrent_requests, 32)
 
     def test_owner_https_credential_lifecycle_is_separate_from_mcp(self):
         status, issued = self.owner_admin(self.owner["token"], {
