@@ -334,6 +334,9 @@ class SQLiteEventStore:
         destination = sqlite3.connect(target_path)
         try:
             source.backup(destination)
+            integrity = destination.execute("PRAGMA quick_check").fetchone()[0]
+            if integrity != "ok":
+                raise ValueError(f"backup integrity check failed: {integrity}")
         finally:
             destination.close()
             source.close()

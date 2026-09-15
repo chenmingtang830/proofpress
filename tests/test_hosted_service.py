@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import threading
+import time
 import unittest
 from urllib.error import HTTPError
 from urllib.parse import urlencode
@@ -321,6 +322,59 @@ class HostedServiceTests(unittest.TestCase):
             "csrf": "wrong", "claim_id": "missing", "decision": "admit"})
         self.assertEqual(status, 403)
         self.assertEqual(denied["error"]["code"], "csrf_failed")
+
+    def test_owner_session_expires_and_logout_revokes_it(self):
+        request = Request(
+            self.base_url + "/owner/login",
+            data=urlencode({"token": self.owner["token"]}).encode(), method="POST",
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        class NoRedirect(__import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                return None
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(NoRedirect())
+        with self.assertRaises(HTTPError) as raised:
+            opener.open(request)
+        cookie = raised.exception.headers["Set-Cookie"].split(";", 1)[0]
+        self.assertIn("Max-Age=28800", raised.exception.headers["Set-Cookie"])
+        raised.exception.close()
+        session_id = cookie.split("=", 1)[1]
+        csrf = self.server.proofpress_owner_sessions[session_id]["csrf"]
+
+        logout = Request(
+            self.base_url + "/owner/logout",
+            data=urlencode({"csrf": csrf}).encode(), method="POST",
+            headers={"Content-Type": "application/x-www-form-urlencoded",
+                     "Cookie": cookie})
+        with self.assertRaises(HTTPError) as raised:
+            opener.open(logout)
+        self.assertEqual(raised.exception.code, 303)
+        self.assertIn("Max-Age=0", raised.exception.headers["Set-Cookie"])
+        raised.exception.close()
+        self.assertNotIn(session_id, self.server.proofpress_owner_sessions)
+        self.assertEqual(self.owner_json("/owner/api/session", cookie)[0], 401)
+
+        self.server.proofpress_owner_sessions[session_id] = {
+            "token": self.owner["token"], "csrf": csrf,
+            "expires_at": time.time() - 1,
+        }
+        self.assertEqual(self.owner_json("/owner/api/session", cookie)[0], 401)
+        self.assertNotIn(session_id, self.server.proofpress_owner_sessions)
+
+    def test_authentication_endpoints_are_rate_limited(self):
+        self.server.proofpress_auth_attempt_limit = 2
+        for _ in range(2):
+            self.assertEqual(self.form("/owner/login", {"token": "wrong"})[0], 401)
+        status, headers, body = self.form("/owner/login", {"token": "wrong"})
+        self.assertEqual(status, 429)
+        self.assertEqual(headers["Retry-After"], "60")
+        self.assertEqual(json.loads(body)["error"]["code"], "rate_limited")
+
+    def test_hosted_limits_must_be_positive_integers(self):
+        with self.assertRaisesRegex(ValueError, "positive integers"):
+            self.service.create_hosted_server(
+                Path(self.tmp.name) / "invalid-limits.db", port=0,
+                socket_timeout_seconds=0)
+        self.assertEqual(self.server.proofpress_socket_timeout_seconds, 30)
 
     def test_owner_https_credential_lifecycle_is_separate_from_mcp(self):
         status, issued = self.owner_admin(self.owner["token"], {

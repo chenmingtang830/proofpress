@@ -10,9 +10,9 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[5]
-sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
 
-import proofpress_knowledge as pp  # noqa: E402
+from proofpress.kernel import operations as pp  # noqa: E402
 
 
 def append_cached(event, rows):
@@ -42,7 +42,7 @@ def append_cached(event, rows):
 
 def admit(packet, projection, policy, rows):
     cid = packet["conclusion_id"]
-    conclusion = projection["conclusions"].get(cid)
+    conclusion = projection["claims"].get(cid)
     if not conclusion:
         raise ValueError("conclusion not found: " + cid)
     evaluation = projection["evaluations"].get(cid)
@@ -53,7 +53,7 @@ def admit(packet, projection, policy, rows):
         raise ValueError("invalid judge recommendation")
     recommendation = append_cached({
         "type": "judge_recommended", "subject_ref": cid,
-        "conclusion_digest": conclusion["digest"], "policy_digest": policy["digest"],
+        "claim_digest": conclusion["digest"], "policy_digest": policy["digest"],
         "recommendation": verdict["recommendation"], "rationale": verdict["rationale"],
         "adapter": packet["judge"]["route"], "model": packet["judge"]["model"],
         "research_only": True,
@@ -65,7 +65,7 @@ def admit(packet, projection, policy, rows):
             "decision": "block", "executor": packet["executor"],
             "rule": "deterministic_checks_precede_lm_recommendation",
             "recommendation_ref": recommendation["event_id"],
-            "conclusion_digest": conclusion["digest"], "policy_digest": policy["digest"],
+            "claim_digest": conclusion["digest"], "policy_digest": policy["digest"],
             "failed_checks": [name for name, passed in evaluation["checks"].items() if not passed],
             "research_only": True,
         }, rows)
@@ -79,14 +79,14 @@ def admit(packet, projection, policy, rows):
         "decision": "admit", "executor": packet["executor"],
         "rule": "deterministic_eligible_and_frozen_judge_accept",
         "recommendation_ref": recommendation["event_id"],
-        "conclusion_digest": conclusion["digest"], "policy_digest": policy["digest"],
+        "claim_digest": conclusion["digest"], "policy_digest": policy["digest"],
         "research_only": True,
     }, rows)
     admitted = append_cached({
-        "type": "conclusion_admitted", "subject_ref": cid,
+        "type": "claim_admitted", "subject_ref": cid,
         "review_ref": gate["event_id"], "reviewer": packet["executor"],
         "authority_type": "research_policy_executor",
-        "conclusion_digest": conclusion["digest"],
+        "claim_digest": conclusion["digest"],
         "evidence_digests": {ref: projection["evidence"][ref]["digest"] for ref in conclusion["evidence_refs"]},
         "policy_digest": policy["digest"], "research_only": True,
     }, rows)

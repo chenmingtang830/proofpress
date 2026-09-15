@@ -2,6 +2,7 @@
 # Proofpress documentation
 
 - [Task run tracking](TASK_RUNS.md) — connect governed context receipts to declared reliance, outputs, and observations.
+- [Repository structure](REPOSITORY_STRUCTURE.md) — canonical code ownership, compatibility boundaries, tests, and generated assets.
 
 [//]: # (ob:850a2850)
 [//]: # (ob:start-here)

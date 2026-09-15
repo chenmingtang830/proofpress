@@ -832,6 +832,14 @@ function App() {
             <strong>Proofpress</strong>
           </div>
           <span className="workspaceLabel"><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
+          <Button variant="outline" onClick={() => {
+            const body = new URLSearchParams({ csrf });
+            void fetch("/owner/logout", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body,
+            }).finally(() => location.assign("/"));
+          }}>Sign out</Button>
         </header>
         {error && (
           <div className="error" role="alert">

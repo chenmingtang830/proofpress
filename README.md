@@ -308,6 +308,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 ## Read this next
 
 [//]: # (ob:3159be00)
+- **Work on the repository:** [repository structure and ownership](docs/REPOSITORY_STRUCTURE.md).
 - **Understand the product:** [Thesis](docs/THESIS.md) → [claims and governed context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
 - **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [content-addressed receipt adapter](docs/CONTENT_ADDRESSED_ADAPTER.md) → [spreadsheet cell evidence](docs/SPREADSHEET_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
 - **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
