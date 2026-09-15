@@ -109,8 +109,9 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('className="lmRationaleHeader"');
     expect(source).toContain("The LM marked this claim Needs Attention");
     expect(source).toContain("Only Human Approval admits the claim");
-    expect(source).toContain(">Refresh LM advice</Button>");
-    expect(source).toContain(">Review approval policy</Button>");
+    expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>');
+    expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>');
+    expect(css).toContain(".modalActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 24px; }");
     expect(source).not.toContain('r.review_policy?.mode === "manual" && <Button className="secondaryAction"');
     expect(css).toContain(".lmRationale > .expandableText");
     expect(css).not.toContain(".lmRationale > div { display: flex");
