@@ -234,6 +234,47 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertEqual(receipt["state"], "needs_review")
         self.assertEqual(receipt["judge_job"]["state"], "completed")
 
+    def test_receipt_reconciles_failed_job_when_current_advice_was_recorded(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            self.control.save_review_policy(
+                self.owner, {**self.settings, "mode": "automatic"}, 0)
+        with patch("proofpress.hosted.control_plane.threading.Thread"):
+            proposal = self.proposal("reconcile")
+        claim_id = proposal["result"]["claim"]["id"]
+        # Record a valid current recommendation without depending on a provider
+        # response, then simulate interrupted queue bookkeeping.
+        store = SQLiteEventStore(
+            self.control.database, "workspace:test", "system:auto-review")
+        record = self.control._policy("workspace:test")
+        with using_event_store(store), kernel.using_policy(record["policy"]):
+            receipt = kernel.receipt_v2(claim_id)
+            kernel.append_v2({
+                "type": "judge_recommended", "subject_ref": claim_id,
+                "claim_digest": receipt["claim"]["digest"],
+                "policy_digest": record["policy"]["digest"],
+                "recommendation": "accept", "rationale": "Evidence supports the claim.",
+                "judge": "judge:test", "model": "test-model",
+                "judge_config_digest": "sha256:" + "a" * 64,
+                "adapter": "proofpress-test-judge/v1",
+            })
+        with self.control._db() as connection:
+            connection.execute(
+                "UPDATE hosted_judge_jobs SET state='failed', detail='LM advice failed.' "
+                "WHERE claim_id=?", (claim_id,))
+
+        result = self.control.execute(self.owner, operation(
+            "review.receipt", {"claim_id": claim_id}))["result"]
+
+        self.assertEqual(result["recommendation"]["recommendation"], "accept")
+        self.assertEqual(result["judge_job"], {
+            "state": "completed", "detail": "LM advice recorded."})
+        with self.control._db() as connection:
+            job = connection.execute(
+                "SELECT state, detail FROM hosted_judge_jobs WHERE claim_id=?",
+                (claim_id,)).fetchone()
+        self.assertEqual((job["state"], job["detail"]),
+                         ("completed", "LM advice recorded."))
+
     def test_activating_automatic_policy_enqueues_existing_candidates(self):
         cid = self.proposal("existing")["result"]["claim"]["id"]
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}), \
