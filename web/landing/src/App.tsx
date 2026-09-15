@@ -111,10 +111,10 @@ export function App() {
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="heroCopy">
             <h1 id="hero-title">
-              Verified knowledge<br /> infrastructure.
+              Verified knowledge infra for AI research teams.
             </h1>
-            <p className="heroAudience">For agent-native research teams.</p>
-            <p className="heroLead">Turn research output into knowledge your team can build on.</p>
+            <p className="heroAudience">Reuse trusted findings. Reduce repeated work.</p>
+            <p className="heroLead">Spend less time and compute rebuilding context—and more on new research.</p>
             <div className="heroActions" aria-label="Get started">
               <ButtonLink href="#partners">Explore a design partnership <Arrow /></ButtonLink>
               <ButtonLink href={repoUrl} variant="secondary">Explore open source on GitHub</ButtonLink>
@@ -129,13 +129,13 @@ export function App() {
             <div className="handoffProblems" aria-label="Two failures behind the intelligence gap">
               <div className="handoffProblem">
                 <span>UNVERIFIED</span>
-                <h3>Output scales. Verification doesn’t.</h3>
-                <p>Claims travel without evidence, review, or clear limits.</p>
+                <h3>Researchers rebuild trust.</h3>
+                <p>Without evidence and clear limits, researchers spend time checking the same findings again.</p>
               </div>
               <div className="handoffProblem">
                 <span>SCATTERED</span>
-                <h3>Agents learn. Research teams forget.</h3>
-                <p>Dead ends disappear. Teams repeat them.</p>
+                <h3>Agents repeat work.</h3>
+                <p>When findings and failed approaches get lost, agents repeat analysis and experiments—using more time and compute.</p>
               </div>
             </div>
           </div>
@@ -149,7 +149,7 @@ export function App() {
             <thead><tr><th scope="col">Research tools</th><th scope="col">What they capture</th><th scope="col">What gets lost</th></tr></thead>
             <tbody>
               <tr><th scope="row">Observability</th><td data-label="What they capture">Traces &amp; execution</td><td data-label="What gets lost">Findings within the noise</td></tr>
-              <tr><th scope="row">Experiment trackers</th><td data-label="What they capture">Runs, metrics &amp; artifacts</td><td data-label="What gets lost">What the team learned</td></tr>
+              <tr><th scope="row">Experiment trackers</th><td data-label="What they capture">Runs, metrics &amp; artifacts</td><td data-label="What gets lost">Findings &amp; their limits</td></tr>
               <tr><th scope="row">Papers &amp; reports</th><td data-label="What they capture">Selected findings</td><td data-label="What gets lost">Dead ends &amp; decision history</td></tr>
             </tbody>
           </table>
@@ -194,7 +194,7 @@ export function App() {
               </div>
             </div>
             <div className="productSystemFooter">
-              <p className="productClosingStatement">Verified. Governed. Cumulative.</p>
+              <p className="productClosingStatement">Less repeated work. More time for new research.</p>
               <figcaption id="ledger-system-note">Evidence, scope, approval, use, and outcomes stay attached to the claim. · Illustrative record</figcaption>
             </div>
           </figure>
@@ -219,21 +219,27 @@ export function App() {
         <section className="intelligenceLoop" id="intelligence-loop" aria-labelledby="intelligence-loop-title">
           <div className="loopIntro loopIntroSolo">
             <h2 id="intelligence-loop-title">The learning loop.</h2>
-            <p className="loopAnalogy">Self-evolving knowledge.</p>
           </div>
-          <div className="learningSteps" aria-label="The learning cycle">
-            <details name="learning-cycle" open>
-              <summary><span className="learningNumber">01</span><h3>Use governed context</h3><span className="learningToggle" aria-hidden="true" /></summary>
-              <p>Agents build new work and claims on admitted knowledge.</p>
-            </details>
-            <details name="learning-cycle">
-              <summary><span className="learningNumber">02</span><h3>Evaluate outcomes</h3><span className="learningToggle" aria-hidden="true" /></summary>
-              <p>Connect results to the knowledge and claims that shaped them.</p>
-            </details>
-            <details name="learning-cycle">
-              <summary><span className="learningNumber">03</span><h3>Refine knowledge</h3><span className="learningToggle" aria-hidden="true" /></summary>
-              <p>Use new evidence to reinforce, revise, or retire findings.</p>
-            </details>
+          <svg className="compoundingGraph" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <g className="graphEdges">
+              <path d="M80 402L188 336L252 438L188 506L80 402M188 336L252 438" />
+              <path d="M252 438L418 318L514 404L604 276L706 384L790 250" />
+              <path d="M418 318L484 220L604 276M514 404L620 502L706 384M604 276L690 180L790 250" />
+              <path d="M790 250L906 192L982 286L1080 178L1174 268L1296 202L1372 292" />
+              <path d="M706 384L850 442L982 286L1062 404L1174 268L1248 430L1372 292" />
+              <path d="M850 442L942 524L1062 404L1144 516L1248 430L1354 506" />
+              <path d="M906 192L970 112L1080 178L1162 96L1296 202M982 286L1080 178M1062 404L1174 268M1144 516L1248 430" />
+            </g>
+            <g className="graphNodes">
+              <circle cx="80" cy="402" r="7" /><circle cx="188" cy="336" r="9" /><circle cx="252" cy="438" r="8" /><circle cx="188" cy="506" r="6" />
+              <circle cx="418" cy="318" r="8" /><circle cx="484" cy="220" r="6" /><circle cx="514" cy="404" r="10" /><circle cx="604" cy="276" r="8" /><circle cx="620" cy="502" r="6" /><circle cx="690" cy="180" r="7" /><circle cx="706" cy="384" r="11" /><circle cx="790" cy="250" r="8" />
+              <circle cx="850" cy="442" r="8" /><circle cx="906" cy="192" r="10" /><circle cx="942" cy="524" r="6" /><circle cx="970" cy="112" r="7" /><circle cx="982" cy="286" r="12" /><circle cx="1062" cy="404" r="9" /><circle cx="1080" cy="178" r="11" /><circle cx="1144" cy="516" r="7" /><circle cx="1162" cy="96" r="6" /><circle cx="1174" cy="268" r="13" /><circle cx="1248" cy="430" r="11" /><circle cx="1296" cy="202" r="9" /><circle cx="1354" cy="506" r="7" /><circle cx="1372" cy="292" r="10" />
+            </g>
+          </svg>
+          <div className="organizationStory" aria-label="The long-term outcome of continuous organizational learning">
+            <div><span>01 USE GOVERNED CONTEXT</span><strong>Agents build new work and claims on admitted knowledge.</strong></div>
+            <div><span>02 EVALUATE OUTCOMES</span><strong>Connect results to the knowledge and claims that shaped them.</strong></div>
+            <div><span>03 REFINE KNOWLEDGE</span><strong>Use new evidence to reinforce, revise, or retire findings.</strong></div>
           </div>
           <p className="organizationOutcome">A trusted foundation for recursive self-improvement.</p>
         </section>
