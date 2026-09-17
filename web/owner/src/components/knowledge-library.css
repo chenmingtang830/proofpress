@@ -47,10 +47,10 @@
 .knowledgeMissing, .knowledgeBoundary { color: var(--ink-2); }
 .knowledgeScope .knowledgeBoundary { font-size: 12px; margin-top: 14px; }
 .knowledgeEvidence { border-top: 1px solid var(--line); }
-.knowledgeEvidence > summary { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 20px 0; cursor: pointer; font: 500 14px/1.5 var(--font-ui); }
-.knowledgeEvidence > summary::before { content: "+"; color: var(--accent); font-size: 18px; }
-.knowledgeEvidence[open] > summary::before { content: "−"; }
-.knowledgeEvidence > summary > span { margin-left: auto; color: var(--ink-2); font: 12px var(--font-ui); }
+.knowledgeEvidence > [data-slot="collapsible-trigger"] { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 20px 0; cursor: pointer; font: 500 14px/1.5 var(--font-ui); }
+.knowledgeEvidence > [data-slot="collapsible-trigger"]::before { content: "+"; color: var(--accent); font-size: 18px; }
+.knowledgeEvidence[open] > [data-slot="collapsible-trigger"]::before { content: "−"; }
+.knowledgeEvidence > [data-slot="collapsible-trigger"] > span { margin-left: auto; color: var(--ink-2); font: 12px var(--font-ui); }
 .knowledgeEvidence > section { padding: 4px 0 22px; }
 .knowledgeEvidence h4 { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
 .knowledgeEvidence pre { white-space: pre-wrap; overflow-wrap: anywhere; }

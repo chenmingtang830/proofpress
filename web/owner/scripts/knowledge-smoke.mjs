@@ -30,12 +30,12 @@ export async function inspectKnowledge(page, data) {
   assert.match(await record.locator('.knowledgeAttribution').textContent(),/human:browser-test/);
   assert.match(await record.textContent(),/No explicit validity conditions recorded/);
   assert.equal(await record.getByRole('button',{name:'Approve',exact:true}).count(),0);
-  const evidence = record.locator('details').filter({has:page.locator('summary').filter({hasText:'Supporting evidence'})});
-  assert.equal(await evidence.getAttribute('open'),null);
-  await evidence.locator(':scope > summary').click();
+  const evidence = record.locator('[data-slot=collapsible]').filter({has:page.locator('[data-slot=collapsible-trigger]').filter({hasText:'Supporting evidence'})});
+  assert.equal(await evidence.getAttribute('data-state'),'closed');
+  await evidence.locator(':scope > [data-slot=collapsible-trigger]').click();
   await evidence.locator('.technicalDetails').waitFor();
   assert.match(await evidence.textContent(),/Browser fixture approve:/);
-  await evidence.locator(':scope > summary').click();
+  await evidence.locator(':scope > [data-slot=collapsible-trigger]').click();
   await record.getByRole('button',{name:'Close record',exact:true}).press('Escape');
   await page.waitForFunction(()=>document.activeElement?.closest('.knowledgeList') !== null);
   assert.equal(await record.count(),0);
@@ -53,7 +53,7 @@ export async function inspectKnowledge(page, data) {
     if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/knowledge-record-${width}.png`});
     if(width === 390) {
       assert.equal(await record.getByRole('button',{name:'Close record',exact:true}).evaluate(el=>document.activeElement===el),true);
-      await record.locator('.knowledgeEvidence summary').first().click();
+      await record.locator('.knowledgeEvidence [data-slot=collapsible-trigger]').first().click();
       await record.locator('.knowledgeEvidence').first().scrollIntoViewIfNeeded();
       if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/knowledge-evidence-${width}.png`});
     }

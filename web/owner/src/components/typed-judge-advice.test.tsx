@@ -7,7 +7,7 @@ import { applyProviderPreset } from "./review-policy";
 it("preserves the legacy receipt and identifies typed advice as experimental", () => {
   expect(renderToStaticMarkup(<TypedJudgeAdvice />)).toBe("");
   const html = renderToStaticMarkup(<TypedJudgeAdvice audit={{backend:"jev", requested_model:"jev-latest", response_model:"jev-test", mapping_version:"jev-conservative/v1", latency_ms:10, answers:{recommendation:{type:"choice",confidence:.9,probabilities:{accept:.98,reject:.01,escalate:.01}}}}} />);
-  expect(html).toContain("Jev structured advice · experimental");
+  expect(html).toContain("Jev review details · experimental");
   expect(html).not.toContain("Approved");
 });
 

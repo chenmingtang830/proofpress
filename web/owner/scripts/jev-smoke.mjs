@@ -39,7 +39,7 @@ try {
   await page.getByLabel('Model provider',{exact:true}).selectOption('vercel_jev');
   assert.equal(await page.getByLabel('Model',{exact:true}).inputValue(),'typesafe-ai/jev');
   await page.getByLabel('Require Vercel Gateway Zero Data Retention routing').check();
-  await page.getByLabel('LM review',{exact:true}).selectOption('manual');
+  await page.getByLabel('Model review',{exact:true}).selectOption('manual');
   await page.getByLabel('Human decision anytime',{exact:false}).check();
   await page.getByLabel('API key',{exact:true}).fill('synthetic-jev-browser-key');
   await page.getByLabel('Allow external model processing for this workspace').check();
@@ -50,28 +50,32 @@ try {
   assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'vercel_jev');
   assert.equal(await page.getByLabel('API key',{exact:true}).inputValue(),'');
   assert.ok(!(await page.locator('body').innerText()).includes('synthetic-jev-browser-key'));
-  await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
+  await page.goto(`${data.base}/review?claim_id=${data.ids[0]}&view=full`);
   await page.getByRole('button',{name:'Run deterministic checks',exact:true}).click();
-  await page.getByRole('button',{name:'Run optional LM review',exact:true}).click();
-  await page.getByRole('button',{name:'Run LM review',exact:true}).click();
-  await page.getByRole('button',{name:'Jev structured advice · experimental',exact:true}).waitFor();
-  await page.getByRole('button',{name:'Jev structured advice · experimental',exact:true}).click();
+  await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
+  await page.getByRole('button',{name:'Run model review',exact:true}).click();
+  await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).click();
   await page.getByText('Distribution confidence',{exact:true}).waitFor();
   const text = await page.locator('body').innerText();
   assert.match(text,/typesafe-ai\/jev/);
   assert.match(text,/Human Approval remains required/);
+  assert.match(text,/Powered by Jev · Advisory/);
   assert.match(text,/98\.0%/);
   assert.match(text,/0\.950/);
+  await page.getByRole('button',{name:'Dismiss model review status'}).click();
   const screenshots = process.env.QA_SCREENSHOTS;
   if (screenshots) await mkdir(screenshots,{recursive:true});
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:width === 390 ? 844 : 1024});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+    assert.equal(await page.getByRole('table',{name:'Recommendation distribution'}).count(),1);
+    assert.equal(await page.getByRole('table',{name:'Evidence assessment'}).count(),1);
     await page.getByText('Distribution confidence',{exact:true}).scrollIntoViewIfNeeded();
     if (screenshots) await page.screenshot({path:`${screenshots}/jev-review-${width}.png`,fullPage:true});
   }
   await page.setViewportSize({width:1536,height:1024});
-  const disclosure = page.getByRole('button',{name:'Jev structured advice · experimental',exact:true});
+  const disclosure = page.getByRole('button',{name:'Jev review details · experimental',exact:true});
   await disclosure.focus();
   await page.keyboard.press('Space');
   assert.equal(await disclosure.getAttribute('aria-expanded'),'false');
@@ -84,8 +88,12 @@ try {
   assert.deepEqual(errors,[]);
   assert.equal((await page.request.get(`${data.base}/readyz`)).status(),200);
   console.log(JSON.stringify({ok:true,mode:'offline synthetic Jev',viewports:[1536,1024,390],browserErrors:errors}));
+  await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
+  await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).click();
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+  if (screenshots) await page.screenshot({path:`${screenshots}/jev-sidebar.png`,fullPage:true});
   if (process.env.QA_KEEP_OPEN === '1') {
-    await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
+    await page.goto(`${data.base}/review?claim_id=${data.ids[0]}&view=full`);
     console.log(`Synthetic preview open at ${data.base}. Press Enter to close.`);
     await new Promise(resolve => process.stdin.once('data',resolve));
   }

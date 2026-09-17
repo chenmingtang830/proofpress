@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "./ui/button";
 import { claimDisplayTitle } from "./claim-display";
@@ -12,7 +13,7 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
   const applicability = receipt.claim.applicability || {};
   const boundary = receipt.claim.scope || applicability.title || applicability.description || "No reuse boundary recorded";
   const contextTitle = receipt.claim.scope ? `Scope: ${receipt.claim.scope}` : boundary;
-  const node = (id:string, x:number, y:number, title:string, label:string, meta:string, kind:string) => <button key={id} className={`graphNode ${kind}`} style={{left:`${x/920*100}%`,top:y}} aria-pressed={selection === id} onClick={() => onSelect(id)}><small>{label}</small><strong>{title}</strong><span>{meta}</span></button>;
+  const node = (id:string, x:number, y:number, title:string, label:string, meta:string, kind:string) => <Button variant="ghost" size="content" key={id} className={`graphNode ${kind}`} style={{left:`${x/920*100}%`,top:y}} aria-pressed={selection === id} onClick={() => onSelect(id)}><small>{label}</small><strong>{title}</strong><span>{meta}</span></Button>;
   return <div className="lineageDiagram">
     <div className="graphScroll" tabIndex={0} aria-label="Lineage: evidence, claim, and governed context">
       <div className="graphPlane" style={{"--graph-height": `${height}px`} as React.CSSProperties}>

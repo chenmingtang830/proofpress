@@ -1,3 +1,5 @@
+import { Alert } from "./ui/alert";
+import { Textarea } from "@/components/ui/textarea";
 import React from "react";
 import { Check } from "./ui/icon";
 import { Button } from "./ui/button";
@@ -9,7 +11,7 @@ export function revisionInstructions(r: any) {
 
 export function DecisionNotice({state, children}: any) {
   const title = state === "needs_revision" ? "Changes requested" : state === "admitted" ? "Approved for reuse" : state === "rejected" ? "Rejected" : "Not available for reuse";
-  return <div className="decisionNotice" data-state={state} role="status"><Check aria-hidden="true" /><div><strong>{title}</strong>{children}</div></div>;
+  return <Alert className="decisionNotice" data-state={state} role="status"><Check aria-hidden="true" /><div><strong>{title}</strong>{children}</div></Alert>;
 }
 
 export function RevisionInstructions({receipt, autoCopy = false}: any) {
@@ -26,7 +28,7 @@ export function RevisionInstructions({receipt, autoCopy = false}: any) {
   if (!text) return <p>Revision receipt unavailable. Refresh this page to retry.</p>;
   return <div className="handoffInstructions">
     {autoCopy && <p className={status === "copied" ? "copySuccess" : ""} role="status">{status === "copied" && <Check />}{status === "copied" ? "Copied to clipboard. Paste into your agent." : status === "failed" ? "Your browser blocked automatic copying." : "Copying instructions…"}</p>}
-    {status === "failed" && <textarea ref={field} readOnly aria-label="Revision instructions" value={text} />}
+    {status === "failed" && <Textarea ref={field} readOnly aria-label="Revision instructions" value={text} />}
     {!autoCopy && status === "copied" ? <span className="copySuccess" role="status"><Check />Copied to clipboard</span> : (!autoCopy || status === "failed") && <Button variant="outline" disabled={status === "copying"} onClick={() => void copy()}>{status === "copying" ? "Copying…" : "Copy instructions for agent"}</Button>}
     {status === "failed" && <Button variant="outline" onClick={() => { field.current?.focus(); field.current?.select(); }}>Select instructions</Button>}
   </div>;

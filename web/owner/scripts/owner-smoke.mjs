@@ -175,7 +175,7 @@ try {
   const rationale = 'The bound source directly supports the exact claim and its stated reuse boundary.';
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,recommendation:{recommendation:'accept',rationale},judge_job:{state:'failed',detail:'stale failure'}}}}));
   await page.reload();
-  await page.getByRole('button',{name:/LM rationale/,exact:false}).click();
+  await page.getByRole('button',{name:/model rationale/,exact:false}).click();
   await page.getByText(rationale,{exact:true}).waitFor();
   assert.equal(await page.getByText('stale failure',{exact:true}).count(),0);
   await page.unroute(`**/owner/api/claims/${data.ids[0]}`);

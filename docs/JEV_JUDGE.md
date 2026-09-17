@@ -84,7 +84,8 @@ Changing provider requires a matching replacement key; the host's local
 `AI_GATEWAY_API_KEY` / `TYPESAFE_API_KEY` is intentionally not used as a shared tenant fallback.
 
 Run deterministic checks, then request model review. The review page shows the
-Jev template summary and an expandable structured-advice panel with probabilities,
+Model review result with receipt-based “Powered by Jev · Advisory” attribution, a
+Jev template summary, and an expandable shadcn Card/Table panel with probabilities,
 confidence, model, latency, and mapping version. After manual validation, the existing
 **After checks pass** mode can schedule the same adapter. That setting controls
 when advice runs; it does not enable automatic admission. Direct TypeSafe integration
@@ -122,6 +123,7 @@ node --test src/proofpress/hosted/jev_gateway/bridge.test.mjs
 PYTHONPATH=src python -m unittest discover -s tests -p 'test_jev_judge.py' -v
 PYTHONPATH=src python -m unittest discover -s tests -v
 npm ci --prefix web/owner
+npm --prefix web/owner run check:components
 npm --prefix web/owner test
 npm --prefix web/owner run build
 npm --prefix web/owner run test:jev
