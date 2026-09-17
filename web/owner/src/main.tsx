@@ -1,3 +1,4 @@
+import { TypedJudgeAdvice, type DecisionAudit } from "./components/typed-judge-advice";
 import React from "react";
 import { createRoot } from "react-dom/client";
 import * as Tabs from "@radix-ui/react-tabs";
@@ -62,7 +63,7 @@ type Receipt = {
   };
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean> };
-  recommendation?: { recommendation?: string; rationale?: string };
+  recommendation?: { recommendation?: string; rationale?: string; decision_audit?: DecisionAudit };
   revision_request?: any;
   revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
   reproposal_parent?: {id:string;statement:string;evidence_refs:string[];new_evidence_refs?:string[];reused_evidence_refs?:string[];reproposal_response?:string;rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
@@ -518,7 +519,7 @@ function App() {
         inputSchema: {
           type: "object",
           properties: {
-            provider: { type: "string", enum: ["openrouter", "openai", "azure_openai", "anthropic", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "custom"] },
+            provider: { type: "string", enum: ["openrouter", "openai", "azure_openai", "anthropic", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "typesafe", "custom"] },
             endpoint: { type: "string" },
             model: { type: "string" },
             criteria: { type: "string", maxLength: 8000 },
@@ -1264,7 +1265,8 @@ function Inspector({
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
         {can && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="applicability"><AccordionTrigger>Applicability & conditions</AccordionTrigger><AccordionContent className="pt-2"><ApplicabilityPanel claim={r.claim} /></AccordionContent></AccordionItem></Accordion> : <Card className="m-5 shadow-none"><CardContent className="p-5"><ApplicabilityPanel claim={r.claim} compact /></CardContent></Card>)}
-        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">LM rationale <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
+        <TypedJudgeAdvice audit={r.recommendation?.decision_audit} />
+        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">{r.recommendation.decision_audit ? "Jev template summary" : "LM rationale"} <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>{r.recommendation.decision_audit ? "Jev template summary" : "Why the LM reached this advice"}</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>

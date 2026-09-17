@@ -30,8 +30,16 @@ PROVIDERS = {
 }
 
 
-def judge(packet, model=DEFAULT_MODEL, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
-    key = os.environ.get("PROOFPRESS_JUDGE_API_KEY", "").strip() or os.environ.get("OPENROUTER_API_KEY", "").strip()
+def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
+    model = model or ("jev-latest" if provider == "typesafe" else DEFAULT_MODEL)
+    if provider == "typesafe":
+        from .jev import judge as jev_judge
+        if endpoint and endpoint != "https://api.typesafe.ai/v1/systemone":
+            raise ValueError("TypeSafe uses its fixed System One endpoint")
+        return jev_judge(packet, model=model, criteria=criteria, opener=opener)
+    key = (os.environ.get("PROOFPRESS_JUDGE_API_KEY") if "PROOFPRESS_JUDGE_API_KEY" in os.environ
+           else os.environ.get("OPENROUTER_API_KEY", "") if provider == "openrouter" else "") or ""
+    key = key.strip()
     if not key:
         raise ValueError("Judge API key is not configured")
     packed = json.dumps(packet, ensure_ascii=False)
@@ -84,7 +92,7 @@ def judge(packet, model=DEFAULT_MODEL, provider="openrouter", endpoint="", crite
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--model", default=None)
     parser.add_argument("--provider", default="openrouter")
     parser.add_argument("--endpoint", default="")
     parser.add_argument("--criteria", default="")
@@ -94,7 +102,7 @@ def main():
         raw = sys.stdin.buffer.read(MAX_PACKET_BYTES + 1)
         if len(raw) > MAX_PACKET_BYTES:
             raise ValueError("Judge evidence packet exceeds the bounded input limit")
-        print(json.dumps(judge(json.loads(raw), args.model, args.provider, args.endpoint, args.criteria, args.zdr)))
+        print(json.dumps(judge(json.loads(raw), args.model or ("jev-latest" if args.provider == "typesafe" else DEFAULT_MODEL), args.provider, args.endpoint, args.criteria, args.zdr)))
     except Exception:
         print("Advisory judge failed; check configuration or retry.", file=sys.stderr)
         return 1

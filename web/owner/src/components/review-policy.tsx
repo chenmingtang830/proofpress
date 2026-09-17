@@ -107,7 +107,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
             <option value="__custom__">Enter another model ID…</option>
           </select>}
             {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
-            <small>Choose one of 10 ranked defaults or enter another supported model ID.</small></label>
+            <small>Choose a provider model or enter another supported model ID.</small></label>
           <label>LM review<select aria-label="LM review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></select></label>
           {selectedProvider?.endpoint_required && <label className="wide">HTTPS endpoint<input type="url" required={settings.mode!=="off"} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} /></label>}
         </div>
@@ -117,6 +117,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
           {!record.credential.storage_ready && <p className="policyWarning">Secure credential storage is unavailable on this deployment.</p>}
         </div>
       </fieldset>
+      {settings.provider === "typesafe" && <p className="policyWarning">Jev is experimental. It returns typed decisions and a template summary, not a generated explanation. Test with your own labeled evidence before relying on its advice.</p>}
       <fieldset><legend>Evaluation</legend>
         <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
         <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>

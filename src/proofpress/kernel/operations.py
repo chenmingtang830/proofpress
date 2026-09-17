@@ -605,9 +605,16 @@ def load_v2_policy():
     # enabling/changing this requires revalidation of existing admissions.
     model = os.environ.get("PROOFPRESS_JUDGE_MODEL", "").strip()
     if model and not item["judge"]["command"]:
-        item["judge"] = {"identity": "judge:openrouter-advisory",
-                         "command": [sys.executable, "-m", "proofpress.hosted.judge", "--model", model],
-                         "timeout_seconds": 60}
+        provider = os.environ.get("PROOFPRESS_JUDGE_PROVIDER", "openrouter").strip()
+        if provider not in {"openrouter", "typesafe"}:
+            raise ValueError("Environment judge provider must be openrouter or typesafe; use policy configuration for other providers")
+        command = [sys.executable, "-m", "proofpress.hosted.judge", "--model", model]
+        if provider != "openrouter":
+            command.extend(["--provider", provider])
+        item["judge"] = {"identity": f"judge:{provider}-advisory",
+                         "command": command, "timeout_seconds": 60}
+        if provider == "typesafe":
+            item["judge"]["decision_contract"] = "proofpress-jev-judge/v1"
     for role in ("verification", "judge"):
         identity = item[role].get("identity")
         if not isinstance(identity, str) or not identity.strip():
@@ -1387,6 +1394,15 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=N
     return event
 
 
+def _decision_audit_fields(verdict):
+    """Additive typed-advice metadata; legacy command responses remain valid."""
+    audit = verdict.get("decision_audit")
+    if audit is None:
+        return {}
+    from proofpress.hosted.jev import validate_audit
+    return {"decision_audit": validate_audit(audit, verdict["recommendation"])}
+
+
 def judge_relation_v2(rid, actor=None):
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
     row = projection["relations"].get(rid)
@@ -1407,6 +1423,9 @@ def judge_relation_v2(rid, actor=None):
               "relation": row,
               "from_claim": projection["claims"][row["from"]],
               "to_claim": projection["claims"][row["to"]],
+              "evidence": [projection["evidence"][ref] for ref in sorted(set(
+                  projection["claims"][row["from"]]["evidence_refs"] +
+                  projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]],
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
               "policy": _judge_policy_payload(policy),
               "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
@@ -1433,7 +1452,7 @@ def judge_relation_v2(rid, actor=None):
                       "recommendation": verdict["recommendation"],
                       "rationale": verdict["rationale"],
                       "adapter": verdict.get("adapter", command[0]),
-                      "model": verdict.get("model")}, existing_rows=events)
+                      "model": verdict.get("model"), **_decision_audit_fields(verdict)}, existing_rows=events)
 
 
 def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
@@ -1651,8 +1670,11 @@ def judge_v2(cid, actor=None):
     if reproposal_parent:
         packet["reproposal_parent"] = reproposal_parent
     try:
+        environment = os.environ.copy()
+        environment.update(_judge_environment.get() or {})
         result = subprocess.run(command, input=json.dumps(packet), text=True,
-                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
+                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
+                                env=environment)
     except subprocess.TimeoutExpired as exc:
         raise ValueError("judge command timed out") from exc
     if result.returncode:
@@ -1671,7 +1693,7 @@ def judge_v2(cid, actor=None):
                        "recommendation": verdict["recommendation"],
                        "rationale": verdict["rationale"],
                        "adapter": verdict.get("adapter", command[0]),
-                       "model": verdict.get("model")})
+                       "model": verdict.get("model"), **_decision_audit_fields(verdict)})
     return event
 
 
@@ -1719,8 +1741,11 @@ def judge_batch_v2(scope, actor=None):
         "policy": _judge_policy_payload(policy),
     }
     try:
+        environment = os.environ.copy()
+        environment.update(_judge_environment.get() or {})
         result = subprocess.run(command, input=json.dumps(packet), text=True,
-                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
+                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
+                                env=environment)
     except subprocess.TimeoutExpired as exc:
         raise ValueError("batch judge command timed out") from exc
     if result.returncode: raise ValueError("batch judge command failed: " + result.stderr.strip())
@@ -1738,6 +1763,7 @@ def judge_batch_v2(scope, actor=None):
             raise ValueError("batch judge risk_level must be low, medium, or high")
         if not isinstance(verdict.get("rationale"), str) or not verdict["rationale"].strip():
             raise ValueError("batch judge rationale is required")
+        _decision_audit_fields(verdict)
         seen[cid] = verdict
     if set(seen) != expected: raise ValueError("batch judge omitted one or more claims")
     transaction = append_v2({"type": "judge_batch_completed",
@@ -1758,10 +1784,12 @@ def judge_batch_v2(scope, actor=None):
                            "judge_config_digest": digest(policy["judge"]),
                            "recommendation": verdict["recommendation"], "rationale": verdict["rationale"],
                            "risk_level": verdict["risk_level"], "batch_receipt": transaction["event_id"],
-                           "adapter": response.get("adapter", command[0]), "model": response.get("model")},
+                           "adapter": response.get("adapter", command[0]), "model": response.get("model"),
+                           **_decision_audit_fields(verdict)},
                           existing_rows=events)
         recorded.append(event)
-        if verdict["risk_level"] == "high" or verdict["recommendation"] == "escalate":
+        if ((verdict["risk_level"] == "high" or verdict["recommendation"] == "escalate")
+                and not verdict.get("decision_audit")):
             individual.append({"claim_id": row["id"], "trigger": "high_risk" if verdict["risk_level"] == "high" else "escalated",
                                "receipt": judge_v2(row["id"])})
     return {"schema_version": "proofpress/judge-batch-result/v1", "scope": scope,

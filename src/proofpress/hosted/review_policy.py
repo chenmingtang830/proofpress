@@ -12,6 +12,8 @@ from proofpress.kernel import operations as kernel
 
 RUBRICS = {"evidence-support/v1": "Evidence support, source binding, missing evidence and limitations"}
 PROVIDERS = {
+    "typesafe": {"label": "TypeSafe · Jev (experimental)", "endpoint": "https://api.typesafe.ai/v1/systemone",
+                 "default_model": "jev-latest", "models": ["jev-latest"], "zdr": False},
     "openrouter": {"label": "OpenRouter", "endpoint": "https://openrouter.ai/api/v1/chat/completions", "default_model": "openai/gpt-6-astra", "models": ["openai/gpt-6-astra", "anthropic/claude-opus-5", "anthropic/claude-sonnet-5", "x-ai/grok-4.6", "openai/gpt-5.6-sol", "google/gemini-3.8-flash", "deepseek/deepseek-v4-flash", "mistralai/mistral-medium-3.5", "openai/gpt-5.6-terra", "openai/gpt-5.6-luna"], "zdr": True},
     "openai": {"label": "OpenAI", "endpoint": "https://api.openai.com/v1/chat/completions", "default_model": "gpt-6-astra", "models": ["gpt-6-astra", "gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5", "gpt-5.4", "gpt-5.4-pro", "gpt-5.4-mini", "gpt-5.4-nano", "gpt-5.3-codex"], "zdr": False},
     "azure_openai": {"label": "Azure OpenAI", "endpoint": "", "zdr": False,
@@ -92,9 +94,10 @@ def current(connection, workspace_id):
     policy = kernel.load_v2_policy()
     command = policy["judge"]["command"]
     model = command[command.index("--model") + 1] if "--model" in command else ""
+    provider = command[command.index("--provider") + 1] if "--provider" in command else "openrouter"
     return {"version": 0, "policy": policy, "actor": "deployment configuration",
             "updated_at": None, "settings": normalize({
-                "mode": "manual" if command else "off", "model": model,
+                "mode": "manual" if command else "off", "model": model, "provider": provider,
                 "rubric": "evidence-support/v1", "require_judge": bool(policy.get("require_judge")),
                 "external_consent": False})}
 
@@ -208,6 +211,8 @@ def validate(settings, prior):
         command.append("--zdr")
     policy["judge"] = {"identity": f"judge:{settings['provider']}-advisory", "timeout_seconds": 60,
                        "command": command if enabled else []}
+    if settings["provider"] == "typesafe":
+        policy["judge"]["decision_contract"] = "proofpress-jev-judge/v1"
     # The rubric is part of the model packet and policy digest, not arbitrary executable code.
     policy["review_rubric"] = settings["rubric"]
     policy["data_handling"] = {"external_processing": settings["external_consent"],
