@@ -32,7 +32,8 @@ def _probability(value):
 
 def questions_for(item, criteria="", target=""):
     relation = "relation" in item
-    subject = "the existing directed relation, including its declared type" if relation else "the claim as stated"
+    subject = ("the existing relation with its declared type and endpoint order "
+               "(contradicts and same_as are symmetric)" if relation else "the claim as stated")
     prefix = PREAMBLE + target
     questions = {
         "recommendation": {"type": "choice", "instructions": prefix + f"Assess {subject}.",
@@ -131,6 +132,8 @@ def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen):
         if not isinstance(response_model, str) or not 1 <= len(response_model) <= 160:
             raise ValueError("missing response model")
         usage = response.get("usage", {})
+        if not isinstance(usage, dict):
+            raise ValueError("invalid usage")
         clean_usage = {}
         for field in ("input_tokens", "output_tokens"):
             if field in usage:

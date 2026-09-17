@@ -66,9 +66,16 @@ try {
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:width === 390 ? 844 : 1024});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+    await page.getByText('Distribution confidence',{exact:true}).scrollIntoViewIfNeeded();
     if (screenshots) await page.screenshot({path:`${screenshots}/jev-review-${width}.png`,fullPage:true});
   }
   await page.setViewportSize({width:1536,height:1024});
+  const disclosure = page.getByRole('button',{name:'Jev structured advice · experimental',exact:true});
+  await disclosure.focus();
+  await page.keyboard.press('Space');
+  assert.equal(await disclosure.getAttribute('aria-expanded'),'false');
+  await page.keyboard.press('Space');
+  assert.equal(await disclosure.getAttribute('aria-expanded'),'true');
   for (const route of ['home','ledger','runs','activity','admin']) {
     await page.goto(`${data.base}/${route}`);
     assert.ok((await page.locator('body').innerText()).length > 30);

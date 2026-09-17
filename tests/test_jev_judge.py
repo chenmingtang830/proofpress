@@ -256,3 +256,23 @@ class JevHostedTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         receipt = self.execute("review.receipt", {"claim_id": cid})
         self.assertFalse(receipt.get("recommendation"))
+
+    def test_cycles_remain_blocked_and_duplicate_proposals_do_not_add_edges(self):
+        a, b = self.proposal("A"), self.proposal("B")
+        params = {"source_id": a, "target_id": b, "relation_type": "depends_on", "proposer": "agent:test"}
+        first = self.execute("relation.propose", params)
+        repeated = self.execute("relation.propose", params)
+        self.assertEqual(first["relation"]["id"], repeated["relation"]["id"])
+        reverse = self.execute("relation.propose", {**params, "source_id": b, "target_id": a})
+        rid = reverse["relation"]["id"]
+        evaluation = self.execute("relation.evaluate", {"relation_id": rid})
+        self.assertFalse(evaluation["checks"]["acyclic_when_directed"])
+        with patch.object(kernel.subprocess, "run", side_effect=self.run_adapter):
+            result = self.control.execute(self.agent, operation("relation.judge", {"relation_id": rid}))
+        self.assertFalse(result["ok"])
+        self.assertFalse(self.control.execute(self.owner, operation("relation.review", {
+            "relation_id": rid, "decision": "admit", "reviewer": "human:test"}))["ok"])
+        with patch.object(kernel.subprocess, "run") as run:
+            result = self.control.execute(self.agent, operation("relation.propose", {**params, "relation_type": "none"}))
+        self.assertFalse(result["ok"])
+        run.assert_not_called()

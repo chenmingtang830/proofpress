@@ -25,10 +25,10 @@ export function TypedJudgeAdvice({audit}: {audit?: DecisionAudit}) {
         <p>These are model estimates, not verified accuracy or permission to reuse. Human Approval remains required.</p>
         <dl className="decisionStack">
           {Object.entries(recommendation?.probabilities || {}).map(([label, value]) =>
-            <div key={label}><dt>Probability · {label}</dt><dd>{(value * 100).toFixed(1)}%</dd></div>)}
-          {typeof recommendation?.confidence === "number" && <div><dt>Distribution confidence</dt><dd>{recommendation.confidence.toFixed(3)}</dd></div>}
+            <div key={label}><dt>Probability · {label}</dt><dd className="shrink-0 whitespace-nowrap">{(value * 100).toFixed(1)}%</dd></div>)}
+          {typeof recommendation?.confidence === "number" && <div><dt>Distribution confidence</dt><dd className="shrink-0 whitespace-nowrap">{recommendation.confidence.toFixed(3)}</dd></div>}
           {Object.entries(questionLabels).map(([key, label]) => typeof audit.answers[key]?.noul === "number" ?
-            <div key={key}><dt>{label} · probability of yes</dt><dd>{(audit.answers[key].noul! * 100).toFixed(1)}%</dd></div> : null)}
+            <div key={key}><dt>{label} · probability of yes</dt><dd className="shrink-0 whitespace-nowrap">{(audit.answers[key].noul! * 100).toFixed(1)}%</dd></div> : null)}
         </dl>
         <small>{audit.response_model} · {audit.latency_ms} ms · {audit.mapping_version}. The accompanying rationale is a template summary of these answers.</small>
       </AccordionContent>
