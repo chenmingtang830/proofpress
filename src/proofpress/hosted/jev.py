@@ -5,7 +5,9 @@ import hashlib
 import json
 import math
 import os
+import subprocess
 import time
+from pathlib import Path
 from datetime import datetime, timezone
 from urllib.request import Request, urlopen
 
@@ -87,12 +89,12 @@ def _verdict(answers):
     return choice
 
 
-def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen):
+def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen, gateway=False, zdr=False):
     # An explicitly injected empty workspace credential must never fall back to a host key.
     key = (os.environ.get("PROOFPRESS_JUDGE_API_KEY") if "PROOFPRESS_JUDGE_API_KEY" in os.environ
-           else os.environ.get("TYPESAFE_API_KEY", "")) or ""
+           else os.environ.get("AI_GATEWAY_API_KEY" if gateway else "TYPESAFE_API_KEY", "")) or ""
     if not key.strip():
-        raise ValueError("TypeSafe API key is not configured")
+        raise ValueError("Jev provider API key is not configured")
     schema = packet.get("schema_version")
     batch = schema == "proofpress/judge-batch-request/v1"
     if batch:
@@ -115,15 +117,28 @@ def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen):
         groups.append(group)
         questions.update({f"item_{index}_{k}": v for k, v in group.items()})
     request_body = {"model": model, "state": state, "questions": questions}
+    if gateway:
+        if model != "typesafe-ai/jev":
+            raise ValueError("Vercel Jev requires model typesafe-ai/jev")
+        request_body["questions"] = {k: {**q, "type": "boolean" if q["type"] == "noul" else q["type"]}
+                                     for k, q in questions.items()}
+        request_body["providerOptions"] = {"gateway": {"zeroDataRetention": zdr}}
     body = json.dumps(request_body, ensure_ascii=False).encode()
     if len(body) > MAX_BYTES:
         raise ValueError("Judge evidence packet exceeds the bounded input limit")
-    request = Request(ENDPOINT, data=body, headers={"Authorization": "Bearer " + key.strip(),
-                                                  "Content-Type": "application/json"})
     started = time.monotonic()
     try:
-        with opener(request, timeout=45) as response:
-            raw = response.read(MAX_BYTES + 1)
+        if gateway:
+            result = subprocess.run(
+                ["node", str(Path(__file__).with_name("jev_gateway") / "bridge.mjs")],
+                input=body, capture_output=True, timeout=50,
+                env={**os.environ, "PROOFPRESS_JUDGE_API_KEY": key.strip()}, check=True)
+            raw = result.stdout
+        else:
+            request = Request(ENDPOINT, data=body, headers={"Authorization": "Bearer " + key.strip(),
+                                                          "Content-Type": "application/json"})
+            with opener(request, timeout=45) as response:
+                raw = response.read(MAX_BYTES + 1)
         if len(raw) > MAX_BYTES:
             raise ValueError("oversized response")
         response = json.loads(raw)
@@ -163,6 +178,11 @@ def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen):
                  "latency_ms": latency_ms, "usage": clean_usage,
                  "usage_scope": "request", "item_index": index,
                  "evaluated_at": datetime.now(timezone.utc).isoformat()}
+        if gateway:
+            audit["schema_version"] = "proofpress/decision-audit/v2"
+            audit["transport"] = {"provider": "vercel_jev", "sdk": "ai/7.0.105;@ai-sdk/gateway/4.0.85",
+                                  "response_model_source": "gateway-route", "zero_data_retention": zdr,
+                                  "answer_normalization": "boolean-to-noul;typesafe-confidence-by-question/v1"}
         verdict = {"recommendation": recommendation, "rationale": rationale,
                    "adapter": VERSION, "model": response_model, "decision_audit": audit}
         if batch:
@@ -180,11 +200,20 @@ def validate_audit(audit, recommendation):
                 "request_digest", "requested_model", "response_model", "questions", "answers",
                 "mapped_recommendation", "latency_ms", "usage", "usage_scope", "item_index", "evaluated_at"}
     try:
+        if isinstance(audit, dict) and audit.get("schema_version") == "proofpress/decision-audit/v2":
+            required.add("transport")
+            transport = audit.get("transport", {})
+            if (not isinstance(transport, dict) or type(transport.get("zero_data_retention")) is not bool or transport != {
+                "provider": "vercel_jev", "sdk": "ai/7.0.105;@ai-sdk/gateway/4.0.85",
+                "response_model_source": "gateway-route", "zero_data_retention": transport.get("zero_data_retention"),
+                "answer_normalization": "boolean-to-noul;typesafe-confidence-by-question/v1"}
+                    or audit.get("requested_model") != "typesafe-ai/jev" or audit.get("response_model") != "typesafe-ai/jev"):
+                raise ValueError("invalid gateway transport")
         if not isinstance(audit, dict) or set(audit) != required:
             raise ValueError("invalid fields")
         if len(json.dumps(audit, allow_nan=False).encode()) > 32_000:
             raise ValueError("oversized audit")
-        if (audit["schema_version"] != "proofpress/decision-audit/v1" or audit["backend"] != "jev"
+        if (audit["schema_version"] not in {"proofpress/decision-audit/v1", "proofpress/decision-audit/v2"} or audit["backend"] != "jev"
                 or audit["question_set_version"] != VERSION
                 or audit["mapping_version"] != "jev-conservative/v1"):
             raise ValueError("unknown audit version")

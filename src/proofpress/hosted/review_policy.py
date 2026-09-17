@@ -12,6 +12,8 @@ from proofpress.kernel import operations as kernel
 
 RUBRICS = {"evidence-support/v1": "Evidence support, source binding, missing evidence and limitations"}
 PROVIDERS = {
+    "vercel_jev": {"label": "Vercel AI Gateway · Jev (experimental)", "endpoint": "https://ai-gateway.vercel.sh/v4/ai",
+                   "default_model": "typesafe-ai/jev", "models": ["typesafe-ai/jev"], "zdr": True},
     "typesafe": {"label": "TypeSafe · Jev (experimental)", "endpoint": "https://api.typesafe.ai/v1/systemone",
                  "default_model": "jev-latest", "models": ["jev-latest"], "zdr": False},
     "openrouter": {"label": "OpenRouter", "endpoint": "https://openrouter.ai/api/v1/chat/completions", "default_model": "openai/gpt-6-astra", "models": ["openai/gpt-6-astra", "anthropic/claude-opus-5", "anthropic/claude-sonnet-5", "x-ai/grok-4.6", "openai/gpt-5.6-sol", "google/gemini-3.8-flash", "deepseek/deepseek-v4-flash", "mistralai/mistral-medium-3.5", "openai/gpt-5.6-terra", "openai/gpt-5.6-luna"], "zdr": True},
@@ -194,6 +196,8 @@ def validate(settings, prior):
     model = settings["model"]
     if not isinstance(model, str) or (model and not re.fullmatch(r"[A-Za-z0-9_.:/-]{1,160}", model)):
         raise ValueError("Use a provider/model identifier.")
+    if settings["provider"] == "vercel_jev" and settings["mode"] != "off" and model != "typesafe-ai/jev":
+        raise ValueError("Vercel Jev requires model typesafe-ai/jev.")
     criteria = settings["criteria"]
     if not isinstance(criteria, str) or len(criteria) > 8000:
         raise ValueError("Evaluation criteria must be 8,000 characters or fewer.")
@@ -207,16 +211,16 @@ def validate(settings, prior):
     policy["require_judge"] = settings["require_judge"]
     command = [sys.executable, "-m", "proofpress.hosted.judge", "--provider", settings["provider"],
                "--endpoint", endpoint, "--model", model, "--criteria", criteria]
-    if settings["provider"] == "openrouter" and settings["zdr"]:
+    if settings["provider"] in {"openrouter", "vercel_jev"} and settings["zdr"]:
         command.append("--zdr")
     policy["judge"] = {"identity": f"judge:{settings['provider']}-advisory", "timeout_seconds": 60,
                        "command": command if enabled else []}
-    if settings["provider"] == "typesafe":
+    if settings["provider"] in {"typesafe", "vercel_jev"}:
         policy["judge"]["decision_contract"] = "proofpress-jev-judge/v1"
     # The rubric is part of the model packet and policy digest, not arbitrary executable code.
     policy["review_rubric"] = settings["rubric"]
     policy["data_handling"] = {"external_processing": settings["external_consent"],
-                               "zero_data_retention": settings["provider"] == "openrouter" and settings["zdr"]}
+                               "zero_data_retention": settings["provider"] in {"openrouter", "vercel_jev"} and settings["zdr"]}
     policy["digest"] = kernel.digest({k: v for k, v in policy.items() if k != "digest"})
     return policy
 

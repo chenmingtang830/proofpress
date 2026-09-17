@@ -36,8 +36,9 @@ try {
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
   await page.goto(`${data.base}/admin`);
-  await page.getByLabel('Model provider',{exact:true}).selectOption('typesafe');
-  assert.equal(await page.getByLabel('Model',{exact:true}).inputValue(),'jev-latest');
+  await page.getByLabel('Model provider',{exact:true}).selectOption('vercel_jev');
+  assert.equal(await page.getByLabel('Model',{exact:true}).inputValue(),'typesafe-ai/jev');
+  await page.getByLabel('Require Vercel Gateway Zero Data Retention routing').check();
   await page.getByLabel('LM review',{exact:true}).selectOption('manual');
   await page.getByLabel('Human decision anytime',{exact:false}).check();
   await page.getByLabel('API key',{exact:true}).fill('synthetic-jev-browser-key');
@@ -46,7 +47,7 @@ try {
   await page.getByText('Policy v1 is active',{exact:true}).waitFor();
   await page.reload();
   await page.getByLabel('Model provider',{exact:true}).waitFor();
-  assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'typesafe');
+  assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'vercel_jev');
   assert.equal(await page.getByLabel('API key',{exact:true}).inputValue(),'');
   assert.ok(!(await page.locator('body').innerText()).includes('synthetic-jev-browser-key'));
   await page.goto(`${data.base}/review?claim_id=${data.ids[0]}`);
@@ -57,7 +58,7 @@ try {
   await page.getByRole('button',{name:'Jev structured advice · experimental',exact:true}).click();
   await page.getByText('Distribution confidence',{exact:true}).waitFor();
   const text = await page.locator('body').innerText();
-  assert.match(text,/jev-OFFLINE-FIXTURE/);
+  assert.match(text,/typesafe-ai\/jev/);
   assert.match(text,/Human Approval remains required/);
   assert.match(text,/98\.0%/);
   assert.match(text,/0\.950/);

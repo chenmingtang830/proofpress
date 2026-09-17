@@ -606,14 +606,14 @@ def load_v2_policy():
     model = os.environ.get("PROOFPRESS_JUDGE_MODEL", "").strip()
     if model and not item["judge"]["command"]:
         provider = os.environ.get("PROOFPRESS_JUDGE_PROVIDER", "openrouter").strip()
-        if provider not in {"openrouter", "typesafe"}:
-            raise ValueError("Environment judge provider must be openrouter or typesafe; use policy configuration for other providers")
+        if provider not in {"openrouter", "typesafe", "vercel_jev"}:
+            raise ValueError("Environment judge provider must be openrouter, typesafe, or vercel_jev; use policy configuration for other providers")
         command = [sys.executable, "-m", "proofpress.hosted.judge", "--model", model]
         if provider != "openrouter":
             command.extend(["--provider", provider])
         item["judge"] = {"identity": f"judge:{provider}-advisory",
                          "command": command, "timeout_seconds": 60}
-        if provider == "typesafe":
+        if provider in {"typesafe", "vercel_jev"}:
             item["judge"]["decision_contract"] = "proofpress-jev-judge/v1"
     for role in ("verification", "judge"):
         identity = item[role].get("identity")

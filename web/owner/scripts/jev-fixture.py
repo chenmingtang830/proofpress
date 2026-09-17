@@ -32,12 +32,19 @@ def fake_http(request, timeout):
 
 
 def offline_run(command, *args, **kwargs):
+    if command[0] == "node" and command[-1].endswith("bridge.mjs"):
+        from urllib.request import Request
+        response = json.loads(fake_http(Request("https://fixture.invalid", data=kwargs["input"]), 45).read())
+        response["model"] = "typesafe-ai/jev"
+        return subprocess.CompletedProcess(command, 0, json.dumps(response).encode(), b"")
     if "proofpress.hosted.judge" not in command:
         return original_run(command, *args, **kwargs)
-    if "typesafe" not in command:
+    if not {"typesafe", "vercel_jev"}.intersection(command):
         return subprocess.CompletedProcess(command, 1, "", "Offline fixture only supports TypeSafe")
     with patch.dict(os.environ, kwargs["env"], clear=True):
-        result = jev.judge(json.loads(kwargs["input"]), opener=fake_http)
+        gateway = "vercel_jev" in command
+        result = jev.judge(json.loads(kwargs["input"]), model="typesafe-ai/jev" if gateway else "jev-latest",
+                           opener=fake_http, gateway=gateway, zdr="--zdr" in command)
     return subprocess.CompletedProcess(command, 0, json.dumps(result), "")
 
 

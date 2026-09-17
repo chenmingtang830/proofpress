@@ -104,7 +104,7 @@ APEX-specific rubrics and task logic remain outside Proofpress core.
 [//]: # (ob:5d269544)
 ## Optional experimental Jev judge
 
-[TypeSafe Jev integration](JEV_JUDGE.md) adds an opt-in typed advisory backend
+[Jev via Vercel Gateway or TypeSafe direct](JEV_JUDGE.md) adds an opt-in typed advisory backend
 for existing claims and relations. Deterministic evaluation and Human Approval
 remain separate. Existing provider defaults are unchanged; use an isolated test
 workspace before considering production.

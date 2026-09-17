@@ -31,7 +31,12 @@ PROVIDERS = {
 
 
 def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
-    model = model or ("jev-latest" if provider == "typesafe" else DEFAULT_MODEL)
+    model = model or ({"typesafe": "jev-latest", "vercel_jev": "typesafe-ai/jev"}.get(provider, DEFAULT_MODEL))
+    if provider == "vercel_jev":
+        from . import jev
+        if endpoint and endpoint != "https://ai-gateway.vercel.sh/v4/ai":
+            raise ValueError("Vercel Jev uses the fixed AI SDK Gateway endpoint")
+        return jev.judge(packet, model, criteria, gateway=True, zdr=zdr)
     if provider == "typesafe":
         from .jev import judge as jev_judge
         if endpoint and endpoint != "https://api.typesafe.ai/v1/systemone":
@@ -102,7 +107,7 @@ def main():
         raw = sys.stdin.buffer.read(MAX_PACKET_BYTES + 1)
         if len(raw) > MAX_PACKET_BYTES:
             raise ValueError("Judge evidence packet exceeds the bounded input limit")
-        print(json.dumps(judge(json.loads(raw), args.model or ("jev-latest" if args.provider == "typesafe" else DEFAULT_MODEL), args.provider, args.endpoint, args.criteria, args.zdr)))
+        print(json.dumps(judge(json.loads(raw), args.model, args.provider, args.endpoint, args.criteria, args.zdr)))
     except Exception:
         print("Advisory judge failed; check configuration or retry.", file=sys.stderr)
         return 1

@@ -51,7 +51,7 @@ class ReviewPolicyTests(unittest.TestCase):
         for key, provider in PROVIDERS.items():
             if key != "custom":
                 self.assertIn(provider["default_model"], provider["models"])
-                self.assertEqual(len(provider["models"]), 1 if key == "typesafe" else 10)
+                self.assertEqual(len(provider["models"]), 1 if key in {"typesafe", "vercel_jev"} else 10)
                 self.assertEqual(provider["default_model"], provider["models"][0])
 
     def test_tenant_specific_provider_endpoint_is_validated(self):

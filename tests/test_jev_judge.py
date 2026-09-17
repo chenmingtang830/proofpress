@@ -151,6 +151,8 @@ class JevAdapterTests(unittest.TestCase):
 
 
 class JevHostedTests(unittest.TestCase):
+    provider = "typesafe"
+    model = "jev-latest"
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         self.env = patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=True)
@@ -158,7 +160,7 @@ class JevHostedTests(unittest.TestCase):
         self.control = HostedControlPlane(Path(self.tmp.name) / "test.db")
         self.owner = self.control.bootstrap("workspace:jev-test", "human:test")["token"]
         self.agent = self.control.issue_agent_credential(self.owner, "agent:test", "Test")["token"]
-        self.settings = {"provider": "typesafe", "model": "jev-latest", "endpoint": "", "criteria": "Require evidence.",
+        self.settings = {"provider": self.provider, "model": self.model, "endpoint": "", "criteria": "Require evidence.",
                          "zdr": False, "rubric": "evidence-support/v1", "mode": "manual",
                          "external_consent": True, "require_judge": False}
         self.control.save_review_policy(self.owner, self.settings, 0, "workspace-jev-key")
@@ -173,10 +175,15 @@ class JevHostedTests(unittest.TestCase):
         return result["result"]["claim"]["id"]
 
     def run_adapter(self, command, *, input, env, **kwargs):
+        if command[0] == "node":
+            from urllib.request import Request
+            response = typed_response(Request(jev.ENDPOINT, data=input))
+            response["model"] = self.model
+            return subprocess.CompletedProcess(command, 0, json.dumps(response).encode(), b"")
         self.calls.append(json.loads(input))
         self.assertEqual(env["PROOFPRESS_JUDGE_API_KEY"], "workspace-jev-key")
         with patch.dict(os.environ, env, clear=True):
-            result = judge(json.loads(input), provider="typesafe", model="jev-latest", opener=opener)
+            result = judge(json.loads(input), provider=self.provider, model=self.model, opener=opener)
         return subprocess.CompletedProcess(command, 0, json.dumps(result), "")
 
     def execute(self, name, parameters):
@@ -247,9 +254,9 @@ class JevHostedTests(unittest.TestCase):
         cid = self.proposal()
         def missing(command, *, input, env, **kw):
             self.assertEqual(env["PROOFPRESS_JUDGE_API_KEY"], "")
-            with patch.dict(os.environ, {**env, "TYPESAFE_API_KEY": "wrong-host-key"}, clear=True):
+            with patch.dict(os.environ, {**env, "TYPESAFE_API_KEY": "wrong-host-key", "AI_GATEWAY_API_KEY": "wrong-host-key"}, clear=True):
                 with self.assertRaisesRegex(ValueError, "API key"):
-                    jev.judge(json.loads(input), opener=lambda *a, **kw: self.fail("No host fallback"))
+                    jev.judge(json.loads(input), gateway=self.provider == "vercel_jev", opener=lambda *a, **kw: self.fail("No host fallback"))
             return subprocess.CompletedProcess(command, 1, "", "Advisory judge failed")
         with patch.object(kernel.subprocess, "run", side_effect=missing):
             result = self.control.execute(self.agent, operation("claim.judge", {"claim_id": cid}))
@@ -276,3 +283,58 @@ class JevHostedTests(unittest.TestCase):
             result = self.control.execute(self.agent, operation("relation.propose", {**params, "relation_type": "none"}))
         self.assertFalse(result["ok"])
         run.assert_not_called()
+
+class JevGatewayTests(unittest.TestCase):
+    def setUp(self):
+        self.packet = {"schema_version": "proofpress/judge-request/v1", "claim": {"id": "c1"},
+                       "evidence": [], "evaluation": {"eligible": True}}
+
+    def test_gateway_transport_and_audit(self):
+        def bridge(args, **kwargs):
+            self.assertEqual(args[0], "node")
+            self.assertEqual(kwargs["env"]["PROOFPRESS_JUDGE_API_KEY"], "workspace-key")
+            self.assertEqual(kwargs["timeout"], 50)
+            wire = json.loads(kwargs["input"])
+            self.assertEqual(wire["model"], "typesafe-ai/jev")
+            self.assertEqual(wire["questions"]["item_0_scope_valid"]["type"], "boolean")
+            self.assertEqual(wire["providerOptions"], {"gateway": {"zeroDataRetention": True}})
+            from urllib.request import Request
+            response = typed_response(Request(jev.ENDPOINT, data=kwargs["input"]))
+            response["model"] = "typesafe-ai/jev"
+            return subprocess.CompletedProcess(args, 0, stdout=json.dumps(response).encode())
+        with patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "workspace-key", "AI_GATEWAY_API_KEY": "host-key"}), patch.object(jev.subprocess, "run", side_effect=bridge):
+            result = judge(self.packet, provider="vercel_jev", zdr=True)
+        audit = jev.validate_audit(result["decision_audit"], result["recommendation"])
+        self.assertEqual(audit["transport"]["response_model_source"], "gateway-route")
+        self.assertEqual(audit["schema_version"], "proofpress/decision-audit/v2")
+        tampered = copy.deepcopy(audit); tampered["transport"]["sdk"] = "unknown"
+        with self.assertRaises(ValueError): jev.validate_audit(tampered, result["recommendation"])
+
+    def test_no_workspace_key_never_uses_host_gateway_key(self):
+        with patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "", "AI_GATEWAY_API_KEY": "host-key"}), patch.object(jev.subprocess, "run") as run:
+            with self.assertRaisesRegex(ValueError, "API key"):
+                judge(self.packet, provider="vercel_jev")
+            run.assert_not_called()
+
+    def test_transport_failure_is_sanitized_and_does_not_fallback(self):
+        for error in (FileNotFoundError("node"), subprocess.TimeoutExpired("node", 50),
+                      subprocess.CalledProcessError(1, "node", stderr=b"secret provider response")):
+            with patch.dict(os.environ, {"AI_GATEWAY_API_KEY": "test"}, clear=True), patch.object(jev.subprocess, "run", side_effect=error) as run:
+                with self.assertRaisesRegex(ValueError, "no recommendation recorded") as caught:
+                    judge(self.packet, provider="vercel_jev")
+                self.assertNotIn("secret", str(caught.exception)); self.assertEqual(run.call_count, 1)
+
+
+class JevGatewayHostedTests(JevHostedTests):
+    provider = "vercel_jev"
+    model = "typesafe-ai/jev"
+
+    def test_gateway_policy_binds_zdr_and_rejects_other_models(self):
+        with self.control._db() as connection:
+            prior = review_policy.current(connection, "workspace:jev-test")["policy"]
+        enabled = review_policy.validate({**self.settings, "zdr": True}, prior)
+        self.assertIn("--zdr", enabled["judge"]["command"])
+        self.assertTrue(enabled["data_handling"]["zero_data_retention"])
+        self.assertNotEqual(enabled["digest"], prior["digest"])
+        with self.assertRaisesRegex(ValueError, "typesafe-ai/jev"):
+            review_policy.validate({**self.settings, "model": "other/model"}, prior)

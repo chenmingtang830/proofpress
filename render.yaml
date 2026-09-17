@@ -7,7 +7,7 @@ services:
     plan: starter
     region: oregon
     branch: main
-    buildCommand: pip install --require-hashes -r requirements-deploy.txt && pip install --no-deps .
+    buildCommand: pip install --require-hashes -r requirements-deploy.txt && pip install --no-deps . && npm ci --ignore-scripts --prefix "$(python -c 'from pathlib import Path; import proofpress.hosted.jev as j; print(Path(j.__file__).with_name("jev_gateway"))')"
     startCommand: proofpress hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
     healthCheckPath: /readyz
     # A self-hosted operator chooses when to adopt upstream changes.
@@ -17,6 +17,8 @@ services:
       mountPath: /var/data
       sizeGB: 1
     envVars:
+      - key: NODE_VERSION
+        value: 22.23.1
       - key: PYTHON_VERSION
         value: 3.13.7
       - key: PROOFPRESS_SECRET_ENCRYPTION_KEY

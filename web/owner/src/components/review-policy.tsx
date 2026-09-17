@@ -117,7 +117,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
           {!record.credential.storage_ready && <p className="policyWarning">Secure credential storage is unavailable on this deployment.</p>}
         </div>
       </fieldset>
-      {settings.provider === "typesafe" && <p className="policyWarning">Jev is experimental. It returns typed decisions and a template summary, not a generated explanation. Test with your own labeled evidence before relying on its advice.</p>}
+      {["typesafe", "vercel_jev"].includes(settings.provider) && <p className="policyWarning">Jev is experimental. It returns typed decisions and a template summary, not a generated explanation. Test with your own labeled evidence before relying on its advice.</p>}
       <fieldset><legend>Evaluation</legend>
         <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
         <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
@@ -128,7 +128,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       <fieldset><legend>Data & approval</legend>
         <p>LM review sends the claim and bounded evidence to the selected provider. The recommendation is advisory.</p>
         <label className="policyCheck"><input type="checkbox" checked={settings.external_consent} onChange={e=>change("external_consent",e.target.checked)} />Allow external model processing for this workspace</label>
-        {settings.provider==="openrouter" && <label className="policyCheck"><input type="checkbox" checked={settings.zdr} onChange={e=>change("zdr",e.target.checked)} />Require OpenRouter Zero Data Retention routing</label>}
+        {["openrouter", "vercel_jev"].includes(settings.provider) && <label className="policyCheck"><input type="checkbox" checked={settings.zdr} onChange={e=>change("zdr",e.target.checked)} />Require {settings.provider === "vercel_jev" ? "Vercel Gateway" : "OpenRouter"} Zero Data Retention routing</label>}
       </fieldset>
       <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":"Save & activate"}</Button></div>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}
