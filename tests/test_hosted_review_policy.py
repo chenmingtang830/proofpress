@@ -42,27 +42,79 @@ class ReviewPolicyTests(unittest.TestCase):
     def test_common_model_providers_are_available_individually(self):
         self.assertEqual(
             [PROVIDERS[key]["label"] for key in (
-                "azure_openai", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral")],
-            ["Azure OpenAI", "Amazon Bedrock", "Google Gemini", "xAI", "Groq", "Mistral AI"],
+                "azure_openai", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "baseten")],
+            ["Azure OpenAI", "Amazon Bedrock", "Google Gemini", "xAI", "Groq", "Mistral AI", "Baseten"],
         )
         self.assertTrue(PROVIDERS["azure_openai"]["endpoint_required"])
         self.assertTrue(PROVIDERS["azure_openai"]["editable_model"])
         self.assertTrue(PROVIDERS["amazon_bedrock"]["endpoint_required"])
+        self.assertTrue(PROVIDERS["baseten"]["endpoint_editable"])
+        self.assertTrue(PROVIDERS["baseten"]["editable_model"])
         for key, provider in PROVIDERS.items():
-            if key != "custom":
+            if provider["models"]:
                 self.assertIn(provider["default_model"], provider["models"])
-                self.assertEqual(len(provider["models"]), 1 if key in {"typesafe", "vercel_jev"} else 10)
+                expected_count = 1 if key in {"typesafe", "vercel_jev", "baseten"} else 10
+                self.assertEqual(len(provider["models"]), expected_count)
                 self.assertEqual(provider["default_model"], provider["models"][0])
 
     def test_tenant_specific_provider_endpoint_is_validated(self):
         azure = {**self.settings, "provider": "azure_openai", "model": "gpt-5", "endpoint": ""}
         with self.assertRaisesRegex(ValueError, "public HTTPS URL"):
             self.control.save_review_policy(self.owner, azure, 0, "azure-provider-key")
+        baseten = {**self.settings, "provider": "baseten", "model": "zai-org/GLM-5.2",
+                   "endpoint": "http://model.example.test/v1/chat/completions"}
+        with self.assertRaisesRegex(ValueError, "public HTTPS URL"):
+            self.control.save_review_policy(self.owner, baseten, 0, "baseten-provider-key")
         bedrock = {**self.settings, "provider": "amazon_bedrock", "model": "openai.gpt-oss-120b-1:0",
                    "endpoint": "https://bedrock-mantle.us-east-1.api.aws/v1/chat/completions"}
         with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
             record = self.control.save_review_policy(self.owner, bedrock, 0, "bedrock-provider-key")
         self.assertEqual(record["settings"]["provider"], "amazon_bedrock")
+
+    def test_baseten_policy_binds_deployment_endpoint(self):
+        endpoint = "https://model-abc123.api.baseten.co/environments/production/sync/v1/chat/completions"
+        settings = {**self.settings, "provider": "baseten", "model": "not-required",
+                    "endpoint": endpoint, "zdr": False}
+        with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
+            record = self.control.save_review_policy(
+                self.owner, settings, 0, "baseten-provider-key")
+        policy = self.control._policy("workspace:test")["policy"]
+        command = policy["judge"]["command"]
+        self.assertEqual(record["settings"]["provider"], "baseten")
+        self.assertEqual(command[command.index("--provider") + 1], "baseten")
+        self.assertEqual(command[command.index("--endpoint") + 1], endpoint)
+        self.assertEqual(policy["judge"]["identity"], "judge:baseten-advisory")
+
+    def test_baseten_policy_uses_hosted_endpoint_by_default(self):
+        settings = {**self.settings, "provider": "baseten", "model": "zai-org/GLM-5.2",
+                    "endpoint": "", "zdr": False}
+        with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
+            self.control.save_review_policy(
+                self.owner, settings, 0, "baseten-provider-key")
+        command = self.control._policy("workspace:test")["policy"]["judge"]["command"]
+        self.assertEqual(
+            command[command.index("--endpoint") + 1],
+            "https://inference.baseten.co/v1/chat/completions",
+        )
+
+    def test_baseten_endpoint_cannot_redirect_a_stored_credential(self):
+        settings = {**self.settings, "provider": "baseten", "model": "custom-model",
+                    "endpoint": "https://attacker.example/v1/chat/completions",
+                    "zdr": False}
+        with patch.dict(os.environ, {
+                "PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()},
+                clear=False):
+            with self.assertRaisesRegex(ValueError, "Baseten endpoints must use"):
+                self.control.save_review_policy(
+                    self.owner, settings, 0, "baseten-provider-key")
+
+    def test_provider_endpoint_must_be_a_string(self):
+        settings = {**self.settings, "provider": "baseten",
+                    "model": "zai-org/GLM-5.2", "endpoint": None,
+                    "zdr": False}
+        with self.assertRaisesRegex(ValueError, "endpoint must be a string"):
+            self.control.save_review_policy(
+                self.owner, settings, 0, "baseten-provider-key")
 
     def test_legacy_judge_job_column_migrates_without_losing_jobs(self):
         legacy_path = Path(self.tmp.name) / "legacy-judge-jobs.db"

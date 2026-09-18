@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import sys
+from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
 DEFAULT_MODEL = "openai/gpt-6-astra"
@@ -27,6 +28,7 @@ PROVIDERS = {
     "xai": "https://api.x.ai/v1/chat/completions",
     "groq": "https://api.groq.com/openai/v1/chat/completions",
     "mistral": "https://api.mistral.ai/v1/chat/completions",
+    "baseten": "https://inference.baseten.co/v1/chat/completions",
 }
 
 
@@ -70,6 +72,9 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
         headers = {"Content-Type": "application/json"}
         if provider == "azure_openai":
             headers["api-key"] = key
+        elif (provider == "baseten"
+              and (urlparse(target).hostname or "").endswith(".api.baseten.co")):
+            headers["Authorization"] = "Api-Key " + key
         else:
             headers["Authorization"] = "Bearer " + key
     request = Request(target, data=body, headers=headers)
