@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 authors = [{name = "Proofpress"}]
-dependencies = ["cryptography>=44,<47"]
+dependencies = ["cryptography>=44,<51"]
 
 [project.scripts]
 proofpress = "proofpress.cli:main"
