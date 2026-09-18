@@ -210,6 +210,23 @@ class ExternalExperimentIngestionTests(unittest.TestCase):
 
         self.assertEqual(len(kernel_ops.v2_events()), before)
 
+    def test_evidence_count_is_bounded_before_append(self):
+        payload = self.manifest()
+        template = payload["evidence"][0]
+        payload["evidence"] = []
+        for index in range(257):
+            row = copy.deepcopy(template)
+            row["source_uri"] = f"https://provider.example/result/{index}"
+            row["source_digest"] = "sha256:" + f"{index:064x}"
+            payload["evidence"].append(row)
+        before = len(kernel_ops.v2_events())
+
+        with self.assertRaisesRegex(ProofpressError, "at most 256 items"):
+            self.client.ingest_external_experiment(
+                payload, actor="agent:researcher")
+
+        self.assertEqual(len(kernel_ops.v2_events()), before)
+
     def test_capabilities_do_not_advertise_ingestion_as_evidence_profile(self):
         profiles = kernel_ops.local_operation_capabilities()["profiles"]
         self.assertEqual(profiles["evidence"], ["experiment"])

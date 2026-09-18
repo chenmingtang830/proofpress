@@ -14,6 +14,7 @@ from urllib.parse import parse_qsl, unquote, urlsplit
 
 
 SCHEMA = "proofpress.external_experiment.v0"
+MAX_EVIDENCE_ITEMS = 256
 CAPTURE_MODES = frozenset({
     "instrumented_sdk", "provider_api", "webhook", "exported_bundle",
     "manual_submission",
@@ -199,6 +200,9 @@ def normalize_manifest(payload: Any) -> dict[str, Any]:
     evidence_raw = raw.get("evidence")
     if not isinstance(evidence_raw, list) or not evidence_raw:
         raise ValueError("external experiment evidence must be a non-empty array")
+    if len(evidence_raw) > MAX_EVIDENCE_ITEMS:
+        raise ValueError(
+            f"external experiment evidence must contain at most {MAX_EVIDENCE_ITEMS} items")
     evidence = []
     for index, item in enumerate(evidence_raw):
         item = _object(item, f"evidence[{index}]")
