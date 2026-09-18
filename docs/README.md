@@ -47,6 +47,7 @@ matches what you need to do:
 - [TRACE evidence adapter (developer reference)](TRACE_ADAPTER.md)
 - [Content-addressed receipt adapter](CONTENT_ADDRESSED_ADAPTER.md)
 - [External experiment evidence ingestion](EXTERNAL_EXPERIMENT_INGESTION.md)
+- [Baseten training evidence adapter](BASETEN_TRAINING_ADAPTER.md)
 - [Spreadsheet cell evidence](SPREADSHEET_ADAPTER.md)
 - [Repository dogfood](REPOSITORY_DOGFOOD.md)
 - Experiment profile: `proofpress.profiles.experiment`

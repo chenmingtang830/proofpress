@@ -1,0 +1,80 @@
+{
+  "schema_version": "proofpress.baseten_training.v0",
+  "source": {
+    "product": "training_jobs",
+    "run_id": "job-42",
+    "training_project_id": "project-7",
+    "uri": "https://app.baseten.co/training/projects/project-7/jobs/job-42",
+    "captured_at": "2026-09-17T20:00:00Z",
+    "capture_mode": "provider_api",
+    "provenance_status": "provider_attested",
+    "coverage": "partial",
+    "known_omissions": [
+      "raw_logs",
+      "training_examples",
+      "optimizer_state"
+    ]
+  },
+  "binding": {
+    "proofpress_run_id": "replace-with-proofpress-run-id",
+    "work_item_id": "post-training-program-7",
+    "code_revision": "git:abc123",
+    "dataset_refs": [
+      "dataset:post-training-v4"
+    ]
+  },
+  "records": [
+    {
+      "name": "job",
+      "record_type": "job",
+      "source_uri": "https://api.baseten.co/v1/training_projects/project-7/jobs/job-42",
+      "payload": {
+        "training_job": {
+          "id": "job-42",
+          "training_project_id": "project-7",
+          "name": "reward-model-v4",
+          "current_status": "SUCCEEDED",
+          "created_at": "2026-09-17T18:00:00Z",
+          "updated_at": "2026-09-17T19:45:00Z"
+        }
+      },
+      "selections": [
+        {
+          "pointer": "/training_job/current_status",
+          "artifact_type": "artifact",
+          "media_type": "application/json",
+          "selection_reason": "Bind the provider-reported terminal job state."
+        }
+      ]
+    },
+    {
+      "name": "checkpoints",
+      "record_type": "checkpoint",
+      "source_uri": "https://api.baseten.co/v1/training_projects/project-7/jobs/job-42/checkpoints",
+      "payload": {
+        "training_job": {
+          "id": "job-42",
+          "training_project_id": "project-7"
+        },
+        "checkpoints": [
+          {
+            "checkpoint_id": "checkpoint-1000",
+            "training_job_id": "job-42",
+            "checkpoint_type": "lora",
+            "base_model": "Qwen/Qwen3-8B",
+            "size_bytes": 1048576,
+            "created_at": "2026-09-17T19:40:00Z"
+          }
+        ]
+      },
+      "selections": [
+        {
+          "pointer": "/checkpoints/0",
+          "artifact_type": "checkpoint",
+          "media_type": "application/json",
+          "selection_reason": "Bind the selected training output without copying checkpoint files or presigned URLs."
+        }
+      ]
+    }
+  ]
+}
