@@ -86,7 +86,9 @@ The generic HTTP endpoint is still `POST /v1/operations`, with operation
 ## Why the first implementation is offline
 
 This release deliberately adds no Fireworks API client, provider credential,
-webhook, or network fetch. It proves the stable evidence contract first. Build
-one live connector only after a committed research workflow establishes which
-provider fields are material; the connector should map those fields into this
-manifest rather than changing admission semantics.
+webhook, or network fetch. It proves the stable evidence contract first. The
+[Baseten training adapter](BASETEN_TRAINING_ADAPTER.md) is the first
+provider-specific local projection: it converts selected Training Jobs or Loops
+exports into this manifest without uploading credentials or raw provider
+payloads. Any future live connector should preserve the same contract rather
+than changing admission semantics.

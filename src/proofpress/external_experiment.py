@@ -33,16 +33,28 @@ def main(argv=None):
         "ingest", help="ingest a bounded external experiment manifest")
     ingest.add_argument("manifest", type=Path)
     ingest.add_argument("--idempotency-key")
+    baseten = sub.add_parser(
+        "ingest-baseten",
+        help="project a bounded Baseten training export and ingest its evidence")
+    baseten.add_argument("bundle", type=Path)
+    baseten.add_argument("--idempotency-key")
     args = parser.parse_args(argv)
     if not args.actor:
         raise SystemExit(
             "--actor or PROOFPRESS_PRINCIPAL is required for experiment ingestion")
     try:
-        payload = json.loads(args.manifest.read_text(encoding="utf-8"))
+        source = args.bundle if args.command == "ingest-baseten" else args.manifest
+        payload = json.loads(source.read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
-        raise SystemExit(f"manifest not found: {args.manifest}") from exc
+        raise SystemExit(f"manifest not found: {source}") from exc
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise SystemExit(f"manifest must be valid UTF-8 JSON: {exc}") from exc
+    if args.command == "ingest-baseten":
+        from proofpress.integrations.baseten_training import to_external_experiment
+        try:
+            payload = to_external_experiment(payload)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from exc
     result = _client(args).ingest_external_experiment(
         payload, actor=args.actor, idempotency_key=args.idempotency_key)
     print(json.dumps(result, ensure_ascii=False, indent=2))
