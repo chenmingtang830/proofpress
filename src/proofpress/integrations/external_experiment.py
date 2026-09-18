@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import re
 from typing import Any
-from urllib.parse import parse_qsl, urlsplit
+from urllib.parse import parse_qsl, unquote, urlsplit
 
 
 SCHEMA = "proofpress.external_experiment.v0"
@@ -96,9 +96,15 @@ def _uri(value: Any, field: str) -> str:
     for key, _ in parse_qsl(parsed.query, keep_blank_values=True):
         if _SECRET_KEY.search(key):
             raise ValueError(f"external experiment {field} must not contain credential query parameters")
-    for key, _ in parse_qsl(parsed.fragment, keep_blank_values=True):
-        if _SECRET_KEY.search(key):
-            raise ValueError(f"external experiment {field} must not contain credential fragments")
+    fragment = unquote(parsed.fragment)
+    fragment_queries = [fragment]
+    if "?" in fragment:
+        fragment_queries.append(fragment.rsplit("?", 1)[1])
+    for candidate in fragment_queries:
+        for key, _ in parse_qsl(candidate, keep_blank_values=True):
+            if _SECRET_KEY.search(key):
+                raise ValueError(
+                    f"external experiment {field} must not contain credential fragments")
     return value
 
 

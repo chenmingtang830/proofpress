@@ -156,6 +156,18 @@ class ExternalExperimentIngestionTests(unittest.TestCase):
                 fragment_uri, actor="agent:researcher")
         self.assertNotIn("must-not-be-stored", json.dumps(kernel_ops.v2_events()))
 
+        for routed_fragment in (
+                "#/callback?code=must-not-be-stored",
+                "#/callback%3Fcode%3Dmust-not-be-stored"):
+            with self.subTest(routed_fragment=routed_fragment):
+                routed_callback = self.manifest()
+                routed_callback["evidence"][0]["source_uri"] = (
+                    "https://provider.example/" + routed_fragment)
+                with self.assertRaisesRegex(
+                        ProofpressError, "credential fragments"):
+                    self.client.ingest_external_experiment(
+                        routed_callback, actor="agent:researcher")
+
         for credential_key in ("key", "code", "client_secret", "private_key"):
             with self.subTest(credential_key=credential_key):
                 credential_alias = self.manifest()
