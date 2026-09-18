@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools==80.9.0"]
+requires = ["setuptools==84.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 authors = [{name = "Proofpress"}]
-dependencies = ["cryptography>=44,<47"]
+dependencies = ["cryptography>=44,<51"]
 
 [project.scripts]
 proofpress = "proofpress.cli:main"
