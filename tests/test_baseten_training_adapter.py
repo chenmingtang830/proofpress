@@ -20,6 +20,20 @@ class BasetenTrainingAdapterTests(unittest.TestCase):
     def bundle(self):
         return json.loads(FIXTURE.read_text(encoding="utf-8"))
 
+    def test_fixture_has_no_duplicate_json_members(self):
+        def unique_object(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError(f"duplicate JSON member: {key}")
+                result[key] = value
+            return result
+
+        parsed = json.loads(
+            FIXTURE.read_text(encoding="utf-8"),
+            object_pairs_hook=unique_object)
+        self.assertEqual(parsed["schema_version"], "proofpress.baseten_training.v0")
+
     def test_projects_provider_records_without_retaining_raw_payloads(self):
         bundle = self.bundle()
         manifest = to_external_experiment(bundle)
@@ -36,6 +50,10 @@ class BasetenTrainingAdapterTests(unittest.TestCase):
         self.assertEqual(manifest["evidence"][0]["source_digest"], expected)
         self.assertEqual(manifest["evidence"][1]["locator"], {
             "kind": "json_pointer", "value": "/checkpoints/0"})
+        self.assertEqual(manifest["evidence"][0]["observation"], '"SUCCEEDED"')
+        self.assertEqual(
+            json.loads(manifest["evidence"][1]["observation"])["checkpoint_id"],
+            "checkpoint-1000")
         serialized = json.dumps(manifest)
         self.assertNotIn("payload", serialized)
         self.assertNotIn("artifact_presigned_urls", serialized)
@@ -56,6 +74,19 @@ class BasetenTrainingAdapterTests(unittest.TestCase):
         third = to_external_experiment(changed_selection)
         self.assertNotEqual(first["binding"]["config_digest"],
                             third["binding"]["config_digest"])
+
+    def test_observation_is_derived_from_the_selected_value(self):
+        changed = self.bundle()
+        changed["records"][0]["payload"]["training_job"]["current_status"] = (
+            "FAILED")
+        manifest = to_external_experiment(changed)
+        self.assertEqual(manifest["evidence"][0]["observation"], '"FAILED"')
+
+        caller_authored = self.bundle()
+        caller_authored["records"][0]["selections"][0]["observation"] = (
+            "Baseten reported SUCCEEDED")
+        with self.assertRaisesRegex(ValueError, "unknown.*observation"):
+            to_external_experiment(caller_authored)
 
     def test_rejects_identity_mismatch_and_unresolved_pointer(self):
         mismatch = self.bundle()
@@ -106,7 +137,6 @@ class BasetenTrainingAdapterTests(unittest.TestCase):
             }},
             "selections": [{
                 "pointer": "/run/checkpoint_uri",
-                "observation": "Loops run loops-run-1 published checkpoint step-100.",
                 "artifact_type": "checkpoint",
                 "selection_reason": "Bind the stable Loops checkpoint URI.",
             }],

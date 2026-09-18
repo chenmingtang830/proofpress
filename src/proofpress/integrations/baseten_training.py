@@ -201,7 +201,7 @@ def to_external_experiment(payload: Any) -> dict[str, Any]:
         for selection_index, selection in enumerate(selections):
             selection = _object(
                 selection, f"records[{index}].selections[{selection_index}]")
-            _allowed(selection, {"pointer", "observation", "artifact_type",
+            _allowed(selection, {"pointer", "artifact_type",
                                  "media_type", "selection_reason"},
                      f"records[{index}].selections[{selection_index}]")
             pointer = selection.get("pointer")
@@ -210,16 +210,23 @@ def to_external_experiment(payload: Any) -> dict[str, Any]:
                     "Baseten training records["
                     f"{index}].selections[{selection_index}].pointer must be "
                     "an RFC 6901 JSON pointer")
-            _pointer(record_payload, pointer,
-                     f"records[{index}].selections[{selection_index}].pointer")
+            selected_value = _pointer(
+                record_payload, pointer,
+                f"records[{index}].selections[{selection_index}].pointer")
+            observation = _canonical(
+                selected_value,
+                f"records[{index}].selections[{selection_index}].selected_value",
+            ).decode("utf-8")
+            if len(observation) > 16000:
+                raise ValueError(
+                    "Baseten training records["
+                    f"{index}].selections[{selection_index}] selected value "
+                    "must be at most 16000 characters")
             row = {
                 "source_uri": source_uri,
                 "source_digest": source_digest,
                 "locator": {"kind": "json_pointer", "value": pointer},
-                "observation": _string(
-                    selection.get("observation"),
-                    f"records[{index}].selections[{selection_index}].observation",
-                    16000),
+                "observation": observation,
                 "artifact_type": _string(
                     selection.get("artifact_type"),
                     f"records[{index}].selections[{selection_index}].artifact_type",

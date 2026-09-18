@@ -41,7 +41,6 @@
       "selections": [
         {
           "pointer": "/training_job/current_status",
-          "observation": "Baseten reported training job job-42 as SUCCEEDED.",
           "artifact_type": "artifact",
           "media_type": "application/json",
           "selection_reason": "Bind the provider-reported terminal job state."
@@ -53,10 +52,6 @@
       "record_type": "checkpoint",
       "source_uri": "https://api.baseten.co/v1/training_projects/project-7/jobs/job-42/checkpoints",
       "payload": {
-        "training_job": {
-          "id": "job-42",
-          "training_project_id": "project-7"
-        },
         "training_job": {
           "id": "job-42",
           "training_project_id": "project-7"
@@ -75,7 +70,6 @@
       "selections": [
         {
           "pointer": "/checkpoints/0",
-          "observation": "Baseten listed LoRA checkpoint checkpoint-1000 for job-42, based on Qwen/Qwen3-8B.",
           "artifact_type": "checkpoint",
           "media_type": "application/json",
           "selection_reason": "Bind the selected training output without copying checkpoint files or presigned URLs."

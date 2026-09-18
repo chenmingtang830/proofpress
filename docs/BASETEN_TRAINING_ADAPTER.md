@@ -36,12 +36,14 @@ proofpress experiment --actor agent:researcher \
 ```
 
 Each record has a stable `source_uri`, its exact exported JSON `payload`, and a
-non-empty list of selected JSON pointers. For each selection the adapter:
+non-empty list of selected JSON pointers. Callers do not author the evidence
+quote. For each selection the adapter:
 
 1. verifies that the pointer resolves in the record;
 2. hashes the canonical record payload with SHA-256;
-3. binds the pointer, digest, bounded observation, artifact type, and selection
-   reason into `proofpress.external_experiment.v0`;
+3. serializes the resolved value as bounded canonical JSON and binds that exact
+   value, pointer, digest, artifact type, and selection reason into
+   `proofpress.external_experiment.v0`;
 4. computes a separate digest over the adapter selection plan; and
 5. discards the raw provider payload before calling Proofpress ingestion.
 
