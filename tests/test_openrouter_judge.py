@@ -86,6 +86,25 @@ class OpenRouterJudgeTests(unittest.TestCase):
         self.assertEqual(payload["max_tokens"], 1800)
         self.assertEqual(result["adapter"], "proofpress-baseten-judge/v1")
 
+    @patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "baseten-test-only"})
+    def test_baseten_deployment_endpoint_uses_api_key_auth(self):
+        requests = []
+        def opener(request, timeout):
+            requests.append(request)
+            return self.response({
+                "recommendation": "escalate",
+                "rationale": "Evidence is incomplete.",
+            })
+        endpoint = (
+            "https://model-abc123.api.baseten.co/environments/production/"
+            "sync/v1/chat/completions")
+        judge({}, model="deployment-model", provider="baseten",
+              endpoint=endpoint, opener=opener)
+        self.assertEqual(requests[0].full_url, endpoint)
+        self.assertEqual(
+            requests[0].get_header("Authorization"),
+            "Api-Key baseten-test-only")
+
     @patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-only"})
     def test_invalid_verdict_fails_closed(self):
         for verdict in [{"recommendation": "admit", "rationale": "approve"}, {}, [],
