@@ -1149,6 +1149,7 @@ def ingest_external_experiment_v0(payload, actor):
     # must not leave items 1..N-1 partially recorded.
     imported_at = now()
     prepared = []
+    prepared_sources = {}
     external_base = {
         "schema_version": proofpress_external_experiment.SCHEMA,
         "source": normalized["source"],
@@ -1187,6 +1188,13 @@ def ingest_external_experiment_v0(payload, actor):
         if "media_type" in source:
             source_row["media_type"] = source["media_type"]
         source_row["record_hash"] = digest(source_row)
+        prior_source = (prepared_sources.get(source_row["id"])
+                        or projection["sources"].get(source_row["id"]))
+        if prior_source and prior_source != source_row:
+            raise ValueError(
+                "immutable external experiment source conflict for "
+                + source_row["id"])
+        prepared_sources[source_row["id"]] = source_row
         stable_external = {**external_base,
                            "artifact_type": item["artifact_type"]}
         evidence_id = ident({"source": source_row["id"],

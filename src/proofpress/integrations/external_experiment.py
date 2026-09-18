@@ -30,7 +30,8 @@ ARTIFACT_TYPES = frozenset({
 _DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
 _SECRET_KEY = re.compile(
     r"(?:^|[_-])(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|"
-    r"password|credential|authorization)(?:$|[_-])", re.IGNORECASE)
+    r"password|credential|authorization|signature|sig|signed)(?:$|[_-])",
+    re.IGNORECASE)
 _JSON_POINTER = re.compile(r"^(?:/(?:[^~]|~[01])*)*$")
 
 
@@ -94,6 +95,9 @@ def _uri(value: Any, field: str) -> str:
     for key, _ in parse_qsl(parsed.query, keep_blank_values=True):
         if _SECRET_KEY.search(key):
             raise ValueError(f"external experiment {field} must not contain credential query parameters")
+    for key, _ in parse_qsl(parsed.fragment, keep_blank_values=True):
+        if _SECRET_KEY.search(key):
+            raise ValueError(f"external experiment {field} must not contain credential fragments")
     return value
 
 

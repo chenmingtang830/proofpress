@@ -141,6 +141,35 @@ class ExternalExperimentIngestionTests(unittest.TestCase):
                 credential_uri, actor="agent:researcher")
         self.assertNotIn("must-not-be-stored", json.dumps(kernel_ops.v2_events()))
 
+        signed_uri = self.manifest()
+        signed_uri["evidence"][0]["source_uri"] = (
+            "https://provider.example/result?sig=must-not-be-stored")
+        with self.assertRaisesRegex(ProofpressError, "credential query"):
+            self.client.ingest_external_experiment(
+                signed_uri, actor="agent:researcher")
+
+        fragment_uri = self.manifest()
+        fragment_uri["evidence"][0]["source_uri"] = (
+            "https://provider.example/result#access_token=must-not-be-stored")
+        with self.assertRaisesRegex(ProofpressError, "credential fragments"):
+            self.client.ingest_external_experiment(
+                fragment_uri, actor="agent:researcher")
+        self.assertNotIn("must-not-be-stored", json.dumps(kernel_ops.v2_events()))
+
+    def test_conflicting_source_rows_fail_before_any_append(self):
+        payload = self.manifest()
+        conflicting = copy.deepcopy(payload["evidence"][0])
+        conflicting["media_type"] = "application/octet-stream"
+        payload["evidence"].append(conflicting)
+        before = len(kernel_ops.v2_events())
+
+        with self.assertRaisesRegex(
+                ProofpressError, "immutable external experiment source conflict"):
+            self.client.ingest_external_experiment(
+                payload, actor="agent:researcher")
+
+        self.assertEqual(len(kernel_ops.v2_events()), before)
+
     def test_cli_uses_the_same_operation_contract(self):
         manifest = self.repo / "external-run.json"
         manifest.write_text(json.dumps(self.manifest()), encoding="utf-8")
