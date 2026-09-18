@@ -248,6 +248,17 @@ class ExternalExperimentIngestionTests(unittest.TestCase):
 
         self.assertEqual(len(kernel_ops.v2_events()), before)
 
+    def test_duplicate_evidence_fails_before_any_append(self):
+        payload = self.manifest()
+        payload["evidence"].append(copy.deepcopy(payload["evidence"][0]))
+        before = len(kernel_ops.v2_events())
+
+        with self.assertRaisesRegex(ProofpressError, "must not contain duplicates"):
+            self.client.ingest_external_experiment(
+                payload, actor="agent:researcher")
+
+        self.assertEqual(len(kernel_ops.v2_events()), before)
+
     def test_cli_uses_the_same_operation_contract(self):
         manifest = self.repo / "external-run.json"
         manifest.write_text(json.dumps(self.manifest()), encoding="utf-8")

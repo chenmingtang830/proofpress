@@ -1150,6 +1150,7 @@ def ingest_external_experiment_v0(payload, actor):
     # must not leave items 1..N-1 partially recorded.
     imported_at = now()
     prepared = []
+    prepared_evidence_ids = set()
     prepared_sources = {}
     external_base = {
         "schema_version": proofpress_external_experiment.SCHEMA,
@@ -1201,6 +1202,10 @@ def ingest_external_experiment_v0(payload, actor):
         evidence_id = ident({"source": source_row["id"],
                              "receipt": digest(receipt),
                              "external_experiment": stable_external}, "evd_")
+        if evidence_id in prepared_evidence_ids:
+            raise ValueError(
+                "external experiment evidence items must not contain duplicates")
+        prepared_evidence_ids.add(evidence_id)
         prior = projection["evidence"].get(evidence_id)
         evidence_row = {
             "id": evidence_id,
