@@ -27,6 +27,7 @@ PROVIDERS = {
     "xai": "https://api.x.ai/v1/chat/completions",
     "groq": "https://api.groq.com/openai/v1/chat/completions",
     "mistral": "https://api.mistral.ai/v1/chat/completions",
+    "baseten": "https://inference.baseten.co/v1/chat/completions",
 }
 
 

@@ -72,6 +72,20 @@ class OpenRouterJudgeTests(unittest.TestCase):
         self.assertEqual(requests[0].full_url, "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions")
         self.assertEqual(requests[0].get_header("Authorization"), "Bearer gemini-test-only")
 
+    @patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "baseten-test-only"})
+    def test_baseten_uses_hosted_endpoint_and_bearer_auth(self):
+        requests = []
+        def opener(request, timeout):
+            requests.append(request)
+            return self.response({"recommendation": "escalate", "rationale": "Evidence is incomplete."})
+        result = judge({}, model="zai-org/GLM-5.2", provider="baseten", opener=opener)
+        self.assertEqual(requests[0].full_url, "https://inference.baseten.co/v1/chat/completions")
+        self.assertEqual(requests[0].get_header("Authorization"), "Bearer baseten-test-only")
+        payload = json.loads(requests[0].data)
+        self.assertEqual(payload["model"], "zai-org/GLM-5.2")
+        self.assertEqual(payload["max_tokens"], 1800)
+        self.assertEqual(result["adapter"], "proofpress-baseten-judge/v1")
+
     @patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-only"})
     def test_invalid_verdict_fails_closed(self):
         for verdict in [{"recommendation": "admit", "rationale": "approve"}, {}, [],

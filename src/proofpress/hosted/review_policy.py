@@ -34,6 +34,11 @@ PROVIDERS = {
     "xai": {"label": "xAI", "endpoint": "https://api.x.ai/v1/chat/completions", "default_model": "grok-4.6", "models": ["grok-4.6", "grok-4.3", "grok-build-0.1", "grok-4.1-fast", "grok-4-fast", "grok-4", "grok-3", "grok-3-mini", "grok-2-vision-1212", "grok-2-1212"], "zdr": False},
     "groq": {"label": "Groq", "endpoint": "https://api.groq.com/openai/v1/chat/completions", "default_model": "openai/gpt-oss-120b", "models": ["openai/gpt-oss-120b", "minimaxai/minimax-m2.7", "qwen/qwen3.8-27b", "qwen/qwen3.6-27b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "groq/compound", "groq/compound-mini", "llama-3.1-8b-instant", "openai/gpt-oss-safeguard-20b"], "zdr": False},
     "mistral": {"label": "Mistral AI", "endpoint": "https://api.mistral.ai/v1/chat/completions", "default_model": "mistral-medium-latest", "models": ["mistral-medium-latest", "mistral-large-latest", "mistral-small-latest", "magistral-medium-latest", "codestral-latest", "devstral-medium-latest", "ministral-14b-latest", "ministral-8b-latest", "ministral-3b-latest", "open-mistral-nemo"], "zdr": False},
+    "baseten": {"label": "Baseten", "endpoint": "https://inference.baseten.co/v1/chat/completions", "zdr": False,
+                "default_model": "zai-org/GLM-5.2", "models": ["zai-org/GLM-5.2"],
+                "editable_model": True,
+                "endpoint_editable": True,
+                "endpoint_placeholder": "https://model-MODEL_ID.api.baseten.co/environments/production/sync/v1/chat/completions"},
     "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False,
                "default_model": "",
                "models": [],
@@ -162,9 +167,13 @@ def public(record, credential=None):
 
 def _endpoint(settings):
     provider = settings["provider"]
-    if not PROVIDERS[provider].get("endpoint_required"):
-        return PROVIDERS[provider]["endpoint"]
-    value = settings["endpoint"].strip()
+    config = PROVIDERS[provider]
+    raw_value = settings.get("endpoint")
+    if not isinstance(raw_value, str):
+        raise ValueError("Provider endpoint must be a string.")
+    value = raw_value.strip()
+    if not config.get("endpoint_required") and not (config.get("endpoint_editable") and value):
+        return config["endpoint"]
     parsed = urlparse(value)
     if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
         raise ValueError("Provider endpoints must use a public HTTPS URL.")
@@ -176,6 +185,12 @@ def _endpoint(settings):
     except ValueError as exc:
         if "public HTTPS" in str(exc):
             raise
+    if provider == "baseten":
+        hostname = parsed.hostname.lower()
+        if (hostname != "inference.baseten.co"
+                and not hostname.endswith(".api.baseten.co")):
+            raise ValueError(
+                "Baseten endpoints must use inference.baseten.co or a Baseten deployment hostname.")
     return value
 
 
