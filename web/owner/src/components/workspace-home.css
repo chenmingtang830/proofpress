@@ -30,7 +30,7 @@
 .homeGettingStarted h2 { font-size: 18px; margin: 0 0 8px; }
 .homeGettingStarted p { margin: 0; max-width: 65ch; font-size: 14px; line-height: 1.6; color: var(--ink-2); }
 .homeLifecycle { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); }
-.homeLifecycle > summary { width: fit-content; cursor: pointer; color: var(--ink-2); padding: 10px 0; font-size: 14px; }
+.homeLifecycle > [data-slot="collapsible-trigger"] { width: fit-content; cursor: pointer; color: var(--ink-2); padding: 10px 0; font-size: 14px; }
 .homeLifecycle .claimsPath { margin-top: 18px; }
 .reviewUseConditions { margin: 16px 0 0; }
 .quickSnapshot .reviewUseConditions > div { display: grid; grid-template-columns: 1fr; gap: 5px; margin: 16px 0; }
@@ -38,7 +38,7 @@
 .quickSnapshot .reviewUseConditions dd { text-align: left; margin: 0; font-size: 14px; line-height: 1.6; }
 .reviewUseConditions ul { padding-left: 18px; margin: 0; }
 .reviewUseConditions li + li { margin-top: 5px; }
-.homeQueue button:focus-visible, .homeKnowledgeList button:focus-visible, .homeLifecycle summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.homeQueue button:focus-visible, .homeKnowledgeList button:focus-visible, .homeLifecycle [data-slot="collapsible-trigger"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 @media (max-width: 1050px) {
   .homeWorkGrid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .homeGettingStarted { align-items: flex-start; flex-direction: column; }

@@ -719,7 +719,9 @@ class HostedControlPlane:
                     store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
                     with using_event_store(store), kernel_ops.using_policy(self._policy(job["workspace_id"])["policy"]):
                         receipt = kernel_ops.receipt_v2(job["claim_id"])
-                        if receipt.get("recommendation"):
+                        advice = receipt.get("recommendation") or {}
+                        if (advice.get("claim_digest") == receipt["claim"]["digest"]
+                                and advice.get("policy_digest") == job["policy_digest"]):
                             state, detail = "completed", "LM advice recorded."
                 except Exception:
                     pass

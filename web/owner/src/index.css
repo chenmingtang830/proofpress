@@ -1,5 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
 @import "tailwindcss";
+@theme inline {
+  --color-primary: var(--accent);
+  --color-primary-foreground: #fff;
+  --color-border: var(--line);
+  --color-input: var(--line);
+  --color-ring: var(--accent);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+  --color-muted: var(--wash);
+  --color-muted-foreground: var(--ink-2);
+  --color-accent: var(--wash);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--del);
+}
+
 .workspaceLabel { color: var(--ink-2); font-size: 14px; margin-left: auto; }
 .pagination, .ledgerViews { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
 .pagination { justify-content: space-between; flex-wrap: wrap; }
@@ -11,7 +26,7 @@
 .evidenceFields > div { margin: 12px 0; }
 .evidenceFields dd { margin: 4px 0 0; overflow-wrap: anywhere; }
 .technicalDetails { margin-top: 16px; font-size: 12px; color: var(--ink-2); }
-.technicalDetails summary { cursor: pointer; }
+.technicalDetails [data-slot="collapsible-trigger"] { cursor: pointer; }
 .technicalDetails pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 300px; overflow: auto; }
 .lineageCanvas { border: 1px solid var(--line); background: var(--paper); padding: 24px; }
 .lineageSelector { display: grid; gap: 8px; color: var(--ink-2); font-size: 13px; }
@@ -577,7 +592,7 @@ td:last-child svg {
 }
 .inspectorTop .claimDescription { max-width: 64ch; color: var(--ink-2); font-size: 15px; line-height: 1.65; }
 .claimStatementDetails { margin: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; }
-.claimStatementDetails summary { cursor: pointer; color: var(--ink-2); font-size: 12px; font-weight: 600; }
+.claimStatementDetails [data-slot="collapsible-trigger"] { cursor: pointer; color: var(--ink-2); font-size: 12px; font-weight: 600; }
 .claimStatementDetails .claimFullStatement { margin: 12px 0 0; color: var(--ink); font-size: 13px; line-height: 1.65; }
 .mono {
   font-family: var(--font-proof);
@@ -2234,14 +2249,14 @@ tbody tr.selected td:first-child b {
   padding: 0 30px 28px;
 }
 
-.fullReview .quickSnapshot dl {
+.fullReview .quickSnapshot > dl {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
   border-top: 1px solid var(--line);
 }
 
-.fullReview .quickSnapshot dl > div {
+.fullReview .quickSnapshot > dl > div {
   display: block;
   min-width: 0;
   margin: 0;
@@ -2249,16 +2264,16 @@ tbody tr.selected td:first-child b {
   border-bottom: 1px solid var(--line);
 }
 
-.fullReview .quickSnapshot dl > div:nth-child(odd) {
+.fullReview .quickSnapshot > dl > div:nth-child(odd) {
   padding-right: 24px;
 }
 
-.fullReview .quickSnapshot dl > div:nth-child(even) {
+.fullReview .quickSnapshot > dl > div:nth-child(even) {
   padding-left: 24px;
   border-left: 1px solid var(--line);
 }
 
-.fullReview .quickSnapshot dt,
+.fullReview .quickSnapshot > dl dt,
 .fullReview .decisionStack dt,
 .fullReview .decision > label,
 .fullReview .decisionHeading > span {
@@ -2268,7 +2283,7 @@ tbody tr.selected td:first-child b {
   text-transform: uppercase;
 }
 
-.fullReview .quickSnapshot dd,
+.fullReview .quickSnapshot > dl dd,
 .fullReview .decisionStack dd {
   margin: 7px 0 0;
   color: var(--ink);
@@ -2328,7 +2343,7 @@ tbody tr.selected td:first-child b {
 }
 
 .expandableText > button,
-.technicalDetails > summary {
+.technicalDetails > [data-slot="collapsible-trigger"] {
   display: flex;
   width: 100%;
   min-height: 44px;
@@ -2398,11 +2413,11 @@ tbody tr.selected td:first-child b {
     padding: 0 22px 24px;
   }
 
-  .fullReview .quickSnapshot dl {
+  .fullReview .quickSnapshot > dl {
     grid-template-columns: 1fr;
   }
 
-  .fullReview .quickSnapshot dl > div:nth-child(n) {
+  .fullReview .quickSnapshot > dl > div:nth-child(n) {
     padding: 14px 0 16px;
     border-left: 0;
   }

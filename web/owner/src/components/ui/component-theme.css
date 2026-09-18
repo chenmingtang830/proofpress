@@ -1,0 +1,11 @@
+/* Product tokens applied centrally to registry components. */
+[data-slot="table"]:not(.reviewTable) { display:table; width:100%; border-collapse:collapse; font:400 14px/1.5 var(--font-ui); }
+[data-slot="table"]:not(.reviewTable) thead { display:table-header-group; position:static; width:auto; height:auto; overflow:visible; clip:auto; clip-path:none; white-space:normal; }
+[data-slot="table"]:not(.reviewTable) tbody { display:table-row-group; }
+[data-slot="table"]:not(.reviewTable) tr { display:table-row; cursor:default; padding:0; }
+[data-slot="table"]:not(.reviewTable) :is(th,td) { display:table-cell; position:static; padding:10px 12px; margin:0; border-bottom:1px solid var(--line); font:400 13px/1.5 var(--font-ui); letter-spacing:normal; text-transform:none; }
+[data-slot="table"]:not(.reviewTable) th { font-weight:600; color:var(--ink-2); background:var(--wash); }
+[data-slot="table"]:not(.reviewTable) .text-right { text-align:right; }
+[data-slot="table"]:not(.reviewTable) td::before { content:none; }
+[data-slot="checkbox"] { min-height:16px; padding:0; }
+.policyCheck [data-slot="checkbox"] { margin-top:3px; }

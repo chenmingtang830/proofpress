@@ -57,7 +57,8 @@ py-modules = [
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["proofpress*"]
+exclude = ["*.node_modules*"]
 
 [tool.setuptools.package-data]
 proofpress = ["assets/local-ui/index.html", "data/demo.otlp.json"]
-"proofpress.hosted" = ["*.html", "static/*.html", "static/*.svg", "static/assets/*"]
+"proofpress.hosted" = ["*.html", "static/*.html", "static/*.svg", "static/assets/*", "jev_gateway/*.mjs", "jev_gateway/package*.json"]

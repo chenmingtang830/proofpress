@@ -23,8 +23,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Inspect receipt");
     expect(source).toContain('"needs_revision"');
     expect(source).toContain('<Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button>');
-    expect(source).toContain("Run optional LM review");
-    expect(source).toContain("Set up LM review");
+    expect(source).toContain("Run optional model review");
+    expect(source).toContain("Set up model review");
     expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
@@ -43,13 +43,13 @@ describe("Proofpress owner workspace contract", () => {
   it("lets the outer stage scroll the full review surface", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
   });
-  it("keeps the full-review entry visible before long LM advice", () => {
+  it("keeps the full-review entry visible before long model advice", () => {
     expect(source.indexOf('className="reviewEntry"')).toBeLessThan(source.indexOf('className="lmRationale"'));
     expect(css).toContain("scrollbar-gutter: stable");
     expect(css).toContain("-webkit-line-clamp: 4");
   });
   it("uses progressive disclosure for long review material", () => {
-    expect(source).toContain("Read full LM rationale");
+    expect(source).toContain("Read full model rationale");
     expect(source).toContain('className="revisionDisclosure"');
     expect(source).toContain('label="Show full excerpt"');
     expect(source).toContain("Read the complete advisory rationale in the review summary above.");
@@ -86,7 +86,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('}, 10000)');
     expect(source).toContain('Not recorded yet');
     expect(source).toContain('window.clearTimeout(rejectTimeout.current)');
-    expect(source).toContain('>Undo</button>');
+    expect(source).toContain('>Undo</Button>');
     expect(source).toContain('setFullReview(false)');
     expect(css).toContain('.decisionNotice');
   });
@@ -100,16 +100,16 @@ describe("Proofpress owner workspace contract", () => {
   });
   it("uses a concise title and description before the exact claim statement", () => {
     expect(source).toContain("const claimTitle = claimDisplayTitle(r.claim)");
-    expect(source).toContain("{claimDisplayTitle(row)}</button>");
+    expect(source).toContain("{claimDisplayTitle(row)}</Button>");
     expect(source).toContain('className="claimDescription"');
     expect(source).toContain("Exact claim statement");
     expect(css).toContain(".claimStatementDetails");
   });
-  it("keeps escalated LM advice readable and explains why approval is unavailable", () => {
+  it("keeps escalated model advice readable and explains why approval is unavailable", () => {
     expect(source).toContain('className="lmRationaleHeader"');
-    expect(source).toContain("The LM marked this claim Needs Attention");
+    expect(source).toContain("The model marked this claim Needs Attention");
     expect(source).toContain("Only Human Approval admits the claim");
-    expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>');
+    expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onJudge}>Refresh model advice</Button>');
     expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>');
     expect(css).toContain(".modalActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 24px; }");
     expect(source).not.toContain('r.review_policy?.mode === "manual" && <Button className="secondaryAction"');

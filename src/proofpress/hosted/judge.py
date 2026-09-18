@@ -30,8 +30,21 @@ PROVIDERS = {
 }
 
 
-def judge(packet, model=DEFAULT_MODEL, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
-    key = os.environ.get("PROOFPRESS_JUDGE_API_KEY", "").strip() or os.environ.get("OPENROUTER_API_KEY", "").strip()
+def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
+    model = model or ({"typesafe": "jev-latest", "vercel_jev": "typesafe-ai/jev"}.get(provider, DEFAULT_MODEL))
+    if provider == "vercel_jev":
+        from . import jev
+        if endpoint and endpoint != "https://ai-gateway.vercel.sh/v4/ai":
+            raise ValueError("Vercel Jev uses the fixed AI SDK Gateway endpoint")
+        return jev.judge(packet, model, criteria, gateway=True, zdr=zdr)
+    if provider == "typesafe":
+        from .jev import judge as jev_judge
+        if endpoint and endpoint != "https://api.typesafe.ai/v1/systemone":
+            raise ValueError("TypeSafe uses its fixed System One endpoint")
+        return jev_judge(packet, model=model, criteria=criteria, opener=opener)
+    key = (os.environ.get("PROOFPRESS_JUDGE_API_KEY") if "PROOFPRESS_JUDGE_API_KEY" in os.environ
+           else os.environ.get("OPENROUTER_API_KEY", "") if provider == "openrouter" else "") or ""
+    key = key.strip()
     if not key:
         raise ValueError("Judge API key is not configured")
     packed = json.dumps(packet, ensure_ascii=False)
@@ -84,7 +97,7 @@ def judge(packet, model=DEFAULT_MODEL, provider="openrouter", endpoint="", crite
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--model", default=None)
     parser.add_argument("--provider", default="openrouter")
     parser.add_argument("--endpoint", default="")
     parser.add_argument("--criteria", default="")

@@ -1,7 +1,13 @@
+import { Empty } from "@/components/ui/empty";
+import { Alert } from "@/components/ui/alert";
+import { DisclosureContent, Disclosure, DisclosureTrigger } from "@/components/ui/disclosure";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableCaption } from "@/components/ui/table";
+import { Label } from "@/components/ui/label";
+import { TypedJudgeAdvice, type DecisionAudit } from "./components/typed-judge-advice";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import * as Tabs from "@radix-ui/react-tabs";
-import * as Dialog from "@radix-ui/react-dialog";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/ui/tabs";
+import { Dialog, DialogTitle, DialogDescription } from "./components/ui/dialog";
 import {
   Activity,
   BookOpen,
@@ -28,6 +34,7 @@ import "./index.css";
 import "./review-local.css";
 import "./components/governance.css";
 import "./components/workspace-home.css";
+import "./components/ui/component-theme.css";
 
 type NodeRow = {
   id: string;
@@ -62,7 +69,7 @@ type Receipt = {
   };
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean> };
-  recommendation?: { recommendation?: string; rationale?: string };
+  recommendation?: { recommendation?: string; rationale?: string; decision_audit?: DecisionAudit };
   revision_request?: any;
   revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
   reproposal_parent?: {id:string;statement:string;evidence_refs:string[];new_evidence_refs?:string[];reused_evidence_refs?:string[];reproposal_response?:string;rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
@@ -134,7 +141,7 @@ function ExpandableText({ text, label = "Show full text" }: { text: string; labe
   const [open, setOpen] = React.useState(false);
   return <div className={`expandableText${open ? " expanded" : ""}`}>
     <p>{text}</p>
-    <button type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : label}</button>
+    <Button variant="ghost" size="content" type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : label}</Button>
   </div>;
 }
 
@@ -152,7 +159,7 @@ function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?:
         {hasPreviousRevision && <div><dt>Previous revision</dt><dd>Bound to the recorded prior workbook and cell digests</dd></div>}
       </dl>
       <p>{text}</p>
-      <details className="technicalDetails"><summary>Technical receipt</summary><pre>{JSON.stringify(row, null, 2)}</pre></details>
+      <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>
     </>;
   }
   let structured: any = null;
@@ -166,7 +173,7 @@ function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?:
     return <dl className="evidenceFields">{Object.entries(value).map(([key, value]) => <div key={key}><dt>{key.replaceAll("_", " ")}</dt><dd>{renderValue(value)}</dd></div>)}</dl>;
   };
   return <>{structured !== null ? renderValue(structured) : collapsible ? <ExpandableText text={text} label="Show full excerpt" /> : <p>{text}</p>}
-    <details className="technicalDetails"><summary>Technical receipt</summary><pre>{JSON.stringify(row, null, 2)}</pre></details>
+    <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>
   </>;
 }
 
@@ -175,7 +182,7 @@ function CompactEvidenceExcerpt({ text }: { text: string }) {
   const expandable = text.length > 220;
   return <div className={`compactEvidenceExcerpt${open ? " expanded" : ""}`}>
     <p>{text}</p>
-    {expandable && <button type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : "Show full excerpt"}</button>}
+    {expandable && <Button variant="ghost" size="content" type="button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Show less" : "Show full excerpt"}</Button>}
   </div>;
 }
 
@@ -455,7 +462,7 @@ function App() {
           await api("/owner/api/evaluate", { method: "POST", body: JSON.stringify({ csrf: csrfRef.current, claim_id }) });
           const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
           setReloadVersion(version => version + 1);
-          return toolText({ claim_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "LM advice is required by policy before Human Approval." : "Open the review surface for the owner decision." });
+          return toolText({ claim_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "Model advice is required by policy before Human Approval." : "Open the review surface for the owner decision." });
         },
       },
       {
@@ -518,7 +525,7 @@ function App() {
         inputSchema: {
           type: "object",
           properties: {
-            provider: { type: "string", enum: ["openrouter", "openai", "azure_openai", "anthropic", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "custom"] },
+            provider: { type: "string", enum: ["openrouter", "openai", "azure_openai", "anthropic", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "typesafe", "vercel_jev", "custom"] },
             endpoint: { type: "string" },
             model: { type: "string" },
             criteria: { type: "string", maxLength: 8000 },
@@ -721,8 +728,8 @@ function App() {
       await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, claim_id: receipt.claim.id, confirmed: true})});
       const next = await api(`/owner/api/claims/${encodeURIComponent(receipt.claim.id)}`);
       setReceipt(next);
-      setJudgeMessage("LM advice recorded. See Checks for the reasoning.");
-    } catch { setJudgeMessage("LM review did not complete. You can retry; no approval was recorded."); }
+      setJudgeMessage("Model review recorded. Open the review details to inspect the advice.");
+    } catch { setJudgeMessage("Model review did not complete. You can retry; no approval was recorded."); }
     finally { decisionPending.current = false; setBusy(false); setJudgeRunning(false); }
   }
   async function runChecks() {
@@ -770,10 +777,10 @@ function App() {
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
-      <Dialog.Root open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
+      <Dialog open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
           <ModalSurface onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
-            <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this claim?" : "Reject this claim?"}</Dialog.Title>
-            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this claim where its applicability card fits. You are making the human approval decision." : "This decision will be recorded. The claim will remain excluded from governed context."}</Dialog.Description>
+            <DialogTitle>{decisionConfirmation?.decision === "admit" ? "Approve this claim?" : "Reject this claim?"}</DialogTitle>
+            <DialogDescription>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this claim where its applicability card fits. You are making the human approval decision." : "This decision will be recorded. The claim will remain excluded from governed context."}</DialogDescription>
             <dl><dt>Applicability</dt><dd>{decisionConfirmation?.scope}</dd></dl>
             <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
             {decisionConfirmation?.decision === "reject" && <dl><dt>Reason for rejection</dt><dd>{note.trim()}</dd></dl>}
@@ -787,15 +794,15 @@ function App() {
               }}>{busy ? "Recording decision…" : decisionConfirmation?.decision === "admit" ? "Confirm approval" : "Confirm rejection"}</Button>
             </div>
           </ModalSurface>
-      </Dialog.Root>
-      <Dialog.Root open={Boolean(revisionHandoff)} onOpenChange={open => { if (!open) setRevisionHandoff(null); }}>
+      </Dialog>
+      <Dialog open={Boolean(revisionHandoff)} onOpenChange={open => { if (!open) setRevisionHandoff(null); }}>
           <ModalSurface>
-            <Dialog.Title>Changes requested</Dialog.Title>
-            <Dialog.Description>Send the recorded change request to your agent.</Dialog.Description>
+            <DialogTitle>Changes requested</DialogTitle>
+            <DialogDescription>Send the recorded change request to your agent.</DialogDescription>
             {revisionHandoff && <RevisionInstructions receipt={revisionHandoff} autoCopy />}
             <div className="confirmationActions"><Button variant="outline" onClick={() => setRevisionHandoff(null)}>Close</Button><Button onClick={() => { setRevisionHandoff(null); openFullReview(); }}>View revision request</Button></div>
           </ModalSurface>
-      </Dialog.Root>
+      </Dialog>
       <aside className="sidebar">
         <div className="brand">
           <span className="brandMark"><img src="/logo.svg" alt="" /></span>
@@ -805,7 +812,7 @@ function App() {
           {(Object.keys(labels) as Page[]).map((id) => {
             const Icon = icons[id];
             return (
-              <button
+              <Button variant="ghost" size="content"
                 key={id}
                 aria-label={labels[id]}
                 aria-current={page === id ? "page" : undefined}
@@ -815,7 +822,7 @@ function App() {
                 <Icon />
                 <span>{labels[id]}</span>
                 {id === "review" && pending > 0 && <em>{pending}</em>}
-              </button>
+              </Button>
             );
           })}
         </nav>
@@ -842,18 +849,18 @@ function App() {
           }}>Sign out</Button>
         </header>
         {error && (
-          <div className="error" role="alert">
+          <Alert className="error" role="alert">
             <span>{error}</span>
-            {error.includes("session has expired") ? <a href={location.pathname + location.search}>Sign in again</a> : <button disabled={busy} onClick={() => { setReloadVersion(v => v + 1); void load(); }}>Reload workspace</button>}
-            <button aria-label="Dismiss error" onClick={() => setError("")}>
+            {error.includes("session has expired") ? <a href={location.pathname + location.search}>Sign in again</a> : <Button variant="ghost" size="content" disabled={busy} onClick={() => { setReloadVersion(v => v + 1); void load(); }}>Reload workspace</Button>}
+            <Button variant="ghost" size="content" aria-label="Dismiss error" onClick={() => setError("")}>
               <X />
-            </button>
-          </div>
+            </Button>
+          </Alert>
         )}
         {pendingRejection && (
-          <div className="decisionNotice" role="status" aria-live="polite">
+          <Alert className="decisionNotice" role="status" aria-live="polite">
             <span>Rejection pending · {pendingRejection.seconds}s <small>Not recorded yet</small></span>
-            <button onClick={() => {
+            <Button variant="ghost" size="content" onClick={() => {
               const id = pendingRejection.id;
               if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
               if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
@@ -863,8 +870,8 @@ function App() {
               setPage("review");
               setFullReview(true);
               void choose(id);
-            }}>Undo</button>
-          </div>
+            }}>Undo</Button>
+          </Alert>
         )}
         <section className="stage">
           {page === "home" && (
@@ -947,10 +954,10 @@ function App() {
           )}
         </section>
       </main>
-      {judgeMessage && page === "review" && <div className="judgeProgress" role="status">{judgeMessage}<button aria-label="Dismiss LM review status" onClick={()=>setJudgeMessage("")}><X /></button></div>}
-      <Dialog.Root open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
-        <ModalSurface><Dialog.Title>Review evidence with LM</Dialog.Title><Dialog.Description>Send this claim and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</Dialog.Description><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run LM review</Button></div></ModalSurface>
-      </Dialog.Root>
+      {judgeMessage && page === "review" && <Alert className="judgeProgress" role="status">{judgeMessage}<Button variant="ghost" size="content" aria-label="Dismiss model review status" onClick={()=>setJudgeMessage("")}><X /></Button></Alert>}
+      <Dialog open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
+        <ModalSurface><DialogTitle>Review evidence with a model</DialogTitle><DialogDescription>Send this claim and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</DialogDescription><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run model review</Button></div></ModalSurface>
+      </Dialog>
     </div>
   );
 }
@@ -995,20 +1002,20 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
               <p>Inspect the evidence and usage conditions before making a decision.</p>
               <Button onClick={() => onChoose(next.id)}>Review this claim <ChevronRight /></Button>
             </article>
-            {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <button key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><ChevronRight /></button>)}</div>}
+            {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><ChevronRight /></Button>)}</div>}
             <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}<ChevronRight /></Button>
-          </> : <div className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></div>}
-          {rows.some((r: NodeRow) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
+          </> : <Empty className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></Empty>}
+          {rows.some((r: NodeRow) => r.state === "needs_revision") && <Button variant="ghost" size="content" className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></Button>}
         </section>
         <section className="homeKnowledge" aria-labelledby="home-knowledge-title">
           <div className="sectionTitle"><h2 id="home-knowledge-title">Available knowledge</h2><span>{contextLoading ? "Loading…" : contextError ? "Unavailable" : `${admitted} current`}</span></div>
           <p>Admitted and eligible for this owner view. Each agent’s access is checked separately.</p>
-          {contextLoading ? <p role="status">Loading current knowledge…</p> : contextError ? <p role="alert">Knowledge could not be loaded. Use Reload workspace to retry.</p> : recentKnowledge.length ? <div className="homeKnowledgeList">{recentKnowledge.map((row: NodeRow) => <button key={row.id} onClick={() => onKnowledgeChoose(row.id)}><strong>{claimDisplayTitle(row)}</strong>{hasDistinctClaimHeading(row) && <p className="claimBodyPreview">{row.label}</p>}<span>{row.applicability?.title || row.applicability?.description || row.scope || "Applicability not recorded"}</span><ChevronRight /></button>)}</div> : <div className="emptyState"><strong>No claims are available for reuse</strong><p>Approved claims appear here when they are current and eligible.</p></div>}
+          {contextLoading ? <p role="status">Loading current knowledge…</p> : contextError ? <p role="alert">Knowledge could not be loaded. Use Reload workspace to retry.</p> : recentKnowledge.length ? <div className="homeKnowledgeList">{recentKnowledge.map((row: NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onKnowledgeChoose(row.id)}><strong>{claimDisplayTitle(row)}</strong>{hasDistinctClaimHeading(row) && <p className="claimBodyPreview">{row.label}</p>}<span>{row.applicability?.title || row.applicability?.description || row.scope || "Applicability not recorded"}</span><ChevronRight /></Button>)}</div> : <Empty className="emptyState"><strong>No claims are available for reuse</strong><p>Approved claims appear here when they are current and eligible.</p></Empty>}
           <Button variant="outline" onClick={onLedger}>Browse knowledge <BookOpen /></Button>
         </section>
       </div>
       {!loading && !rows.length && <section className="homeGettingStarted"><div><h2>No claims yet</h2><p>Connect an agent to submit evidence and propose the first claim. Nothing becomes reusable without your approval.</p></div><Button variant="outline" onClick={onAdmin}>Manage agent access</Button></section>}
-      <details className="homeLifecycle"><summary>How claims move through Proofpress</summary>
+      <Disclosure className="homeLifecycle"><DisclosureTrigger>How claims move through Proofpress</DisclosureTrigger><DisclosureContent>
       <ol className="claimsPath" aria-label="How claims move through Proofpress">
         <li>
           <span>Candidate</span>
@@ -1026,7 +1033,7 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
           <p>Eligibility is still checked for each scope and identity.</p>
         </li>
       </ol>
-      </details>
+      </DisclosureContent></Disclosure>
     </div>
   );
 }
@@ -1073,41 +1080,41 @@ function ReviewPage({
           <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} claims`}</span>
         </div>
         <div className="tableWrap reviewTableWrap">
-          <table className="reviewTable">
-            <thead>
-              <tr>
-                <th>Claim</th>
-                <th>Status</th>
-                <th>Applicability</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="reviewTable">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Claim</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Applicability</TableHead>
+                <TableHead></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {pageRows.map((row: any) => (
-                <tr
+                <TableRow
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
                   onClick={() => onChoose(row.id)}
                 >
-                  <td data-label="Claim">
-                    <button className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{claimDisplayTitle(row)}</button>
+                  <TableCell data-label="Claim">
+                    <Button variant="ghost" size="content" className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{claimDisplayTitle(row)}</Button>
                     <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
-                  </td>
-                  <td data-label="Status"><Badge state={row.state} /></td>
-                  <td className="reviewScopeCell" data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</td>
-                  <td aria-label="Open claim">
+                  </TableCell>
+                  <TableCell data-label="Status"><Badge state={row.state} /></TableCell>
+                  <TableCell className="reviewScopeCell" data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</TableCell>
+                  <TableCell aria-label="Open claim">
                     <ChevronRight />
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
           {!loading && visibleRows.length === 0 && (
-            <div className="emptyState reviewEmpty">
+            <Empty className="emptyState reviewEmpty">
               <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_revision" ? "No revision requests" : "No decisions yet"}</strong>
               <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : "Your approval, rejection, and revision decisions will appear here."}</p>
               {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current claims</Button>}
-            </div>
+            </Empty>
           )}
         </div>
         {!loading && visibleRows.length > 0 && <nav className="pagination reviewPagination" aria-label={`${queue === "decided" ? "Decision history" : "Review queue"} pages`}>
@@ -1137,8 +1144,8 @@ function ReviewPage({
     </div>
   );
 }
-function ReviewFact({label,value,tone="",className=""}:any){
-  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong></CardContent></Card>;
+function ReviewFact({label,value,detail,tone="",className=""}:any){
+  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong>{detail && <small className="modelAttribution">{detail}</small>}</CardContent></Card>;
 }
 
 function ApplicabilityPanel({claim, compact = false}: {claim: Receipt["claim"]; compact?: boolean}) {
@@ -1186,9 +1193,10 @@ function Inspector({
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
   }, [r?.claim.id]);
   if (!r) {
-    if (detailError) return <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details"><div className="missingConclusion"><strong>Claim not found</strong><p>{detailError}</p><Button variant="outline" onClick={fullReview ? onBack : onClose}>Back to review queue</Button></div></aside>;
+    if (detailError) return <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details"><Empty className="missingConclusion"><strong>Claim not found</strong><p>{detailError}</p><Button variant="outline" onClick={fullReview ? onBack : onClose}>Back to review queue</Button></Empty></aside>;
     return pending ? <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
   }
+  const modelAttribution = r.recommendation?.decision_audit?.backend === "jev" ? "Powered by Jev · Advisory" : "Advisory";
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
   const checkReason = (name:string) => ({"evidence present":"Required evidence missing","evidence integrity":"Evidence integrity unverified","experiment evidence present":"Typed experiment evidence missing","experiment evidence valid":"Experiment evidence invalid","experiment identity bound":"Experiment identity unbound","not expired":"Claim expired","not superseded":"Claim superseded","reuse boundary present":"Reuse boundary missing"} as Record<string,string>)[name] || `${name} failed`;
@@ -1197,7 +1205,7 @@ function Inspector({
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
   const judgeInProgress = judgeRunning || (!r.recommendation && ["queued", "running"].includes(r.judge_job?.state));
   const judgeFailed = !r.recommendation && ["failed", "interrupted"].includes(r.judge_job?.state);
-  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting LM advice. Refresh the LM review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The LM marked this claim Needs Attention. This workspace requires supporting LM advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The LM found that the evidence does not support this claim. This workspace requires supporting LM advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting LM advice before approval." : "";
+  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting model advice. Refresh the model review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The model marked this claim Needs Attention. This workspace requires supporting model advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The model found that the evidence does not support this claim. This workspace requires supporting model advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting model advice before approval." : "";
   const evidenceRows = r.evidence || [];
   const previewEvidence = evidenceRows.slice(0, 2);
   const claimTitle = claimDisplayTitle(r.claim);
@@ -1208,15 +1216,15 @@ function Inspector({
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
       {fullReview && <Button className="fullReviewBack" variant="ghost" onClick={onBack}>Back to review</Button>}
-      {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
+      {!fullReview && onClose && <Button variant="ghost" size="content" className="mobileBack" onClick={onClose}>
         Close details
-      </button>}
+      </Button>}
       <InspectorHeader className="inspectorTop">
         {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <h1 className="fullStatement">{claimTitle}</h1> : <h2>{claimTitle}</h2>}
         {claimDescription && <p className="claimDescription">{claimDescription}</p>}
-        {hasConciseHeading && <details className="claimStatementDetails"><summary>Exact claim statement</summary><p className="claimFullStatement">{r.claim.statement}</p></details>}
+        {hasConciseHeading && <Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>
@@ -1228,29 +1236,29 @@ function Inspector({
         {fullReview ? <div className="reviewFactsGrid">
           <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
           <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
-          {can && <><ReviewFact label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""} /><ReviewFact label="LM advice · advisory" value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
+          {can && <><ReviewFact label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""} /><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
         </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
+        <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
         {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
-        {can && !fullReview && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd></div><div><dt>LM advice · advisory</dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
+        {can && !fullReview && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd></div><div><dt>Model review <small className="modelAttribution">{modelAttribution}</small></dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
         {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
             : <>
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
-                ? <Button variant="outline" onClick={onConfigurePolicy}>Set up LM review</Button>
+                ? <Button variant="outline" onClick={onConfigurePolicy}>Set up model review</Button>
                 : judgeFailed && onJudge
-                  ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry LM review</Button>
+                  ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry model review</Button>
                   : judgePending && r.review_policy?.mode === "automatic"
-                    ? <span className="queuedAction">LM review runs automatically after checks</span>
+                    ? <span className="queuedAction">Model review runs automatically after checks</span>
                     : judgePending && onJudge && r.review_policy?.mode === "manual"
-                      ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional LM review</Button>
+                      ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional model review</Button>
                       : null}
             </>}
-          {r.recommendation && onJudge && <Button variant="outline" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+          {r.recommendation && onJudge && <Button variant="outline" disabled={busy} onClick={onJudge}>Refresh model advice</Button>}
           {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
@@ -1264,21 +1272,22 @@ function Inspector({
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
         {can && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="applicability"><AccordionTrigger>Applicability & conditions</AccordionTrigger><AccordionContent className="pt-2"><ApplicabilityPanel claim={r.claim} /></AccordionContent></AccordionItem></Accordion> : <Card className="m-5 shadow-none"><CardContent className="p-5"><ApplicabilityPanel claim={r.claim} compact /></CardContent></Card>)}
-        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">LM rationale <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="LM review rationale"><div className="lmRationaleHeader"><span>Why the LM reached this advice</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full LM rationale" /><small>The LM evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
+        <TypedJudgeAdvice audit={r.recommendation?.decision_audit} />
+        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">{r.recommendation.decision_audit ? "Jev template summary" : "model rationale"} <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The model evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="model review rationale"><div className="lmRationaleHeader"><span>{r.recommendation.decision_audit ? "Jev template summary" : "Why the model reached this advice"}</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full model rationale" /><small>The model evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.claim.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
-      {r.reproposal_parent && <details className="revisionDisclosure"><summary><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></summary><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></details>}
+      {r.reproposal_parent && <Disclosure className="revisionDisclosure"><DisclosureTrigger><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></DisclosureTrigger><DisclosureContent><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></DisclosureContent></Disclosure>}
       {!!r.reproposals?.length && <section className="revisionSection"><h3>Re-proposals after this rejection</h3><p>These are separate candidates. The rejection above remains part of the append-only history.</p>{r.reproposals.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose?.(candidate.id)}>{candidate.statement} · {candidate.state.replaceAll("_", " ")}</Button>)}</section>}
-      <Tabs.Root defaultValue="evidence">
-        <Tabs.List className="tabs">
-          <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
-          <Tabs.Trigger value="checks">Checks</Tabs.Trigger>
-          <Tabs.Trigger value="history">History</Tabs.Trigger>
-        </Tabs.List>
-        <Tabs.Content value="evidence" className="tabContent">
+      <Tabs defaultValue="evidence">
+        <TabsList className="tabs">
+          <TabsTrigger value="evidence">Evidence</TabsTrigger>
+          <TabsTrigger value="checks">Checks</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
+        </TabsList>
+        <TabsContent value="evidence" className="tabContent">
           {(r.evidence || []).map((e: any, i: number) => (
             <article className="evidenceRow" key={i}>
               <div>
@@ -1290,10 +1299,10 @@ function Inspector({
             </article>
           ))}
           {!(r.evidence || []).length && (
-            <div className="empty">No bound evidence on this receipt.</div>
+            <Empty className="empty">No bound evidence on this receipt.</Empty>
           )}
-        </Tabs.Content>
-        <Tabs.Content value="checks" className="tabContent">
+        </TabsContent>
+        <TabsContent value="checks" className="tabContent">
           <div className="checkList">
             {!Object.keys(r.evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
             {Object.entries(r.evaluation?.checks || {}).map(
@@ -1315,13 +1324,13 @@ function Inspector({
             )}
           </div>
           <div className="recommendation">
-            <span>LM advice</span>
+            <span>Model review</span>
             {r.recommendation ? <Badge state={r.recommendation.recommendation} /> : <b>No recommendation recorded</b>}
             {r.recommendation?.model && <small>{r.recommendation.model} · {r.recommendation.judge}</small>}
             {r.recommendation && <p>Read the complete advisory rationale in the review summary above.</p>}
           </div>
-        </Tabs.Content>
-        <Tabs.Content value="history" className="tabContent">
+        </TabsContent>
+        <TabsContent value="history" className="tabContent">
           {(r.history || []).map((h: any, i: number) => (
             <div className="historyRow" key={i}>
               <span></span>
@@ -1333,8 +1342,8 @@ function Inspector({
               </div>
             </div>
           ))}
-        </Tabs.Content>
-      </Tabs.Root>
+        </TabsContent>
+      </Tabs>
       </>}
       {can && (!onOpenFull || fullReview) ? (
         <Card className="decision">
@@ -1342,7 +1351,7 @@ function Inspector({
             <span>Owner decision</span>
             <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
           </div>
-          <label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></label>
+          <Label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></Label>
           <Textarea
             id={`decision-note-${r.claim.id}`}
             aria-label="Decision note, required for rejection or bounded clarification requests"
@@ -1388,20 +1397,20 @@ function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
     <PageHead title="Runs" description="Trace each task from retrieved knowledge through declared reliance, outputs, and observed results." />
     <div className={`runsWorkspace${selected ? " hasRun" : ""}`}>
       <section className="runList" aria-busy={loading}>
-        {rows.map((run: any) => <button key={run.id} className={selected?.id === run.id ? "active" : ""} onClick={() => onChoose(run.id)}>
+        {rows.map((run: any) => <Button variant="ghost" size="content" key={run.id} className={selected?.id === run.id ? "active" : ""} onClick={() => onChoose(run.id)}>
           <span><Badge state={run.status} /><time>{when(run.started_at)}</time></span>
           <strong>{run.purpose}</strong>
           <small>{run.actor} · {run.counts?.retrieved || 0} receipts · {run.counts?.outputs || 0} outputs</small>
-        </button>)}
-        {!loading && !rows.length && <div className="empty"><h2>No runs recorded</h2><p>Agent-tracked tasks appear here after run.start.</p></div>}
+        </Button>)}
+        {!loading && !rows.length && <Empty className="empty"><h2>No runs recorded</h2><p>Agent-tracked tasks appear here after run.start.</p></Empty>}
       </section>
       {selected && <article className="runDetail">
         <header><div><Badge state={selected.status} /><h2>{selected.purpose}</h2><p>{selected.actor} · started {when(selected.started_at)}{selected.finished_at ? ` · finished ${when(selected.finished_at)}` : ""}</p></div><Button variant="outline" onClick={onClose}>Close</Button></header>
         {selected.finish_summary && <p className="runSummary">{selected.finish_summary}</p>}
-        <section><h3>Retrieved context</h3>{selected.context_receipts?.length ? selected.context_receipts.map((receipt: any) => <div className="runRecord" key={receipt.id}><b>{receipt.claims.length} claim versions</b><small className="mono">{receipt.id}</small>{receipt.claims.map((claim: any) => <details key={`${claim.claim_id}:${claim.claim_digest}`}><summary>{claim.title || claim.statement}</summary><p>{claim.statement}</p><code>{claim.claim_id} · {claim.claim_digest}</code></details>)}<details className="technicalDetails"><summary>Technical receipt</summary><code>Ledger {receipt.ledger_head || "empty"}</code><code>Policy {receipt.policy_digest}</code></details></div>) : <p className="empty">No context receipts recorded.</p>}</section>
-        <section><h3>Declared reliance</h3>{selected.reliances?.length ? selected.reliances.map((row: any) => <div className="runRecord" key={row.id}><b>{row.purpose}</b><code>{row.claim_id} · {row.claim_digest}</code></div>) : <p className="empty">No reliance declared. Retrieved context is not treated as used.</p>}</section>
-        <section><h3>Outputs</h3>{selected.outputs?.length ? selected.outputs.map((row: any) => <div className="runRecord" key={row.id}><b>{row.summary || "Output reference"}</b><code>{row.reference}</code><code>{row.content_digest}</code>{row.reliance_ids?.length ? <small>{row.reliance_ids.length} declared reliance link(s)</small> : null}</div>) : <p className="empty">No outputs recorded.</p>}</section>
-        <section><h3>Observations</h3>{selected.observations?.length ? selected.observations.map((row: any) => <div className="runRecord" key={row.id}><span><Badge state={row.kind} /><time>{when(row.observed_at)}</time></span><b>{row.meaning}</b><small>Source: {row.source}</small></div>) : <p className="empty">No observations recorded. Proofpress does not infer a score.</p>}</section>
+        <section><h3>Retrieved context</h3>{selected.context_receipts?.length ? selected.context_receipts.map((receipt: any) => <Card className="runRecord" key={receipt.id}><b>{receipt.claims.length} claim versions</b><small className="mono">{receipt.id}</small>{receipt.claims.map((claim: any) => <Disclosure key={`${claim.claim_id}:${claim.claim_digest}`}><DisclosureTrigger>{claim.title || claim.statement}</DisclosureTrigger><DisclosureContent><p>{claim.statement}</p><code>{claim.claim_id} · {claim.claim_digest}</code></DisclosureContent></Disclosure>)}<Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><code>Ledger {receipt.ledger_head || "empty"}</code><code>Policy {receipt.policy_digest}</code></DisclosureContent></Disclosure></Card>) : <p className="empty">No context receipts recorded.</p>}</section>
+        <section><h3>Declared reliance</h3>{selected.reliances?.length ? selected.reliances.map((row: any) => <Card className="runRecord" key={row.id}><b>{row.purpose}</b><code>{row.claim_id} · {row.claim_digest}</code></Card>) : <p className="empty">No reliance declared. Retrieved context is not treated as used.</p>}</section>
+        <section><h3>Outputs</h3>{selected.outputs?.length ? selected.outputs.map((row: any) => <Card className="runRecord" key={row.id}><b>{row.summary || "Output reference"}</b><code>{row.reference}</code><code>{row.content_digest}</code>{row.reliance_ids?.length ? <small>{row.reliance_ids.length} declared reliance link(s)</small> : null}</Card>) : <p className="empty">No outputs recorded.</p>}</section>
+        <section><h3>Observations</h3>{selected.observations?.length ? selected.observations.map((row: any) => <Card className="runRecord" key={row.id}><span><Badge state={row.kind} /><time>{when(row.observed_at)}</time></span><b>{row.meaning}</b><small>Source: {row.source}</small></Card>) : <p className="empty">No observations recorded. Proofpress does not infer a score.</p>}</section>
       </article>}
     </div>
   </div>;
@@ -1431,16 +1440,16 @@ function ActivityPage({ rows }: any) {
       </div>
       {error && <p role="alert">{error}</p>}
       <div className="tableWrap activityTable">
-        <table><caption className="sr-only">Recent workspace activity</caption><thead><tr><th>Time</th><th>{view==="logs"?"Operation":"What happened"}</th><th>Actor</th><th>Result</th></tr></thead><tbody>
+        <Table><TableCaption className="sr-only">Recent workspace activity</TableCaption><TableHeader><TableRow><TableHead>Time</TableHead><TableHead>{view==="logs"?"Operation":"What happened"}</TableHead><TableHead>Actor</TableHead><TableHead>Result</TableHead></TableRow></TableHeader><TableBody>
         {filtered.slice(current * 20, (current + 1) * 20).map((r: any) => (
-          <tr key={r.id || r.audit_id}>
-            <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
-            <td data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?claim_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <details><summary>Details</summary><p>{r.detail}</p></details>}{r.scope && <small>{r.scope}</small>}</>}</td>
-            <td data-label="Actor">{r.actor || r.principal_id || "Actor not recorded"}{r.model && <small>{r.model}</small>}{r.initiator && r.initiator!==r.actor && <small>Requested by {r.initiator}</small>}</td>
-            <td data-label="Result">{view==="logs" ? <ActivityResult outcome={r.outcome} /> : <Badge state={r.outcome} />}</td>
-          </tr>
+          <TableRow key={r.id || r.audit_id}>
+            <TableCell data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></TableCell>
+            <TableCell data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?claim_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <Disclosure><DisclosureTrigger>Details</DisclosureTrigger><DisclosureContent><p>{r.detail}</p></DisclosureContent></Disclosure>}{r.scope && <small>{r.scope}</small>}</>}</TableCell>
+            <TableCell data-label="Actor">{r.actor || r.principal_id || "Actor not recorded"}{r.model && <small>{r.model}</small>}{r.initiator && r.initiator!==r.actor && <small>Requested by {r.initiator}</small>}</TableCell>
+            <TableCell data-label="Result">{view==="logs" ? <ActivityResult outcome={r.outcome} /> : <Badge state={r.outcome} />}</TableCell>
+          </TableRow>
         ))}
-        </tbody></table>
+        </TableBody></Table>
         {!filtered.length && <p className="empty">{view==="retrievals"?"No context retrievals recorded yet. Historical reads remain in Technical logs.":"No activity records loaded."}</p>}
       </div>
       <nav className="pagination" aria-label="Activity pages">
@@ -1500,22 +1509,22 @@ function AdminPage({
           </small>
         </div>
         <div className="issueFormFields">
-          <label>Agent identity<Input
+          <Label>Agent identity<Input
             aria-label="Agent identity"
             aria-describedby="agentIdentityHelp"
             value={principal}
             onChange={(e) => setPrincipal(e.target.value)}
             placeholder="agent:claude-code"
             required
-          /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
-          <label>Key name<Input
+          /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></Label>
+          <Label>Key name<Input
             aria-label="Key name"
             aria-describedby="keyNameHelp"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
             placeholder="Claude Code · company laptop"
             required
-          /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
+          /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></Label>
           <Button disabled={busy}>Issue credential</Button>
         </div>
       </form>

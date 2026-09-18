@@ -1,3 +1,9 @@
+import { Label } from "@/components/ui/label";
+import { NativeSelect } from "@/components/ui/native-select";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { DisclosureContent, Disclosure, DisclosureTrigger } from "@/components/ui/disclosure";
+import { Checkbox } from "./ui/checkbox";
 import React from "react";
 import { CheckmarkCircle02Icon, Copy01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -95,39 +101,40 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     {!settings ? <CardContent><p role="status">Loading policy…</p></CardContent> : <CardContent><form onSubmit={save}>
       <fieldset className="approvalRequirement"><legend>Approval gate</legend>
         <RadioGroup className="approvalChoices" value={settings.require_judge ? "required" : "advisory"} onValueChange={value=>change("require_judge",value==="required")}>
-          <label className={!settings.require_judge ? "selected" : ""}><RadioGroupItem value="advisory"/><span><b>Human decision anytime</b><small>LM advice informs the review but does not block Approve.</small></span></label>
-          <label className={settings.require_judge ? "selected" : ""}><RadioGroupItem value="required" disabled={settings.mode==="off"}/><span><b>Require supporting LM advice</b><small>Approve unlocks only when current LM advice supports the evidence.</small></span></label>
+          <Label className={!settings.require_judge ? "selected" : ""}><RadioGroupItem value="advisory"/><span><b>Human decision anytime</b><small>Model advice informs the review but does not block Approve.</small></span></Label>
+          <Label className={settings.require_judge ? "selected" : ""}><RadioGroupItem value="required" disabled={settings.mode==="off"}/><span><b>Require supporting model advice</b><small>Approve unlocks only when current model advice supports the evidence.</small></span></Label>
         </RadioGroup>
       </fieldset>
       <fieldset><legend>Model provider</legend>
         <div className="policyFields three">
-          <label>Provider<select aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</select></label>
-          <label>Model{modelOptions.length>0 && <select aria-label="Model" value={selectedProvider.models.includes(settings.model)?settings.model:"__custom__"} onChange={e=>change("model",e.target.value==="__custom__"?"":e.target.value)}>
+          <Label>Provider<NativeSelect aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</NativeSelect></Label>
+          <Label>Model{modelOptions.length>0 && <NativeSelect aria-label="Model" value={selectedProvider.models.includes(settings.model)?settings.model:"__custom__"} onChange={e=>change("model",e.target.value==="__custom__"?"":e.target.value)}>
             {modelOptions.filter((model:string)=>selectedProvider.models.includes(model)).map((model:string)=><option key={model} value={model}>{model}</option>)}
             <option value="__custom__">Enter another model ID…</option>
-          </select>}
-            {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
-            <small>Choose one of 10 ranked defaults or enter another supported model ID.</small></label>
-          <label>LM review<select aria-label="LM review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></select></label>
-          {selectedProvider?.endpoint_required && <label className="wide">HTTPS endpoint<input type="url" required={settings.mode!=="off"} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} /></label>}
+          </NativeSelect>}
+            {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <Input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
+            <small>Choose a provider model or enter another supported model ID.</small></Label>
+          <Label>Model review<NativeSelect aria-label="Model review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></NativeSelect></Label>
+          {selectedProvider?.endpoint_required && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off"} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} /></Label>}
         </div>
-        <div className="providerCredential"><label>API key<input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></label>
+        <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
           <p>{record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
-          {record.credential.configured && <label className="policyCheck"><input type="checkbox" checked={removeKey} onChange={e=>{setRemoveKey(e.target.checked);setApiKey("");}} />Remove stored key when saving</label>}
+          {record.credential.configured && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{setRemoveKey(checked === true);setApiKey("");}} />Remove stored key when saving</Label>}
           {!record.credential.storage_ready && <p className="policyWarning">Secure credential storage is unavailable on this deployment.</p>}
         </div>
       </fieldset>
+      {["typesafe", "vercel_jev"].includes(settings.provider) && <p className="policyWarning">Jev is experimental. It returns typed decisions and a template summary, not a generated explanation. Test with your own labeled evidence before relying on its advice.</p>}
       <fieldset><legend>Evaluation</legend>
-        <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
-        <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
-          <div className="policyPrompt"><textarea readOnly value={record.authoring_prompt} aria-label="Policy authoring prompt" /><Button type="button" variant="outline" onClick={copyPrompt}>{copied?<><HugeiconsIcon icon={CheckmarkCircle02Icon}/>Copied</>:<><HugeiconsIcon icon={Copy01Icon}/>Copy prompt</>}</Button></div>
-          <label className="criteriaLabel">Agent response<textarea value={draft} placeholder={'Paste JSON such as {"criteria":"…"}'} onChange={e=>setDraft(e.target.value)} /></label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
-        </details>
+        <Label className="criteriaLabel">Criteria<Textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></Label>
+        <Disclosure className="agentPolicyDraft"><DisclosureTrigger>Draft criteria with your agent</DisclosureTrigger><DisclosureContent><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
+          <div className="policyPrompt"><Textarea readOnly value={record.authoring_prompt} aria-label="Policy authoring prompt" /><Button type="button" variant="outline" onClick={copyPrompt}>{copied?<><HugeiconsIcon icon={CheckmarkCircle02Icon}/>Copied</>:<><HugeiconsIcon icon={Copy01Icon}/>Copy prompt</>}</Button></div>
+          <Label className="criteriaLabel">Agent response<Textarea value={draft} placeholder={'Paste JSON such as {"criteria":"…"}'} onChange={e=>setDraft(e.target.value)} /></Label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
+        </DisclosureContent></Disclosure>
       </fieldset>
       <fieldset><legend>Data & approval</legend>
-        <p>LM review sends the claim and bounded evidence to the selected provider. The recommendation is advisory.</p>
-        <label className="policyCheck"><input type="checkbox" checked={settings.external_consent} onChange={e=>change("external_consent",e.target.checked)} />Allow external model processing for this workspace</label>
-        {settings.provider==="openrouter" && <label className="policyCheck"><input type="checkbox" checked={settings.zdr} onChange={e=>change("zdr",e.target.checked)} />Require OpenRouter Zero Data Retention routing</label>}
+        <p>Model review sends the claim and bounded evidence to the selected provider. The recommendation is advisory.</p>
+        <Label className="policyCheck"><Checkbox checked={settings.external_consent} onCheckedChange={checked=>change("external_consent",checked === true)} />Allow external model processing for this workspace</Label>
+        {["openrouter", "vercel_jev"].includes(settings.provider) && <Label className="policyCheck"><Checkbox checked={settings.zdr} onCheckedChange={checked=>change("zdr",checked === true)} />Require {settings.provider === "vercel_jev" ? "Vercel Gateway" : "OpenRouter"} Zero Data Retention routing</Label>}
       </fieldset>
       <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":"Save & activate"}</Button></div>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}

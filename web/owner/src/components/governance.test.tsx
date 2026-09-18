@@ -24,7 +24,7 @@ describe("governance components", () => {
   });
   it("does not color a revision request as rejection", () => {
     const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"r",statement:"Revise units",scope:"test"},state:"needs_revision",evidence:[]}} available={false} evidenceNames={[]} selection="claim" onSelect={()=>{}} />);
-    expect(html).toContain('class="graphNode claim revision"');
+    expect(html).toContain('graphNode claim revision');
     expect(html).toContain('class="revision"');
     expect(html).not.toContain('class="graphNode excluded"');
   });
@@ -44,7 +44,7 @@ describe("governance components", () => {
   });
   it("uses one notice surface across decision states", () => {
     for (const state of ["admitted","rejected","needs_revision"]) {
-      expect(renderToStaticMarkup(<DecisionNotice state={state} />)).toContain('class="decisionNotice"');
+      expect(renderToStaticMarkup(<DecisionNotice state={state} />)).toContain('decisionNotice');
     }
   });
   it("binds handoff instructions to a recorded request", () => {

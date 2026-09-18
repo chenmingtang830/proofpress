@@ -15,6 +15,7 @@ const variants = cva(
         approve: "border border-[var(--accent)] bg-[var(--accent)] text-white hover:bg-[var(--accent-strong)]",
       },
       size: {
+        content: "justify-start h-auto whitespace-normal p-0 text-left text-[13px]",
         default: "h-11 px-4 text-[13px]",
         sm: "h-8 px-3 text-[12px]",
       },
@@ -29,5 +30,5 @@ export interface ButtonProps
   ref?: React.Ref<HTMLButtonElement>;
 }
 export function Button({ className, variant, size, ...props }: ButtonProps) {
-  return <button className={cn(variants({ variant, size }), className)} {...props} />;
+  return <button data-slot="button" className={cn(variants({ variant, size }), className)} {...props} />;
 }
