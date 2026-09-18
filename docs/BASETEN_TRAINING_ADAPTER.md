@@ -45,9 +45,11 @@ non-empty list of selected JSON pointers. For each selection the adapter:
 4. computes a separate digest over the adapter selection plan; and
 5. discards the raw provider payload before calling Proofpress ingestion.
 
-The adapter also checks Baseten identity consistency. Training Job responses
-must contain a `training_job` whose job and project IDs match the declared
-source. Loops responses must contain a `run` whose run and session IDs match.
+The adapter also checks Baseten identity consistency on every selected record.
+Each Training Job record must contain a `training_job` whose job and project
+IDs match the declared source. Each Loops record must contain a `run` whose run
+and session IDs match. Records without that per-record binding are rejected
+instead of being attributed to the declared run.
 
 ## Trust boundary
 
