@@ -68,6 +68,17 @@ class BasetenTrainingAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "does not resolve"):
             to_external_experiment(missing)
 
+        unbound = self.bundle()
+        unbound["records"][1]["payload"].pop("training_job")
+        with self.assertRaisesRegex(ValueError, "must contain training_job identity"):
+            to_external_experiment(unbound)
+
+    def test_rejects_noncanonical_array_indices(self):
+        bundle = self.bundle()
+        bundle["records"][1]["selections"][0]["pointer"] = "/checkpoints/00"
+        with self.assertRaisesRegex(ValueError, "does not resolve"):
+            to_external_experiment(bundle)
+
     def test_rejects_credential_bearing_source_uris(self):
         bundle = self.bundle()
         bundle["records"][0]["source_uri"] += "?access_token=secret"

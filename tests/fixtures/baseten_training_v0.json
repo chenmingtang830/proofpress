@@ -57,6 +57,10 @@
           "id": "job-42",
           "training_project_id": "project-7"
         },
+        "training_job": {
+          "id": "job-42",
+          "training_project_id": "project-7"
+        },
         "checkpoints": [
           {
             "checkpoint_id": "checkpoint-1000",

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from typing import Any
 
 from proofpress.integrations.external_experiment import normalize_manifest
@@ -58,10 +59,15 @@ def _pointer(payload: Any, pointer: str, field: str) -> Any:
         raise ValueError(f"Baseten training {field} must be an RFC 6901 JSON pointer")
     current = payload
     for token in pointer[1:].split("/"):
+        if re.search(r"~(?:[^01]|$)", token):
+            raise ValueError(
+                f"Baseten training {field} must be an RFC 6901 JSON pointer")
         token = token.replace("~1", "/").replace("~0", "~")
         if isinstance(current, dict) and token in current:
             current = current[token]
-        elif isinstance(current, list) and token.isdigit() and int(token) < len(current):
+        elif (isinstance(current, list)
+              and re.fullmatch(r"(?:0|[1-9][0-9]*)", token)
+              and int(token) < len(current)):
             current = current[int(token)]
         else:
             raise ValueError(
@@ -74,11 +80,12 @@ def _validate_identity(product: str, source: dict[str, Any],
     run_id = source["run_id"]
     if product == "training_jobs":
         project_id = source["training_project_id"]
-        matched = False
-        for record in records:
+        for index, record in enumerate(records):
             job = record["payload"].get("training_job")
             if not isinstance(job, dict):
-                continue
+                raise ValueError(
+                    "Baseten training_jobs records["
+                    f"{index}] must contain training_job identity")
             if job.get("id") != run_id:
                 raise ValueError("Baseten training job id does not match source.run_id")
             observed_project = job.get("training_project_id")
@@ -87,24 +94,16 @@ def _validate_identity(product: str, source: dict[str, Any],
             if observed_project != project_id:
                 raise ValueError(
                     "Baseten training project id does not match source.training_project_id")
-            matched = True
-        if not matched:
-            raise ValueError(
-                "Baseten training_jobs export requires a record containing training_job identity")
         return
 
     session_id = source["session_id"]
-    matched = False
-    for record in records:
+    for index, record in enumerate(records):
         run = record["payload"].get("run")
         if not isinstance(run, dict):
-            continue
+            raise ValueError(
+                f"Baseten Loops records[{index}] must contain run identity")
         if run.get("id") != run_id or run.get("session_id") != session_id:
             raise ValueError("Baseten Loops run or session id does not match source")
-        matched = True
-    if not matched:
-        raise ValueError(
-            "Baseten Loops export requires a record containing run identity")
 
 
 def to_external_experiment(payload: Any) -> dict[str, Any]:
@@ -205,9 +204,12 @@ def to_external_experiment(payload: Any) -> dict[str, Any]:
             _allowed(selection, {"pointer", "observation", "artifact_type",
                                  "media_type", "selection_reason"},
                      f"records[{index}].selections[{selection_index}]")
-            pointer = _string(
-                selection.get("pointer"),
-                f"records[{index}].selections[{selection_index}].pointer")
+            pointer = selection.get("pointer")
+            if not isinstance(pointer, str) or len(pointer) > 2000:
+                raise ValueError(
+                    "Baseten training records["
+                    f"{index}].selections[{selection_index}].pointer must be "
+                    "an RFC 6901 JSON pointer")
             _pointer(record_payload, pointer,
                      f"records[{index}].selections[{selection_index}].pointer")
             row = {
