@@ -23,7 +23,7 @@ OWNER_ONLY_OPERATIONS = frozenset({
     "relation.review", "relation.resolve",
 })
 AGENT_OPERATIONS = frozenset({
-    "capabilities.get", "configuration.get", "evidence.submit",
+    "capabilities.get", "configuration.get", "evidence.submit", "experiment.ingest",
     "claim.propose", "claim.evaluate", "claim.judge",
     "claim.judge_batch", "relation.propose", "relation.evaluate",
     "relation.judge", "graph.get", "graph.traverse", "context.get", "context.discover",
@@ -57,6 +57,7 @@ IDENTITY_PARAMETERS = {
     "reliance.record": "actor",
     "output.record": "actor",
     "observation.record": "actor",
+    "experiment.ingest": "actor",
 }
 
 
