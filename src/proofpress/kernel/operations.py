@@ -900,8 +900,9 @@ def _normalize_locator(raw, quote):
     if kind == "json_pointer":
         if set(raw) != {"kind", "value"}:
             raise ValueError("retrieval evidence json_pointer locator requires kind and value")
-        pointer = _required_string(raw.get("value"), "locator.value")
-        if len(pointer) > 2000 or not re.fullmatch(r"(?:/(?:[^~]|~[01])*)*", pointer):
+        pointer = raw.get("value")
+        if (not isinstance(pointer, str) or len(pointer) > 2000
+                or not re.fullmatch(r"(?:/(?:[^~]|~[01])*)*", pointer)):
             raise ValueError("retrieval evidence locator.value must be an RFC 6901 JSON pointer")
         return {"kind": kind, "value": pointer}
     raise ValueError("retrieval evidence locator.kind must be text_span, page_span, section_span, spreadsheet_cell, or json_pointer")
@@ -1220,6 +1221,17 @@ def ingest_external_experiment_v0(payload, actor):
         }
         evidence_row["digest"] = digest(evidence_row)
         prepared.append((source_row, evidence_row))
+
+    # The shared manifest metadata is intentionally repeated on each durable
+    # evidence row so every row remains self-describing. Bound the resulting
+    # append set before the first event is written to prevent a small manifest
+    # with many rows from expanding into unbounded history.
+    expanded_size = sum(
+        len(canon(row))
+        for pair in prepared for row in pair)
+    if expanded_size > 8 * 1024 * 1024:
+        raise ValueError(
+            "external experiment expanded evidence must be at most 8388608 bytes")
 
     existing_event_ids = {row["event_id"] for row in projection["events"]}
     added = 0
@@ -3232,7 +3244,7 @@ def local_operation_capabilities():
         "clients": ["python_sdk"],
         "profiles": {
             "claim": ["legal", "repo", "experiment"],
-            "evidence": ["experiment", "external_experiment"],
+            "evidence": ["experiment"],
             "experiment_schema": proofpress_experiment.PROFILE,
             "external_experiment_manifest_schema":
                 proofpress_external_experiment.SCHEMA,

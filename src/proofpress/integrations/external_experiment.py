@@ -29,8 +29,9 @@ ARTIFACT_TYPES = frozenset({
 })
 _DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
 _SECRET_KEY = re.compile(
-    r"(?:^|[_-])(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|"
-    r"password|credential|authorization|signature|sig|signed)(?:$|[_-])",
+    r"(?:^|[_-])(api[_-]?key|key|access[_-]?token|refresh[_-]?token|token|"
+    r"secret|client[_-]?secret|private[_-]?key|password|credential|"
+    r"authorization|auth|signature|sig|signed|code|session)(?:$|[_-])",
     re.IGNORECASE)
 _JSON_POINTER = re.compile(r"^(?:/(?:[^~]|~[01])*)*$")
 
@@ -106,8 +107,9 @@ def _locator(value: Any) -> dict[str, Any]:
     kind = _string(raw.get("kind"), "evidence.locator.kind", 64)
     if kind == "json_pointer":
         _allowed(raw, {"kind", "value"}, "evidence.locator")
-        pointer = _string(raw.get("value"), "evidence.locator.value")
-        if not _JSON_POINTER.fullmatch(pointer):
+        pointer = raw.get("value")
+        if (not isinstance(pointer, str) or len(pointer) > 2000
+                or not _JSON_POINTER.fullmatch(pointer)):
             raise ValueError(
                 "external experiment evidence.locator.value must be an RFC 6901 JSON pointer")
         return {"kind": kind, "value": pointer}

@@ -156,6 +156,55 @@ class ExternalExperimentIngestionTests(unittest.TestCase):
                 fragment_uri, actor="agent:researcher")
         self.assertNotIn("must-not-be-stored", json.dumps(kernel_ops.v2_events()))
 
+        for credential_key in ("key", "code", "client_secret", "private_key"):
+            with self.subTest(credential_key=credential_key):
+                credential_alias = self.manifest()
+                credential_alias["evidence"][0]["source_uri"] = (
+                    f"https://provider.example/result?{credential_key}="
+                    "must-not-be-stored")
+                with self.assertRaisesRegex(ProofpressError, "credential query"):
+                    self.client.ingest_external_experiment(
+                        credential_alias, actor="agent:researcher")
+        self.assertNotIn("must-not-be-stored", json.dumps(kernel_ops.v2_events()))
+
+    def test_json_pointer_preserves_root_and_significant_whitespace(self):
+        for pointer in ("", "/metrics/value ", "/ metrics/value"):
+            with self.subTest(pointer=pointer):
+                payload = self.manifest()
+                payload["evidence"][0]["locator"]["value"] = pointer
+                result = self.client.ingest_external_experiment(
+                    payload, actor="agent:researcher")
+                row = kernel_ops.v2_projection()["evidence"][
+                    result["imported_evidence"][0]]
+                self.assertEqual(
+                    row["retrieval_receipt"]["locator"]["value"], pointer)
+
+    def test_expanded_evidence_is_bounded_before_append(self):
+        payload = self.manifest()
+        payload["source"]["known_omissions"] = [
+            f"omission-{index:04d}-" + "x" * 480 for index in range(450)]
+        payload["evidence"] = []
+        template = self.manifest()["evidence"][0]
+        for index in range(40):
+            row = copy.deepcopy(template)
+            row["source_uri"] = f"https://provider.example/result/{index}"
+            row["source_digest"] = "sha256:" + f"{index:064x}"
+            payload["evidence"].append(row)
+        before = len(kernel_ops.v2_events())
+
+        with self.assertRaisesRegex(ProofpressError, "expanded evidence"):
+            self.client.ingest_external_experiment(
+                payload, actor="agent:researcher")
+
+        self.assertEqual(len(kernel_ops.v2_events()), before)
+
+    def test_capabilities_do_not_advertise_ingestion_as_evidence_profile(self):
+        profiles = kernel_ops.local_operation_capabilities()["profiles"]
+        self.assertEqual(profiles["evidence"], ["experiment"])
+        self.assertEqual(
+            profiles["external_experiment_manifest_schema"],
+            "proofpress.external_experiment.v0")
+
     def test_conflicting_source_rows_fail_before_any_append(self):
         payload = self.manifest()
         conflicting = copy.deepcopy(payload["evidence"][0])
