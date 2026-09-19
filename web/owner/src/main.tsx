@@ -1148,10 +1148,10 @@ function ReviewPage({
           description="Evidence and recommendations inform the decision. Only your approval admits claims."
         />
         <div className="filterbar">
-          <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review · {queueCounts.needs_review || 0}</Button>
-          <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision · {queueCounts.needs_revision || 0}</Button>
-          <Button variant={queue === "needs_reassessment" ? "default" : "outline"} onClick={() => switchQueue("needs_reassessment")}>Needs reassessment · {queueCounts.needs_reassessment || 0}</Button>
-          <Button variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history · {queueCounts.decided || 0}</Button>
+          <Button aria-label="Needs review" variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review · {queueCounts.needs_review || 0}</Button>
+          <Button aria-label="Needs revision" variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision · {queueCounts.needs_revision || 0}</Button>
+          <Button aria-label="Needs reassessment" variant={queue === "needs_reassessment" ? "default" : "outline"} onClick={() => switchQueue("needs_reassessment")}>Needs reassessment · {queueCounts.needs_reassessment || 0}</Button>
+          <Button aria-label="Decision history" variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history · {queueCounts.decided || 0}</Button>
           <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} claims`}</span>
         </div>
         <div className="tableWrap reviewTableWrap">
