@@ -216,7 +216,7 @@ and authorizes every request; trusting network location alone is not sufficient.
 | Idempotency | Keys are unique within workspace and principal; replay returns the original result and conflicting reuse fails closed | Let devices retry safely without duplicate governance events |
 | Concurrency | Every mutation supplies or derives an expected head; a stale head returns a retryable conflict | Prevent silent overwrite and stale approval |
 | Artifact custody | Store bounded projections, locators, digests, and receipts; source content stays in the owner's systems | Avoid turning hosted Proofpress into a document or trace warehouse |
-| Approval | Only an authenticated owner principal may admit, reject, request changes, supersede, or resolve contradictions | Preserve Human Approval as the sole admission authority |
+| Approval | Only an authenticated owner principal may admit, reject, request changes, supersede, withdraw, retire dependencies through reassessment, or resolve contradictions | Preserve Human Approval as the sole admission authority |
 
 [//]: # (ob:fc0554fb)
 ## Implementation sequence

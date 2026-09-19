@@ -9,7 +9,7 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
   const evidence = (receipt.evidence || []).slice(0,limit);
   const height = Math.max(360, evidence.length * 138 + 80);
   const center = height / 2;
-  const tone = available ? "admitted" : receipt.state === "needs_revision" ? "revision" : ["rejected", "blocked"].includes(receipt.state) ? "excluded" : "pending";
+  const tone = available ? "admitted" : receipt.state === "needs_revision" ? "revision" : ["rejected", "blocked", "withdrawn", "dependency_invalidated"].includes(receipt.state) ? "excluded" : "pending";
   const applicability = receipt.claim.applicability || {};
   const boundary = receipt.claim.scope || applicability.title || applicability.description || "No reuse boundary recorded";
   const contextTitle = receipt.claim.scope ? `Scope: ${receipt.claim.scope}` : boundary;
@@ -26,5 +26,7 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
       </div>
     </div>
     {receipt.evidence?.length > limit && <Button variant="outline" onClick={() => setLimit(limit+3)}>Show {Math.min(3,receipt.evidence.length-limit)} more sources</Button>}
+    {receipt.dependency_impact?.items?.length ? <section className="dependencyPath" aria-label="Dependency path"><h3>Why reuse is paused</h3>{receipt.dependency_impact.items.map((item:any, index:number) => <p key={item.relation_id || index}><span className="mono">{item.path.join(" → depends on ")}</span> → {item.reason.replaceAll("_", " ")}</p>)}</section> : null}
+    {receipt.dependencies?.some((relation:any) => relation.state === "retired") ? <section className="dependencyPath"><h3>Retired dependencies</h3>{receipt.dependencies.filter((relation:any) => relation.state === "retired").map((relation:any) => <p key={relation.id}><span className="mono">{relation.from} → {relation.to}</span> · retired</p>)}</section> : null}
   </div>;
 }

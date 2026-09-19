@@ -221,6 +221,18 @@ class ProofpressClient:
         return self.execute("claim.supersede", {
             "claim_id": claim_id, "replacement_id": replacement_id,
             "reviewer": reviewer, "note": note}, **meta)
+    def withdraw_claim(self, claim_id, reviewer, *, note, request_id,
+                       expected_head, **meta):
+        return self.execute("claim.withdraw", {
+            "claim_id": claim_id, "reviewer": reviewer, "note": note,
+            "request_id": request_id, "expected_head": expected_head}, **meta)
+    def reassess_claim(self, claim_id, decision, reviewer, *, note, request_id,
+                       expected_head, retire_relation_ids=None, **meta):
+        return self.execute("claim.reassess", {
+            "claim_id": claim_id, "decision": decision, "reviewer": reviewer,
+            "note": note, "request_id": request_id,
+            "expected_head": expected_head,
+            "retire_relation_ids": list(retire_relation_ids or [])}, **meta)
     def propose_relation(self, source_id, target_id, relation_type, proposer,
                          *, confidence=None, qualifiers=None, **meta):
         return self.execute("relation.propose", {
