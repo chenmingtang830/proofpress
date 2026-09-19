@@ -59,7 +59,7 @@ proofpress ui --scope demo
 
 [//]: # (ob:58bffc74)
 `context` returns only admitted, current, in-scope and actor-eligible knowledge.
-Rejected, unresolved, expired, superseded, and unresolved contradictory
+Rejected, unresolved, expired, withdrawn, superseded, dependency-invalidated, and unresolved contradictory
 claims remain in the append-only audit history but are excluded by default.
 `ui` renders review, receipt, context-preview, and lineage views from the same
 Git event projection.
@@ -82,6 +82,15 @@ supersedes one claim or records that both must remain withheld. The local MVP's
 reviewer identity is `self_asserted`; a policy allowlist can restrict the
 declared resolver, but is not authentication.
 
+For `depends_on`, `from` is the dependent and `to` is the required upstream.
+An admitted dependency participates in reuse eligibility: if its upstream is
+withdrawn, superseded, expired, unresolved, or otherwise unavailable, every
+direct and transitive dependent fails closed as `dependency_invalidated`.
+Supersession never redirects an edge. An Owner may retire the invalid relation
+and reaffirm the same immutable claim with fresh Human Approval, or request a
+new revision. The old admission, evidence, and relation receipts remain in
+history. See [Data Model v0.4.0](DATA_MODEL_V0_4.md).
+
 [//]: # (ob:fdc2073a)
 ```sh
 proofpress relation propose CLAIM_A --to CLAIM_B --type qualifies \
@@ -92,6 +101,11 @@ proofpress relation review RELATION_ID --admit --reviewer human:reviewer
 proofpress relation resolve RELATION_ID --disposition supersede \
   --winner CLAIM_A --reviewer human:resolver
 proofpress graph --scope matter-123
+proofpress withdraw CLAIM_ID --reviewer human:owner --note "Source retracted" \
+  --request-id request-123 --expected-head LEDGER_HEAD
+proofpress reassess DEPENDENT_ID --retain --retire-relation RELATION_ID \
+  --reviewer human:owner --note "Independent support remains" \
+  --request-id request-124 --expected-head LEDGER_HEAD
 ```
 
 [//]: # (ob:c82e0806)

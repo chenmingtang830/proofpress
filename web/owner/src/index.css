@@ -1298,6 +1298,16 @@ td:last-child svg {
   box-shadow: 0 12px 30px rgba(32, 34, 43, 0.18);
   font-size: 14px;
 }
+.inspector > .stateNotice {
+  position: static;
+  width: auto;
+  transform: none;
+  margin: 18px 20px 0;
+  background: var(--del-bg);
+  color: var(--ink);
+  box-shadow: none;
+}
+.inspector > .stateNotice[data-state="rejected"] { color: var(--del); }
 .decisionNotice span {
   margin-right: auto;
   font-weight: 650;
@@ -1698,7 +1708,7 @@ td:last-child svg {
 }
 .fullReview .decision textarea { min-height:110px; margin-top:7px; border-radius:8px; background:#fff; font-size:13px; }
 .fullReview .decision > div:last-child { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
-.fullReview .decision > div:last-child button:last-child { grid-column:1/-1; grid-row:1; }
+.fullReview .decision:not(.reassessmentDecision) > div:last-child button:last-child { grid-column:1/-1; }
 .fullReview .decision > div:last-child button { min-height:42px; }
 .fullReview .reviewDisclosure { border-top:1px solid var(--line); }
 .fullReview .reviewDisclosure + .reviewDisclosure { margin-top:0; }
@@ -2527,3 +2537,31 @@ tbody tr.selected td:first-child b {
 .runRecord code { font-size:.75rem; white-space:normal; overflow-wrap:anywhere; }
 .runSummary { border-left:3px solid #5f6f52; padding-left:.8rem; }
 @media (max-width: 900px) { .runsWorkspace { grid-template-columns:1fr; } .runsWorkspace.hasRun .runList { display:none; } }
+
+.homeReassessment { margin-top:20px; padding-top:18px; border-top:1px solid var(--line); display:grid; gap:10px; }
+.homeReassessment > div p { margin:5px 0 8px; color:var(--ink-2); font-size:13px; line-height:1.55; }
+.homeReassessment > button { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px; padding:12px 0; text-align:left; border-top:1px solid var(--line); }
+.reassessmentPanel { margin:20px; padding:20px; border:1px solid var(--line); border-radius:14px; background:var(--del-bg); }
+.reassessmentPanel h3 { margin:12px 0 6px; }
+.reassessmentPanel > p { max-width:65ch; color:var(--ink-2); line-height:1.6; }
+.dependencyChoices { min-width:0; margin:16px 0 0; padding:0; border:0; }
+.dependencyChoices legend { font-weight:650; font-size:14px; }
+.dependencyReason { display:grid; gap:8px; margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+.dependencyReason label { display:flex; align-items:center; gap:9px; font-size:14px; }
+.dependencyReason small { overflow-wrap:anywhere; color:var(--ink-3); }
+.checkboxControl { position:relative; display:inline-grid; flex:0 0 auto; width:20px; height:20px; place-items:center; }
+.checkboxControl input { appearance:none; width:20px; height:20px; margin:0; border:1px solid var(--ink-3); border-radius:5px; background:var(--paper); }
+.checkboxControl input:checked { border-color:var(--accent); background:var(--accent); }
+.checkboxControl svg { position:absolute; width:14px; height:14px; color:white; opacity:0; pointer-events:none; }
+.checkboxControl input:checked + svg { opacity:1; }
+.checkboxControl input:focus-visible { outline:3px solid color-mix(in srgb, var(--accent) 32%, transparent); outline-offset:2px; }
+.primaryClaimStatement { margin-top:12px; font-size:16px; line-height:1.7; }
+.reassessmentChecklist { margin:14px 0 0; padding-inline-start:20px; color:var(--ink-2); font-size:12px; line-height:1.7; }
+.reassessmentDecision .reassessmentRequest { order:1; }
+.reassessmentDecision .reassessmentRetain { order:2; }
+.dependencyPath { margin-top:20px; padding-top:18px; border-top:1px solid var(--line); }
+.dependencyPath p { overflow-wrap:anywhere; color:var(--ink-2); font-size:13px; line-height:1.6; }
+@media (max-width: 599px) {
+  .reassessmentDecision { margin-bottom:150px; }
+  .reassessmentDecision > div:last-of-type { position:fixed; left:8px; right:8px; bottom:calc(58px + env(safe-area-inset-bottom)); z-index:8; display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:10px; border:1px solid var(--line); border-radius:14px; background:var(--paper); box-shadow:0 -12px 30px rgba(20,33,38,.12); }
+}

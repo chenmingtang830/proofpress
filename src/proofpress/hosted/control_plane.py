@@ -19,7 +19,7 @@ from proofpress.hosted import review_policy
 
 
 OWNER_ONLY_OPERATIONS = frozenset({
-    "claim.review", "claim.supersede",
+    "claim.review", "claim.supersede", "claim.withdraw", "claim.reassess",
     "relation.review", "relation.resolve",
 })
 AGENT_OPERATIONS = frozenset({
@@ -41,6 +41,8 @@ IDENTITY_PARAMETERS = {
     "relation.judge": "actor",
     "claim.review": "reviewer",
     "claim.supersede": "reviewer",
+    "claim.withdraw": "reviewer",
+    "claim.reassess": "reviewer",
     "relation.review": "reviewer",
     "relation.resolve": "reviewer",
     "context.get": "actor",
@@ -634,19 +636,20 @@ class HostedControlPlane:
             rows = []
             for raw in events:
                 event = json.loads(raw["payload_json"])
-                if event.get("type") == "human_reviewed":
-                    reviews[event["event_id"]] = event
-                claim = event.get("claim")
-                if claim:
-                    subjects[claim["id"]] = claim
-                row = review_policy.semantic_event(event, raw["principal_id"])
-                if row:
-                    if event.get("review_ref") in reviews:
-                        row["detail"] = reviews[event["review_ref"]].get("note") or row["detail"]
-                    if event.get("type") == "evidence_bound":
-                        evidence = event.get("evidence", {})
-                        row["detail"] = evidence.get("retrieval_receipt", {}).get("source", {}).get("uri") or evidence.get("path") or row["subject_id"]
-                    rows.append(row)
+                for item in kernel_ops.logical_events([event]):
+                    if item.get("type") == "governance_transaction":
+                        continue
+                    if item.get("type") == "human_reviewed": reviews[item["event_id"]] = item
+                    claim = item.get("claim")
+                    if claim: subjects[claim["id"]] = claim
+                    row = review_policy.semantic_event(item, raw["principal_id"])
+                    if row:
+                        if item.get("review_ref") in reviews:
+                            row["detail"] = reviews[item["review_ref"]].get("note") or row["detail"]
+                        if item.get("type") == "evidence_bound":
+                            evidence = item.get("evidence", {})
+                            row["detail"] = evidence.get("retrieval_receipt", {}).get("source", {}).get("uri") or evidence.get("path") or row["subject_id"]
+                        rows.append(row)
             for row in rows:
                 subject = subjects.get(row["subject_id"], {})
                 row["statement"] = subject.get("statement", "")

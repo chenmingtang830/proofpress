@@ -15,6 +15,7 @@ const governanceCss = readFileSync(
   "utf8",
 );
 const knowledgeSource = readFileSync(fileURLToPath(new URL("./components/knowledge-library.tsx", import.meta.url)), "utf8");
+const reassessmentSource = readFileSync(fileURLToPath(new URL("./components/reassessment-panel.tsx", import.meta.url)), "utf8");
 
 describe("Proofpress owner workspace contract", () => {
   it("keeps the MVP focused on review and human-readable lineage", () => {
@@ -42,6 +43,15 @@ describe("Proofpress owner workspace contract", () => {
     expect(knowledgeSource).toContain("View lineage");
     expect(knowledgeSource).toContain('receipt?.claim.id === selected');
     expect(source).not.toContain("Show history and unavailable claims");
+  });
+  it("closes withdrawal and dependency reassessment through existing surfaces", () => {
+    expect(source).toContain("Needs reassessment");
+    expect(reassessmentSource).toContain("Retain with independent support");
+    expect(reassessmentSource).toContain("Request revision");
+    expect(reassessmentSource).toContain("previous approval remains on record");
+    expect(knowledgeSource).toContain("Withdraw claim");
+    expect(knowledgeSource).toContain("Direct dependents");
+    expect(knowledgeSource).toContain("Reuse of this claim and its dependents pauses immediately");
   });
   it("lets the outer stage scroll the full review surface", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);
