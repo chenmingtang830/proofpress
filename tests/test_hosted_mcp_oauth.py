@@ -97,9 +97,11 @@ class HostedMcpOAuthTests(unittest.TestCase):
         client = self.register()
         self.client_id = client["client_id"]
         values, verifier = self.authorization_values(client, credential)
-        status, headers, _ = self.form_request("/authorize", values)
+        status, headers, body = self.form_request("/authorize", values)
         if status != 303:
             return status, None, client, verifier
+        self.assertEqual(headers["Content-Length"], "0")
+        self.assertEqual(body, b"")
         query = parse_qs(urlparse(headers["Location"]).query)
         self.assertEqual(query["state"], ["state-1"])
         return status, query["code"][0], client, verifier
@@ -112,6 +114,7 @@ class HostedMcpOAuthTests(unittest.TestCase):
         with urlopen(self.base + "/authorize?" + urlencode(public)) as response:
             page = response.read().decode()
             self.assertIn("script-src 'self'", response.headers["Content-Security-Policy"])
+            self.assertIn("http://localhost:*", response.headers["Content-Security-Policy"])
         self.assertIn("id=oauth-authorize-form", page)
         self.assertIn("Submit once", page)
         self.assertIn("src=/authorize.js", page)

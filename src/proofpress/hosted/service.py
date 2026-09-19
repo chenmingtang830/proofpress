@@ -270,7 +270,11 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; script-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'none'; style-src 'unsafe-inline'; script-src 'self'; "
+            "form-action 'self' https: http://localhost:* http://127.0.0.1:* "
+            "http://[::1]:*; base-uri 'none'; frame-ancestors 'none'")
         if cookie:
             self.send_header("Set-Cookie", cookie)
         for key, header_value in (headers or {}).items():
@@ -626,6 +630,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                   self._authorize_page(public if 'public' in locals() else {}, str(exc)))
             self.send_response(HTTPStatus.SEE_OTHER)
             self.send_header("Location", location)
+            self.send_header("Content-Length", "0")
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
             return
