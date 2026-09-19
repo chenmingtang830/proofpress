@@ -378,6 +378,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "csrf": session["csrf"], "workspace": os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal"),
                 "principal": "owner", "capabilities": {
                     "review": True, "credential_admin": True,
+                    "withdraw": True, "reassess": True,
                     "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),
                     "judge": self._owner_operation(session, "configuration.get")["result"]["judge"]["configured"],
                 }}})
@@ -766,6 +767,33 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "request_id": "web-" + secrets.token_hex(12),
                 "expected_head": request.get("expected_head"),
             })
+            if not envelope.get("ok"):
+                return self._json(_status_for(envelope), envelope)
+            receipt = self._owner_operation(session, "review.receipt", {
+                "claim_id": request.get("claim_id", "")})
+            return self._json(_status_for(receipt), receipt)
+        if path in {"/owner/api/withdraw", "/owner/api/reassess"}:
+            session = self._owner_session()
+            if not session:
+                return self._json(HTTPStatus.UNAUTHORIZED, {"ok": False, "error": {
+                    "code": "owner_session_required", "message": "Sign in as the workspace owner."}})
+            try:
+                request = self._request_json()
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            if not secrets.compare_digest(str(request.get("csrf") or ""), session["csrf"]):
+                return self._json(HTTPStatus.FORBIDDEN, {"ok": False, "error": {
+                    "code": "csrf_failed", "message": "Refresh the page and try again."}})
+            operation = "claim.withdraw" if path.endswith("withdraw") else "claim.reassess"
+            parameters = {
+                "claim_id": request.get("claim_id", ""), "reviewer": "server-derived",
+                "note": request.get("note"), "request_id": request.get("request_id") or "web-" + secrets.token_hex(12),
+                "expected_head": request.get("expected_head"),
+            }
+            if operation == "claim.reassess":
+                parameters.update({"decision": request.get("decision"),
+                                   "retire_relation_ids": request.get("retire_relation_ids") or []})
+            envelope = self._owner_operation(session, operation, parameters)
             if not envelope.get("ok"):
                 return self._json(_status_for(envelope), envelope)
             receipt = self._owner_operation(session, "review.receipt", {

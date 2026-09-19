@@ -15,6 +15,7 @@ describe("governance components", () => {
     expect(support).not.toContain("--add-bg");
     expect(renderToStaticMarkup(<Badge state="admitted" />)).toContain("--add-bg");
     expect(renderToStaticMarkup(<Badge state="unresolved" />)).toContain("Needs revalidation");
+    expect(renderToStaticMarkup(<Badge state="dependency_invalidated" />)).toContain("Dependency changed");
   });
   it("keeps request outcomes distinct from claim admission", () => {
     expect(activityResult("ok")).toEqual({label:"Recorded",tone:"neutral"});
@@ -27,6 +28,12 @@ describe("governance components", () => {
     expect(html).toContain('graphNode claim revision');
     expect(html).toContain('class="revision"');
     expect(html).not.toContain('class="graphNode excluded"');
+  });
+  it("renders dependency invalidation as a blocked lineage path", () => {
+    const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"a",statement:"Dependent",scope:"test"},state:"dependency_invalidated",evidence:[],dependency_impact:{items:[{relation_id:"r",reason:"withdrawn",path:["a","b"]}]}}} available={false} evidenceNames={[]} selection="claim" onSelect={()=>{}} />);
+    expect(html).toContain("graphNode claim excluded");
+    expect(html).toContain("Why reuse is paused");
+    expect(html).toContain("a → depends on b");
   });
   it("renders locally bundled Hugeicons with a consistent stroke", () => {
     const html = renderToStaticMarkup(<Icon name="home" />);
