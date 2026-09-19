@@ -124,6 +124,15 @@ claude mcp add --transport http --scope user proofpress \
 # Then run /mcp inside Claude Code and authorize Proofpress.
 ```
 
+Keep the CLI process that initiated authorization open until the browser returns
+to its loopback callback. Submit the Proofpress authorization form once. If the
+browser stalls or cannot reach the callback, do not keep clicking the form:
+return to `/mcp` in Claude Code or rerun `codex mcp login proofpress` and start a
+fresh authorization. Authorization codes are short-lived and single-use, so an
+old browser page cannot repair a stopped callback listener. After the MCP client
+reports that it is connected, start a fresh agent conversation if the existing
+conversation still has a stale tool registry.
+
 In Cursor, create a remote MCP server named `proofpress` with the same `/mcp`
 URL and complete the OAuth prompt. Each client should receive its own revocable
 agent credential.

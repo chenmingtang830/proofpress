@@ -61,4 +61,4 @@ exclude = ["*.node_modules*"]
 
 [tool.setuptools.package-data]
 proofpress = ["assets/local-ui/index.html", "data/demo.otlp.json"]
-"proofpress.hosted" = ["*.html", "static/*.html", "static/*.svg", "static/assets/*", "jev_gateway/*.mjs", "jev_gateway/package*.json"]
+"proofpress.hosted" = ["*.html", "static/*.html", "static/*.svg", "static/*.js", "static/assets/*", "jev_gateway/*.mjs", "jev_gateway/package*.json"]
