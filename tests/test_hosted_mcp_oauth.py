@@ -81,25 +81,58 @@ class HostedMcpOAuthTests(unittest.TestCase):
         self.assertEqual(status, 201)
         return client
 
-    def authorize(self, credential):
-        client = self.register()
-        self.client_id = client["client_id"]
+    def authorization_values(self, client, credential):
         verifier = "v" * 64
         challenge = base64.urlsafe_b64encode(
             hashlib.sha256(verifier.encode()).digest()).rstrip(b"=").decode()
-        values = {
+        return {
             "response_type": "code", "client_id": client["client_id"],
             "redirect_uri": client["redirect_uris"][0], "state": "state-1",
             "code_challenge": challenge, "code_challenge_method": "S256",
             "resource": self.resource, "scope": "proofpress:agent",
             "agent_token": credential,
-        }
+        }, verifier
+
+    def authorize(self, credential):
+        client = self.register()
+        self.client_id = client["client_id"]
+        values, verifier = self.authorization_values(client, credential)
         status, headers, _ = self.form_request("/authorize", values)
         if status != 303:
             return status, None, client, verifier
         query = parse_qs(urlparse(headers["Location"]).query)
         self.assertEqual(query["state"], ["state-1"])
         return status, query["code"][0], client, verifier
+
+    def test_authorize_page_prevents_repeat_submission_and_explains_recovery(self):
+        client = self.register()
+        values, _ = self.authorization_values(client, "not-a-credential")
+        public = {key: value for key, value in values.items()
+                  if key != "agent_token"}
+        with urlopen(self.base + "/authorize?" + urlencode(public)) as response:
+            page = response.read().decode()
+            self.assertIn("script-src 'self'", response.headers["Content-Security-Policy"])
+        self.assertIn("id=oauth-authorize-form", page)
+        self.assertIn("Submit once", page)
+        self.assertIn("src=/authorize.js", page)
+        with urlopen(self.base + "/authorize.js") as response:
+            script = response.read().decode()
+        self.assertIn("button.disabled = true", script)
+        self.assertIn("event.preventDefault()", script)
+
+    def test_authorize_rate_limit_returns_browser_recovery_without_secret(self):
+        self.server.proofpress_auth_attempt_limit = 1
+        client = self.register()
+        values, _ = self.authorization_values(client, "secret-that-must-not-return")
+        self.assertEqual(self.form_request("/authorize", values)[0], 401)
+        status, headers, body = self.form_request("/authorize", values)
+        page = body.decode()
+        self.assertEqual(status, 429)
+        self.assertEqual(headers["Retry-After"], "60")
+        self.assertIn("Authorization paused", page)
+        self.assertIn("start a fresh MCP authorization", page)
+        self.assertNotIn(values["agent_token"], page)
+        self.assertNotIn("oauth-authorize-form", page)
 
     def exchange(self):
         status, code, client, verifier = self.authorize(self.agent["token"])

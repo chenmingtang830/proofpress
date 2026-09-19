@@ -196,6 +196,22 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             headers={"Retry-After": self.server.proofpress_auth_attempt_window_seconds},
         )
 
+    def _authorize_rate_limited(self):
+        retry_after = self.server.proofpress_auth_attempt_window_seconds
+        return self._html(
+            HTTPStatus.TOO_MANY_REQUESTS,
+            self._page(
+                "Authorization paused",
+                "<main class=auth><div class=brand><strong>Proofpress</strong></div>"
+                "<h1>Authorization paused</h1>"
+                f"<p class=muted>Too many attempts were submitted. Wait {retry_after} "
+                "seconds, then return to Claude Code or Codex and start a fresh MCP "
+                "authorization. Do not reload or resubmit this page.</p>"
+                "<p class=help>Keep the CLI process that starts the next authorization "
+                "open until its browser callback completes.</p></main>"),
+            headers={"Retry-After": retry_after},
+        )
+
     def _token(self):
         header = self.headers.get("Authorization", "")
         return header[7:] if header.startswith("Bearer ") else ""
@@ -247,16 +263,18 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         return self._json(status, {"ok": False, "error": {
             "code": exc.code, "message": str(exc)}})
 
-    def _html(self, status, value, *, cookie=None):
+    def _html(self, status, value, *, cookie=None, headers=None):
         body = value.encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
+        self.send_header("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; script-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
         if cookie:
             self.send_header("Set-Cookie", cookie)
+        for key, header_value in (headers or {}).items():
+            self.send_header(key, str(header_value))
         self.end_headers()
         self.wfile.write(body)
 
@@ -305,7 +323,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 ".auth{width:min(100%,392px);border:1px solid #d8d6ce;border-radius:8px;background:#fff;padding:32px;box-shadow:0 18px 44px rgba(32,34,43,.055)}"
                 ".brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}.brand strong{font-size:15px;letter-spacing:-.01em}.mark{display:grid;width:30px;height:30px;place-items:center;color:#20222b}.mark svg{display:block;width:30px;height:30px}"
                 "h1{max-width:15ch;margin:0 0 9px;font:700 27px/1.18 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;letter-spacing:-.025em}.muted{margin:0 0 24px;color:#5a5d6b;font-size:13px}.help{margin:18px 0 0;padding-top:16px;border-top:1px solid #e3e1d9;color:#5a5d6b;font-size:12px}"
-                "label{display:block;color:#20222b;font-size:12px;font-weight:600}input,textarea,button{font:inherit}input{width:100%;height:40px;margin-top:7px;border:1px solid #c9c7bf;border-radius:6px;padding:0 11px;color:#20222b;background:#fff;outline:none}input:focus{border-color:#0e5e6f;box-shadow:0 0 0 3px #e3eef0}button{width:100%;height:40px;margin-top:14px;border:0;border-radius:6px;background:#0e5e6f;color:#fff;font-weight:600;cursor:pointer}button:hover{background:#0a4b59}button:focus-visible{outline:2px solid #5fb3c4;outline-offset:2px}"
+                "label{display:block;color:#20222b;font-size:12px;font-weight:600}input,textarea,button{font:inherit}input{width:100%;height:40px;margin-top:7px;border:1px solid #c9c7bf;border-radius:6px;padding:0 11px;color:#20222b;background:#fff;outline:none}input:focus{border-color:#0e5e6f;box-shadow:0 0 0 3px #e3eef0}button{width:100%;height:40px;margin-top:14px;border:0;border-radius:6px;background:#0e5e6f;color:#fff;font-weight:600;cursor:pointer}button:hover{background:#0a4b59}button:focus-visible{outline:2px solid #5fb3c4;outline-offset:2px}button:disabled{background:#6b8085;cursor:wait}.submitStatus{margin:12px 0 0;color:#0e5e6f;font-size:12px;font-weight:600}.submitStatus[hidden]{display:none}"
                 "pre{white-space:pre-wrap;background:#f1efe8;padding:16px;border:1px solid #e3e1d9}.row{display:flex;gap:8px}</style></head><body>"
                 f"{body}</body></html>")
 
@@ -424,9 +442,12 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             "<strong>Proofpress</strong></div><h1>Connect this agent</h1>" + note +
             "<p class=muted>Paste the credential issued for this specific agent. "
             "Owner and recovery credentials are rejected. The MCP client receives a short-lived, revocable session.</p>"
-            "<form method=post action=/authorize>" + hidden +
+            "<form id=oauth-authorize-form method=post action=/authorize>" + hidden +
             "<label>Agent credential<br><input type=password name=agent_token required autocomplete=current-password></label>"
-            "<button type=submit>Authorize agent</button></form></main>")
+            "<button id=oauth-authorize-button type=submit>Authorize agent</button>"
+            "<p id=oauth-authorize-status class=submitStatus role=status hidden>Submitting once. Keep your MCP client open while the browser returns to its local callback.</p>"
+            "</form><p class=help>Submit once. If the browser cannot return to Claude Code or Codex, go back to the CLI and start a fresh authorization instead of clicking again. Authorization codes cannot be reused.</p>"
+            "<script src=/authorize.js defer></script></main>")
 
     def _review_page(self, claim_id, session):
         control = self.server.proofpress_control
@@ -557,7 +578,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "owner_session_required",
                                       "message": "Sign in as the workspace owner."}})
             return self._owner_api(parsed, session)
-        if path.startswith("/assets/") or path == "/logo.svg":
+        if path.startswith("/assets/") or path in {"/logo.svg", "/authorize.js"}:
             return self._static_asset(path)
         if path in {"/", "/home", "/review", "/ledger", "/runs", "/activity", "/admin"}:
             session = self._owner_session()
@@ -583,12 +604,12 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._json(HTTPStatus.CREATED, {
                 **result, "client_id_issued_at": int(__import__("time").time())})
         if path == "/authorize":
-            if not self._allow_auth_attempt("authorize"):
-                return self._auth_rate_limited()
             try:
                 form = self._form()
                 public = {key: value for key, value in form.items()
                           if key != "agent_token"}
+                if not self._allow_auth_attempt("authorize"):
+                    return self._authorize_rate_limited()
                 if form.get("response_type") != "code" or form.get(
                         "code_challenge_method") != "S256":
                     raise HostedAuthError("invalid_request", "PKCE S256 is required")
