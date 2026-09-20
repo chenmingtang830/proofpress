@@ -3,11 +3,13 @@
   "owner": {
     "name": "Proofpress"
   },
-  "description": "Evidence-bound governance workflows for agent-produced knowledge.",
+  "metadata": {
+    "description": "Evidence-bound governance workflows for agent-produced knowledge."
+  },
   "plugins": [
     {
       "name": "proofpress",
-      "source": "./plugins/proofpress",
+      "source": "plugins/proofpress",
       "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
       "version": "0.2.0",
       "author": {
