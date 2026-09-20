@@ -113,6 +113,76 @@ class DependencyLifecycleTests(unittest.TestCase):
             "admitted",
         )
 
+    def test_dependency_impact_uses_one_representative_path_per_root_cause(self):
+        root = self.claim("Root finding")
+        branches = [self.claim(f"Branch {index}") for index in range(12)]
+        leaf = self.claim("Converging conclusion")
+        for branch in branches:
+            self.dependency(branch, root)
+            self.reaffirm(branch)
+        for branch in branches:
+            self.dependency(leaf, branch)
+            self.reaffirm(leaf)
+        kernel_ops.withdraw_v2(root, "human:owner", "Retracted root",
+                               "withdraw-paths", kernel_ops.v2_head())
+        projection = kernel_ops.v2_projection()
+        impacts = kernel_ops.dependency_impacts(projection)
+        self.assertEqual(len(impacts[leaf]), len(branches))
+        self.assertEqual({row["reason"] for row in impacts[leaf]}, {"withdrawn"})
+        self.assertEqual(impacts[leaf][0]["path"][0], leaf)
+        self.assertEqual(impacts[leaf][0]["path"][-1], root)
+
+    def test_policy_changed_dependency_relation_can_be_reapproved(self):
+        upstream = self.claim("Current upstream")
+        dependent = self.claim("Dependent conclusion")
+        self.dependency(dependent, upstream)
+        self.reaffirm(dependent)
+        changed = {**kernel_ops.load_v2_policy(), "id": "policy-update",
+                   "digest": "sha256:" + "b" * 64}
+        with kernel_ops.using_policy(changed):
+            projection = kernel_ops.v2_projection()
+            relation = next(row for row in projection["relations"].values()
+                            if row["from"] == dependent and row["to"] == upstream)
+            self.assertEqual(kernel_ops.relation_state(projection, relation), "unresolved")
+            self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][upstream]),
+                             "unresolved")
+            kernel_ops.review_v2(upstream, "admit", "human:owner",
+                                 "Upstream claim revalidated under the new policy",
+                                 request_id="upstream-policy-update",
+                                 expected_head=kernel_ops.v2_head())
+            projection = kernel_ops.v2_projection()
+            self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][dependent]),
+                             "unresolved")
+            kernel_ops.review_v2(dependent, "admit", "human:owner",
+                                 "Claim revalidated under the new policy",
+                                 request_id="claim-policy-update-initial",
+                                 expected_head=kernel_ops.v2_head())
+            projection = kernel_ops.v2_projection()
+            self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][dependent]),
+                             "dependency_invalidated")
+            kernel_ops.evaluate_relation_v2(relation["id"])
+            kernel_ops.review_relation_v2(
+                relation["id"], "admit", "human:owner", "Revalidated under the new policy",
+                request_id="relation-policy-update",
+                expected_head=kernel_ops.v2_head())
+            projection = kernel_ops.v2_projection()
+            self.assertEqual(kernel_ops.relation_state(projection, relation), "admitted")
+            self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][dependent]),
+                             "dependency_invalidated")
+            kernel_ops.reassess_v2(dependent, "retain", "human:owner",
+                                   "Dependency relation and claim are current",
+                                   "claim-policy-update", kernel_ops.v2_head(), [])
+            self.assertEqual(
+                kernel_ops.v2_state(kernel_ops.v2_projection(),
+                                    kernel_ops.v2_projection()["claims"][dependent]),
+                "admitted")
+
+    def test_withdrawal_requires_an_expected_ledger_head(self):
+        claim = self.claim("Claim requiring concurrency guard")
+        with self.assertRaisesRegex(ValueError, "expected ledger head is required"):
+            kernel_ops.withdraw_v2(claim, "human:owner", "Missing head",
+                                   "withdraw-missing-head", None)
+
     def test_governance_request_id_conflicts_when_payload_changes(self):
         claim = self.claim("Withdrawn claim")
         head = kernel_ops.v2_head()

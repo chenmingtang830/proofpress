@@ -697,7 +697,9 @@ def _idempotent_review(projection, subject, request_id, review_key, final_keys):
     return {"ok": True, "review": review, "result": final, "idempotent": True}
 
 
-def _require_expected_head(expected_head):
+def _require_expected_head(expected_head, *, required=False):
+    if required and (not isinstance(expected_head, str) or not expected_head):
+        raise ValueError("expected ledger head is required")
     if expected_head is not None and expected_head != v2_head():
         raise ValueError("STALE_LEDGER_HEAD")
 
@@ -945,54 +947,67 @@ def _governed_dependency_relations(projection):
 
 
 def dependency_impacts(projection, policy=None):
-    """Derive fail-closed dependency invalidation from admitted, non-retired edges."""
+    """Derive fail-closed dependency invalidation from admitted, non-retired edges.
+
+    A root invalid edge is discovered once, then propagated through the reverse
+    dependency graph with one representative path per affected claim. This keeps
+    the projection polynomial in claims and edges while preserving enough path
+    context for Owner review.
+    """
     policy = policy or load_v2_policy()
     dependencies = _governed_dependency_relations(projection)
-    by_dependent = {}
+    reverse = {cid: set() for cid in projection.get("claims", {})}
     for relation in dependencies:
-        by_dependent.setdefault(relation["from"], []).append(relation)
-    memo, visiting = {}, set()
+        reverse.setdefault(relation["from"], set())
+        reverse.setdefault(relation["to"], set()).add(relation["from"])
 
-    def inspect(cid):
-        if cid in memo: return memo[cid]
-        if cid in visiting:
-            memo[cid] = [{"reason": "dependency_cycle", "upstream_id": cid,
-                          "relation_id": None, "path": [cid]}]
-            return memo[cid]
-        visiting.add(cid); problems = []
+    def edge_problem(relation):
+        cid = relation["from"]
+        upstream_id = relation["to"]
+        upstream = projection["claims"].get(upstream_id)
+        current_relation_state = relation_state(projection, relation)
+        upstream_state = (_base_v2_state(projection, upstream, policy)
+                          if upstream else "missing")
         admission = projection["admissions"].get(cid)
-        admitted_at = _event_time(admission)
-        for relation in by_dependent.get(cid, []):
-            upstream_id = relation["to"]
-            upstream = projection["claims"].get(upstream_id)
-            current_relation_state = relation_state(projection, relation)
-            upstream_state = (_base_v2_state(projection, upstream, policy)
-                              if upstream else "missing")
-            relation_admission = projection["relation_admissions"].get(relation["id"])
-            upstream_admission = projection["admissions"].get(upstream_id)
-            freshness = max(_event_time(relation_admission), _event_time(upstream_admission),
-                            _event_time(projection["withdrawals"].get(upstream_id)),
-                            _event_time(projection["supersessions"].get(upstream_id)))
-            if current_relation_state != "admitted":
-                problems.append({"reason": "relation_" + current_relation_state,
-                                 "upstream_id": upstream_id,
-                                 "relation_id": relation["id"],
-                                 "path": [cid, upstream_id]})
-            elif upstream_state != "admitted":
-                problems.append({"reason": upstream_state, "upstream_id": upstream_id,
-                                 "relation_id": relation["id"], "path": [cid, upstream_id]})
-            elif admission and freshness > admitted_at:
-                problems.append({"reason": "dependency_changed", "upstream_id": upstream_id,
-                                 "relation_id": relation["id"], "path": [cid, upstream_id]})
-            else:
-                for inherited in inspect(upstream_id):
-                    problems.append({**inherited,
-                                     "path": [cid] + inherited.get("path", [upstream_id])})
-        visiting.remove(cid); memo[cid] = problems
-        return problems
+        relation_admission = projection["relation_admissions"].get(relation["id"])
+        upstream_admission = projection["admissions"].get(upstream_id)
+        freshness = max(_event_time(relation_admission), _event_time(upstream_admission),
+                        _event_time(projection["withdrawals"].get(upstream_id)),
+                        _event_time(projection["supersessions"].get(upstream_id)))
+        if current_relation_state != "admitted":
+            return {"reason": "relation_" + current_relation_state,
+                    "upstream_id": upstream_id, "relation_id": relation["id"]}
+        if upstream_state != "admitted":
+            return {"reason": upstream_state, "upstream_id": upstream_id,
+                    "relation_id": relation["id"]}
+        if admission and freshness > _event_time(admission):
+            return {"reason": "dependency_changed", "upstream_id": upstream_id,
+                    "relation_id": relation["id"]}
+        return None
 
-    for cid in projection.get("claims", {}): inspect(cid)
-    return memo
+    impacts = {cid: [] for cid in projection.get("claims", {})}
+    emitted = {cid: set() for cid in impacts}
+    root_causes = []
+    for relation in dependencies:
+        problem = edge_problem(relation)
+        if problem:
+            root_causes.append({**problem, "path": [relation["from"], relation["to"]]})
+    for cause in root_causes:
+        origin = cause["path"][0]
+        visited = {origin}
+        queue = [(origin, cause["path"])]
+        while queue:
+            current, path = queue.pop(0)
+            signature = (cause["reason"], cause["upstream_id"], cause["relation_id"], tuple(path))
+            if signature not in emitted[current]:
+                emitted[current].add(signature)
+                impacts[current].append({**cause, "path": path})
+            for dependent in sorted(reverse.get(current, ())):
+                if dependent in visited:
+                    continue
+                visited.add(dependent)
+                queue.append((dependent, [dependent] + path))
+    return impacts
 
 
 def dependent_claims(projection, upstream_id):
@@ -1849,7 +1864,7 @@ def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
     row = projection["relations"].get(rid)
     if not row: raise ValueError("relation not found: " + rid)
     if (row["type"] == "depends_on" and
-            rid in projection["relation_admissions"] and
+            relation_state(projection, row) == "admitted" and
             rid not in projection["relation_retirements"]):
         raise ValueError("admitted dependency may only transition through claim reassessment")
     if row["type"] == "contradicts" and relation_state(projection, row) == "admitted":
@@ -2282,7 +2297,7 @@ def withdraw_v2(cid, reviewer, note, request_id, expected_head):
             raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
         return {"ok": True, "withdrawal": prior["events"][0],
                 "transaction": prior, "idempotent": True}
-    _require_expected_head(expected_head)
+    _require_expected_head(expected_head, required=True)
     row = projection["claims"].get(cid)
     if not row: raise ValueError("claim not found: " + cid)
     if _base_v2_state(projection, row) != "admitted":
@@ -2336,7 +2351,7 @@ def reassess_v2(cid, decision, reviewer, note, request_id, expected_head,
             raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
         return {"ok": True, "transaction": prior, "events": prior["events"],
                 "idempotent": True}
-    _require_expected_head(expected_head)
+    _require_expected_head(expected_head, required=True)
     row = projection["claims"].get(cid)
     if not row: raise ValueError("claim not found: " + cid)
     if v2_state(projection, row) != "dependency_invalidated":
