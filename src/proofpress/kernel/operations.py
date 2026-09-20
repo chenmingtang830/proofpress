@@ -5,9 +5,9 @@ from __future__ import annotations
 import hashlib, json, math, os, re, secrets, subprocess, sys, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, parse_qsl, unquote, urlparse, urlsplit
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from contextlib import contextmanager
 from contextvars import ContextVar
 
@@ -32,6 +32,19 @@ TRACE_SUPPORTED_VERSIONS = {
               "sha256": "sha256:ce7b5bf03b31ab669d12018b0d64fa2421d03b7e7ab2da156f98581e4d62c544"},
 }
 TRACE_DIGEST_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
+TRACE_BARE_SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
+TRACE_CONTROL_RE = re.compile(r"[\x00-\x1f\x7f-\x9f\u2028\u2029]")
+TRACE_SECRET_KEY_RE = re.compile(
+    r"(?:^|[_-])(api[_-]?key|key|access[_-]?token|refresh[_-]?token|token|"
+    r"secret|client[_-]?secret|private[_-]?key|password|credential|"
+    r"authorization|auth|signature|sig|signed|code|session)(?:$|[_-])",
+    re.IGNORECASE)
+TRACE_COMPACT_SECRET_KEYS = frozenset({
+    "apikey", "key", "accesstoken", "refreshtoken", "token", "secret",
+    "clientsecret", "privatekey", "password", "credential", "authorization",
+    "auth", "authtoken", "signature", "sig", "signed", "code", "session",
+    "sessionid",
+})
 
 def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
 def canon(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
@@ -83,13 +96,57 @@ def _trace_sha256(value, field):
     return value
 
 
-def trace_decision_confidence(decision):
+def _trace_text(value, field):
+    if not isinstance(value, str) or not value or TRACE_CONTROL_RE.search(value):
+        raise ValueError(f"TRACE decision confidence {field} must be a non-empty string without control characters")
+    return value
+
+
+def _trace_locator(value, field):
+    """Keep portable relative paths and non-file URIs, never producer-local paths."""
+    value = _trace_text(value, field)
+    windows_path = PureWindowsPath(value)
+    if windows_path.drive:
+        raise ValueError(f"TRACE decision confidence {field} must not be a Windows drive path")
+    if Path(value).is_absolute():
+        raise ValueError(f"TRACE decision confidence {field} must not be an absolute local path")
+    parsed = urlsplit(value)
+    if parsed.scheme:
+        if parsed.scheme.lower() == "file":
+            raise ValueError(f"TRACE decision confidence {field} must not be a file URI")
+        if parsed.username is not None or parsed.password is not None:
+            raise ValueError(f"TRACE decision confidence {field} URI must not contain credentials")
+    elif (parsed.netloc
+          or any(part == ".." for part in PurePosixPath(parsed.path).parts)
+          or any(part == ".." for part in PureWindowsPath(parsed.path).parts)):
+        raise ValueError(f"TRACE decision confidence {field} must be a safe relative path or URI")
+    for key, _ in parse_qsl(parsed.query, keep_blank_values=True):
+        if _trace_secret_parameter(key):
+            raise ValueError(f"TRACE decision confidence {field} must not contain credential query parameters")
+    fragment = unquote(parsed.fragment)
+    for candidate in (fragment, fragment.rsplit("?", 1)[-1] if "?" in fragment else ""):
+        for key, _ in parse_qsl(candidate, keep_blank_values=True):
+            if _trace_secret_parameter(key):
+                raise ValueError(f"TRACE decision confidence {field} must not contain credential fragments")
+    return value
+
+
+def _trace_secret_parameter(value):
+    """Recognize separated, camelCase, and compact credential parameter aliases."""
+    separated = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "_", value)
+    compact = re.sub(r"[^a-z0-9]", "", value.lower())
+    return bool(TRACE_SECRET_KEY_RE.search(separated)
+                or compact in TRACE_COMPACT_SECRET_KEYS)
+
+
+def trace_decision_confidence(decision, trace_version=None):
     """Project the bounded TRACE v0.5 decision-confidence extension.
 
     TRACE v0.5 deliberately permits additive decision fields. This adapter only
-    preserves the numeric interval, method metadata, sample size, and content
-    digests; it does not evaluate the result files or turn the disposition into
-    a Proofpress admission decision.
+    preserves the standard measurement fields and bounded evidence references;
+    it does not evaluate result files or turn the disposition into a Proofpress
+    admission decision. TRACE 0.5.1 fields are validated as that release types
+    them, while the older 0.5.0 projection remains backward-compatible.
     """
     if "confidence" not in decision or decision["confidence"] is None:
         return None
@@ -104,20 +161,33 @@ def trace_decision_confidence(decision):
     if lower > upper:
         raise ValueError("TRACE decision confidence interval.lower must not exceed interval.upper")
     projected_interval = {"lower": lower, "upper": upper}
+    if trace_version == "0.5.1" and "level" not in interval:
+        raise ValueError("TRACE decision confidence interval.level is required for TRACE 0.5.1")
     if "level" in interval:
         level = _trace_number(interval["level"], "interval.level")
         if not 0 < level < 1:
             raise ValueError("TRACE decision confidence interval.level must be between 0 and 1")
         projected_interval["level"] = level
     method = raw.get("method")
-    if not isinstance(method, dict) or not isinstance(method.get("name"), str) or not method["name"].strip():
+    if not isinstance(method, dict):
+        raise ValueError("TRACE decision confidence method must be an object")
+    try:
+        method_name = _trace_text(method.get("name"), "method.name")
+    except ValueError:
         raise ValueError("TRACE decision confidence method.name must be a non-empty string")
-    projected_method = {"name": method["name"]}
-    if "resamples" in method:
+    projected_method = {"name": method_name}
+    if method.get("algorithm") is not None:
+        projected_method["algorithm"] = _trace_text(method["algorithm"], "method.algorithm")
+    if method.get("resamples") is not None:
         resamples = method["resamples"]
         if isinstance(resamples, bool) or not isinstance(resamples, int) or resamples < 1:
             raise ValueError("TRACE decision confidence method.resamples must be a positive integer")
         projected_method["resamples"] = resamples
+    if method.get("seed") is not None:
+        seed = method["seed"]
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise ValueError("TRACE decision confidence method.seed must be an integer")
+        projected_method["seed"] = seed
     sample_size = raw.get("sample_size")
     if isinstance(sample_size, bool) or not isinstance(sample_size, int) or sample_size < 1:
         raise ValueError("TRACE decision confidence sample_size must be a positive integer")
@@ -126,14 +196,55 @@ def trace_decision_confidence(decision):
         raise ValueError("TRACE decision confidence evidence_digests must be a non-empty object")
     projected_digests = {}
     for label, value in evidence_digests.items():
-        if not isinstance(label, str) or not label:
+        try:
+            label = _trace_text(label, "evidence_digests key")
+        except ValueError:
             raise ValueError("TRACE decision confidence evidence_digests keys must be non-empty strings")
         projected_digests[label] = _trace_sha256(value, f"evidence_digests.{label}")
-    return {"interval": projected_interval, "method": projected_method,
-            "sample_size": sample_size, "evidence_digests": projected_digests}
+    projected = {"interval": projected_interval, "method": projected_method,
+                 "sample_size": sample_size, "evidence_digests": projected_digests}
+    required_measurement_fields = ("statistic", "direction", "estimate")
+    if trace_version == "0.5.1":
+        missing = [field for field in required_measurement_fields if field not in raw]
+        if missing:
+            raise ValueError("TRACE decision confidence " + ", ".join(missing)
+                             + " required for TRACE 0.5.1")
+    if "statistic" in raw:
+        projected["statistic"] = _trace_text(raw["statistic"], "statistic")
+    if "direction" in raw:
+        if raw["direction"] not in {"higher", "lower"}:
+            raise ValueError("TRACE decision confidence direction must be higher or lower")
+        projected["direction"] = raw["direction"]
+    if "estimate" in raw:
+        projected["estimate"] = _trace_number(raw["estimate"], "estimate")
+    for field in ("unit", "contract"):
+        if raw.get(field) is not None:
+            projected[field] = _trace_text(raw[field], field)
+    if "evidence" in raw:
+        refs = raw["evidence"]
+        if not isinstance(refs, list):
+            raise ValueError("TRACE decision confidence evidence must be an array")
+        projected_refs = []
+        by_role = {}
+        for index, ref in enumerate(refs):
+            if not isinstance(ref, dict):
+                raise ValueError(f"TRACE decision confidence evidence[{index}] must be an object")
+            role = _trace_text(ref.get("role"), f"evidence[{index}].role")
+            if role in by_role:
+                raise ValueError(f"TRACE decision confidence evidence role is duplicated: {role}")
+            locator = _trace_locator(ref.get("locator"), f"evidence[{index}].locator")
+            raw_digest = ref.get("sha256")
+            if not isinstance(raw_digest, str) or not TRACE_BARE_SHA256_RE.fullmatch(raw_digest):
+                raise ValueError(f"TRACE decision confidence evidence[{index}].sha256 must be 64 lowercase hex characters")
+            by_role[role] = "sha256:" + raw_digest
+            projected_refs.append({"role": role, "locator": locator, "sha256": raw_digest})
+        if by_role != projected_digests:
+            raise ValueError("TRACE decision confidence evidence roles and sha256 values must match evidence_digests")
+        projected["evidence"] = projected_refs
+    return projected
 
 
-def trace_payload(event):
+def trace_payload(event, trace_version=None):
     """Project reviewable TRACE decision provenance, excluding raw tool I/O."""
     kind=event["type"]
     if kind=="tool_call":
@@ -143,7 +254,7 @@ def trace_payload(event):
     if kind=="decision":
         row=event.get("decision") or {}
         projected = {"description":row.get("description"),"rationale":row.get("rationale"),"disposition":row.get("disposition"),"suggestion_type":row.get("suggestion_type"),"proposed_by":trace_actor(row.get("proposed_by")),"resolved_by":trace_actor(row.get("resolved_by")),"revision_note":row.get("revision_note"),"revises":trace_relation(event["session_id"],row["revises_event_id"]) if row.get("revises_event_id") else None,"tags":row.get("tags") or [],"warnings":row.get("warnings") or []}
-        if confidence := trace_decision_confidence(row):
+        if confidence := trace_decision_confidence(row, trace_version):
             projected["confidence"] = confidence
         return projected
     if kind=="annotation":
@@ -161,7 +272,7 @@ def trace_source(session,event):
     session_id=str(session["id"]); event_id=str(event.get("id") or "")
     if not event_id: raise ValueError("TRACE event has no id")
     metadata=session.get("metadata") or {}
-    record={"id":ident({"protocol":"TRACE","session":session_id,"event":event_id},"src_"),"kind":"source_event","source_protocol":"TRACE","source_schema":session.get("trace_version"),"source_ref":trace_relation(session_id,event_id),"trace_id":session_id,"span_id":event_id,"name":"trace."+event["type"],"timestamp":event.get("timestamp"),"status":((event.get("tool_call") or {}).get("status") if event["type"]=="tool_call" else None),"attributes":{"project":metadata.get("project"),"project_key":metadata.get("project_key"),"event_type":event["type"],"actor":trace_actor(event.get("actor")),"event":trace_payload(event)}}
+    record={"id":ident({"protocol":"TRACE","session":session_id,"event":event_id},"src_"),"kind":"source_event","source_protocol":"TRACE","source_schema":session.get("trace_version"),"source_ref":trace_relation(session_id,event_id),"trace_id":session_id,"span_id":event_id,"name":"trace."+event["type"],"timestamp":event.get("timestamp"),"status":((event.get("tool_call") or {}).get("status") if event["type"]=="tool_call" else None),"attributes":{"project":metadata.get("project"),"project_key":metadata.get("project_key"),"event_type":event["type"],"actor":trace_actor(event.get("actor")),"event":trace_payload(event, session.get("trace_version"))}}
     record["record_hash"]=digest(record); return record
 def evidence(src):
     item={"id":ident({"source":src["id"],"hash":src["record_hash"]},"evd_"),"kind":"evidence","source_ref":src["id"],"source_digest":src["record_hash"],"observation":{"name":src["name"],"timestamp":src["timestamp"],"status":src["status"],"attributes":src["attributes"]}}

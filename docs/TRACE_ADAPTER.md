@@ -49,13 +49,30 @@ name, status, duration, host, and output hash.
 
 [//]: # (ob:e1c0f002)
 TRACE v0.5 permits additive decision fields, and TRACE 0.5.1 types the
-confidence measurement upstream. Proofpress continues to project only the
-bounded fields below. When a `decision.confidence` object is present,
-Proofpress imports only its interval (`lower`, `upper`, and optional `level`),
-method name plus optional resample count, positive sample size, and named
-SHA-256 evidence digests. The adapter rejects malformed bounds,
-methods, sample sizes, or digests; it does not read the result files, rerun the
-method, or infer a decision from the interval.
+confidence measurement upstream. Proofpress projects the standard measurement
+fields: `statistic`, `estimate`, `direction`, optional `unit` and `contract`,
+the interval, method name plus optional algorithm/resample count/seed, positive
+sample size, named SHA-256 evidence digests, and optional bounded evidence
+references (`role`, safe `locator`, and `sha256`). Producer-specific extra keys
+remain excluded.
+
+For TRACE 0.5.1, the adapter requires the fields that release's contract makes
+mandatory, including interval level, statistic, estimate, and direction. The
+older TRACE 0.5.0 profile remains backward-compatible with confidence records
+that predate those typed fields. Method names and algorithms are identifiers,
+not an allowlist: an unknown value is retained rather than rejected.
+
+When evidence references are present, every role and digest must match
+`evidence_digests` exactly. A locator may be a portable relative path without
+parent traversal, or a URI without embedded credentials. Absolute POSIX or
+Windows paths (including drive-relative forms such as `C:results.json`),
+`file:` URIs, credential-bearing query/fragment parameters, and URI userinfo
+are rejected so producer-local paths and secrets do not enter the evidence
+projection. Credential parameter checks cover separated, camel-case, and
+compact aliases such as `access_token`, `authToken`, and `sessionid` without
+rejecting unrelated names that merely contain those character sequences. The
+adapter does not dereference locators, read result files, rerun the method,
+authenticate the files, or infer a decision from the measurement.
 
 Accepting a wire version is not a promise to import every document valid under
 it. This adapter applies its own bounded profile: a confidence object must
@@ -63,11 +80,12 @@ carry non-empty named evidence digests, even though TRACE 0.5.1 makes that
 field optional.
 
 A producer names the contract its extra keys follow in the `contract` key of the
-confidence object. Proofpress does not read or interpret those keys; the
-identifier is there so a reader can find the document that defines them.
+confidence object. Proofpress retains that identifier but does not interpret
+the producer-specific keys it names.
 `examples/verified-knowledge-ledger/demo.trace-confidence.json` is a real
 producer document under `rsi-exam-decision-log/v1`, carrying twenty keys of
-which this adapter projects four.
+which this adapter projects the standard TRACE measurement fields and drops the
+producer-only decision-rule fields.
 
 [//]: # (ob:5af5e369)
 It excludes tool inputs and outputs, raw prompts, transcripts, reasoning
