@@ -90,6 +90,27 @@ Supersession never redirects an edge. An Owner may retire the invalid relation
 and reaffirm the same immutable claim with fresh Human Approval, or request a
 new revision. The old admission, evidence, and relation receipts remain in
 history. See [Data Model v0.4.0](DATA_MODEL_V0_4.md).
+An optional `qualifiers.citation` can bind one relation to a bounded
+`retrieval_evidence` receipt already attached to either endpoint. It carries
+only `schema_version: "proofpress/relation-citation/v1"`, `evidence_ref`, and
+the receipt's `quote_digest`. Proposal rejects, and evaluation fails, a citation
+whose receipt, digest, or endpoint binding is invalid. During a relation judge run,
+the matching bounded quote and locator are named explicitly, and other endpoint
+evidence is omitted, so the advisory judge assesses that citation rather than
+treating the entire evidence set as interchangeable. Claim receipts surface this
+relation advice for Owner review. This does **not** fetch or re-read the complete source
+document, verify a quote against external bytes, establish semantic support,
+or authorize admission; those remain owner/system checks, advisory judgment,
+and Human Approval respectively.
+
+For a relation with this valid citation, the optional Jev advisory asks a second,
+typed single-choice question: which one primary relation does the bounded quote
+establish—one of the six ledger types, `no_relation`, or `insufficient`? A matching
+high-confidence answer can preserve ordinary advisory advice. A different type is
+recorded as a review escalation, never an automatic edge rewrite or new proposal;
+`insufficient` escalates. `no_relation` can reject only when the generic advisory
+assessment independently rejects. The receipt binds both the proposed and selected
+type so a human can decide whether to reject or re-propose the alternate relationship.
 
 [//]: # (ob:fdc2073a)
 ```sh

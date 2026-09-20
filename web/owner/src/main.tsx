@@ -31,6 +31,7 @@ import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import { ReassessmentPanel, type DependencyImpact, type DependencyRelation } from "@/components/reassessment-panel";
+import { RelationAdvicePanel } from "@/components/relation-advice";
 import "./index.css";
 import "./review-local.css";
 import "./components/governance.css";
@@ -1308,6 +1309,7 @@ function Inspector({
         </p>
         {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button>)}
       </InspectorHeader>
+      <RelationAdvicePanel items={r.relation_advice} />
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       {needsReassessment && <ReassessmentPanel claimId={r.claim.id} impacts={r.dependency_impact?.items || []} dependencies={r.dependencies || []} redacted={r.dependency_impact?.redacted || 0} note={note} setNote={setNote} busy={busy} showDecision={!onOpenFull || fullReview} onReassess={onReassess} />}
       <div className="quickSnapshot">

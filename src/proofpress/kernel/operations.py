@@ -603,6 +603,7 @@ DEFAULT_POLICY_V2 = {
 RELATION_TYPES = {"supports", "qualifies", "contradicts", "supersedes",
                   "depends_on", "same_as"}
 SYMMETRIC_RELATIONS = {"contradicts", "same_as"}
+RELATION_CITATION_SCHEMA = "proofpress/relation-citation/v1"
 LEGAL_PROFILE_SCHEMA = "proofpress/profile/legal/v1"
 
 
@@ -1697,6 +1698,75 @@ def _relation_digest(row):
     return digest({k: v for k, v in row.items() if k != "digest"})
 
 
+def _relation_citation_v1(projection, source, target, qualifiers):
+    """Validate an optional relation citation against already-bound evidence.
+
+    The local ledger retains the citation's bounded evidence receipt, not the
+    whole source document. This check therefore proves citation-to-evidence
+    binding only; it never claims to re-read the source or establish semantic
+    support for the relation.
+    """
+    if not isinstance(qualifiers, dict) or "citation" not in qualifiers:
+        return None
+    citation = qualifiers["citation"]
+    if not isinstance(citation, dict):
+        raise ValueError("relation citation must be an object")
+    required = {"schema_version", "evidence_ref", "quote_digest"}
+    unknown = sorted(set(citation) - required)
+    missing = sorted(required - set(citation))
+    if unknown:
+        raise ValueError("unknown relation citation fields: " + ", ".join(unknown))
+    if missing:
+        raise ValueError("relation citation missing: " + ", ".join(missing))
+    if citation["schema_version"] != RELATION_CITATION_SCHEMA:
+        raise ValueError("unsupported relation citation schema")
+    evidence_ref = citation["evidence_ref"]
+    if not isinstance(evidence_ref, str) or not evidence_ref.strip():
+        raise ValueError("relation citation evidence_ref must be a non-empty string")
+    source_row = projection["claims"].get(source)
+    target_row = projection["claims"].get(target)
+    if not source_row or not target_row:
+        raise ValueError("relation citation endpoints must be present")
+    endpoint_evidence = (set(source_row.get("evidence_refs", [])) |
+                         set(target_row.get("evidence_refs", [])))
+    if evidence_ref not in endpoint_evidence:
+        raise ValueError("relation citation evidence_ref must be bound to a relation endpoint")
+    evidence = projection["evidence"].get(evidence_ref)
+    if not evidence or evidence.get("kind") != "retrieval_evidence":
+        raise ValueError("relation citation evidence_ref must reference retrieval evidence")
+    if not _retrieval_receipt_valid(evidence):
+        raise ValueError("relation citation evidence receipt is invalid")
+    quote_digest = _required_digest(citation["quote_digest"], "relation citation quote_digest")
+    if quote_digest != evidence.get("quote_digest"):
+        raise ValueError("relation citation quote_digest does not match bound evidence")
+    return {"schema_version": RELATION_CITATION_SCHEMA,
+            "evidence_ref": evidence_ref, "quote_digest": quote_digest}
+
+
+def _relation_citation_valid(projection, row):
+    qualifiers = row.get("qualifiers")
+    if not isinstance(qualifiers, dict) or "citation" not in qualifiers:
+        return True
+    try:
+        _relation_citation_v1(projection, row["from"], row["to"], qualifiers)
+    except ValueError:
+        return False
+    return True
+
+
+def _relation_citation_packet(projection, row):
+    """Materialize the bounded citation projection for an advisory judge."""
+    citation = _relation_citation_v1(projection, row["from"], row["to"],
+                                     row.get("qualifiers", {}))
+    if citation is None:
+        return None
+    evidence = projection["evidence"][citation["evidence_ref"]]
+    receipt = evidence["retrieval_receipt"]
+    return {**citation, "quote": receipt["quote"],
+            "source_content_digest": evidence["source_content_digest"],
+            "locator": receipt["locator"]}
+
+
 def relation_state(projection, row):
     rid = row["id"]
     if rid in projection["relation_retirements"]: return "retired"
@@ -1740,6 +1810,9 @@ def propose_relation_v2(source, target, relation_type, proposer,
     if source == target: raise ValueError("relation endpoints must be distinct")
     if confidence is not None and not 0 <= confidence <= 1:
         raise ValueError("relation confidence must be between 0 and 1")
+    citation = _relation_citation_v1(projection, source, target, qualifiers)
+    if citation is not None:
+        qualifiers = {**qualifiers, "citation": citation}
     left, right = (sorted((source, target)) if relation_type in SYMMETRIC_RELATIONS
                    else (source, target))
     row = {"id": ident({"from": left, "to": right, "type": relation_type}, "rel_"),
@@ -1777,6 +1850,7 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=N
         "known_relation_type": row["type"] in RELATION_TYPES,
         "no_duplicate": not duplicate,
         "acyclic_when_directed": not _relation_cycle(projection, row["from"], row["to"], row["type"]),
+        "citation_binding_valid": _relation_citation_valid(projection, row),
     }
     event = append_v2({"type": "relation_evaluated", "subject_ref": rid,
                        "relation_digest": row["digest"], "checks": checks,
@@ -1785,18 +1859,20 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=N
                        "verification_profile": policy["verification"]["profile"],
                        "verification_config_digest": digest(policy["verification"]),
                        "eligible": all(checks.values()),
-                       "semantic_boundary": "structural checks do not establish semantic correctness"},
+                       "semantic_boundary": ("structural checks do not establish semantic correctness; "
+                                             "citation binding does not re-read source text")},
                       existing_rows=events)
     return event
 
 
-def _decision_audit_fields(verdict):
+def _decision_audit_fields(verdict, expected_relation_type=None):
     """Additive typed-advice metadata; legacy command responses remain valid."""
     audit = verdict.get("decision_audit")
     if audit is None:
         return {}
     from proofpress.hosted.jev import validate_audit
-    return {"decision_audit": validate_audit(audit, verdict["recommendation"])}
+    return {"decision_audit": validate_audit(
+        audit, verdict["recommendation"], expected_relation_type)}
 
 
 def judge_relation_v2(rid, actor=None):
@@ -1815,13 +1891,17 @@ def judge_relation_v2(rid, actor=None):
                                        actor=actor))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    citation = _relation_citation_packet(projection, row)
+    evidence = ([projection["evidence"][citation["evidence_ref"]]] if citation else [
+        projection["evidence"][ref] for ref in sorted(set(
+            projection["claims"][row["from"]]["evidence_refs"] +
+            projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]])
     packet = {"schema_version": "proofpress/relation-judge-request/v1",
               "relation": row,
               "from_claim": projection["claims"][row["from"]],
               "to_claim": projection["claims"][row["to"]],
-              "evidence": [projection["evidence"][ref] for ref in sorted(set(
-                  projection["claims"][row["from"]]["evidence_refs"] +
-                  projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]],
+              "evidence": evidence,
+              "relation_citation": citation,
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
               "policy": _judge_policy_payload(policy),
               "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
@@ -1848,7 +1928,8 @@ def judge_relation_v2(rid, actor=None):
                       "recommendation": verdict["recommendation"],
                       "rationale": verdict["rationale"],
                       "adapter": verdict.get("adapter", command[0]),
-                      "model": verdict.get("model"), **_decision_audit_fields(verdict)}, existing_rows=events)
+                      "model": verdict.get("model"),
+                      **_decision_audit_fields(verdict, row["type"])}, existing_rows=events)
 
 
 def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
@@ -3356,6 +3437,15 @@ def receipt_v2(cid, actor=None):
                              for relation in projection.get("relations", {}).values()
                              if relation["type"] == "depends_on" and relation["from"] == cid
                              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            "relation_advice": [{
+                "relation": relation, "state": relation_state(projection, relation),
+                "recommendation": projection["relation_recommendations"].get(relation["id"]),
+                "evaluation": projection["relation_evaluations"].get(relation["id"]),
+            } for relation in projection.get("relations", {}).values()
+              if (relation["from"] == cid or relation["to"] == cid)
+              and projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")
+              and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
+              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
                          "model": e.get("model"), "note": e.get("note"),

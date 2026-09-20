@@ -10,7 +10,8 @@ export type DecisionAudit = {
   response_model: string;
   mapping_version: string;
   latency_ms: number;
-  answers: Record<string, {type: string; noul?: number; confidence?: number; probabilities?: Record<string, number>}>;
+  declared_relation_type?: string;
+  answers: Record<string, {type: string; choice?: string; noul?: number; confidence?: number; probabilities?: Record<string, number>}>;
 };
 
 const questionLabels: Record<string, string> = {
@@ -23,6 +24,11 @@ const choiceLabels: Record<string, string> = {accept: "Supports", reject: "Does 
 export function TypedJudgeAdvice({audit}: {audit?: DecisionAudit}) {
   if (!audit || audit.backend !== "jev") return null;
   const recommendation = audit.answers.recommendation;
+  const relationType = audit.answers.relation_type;
+  const selectedRelationType = relationType?.choice;
+  const selectedRelationProbability = typeof selectedRelationType === "string"
+    ? relationType?.probabilities?.[selectedRelationType] : undefined;
+  const relationTypeLabel = (value: string) => value.replaceAll("_", " ");
   return <Accordion type="single" collapsible className="reviewDisclosure jevAdvice">
     <AccordionItem value="typed-advice"><AccordionTrigger>Jev review details · experimental</AccordionTrigger>
       <AccordionContent>
@@ -47,6 +53,17 @@ export function TypedJudgeAdvice({audit}: {audit?: DecisionAudit}) {
               <TableBody>{Object.entries(questionLabels).map(([key, label]) => typeof audit.answers[key]?.noul === "number" ?
                 <TableRow key={key}><TableCell>{label}</TableCell><TableCell className="text-right tabular-nums">{(audit.answers[key].noul! * 100).toFixed(1)}%</TableCell></TableRow> : null)}</TableBody>
             </Table>
+            {typeof audit.declared_relation_type === "string" && typeof selectedRelationType === "string" && <>
+              <Separator className="my-5" />
+              <Table aria-label="Citation relation classification">
+                <TableHeader><TableRow><TableHead>Relation classification</TableHead><TableHead>Recorded value</TableHead><TableHead className="text-right">Probability</TableHead></TableRow></TableHeader>
+                <TableBody>
+                  <TableRow><TableCell>Declared by proposal</TableCell><TableCell>{relationTypeLabel(audit.declared_relation_type)}</TableCell><TableCell className="text-right">—</TableCell></TableRow>
+                  <TableRow><TableCell>Jev primary relation</TableCell><TableCell>{relationTypeLabel(selectedRelationType)}</TableCell><TableCell className="text-right tabular-nums">{typeof selectedRelationProbability === "number" ? `${(selectedRelationProbability * 100).toFixed(1)}%` : "—"}</TableCell></TableRow>
+                </TableBody>
+              </Table>
+              <p className="jevExplanation">This is bounded citation advice. A human still decides whether to reject or re-propose a relation.</p>
+            </>}
             <small className="jevMetadata">{audit.response_model} · {audit.latency_ms} ms · {audit.mapping_version}. Summary generated from these answers.</small>
           </CardContent>
         </Card>
