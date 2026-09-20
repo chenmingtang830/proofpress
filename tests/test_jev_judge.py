@@ -113,6 +113,8 @@ class JevAdapterTests(unittest.TestCase):
         self.assertEqual(audit["question_set_version"], jev.RELATION_TYPE_QUESTION_VERSION)
         self.assertEqual(audit["mapping_version"], jev.RELATION_TYPE_MAPPING_VERSION)
         self.assertEqual(audit["declared_relation_type"], "qualifies")
+        with self.assertRaisesRegex(ValueError, "Invalid typed judge audit"):
+            jev.validate_audit(accepted["decision_audit"], "accept", "supports")
 
         different_type = jev.judge(packet, opener=response(relation_choice="supports"))
         self.assertEqual(different_type["recommendation"], "escalate")

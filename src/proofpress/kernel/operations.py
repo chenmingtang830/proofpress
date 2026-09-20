@@ -1723,8 +1723,12 @@ def _relation_citation_v1(projection, source, target, qualifiers):
     evidence_ref = citation["evidence_ref"]
     if not isinstance(evidence_ref, str) or not evidence_ref.strip():
         raise ValueError("relation citation evidence_ref must be a non-empty string")
-    endpoint_evidence = (set(projection["claims"][source].get("evidence_refs", [])) |
-                         set(projection["claims"][target].get("evidence_refs", [])))
+    source_row = projection["claims"].get(source)
+    target_row = projection["claims"].get(target)
+    if not source_row or not target_row:
+        raise ValueError("relation citation endpoints must be present")
+    endpoint_evidence = (set(source_row.get("evidence_refs", [])) |
+                         set(target_row.get("evidence_refs", [])))
     if evidence_ref not in endpoint_evidence:
         raise ValueError("relation citation evidence_ref must be bound to a relation endpoint")
     evidence = projection["evidence"].get(evidence_ref)
@@ -1861,13 +1865,14 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=N
     return event
 
 
-def _decision_audit_fields(verdict):
+def _decision_audit_fields(verdict, expected_relation_type=None):
     """Additive typed-advice metadata; legacy command responses remain valid."""
     audit = verdict.get("decision_audit")
     if audit is None:
         return {}
     from proofpress.hosted.jev import validate_audit
-    return {"decision_audit": validate_audit(audit, verdict["recommendation"])}
+    return {"decision_audit": validate_audit(
+        audit, verdict["recommendation"], expected_relation_type)}
 
 
 def judge_relation_v2(rid, actor=None):
@@ -1886,14 +1891,17 @@ def judge_relation_v2(rid, actor=None):
                                        actor=actor))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    citation = _relation_citation_packet(projection, row)
+    evidence = ([projection["evidence"][citation["evidence_ref"]]] if citation else [
+        projection["evidence"][ref] for ref in sorted(set(
+            projection["claims"][row["from"]]["evidence_refs"] +
+            projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]])
     packet = {"schema_version": "proofpress/relation-judge-request/v1",
               "relation": row,
               "from_claim": projection["claims"][row["from"]],
               "to_claim": projection["claims"][row["to"]],
-              "evidence": [projection["evidence"][ref] for ref in sorted(set(
-                  projection["claims"][row["from"]]["evidence_refs"] +
-                  projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]],
-              "relation_citation": _relation_citation_packet(projection, row),
+              "evidence": evidence,
+              "relation_citation": citation,
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
               "policy": _judge_policy_payload(policy),
               "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
@@ -1920,7 +1928,8 @@ def judge_relation_v2(rid, actor=None):
                       "recommendation": verdict["recommendation"],
                       "rationale": verdict["rationale"],
                       "adapter": verdict.get("adapter", command[0]),
-                      "model": verdict.get("model"), **_decision_audit_fields(verdict)}, existing_rows=events)
+                      "model": verdict.get("model"),
+                      **_decision_audit_fields(verdict, row["type"])}, existing_rows=events)
 
 
 def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
@@ -3428,6 +3437,15 @@ def receipt_v2(cid, actor=None):
                              for relation in projection.get("relations", {}).values()
                              if relation["type"] == "depends_on" and relation["from"] == cid
                              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            "relation_advice": [{
+                "relation": relation, "state": relation_state(projection, relation),
+                "recommendation": projection["relation_recommendations"].get(relation["id"]),
+                "evaluation": projection["relation_evaluations"].get(relation["id"]),
+            } for relation in projection.get("relations", {}).values()
+              if (relation["from"] == cid or relation["to"] == cid)
+              and projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")
+              and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
+              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
                          "model": e.get("model"), "note": e.get("note"),

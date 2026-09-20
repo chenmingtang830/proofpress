@@ -101,6 +101,8 @@ class RelationCitationTests(unittest.TestCase):
 
         with patch.object(kernel_ops.subprocess, "run", side_effect=run):
             event = kernel_ops.judge_relation_v2(relation["id"])
+        self.assertEqual(len(packets[0]["evidence"]), 1)
+        self.assertEqual(packets[0]["evidence"][0]["id"], evidence)
         self.assertEqual(packets[0]["relation_citation"], {
             **citation, "quote": quote,
             "source_content_digest": digest("workspace://matter/msa.pdf?revision=7"),
@@ -110,6 +112,20 @@ class RelationCitationTests(unittest.TestCase):
         audit = event["decision_audit"]
         self.assertEqual(audit["question_set_version"], jev.RELATION_TYPE_QUESTION_VERSION)
         self.assertEqual(audit["declared_relation_type"], "qualifies")
+        receipt = kernel_ops.receipt_v2(first)
+        self.assertEqual(len(receipt["relation_advice"]), 1)
+        self.assertEqual(receipt["relation_advice"][0]["relation"]["id"], relation["id"])
+        self.assertEqual(receipt["relation_advice"][0]["recommendation"]["decision_audit"],
+                         audit)
+
+    def test_missing_citation_endpoints_fail_closed_without_key_error(self):
+        quote = "The limitation does not apply to fraud."
+        evidence = self.submit(quote)
+        first, second = self.claims(evidence)
+        citation = {"schema_version": kernel_ops.RELATION_CITATION_SCHEMA,
+                    "evidence_ref": evidence, "quote_digest": digest(quote)}
+        row = {"from": "missing-source", "to": second, "qualifiers": {"citation": citation}}
+        self.assertFalse(kernel_ops._relation_citation_valid({"claims": {}, "evidence": {}}, row))
 
     def test_citation_rejects_an_unbound_or_tampered_quote_digest(self):
         evidence = self.submit("The cap excludes fraud.")

@@ -75,16 +75,19 @@ def questions_for(item, criteria="", target=""):
     else:
         evidence_question = (prefix + f"Does the bound evidence substantiate {subject}? "
                              "Do not infer support from structural checks.")
+    citation_boundary = ("Use only the named relation citation quote and locator; do not use other "
+                         "supplied evidence. " if citation is not None else "")
     questions = {
-        "recommendation": {"type": "choice", "instructions": prefix + f"Assess {subject}.",
+        "recommendation": {"type": "choice",
+            "instructions": prefix + citation_boundary + f"Assess {subject}.",
             "criteria": {
                 "accept": "The supplied evidence supports the assertion within its stated scope and criteria.",
                 "reject": "The supplied evidence clearly refutes or fails to support the assertion as stated.",
                 "escalate": "Evidence is missing, ambiguous, insufficient to decide, or requires further review."}},
         "evidence_support": {"type": "noul", "instructions": evidence_question},
-        "scope_valid": {"type": "noul", "instructions": prefix +
+        "scope_valid": {"type": "noul", "instructions": prefix + citation_boundary +
             "Is the assertion limited to the applicability and scope justified by the supplied evidence?"},
-        "criteria_met": {"type": "noul", "instructions": prefix +
+        "criteria_met": {"type": "noul", "instructions": prefix + citation_boundary +
             "Does the assertion satisfy the workspace criteria and, if a reproposal parent exists, "
             "address its recorded rejection? If neither applies, answer yes. Workspace criteria: " + criteria},
     }
@@ -267,7 +270,7 @@ def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen, gateway=F
     return verdicts[0]
 
 
-def validate_audit(audit, recommendation):
+def validate_audit(audit, recommendation, expected_relation_type=None):
     """Validate subprocess metadata before adding it to append-only events."""
     required = {"schema_version", "backend", "question_set_version", "mapping_version",
                 "request_digest", "requested_model", "response_model", "questions", "answers",
@@ -295,7 +298,9 @@ def validate_audit(audit, recommendation):
             raise ValueError("unknown audit version")
         if relation_type_audit:
             if (audit["mapping_version"] != RELATION_TYPE_MAPPING_VERSION
-                    or audit["declared_relation_type"] not in RELATION_TYPES):
+                    or audit["declared_relation_type"] not in RELATION_TYPES
+                    or (expected_relation_type is not None
+                        and audit["declared_relation_type"] != expected_relation_type)):
                 raise ValueError("unknown audit version")
         elif (audit["question_set_version"] != VERSION
               or audit["mapping_version"] != "jev-conservative/v1"):

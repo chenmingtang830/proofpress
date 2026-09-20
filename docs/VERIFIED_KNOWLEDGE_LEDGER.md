@@ -95,9 +95,10 @@ An optional `qualifiers.citation` can bind one relation to a bounded
 only `schema_version: "proofpress/relation-citation/v1"`, `evidence_ref`, and
 the receipt's `quote_digest`. Proposal rejects, and evaluation fails, a citation
 whose receipt, digest, or endpoint binding is invalid. During a relation judge run,
-the matching bounded quote and locator are named explicitly so the advisory
-judge assesses that citation rather than treating the entire evidence set as
-interchangeable. This does **not** fetch or re-read the complete source
+the matching bounded quote and locator are named explicitly, and other endpoint
+evidence is omitted, so the advisory judge assesses that citation rather than
+treating the entire evidence set as interchangeable. Claim receipts surface this
+relation advice for Owner review. This does **not** fetch or re-read the complete source
 document, verify a quote against external bytes, establish semantic support,
 or authorize admission; those remain owner/system checks, advisory judgment,
 and Human Approval respectively.
