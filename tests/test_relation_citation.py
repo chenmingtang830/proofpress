@@ -1,5 +1,6 @@
 """Bounded citation checks for claim-to-claim relations."""
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from proofpress.kernel import operations as kernel_ops
+from proofpress.hosted import jev
 
 
 def digest(value):
@@ -74,21 +76,40 @@ class RelationCitationTests(unittest.TestCase):
         packets = []
         original_run = subprocess.run
 
+        def jev_response(request, timeout):
+            body = json.loads(request.data)
+            answers = {}
+            for key, question in body["questions"].items():
+                if question["type"] == "choice":
+                    selected = "qualifies" if key.endswith("_relation_type") else "accept"
+                    probabilities = {value: .02 / (len(question["criteria"]) - 1)
+                                     for value in question["criteria"]}
+                    probabilities[selected] = .98
+                    answers[key] = {"type": "choice", "choice": selected,
+                                    "probabilities": probabilities, "confidence": .95}
+                else:
+                    answers[key] = {"type": "noul", "noul": .99}
+            return io.BytesIO(json.dumps({"model": "jev-test-revision", "answers": answers}).encode())
+
         def run(command, *, input, **kwargs):
             if command[0] == "git":
                 return original_run(command, input=input, **kwargs)
             packets.append(json.loads(input))
-            return subprocess.CompletedProcess(command, 0, json.dumps({
-                "recommendation": "accept", "rationale": "Fixture advisory result."}), "")
+            with patch.dict(os.environ, {"TYPESAFE_API_KEY": "test-key"}):
+                verdict = jev.judge(packets[-1], opener=jev_response)
+            return subprocess.CompletedProcess(command, 0, json.dumps(verdict), "")
 
         with patch.object(kernel_ops.subprocess, "run", side_effect=run):
-            kernel_ops.judge_relation_v2(relation["id"])
+            event = kernel_ops.judge_relation_v2(relation["id"])
         self.assertEqual(packets[0]["relation_citation"], {
             **citation, "quote": quote,
             "source_content_digest": digest("workspace://matter/msa.pdf?revision=7"),
             "locator": {"kind": "text_span", "start": 0, "end": len(quote),
                         "text_digest": digest("workspace://matter/msa.pdf?revision=7:text")},
         })
+        audit = event["decision_audit"]
+        self.assertEqual(audit["question_set_version"], jev.RELATION_TYPE_QUESTION_VERSION)
+        self.assertEqual(audit["declared_relation_type"], "qualifies")
 
     def test_citation_rejects_an_unbound_or_tampered_quote_digest(self):
         evidence = self.submit("The cap excludes fraud.")

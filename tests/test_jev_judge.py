@@ -18,14 +18,22 @@ from proofpress.kernel import operations as kernel
 from test_hosted_authority import evidence_payload, operation
 
 
-def typed_response(request, choice="accept", support=.99, confidence=.95):
+def typed_response(request, choice="accept", support=.99, confidence=.95, relation_choice=None,
+                   relation_confidence=None):
     body = json.loads(request.data)
     answers = {}
     for key, question in body["questions"].items():
         if question["type"] == "choice":
-            answers[key] = {"type": "choice", "choice": choice,
-                            "probabilities": {v: .98 if v == choice else .01 for v in question["criteria"]},
-                            "confidence": confidence}
+            selected = (relation_choice if relation_choice is not None else next(iter(question["criteria"]))) \
+                if key.endswith("_relation_type") else choice
+            selected_confidence = (relation_confidence if relation_confidence is not None else confidence) \
+                if key.endswith("_relation_type") else confidence
+            probabilities = {v: .02 / (len(question["criteria"]) - 1)
+                             for v in question["criteria"]}
+            probabilities[selected] = .98
+            answers[key] = {"type": "choice", "choice": selected,
+                            "probabilities": probabilities,
+                            "confidence": selected_confidence}
         else:
             answers[key] = {"type": "noul", "noul": support}
     return {"model": "jev-test-revision", "answers": answers,
@@ -77,11 +85,45 @@ class JevAdapterTests(unittest.TestCase):
         citation = {"quote": quote, "locator": {"kind": "text_span", "start": 0,
                     "end": len(quote)}, "quote_digest": "sha256:" + hashlib.sha256(
                         quote.encode("utf-8")).hexdigest()}
-        questions = jev.questions_for({"relation": {}, "relation_citation": citation})
+        questions = jev.questions_for({"relation": {"type": "qualifies"}, "relation_citation": citation})
         self.assertIn("named relation citation quote", questions["evidence_support"]["instructions"])
         self.assertIn("rather than any other supplied evidence", questions["evidence_support"]["instructions"])
+        self.assertEqual(questions["relation_type"]["type"], "choice")
+        self.assertEqual(questions["relation_type"]["criteria"], jev.RELATION_TYPE_CRITERIA)
         with self.assertRaisesRegex(ValueError, "invalid relation citation packet"):
-            jev.questions_for({"relation": {}, "relation_citation": {**citation, "quote_digest": "sha256:bad"}})
+            jev.questions_for({"relation": {"type": "qualifies"},
+                               "relation_citation": {**citation, "quote_digest": "sha256:bad"}})
+
+    def test_relation_citation_choice_never_rewrites_a_relation(self):
+        quote = "The exclusion narrows the general liability cap."
+        citation = {"quote": quote, "locator": {"kind": "text_span", "start": 0, "end": len(quote)},
+                    "quote_digest": "sha256:" + hashlib.sha256(quote.encode("utf-8")).hexdigest()}
+        packet = {"schema_version": "proofpress/relation-judge-request/v1",
+                  "relation": {"id": "r1", "from": "c1", "to": "c2", "type": "qualifies"},
+                  "from_claim": {"id": "c1"}, "to_claim": {"id": "c2"}, "evidence": [],
+                  "relation_citation": citation, "evaluation": {"eligible": True}}
+
+        def response(*, generic="accept", relation_choice="qualifies", relation_confidence=.95):
+            return lambda request, timeout: io.BytesIO(json.dumps(typed_response(
+                request, generic, relation_choice=relation_choice,
+                relation_confidence=relation_confidence)).encode())
+
+        accepted = jev.judge(packet, opener=response())
+        audit = jev.validate_audit(accepted["decision_audit"], "accept")
+        self.assertEqual(audit["question_set_version"], jev.RELATION_TYPE_QUESTION_VERSION)
+        self.assertEqual(audit["mapping_version"], jev.RELATION_TYPE_MAPPING_VERSION)
+        self.assertEqual(audit["declared_relation_type"], "qualifies")
+
+        different_type = jev.judge(packet, opener=response(relation_choice="supports"))
+        self.assertEqual(different_type["recommendation"], "escalate")
+        self.assertEqual(different_type["decision_audit"]["declared_relation_type"], "qualifies")
+
+        no_relation = jev.judge(packet, opener=response(generic="reject", relation_choice="no_relation"))
+        self.assertEqual(no_relation["recommendation"], "reject")
+        self.assertEqual(jev.judge(packet, opener=response(relation_choice="insufficient"))["recommendation"],
+                         "escalate")
+        self.assertEqual(jev.judge(packet, opener=response(relation_confidence=.2))["recommendation"],
+                         "escalate")
 
     def test_invalid_response_never_records_advice(self):
         def invalid_kind(p): p["answers"]["item_0_recommendation"]["choice"] = "admit"

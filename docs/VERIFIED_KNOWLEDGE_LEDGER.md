@@ -102,6 +102,15 @@ document, verify a quote against external bytes, establish semantic support,
 or authorize admission; those remain owner/system checks, advisory judgment,
 and Human Approval respectively.
 
+For a relation with this valid citation, the optional Jev advisory asks a second,
+typed single-choice question: which one primary relation does the bounded quote
+establish—one of the six ledger types, `no_relation`, or `insufficient`? A matching
+high-confidence answer can preserve ordinary advisory advice. A different type is
+recorded as a review escalation, never an automatic edge rewrite or new proposal;
+`insufficient` escalates. `no_relation` can reject only when the generic advisory
+assessment independently rejects. The receipt binds both the proposed and selected
+type so a human can decide whether to reject or re-propose the alternate relationship.
+
 [//]: # (ob:fdc2073a)
 ```sh
 proofpress relation propose CLAIM_A --to CLAIM_B --type qualifies \

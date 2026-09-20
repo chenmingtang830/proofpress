@@ -40,6 +40,15 @@ question-id map. Each item gets one Choice (`accept`, `reject`, `escalate`) and
 three Noul questions for evidence support, scope, and workspace/reproposal criteria.
 Question instructions identify the item explicitly; the model does not see question IDs.
 
+When a proposed relation has a valid bound citation receipt, Jev gets a second,
+separate Choice: the single **primary relation type established by that bounded quote**.
+Its options are the six ledger types plus `no_relation` and `insufficient`. A high-confidence
+match can preserve the normal advisory mapping. A different type or `insufficient`
+becomes `escalate`; it cannot rewrite, create, or admit another edge. `no_relation`
+can map to `reject` only when Jev's independent generic recommendation also rejects.
+The receipt records the declared type, selected type, question-set version, and mapping
+version `jev-relation-types/v1` for human review.
+
 Mapping version `jev-conservative/v1` requires choice probability >= 0.9 and
 Choice distribution confidence >= 0.8 for accept/reject. Accept additionally
 requires all three Noul values >= 0.9. All other valid answers become `escalate`.
