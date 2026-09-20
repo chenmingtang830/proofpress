@@ -29,6 +29,7 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         self.assertEqual(codex["version"], portable["version"])
         self.assertEqual(claude["name"], portable["name"])
         self.assertEqual(claude["version"], portable["version"])
+        self.assertTrue((ROOT / ".cursor-plugin" / "marketplace.json").is_file())
         self.assertNotIn("mcpServers", codex)
         self.assertFalse((PLUGIN / "mcp.json").exists())
         self.assertFalse((PLUGIN / ".mcp.json").exists())
@@ -45,6 +46,7 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         self.assertIn("Initial public package release", (PLUGIN / "CHANGELOG.md").read_text(encoding="utf-8"))
 
     def test_marketplaces_expose_the_same_plugin(self):
+        portable = load_json(PLUGIN / "plugin.json")
         codex_marketplace = load_json(ROOT / ".agents" / "plugins" / "marketplace.json")
         claude_marketplace = load_json(ROOT / ".claude-plugin" / "marketplace.json")
 
@@ -54,8 +56,17 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         self.assertEqual(codex_entry["source"]["path"], "./plugins/proofpress")
         self.assertEqual(codex_entry["policy"], {"installation": "AVAILABLE", "authentication": "ON_USE"})
         self.assertEqual(claude_marketplace["name"], "proofpress-plugins")
-        self.assertEqual(claude_marketplace["plugins"][0]["name"], "proofpress")
-        self.assertEqual(claude_marketplace["plugins"][0]["source"], "./plugins/proofpress")
+        claude_entry = claude_marketplace["plugins"][0]
+        self.assertEqual(claude_entry["name"], "proofpress")
+        self.assertEqual(claude_entry["source"], "./plugins/proofpress")
+        self.assertEqual(claude_entry["version"], portable["version"])
+
+        cursor_marketplace = load_json(ROOT / ".cursor-plugin" / "marketplace.json")
+        self.assertEqual(cursor_marketplace["name"], "proofpress-plugins")
+        cursor_entry = cursor_marketplace["plugins"][0]
+        self.assertEqual(cursor_entry["name"], "proofpress")
+        self.assertEqual(cursor_entry["source"], "plugins/proofpress")
+        self.assertEqual(cursor_entry["version"], portable["version"])
 
     def test_packaged_skill_and_assets_match_the_canonical_source(self):
         for relative in (
