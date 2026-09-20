@@ -39,6 +39,12 @@ TRACE_SECRET_KEY_RE = re.compile(
     r"secret|client[_-]?secret|private[_-]?key|password|credential|"
     r"authorization|auth|signature|sig|signed|code|session)(?:$|[_-])",
     re.IGNORECASE)
+TRACE_COMPACT_SECRET_KEYS = frozenset({
+    "apikey", "key", "accesstoken", "refreshtoken", "token", "secret",
+    "clientsecret", "privatekey", "password", "credential", "authorization",
+    "auth", "authtoken", "signature", "sig", "signed", "code", "session",
+    "sessionid",
+})
 
 def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
 def canon(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
@@ -99,7 +105,10 @@ def _trace_text(value, field):
 def _trace_locator(value, field):
     """Keep portable relative paths and non-file URIs, never producer-local paths."""
     value = _trace_text(value, field)
-    if Path(value).is_absolute() or PureWindowsPath(value).is_absolute():
+    windows_path = PureWindowsPath(value)
+    if windows_path.drive:
+        raise ValueError(f"TRACE decision confidence {field} must not be a Windows drive path")
+    if Path(value).is_absolute():
         raise ValueError(f"TRACE decision confidence {field} must not be an absolute local path")
     parsed = urlsplit(value)
     if parsed.scheme:
@@ -112,14 +121,22 @@ def _trace_locator(value, field):
           or any(part == ".." for part in PureWindowsPath(parsed.path).parts)):
         raise ValueError(f"TRACE decision confidence {field} must be a safe relative path or URI")
     for key, _ in parse_qsl(parsed.query, keep_blank_values=True):
-        if TRACE_SECRET_KEY_RE.search(key):
+        if _trace_secret_parameter(key):
             raise ValueError(f"TRACE decision confidence {field} must not contain credential query parameters")
     fragment = unquote(parsed.fragment)
     for candidate in (fragment, fragment.rsplit("?", 1)[-1] if "?" in fragment else ""):
         for key, _ in parse_qsl(candidate, keep_blank_values=True):
-            if TRACE_SECRET_KEY_RE.search(key):
+            if _trace_secret_parameter(key):
                 raise ValueError(f"TRACE decision confidence {field} must not contain credential fragments")
     return value
+
+
+def _trace_secret_parameter(value):
+    """Recognize separated, camelCase, and compact credential parameter aliases."""
+    separated = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "_", value)
+    compact = re.sub(r"[^a-z0-9]", "", value.lower())
+    return bool(TRACE_SECRET_KEY_RE.search(separated)
+                or compact in TRACE_COMPACT_SECRET_KEYS)
 
 
 def trace_decision_confidence(decision, trace_version=None):

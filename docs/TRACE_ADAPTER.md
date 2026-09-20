@@ -65,11 +65,14 @@ not an allowlist: an unknown value is retained rather than rejected.
 When evidence references are present, every role and digest must match
 `evidence_digests` exactly. A locator may be a portable relative path without
 parent traversal, or a URI without embedded credentials. Absolute POSIX or
-Windows paths, `file:` URIs, credential-bearing query/fragment parameters, and
-URI userinfo are rejected so producer-local paths and secrets do not enter the
-evidence projection. The adapter does not dereference locators, read result
-files, rerun the method, authenticate the files, or infer a decision from the
-measurement.
+Windows paths (including drive-relative forms such as `C:results.json`),
+`file:` URIs, credential-bearing query/fragment parameters, and URI userinfo
+are rejected so producer-local paths and secrets do not enter the evidence
+projection. Credential parameter checks cover separated, camel-case, and
+compact aliases such as `access_token`, `authToken`, and `sessionid` without
+rejecting unrelated names that merely contain those character sequences. The
+adapter does not dereference locators, read result files, rerun the method,
+authenticate the files, or infer a decision from the measurement.
 
 Accepting a wire version is not a promise to import every document valid under
 it. This adapter applies its own bounded profile: a confidence object must

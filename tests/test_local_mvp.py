@@ -351,7 +351,10 @@ class LocalMVPTests(unittest.TestCase):
     def test_trace_051_confidence_accepts_safe_uri_and_rejects_local_or_traversal_locators(self):
         safe = json.loads(TRACE_V051_FIXTURE.read_text())
         safe["events"][0]["decision"]["confidence"]["evidence"][0]["locator"] = (
-            "s3://customer-controlled/results/parent.json")
+            "https://example.test/results/parent.json?monkey=1&sessionidentifier=public"
+            "&authenticationMode=none#view=summary")
+        safe["events"][0]["decision"]["confidence"]["evidence"][1]["locator"] = (
+            "s3://customer-controlled/results/candidate.json")
         safe_path = self.repo / "safe-uri.trace.json"
         safe_path.write_text(json.dumps(safe))
         imported = self.data("evidence", "import", str(safe_path))
@@ -359,14 +362,21 @@ class LocalMVPTests(unittest.TestCase):
 
         for label, locator, message in (
             ("posix-absolute", "/Users/producer/private.json", "absolute local path"),
-            ("windows-absolute", r"C:\\Users\\producer\\private.json", "absolute local path"),
+            ("windows-absolute", r"C:\\Users\\producer\\private.json", "Windows drive path"),
+            ("windows-drive-relative", r"C:private\\results.json", "Windows drive path"),
             ("file-uri", "file:///Users/producer/private.json", "file URI"),
             ("traversal", "../private/results.json", "safe relative path or URI"),
             ("windows-traversal", r"..\\private\\results.json", "safe relative path or URI"),
             ("credentials", "https://token@example.test/results.json", "must not contain credentials"),
             ("credential-query", "https://example.test/results.json?access_token=secret",
              "credential query parameters"),
+            ("camel-credential-query", "https://example.test/results.json?authToken=secret",
+             "credential query parameters"),
+            ("compact-credential-query", "https://example.test/results.json?sessionid=secret",
+             "credential query parameters"),
             ("credential-fragment", "https://example.test/#/callback?code=secret",
+             "credential fragments"),
+            ("compact-credential-fragment", "https://example.test/#/callback?sessionid=secret",
              "credential fragments"),
         ):
             payload = json.loads(TRACE_V051_FIXTURE.read_text())
