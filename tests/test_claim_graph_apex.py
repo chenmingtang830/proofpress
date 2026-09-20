@@ -53,6 +53,23 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
                     self.assertTrue(kernel_ops.evaluate_relation_v2(rid)["eligible"])
                     kernel_ops.review_relation_v2(rid, "admit", "human:lawyer")
                     relations.append(rid)
+                # A dependency admitted after a claim makes the earlier claim
+                # admission stale. Reaffirm upstream claims before dependents.
+                dependency_rows = [row for row in fixture["relations"] if row["type"] == "depends_on"]
+                ordered, seen = [], set()
+                def visit(key):
+                    if key in seen: return
+                    seen.add(key)
+                    for relation in dependency_rows:
+                        if relation["from"] == key: visit(relation["to"])
+                    ordered.append(key)
+                for key in claims: visit(key)
+                for key in ordered:
+                    projection = kernel_ops.v2_projection()
+                    if kernel_ops.v2_state(projection, projection["claims"][claims[key]]) == "dependency_invalidated":
+                        kernel_ops.reassess_v2(claims[key], "retain", "human:lawyer",
+                                               "Reaffirm after dependency admission", "apex-" + key,
+                                               kernel_ops.v2_head(), [])
                 context = kernel_ops.context_v2(fixture["scope"], "agent:apex-executor")
                 self.assertEqual(len(context["governed_context"]), 13)
                 self.assertEqual(len(context["relations"]), 7)
@@ -83,6 +100,12 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
                         left, right, "depends_on", "agent:proposer")["relation"]["id"]
                     kernel_ops.review_relation_v2(relation, "admit", "human:lawyer")
                     relations.append(relation)
+                for claim in reversed(claims):
+                    projection = kernel_ops.v2_projection()
+                    if kernel_ops.v2_state(projection, projection["claims"][claim]) == "dependency_invalidated":
+                        kernel_ops.reassess_v2(claim, "retain", "human:lawyer",
+                                               "Reaffirm after dependency admission", "bounded-" + claim,
+                                               kernel_ops.v2_head(), [])
 
                 depth_one = kernel_ops.traverse_graph_v2(
                     [claims[0]], "matter-1", "agent:executor", max_depth=1)

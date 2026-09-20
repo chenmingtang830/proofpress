@@ -203,6 +203,24 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(context["actor"], "agent:codex-laptop")
         self.assertEqual(context["governed_context"][0]["id"], claim["id"])
 
+    def test_only_owner_can_withdraw_and_hosted_identity_is_injected(self):
+        agent = self.sdk.ProofpressClient.localhost(self.base_url, self.agent["token"])
+        owner = self.sdk.ProofpressClient.localhost(self.base_url, self.owner["token"])
+        imported = agent.submit_evidence(evidence_payload())
+        claim = agent.propose_claim("Approved claim", imported["evidence"], "authority-test",
+                                    "spoofed", title="Approved claim")["claim"]
+        owner.review_claim(claim["id"], "admit", "spoofed",
+                           review_request_id="authority-admit")
+        receipt = owner.review_receipt(claim["id"])
+        with self.assertRaises(self.sdk.ProofpressError):
+            agent.withdraw_claim(claim["id"], "spoofed", note="Not allowed",
+                                 request_id="agent-withdraw", expected_head=receipt["ledger_head"])
+        owner.withdraw_claim(claim["id"], "spoofed", note="Authority retracted",
+                             request_id="owner-withdraw", expected_head=receipt["ledger_head"])
+        withdrawn = owner.review_receipt(claim["id"])
+        self.assertEqual(withdrawn["state"], "withdrawn")
+        self.assertEqual(withdrawn["withdrawal"]["reviewer"], "human:owner")
+
     def test_stdio_mcp_bridge_uses_hosted_credential_identity(self):
         client = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])

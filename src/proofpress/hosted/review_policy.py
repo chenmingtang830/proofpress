@@ -246,12 +246,18 @@ def semantic_event(event, initiator):
               "policy_evaluated": "Checked evidence", "judge_recommended": "Reviewed evidence with LM",
               "claim_admitted": "Approved for reuse", "claim_rejected": "Rejected a claim",
               "claim_revision_requested": "Requested changes", "claim_superseded": "Replaced a claim",
+              "claim_withdrawn": "Withdrew a claim", "relation_retired": "Retired a dependency",
               "relation_proposed": "Proposed a relationship", "relation_admitted": "Approved a relationship"}
+    if kind == "claim_admitted" and event.get("reassessment"):
+        labels[kind] = "Reassessed and retained a claim"
+    if kind == "claim_revision_requested" and event.get("reassessment"):
+        labels[kind] = "Requested revision after dependency change"
     if kind not in labels:
         return None
     actor = event.get("verifier") or event.get("judge") or event.get("reviewer") or event.get("claim", {}).get("proposer") or initiator
     outcome = {"claim_admitted": "admitted", "claim_rejected": "rejected",
-               "claim_revision_requested": "needs_revision"}.get(kind, "recorded")
+               "claim_revision_requested": "needs_revision", "claim_withdrawn": "withdrawn",
+               "relation_retired": "retired"}.get(kind, "recorded")
     detail = event.get("note") or ""
     if kind == "policy_evaluated":
         failed = [name.replace("_", " ") for name, passed in event.get("checks", {}).items() if not passed]
