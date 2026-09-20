@@ -1,5 +1,6 @@
 """Network-free TypeSafe transport, credential isolation and governance regression tests."""
 import copy
+import hashlib
 import io
 import json
 import os
@@ -70,6 +71,17 @@ class JevAdapterTests(unittest.TestCase):
                 result = jev.judge(self.packet, opener=lambda r, timeout: io.BytesIO(
                     json.dumps(typed_response(r, choice, support, confidence)).encode()))
                 self.assertEqual(result["recommendation"], expected)
+
+    def test_relation_citation_limits_the_evidence_support_question(self):
+        quote = "The limitation does not apply to fraud."
+        citation = {"quote": quote, "locator": {"kind": "text_span", "start": 0,
+                    "end": len(quote)}, "quote_digest": "sha256:" + hashlib.sha256(
+                        quote.encode("utf-8")).hexdigest()}
+        questions = jev.questions_for({"relation": {}, "relation_citation": citation})
+        self.assertIn("named relation citation quote", questions["evidence_support"]["instructions"])
+        self.assertIn("rather than any other supplied evidence", questions["evidence_support"]["instructions"])
+        with self.assertRaisesRegex(ValueError, "invalid relation citation packet"):
+            jev.questions_for({"relation": {}, "relation_citation": {**citation, "quote_digest": "sha256:bad"}})
 
     def test_invalid_response_never_records_advice(self):
         def invalid_kind(p): p["answers"]["item_0_recommendation"]["choice"] = "admit"
