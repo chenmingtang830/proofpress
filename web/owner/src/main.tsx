@@ -517,6 +517,10 @@ function App() {
         },
         execute: async ({ claim_id, action }: any) => {
           const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
+          const actionAllowed = action === "reassess"
+            ? result.state === "dependency_invalidated"
+            : ["admitted", "dependency_invalidated"].includes(result.state);
+          if (!actionAllowed) throw new Error(`${action} is not available for a claim in state ${result.state}`);
           setNote("");
           setSelected(claim_id);
           setReceipt(result);
