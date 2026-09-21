@@ -7,11 +7,10 @@
 .claimMapPrimary { min-width:0; border-right:1px solid var(--line); }
 .claimMapScroll { overflow:auto; background:var(--paper); scrollbar-color:var(--ink-3) var(--wash); }
 .claimMapScroll:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-.claimMapPlane { position:relative; width:100%; min-width:1060px; height:var(--claim-map-height); background:radial-gradient(var(--line) .75px,transparent .75px) 0 0 / 22px 22px; }
-.claimMapColumns { position:absolute; z-index:2; top:24px; left:30px; right:30px; display:grid; grid-template-columns:280px 330px 270px; justify-content:space-between; color:var(--ink-2); font:500 11px/1.5 var(--font-ui); letter-spacing:.02em; }
+.claimMapPlane { position:relative; width:100%; min-width:900px; height:var(--claim-map-height); background:radial-gradient(var(--line) .75px,transparent .75px) 0 0 / 22px 22px; }
+.claimMapColumns { position:absolute; z-index:2; top:24px; left:30px; right:90px; display:grid; grid-template-columns:280px 330px; justify-content:space-between; color:var(--ink-2); font:500 11px/1.5 var(--font-ui); letter-spacing:.02em; }
 .claimMapPlane > svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
 .claimMapPlane path { fill:none; stroke:var(--line); stroke-width:1.5; vector-effect:non-scaling-stroke; }
-.claimMapPlane .contextPath { stroke:var(--accent); stroke-opacity:.38; }
 .claimMapPlane .relationPath path { stroke:var(--ink-2); stroke-dasharray:5 4; }
 .claimMapPlane marker path { fill:var(--ink-2); stroke:none; }
 .claimMapPlane .relationPath text { fill:var(--ink-2); font:10px var(--font-ui); paint-order:stroke; stroke:var(--paper); stroke-width:4px; stroke-linejoin:round; }
@@ -28,10 +27,8 @@
 .claimMapNode strong { width:100%; overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; color:var(--ink); font:500 13px/1.45 var(--font-ui); overflow-wrap:anywhere; }
 .evidenceNode { left:30px; width:280px; height:86px; padding:11px 13px; border-color:#7396a3; background:#f6fafb; }
 .evidenceNode strong { -webkit-line-clamp:1; }
-.currentClaimNode { left:calc(50% - 165px); width:330px; height:112px; padding:13px 15px; border-color:var(--add); background:var(--add-bg); }
+.currentClaimNode { left:auto; right:90px; width:330px; height:112px; padding:13px 15px; border-color:var(--add); background:var(--add-bg); }
 .currentClaimNode strong { -webkit-line-clamp:2; }
-.contextNode { right:30px; width:270px; height:100px; padding:13px 14px; border-color:var(--accent); background:var(--accent-soft); }
-.contextNode strong { -webkit-line-clamp:2; }
 .claimMapMobile { display:none; }
 .claimRelationControls { padding:14px; border-top:1px solid var(--line); background:var(--paper); }
 .claimRelationControlsHead { display:flex; justify-content:space-between; gap:16px; margin-bottom:10px; color:var(--ink-2); font:11px/1.45 var(--font-ui); }
