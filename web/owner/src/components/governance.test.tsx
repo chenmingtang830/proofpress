@@ -72,7 +72,7 @@ describe("governance components", () => {
     expect(html).toContain("Human conflict review required");
     expect(html).not.toContain("Approved by");
   });
-  it("shows citation-bound relation state and keeps Jev advice advisory", () => {
+  it("shows citation-bound relation state and attributes model advice to its adapter", () => {
     const rows = [
       {id:"a",label:"Primary finding",applicability:{title:"Matter"}},
       {id:"b",label:"Bounded qualification",applicability:{title:"Matter"}},
@@ -80,10 +80,11 @@ describe("governance components", () => {
     const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={[{id:"ev",label:"Source receipt"}]} edges={[
       {from:"ev",to:"a",type:"supports"},
       {id:"support-rel",from:"b",to:"a",type:"supports",state:"admitted"},
-      {id:"rel",from:"b",to:"a",type:"qualifies",state:"admitted",citation:{evidence_ref:"ev"},advice:{recommendation:"accept"}},
+      {id:"rel",from:"b",to:"a",type:"qualifies",state:"admitted",citation:{evidence_ref:"ev"},advice:{recommendation:"accept",adapter:"proofpress-custom-judge/v1",model:"bounded-model"}},
     ]} relations={[]} onChoose={()=>{}} />);
     expect(html).toContain("Citation bound");
-    expect(html).toContain("Jev: accept");
+    expect(html).toContain("proofpress-custom-judge/v1 · bounded-model: accept");
+    expect(html).not.toContain("Jev: accept");
     expect(html).toContain("model advice remains advisory");
     expect(html).toContain("Claim-centered lineage");
     expect(html).toContain("2 relations");

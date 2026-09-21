@@ -8,6 +8,7 @@ const RELATION_TYPES = new Set(["supports", "depends_on", "qualifies", "contradi
 const CURRENT_RELATION_STATES = new Set(["admitted", "current"]);
 const relationLabel = (value: string) => value.replaceAll("_", " ");
 const relationState = (edge: any) => edge.state || "needs_review";
+const relationAdviceAttribution = (advice: any) => [advice?.adapter, advice?.model].filter(Boolean).join(" · ") || "Model";
 
 export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const [selection, setSelection] = React.useState("");
@@ -122,8 +123,8 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
           <dl>
             <div><dt>Bound evidence</dt><dd>{evidence.length ? evidence.map((node: any) => <span key={node?.id}>{node?.label || "Evidence receipt"}</span>) : <span>None shown in this projection</span>}</dd></div>
             <div><dt>Recorded relations</dt><dd>{incoming.length + outgoing.length ? <>
-              {incoming.map((edge: any) => <span key={`in:${relationKey(edge)}`}><b>{claimDisplayTitle(claimById(edge.from)!)}</b> → {relationLabel(edge.type)} → this claim <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}</span>)}
-              {outgoing.map((edge: any) => <span key={`out:${relationKey(edge)}`}>This claim → {relationLabel(edge.type)} → <b>{claimDisplayTitle(claimById(edge.to)!)}</b> <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}</span>)}
+              {incoming.map((edge: any) => <span key={`in:${relationKey(edge)}`}><b>{claimDisplayTitle(claimById(edge.from)!)}</b> → {relationLabel(edge.type)} → this claim <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>{relationAdviceAttribution(edge.advice)}: {edge.advice.recommendation}</i>}</span>)}
+              {outgoing.map((edge: any) => <span key={`out:${relationKey(edge)}`}>This claim → {relationLabel(edge.type)} → <b>{claimDisplayTitle(claimById(edge.to)!)}</b> <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>{relationAdviceAttribution(edge.advice)}: {edge.advice.recommendation}</i>}</span>)}
             </> : <span>No claim-to-claim relations shown</span>}</dd></div>
           </dl>
           <Button variant="outline" size="sm" onClick={event => onChoose(row.id, event.currentTarget)}>Open claim record</Button>
@@ -138,7 +139,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
         const state = relationState(edge);
         return <Button key={relationKey(edge)} variant="ghost" size="content" className="claimRelationButton" aria-pressed={active} onClick={() => select(`relation:${relationKey(edge)}`)}>
           <span className="relationStatement"><b>{claimDisplayTitle(claimById(edge.from)!)}</b><span aria-hidden="true">→</span><span>{relationLabel(edge.type)}</span><span aria-hidden="true">→</span><b>{claimDisplayTitle(claimById(edge.to)!)}</b></span>
-          <span className="relationSignals">{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}<em data-state={state}>{CURRENT_RELATION_STATES.has(state) ? "Current admitted" : relationLabel(state)}</em></span>
+          <span className="relationSignals">{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>{relationAdviceAttribution(edge.advice)}: {edge.advice.recommendation}</i>}<em data-state={state}>{CURRENT_RELATION_STATES.has(state) ? "Current admitted" : relationLabel(state)}</em></span>
         </Button>;
       })}</div> : <p className="claimRelationEmpty">No claim-to-claim relations recorded in this projection.</p>)}
       </div>
@@ -157,7 +158,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
               <div><dt>To</dt><dd>{claimDisplayTitle(claimById(selectedRelation.to)!)}</dd></div>
               <div><dt>State</dt><dd>{relationLabel(relationState(selectedRelation))}</dd></div>
               {selectedRelation.citation && <div><dt>Evidence</dt><dd>{selectedRelation.citation.evidence_ref}</dd></div>}
-              {selectedRelation.advice?.recommendation && <div><dt>Jev advice</dt><dd>{selectedRelation.advice.recommendation} · advisory</dd></div>}
+              {selectedRelation.advice?.recommendation && <div><dt>Model advice</dt><dd>{relationAdviceAttribution(selectedRelation.advice)} · {selectedRelation.advice.recommendation} · advisory</dd></div>}
             </>}
             {selectedClaim && <>
               <div><dt>State</dt><dd>Current admitted</dd></div>
