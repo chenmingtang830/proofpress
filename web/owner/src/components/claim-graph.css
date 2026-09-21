@@ -7,7 +7,7 @@
 .claimMapPrimary { min-width:0; border-right:1px solid var(--line); }
 .claimMapScroll { overflow:auto; background:var(--paper); scrollbar-color:var(--ink-3) var(--wash); }
 .claimMapScroll:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-.claimMapPlane { position:relative; width:100%; min-width:900px; height:var(--claim-map-height); background:radial-gradient(var(--line) .75px,transparent .75px) 0 0 / 22px 22px; }
+.claimMapPlane { position:relative; width:900px; min-width:900px; height:var(--claim-map-height); margin-inline:auto; background:radial-gradient(var(--line) .75px,transparent .75px) 0 0 / 22px 22px; }
 .claimMapColumns { position:absolute; z-index:2; top:24px; left:30px; right:90px; display:grid; grid-template-columns:280px 330px; justify-content:space-between; color:var(--ink-2); font:500 11px/1.5 var(--font-ui); letter-spacing:.02em; }
 .claimMapPlane > svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; }
 .claimMapPlane path { fill:none; stroke:var(--line); stroke-width:1.5; vector-effect:non-scaling-stroke; }

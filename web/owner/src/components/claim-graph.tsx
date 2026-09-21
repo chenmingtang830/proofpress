@@ -4,7 +4,7 @@ import { claimDisplayTitle } from "./claim-display";
 import { knowledgeTopic, type KnowledgeRow } from "./knowledge-model";
 import "./claim-graph.css";
 
-const RELATION_TYPES = new Set(["depends_on", "qualifies", "contradicts", "supersedes", "same_as", "re_proposed_as"]);
+const RELATION_TYPES = new Set(["supports", "depends_on", "qualifies", "contradicts", "supersedes", "same_as", "re_proposed_as"]);
 const CURRENT_RELATION_STATES = new Set(["admitted", "current"]);
 const relationLabel = (value: string) => value.replaceAll("_", " ");
 const relationState = (edge: any) => edge.state || "needs_review";
@@ -16,7 +16,9 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const allClaims = rows as KnowledgeRow[];
   const claims = allClaims.slice(0, claimLimit);
   const claimIds = new Set(claims.map(row => row.id));
-  const support = edges.filter((edge: any) => edge.type === "supports" && claimIds.has(edge.to));
+  const nodeTypes = new Map(nodes.map((node: any) => [node.id, node.type]));
+  const isClaimNode = (id: string) => claimIds.has(id) || nodeTypes.get(id) === "claim";
+  const support = edges.filter((edge: any) => edge.type === "supports" && claimIds.has(edge.to) && !isClaimNode(edge.from));
   const evidenceIds = [...new Set(support.map((edge: any) => edge.from))].slice(0, 16) as string[];
   const relationMap = new Map<string, any>();
   [...relations, ...edges.filter((edge: any) => RELATION_TYPES.has(edge.type))]
@@ -36,12 +38,16 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const claimY = (index: number) => 78 + index * claimStep;
   const claimIndex = (id: string) => claims.findIndex(row => row.id === id);
   const claimById = (id: string) => claims.find(row => row.id === id);
-  const relationKey = (edge: any, index: number) => edge.id || `${edge.from}:${edge.type}:${edge.to}:${index}`;
-  const selectedRelationIndex = selection.startsWith("relation:") ? Number(selection.split(":")[1]) : -1;
-  const selectedRelation = claimRelations[selectedRelationIndex];
+  const relationKey = (edge: any) => edge.id || `${edge.from}:${edge.type}:${edge.to}`;
+  const selectedRelationKey = selection.startsWith("relation:") ? selection.slice(9) : "";
+  const selectedRelationIndex = claimRelations.findIndex((edge: any) => relationKey(edge) === selectedRelationKey);
+  const selectedRelation = selectedRelationIndex >= 0 ? claimRelations[selectedRelationIndex] : null;
   const selectedClaim = selection.startsWith("claim:") ? claimById(selection.slice(6)) : null;
   const selectedEvidenceId = selection.startsWith("evidence:") ? selection.slice(9) : "";
   const selectedEvidence = selectedEvidenceId ? nodes.find((node: any) => node.id === selectedEvidenceId) : null;
+  React.useEffect(() => {
+    if (selection.startsWith("relation:") && !selectedRelation) setSelection("");
+  }, [selection, selectedRelation]);
   const visibleRelations = selectedRelation
     ? [selectedRelation]
     : selectedClaim
@@ -88,7 +94,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
               const bend = 840 + (index % 3) * 18;
               const middle = (claimY(from) + claimY(to)) / 2 + claimAnchor;
               const state = relationState(edge);
-              return <g key={relationKey(edge, index)} className={`relationPath relation-${edge.type} state-${state}${selectedRelationIndex === index ? " selected" : ""}`}>
+              return <g key={relationKey(edge)} className={`relationPath relation-${edge.type} state-${state}${selectedRelationIndex === index ? " selected" : ""}`}>
                 <path className="claimRelationLine" markerEnd="url(#claimRelationArrow)" d={`M 810 ${claimY(from) + claimAnchor} C ${bend} ${claimY(from) + claimAnchor}, ${bend} ${claimY(to) + claimAnchor}, 810 ${claimY(to) + claimAnchor}`} />
                 <text x="892" y={middle - 7} textAnchor="end">{relationLabel(edge.type)} · {relationLabel(state)}</text>
               </g>;
@@ -110,8 +116,8 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
           <dl>
             <div><dt>Bound evidence</dt><dd>{evidence.length ? evidence.map((node: any) => <span key={node?.id}>{node?.label || "Evidence receipt"}</span>) : <span>None shown in this projection</span>}</dd></div>
             <div><dt>Recorded relations</dt><dd>{incoming.length + outgoing.length ? <>
-              {incoming.map((edge: any, index: number) => <span key={`in:${relationKey(edge, index)}`}><b>{claimDisplayTitle(claimById(edge.from)!)}</b> → {relationLabel(edge.type)} → this claim <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}</span>)}
-              {outgoing.map((edge: any, index: number) => <span key={`out:${relationKey(edge, index)}`}>This claim → {relationLabel(edge.type)} → <b>{claimDisplayTitle(claimById(edge.to)!)}</b> <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}</span>)}
+              {incoming.map((edge: any) => <span key={`in:${relationKey(edge)}`}><b>{claimDisplayTitle(claimById(edge.from)!)}</b> → {relationLabel(edge.type)} → this claim <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}</span>)}
+              {outgoing.map((edge: any) => <span key={`out:${relationKey(edge)}`}>This claim → {relationLabel(edge.type)} → <b>{claimDisplayTitle(claimById(edge.to)!)}</b> <em data-state={relationState(edge)}>{relationLabel(relationState(edge))}</em>{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}</span>)}
             </> : <span>No claim-to-claim relations shown</span>}</dd></div>
           </dl>
           <Button variant="outline" size="sm" onClick={event => onChoose(row.id, event.currentTarget)}>Open claim record</Button>
@@ -124,7 +130,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       {relationsOpen && (claimRelations.length ? <div className="claimRelationList">{claimRelations.map((edge: any, index: number) => {
         const active = selectedRelationIndex === index;
         const state = relationState(edge);
-        return <Button key={relationKey(edge, index)} variant="ghost" size="content" className="claimRelationButton" aria-pressed={active} onClick={() => select(`relation:${index}`)}>
+        return <Button key={relationKey(edge)} variant="ghost" size="content" className="claimRelationButton" aria-pressed={active} onClick={() => select(`relation:${relationKey(edge)}`)}>
           <span className="relationStatement"><b>{claimDisplayTitle(claimById(edge.from)!)}</b><span aria-hidden="true">→</span><span>{relationLabel(edge.type)}</span><span aria-hidden="true">→</span><b>{claimDisplayTitle(claimById(edge.to)!)}</b></span>
           <span className="relationSignals">{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}<em data-state={state}>{CURRENT_RELATION_STATES.has(state) ? "Current admitted" : relationLabel(state)}</em></span>
         </Button>;

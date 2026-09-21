@@ -72,12 +72,16 @@ describe("governance components", () => {
     ];
     const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={[{id:"ev",label:"Source receipt"}]} edges={[
       {from:"ev",to:"a",type:"supports"},
+      {id:"support-rel",from:"b",to:"a",type:"supports",state:"admitted"},
       {id:"rel",from:"b",to:"a",type:"qualifies",state:"admitted",citation:{evidence_ref:"ev"},advice:{recommendation:"accept"}},
     ]} relations={[]} onChoose={()=>{}} />);
     expect(html).toContain("Citation bound");
     expect(html).toContain("Jev: accept");
     expect(html).toContain("model advice remains advisory");
     expect(html).toContain("Claim-centered lineage");
+    expect(html).toContain("2 relations");
+    expect(html).toContain("<small>Evidence</small><strong>Source receipt</strong>");
+    expect(html).not.toContain("<small>Evidence</small><strong>Bounded qualification</strong>");
   });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};
