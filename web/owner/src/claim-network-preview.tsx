@@ -76,6 +76,7 @@ function ClaimNetwork() {
   const [edgeLimit, setEdgeLimit] = React.useState(8);
   const [selected, setSelected] = React.useState("clm-c");
   const [showEvidence, setShowEvidence] = React.useState(false);
+  const [openReceipt, setOpenReceipt] = React.useState<string | null>(null);
   const [query, setQuery] = React.useState("");
   const selectedClaim = claimById(selected);
   const visibleClaims = claims.slice(0,nodeLimit).filter(claim => !query || `${claim.title} ${claim.statement}`.toLowerCase().includes(query.toLowerCase()));
@@ -91,18 +92,24 @@ function ClaimNetwork() {
     const y = rowCount === 2 ? 220 + row * 210 : rowCount === 3 ? 145 + row * 170 : 95 + row * 110;
     return [claim.id,{x:[120,340,560,780][column],y}] as const;
   }));
-  const selectClaim = (id:string) => { setSelected(id); setShowEvidence(false); };
-  const reset = () => { setNodeLimit(initialScene.length); setEdgeLimit(8); setSelected("clm-c"); setShowEvidence(false); setQuery(""); };
+  const visibleSelectedClaim = visibleIds.has(selected) ? selectedClaim : null;
+  const selectClaim = (id:string) => { setSelected(id); setShowEvidence(false); setOpenReceipt(null); };
+  const updateQuery = (value:string) => {
+    setQuery(value);
+    const firstMatch = claims.slice(0,nodeLimit).find(claim => `${claim.title} ${claim.statement} ${claim.topic} ${claim.evidence.join(" ")}`.toLowerCase().includes(value.toLowerCase()));
+    if (firstMatch && firstMatch.id !== selected) selectClaim(firstMatch.id);
+  };
+  const reset = () => { setNodeLimit(initialScene.length); setEdgeLimit(8); setSelected("clm-c"); setShowEvidence(false); setOpenReceipt(null); setQuery(""); };
   return <section className="networkPage">
     <header className="networkHead">
       <div><h1>Claim network</h1><p>Explore admitted claims and their recorded relationships.</p></div>
       <div className="networkCount"><strong>{visibleClaims.length}</strong><span>claims · {visibleRelations.length} relations</span></div>
     </header>
     <div className="networkToolbar">
-      <Label>Find claims<Input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search claims…" /></Label>
+      <Label>Find claims<Input type="search" value={query} onChange={event => updateQuery(event.target.value)} placeholder="Search statements, scope, or evidence…" /></Label>
       <Label>Nodes<NativeSelect value={nodeLimit} onChange={event => { const next = Number(event.target.value); setNodeLimit(next); if (claims.findIndex(claim => claim.id === selected) >= next) selectClaim(claims[0].id); }}><option value="8">8 claims</option><option value="12">12 claims</option><option value="20">20 claims</option></NativeSelect></Label>
       <Label>Edges<NativeSelect value={edgeLimit} onChange={event => setEdgeLimit(Number(event.target.value))}><option value="4">Up to 4</option><option value="8">Up to 8</option><option value="18">All relations</option></NativeSelect></Label>
-      <Button variant="outline" onClick={reset}>Reset scene</Button>
+      <Button variant="outline" className="h-10" onClick={reset}>Reset scene</Button>
     </div>
     <div className="networkWorkspace">
       <div className="networkCanvas" aria-label="Interactive claim network">
@@ -125,7 +132,7 @@ function ClaimNetwork() {
             const lineHeight = nodeLimit === 20 ? 12 : 16;
             const labelLines = lines(claim.title,nodeLimit === 20 ? 15 : 21,nodeLimit === 20 ? 2 : 3);
             const labelStart = position.y - ((labelLines.length - 1) * lineHeight) / 2 + 7;
-            return <g key={claim.id} data-claim-id={claim.id} className={`networkNode${active ? " selected" : ""}`} role="button" tabIndex={0} focusable="true" aria-label={claim.title} onClick={() => selectClaim(claim.id)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectClaim(claim.id); } }}>
+            return <g key={claim.id} data-claim-id={claim.id} className={`networkNode${active ? " selected" : ""}`} role="button" tabIndex={0} focusable="true" aria-label={claim.title} aria-pressed={active} onClick={() => selectClaim(claim.id)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectClaim(claim.id); } }}>
               <title>{claim.title}</title>
               {active && <circle className="networkSelectionRing" cx={position.x} cy={position.y} r={radius + 7}/>}
               <circle className="networkNodeBody" cx={position.x} cy={position.y} r={radius}/>
@@ -134,13 +141,22 @@ function ClaimNetwork() {
             </g>;
           })}
         </svg>
-        {!visibleClaims.length && <div className="networkEmpty"><strong>No matching claims</strong><span>Clear the search or applicability filter.</span></div>}
+        <ul className="sr-only" aria-label="Claims shown in graph">{visibleClaims.map(claim => <li key={claim.id}><Button variant="ghost" size="content" aria-pressed={claim.id === selected} onClick={() => selectClaim(claim.id)}>{claim.title}</Button></li>)}</ul>
+        {!visibleClaims.length && <div className="networkEmpty"><strong>No matching claims</strong><span>Clear or change the search.</span></div>}
       </div>
-      <aside className="networkSidecar" aria-live="polite">
-        <small>Admitted claim</small><h2>{selectedClaim.title}</h2><p>{selectedClaim.statement}</p>
-        <dl><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Scope</dt><dd>{selectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{selectedClaim.evidence.length} receipts</dd></div></dl>
-        <div className="networkActions"><Button variant="outline" onClick={() => setShowEvidence(value => !value)}>{showEvidence ? "Hide evidence" : "Show evidence"}</Button></div>
-        {showEvidence && <section className="networkEvidenceList"><h3>Bound evidence</h3>{selectedClaim.evidence.map(item => <Button key={item} variant="ghost" size="content">{item}<span>Open receipt</span></Button>)}</section>}
+      <aside className="networkSidecar">
+        <p className="sr-only" aria-live="polite">{visibleSelectedClaim ? `Selected claim: ${visibleSelectedClaim.title}` : "No matching claim selected"}</p>
+        {!visibleSelectedClaim ? <div className="networkSidecarEmpty"><h2>No matching claim</h2><p>Change or clear the search to inspect a claim.</p></div> : openReceipt ? <>
+          <Button variant="ghost" size="content" className="networkBack" onClick={() => setOpenReceipt(null)}>Back to claim</Button>
+          <small>Evidence receipt</small><h2>{openReceipt}</h2><p>Recorded support bound to this claim. Synthetic preview only.</p>
+          <dl><div><dt>Receipt</dt><dd>{`rec-${selected}-01`}</dd></div><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Bound to</dt><dd>{visibleSelectedClaim.title}</dd></div></dl>
+          <section className="networkReceiptExcerpt"><h3>Recorded excerpt</h3><p>{openReceipt} supports “{visibleSelectedClaim.title}”.</p></section>
+        </> : <>
+          <small>Admitted claim</small><h2>{visibleSelectedClaim.title}</h2><p>{visibleSelectedClaim.statement}</p>
+          <dl><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Scope</dt><dd>{visibleSelectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{visibleSelectedClaim.evidence.length} receipts</dd></div></dl>
+          <div className="networkActions"><Button variant="outline" onClick={() => setShowEvidence(value => !value)}>{showEvidence ? "Hide evidence" : "Show evidence"}</Button></div>
+          {showEvidence && <section className="networkEvidenceList"><h3>Bound evidence</h3>{visibleSelectedClaim.evidence.map(item => <Button key={item} variant="ghost" size="content" className="networkReceiptButton" onClick={() => setOpenReceipt(item)}><span>{item}</span><span>Open receipt</span></Button>)}</section>}
+        </>}
       </aside>
     </div>
     <footer className="networkHint"><span>Recorded time runs left to right.</span><span>Selecting a claim never moves the graph.</span></footer>
@@ -149,7 +165,7 @@ function ClaimNetwork() {
 
 function Preview() {
   const nav = [["Home",Home],["Review",ShieldCheck],["Knowledge",BookOpen],["Runs",Activity],["Activity",Activity],["Admin",KeyRound]] as const;
-  return <div className="shell"><aside className="sidebar"><div className="brand"><span className="brandMark"><img src="/logo.svg" alt="" /></span><strong>Proofpress</strong></div><nav aria-label="Workspace navigation">{nav.map(([label,Icon]) => <Button key={label} variant="ghost" size="content" className={label === "Knowledge" ? "active" : ""}><Icon/><span>{label}</span></Button>)}</nav><div className="workspace"><span>WORKSPACE</span><b>Local prototype</b><small>Synthetic claims</small></div></aside><main><header className="topbar"><span className="workspaceLabel">Local prototype · Knowledge</span><Button variant="outline" disabled>Sign out</Button></header><section className="stage"><p className="previewNotice">Claim-first graph prototype · no production knowledge</p><ClaimNetwork/></section></main></div>;
+  return <div className="shell"><aside className="sidebar"><div className="brand"><span className="brandMark"><img src="/logo.svg" alt="" /></span><strong>Proofpress</strong></div><nav aria-label="Workspace navigation">{nav.map(([label,Icon]) => <Button key={label} variant="ghost" size="content" className={label === "Knowledge" ? "active" : ""}><Icon/><span>{label}</span></Button>)}</nav><div className="workspace"><span>WORKSPACE</span><b>Local prototype</b><small>Synthetic claims</small></div></aside><main><header className="topbar"><span className="workspaceLabel">Local prototype · Knowledge</span><Button variant="outline" disabled>Sign out</Button></header><section className="stage networkStage"><div className="networkFrame"><p className="networkNotice">Synthetic prototype · no production knowledge</p><ClaimNetwork/></div></section></main></div>;
 }
 
 createRoot(document.getElementById("root")!).render(<Preview/>);
