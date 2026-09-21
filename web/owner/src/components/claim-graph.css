@@ -31,7 +31,8 @@
 .currentClaimNode strong { -webkit-line-clamp:2; }
 .claimMapMobile { display:none; }
 .claimRelationControls { padding:14px; border-top:1px solid var(--line); background:var(--paper); }
-.claimRelationControlsHead { display:flex; justify-content:space-between; gap:16px; margin-bottom:10px; color:var(--ink-2); font:11px/1.45 var(--font-ui); }
+.claimRelationControlsHead { display:flex; align-items:center; justify-content:space-between; gap:16px; color:var(--ink-2); font:11px/1.45 var(--font-ui); }
+.claimRelationControlsHead:has(+ .claimRelationList), .claimRelationControlsHead:has(+ .claimRelationEmpty) { margin-bottom:10px; }
 .claimRelationControlsHead strong { color:var(--ink); font-size:12px; }
 .claimRelationList { display:grid; gap:7px; }
 .claimRelationButton { width:100%; min-height:42px; padding:8px 10px; border:1px solid transparent; border-radius:7px; display:flex; justify-content:space-between; align-items:center; gap:16px; text-align:left; }
@@ -58,7 +59,7 @@
 .claimMapSidecarEmpty { min-height:324px; display:grid; place-content:center; gap:4px; text-align:center; }
 .claimMapSidecarEmpty strong { color:var(--ink); font:500 13px/1.4 var(--font-ui); }
 .claimMapSidecarEmpty span { color:var(--ink-2); font:11px/1.5 var(--font-ui); }
-.claimMapFooter { padding:12px 4px 0; color:var(--ink-2); font:11px/1.5 var(--font-ui); }
+.claimMapFooter { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 4px 0; color:var(--ink-2); font:11px/1.5 var(--font-ui); }
 @media (max-width:820px) {
   .claimMapHead { display:block; }
   .claimMapDesktop { display:none; }

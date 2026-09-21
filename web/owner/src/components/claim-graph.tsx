@@ -11,7 +11,10 @@ const relationState = (edge: any) => edge.state || "needs_review";
 
 export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const [selection, setSelection] = React.useState("");
-  const claims = (rows as KnowledgeRow[]).slice(0, 10);
+  const [claimLimit, setClaimLimit] = React.useState(6);
+  const [relationsOpen, setRelationsOpen] = React.useState(false);
+  const allClaims = rows as KnowledgeRow[];
+  const claims = allClaims.slice(0, claimLimit);
   const claimIds = new Set(claims.map(row => row.id));
   const support = edges.filter((edge: any) => edge.type === "supports" && claimIds.has(edge.to));
   const evidenceIds = [...new Set(support.map((edge: any) => edge.from))].slice(0, 16) as string[];
@@ -39,6 +42,17 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const selectedClaim = selection.startsWith("claim:") ? claimById(selection.slice(6)) : null;
   const selectedEvidenceId = selection.startsWith("evidence:") ? selection.slice(9) : "";
   const selectedEvidence = selectedEvidenceId ? nodes.find((node: any) => node.id === selectedEvidenceId) : null;
+  const visibleRelations = selectedRelation
+    ? [selectedRelation]
+    : selectedClaim
+      ? claimRelations.filter((edge: any) => edge.from === selectedClaim.id || edge.to === selectedClaim.id)
+      : [];
+  const evidenceRelatedToSelection = (id: string) => {
+    if (!selection) return true;
+    if (selectedEvidenceId) return selectedEvidenceId === id;
+    const targetIds = selectedRelation ? [selectedRelation.from, selectedRelation.to] : selectedClaim ? [selectedClaim.id] : [];
+    return support.some((edge: any) => edge.from === id && targetIds.includes(edge.to));
+  };
   const relatedToSelection = (id: string) => {
     if (!selection) return true;
     if (selectedEvidenceId) return support.some((edge: any) => edge.from === selectedEvidenceId && edge.to === id);
@@ -65,9 +79,11 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
             <defs><marker id="claimRelationArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
             {support.filter((edge: any) => evidenceIds.includes(edge.from)).map((edge: any, index: number) => {
               const from = evidenceIds.indexOf(edge.from), to = claimIndex(edge.to);
-              return <path key={`support:${index}`} className="supportPath" d={`M 310 ${evidenceY(from) + evidenceAnchor} C 380 ${evidenceY(from) + evidenceAnchor}, 410 ${claimY(to) + claimAnchor}, 480 ${claimY(to) + claimAnchor}`} />;
+              const active = !selection || evidenceRelatedToSelection(edge.from) && relatedToSelection(edge.to);
+              return <path key={`support:${index}`} className="supportPath" style={{ opacity: active ? 1 : .12 }} d={`M 310 ${evidenceY(from) + evidenceAnchor} C 380 ${evidenceY(from) + evidenceAnchor}, 410 ${claimY(to) + claimAnchor}, 480 ${claimY(to) + claimAnchor}`} />;
             })}
-            {claimRelations.map((edge: any, index: number) => {
+            {visibleRelations.map((edge: any) => {
+              const index = claimRelations.indexOf(edge);
               const from = claimIndex(edge.from), to = claimIndex(edge.to);
               const bend = 840 + (index % 3) * 18;
               const middle = (claimY(from) + claimY(to)) / 2 + claimAnchor;
@@ -78,7 +94,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
               </g>;
             })}
           </svg>
-          {evidenceIds.map((id, index) => { const node = nodes.find((item: any) => item.id === id); const active = selection === `evidence:${id}`; const count = support.filter((edge: any) => edge.from === id).length; return <Button key={id} variant="ghost" size="content" className="claimMapNode evidenceNode" style={{ top: evidenceY(index), opacity: selection && !active ? .42 : 1 }} aria-pressed={active} onClick={() => select(`evidence:${id}`)}><small>Evidence</small><strong>{node?.label || "Bound evidence"}</strong><span>{count} {count === 1 ? "claim" : "claims"}</span></Button>; })}
+          {evidenceIds.map((id, index) => { const node = nodes.find((item: any) => item.id === id); const active = selection === `evidence:${id}`; const count = support.filter((edge: any) => edge.from === id).length; return <Button key={id} variant="ghost" size="content" className="claimMapNode evidenceNode" style={{ top: evidenceY(index), opacity: evidenceRelatedToSelection(id) ? 1 : .28 }} aria-pressed={active} onClick={() => select(`evidence:${id}`)}><small>Evidence</small><strong>{node?.label || "Bound evidence"}</strong><span>{count} {count === 1 ? "claim" : "claims"}</span></Button>; })}
           {claims.map((row, index) => { const active = selection === `claim:${row.id}`; const count = claimRelations.filter((edge: any) => edge.from === row.id || edge.to === row.id).length; return <Button key={row.id} variant="ghost" size="content" className="claimMapNode currentClaimNode" style={{ top: claimY(index), opacity: relatedToSelection(row.id) ? 1 : .28 }} aria-pressed={active} onClick={() => select(`claim:${row.id}`)}><small>{knowledgeTopic(row) || "Scope not recorded"}</small><strong>{claimDisplayTitle(row)}</strong><span>{count} {count === 1 ? "relation" : "relations"}</span></Button>; })}
         </div>
       </div>
@@ -104,15 +120,15 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       </div>
 
       <div className="claimRelationControls" aria-label="Recorded claim relations">
-      <div className="claimRelationControlsHead"><strong>Relations</strong></div>
-      {claimRelations.length ? <div className="claimRelationList">{claimRelations.map((edge: any, index: number) => {
+      <div className="claimRelationControlsHead"><strong>{claimRelations.length} {claimRelations.length === 1 ? "relation" : "relations"}</strong>{claimRelations.length > 0 && <Button variant="ghost" size="sm" aria-expanded={relationsOpen} onClick={() => setRelationsOpen(open => !open)}>{relationsOpen ? "Hide" : "Show"}</Button>}</div>
+      {relationsOpen && (claimRelations.length ? <div className="claimRelationList">{claimRelations.map((edge: any, index: number) => {
         const active = selectedRelationIndex === index;
         const state = relationState(edge);
         return <Button key={relationKey(edge, index)} variant="ghost" size="content" className="claimRelationButton" aria-pressed={active} onClick={() => select(`relation:${index}`)}>
           <span className="relationStatement"><b>{claimDisplayTitle(claimById(edge.from)!)}</b><span aria-hidden="true">→</span><span>{relationLabel(edge.type)}</span><span aria-hidden="true">→</span><b>{claimDisplayTitle(claimById(edge.to)!)}</b></span>
           <span className="relationSignals">{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}<em data-state={state}>{CURRENT_RELATION_STATES.has(state) ? "Current admitted" : relationLabel(state)}</em></span>
         </Button>;
-      })}</div> : <p className="claimRelationEmpty">No claim-to-claim relations recorded in this projection.</p>}
+      })}</div> : <p className="claimRelationEmpty">No claim-to-claim relations recorded in this projection.</p>)}
       </div>
       </div>
 
@@ -146,6 +162,6 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       </aside>
     </div>
 
-    {rows.length > claims.length && <footer className="claimMapFooter">Showing {claims.length} of {rows.length} claims</footer>}
+    {allClaims.length > claims.length && <footer className="claimMapFooter"><span>Showing {claims.length} of {allClaims.length} claims</span><Button variant="outline" size="sm" onClick={() => setClaimLimit(limit => Math.min(limit + 6, allClaims.length))}>Show {Math.min(6, allClaims.length - claims.length)} more</Button></footer>}
   </section>;
 }
