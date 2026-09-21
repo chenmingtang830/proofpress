@@ -80,6 +80,7 @@ type Receipt = {
   history?: any[];
   dependency_impact?: {items:DependencyImpact[];redacted:number};
   dependencies?: DependencyRelation[];
+  relations?: any[];
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
@@ -498,6 +499,7 @@ function App() {
             dependency_impact: r.dependency_impact,
             dependent_impact: r.dependent_impact,
             dependencies: r.dependencies,
+            relations: r.relations,
             relation_advice: r.relation_advice,
             history: r.history,
           });

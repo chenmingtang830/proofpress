@@ -3407,6 +3407,12 @@ def receipt_v2(cid, actor=None):
         dependent_id for dependent_id in dependent_impact["direct"] + dependent_impact["transitive"]
         if _actor_can_read(projection["claims"].get(dependent_id, {}), policy, actor)
     }
+    visible_relations = [
+        relation for relation in projection.get("relations", {}).values()
+        if (relation["from"] == cid or relation["to"] == cid)
+        and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
+        and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)
+    ]
     return {"claim": row, "state": review_state_v2(projection, row, policy, impact_map),
             "ledger_head": v2_head(),
             "revision_request": projection["revision_requests"].get(cid),
@@ -3449,15 +3455,14 @@ def receipt_v2(cid, actor=None):
                              for relation in projection.get("relations", {}).values()
                              if relation["type"] == "depends_on" and relation["from"] == cid
                              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            "relations": [{**relation, "state": relation_state(projection, relation)}
+                          for relation in visible_relations],
             "relation_advice": [{
                 "relation": relation, "state": relation_state(projection, relation),
                 "recommendation": projection["relation_recommendations"].get(relation["id"]),
                 "evaluation": projection["relation_evaluations"].get(relation["id"]),
-            } for relation in projection.get("relations", {}).values()
-              if (relation["from"] == cid or relation["to"] == cid)
-              and projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")
-              and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
-              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            } for relation in visible_relations
+              if projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")],
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
                          "model": e.get("model"), "note": e.get("note"),

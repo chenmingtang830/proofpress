@@ -21,7 +21,7 @@ function RecordedList({ values, missing }: { values?: string[]; missing: string 
   return values?.length ? <ul>{values.map((value, i) => <li key={i}>{value}</li>)}</ul> : <p className="knowledgeMissing">{missing}</p>;
 }
 
-export function KnowledgeRecord({ receipt, onClose, onLineage, onWithdraw, busy, renderEvidence, evidenceName }: any) {
+export function KnowledgeRecord({ receipt, onClose, onLineage, onWithdraw, busy, renderEvidence, evidenceName, available = true }: any) {
   const panel = React.useRef<HTMLElement>(null);
   const close = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
@@ -37,7 +37,7 @@ export function KnowledgeRecord({ receipt, onClose, onLineage, onWithdraw, busy,
   const [withdrawError, setWithdrawError] = React.useState("");
   const withdrawTrigger = React.useRef<HTMLButtonElement>(null);
   const impact = receipt.dependent_impact || {direct_ids: [], transitive_ids: []};
-  const reusePaused = receipt.state === "dependency_invalidated";
+  const reusePaused = !available;
   return <article className="knowledgeRecord" ref={panel} aria-label="Knowledge record" onKeyDown={event => { if (event.key === "Escape" && !withdrawOpen) { event.stopPropagation(); onClose(); } }}>
     <div className="knowledgeRecordBar"><span>Claim record</span><Button ref={close} type="button" variant="outline" size="sm" onClick={onClose}>Close record</Button></div>
     <div className="knowledgeRecordBody">
@@ -85,8 +85,8 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
   const [sort, setSort] = React.useState<KnowledgeSort>("newest");
   const [view, setView] = React.useState<"list" | "map">(initialView);
   const selectedIsCurrent = rows.some((row: KnowledgeRow) => row.id === selected);
-  const selectedIsPausedLifecycle = receipt?.claim.id === selected && receipt?.state === "dependency_invalidated";
-  const [focused, setFocused] = React.useState(selectedIsCurrent || selectedIsPausedLifecycle);
+  const selectedIsLifecycleRecord = receipt?.claim.id === selected && ["admitted", "dependency_invalidated"].includes(receipt?.state);
+  const [focused, setFocused] = React.useState(selectedIsCurrent || selectedIsLifecycleRecord);
   const [lineage, setLineage] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("claim");
   const previousSelection = React.useRef(selected);
@@ -95,7 +95,7 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
     if (previousSelection.current !== selected) { previousSelection.current = selected; pendingSelection.current = selected; }
     if (!loading && pendingSelection.current) {
       const currentIsVisible = rows.some((row: KnowledgeRow) => row.id === pendingSelection.current);
-      if (currentIsVisible || selectedIsPausedLifecycle) {
+      if (currentIsVisible || selectedIsLifecycleRecord) {
         setFocused(true);
         pendingSelection.current = null;
       } else if (receipt?.claim.id === pendingSelection.current || detailError) {
@@ -103,10 +103,10 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
         pendingSelection.current = null;
       }
     }
-  }, [selected, loading, rows, selectedIsPausedLifecycle, receipt?.claim.id, detailError]);
+  }, [selected, loading, rows, selectedIsLifecycleRecord, receipt?.claim.id, detailError]);
   const topics = [...new Set((rows as KnowledgeRow[]).map(knowledgeTopic).filter(Boolean))].sort();
   const visible = selectKnowledge(rows, query, topic, sort);
-  const current = !loading && receipt?.claim.id === selected && (selectedIsPausedLifecycle || (!contextError && selectedIsCurrent)) ? receipt : null;
+  const current = !loading && receipt?.claim.id === selected && (selectedIsLifecycleRecord || (!contextError && selectedIsCurrent)) ? receipt : null;
   const reviewCount = allRows.filter((row: KnowledgeRow) => ["needs_review", "needs_revision", "unresolved", "dependency_invalidated"].includes(row.state || "")).length;
   const opener = React.useRef<HTMLElement | null>(null);
   const focus = (id: string, element?: HTMLElement) => { opener.current = element || null; setFocused(true); setGraphSelection("claim"); onChoose(id); };
@@ -117,7 +117,7 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
       else document.getElementById("knowledge-search")?.focus();
     });
   };
-  const unavailable = detailError || (!selectedIsPausedLifecycle && contextError) || (!loading && !selectedIsCurrent && !selectedIsPausedLifecycle);
+  const unavailable = detailError || (!selectedIsLifecycleRecord && contextError) || (!loading && !selectedIsCurrent && !selectedIsLifecycleRecord);
   const related = relations.filter((edge: any) => (edge.from === selected || edge.to === selected) && rows.some((row: KnowledgeRow) => row.id === edge.from) && rows.some((row: KnowledgeRow) => row.id === edge.to));
   const selectedEvidence = current?.evidence?.[Number(graphSelection.split(":")[1])];
   return <div className={`knowledgeWorkspace${focused ? " hasRecord" : ""}`}>
@@ -131,6 +131,6 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
       {lineage && <section className="knowledgeLineage"><Button variant="outline" onClick={() => setLineage(false)}>Back to claims</Button>{current && <><LineageGraph receipt={current} available evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} />{selectedEvidence && <section className="knowledgeGraphEvidence"><h2>{evidenceName(selectedEvidence)}</h2>{renderEvidence(selectedEvidence)}</section>}{graphSelection === "context" && <p>Included in the current owner context. Agent access remains credential-specific.</p>}<section className="relatedClaims"><h2>Related current claims</h2>{related.length ? related.map((edge: any, i: number) => { const other = rows.find((row: KnowledgeRow) => row.id === (edge.from === selected ? edge.to : edge.from)); return <Button variant="ghost" size="content" key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {String(edge.type).replaceAll("_", " ")} · {edge.state || "recorded"}</span><strong>{claimDisplayTitle(other)}</strong></Button>; }) : <p>No relations to other current claims recorded.</p>}</section></>}</section>}
       {!lineage && (loading ? <div className="knowledgeLoading" aria-busy="true">{[0, 1, 2].map(i => <div key={i}><Skeleton className="h-4 w-2/3" /><Skeleton className="mt-3 h-4 w-1/2" /></div>)}</div> : contextError ? <Empty className="knowledgeEmpty"><h2>Current claims could not be loaded</h2><p>Use Reload workspace to try again.</p></Empty> : view === "map" && visible.length ? <ClaimGraph rows={visible} nodes={nodes || []} edges={edges || []} relations={relations || []} onChoose={focus} /> : view === "list" && visible.length ? <ul className="knowledgeList">{visible.map(row => <li key={row.id}><Button variant="ghost" size="content" type="button" className={focused && selected === row.id ? "isSelected" : ""} aria-pressed={focused && selected === row.id} onClick={event => focus(row.id, event.currentTarget)}><span className="knowledgeListMeta">{knowledgeTopic(row) || "Applicability not recorded"}<span>{knowledgeDate(row.created_at)}</span></span><strong>{claimDisplayTitle(row)}</strong>{hasDistinctClaimHeading(row) && <span className="knowledgeDescription">{row.label}</span>}{row.applicability?.description && <span className="knowledgeDescription">{row.applicability.description}</span>}<span className="knowledgeRead">Read claim <ChevronRight /></span></Button></li>)}</ul> : <Empty className="knowledgeEmpty"><h2>{rows.length ? "No matching claims" : "Your knowledge starts with a reviewed claim"}</h2><p>{rows.length ? "Try a broader search or a different applicability." : "Human-approved claims appear here when they are current and eligible for this owner view."}</p>{rows.length ? <Button variant="outline" onClick={() => { setQuery(""); setTopic(""); }}>Clear filters</Button> : <Button variant="outline" onClick={onReview}>Review candidate claims</Button>}</Empty>)}
     </section>
-    {focused && (current ? <KnowledgeRecord key={current.claim.id} receipt={current} onClose={close} onLineage={() => { setLineage(true); setGraphSelection("claim"); setFocused(false); }} onWithdraw={onWithdraw ? (reason:string, head:string) => onWithdraw(current.claim.id, reason, head, close) : undefined} busy={busy} renderEvidence={renderEvidence} evidenceName={evidenceName} /> : <aside className="knowledgeRecord knowledgePending" aria-label="Knowledge record" aria-busy={!unavailable}><Button variant="outline" onClick={close}>Close record</Button><h2>{unavailable ? "Record unavailable" : "Loading claim record…"}</h2><p>{unavailable ? "This record is not available in the current owner context, or its receipt could not be loaded." : "Retrieving the statement, human decision, and bound evidence."}</p>{detailError && <Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button>}</aside>)}
+    {focused && (current ? <KnowledgeRecord key={current.claim.id} receipt={current} available={selectedIsCurrent} onClose={close} onLineage={() => { setLineage(true); setGraphSelection("claim"); setFocused(false); }} onWithdraw={onWithdraw ? (reason:string, head:string) => onWithdraw(current.claim.id, reason, head, close) : undefined} busy={busy} renderEvidence={renderEvidence} evidenceName={evidenceName} /> : <aside className="knowledgeRecord knowledgePending" aria-label="Knowledge record" aria-busy={!unavailable}><Button variant="outline" onClick={close}>Close record</Button><h2>{unavailable ? "Record unavailable" : "Loading claim record…"}</h2><p>{unavailable ? "This record is not available in the current owner context, or its receipt could not be loaded." : "Retrieving the statement, human decision, and bound evidence."}</p>{detailError && <Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button>}</aside>)}
   </div>;
 }

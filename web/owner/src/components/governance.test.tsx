@@ -105,7 +105,7 @@ describe("governance components", () => {
     const html = renderToStaticMarkup(<KnowledgeRecord receipt={{
       state:"dependency_invalidated", ledger_head:"head", claim:{id:"claim",statement:"Paused claim"},
       evidence:[], history:[], dependent_impact:{direct_ids:[],transitive_ids:[]},
-    }} onClose={()=>{}} onLineage={()=>{}} onWithdraw={()=>{}} busy={false} renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    }} available={false} onClose={()=>{}} onLineage={()=>{}} onWithdraw={()=>{}} busy={false} renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
     expect(html).toContain("Reuse paused");
     expect(html).toContain("excluded from current context until reassessed");
     expect(html).toContain("Withdraw claim");
