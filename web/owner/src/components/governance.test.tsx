@@ -111,6 +111,15 @@ describe("governance components", () => {
     expect(html).toContain("Withdraw claim");
     expect(html).not.toContain("Current for this owner view");
   });
+  it("does not mislabel contradiction exclusion as dependency invalidation", () => {
+    const html = renderToStaticMarkup(<KnowledgeRecord receipt={{
+      state:"admitted", ledger_head:"head", claim:{id:"claim",statement:"Contradicted claim"},
+      evidence:[], history:[], dependent_impact:{direct_ids:[],transitive_ids:[]},
+    }} available={false} blockedReason="contradiction_unresolved" onClose={()=>{}} onLineage={()=>{}} onWithdraw={()=>{}} busy={false} renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Human conflict review is required");
+    expect(html).not.toContain("A dependency changed");
+    expect(html).toContain("Withdraw claim");
+  });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};
     expect(mergeAgentPolicyDraft(current, {criteria:"Require primary evidence."})).toEqual({...current, criteria:"Require primary evidence."});

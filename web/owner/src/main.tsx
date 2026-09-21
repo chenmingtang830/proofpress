@@ -253,6 +253,7 @@ function App() {
   const [edges, setEdges] = React.useState<any[]>([]);
   const [graphNodes, setGraphNodes] = React.useState<any[]>([]);
   const [contextRelations, setContextRelations] = React.useState<any[]>([]);
+  const [contextBlocked, setContextBlocked] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
   const [selected, setSelected] = React.useState<string | null>(
@@ -392,7 +393,7 @@ function App() {
     setContextLoading(true);
     setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
-      if (active) { setContextRelations(context.relations || []); setEligible((context.governed_context || []).map((row: any) => ({
+      if (active) { setContextRelations(context.relations || []); setContextBlocked(context.blocked || []); setEligible((context.governed_context || []).map((row: any) => ({
         ...row, label: row.statement, type: "claim", state: "admitted",
       }))); }
     }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
@@ -1042,6 +1043,7 @@ function App() {
               nodes={graphNodes}
               edges={edges}
               relations={contextRelations}
+              blocked={contextBlocked}
               onReview={() => navigate("review")}
               contextError={contextError}
               detailError={detailError}
