@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { DecisionNotice, historyActor, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
 import { ClaimGraph } from "./claim-graph";
-import { KnowledgeRecord } from "./knowledge-library";
+import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
@@ -125,6 +125,13 @@ describe("governance components", () => {
     expect(html).toContain("Human conflict review is required");
     expect(html).not.toContain("A dependency changed");
     expect(html).toContain("Withdraw claim");
+  });
+  it("does not infer exclusion when current context is unavailable", () => {
+    const receipt = {state:"admitted",claim:{id:"claim",statement:"Claim"},evidence:[]};
+    const html = renderToStaticMarkup(<KnowledgeLibrary rows={[]} allRows={[{id:"claim",label:"Claim",state:"admitted"}]} nodes={[]} edges={[]} relations={[]} blocked={[]} selected="claim" receipt={receipt} onChoose={()=>{}} onReview={()=>{}} loading={false} contextError="Context unavailable" detailError="" renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Record unavailable");
+    expect(html).not.toContain("Reuse paused");
+    expect(html).not.toContain("Available for reuse");
   });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};

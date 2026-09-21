@@ -121,7 +121,7 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, block
   }, [selected, loading, rows, selectedIsLifecycleRecord, receipt?.claim.id, detailError]);
   const topics = [...new Set((rows as KnowledgeRow[]).map(knowledgeTopic).filter(Boolean))].sort();
   const visible = selectKnowledge(rows, query, topic, sort);
-  const current = !loading && receipt?.claim.id === selected && (selectedIsLifecycleRecord || (!contextError && selectedIsCurrent)) ? receipt : null;
+  const current = !loading && !contextError && receipt?.claim.id === selected && (selectedIsLifecycleRecord || selectedIsCurrent) ? receipt : null;
   const reviewCount = allRows.filter((row: KnowledgeRow) => ["needs_review", "needs_revision", "unresolved", "dependency_invalidated"].includes(row.state || "")).length;
   const opener = React.useRef<HTMLElement | null>(null);
   const focus = (id: string, element?: HTMLElement) => { opener.current = element || null; setFocused(true); setGraphSelection("claim"); onChoose(id); };
@@ -132,7 +132,7 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, block
       else document.getElementById("knowledge-search")?.focus();
     });
   };
-  const unavailable = detailError || (!selectedIsLifecycleRecord && contextError) || (!loading && !selectedIsCurrent && !selectedIsLifecycleRecord);
+  const unavailable = detailError || contextError || (!loading && !selectedIsCurrent && !selectedIsLifecycleRecord);
   const related = relations.filter((edge: any) => (edge.from === selected || edge.to === selected) && rows.some((row: KnowledgeRow) => row.id === edge.from) && rows.some((row: KnowledgeRow) => row.id === edge.to));
   const selectedEvidence = current?.evidence?.[Number(graphSelection.split(":")[1])];
   return <div className={`knowledgeWorkspace${focused ? " hasRecord" : ""}`}>
