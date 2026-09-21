@@ -83,6 +83,15 @@ describe("governance components", () => {
     expect(html).toContain("<small>Evidence</small><strong>Source receipt</strong>");
     expect(html).not.toContain("<small>Evidence</small><strong>Bounded qualification</strong>");
   });
+  it("reports every recorded relation while keeping details collapsed", () => {
+    const rows = Array.from({length:6}, (_, index) => ({id:`c${index}`,label:`Claim ${index}`}));
+    const relations = Array.from({length:13}, (_, index) => ({
+      id:`r${index}`, from:`c${index % 6}`, to:`c${(index + 1) % 6}`, type:"depends_on", state:"admitted",
+    }));
+    const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={rows.map(row => ({...row,type:"claim"}))} edges={relations} relations={[]} onChoose={()=>{}} />);
+    expect(html).toContain("13 relations");
+    expect(html).not.toContain("claimRelationList");
+  });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};
     expect(mergeAgentPolicyDraft(current, {criteria:"Require primary evidence."})).toEqual({...current, criteria:"Require primary evidence."});

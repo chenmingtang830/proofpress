@@ -28,7 +28,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       const prior = relationMap.get(key) || {};
       relationMap.set(key, {...prior, ...edge, citation: edge.citation || edge.qualifiers?.citation || prior.citation});
     });
-  const claimRelations = [...relationMap.values()].slice(0, 12);
+  const claimRelations = [...relationMap.values()];
   const evidenceStep = 100;
   const claimStep = 132;
   const evidenceAnchor = 43;
@@ -46,8 +46,12 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const selectedEvidenceId = selection.startsWith("evidence:") ? selection.slice(9) : "";
   const selectedEvidence = selectedEvidenceId ? nodes.find((node: any) => node.id === selectedEvidenceId) : null;
   React.useEffect(() => {
-    if (selection.startsWith("relation:") && !selectedRelation) setSelection("");
-  }, [selection, selectedRelation]);
+    const valid = !selection
+      || selection.startsWith("relation:") && Boolean(selectedRelation)
+      || selection.startsWith("claim:") && Boolean(selectedClaim)
+      || selection.startsWith("evidence:") && evidenceIds.includes(selectedEvidenceId);
+    if (!valid) setSelection("");
+  }, [selection, selectedRelation, selectedClaim, selectedEvidenceId, evidenceIds]);
   const visibleRelations = selectedRelation
     ? [selectedRelation]
     : selectedClaim
