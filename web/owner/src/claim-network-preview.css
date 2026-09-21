@@ -4,7 +4,7 @@
 .networkHead p { margin:0; color:var(--ink-2); font:13px/1.5 var(--font-ui); }
 .networkCount { display:flex; align-items:baseline; gap:7px; color:var(--ink-2); font:11px/1.4 var(--font-ui); }
 .networkCount strong { color:var(--ink); font-size:16px; }
-.networkToolbar { display:grid; grid-template-columns:minmax(220px,1fr) 210px auto; align-items:end; gap:12px; margin-bottom:14px; }
+.networkToolbar { display:grid; grid-template-columns:minmax(220px,1fr) 150px 150px auto; align-items:end; gap:12px; margin-bottom:14px; }
 .networkToolbar label { display:grid; gap:6px; color:var(--ink-2); font:500 11px/1.4 var(--font-ui); }
 .networkToolbar input,.networkToolbar select { min-height:40px; width:100%; border:1px solid var(--line); border-radius:6px; padding:0 11px; background:var(--paper); color:var(--ink); }
 .networkToolbar input:focus,.networkToolbar select:focus { outline:2px solid var(--accent); outline-offset:2px; }
@@ -17,14 +17,14 @@
 .networkEdge.unresolved line { stroke:var(--revision); stroke-dasharray:7 5; }
 .networkEdge path { fill:var(--accent); }
 .networkNode { cursor:pointer; outline:none; }
-.networkNode circle { fill:var(--add-bg); stroke:var(--add); stroke-width:1.3; vector-effect:non-scaling-stroke; transition:fill 140ms ease-out,stroke-width 140ms ease-out; }
-.networkNode:hover circle,.networkNode:focus-visible circle { fill:#e3f0e8; stroke-width:2.4; }
-.networkNode.selected circle { fill:var(--paper); stroke:var(--accent); stroke-width:3; }
+.networkNodeBody { fill:var(--paper); stroke:#8fa4a0; stroke-width:1.3; vector-effect:non-scaling-stroke; transition:fill 140ms ease-out,stroke-width 140ms ease-out; }
+.networkNode:hover .networkNodeBody,.networkNode:focus-visible .networkNodeBody { fill:var(--accent-soft); stroke:var(--accent); stroke-width:2; }
+.networkNode.selected .networkNodeBody { fill:var(--accent-soft); stroke:var(--accent); stroke-width:2; }
+.networkSelectionRing { fill:none; stroke:var(--accent); stroke-width:1; vector-effect:non-scaling-stroke; }
 .networkTopic { fill:var(--ink-2); font:500 9px/1 var(--font-ui); letter-spacing:.04em; text-transform:uppercase; }
 .networkTitle { fill:var(--ink); font:500 11px/1 var(--font-ui); pointer-events:none; }
-.networkEvidence line { stroke:#7396a3; stroke-dasharray:3 4; }
-.networkEvidence circle { fill:#f6fafb; stroke:#7396a3; }
-.networkEvidence text { fill:var(--ink-2); font:500 9px/1 var(--font-ui); }
+.networkNode:has(.networkNodeBody[r="38"]) .networkTitle { font-size:9px; }
+.networkNode:has(.networkNodeBody[r="38"]) .networkTopic { font-size:7px; }
 .networkSidecar { padding:22px; background:var(--wash); }
 .networkSidecar > small { color:var(--add); font:600 10px/1.4 var(--font-ui); letter-spacing:.05em; text-transform:uppercase; }
 .networkSidecar h2 { margin:10px 0 8px; font:600 19px/1.35 var(--font-ui); }

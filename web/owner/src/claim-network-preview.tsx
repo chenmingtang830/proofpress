@@ -58,50 +58,48 @@ const relations: Relation[] = [
 
 const initialScene = ["clm-a","clm-b","clm-c","clm-d","clm-e","clm-g","clm-l","clm-s"];
 const claimById = (id:string) => claims.find(claim => claim.id === id)!;
-const lines = (value:string) => {
+const fixedPositions = new Map(claims.map((claim,index) => {
+  const inner = index < 8;
+  const ringIndex = inner ? index : index - 8;
+  const ringSize = inner ? 8 : 12;
+  const angle = -Math.PI / 2 + (ringIndex + (inner ? 0 : .5)) * Math.PI * 2 / ringSize;
+  return [claim.id,{x:450 + Math.cos(angle) * (inner ? 285 : 350),y:315 + Math.sin(angle) * (inner ? 215 : 255)}] as const;
+}));
+const lines = (value:string,maxChars = 21,maxLines = 3) => {
   const words = value.split(" ");
   const output:string[] = [""];
   for (const word of words) {
     const next = `${output[output.length - 1]} ${word}`.trim();
-    if (next.length > 21 && output.length < 3) output.push(word); else output[output.length - 1] = next;
+    if (next.length > maxChars && output.length < maxLines) output.push(word);
+    else if (next.length > maxChars) output[output.length - 1] = `${output[output.length - 1].replace(/…$/,"")}…`;
+    else output[output.length - 1] = next;
   }
   return output;
 };
 
 function ClaimNetwork() {
-  const [scene, setScene] = React.useState(initialScene);
+  const [nodeLimit, setNodeLimit] = React.useState(8);
+  const [edgeLimit, setEdgeLimit] = React.useState(8);
   const [selected, setSelected] = React.useState("clm-c");
   const [showEvidence, setShowEvidence] = React.useState(false);
   const [query, setQuery] = React.useState("");
-  const [topic, setTopic] = React.useState("");
   const selectedClaim = claimById(selected);
-  const visibleClaims = scene.map(claimById).filter(claim => (!topic || claim.topic === topic) && (!query || `${claim.title} ${claim.statement}`.toLowerCase().includes(query.toLowerCase())));
+  const visibleClaims = claims.slice(0,nodeLimit).filter(claim => !query || `${claim.title} ${claim.statement}`.toLowerCase().includes(query.toLowerCase()));
   const visibleIds = new Set(visibleClaims.map(claim => claim.id));
-  const visibleRelations = relations.filter(relation => visibleIds.has(relation.from) && visibleIds.has(relation.to));
+  const availableRelations = relations.filter(relation => visibleIds.has(relation.from) && visibleIds.has(relation.to));
+  const visibleRelations = availableRelations.slice(0,edgeLimit);
   const neighbors = relations.filter(relation => relation.from === selected || relation.to === selected).map(relation => relation.from === selected ? relation.to : relation.from);
-  const hiddenNeighbors = [...new Set(neighbors.filter(id => !scene.includes(id)))];
-  const positions = new Map<string,{x:number;y:number}>();
-  const others = visibleClaims.filter(claim => claim.id !== selected);
-  if (visibleIds.has(selected)) positions.set(selected,{x:450,y:315});
-  others.forEach((claim,index) => {
-    const angle = -Math.PI / 2 + index * Math.PI * 2 / Math.max(others.length,1);
-    positions.set(claim.id,{x:450 + Math.cos(angle) * 285,y:315 + Math.sin(angle) * 215});
-  });
-  if (!visibleIds.has(selected)) visibleClaims.forEach((claim,index) => {
-    const angle = -Math.PI / 2 + index * Math.PI * 2 / Math.max(visibleClaims.length,1);
-    positions.set(claim.id,{x:450 + Math.cos(angle) * 285,y:315 + Math.sin(angle) * 215});
-  });
   const selectClaim = (id:string) => { setSelected(id); setShowEvidence(false); };
-  const expand = () => setScene(current => [...new Set([...current,...hiddenNeighbors.slice(0,6)])]);
-  const reset = () => { setScene(initialScene); setSelected("clm-c"); setShowEvidence(false); setQuery(""); setTopic(""); };
+  const reset = () => { setNodeLimit(initialScene.length); setEdgeLimit(8); setSelected("clm-c"); setShowEvidence(false); setQuery(""); };
   return <section className="networkPage">
     <header className="networkHead">
       <div><h1>Claim network</h1><p>Explore admitted claims and their recorded relationships.</p></div>
-      <div className="networkCount"><strong>{scene.length}</strong><span>of {claims.length} claims in scene</span></div>
+      <div className="networkCount"><strong>{visibleClaims.length}</strong><span>claims · {visibleRelations.length} relations</span></div>
     </header>
     <div className="networkToolbar">
       <Label>Find claims<Input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search claims…" /></Label>
-      <Label>Applicability<NativeSelect value={topic} onChange={event => setTopic(event.target.value)}><option value="">All</option>{[...new Set(claims.map(claim => claim.topic))].map(value => <option key={value}>{value}</option>)}</NativeSelect></Label>
+      <Label>Nodes<NativeSelect value={nodeLimit} onChange={event => { const next = Number(event.target.value); setNodeLimit(next); if (claims.findIndex(claim => claim.id === selected) >= next) selectClaim(claims[0].id); }}><option value="8">8 claims</option><option value="12">12 claims</option><option value="20">20 claims</option></NativeSelect></Label>
+      <Label>Edges<NativeSelect value={edgeLimit} onChange={event => setEdgeLimit(Number(event.target.value))}><option value="4">Up to 4</option><option value="8">Up to 8</option><option value="18">All relations</option></NativeSelect></Label>
       <Button variant="outline" onClick={reset}>Reset scene</Button>
     </div>
     <div className="networkWorkspace">
@@ -109,7 +107,7 @@ function ClaimNetwork() {
         <svg viewBox="0 0 900 630" role="img" aria-label={`${visibleClaims.length} admitted claims and ${visibleRelations.length} relationships`}>
           <defs><marker id="networkArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" /></marker></defs>
           {visibleRelations.map(relation => {
-            const from = positions.get(relation.from), to = positions.get(relation.to); if (!from || !to) return null;
+            const from = fixedPositions.get(relation.from), to = fixedPositions.get(relation.to); if (!from || !to) return null;
             const active = relation.from === selected || relation.to === selected;
             const mx = (from.x + to.x) / 2, my = (from.y + to.y) / 2;
             return <g key={relation.id} className={`networkEdge${active ? " active" : ""}${relation.state === "unresolved" ? " unresolved" : ""}`}>
@@ -117,18 +115,18 @@ function ClaimNetwork() {
               {active && <text x={mx} y={my - 8} textAnchor="middle">{relation.type}</text>}
             </g>;
           })}
-          {showEvidence && selectedClaim.evidence.map((evidence,index) => {
-            const x = 450 + (index - (selectedClaim.evidence.length - 1) / 2) * 78, y = 435;
-            return <g className="networkEvidence" key={evidence}><line x1="450" y1="315" x2={x} y2={y}/><circle cx={x} cy={y} r="32"/><text x={x} y={y - 3} textAnchor="middle">Evidence</text><text x={x} y={y + 13} textAnchor="middle">{index + 1}</text></g>;
-          })}
           {visibleClaims.map(claim => {
-            const position = positions.get(claim.id)!; const active = claim.id === selected; const labelLines = lines(claim.title);
-            const labelStart = position.y - ((labelLines.length - 1) * 16) / 2 + 7;
+            const position = fixedPositions.get(claim.id)!; const active = claim.id === selected;
+            const radius = nodeLimit === 20 ? 38 : nodeLimit === 12 ? 50 : 62;
+            const lineHeight = nodeLimit === 20 ? 12 : 16;
+            const labelLines = lines(claim.title,nodeLimit === 20 ? 15 : 21,nodeLimit === 20 ? 2 : 3);
+            const labelStart = position.y - ((labelLines.length - 1) * lineHeight) / 2 + 7;
             return <g key={claim.id} data-claim-id={claim.id} className={`networkNode${active ? " selected" : ""}`} role="button" tabIndex={0} focusable="true" aria-label={claim.title} onClick={() => selectClaim(claim.id)} onKeyDown={event => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectClaim(claim.id); } }}>
               <title>{claim.title}</title>
-              <circle cx={position.x} cy={position.y} r={active ? 72 : 62}/>
-              <text className="networkTopic" x={position.x} y={position.y - 30} textAnchor="middle">{claim.topic}</text>
-              {labelLines.map((line,index) => <text className="networkTitle" key={line} x={position.x} y={labelStart + index * 16} textAnchor="middle">{line}</text>)}
+              {active && <circle className="networkSelectionRing" cx={position.x} cy={position.y} r={radius + 7}/>}
+              <circle className="networkNodeBody" cx={position.x} cy={position.y} r={radius}/>
+              <text className="networkTopic" x={position.x} y={position.y - radius * .48} textAnchor="middle">Claim</text>
+              {labelLines.map((line,index) => <text className="networkTitle" key={`${line}-${index}`} x={position.x} y={labelStart + index * lineHeight} textAnchor="middle">{line}</text>)}
             </g>;
           })}
         </svg>
@@ -136,12 +134,12 @@ function ClaimNetwork() {
       </div>
       <aside className="networkSidecar" aria-live="polite">
         <small>Admitted claim</small><h2>{selectedClaim.title}</h2><p>{selectedClaim.statement}</p>
-        <dl><div><dt>Applicability</dt><dd>{selectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{selectedClaim.evidence.length} receipts</dd></div></dl>
-        <div className="networkActions"><Button variant="default" onClick={expand} disabled={!hiddenNeighbors.length}>Expand neighbors{hiddenNeighbors.length ? ` (${hiddenNeighbors.length})` : ""}</Button><Button variant="outline" onClick={() => setShowEvidence(value => !value)}>{showEvidence ? "Hide evidence" : "Reveal evidence"}</Button><Button variant="ghost" onClick={() => setScene([selected])}>Keep only this claim</Button></div>
+        <dl><div><dt>Scope</dt><dd>{selectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{selectedClaim.evidence.length} receipts</dd></div></dl>
+        <div className="networkActions"><Button variant="outline" onClick={() => setShowEvidence(value => !value)}>{showEvidence ? "Hide evidence" : "Show evidence"}</Button></div>
         {showEvidence && <section className="networkEvidenceList"><h3>Bound evidence</h3>{selectedClaim.evidence.map(item => <Button key={item} variant="ghost" size="content">{item}<span>Open receipt</span></Button>)}</section>}
       </aside>
     </div>
-    <footer className="networkHint"><span>Select a claim to inspect it.</span><span>Expand only when another hop matters.</span></footer>
+    <footer className="networkHint"><span>Select a claim to inspect it.</span><span>The graph stays fixed while you browse.</span></footer>
   </section>;
 }
 
