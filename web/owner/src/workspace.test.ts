@@ -62,7 +62,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('if (!actionAllowed) throw new Error');
     expect(source).toContain('const request = ++selectionRequest.current;');
     expect(source).toContain('page === "review" || page === "ledger"');
-    expect(knowledgeSource).toContain('receipt?.claim.id === pendingSelection.current || detailError');
+    expect(knowledgeSource).toContain('else if (detailError) {\n        setFocused(true);');
+    expect(knowledgeSource).toContain('receipt?.claim.id === pendingSelection.current');
     expect(source).toContain('setNote("");\n          setSelected(claim_id);');
   });
   it("lets the outer stage scroll the full review surface", () => {

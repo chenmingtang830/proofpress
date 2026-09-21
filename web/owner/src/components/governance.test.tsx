@@ -134,6 +134,11 @@ describe("governance components", () => {
     expect(html).not.toContain("Reuse paused");
     expect(html).not.toContain("Available for reuse");
   });
+  it("keeps a failed ledger deep link open with recovery controls", () => {
+    const html = renderToStaticMarkup(<KnowledgeLibrary rows={[]} allRows={[]} nodes={[]} edges={[]} relations={[]} blocked={[]} selected="missing-claim" receipt={null} onChoose={()=>{}} onReview={()=>{}} loading={false} contextError="" detailError="Receipt unavailable" renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Record unavailable");
+    expect(html).toContain("Retry details");
+  });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};
     expect(mergeAgentPolicyDraft(current, {criteria:"Require primary evidence."})).toEqual({...current, criteria:"Require primary evidence."});

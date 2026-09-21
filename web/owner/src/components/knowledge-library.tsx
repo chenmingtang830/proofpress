@@ -101,7 +101,7 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, block
       ? "Excluded from current context pending dependency reassessment."
       : "Excluded from current context. Inspect the recorded eligibility reason before reuse.";
   const selectedIsLifecycleRecord = receipt?.claim.id === selected && ["admitted", "dependency_invalidated"].includes(receipt?.state);
-  const [focused, setFocused] = React.useState(selectedIsCurrent || selectedIsLifecycleRecord);
+  const [focused, setFocused] = React.useState(selectedIsCurrent || selectedIsLifecycleRecord || Boolean(selected && detailError));
   const [lineage, setLineage] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("claim");
   const previousSelection = React.useRef(selected);
@@ -113,7 +113,10 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, block
       if (currentIsVisible || selectedIsLifecycleRecord) {
         setFocused(true);
         pendingSelection.current = null;
-      } else if (receipt?.claim.id === pendingSelection.current || detailError) {
+      } else if (detailError) {
+        setFocused(true);
+        pendingSelection.current = null;
+      } else if (receipt?.claim.id === pendingSelection.current) {
         setFocused(false);
         pendingSelection.current = null;
       }
