@@ -49,6 +49,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(reassessmentSource).toContain("Retain with independent support");
     expect(reassessmentSource).toContain("Request revision");
     expect(reassessmentSource).toContain("previous approval remains on record");
+    expect(source).toContain('${action === "reassess" ? "&view=full" : ""}');
     expect(knowledgeSource).toContain("Withdraw claim");
     expect(knowledgeSource).toContain("Direct dependents");
     expect(knowledgeSource).toContain("Reuse of this claim and its dependents pauses immediately");

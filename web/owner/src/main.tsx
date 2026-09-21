@@ -538,7 +538,7 @@ function App() {
             state: result.state,
             decision_recorded: false,
             requires_human_owner: true,
-            url: `${location.origin}/${action === "reassess" ? "review" : "ledger"}?claim_id=${encodeURIComponent(claim_id)}`,
+            url: `${location.origin}/${action === "reassess" ? "review" : "ledger"}?claim_id=${encodeURIComponent(claim_id)}${action === "reassess" ? "&view=full" : ""}`,
           });
         },
       },
