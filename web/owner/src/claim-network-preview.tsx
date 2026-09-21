@@ -58,7 +58,7 @@ const relations: Relation[] = [
 
 const initialScene = ["clm-a","clm-b","clm-c","clm-d","clm-e","clm-g","clm-l","clm-s"];
 const claimById = (id:string) => claims.find(claim => claim.id === id)!;
-const dateBands = ["Sep 04","Sep 09","Sep 14","Sep 20"];
+const dateBands = ["Sep 04 · 2026","Sep 09 · 2026","Sep 14 · 2026","Sep 20 · 2026"];
 const lines = (value:string,maxChars = 21,maxLines = 3) => {
   const words = value.split(" ");
   const output:string[] = [""];
@@ -83,6 +83,7 @@ function ClaimNetwork() {
   const visibleIds = new Set(visibleClaims.map(claim => claim.id));
   const availableRelations = relations.filter(relation => visibleIds.has(relation.from) && visibleIds.has(relation.to));
   const visibleRelations = availableRelations.slice(0,edgeLimit);
+  const selectedRelations = relations.filter(relation => relation.from === selected || relation.to === selected);
   const neighbors = relations.filter(relation => relation.from === selected || relation.to === selected).map(relation => relation.from === selected ? relation.to : relation.from);
   const rowCount = Math.ceil(nodeLimit / dateBands.length);
   const positions = new Map(visibleClaims.map(claim => {
@@ -141,25 +142,35 @@ function ClaimNetwork() {
             </g>;
           })}
         </svg>
+        <div className="networkMobileTimeline" aria-label="Claims by recorded date">
+          <h2>Claims by recorded date</h2>
+          {dateBands.map((date,column) => {
+            const datedClaims = visibleClaims.filter(claim => claims.findIndex(item => item.id === claim.id) % dateBands.length === column);
+            if (!datedClaims.length) return null;
+            return <section key={date}><h3>{date}</h3>{datedClaims.map(claim => { const relationCount = relations.filter(relation => relation.from === claim.id || relation.to === claim.id).length; return <Button key={claim.id} variant="ghost" size="content" className={claim.id === selected ? "selected" : ""} aria-pressed={claim.id === selected} onClick={() => selectClaim(claim.id)}><span>{claim.title}</span><small>{claim.evidence.length} evidence · {relationCount} {relationCount === 1 ? "relation" : "relations"}</small></Button>; })}</section>;
+          })}
+        </div>
         <ul className="sr-only" aria-label="Claims shown in graph">{visibleClaims.map(claim => <li key={claim.id}><Button variant="ghost" size="content" aria-pressed={claim.id === selected} onClick={() => selectClaim(claim.id)}>{claim.title}</Button></li>)}</ul>
+        <ul className="sr-only" aria-label="Relationships shown in graph">{visibleRelations.map(relation => <li key={relation.id}>{claimById(relation.from).title} {relation.type} {claimById(relation.to).title}. {relation.state === "admitted" ? "Recorded relation" : "Unresolved relation"}.</li>)}</ul>
         {!visibleClaims.length && <div className="networkEmpty"><strong>No matching claims</strong><span>Clear or change the search.</span></div>}
       </div>
       <aside className="networkSidecar">
         <p className="sr-only" aria-live="polite">{visibleSelectedClaim ? `Selected claim: ${visibleSelectedClaim.title}` : "No matching claim selected"}</p>
         {!visibleSelectedClaim ? <div className="networkSidecarEmpty"><h2>No matching claim</h2><p>Change or clear the search to inspect a claim.</p></div> : openReceipt ? <>
-          <Button variant="ghost" size="content" className="networkBack" onClick={() => setOpenReceipt(null)}>Back to claim</Button>
+          <div className="networkReceiptNav"><Button variant="ghost" size="content" className="networkBack" onClick={() => setOpenReceipt(null)}>Back to claim</Button></div>
           <small>Evidence receipt</small><h2>{openReceipt}</h2><p>Recorded support bound to this claim. Synthetic preview only.</p>
-          <dl><div><dt>Receipt</dt><dd>{`rec-${selected}-01`}</dd></div><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Bound to</dt><dd>{visibleSelectedClaim.title}</dd></div></dl>
+          <dl><div><dt>Receipt</dt><dd>{`rec-${selected}-${String(visibleSelectedClaim.evidence.indexOf(openReceipt) + 1).padStart(2,"0")}`}</dd></div><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Bound to</dt><dd>{visibleSelectedClaim.title}</dd></div></dl>
           <section className="networkReceiptExcerpt"><h3>Recorded excerpt</h3><p>{openReceipt} supports “{visibleSelectedClaim.title}”.</p></section>
         </> : <>
           <small>Admitted claim</small><h2>{visibleSelectedClaim.title}</h2><p>{visibleSelectedClaim.statement}</p>
           <dl><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Scope</dt><dd>{visibleSelectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{visibleSelectedClaim.evidence.length} receipts</dd></div></dl>
+          <section className="networkRelationList"><h3>Relationships</h3>{selectedRelations.map(relation => { const otherId = relation.from === selected ? relation.to : relation.from; return <Button key={relation.id} variant="ghost" size="content" onClick={() => selectClaim(otherId)}><span><b>{relation.type}</b> {claimById(otherId).title}</span><small>{relation.state === "admitted" ? "Recorded" : "Unresolved"}</small></Button>; })}</section>
           <div className="networkActions"><Button variant="outline" onClick={() => setShowEvidence(value => !value)}>{showEvidence ? "Hide evidence" : "Show evidence"}</Button></div>
           {showEvidence && <section className="networkEvidenceList"><h3>Bound evidence</h3>{visibleSelectedClaim.evidence.map(item => <Button key={item} variant="ghost" size="content" className="networkReceiptButton" onClick={() => setOpenReceipt(item)}><span>{item}</span><span>Open receipt</span></Button>)}</section>}
         </>}
       </aside>
     </div>
-    <footer className="networkHint"><span>Recorded time runs left to right.</span><span>Selecting a claim never moves the graph.</span></footer>
+    <footer className="networkHint"><span className="networkLegend"><i className="recorded"/>Recorded relation <i className="unresolved"/>Unresolved</span><span>Recorded time runs left to right.</span></footer>
   </section>;
 }
 
