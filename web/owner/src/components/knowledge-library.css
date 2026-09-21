@@ -35,6 +35,7 @@
 .knowledgeWorkspace :is(input, select, summary, button):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .knowledgeRecordBody { padding: 32px 32px 48px; }
 .knowledgeAvailable { display: inline-block; color: var(--add); background: var(--add-bg); padding: 4px 8px; border-radius: 4px; font: 500 12px/1.5 var(--font-ui); }
+.knowledgeAvailable.paused { color:var(--revision); background:var(--revision-bg); }
 .knowledgeEligibility { margin: 10px 0 0; font: 12px/1.6 var(--font-ui); color: var(--ink-2); }
 .knowledgeRecord h2 { font: 500 23px/1.5 var(--font-ui); letter-spacing: -.02em; margin: 22px 0 28px; overflow-wrap: anywhere; }
 .knowledgeAttribution { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-bottom: 28px; border-bottom: 1px solid var(--line); margin: 0; }

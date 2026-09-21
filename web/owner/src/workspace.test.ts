@@ -52,6 +52,8 @@ describe("Proofpress owner workspace contract", () => {
     expect(knowledgeSource).toContain("Withdraw claim");
     expect(knowledgeSource).toContain("Direct dependents");
     expect(knowledgeSource).toContain("Reuse of this claim and its dependents pauses immediately");
+    expect(knowledgeSource).toContain('receipt?.state === "dependency_invalidated"');
+    expect(source).toContain('setNote("");\n          setSelected(claim_id);');
   });
   it("lets the outer stage scroll the full review surface", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);

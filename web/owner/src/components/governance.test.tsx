@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import { DecisionNotice, historyActor, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
 import { ClaimGraph } from "./claim-graph";
+import { KnowledgeRecord } from "./knowledge-library";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
@@ -91,6 +92,24 @@ describe("governance components", () => {
     const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={rows.map(row => ({...row,type:"claim"}))} edges={relations} relations={[]} onChoose={()=>{}} />);
     expect(html).toContain("13 relations");
     expect(html).not.toContain("claimRelationList");
+  });
+  it("discloses bounded evidence truncation with an expansion control", () => {
+    const row = {id:"claim",label:"Evidence-heavy claim"};
+    const nodes = Array.from({length:17}, (_, index) => ({id:`ev${index}`,type:"evidence",label:`Evidence ${index}`}));
+    const edges = nodes.map(node => ({from:node.id,to:row.id,type:"supports"}));
+    const html = renderToStaticMarkup(<ClaimGraph rows={[row]} nodes={[...nodes,{...row,type:"claim"}]} edges={edges} relations={[]} onChoose={()=>{}} />);
+    expect(html).toContain("Showing 16 of 17 evidence receipts");
+    expect(html).toContain("Show 1 more evidence");
+  });
+  it("shows invalidated admitted claims as paused while preserving withdrawal access", () => {
+    const html = renderToStaticMarkup(<KnowledgeRecord receipt={{
+      state:"dependency_invalidated", ledger_head:"head", claim:{id:"claim",statement:"Paused claim"},
+      evidence:[], history:[], dependent_impact:{direct_ids:[],transitive_ids:[]},
+    }} onClose={()=>{}} onLineage={()=>{}} onWithdraw={()=>{}} busy={false} renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Reuse paused");
+    expect(html).toContain("excluded from current context until reassessed");
+    expect(html).toContain("Withdraw claim");
+    expect(html).not.toContain("Current for this owner view");
   });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};

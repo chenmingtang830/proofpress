@@ -517,6 +517,7 @@ function App() {
         },
         execute: async ({ claim_id, action }: any) => {
           const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
+          setNote("");
           setSelected(claim_id);
           setReceipt(result);
           setPage(action === "reassess" ? "review" : "ledger");

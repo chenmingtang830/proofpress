@@ -37,11 +37,12 @@ export function KnowledgeRecord({ receipt, onClose, onLineage, onWithdraw, busy,
   const [withdrawError, setWithdrawError] = React.useState("");
   const withdrawTrigger = React.useRef<HTMLButtonElement>(null);
   const impact = receipt.dependent_impact || {direct_ids: [], transitive_ids: []};
+  const reusePaused = receipt.state === "dependency_invalidated";
   return <article className="knowledgeRecord" ref={panel} aria-label="Knowledge record" onKeyDown={event => { if (event.key === "Escape" && !withdrawOpen) { event.stopPropagation(); onClose(); } }}>
     <div className="knowledgeRecordBar"><span>Claim record</span><Button ref={close} type="button" variant="outline" size="sm" onClick={onClose}>Close record</Button></div>
     <div className="knowledgeRecordBody">
-      <span className="knowledgeAvailable">Available for reuse</span>
-      <p className="knowledgeEligibility">Current for this owner view. Agent access is checked separately.</p>
+      <span className={`knowledgeAvailable${reusePaused ? " paused" : ""}`}>{reusePaused ? "Reuse paused" : "Available for reuse"}</span>
+      <p className="knowledgeEligibility">{reusePaused ? "A dependency changed after approval. Reassess or withdraw this claim before reuse." : "Current for this owner view. Agent access is checked separately."}</p>
       <h2>{claimDisplayTitle(claim)}</h2>{hasDistinctClaimHeading(claim) && <p className="claimFullStatement">{claim.statement}</p>}
       <dl className="knowledgeAttribution">
         <div><dt>Proposed by</dt><dd>{recordedIdentity(claim.proposer, "Proposer not recorded")}</dd></div>
@@ -58,7 +59,7 @@ export function KnowledgeRecord({ receipt, onClose, onLineage, onWithdraw, busy,
       </DisclosureContent></Disclosure>
       <Disclosure className="knowledgeEvidence"><DisclosureTrigger>Admission & history <span>{receipt.history?.length || 0} events</span></DisclosureTrigger><DisclosureContent>
         {admission?.note && <p>{admission.note}</p>}
-        <p className="knowledgeMissing">This claim is in the current owner context. Each agent's access is checked separately.</p>
+        <p className="knowledgeMissing">{reusePaused ? "This approval remains recorded, but the claim is excluded from current context until reassessed." : "This claim is in the current owner context. Each agent's access is checked separately."}</p>
         <ol className="knowledgeHistory">{(receipt.history || []).map((event: any, i: number) => <li key={event.event_id || i}><strong>{String(event.type || "Recorded event").replaceAll("_", " ")}</strong><span>{historyActor({ ...event, reviewer: recordedIdentity(event.reviewer, ""), actor: recordedIdentity(event.actor, ""), verifier: recordedIdentity(event.verifier, ""), judge: recordedIdentity(event.judge, ""), claim: { proposer: recordedIdentity(event.claim?.proposer, "") }, model: typeof event.model === "string" ? event.model : undefined })}</span><time>{knowledgeDate(event.created_at)}</time></li>)}</ol>
         {!receipt.history?.length && <p>History is not present in this receipt.</p>}
       </DisclosureContent></Disclosure>
@@ -83,7 +84,9 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
   const [topic, setTopic] = React.useState("");
   const [sort, setSort] = React.useState<KnowledgeSort>("newest");
   const [view, setView] = React.useState<"list" | "map">(initialView);
-  const [focused, setFocused] = React.useState(rows.some((row: KnowledgeRow) => row.id === selected));
+  const selectedIsCurrent = rows.some((row: KnowledgeRow) => row.id === selected);
+  const selectedIsPausedLifecycle = receipt?.claim.id === selected && receipt?.state === "dependency_invalidated";
+  const [focused, setFocused] = React.useState(selectedIsCurrent || selectedIsPausedLifecycle);
   const [lineage, setLineage] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("claim");
   const previousSelection = React.useRef(selected);
@@ -91,13 +94,13 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
   React.useEffect(() => {
     if (previousSelection.current !== selected) { previousSelection.current = selected; pendingSelection.current = selected; }
     if (!loading && pendingSelection.current) {
-      setFocused(rows.some((row: KnowledgeRow) => row.id === pendingSelection.current));
+      setFocused(rows.some((row: KnowledgeRow) => row.id === pendingSelection.current) || selectedIsPausedLifecycle);
       pendingSelection.current = null;
     }
-  }, [selected, loading, rows]);
+  }, [selected, loading, rows, selectedIsPausedLifecycle]);
   const topics = [...new Set((rows as KnowledgeRow[]).map(knowledgeTopic).filter(Boolean))].sort();
   const visible = selectKnowledge(rows, query, topic, sort);
-  const current = !loading && !contextError && rows.some((row: KnowledgeRow) => row.id === selected) && receipt?.claim.id === selected ? receipt : null;
+  const current = !loading && receipt?.claim.id === selected && (selectedIsPausedLifecycle || (!contextError && selectedIsCurrent)) ? receipt : null;
   const reviewCount = allRows.filter((row: KnowledgeRow) => ["needs_review", "needs_revision", "unresolved", "dependency_invalidated"].includes(row.state || "")).length;
   const opener = React.useRef<HTMLElement | null>(null);
   const focus = (id: string, element?: HTMLElement) => { opener.current = element || null; setFocused(true); setGraphSelection("claim"); onChoose(id); };
@@ -108,7 +111,7 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
       else document.getElementById("knowledge-search")?.focus();
     });
   };
-  const unavailable = detailError || contextError || (!loading && !rows.some((row: KnowledgeRow) => row.id === selected));
+  const unavailable = detailError || (!selectedIsPausedLifecycle && contextError) || (!loading && !selectedIsCurrent && !selectedIsPausedLifecycle);
   const related = relations.filter((edge: any) => (edge.from === selected || edge.to === selected) && rows.some((row: KnowledgeRow) => row.id === edge.from) && rows.some((row: KnowledgeRow) => row.id === edge.to));
   const selectedEvidence = current?.evidence?.[Number(graphSelection.split(":")[1])];
   return <div className={`knowledgeWorkspace${focused ? " hasRecord" : ""}`}>

@@ -12,6 +12,7 @@ const relationState = (edge: any) => edge.state || "needs_review";
 export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const [selection, setSelection] = React.useState("");
   const [claimLimit, setClaimLimit] = React.useState(6);
+  const [evidenceLimit, setEvidenceLimit] = React.useState(16);
   const [relationsOpen, setRelationsOpen] = React.useState(false);
   const allClaims = rows as KnowledgeRow[];
   const claims = allClaims.slice(0, claimLimit);
@@ -19,7 +20,8 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const nodeTypes = new Map(nodes.map((node: any) => [node.id, node.type]));
   const isClaimNode = (id: string) => claimIds.has(id) || nodeTypes.get(id) === "claim";
   const support = edges.filter((edge: any) => edge.type === "supports" && claimIds.has(edge.to) && !isClaimNode(edge.from));
-  const evidenceIds = [...new Set(support.map((edge: any) => edge.from))].slice(0, 16) as string[];
+  const allEvidenceIds = [...new Set(support.map((edge: any) => edge.from))] as string[];
+  const evidenceIds = allEvidenceIds.slice(0, evidenceLimit);
   const relationMap = new Map<string, any>();
   [...relations, ...edges.filter((edge: any) => RELATION_TYPES.has(edge.type))]
     .filter((edge: any) => claimIds.has(edge.from) && claimIds.has(edge.to))
@@ -114,7 +116,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       {claims.map(row => {
         const incoming = claimRelations.filter((edge: any) => edge.to === row.id);
         const outgoing = claimRelations.filter((edge: any) => edge.from === row.id);
-        const evidence = support.filter((edge: any) => edge.to === row.id).map((edge: any) => nodes.find((node: any) => node.id === edge.from));
+        const evidence = support.filter((edge: any) => edge.to === row.id && evidenceIds.includes(edge.from)).map((edge: any) => nodes.find((node: any) => node.id === edge.from));
         return <article className="claimLineageCard" key={row.id}>
           <div className="claimLineageHead"><strong>{claimDisplayTitle(row)}</strong><span>{knowledgeTopic(row) || "Scope not recorded"}</span></div>
           <dl>
@@ -172,6 +174,9 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       </aside>
     </div>
 
-    {allClaims.length > claims.length && <footer className="claimMapFooter"><span>Showing {claims.length} of {allClaims.length} claims</span><Button variant="outline" size="sm" onClick={() => setClaimLimit(limit => Math.min(limit + 6, allClaims.length))}>Show {Math.min(6, allClaims.length - claims.length)} more</Button></footer>}
+    {(allClaims.length > claims.length || allEvidenceIds.length > evidenceIds.length) && <footer className="claimMapFooter">
+      <div>{allClaims.length > claims.length && <span>Showing {claims.length} of {allClaims.length} claims</span>}{allEvidenceIds.length > evidenceIds.length && <span>Showing {evidenceIds.length} of {allEvidenceIds.length} evidence receipts</span>}</div>
+      <div>{allClaims.length > claims.length && <Button variant="outline" size="sm" onClick={() => setClaimLimit(limit => Math.min(limit + 6, allClaims.length))}>Show {Math.min(6, allClaims.length - claims.length)} more claims</Button>}{allEvidenceIds.length > evidenceIds.length && <Button variant="outline" size="sm" onClick={() => setEvidenceLimit(limit => Math.min(limit + 16, allEvidenceIds.length))}>Show {Math.min(16, allEvidenceIds.length - evidenceIds.length)} more evidence</Button>}</div>
+    </footer>}
   </section>;
 }
