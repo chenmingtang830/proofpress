@@ -66,6 +66,12 @@ describe("governance components", () => {
     expect(html).toContain("Show 1 more sources");
     expect(html).not.toContain("Available for reuse");
   });
+  it("preserves contradiction exclusion in lineage", () => {
+    const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[]}} available={false} blockedReason="contradiction_unresolved" evidenceNames={[]} selection="context" onSelect={()=>{}} />);
+    expect(html).toContain("Excluded: unresolved contradiction");
+    expect(html).toContain("Human conflict review required");
+    expect(html).not.toContain("Approved by");
+  });
   it("shows citation-bound relation state and keeps Jev advice advisory", () => {
     const rows = [
       {id:"a",label:"Primary finding",applicability:{title:"Matter"}},
