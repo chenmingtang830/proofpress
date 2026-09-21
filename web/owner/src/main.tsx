@@ -516,7 +516,9 @@ function App() {
           required: ["claim_id", "action"],
         },
         execute: async ({ claim_id, action }: any) => {
+          const request = ++selectionRequest.current;
           const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
+          if (request !== selectionRequest.current) throw new Error("The selected claim changed before the lifecycle surface opened");
           const actionAllowed = action === "reassess"
             ? result.state === "dependency_invalidated"
             : ["admitted", "dependency_invalidated"].includes(result.state);
@@ -659,10 +661,11 @@ function App() {
     );
   }, []);
   React.useEffect(() => {
+    const preserveClaim = selected && (page === "review" || page === "ledger");
     history.replaceState(
       history.state,
       "",
-      `/${page}${page === "review" && selected ? `?claim_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
+      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : ""}`,
     );
   }, [page, selected, fullReview]);
   function openFullReview() {

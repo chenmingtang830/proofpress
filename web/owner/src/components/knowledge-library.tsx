@@ -94,10 +94,16 @@ export function KnowledgeLibrary({ rows, allRows, nodes, edges, relations, selec
   React.useEffect(() => {
     if (previousSelection.current !== selected) { previousSelection.current = selected; pendingSelection.current = selected; }
     if (!loading && pendingSelection.current) {
-      setFocused(rows.some((row: KnowledgeRow) => row.id === pendingSelection.current) || selectedIsPausedLifecycle);
-      pendingSelection.current = null;
+      const currentIsVisible = rows.some((row: KnowledgeRow) => row.id === pendingSelection.current);
+      if (currentIsVisible || selectedIsPausedLifecycle) {
+        setFocused(true);
+        pendingSelection.current = null;
+      } else if (receipt?.claim.id === pendingSelection.current || detailError) {
+        setFocused(false);
+        pendingSelection.current = null;
+      }
     }
-  }, [selected, loading, rows, selectedIsPausedLifecycle]);
+  }, [selected, loading, rows, selectedIsPausedLifecycle, receipt?.claim.id, detailError]);
   const topics = [...new Set((rows as KnowledgeRow[]).map(knowledgeTopic).filter(Boolean))].sort();
   const visible = selectKnowledge(rows, query, topic, sort);
   const current = !loading && receipt?.claim.id === selected && (selectedIsPausedLifecycle || (!contextError && selectedIsCurrent)) ? receipt : null;

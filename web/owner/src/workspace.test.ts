@@ -56,6 +56,9 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('result.state === "dependency_invalidated"');
     expect(source).toContain('["admitted", "dependency_invalidated"].includes(result.state)');
     expect(source).toContain('if (!actionAllowed) throw new Error');
+    expect(source).toContain('const request = ++selectionRequest.current;');
+    expect(source).toContain('page === "review" || page === "ledger"');
+    expect(knowledgeSource).toContain('receipt?.claim.id === pendingSelection.current || detailError');
     expect(source).toContain('setNote("");\n          setSelected(claim_id);');
   });
   it("lets the outer stage scroll the full review surface", () => {
