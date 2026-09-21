@@ -44,6 +44,8 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const selectedClaim = selection.startsWith("claim:") ? claimById(selection.slice(6)) : null;
   const selectedEvidenceId = selection.startsWith("evidence:") ? selection.slice(9) : "";
   const selectedContext = selection.startsWith("context:") ? selection.slice(8) : "";
+  const selectedEvidence = selectedEvidenceId ? nodes.find((node: any) => node.id === selectedEvidenceId) : null;
+  const selectedContextClaims = selectedContext ? claims.filter(row => (knowledgeTopic(row) || "Applicability not recorded") === selectedContext) : [];
   const relatedToSelection = (id: string) => {
     if (!selection) return true;
     if (selectedEvidenceId) return support.some((edge: any) => edge.from === selectedEvidenceId && edge.to === id);
@@ -61,7 +63,9 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       </div>
     </header>
 
-    <div className="claimMapDesktop">
+    <div className="claimMapWorkspace">
+      <div className="claimMapPrimary">
+      <div className="claimMapDesktop">
       <div className="claimMapScroll" tabIndex={0} aria-label="Scrollable claim graph canvas">
         <div className="claimMapPlane" style={{ "--claim-map-height": `${height}px` } as React.CSSProperties}>
           <div className="claimMapColumns"><span>Bound evidence</span><span>Current admitted claims</span><span>Owner-view eligibility</span></div>
@@ -88,9 +92,9 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
           {contextGroups.map((group, index) => { const count = claims.filter(row => (knowledgeTopic(row) || "Applicability not recorded") === group).length; const active = selection === `context:${group}`; return <Button key={group} variant="ghost" size="content" className="claimMapNode contextNode" style={{ top: contextY(index), opacity: selection && !active && !selection.startsWith("claim:") ? .42 : 1 }} aria-pressed={active} onClick={() => select(`context:${group}`)}><small>Owner view</small><strong>{group}</strong><span>{count} {count === 1 ? "claim" : "claims"} · access separate</span></Button>; })}
         </div>
       </div>
-    </div>
+      </div>
 
-    <div className="claimMapMobile" aria-label="Claim-centered lineage">
+      <div className="claimMapMobile" aria-label="Claim-centered lineage">
       {claims.map(row => {
         const incoming = claimRelations.filter((edge: any) => edge.to === row.id);
         const outgoing = claimRelations.filter((edge: any) => edge.from === row.id);
@@ -108,9 +112,9 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
           <Button variant="outline" size="sm" onClick={event => onChoose(row.id, event.currentTarget)}>Open claim record</Button>
         </article>;
       })}
-    </div>
+      </div>
 
-    <div className="claimRelationControls" aria-label="Recorded claim relations">
+      <div className="claimRelationControls" aria-label="Recorded claim relations">
       <div className="claimRelationControlsHead"><strong>Relations</strong></div>
       {claimRelations.length ? <div className="claimRelationList">{claimRelations.map((edge: any, index: number) => {
         const active = selectedRelationIndex === index;
@@ -120,16 +124,42 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
           <span className="relationSignals">{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>Jev: {edge.advice.recommendation}</i>}<em data-state={state}>{CURRENT_RELATION_STATES.has(state) ? "Current admitted" : relationLabel(state)}</em></span>
         </Button>;
       })}</div> : <p className="claimRelationEmpty">No claim-to-claim relations recorded in this projection.</p>}
-    </div>
-
-    {selection && <aside className="claimMapInspector" aria-live="polite">
-      <div>
-        <small>{selectedRelation ? "Relation" : selectedClaim ? "Claim" : selectedEvidenceId ? "Evidence" : "Owner view"}</small>
-        <strong>{selectedRelation ? `${claimDisplayTitle(claimById(selectedRelation.from)!)} → ${relationLabel(selectedRelation.type)} → ${claimDisplayTitle(claimById(selectedRelation.to)!)}` : selectedClaim ? claimDisplayTitle(selectedClaim) : selectedEvidenceId ? nodes.find((node: any) => node.id === selectedEvidenceId)?.label || "Bound evidence" : selectedContext}</strong>
-        <span>{selectedRelation ? `Lifecycle state: ${relationLabel(relationState(selectedRelation))}.${selectedRelation.citation ? ` Citation bound to evidence ${selectedRelation.citation.evidence_ref}.` : " No relation citation recorded."}${selectedRelation.advice?.recommendation ? ` Jev advice: ${selectedRelation.advice.recommendation}; advisory only.` : ""} A recorded edge or model recommendation does not itself approve either claim.` : selectedClaim ? "Current in this owner view. Agent access is evaluated separately." : selectedEvidenceId ? "This receipt is recorded as evidence; the binding does not by itself admit the claim." : "This grouping describes owner-view eligibility, not universal or credential-independent access."}</span>
       </div>
-      <div className="claimMapInspectorActions">{selectedClaim && <Button variant="outline" size="sm" onClick={event => onChoose(selectedClaim.id, event.currentTarget)}>Open claim record</Button>}<Button variant="ghost" size="sm" onClick={() => setSelection("")}>Clear selection</Button></div>
-    </aside>}
+      </div>
+
+      <aside className={`claimMapSidecar${selection ? " isOpen" : ""}`} aria-live="polite" aria-label="Selected graph item details">
+        {selection ? <>
+          <header className="claimMapSidecarHead">
+            <small>{selectedRelation ? "Relation" : selectedClaim ? "Claim" : selectedEvidenceId ? "Evidence" : "Available here"}</small>
+            <Button variant="ghost" size="sm" onClick={() => setSelection("")}>Close</Button>
+          </header>
+          <h3>{selectedRelation ? relationLabel(selectedRelation.type) : selectedClaim ? claimDisplayTitle(selectedClaim) : selectedEvidence ? selectedEvidence.label || "Bound evidence" : selectedContext}</h3>
+          <dl className="claimMapSidecarDetails">
+            {selectedRelation && <>
+              <div><dt>From</dt><dd>{claimDisplayTitle(claimById(selectedRelation.from)!)}</dd></div>
+              <div><dt>To</dt><dd>{claimDisplayTitle(claimById(selectedRelation.to)!)}</dd></div>
+              <div><dt>State</dt><dd>{relationLabel(relationState(selectedRelation))}</dd></div>
+              {selectedRelation.citation && <div><dt>Evidence</dt><dd>{selectedRelation.citation.evidence_ref}</dd></div>}
+              {selectedRelation.advice?.recommendation && <div><dt>Jev advice</dt><dd>{selectedRelation.advice.recommendation} · advisory</dd></div>}
+            </>}
+            {selectedClaim && <>
+              <div><dt>State</dt><dd>Current admitted</dd></div>
+              <div><dt>Applicability</dt><dd>{knowledgeTopic(selectedClaim) || "Not recorded"}</dd></div>
+              <div><dt>Relations</dt><dd>{claimRelations.filter((edge: any) => edge.from === selectedClaim.id || edge.to === selectedClaim.id).length}</dd></div>
+            </>}
+            {selectedEvidenceId && <>
+              <div><dt>Receipt</dt><dd>{selectedEvidenceId}</dd></div>
+              <div><dt>Supports</dt><dd>{support.filter((edge: any) => edge.from === selectedEvidenceId).length} claims</dd></div>
+            </>}
+            {selectedContext && <>
+              <div><dt>Current claims</dt><dd>{selectedContextClaims.length}</dd></div>
+              <div><dt>Agent access</dt><dd>Checked separately</dd></div>
+            </>}
+          </dl>
+          {selectedClaim && <Button className="claimMapSidecarAction" variant="outline" size="sm" onClick={event => onChoose(selectedClaim.id, event.currentTarget)}>Open claim record</Button>}
+        </> : <div className="claimMapSidecarEmpty"><strong>Select a block</strong><span>Details appear here.</span></div>}
+      </aside>
+    </div>
 
     {rows.length > claims.length && <footer className="claimMapFooter">Showing {claims.length} of {rows.length} claims</footer>}
   </section>;
