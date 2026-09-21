@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { DecisionNotice, historyActor, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
+import { ClaimGraph } from "./claim-graph";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
@@ -63,6 +64,20 @@ describe("governance components", () => {
     expect(html).toContain("Not eligible in this view");
     expect(html).toContain("Show 1 more sources");
     expect(html).not.toContain("Available for reuse");
+  });
+  it("shows citation-bound relation state and keeps Jev advice advisory", () => {
+    const rows = [
+      {id:"a",label:"Primary finding",applicability:{title:"Matter"}},
+      {id:"b",label:"Bounded qualification",applicability:{title:"Matter"}},
+    ];
+    const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={[{id:"ev",label:"Source receipt"}]} edges={[
+      {from:"ev",to:"a",type:"supports"},
+      {id:"rel",from:"b",to:"a",type:"qualifies",state:"admitted",citation:{evidence_ref:"ev"},advice:{recommendation:"accept"}},
+    ]} relations={[]} onChoose={()=>{}} />);
+    expect(html).toContain("Citation bound");
+    expect(html).toContain("Jev: accept");
+    expect(html).toContain("model advice remains advisory");
+    expect(html).toContain("Claim-centered lineage");
   });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};

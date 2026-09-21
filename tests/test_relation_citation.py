@@ -117,6 +117,11 @@ class RelationCitationTests(unittest.TestCase):
         self.assertEqual(receipt["relation_advice"][0]["relation"]["id"], relation["id"])
         self.assertEqual(receipt["relation_advice"][0]["recommendation"]["decision_audit"],
                          audit)
+        graph_edge = next(edge for edge in kernel_ops.graph_v2(scope="matter-7")["edges"]
+                          if edge.get("id") == relation["id"])
+        self.assertEqual(graph_edge["citation"], citation)
+        self.assertEqual(graph_edge["advice"]["recommendation"], "accept")
+        self.assertEqual(graph_edge["advice"]["decision_audit"], audit)
 
     def test_missing_citation_endpoints_fail_closed_without_key_error(self):
         quote = "The limitation does not apply to fraud."

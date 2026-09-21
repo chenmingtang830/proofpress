@@ -2871,8 +2871,20 @@ def graph_v2(scope=None, actor=None):
             edges.append({"from": cid, "to": withdrawal["event_id"], "type": "withdrawn_by"})
     for row in projection["relations"].values():
         if row["from"] in wanted and row["to"] in wanted:
+            recommendation = projection["relation_recommendations"].get(row["id"])
+            current_recommendation = (
+                recommendation if recommendation
+                and recommendation.get("relation_digest") == row["digest"]
+                and recommendation.get("policy_digest") == policy["digest"]
+                else None
+            )
             edges.append({"id": row["id"], "from": row["from"], "to": row["to"],
-                          "type": row["type"], "state": relation_state(projection, row)})
+                          "type": row["type"], "state": relation_state(projection, row),
+                          "citation": row.get("qualifiers", {}).get("citation"),
+                          "advice": ({key: current_recommendation.get(key)
+                                      for key in ("recommendation", "rationale", "adapter", "model", "decision_audit")
+                                      if current_recommendation.get(key) is not None}
+                                     if current_recommendation else None)})
     return {"nodes": nodes, "edges": edges}
 
 
