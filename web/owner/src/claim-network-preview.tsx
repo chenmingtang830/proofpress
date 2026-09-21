@@ -58,13 +58,7 @@ const relations: Relation[] = [
 
 const initialScene = ["clm-a","clm-b","clm-c","clm-d","clm-e","clm-g","clm-l","clm-s"];
 const claimById = (id:string) => claims.find(claim => claim.id === id)!;
-const fixedPositions = new Map(claims.map((claim,index) => {
-  const inner = index < 8;
-  const ringIndex = inner ? index : index - 8;
-  const ringSize = inner ? 8 : 12;
-  const angle = -Math.PI / 2 + (ringIndex + (inner ? 0 : .5)) * Math.PI * 2 / ringSize;
-  return [claim.id,{x:450 + Math.cos(angle) * (inner ? 285 : 350),y:315 + Math.sin(angle) * (inner ? 215 : 255)}] as const;
-}));
+const dateBands = ["Sep 04","Sep 09","Sep 14","Sep 20"];
 const lines = (value:string,maxChars = 21,maxLines = 3) => {
   const words = value.split(" ");
   const output:string[] = [""];
@@ -89,6 +83,14 @@ function ClaimNetwork() {
   const availableRelations = relations.filter(relation => visibleIds.has(relation.from) && visibleIds.has(relation.to));
   const visibleRelations = availableRelations.slice(0,edgeLimit);
   const neighbors = relations.filter(relation => relation.from === selected || relation.to === selected).map(relation => relation.from === selected ? relation.to : relation.from);
+  const rowCount = Math.ceil(nodeLimit / dateBands.length);
+  const positions = new Map(visibleClaims.map(claim => {
+    const index = claims.findIndex(item => item.id === claim.id);
+    const column = index % dateBands.length;
+    const row = Math.floor(index / dateBands.length);
+    const y = rowCount === 2 ? 220 + row * 210 : rowCount === 3 ? 145 + row * 170 : 95 + row * 110;
+    return [claim.id,{x:[120,340,560,780][column],y}] as const;
+  }));
   const selectClaim = (id:string) => { setSelected(id); setShowEvidence(false); };
   const reset = () => { setNodeLimit(initialScene.length); setEdgeLimit(8); setSelected("clm-c"); setShowEvidence(false); setQuery(""); };
   return <section className="networkPage">
@@ -106,17 +108,19 @@ function ClaimNetwork() {
       <div className="networkCanvas" aria-label="Interactive claim network">
         <svg viewBox="0 0 900 630" role="img" aria-label={`${visibleClaims.length} admitted claims and ${visibleRelations.length} relationships`}>
           <defs><marker id="networkArrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" /></marker></defs>
+          {dateBands.map((date,index) => <g className="networkDate" key={date}><text x={[120,340,560,780][index]} y="32" textAnchor="middle">{date}</text><line x1={[120,340,560,780][index]} y1="48" x2={[120,340,560,780][index]} y2="602"/></g>)}
           {visibleRelations.map(relation => {
-            const from = fixedPositions.get(relation.from), to = fixedPositions.get(relation.to); if (!from || !to) return null;
+            const from = positions.get(relation.from), to = positions.get(relation.to); if (!from || !to) return null;
             const active = relation.from === selected || relation.to === selected;
             const mx = (from.x + to.x) / 2, my = (from.y + to.y) / 2;
+            const path = from.x === to.x ? `M${from.x} ${from.y} C${from.x + 70} ${from.y},${to.x + 70} ${to.y},${to.x} ${to.y}` : `M${from.x} ${from.y} C${mx} ${from.y},${mx} ${to.y},${to.x} ${to.y}`;
             return <g key={relation.id} className={`networkEdge${active ? " active" : ""}${relation.state === "unresolved" ? " unresolved" : ""}`}>
-              <line x1={from.x} y1={from.y} x2={to.x} y2={to.y} markerEnd="url(#networkArrow)" />
+              <path d={path} markerEnd="url(#networkArrow)" />
               {active && <text x={mx} y={my - 8} textAnchor="middle">{relation.type}</text>}
             </g>;
           })}
           {visibleClaims.map(claim => {
-            const position = fixedPositions.get(claim.id)!; const active = claim.id === selected;
+            const position = positions.get(claim.id)!; const active = claim.id === selected;
             const radius = nodeLimit === 20 ? 38 : nodeLimit === 12 ? 50 : 62;
             const lineHeight = nodeLimit === 20 ? 12 : 16;
             const labelLines = lines(claim.title,nodeLimit === 20 ? 15 : 21,nodeLimit === 20 ? 2 : 3);
@@ -134,12 +138,12 @@ function ClaimNetwork() {
       </div>
       <aside className="networkSidecar" aria-live="polite">
         <small>Admitted claim</small><h2>{selectedClaim.title}</h2><p>{selectedClaim.statement}</p>
-        <dl><div><dt>Scope</dt><dd>{selectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{selectedClaim.evidence.length} receipts</dd></div></dl>
+        <dl><div><dt>Recorded</dt><dd>{dateBands[claims.findIndex(claim => claim.id === selected) % dateBands.length]}</dd></div><div><dt>Scope</dt><dd>{selectedClaim.topic}</dd></div><div><dt>Relationships</dt><dd>{neighbors.length}</dd></div><div><dt>Evidence</dt><dd>{selectedClaim.evidence.length} receipts</dd></div></dl>
         <div className="networkActions"><Button variant="outline" onClick={() => setShowEvidence(value => !value)}>{showEvidence ? "Hide evidence" : "Show evidence"}</Button></div>
         {showEvidence && <section className="networkEvidenceList"><h3>Bound evidence</h3>{selectedClaim.evidence.map(item => <Button key={item} variant="ghost" size="content">{item}<span>Open receipt</span></Button>)}</section>}
       </aside>
     </div>
-    <footer className="networkHint"><span>Select a claim to inspect it.</span><span>The graph stays fixed while you browse.</span></footer>
+    <footer className="networkHint"><span>Recorded time runs left to right.</span><span>Selecting a claim never moves the graph.</span></footer>
   </section>;
 }
 

@@ -11,11 +11,12 @@
 .networkWorkspace { display:grid; grid-template-columns:minmax(0,1fr) 320px; min-height:660px; border:1px solid var(--line); border-radius:12px; overflow:clip; background:var(--paper); }
 .networkCanvas { position:relative; min-width:0; border-right:1px solid var(--line); background:radial-gradient(var(--line) .7px,transparent .7px) 0 0/22px 22px; }
 .networkCanvas svg { display:block; width:100%; height:auto; min-height:630px; }
-.networkEdge line { stroke:var(--line); stroke-width:1.6; vector-effect:non-scaling-stroke; }
+.networkDate text { fill:var(--ink-2); font:600 10px/1 var(--font-mono); letter-spacing:.04em; }
+.networkDate line { stroke:var(--line); stroke-width:1; stroke-dasharray:2 8; opacity:.7; }
+.networkEdge path { fill:none; stroke:var(--line); stroke-width:1.6; vector-effect:non-scaling-stroke; }
 .networkEdge text { fill:var(--ink-2); font:10px/1 var(--font-ui); paint-order:stroke; stroke:var(--paper); stroke-width:5px; }
-.networkEdge.active line { stroke:var(--accent); stroke-width:2.2; }
-.networkEdge.unresolved line { stroke:var(--revision); stroke-dasharray:7 5; }
-.networkEdge path { fill:var(--accent); }
+.networkEdge.active path { stroke:var(--accent); stroke-width:2.2; }
+.networkEdge.unresolved path { stroke:var(--revision); stroke-dasharray:7 5; }
 .networkNode { cursor:pointer; outline:none; }
 .networkNodeBody { fill:var(--paper); stroke:#8fa4a0; stroke-width:1.3; vector-effect:non-scaling-stroke; transition:fill 140ms ease-out,stroke-width 140ms ease-out; }
 .networkNode:hover .networkNodeBody,.networkNode:focus-visible .networkNodeBody { fill:var(--accent-soft); stroke:var(--accent); stroke-width:2; }
