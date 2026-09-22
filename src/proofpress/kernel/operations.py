@@ -1573,6 +1573,59 @@ def _experiment_profile_checks(row, evidence_rows, all_evidence):
     }
 
 
+_CHECK_RULES = {
+    "evidence_present": "The candidate must bind at least the policy minimum number of evidence envelopes.",
+    "evidence_integrity": "Every bound evidence envelope must match its recorded digest.",
+    "retrieval_receipts": "Every retrieval evidence envelope must still match the normalized source, quote, locator, and retrieval receipt.",
+    "not_expired": "The candidate must not be past its stated expiry time.",
+    "not_superseded": "The candidate must not have been superseded by a later recorded claim.",
+    "reuse_boundary_present": "The candidate must state either a legacy scope or an applicability card before it can be reused.",
+    "repo_evidence_present": "A repository-profile candidate must bind repository evidence.",
+    "repo_evidence_verified": "Repository evidence must carry a passing recorded verification receipt.",
+    "repo_evidence_reverified": "Repository evidence must reverify against the current checkout.",
+    "repo_identity_bound": "Repository evidence must identify the repository named by the candidate.",
+    "repo_commit_bound": "Repository evidence must identify the candidate's recorded head commit.",
+    "repo_checks_passed": "Every check recorded in the repository evidence bundle must have passed.",
+    "repo_claim_is_current_fact": "Repository-profile candidates may not represent a roadmap item as a current fact.",
+    "experiment_evidence_present": "An experiment-profile candidate must bind experiment evidence.",
+    "experiment_evidence_valid": "Every experiment evidence envelope must match the supported experiment profile.",
+    "experiment_identity_bound": "Experiment evidence must identify the experiment named by the candidate.",
+    "experiment_claim_kind_valid": "The candidate's experiment claim kind must be one of the supported kinds.",
+    "experiment_failure_feedback_bound": "A failed-attempt candidate must bind all declared feedback evidence.",
+}
+
+
+def _check_receipts(row, cid, policy, evidence_ok, checks, projection):
+    """Return safe, inspectable inputs for each deterministic check."""
+    base_inputs = {
+        "candidate": cid,
+        "bound_evidence": list(row.get("evidence_refs", [])),
+        "available_evidence": list(evidence_ok),
+    }
+    receipts = {}
+    for name in checks:
+        inputs = dict(base_inputs)
+        if name == "evidence_present":
+            inputs["minimum_evidence"] = int(policy["min_evidence"])
+        elif name == "not_expired":
+            inputs["expires_at"] = row.get("expires_at") or "No expiry recorded"
+        elif name == "not_superseded":
+            inputs["superseded"] = cid in projection["supersessions"]
+        elif name == "reuse_boundary_present":
+            inputs["legacy_scope"] = row.get("scope") or "Not set"
+            inputs["applicability_card"] = bool(row.get("applicability"))
+        if name.startswith("repo_"):
+            repo = row.get("qualifiers", {}).get("repo", {})
+            inputs["repository"] = repo.get("repository_id", "Not set")
+            inputs["head_commit"] = repo.get("head_commit", "Not set")
+        if name.startswith("experiment_"):
+            experiment = row.get("qualifiers", {}).get("experiment", {})
+            inputs["experiment"] = experiment.get("experiment", "Not set")
+        receipts[name] = {"rule": _CHECK_RULES.get(name, "Recorded deterministic policy requirement."),
+                          "inputs": inputs}
+    return receipts
+
+
 def _text_list(value, field):
     if value is None:
         return []
@@ -2122,9 +2175,11 @@ def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
     checks.update(_experiment_profile_checks(
         row, [projection["evidence"][ref] for ref in evidence_ok],
         projection["evidence"]))
+    check_receipts = _check_receipts(row, cid, policy, evidence_ok, checks, projection)
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "claim_digest": row["digest"],
                        "policy_digest": policy["digest"], "checks": checks,
+                       "check_receipts": check_receipts,
                        "verifier": verifier,
                        "verification_profile": policy["verification"]["profile"],
                        "verification_config_digest": digest(policy["verification"]),
