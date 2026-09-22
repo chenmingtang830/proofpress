@@ -19,10 +19,12 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
     def test_required_governance_tools_are_declared(self):
         for name in (
             "get_workspace_summary",
+            "get_claim_graph",
             "list_review_queue",
             "get_current_context",
             "get_review_state",
             "get_lineage",
+            "open_claim_lifecycle",
             "prepare_review_response",
             "get_activity",
             "run_deterministic_checks",
@@ -40,6 +42,14 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertNotIn("approve_claim", names)
         self.assertNotIn("admit", names)
         self.assertIn("Human Approval is not exposed", self.page)
+
+    def test_lifecycle_tools_inspect_or_navigate_but_do_not_decide(self):
+        self.assertIn('needs_reassessment_count', self.page)
+        self.assertIn('dependency_impact: r.dependency_impact', self.page)
+        self.assertIn('withdrawal: r.withdrawal', self.page)
+        self.assertIn('decision_recorded: false', self.page)
+        self.assertIn('requires_human_owner: true', self.page)
+        self.assertNotRegex(self.page, r'name:\s*"(?:withdraw|reassess)_claim"')
 
     def test_policy_tool_prepares_but_never_activates(self):
         self.assertIn('prepared: true', self.page)

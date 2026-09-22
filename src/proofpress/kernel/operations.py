@@ -2871,8 +2871,20 @@ def graph_v2(scope=None, actor=None):
             edges.append({"from": cid, "to": withdrawal["event_id"], "type": "withdrawn_by"})
     for row in projection["relations"].values():
         if row["from"] in wanted and row["to"] in wanted:
+            recommendation = projection["relation_recommendations"].get(row["id"])
+            current_recommendation = (
+                recommendation if recommendation
+                and recommendation.get("relation_digest") == row["digest"]
+                and recommendation.get("policy_digest") == policy["digest"]
+                else None
+            )
             edges.append({"id": row["id"], "from": row["from"], "to": row["to"],
-                          "type": row["type"], "state": relation_state(projection, row)})
+                          "type": row["type"], "state": relation_state(projection, row),
+                          "citation": row.get("qualifiers", {}).get("citation"),
+                          "advice": ({key: current_recommendation.get(key)
+                                      for key in ("recommendation", "rationale", "adapter", "model", "decision_audit")
+                                      if current_recommendation.get(key) is not None}
+                                     if current_recommendation else None)})
     return {"nodes": nodes, "edges": edges}
 
 
@@ -3395,6 +3407,12 @@ def receipt_v2(cid, actor=None):
         dependent_id for dependent_id in dependent_impact["direct"] + dependent_impact["transitive"]
         if _actor_can_read(projection["claims"].get(dependent_id, {}), policy, actor)
     }
+    visible_relations = [
+        relation for relation in projection.get("relations", {}).values()
+        if (relation["from"] == cid or relation["to"] == cid)
+        and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
+        and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)
+    ]
     return {"claim": row, "state": review_state_v2(projection, row, policy, impact_map),
             "ledger_head": v2_head(),
             "revision_request": projection["revision_requests"].get(cid),
@@ -3437,15 +3455,14 @@ def receipt_v2(cid, actor=None):
                              for relation in projection.get("relations", {}).values()
                              if relation["type"] == "depends_on" and relation["from"] == cid
                              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            "relations": [{**relation, "state": relation_state(projection, relation)}
+                          for relation in visible_relations],
             "relation_advice": [{
                 "relation": relation, "state": relation_state(projection, relation),
                 "recommendation": projection["relation_recommendations"].get(relation["id"]),
                 "evaluation": projection["relation_evaluations"].get(relation["id"]),
-            } for relation in projection.get("relations", {}).values()
-              if (relation["from"] == cid or relation["to"] == cid)
-              and projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")
-              and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
-              and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            } for relation in visible_relations
+              if projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")],
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
                          "model": e.get("model"), "note": e.get("note"),

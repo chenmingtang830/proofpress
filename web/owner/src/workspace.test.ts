@@ -49,9 +49,22 @@ describe("Proofpress owner workspace contract", () => {
     expect(reassessmentSource).toContain("Retain with independent support");
     expect(reassessmentSource).toContain("Request revision");
     expect(reassessmentSource).toContain("previous approval remains on record");
+    expect(source).toContain('${action === "reassess" ? "&view=full" : ""}');
     expect(knowledgeSource).toContain("Withdraw claim");
     expect(knowledgeSource).toContain("Direct dependents");
     expect(knowledgeSource).toContain("Reuse of this claim and its dependents pauses immediately");
+    expect(knowledgeSource).toContain('["admitted", "dependency_invalidated"].includes(receipt?.state)');
+    expect(knowledgeSource).toContain('blockedReason.startsWith("contradiction_")');
+    expect(knowledgeSource).toContain('available={selectedIsCurrent}');
+    expect(knowledgeSource).toContain('!loading && !contextError && receipt?.claim.id === selected');
+    expect(source).toContain('result.state === "dependency_invalidated"');
+    expect(source).toContain('["admitted", "dependency_invalidated"].includes(result.state)');
+    expect(source).toContain('if (!actionAllowed) throw new Error');
+    expect(source).toContain('const request = ++selectionRequest.current;');
+    expect(source).toContain('page === "review" || page === "ledger"');
+    expect(knowledgeSource).toContain('else if (detailError) {\n        setFocused(true);');
+    expect(knowledgeSource).toContain('receipt?.claim.id === pendingSelection.current');
+    expect(source).toContain('setNote("");\n          setSelected(claim_id);');
   });
   it("lets the outer stage scroll the full review surface", () => {
     expect(css).toMatch(/\.inspector\.fullReview\s*\{[^}]*overflow:\s*visible;[^}]*overscroll-behavior:\s*auto;/s);

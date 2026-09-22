@@ -80,6 +80,7 @@ type Receipt = {
   history?: any[];
   dependency_impact?: {items:DependencyImpact[];redacted:number};
   dependencies?: DependencyRelation[];
+  relations?: any[];
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
@@ -252,6 +253,7 @@ function App() {
   const [edges, setEdges] = React.useState<any[]>([]);
   const [graphNodes, setGraphNodes] = React.useState<any[]>([]);
   const [contextRelations, setContextRelations] = React.useState<any[]>([]);
+  const [contextBlocked, setContextBlocked] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
   const [selected, setSelected] = React.useState<string | null>(
@@ -391,7 +393,7 @@ function App() {
     setContextLoading(true);
     setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
-      if (active) { setContextRelations(context.relations || []); setEligible((context.governed_context || []).map((row: any) => ({
+      if (active) { setContextRelations(context.relations || []); setContextBlocked(context.blocked || []); setEligible((context.governed_context || []).map((row: any) => ({
         ...row, label: row.statement, type: "claim", state: "admitted",
       }))); }
     }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
@@ -418,9 +420,18 @@ function App() {
             review: summary,
             current_governed_context_count: (context.governed_context || []).length,
             claim_states: claims.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
+            needs_reassessment_count: claims.filter((row: any) => row.state === "dependency_invalidated").length,
             authority: "Agents may inspect and prepare work. Human Approval is not exposed.",
           });
         },
+      },
+      {
+        name: "get_claim_graph",
+        description: "Read the bounded evidence, claim, lifecycle, and relation graph for the owner workspace. This does not change state.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        inputSchema: { type: "object", properties: { scope: { type: "string" } } },
+        execute: async ({ scope = "" }: any) =>
+          toolText(await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`)),
       },
       {
         name: "list_review_queue",
@@ -485,7 +496,49 @@ function App() {
             claim: r.claim,
             state: r.state,
             evidence: r.evidence,
+            withdrawal: r.withdrawal,
+            dependency_impact: r.dependency_impact,
+            dependent_impact: r.dependent_impact,
+            dependencies: r.dependencies,
+            relations: r.relations,
+            relation_advice: r.relation_advice,
             history: r.history,
+          });
+        },
+      },
+      {
+        name: "open_claim_lifecycle",
+        description: "Open an owner-only withdrawal or dependency-reassessment surface for one claim. Navigation does not record a decision.",
+        annotations: { readOnlyHint: true, untrustedContentHint: false },
+        inputSchema: {
+          type: "object",
+          properties: {
+            claim_id: { type: "string" },
+            action: { type: "string", enum: ["withdraw", "reassess"] },
+          },
+          required: ["claim_id", "action"],
+        },
+        execute: async ({ claim_id, action }: any) => {
+          const request = ++selectionRequest.current;
+          const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
+          if (request !== selectionRequest.current) throw new Error("The selected claim changed before the lifecycle surface opened");
+          const actionAllowed = action === "reassess"
+            ? result.state === "dependency_invalidated"
+            : ["admitted", "dependency_invalidated"].includes(result.state);
+          if (!actionAllowed) throw new Error(`${action} is not available for a claim in state ${result.state}`);
+          setNote("");
+          setSelected(claim_id);
+          setReceipt(result);
+          setPage(action === "reassess" ? "review" : "ledger");
+          setFullReview(action === "reassess");
+          return toolText({
+            opened: true,
+            action,
+            claim_id,
+            state: result.state,
+            decision_recorded: false,
+            requires_human_owner: true,
+            url: `${location.origin}/${action === "reassess" ? "review" : "ledger"}?claim_id=${encodeURIComponent(claim_id)}${action === "reassess" ? "&view=full" : ""}`,
           });
         },
       },
@@ -611,10 +664,11 @@ function App() {
     );
   }, []);
   React.useEffect(() => {
+    const preserveClaim = selected && (page === "review" || page === "ledger");
     history.replaceState(
       history.state,
       "",
-      `/${page}${page === "review" && selected ? `?claim_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
+      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : ""}`,
     );
   }, [page, selected, fullReview]);
   function openFullReview() {
@@ -989,6 +1043,7 @@ function App() {
               nodes={graphNodes}
               edges={edges}
               relations={contextRelations}
+              blocked={contextBlocked}
               onReview={() => navigate("review")}
               contextError={contextError}
               detailError={detailError}

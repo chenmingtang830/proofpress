@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { claimDisplayTitle } from "./claim-display";
 
-export function LineageGraph({receipt, available, evidenceNames, selection, onSelect}: any) {
+export function LineageGraph({receipt, available, blockedReason = "", evidenceNames, selection, onSelect}: any) {
   const [limit, setLimit] = React.useState(3);
   React.useEffect(() => setLimit(3), [receipt.claim.id]);
   const evidence = (receipt.evidence || []).slice(0,limit);
@@ -13,6 +13,9 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
   const applicability = receipt.claim.applicability || {};
   const boundary = receipt.claim.scope || applicability.title || applicability.description || "No reuse boundary recorded";
   const contextTitle = receipt.claim.scope ? `Scope: ${receipt.claim.scope}` : boundary;
+  const contradictionBlocked = blockedReason.startsWith("contradiction_");
+  const excludedTitle = contradictionBlocked ? "Excluded: unresolved contradiction" : receipt.state === "admitted" ? "Not eligible in this view" : `Not reusable: ${receipt.state.replaceAll("_"," ")}`;
+  const excludedDetail = contradictionBlocked ? "Human conflict review required" : blockedReason === "dependency_invalidated" || receipt.state === "dependency_invalidated" ? "Dependency reassessment required" : Object.entries(receipt.evaluation?.checks || {}).filter(([,ok])=>!ok).map(([name])=>name.replaceAll("_"," ")).join(", ") || (receipt.state === "admitted" ? "Check recorded eligibility reason" : "Human approval required");
   const node = (id:string, x:number, y:number, title:string, label:string, meta:string, kind:string) => <Button variant="ghost" size="content" key={id} className={`graphNode ${kind}`} style={{left:`${x/920*100}%`,top:y}} aria-pressed={selection === id} onClick={() => onSelect(id)}><small>{label}</small><strong>{title}</strong><span>{meta}</span></Button>;
   return <div className="lineageDiagram">
     <div className="graphScroll" tabIndex={0} aria-label="Lineage: evidence, claim, and governed context">
@@ -22,7 +25,7 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
         {evidence.map((e:any,i:number) => node(`evidence:${i}`,18,80+i*138,evidenceNames[i],"Evidence", e.id || e.evidence?.id || `Source ${i+1}`,"evidence"))}
         {!evidence.length && <p className="graphNoEvidence">No bound evidence</p>}
         {node("claim",338,center-70,claimDisplayTitle(receipt.claim),receipt.state.replaceAll("_"," "),[boundary, receipt.claim.created_at && new Date(receipt.claim.created_at).toLocaleString()].filter(Boolean).join(" · "),`claim ${tone}`)}
-        {node("context",662,center-70,available ? contextTitle : receipt.state === "admitted" ? "Not eligible in this view" : `Not reusable: ${receipt.state.replaceAll("_"," ")}`,"Reuse boundary", available ? `Approved by ${receipt.review?.reviewer || "actor not recorded"}` : Object.entries(receipt.evaluation?.checks || {}).filter(([,ok])=>!ok).map(([name])=>name.replaceAll("_"," ")).join(", ") || (receipt.state === "admitted" ? "Check actor eligibility" : "Human approval required"),`context ${tone}`)}
+        {node("context",662,center-70,available ? contextTitle : excludedTitle,"Reuse boundary", available ? `Approved by ${receipt.review?.reviewer || "actor not recorded"}` : excludedDetail,`context ${tone}`)}
       </div>
     </div>
     {receipt.evidence?.length > limit && <Button variant="outline" onClick={() => setLimit(limit+3)}>Show {Math.min(3,receipt.evidence.length-limit)} more sources</Button>}

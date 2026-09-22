@@ -55,6 +55,20 @@ class RelationCitationTests(unittest.TestCase):
             "The liability cap excludes fraud.", [evidence], "matter-7", "agent:proposer")["claim"]["id"]
         return first, second
 
+    def test_receipt_lists_visible_relations_without_model_advice(self):
+        quote = "The limitation does not apply to fraud."
+        evidence = self.submit(quote)
+        first, second = self.claims(evidence)
+        citation = {"schema_version": kernel_ops.RELATION_CITATION_SCHEMA,
+                    "evidence_ref": evidence, "quote_digest": digest(quote)}
+        relation = kernel_ops.propose_relation_v2(
+            second, first, "qualifies", "agent:relation",
+            qualifiers={"citation": citation})["relation"]
+        receipt = kernel_ops.receipt_v2(first)
+        self.assertEqual([row["id"] for row in receipt["relations"]], [relation["id"]])
+        self.assertEqual(receipt["relations"][0]["state"], "needs_review")
+        self.assertEqual(receipt["relation_advice"], [])
+
     def test_citation_is_bound_to_endpoint_evidence_and_materialized_for_judge(self):
         quote = "The limitation does not apply to fraud."
         evidence = self.submit(quote)
@@ -117,6 +131,11 @@ class RelationCitationTests(unittest.TestCase):
         self.assertEqual(receipt["relation_advice"][0]["relation"]["id"], relation["id"])
         self.assertEqual(receipt["relation_advice"][0]["recommendation"]["decision_audit"],
                          audit)
+        graph_edge = next(edge for edge in kernel_ops.graph_v2(scope="matter-7")["edges"]
+                          if edge.get("id") == relation["id"])
+        self.assertEqual(graph_edge["citation"], citation)
+        self.assertEqual(graph_edge["advice"]["recommendation"], "accept")
+        self.assertEqual(graph_edge["advice"]["decision_audit"], audit)
 
     def test_missing_citation_endpoints_fail_closed_without_key_error(self):
         quote = "The limitation does not apply to fraud."

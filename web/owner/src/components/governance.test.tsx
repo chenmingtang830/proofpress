@@ -3,6 +3,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { DecisionNotice, historyActor, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
+import { ClaimGraph } from "./claim-graph";
+import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
@@ -63,6 +65,79 @@ describe("governance components", () => {
     expect(html).toContain("Not eligible in this view");
     expect(html).toContain("Show 1 more sources");
     expect(html).not.toContain("Available for reuse");
+  });
+  it("preserves contradiction exclusion in lineage", () => {
+    const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[]}} available={false} blockedReason="contradiction_unresolved" evidenceNames={[]} selection="context" onSelect={()=>{}} />);
+    expect(html).toContain("Excluded: unresolved contradiction");
+    expect(html).toContain("Human conflict review required");
+    expect(html).not.toContain("Approved by");
+  });
+  it("shows citation-bound relation state and attributes model advice to its adapter", () => {
+    const rows = [
+      {id:"a",label:"Primary finding",applicability:{title:"Matter"}},
+      {id:"b",label:"Bounded qualification",applicability:{title:"Matter"}},
+    ];
+    const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={[{id:"ev",label:"Source receipt"}]} edges={[
+      {from:"ev",to:"a",type:"supports"},
+      {id:"support-rel",from:"b",to:"a",type:"supports",state:"admitted"},
+      {id:"rel",from:"b",to:"a",type:"qualifies",state:"admitted",citation:{evidence_ref:"ev"},advice:{recommendation:"accept",adapter:"proofpress-custom-judge/v1",model:"bounded-model"}},
+    ]} relations={[]} onChoose={()=>{}} />);
+    expect(html).toContain("Citation bound");
+    expect(html).toContain("proofpress-custom-judge/v1 · bounded-model: accept");
+    expect(html).not.toContain("Jev: accept");
+    expect(html).toContain("model advice remains advisory");
+    expect(html).toContain("Claim-centered lineage");
+    expect(html).toContain("2 relations");
+    expect(html).toContain("<small>Evidence</small><strong>Source receipt</strong>");
+    expect(html).not.toContain("<small>Evidence</small><strong>Bounded qualification</strong>");
+  });
+  it("reports every recorded relation while keeping details collapsed", () => {
+    const rows = Array.from({length:6}, (_, index) => ({id:`c${index}`,label:`Claim ${index}`}));
+    const relations = Array.from({length:13}, (_, index) => ({
+      id:`r${index}`, from:`c${index % 6}`, to:`c${(index + 1) % 6}`, type:"depends_on", state:"admitted",
+    }));
+    const html = renderToStaticMarkup(<ClaimGraph rows={rows} nodes={rows.map(row => ({...row,type:"claim"}))} edges={relations} relations={[]} onChoose={()=>{}} />);
+    expect(html).toContain("13 relations");
+    expect(html).not.toContain("claimRelationList");
+  });
+  it("discloses bounded evidence truncation with an expansion control", () => {
+    const row = {id:"claim",label:"Evidence-heavy claim"};
+    const nodes = Array.from({length:17}, (_, index) => ({id:`ev${index}`,type:"evidence",label:`Evidence ${index}`}));
+    const edges = nodes.map(node => ({from:node.id,to:row.id,type:"supports"}));
+    const html = renderToStaticMarkup(<ClaimGraph rows={[row]} nodes={[...nodes,{...row,type:"claim"}]} edges={edges} relations={[]} onChoose={()=>{}} />);
+    expect(html).toContain("Showing 16 of 17 evidence receipts");
+    expect(html).toContain("Show 1 more evidence");
+  });
+  it("shows invalidated admitted claims as paused while preserving withdrawal access", () => {
+    const html = renderToStaticMarkup(<KnowledgeRecord receipt={{
+      state:"dependency_invalidated", ledger_head:"head", claim:{id:"claim",statement:"Paused claim"},
+      evidence:[], history:[], dependent_impact:{direct_ids:[],transitive_ids:[]},
+    }} available={false} onClose={()=>{}} onLineage={()=>{}} onWithdraw={()=>{}} busy={false} renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Reuse paused");
+    expect(html).toContain("excluded from current context until reassessed");
+    expect(html).toContain("Withdraw claim");
+    expect(html).not.toContain("Current for this owner view");
+  });
+  it("does not mislabel contradiction exclusion as dependency invalidation", () => {
+    const html = renderToStaticMarkup(<KnowledgeRecord receipt={{
+      state:"admitted", ledger_head:"head", claim:{id:"claim",statement:"Contradicted claim"},
+      evidence:[], history:[], dependent_impact:{direct_ids:[],transitive_ids:[]},
+    }} available={false} blockedReason="contradiction_unresolved" onClose={()=>{}} onLineage={()=>{}} onWithdraw={()=>{}} busy={false} renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Human conflict review is required");
+    expect(html).not.toContain("A dependency changed");
+    expect(html).toContain("Withdraw claim");
+  });
+  it("does not infer exclusion when current context is unavailable", () => {
+    const receipt = {state:"admitted",claim:{id:"claim",statement:"Claim"},evidence:[]};
+    const html = renderToStaticMarkup(<KnowledgeLibrary rows={[]} allRows={[{id:"claim",label:"Claim",state:"admitted"}]} nodes={[]} edges={[]} relations={[]} blocked={[]} selected="claim" receipt={receipt} onChoose={()=>{}} onReview={()=>{}} loading={false} contextError="Context unavailable" detailError="" renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Record unavailable");
+    expect(html).not.toContain("Reuse paused");
+    expect(html).not.toContain("Available for reuse");
+  });
+  it("keeps a failed ledger deep link open with recovery controls", () => {
+    const html = renderToStaticMarkup(<KnowledgeLibrary rows={[]} allRows={[]} nodes={[]} edges={[]} relations={[]} blocked={[]} selected="missing-claim" receipt={null} onChoose={()=>{}} onReview={()=>{}} loading={false} contextError="" detailError="Receipt unavailable" renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain("Record unavailable");
+    expect(html).toContain("Retry details");
   });
   it("loads criteria-only agent drafts without erasing model configuration", () => {
     const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};
