@@ -17,7 +17,7 @@ export function Badge({
             ? "border-[var(--line)] bg-[var(--revision-bg)] text-[var(--revision)]"
           : ["needs_review", "accept", "escalate", "unresolved", "evidence_supported", "needs_attention", "retrieved"].includes(state)
             ? "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--accent)]"
-          : ["rejected", "blocked", "revoked", "reject", "withdrawn", "dependency_invalidated", "evidence_not_supported"].includes(state)
+          : ["rejected", "blocked", "failed", "interrupted", "revoked", "reject", "withdrawn", "dependency_invalidated", "evidence_not_supported"].includes(state)
             ? "border-[var(--line)] bg-[var(--del-bg)] text-[var(--del)]"
             : "border-[var(--line)] bg-white text-[var(--ink-2)]",
         className,

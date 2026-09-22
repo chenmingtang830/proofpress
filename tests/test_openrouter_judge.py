@@ -3,6 +3,7 @@ import json
 import os
 import unittest
 from unittest.mock import patch
+from urllib.error import HTTPError
 
 from proofpress.hosted.judge import DEFAULT_MODEL, judge
 from proofpress.kernel import operations
@@ -118,6 +119,17 @@ class OpenRouterJudgeTests(unittest.TestCase):
             raise RuntimeError("test-only private provider body")
         with self.assertRaises(ValueError) as error:
             judge({}, opener=failed)
+        self.assertNotIn("test-only", str(error.exception))
+
+    @patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-only"})
+    def test_authentication_failure_is_classified_without_provider_body(self):
+        def failed(*a, **kw):
+            raise HTTPError("https://provider.example.test", 401, "Unauthorized", {},
+                            io.BytesIO(b"test-only private provider body"))
+        with self.assertRaises(ValueError) as error:
+            judge({}, opener=failed)
+        self.assertEqual(getattr(error.exception, "code", None), "authentication")
+        self.assertIn("authentication failed", str(error.exception))
         self.assertNotIn("test-only", str(error.exception))
 
     @patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-only"})

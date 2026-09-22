@@ -286,6 +286,27 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertEqual(receipt["state"], "needs_review")
         self.assertEqual(receipt["judge_job"]["state"], "completed")
 
+    def test_failed_automatic_review_is_visible_in_activity_and_technical_log(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            self.control.save_review_policy(self.owner, {**self.settings, "mode": "automatic"}, 0)
+        with patch("proofpress.hosted.control_plane.threading.Thread"):
+            proposal = self.proposal("failed automatic review")
+        claim_id = proposal["result"]["claim"]["id"]
+        with patch.object(kernel, "judge_v2", side_effect=ValueError("judge command failed: judge_failure:authentication")):
+            self.control.run_judge_jobs()
+
+        activity = self.control.list_activity(self.owner)
+        failure = next(row for row in activity if row["kind"] == "lm_review_failed")
+        self.assertEqual((failure["subject_id"], failure["outcome"]), (claim_id, "failed"))
+        self.assertEqual(failure["actor"], "system:auto-review")
+        receipt = self.control.execute(self.owner, operation(
+            "review.receipt", {"claim_id": claim_id}))["result"]
+        self.assertEqual(receipt["judge_job"]["detail"],
+                         "LM provider rejected the configured API key. Update it and retry.")
+        audit = self.control.list_audit(self.owner)
+        self.assertTrue(any(row["operation"] == "claim.judge.auto" and row["outcome"] == "judge_failed"
+                            for row in audit))
+
     def test_receipt_reconciles_failed_job_when_current_advice_was_recorded(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
             self.control.save_review_policy(
