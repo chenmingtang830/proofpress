@@ -19,7 +19,7 @@
 .pagination, .ledgerViews { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
 .pagination { justify-content: space-between; flex-wrap: wrap; }
 .quickSnapshot { padding: 24px; border-bottom: 1px solid var(--line); }
-.quickSnapshot dl > div { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.quickSnapshot > dl:first-child > div { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .quickSnapshot dt, .evidenceFields dt { color: var(--ink-2); font-size: 13px; }
 .quickSnapshot dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
 .evidenceFields { margin: 12px 0; }
@@ -429,6 +429,30 @@ main {
   padding: 4px 0;
   background: transparent;
 }
+.filterbar > button {
+  flex-shrink: 0;
+  height: auto;
+  min-height: 44px;
+  padding-block: 8px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+@media (min-width: 681px) and (max-width: 1350px) {
+  .reviewWorkspace:not(.overviewOnly):not(.fullReviewPage) .filterbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  .reviewWorkspace:not(.overviewOnly):not(.fullReviewPage) .filterbar > button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+  .reviewWorkspace:not(.overviewOnly):not(.fullReviewPage) .filterbar > span {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
 .filterbar label {
   display: flex;
   height: 34px;
@@ -665,14 +689,89 @@ td:last-child svg {
   color: var(--ink-2);
   font-size: 10px;
 }
-.checkList > div {
+.checkReceipt {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+}
+.checkReceiptResult {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  padding: 10px 0;
   text-transform: capitalize;
   font-size: 12px;
+}
+.checkReceiptDetail > p,
+.checkReceiptLegacy {
+  max-width: 70ch;
+  margin: 7px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.checkReceiptDetail dl {
+  display: grid;
+  grid-template-columns: minmax(120px, .32fr) minmax(0, 1fr);
+  gap: 5px 14px;
+  margin: 10px 0 0;
+  font-size: 11px;
+}
+.checkReceiptDetail dt {
+  color: var(--ink-2);
+  text-transform: capitalize;
+}
+.checkReceiptDetail dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--font-proof);
+}
+.deterministicCheckDisclosure { min-width: 0; }
+.deterministicCheckTrigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.deterministicCheckTrigger:hover { color: var(--accent); }
+.deterministicCheckTrigger:hover .deterministicCheckLabel { color: var(--accent); }
+.deterministicCheckTrigger:disabled { cursor: default; opacity: 1; }
+.deterministicCheckTrigger:disabled:hover { color: inherit; }
+.deterministicCheckTrigger:disabled:hover .deterministicCheckLabel { color: var(--ink-2); }
+.deterministicCheckLabel { display: inline-flex; min-width: 0; align-items: center; gap: 6px; color: var(--ink-2); }
+.deterministicCheckLabel svg { width: 14px; height: 14px; flex: 0 0 14px; color: var(--ink-3); transition: transform .18s ease; }
+.deterministicCheckTrigger[data-state="open"] .deterministicCheckLabel svg { transform: rotate(90deg); }
+.deterministicCheckStatus { color: var(--ink); font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+.deterministicCheckStatus.pass { color: var(--add); }
+.deterministicCheckStatus.fail { color: var(--del); }
+.decisionStack > .deterministicCheckDisclosure { border-bottom: 1px solid var(--line); }
+.decisionStack .deterministicCheckTrigger { min-height: 44px; padding: 10px 0; font: 400 13px/1.5 var(--font-ui); }
+.decisionStack .deterministicCheckStatus { max-width: 60%; }
+.deterministicCheckContent { min-width: 0; padding: 0 0 12px; }
+.checkInputBasis { padding: 8px 0 10px; }
+.checkInputBasis > span { display: block; margin-bottom: 5px; color: var(--ink); font: 600 12px/1.4 var(--font-ui); }
+.checkInputBasis p, .checkSummaryList p { margin: 4px 0; color: var(--ink-2); font: 400 11px/1.5 var(--font-ui); }
+.checkInputBasis ul { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 5px 0 8px; padding: 0; list-style: none; }
+.checkInputBasis li { min-width: 0; overflow-wrap: anywhere; }
+.checkInputBasis code { font: 400 10px/1.45 var(--font-proof); overflow-wrap: anywhere; }
+.checkSummaryList { margin: 0; padding: 0; list-style: none; }
+.checkSummaryList > li { padding: 7px 0; }
+.checkSummaryResult { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 600 12px/1.4 var(--font-ui); text-transform: capitalize; }
+.checkSummaryResult strong { flex: 0 0 auto; font-weight: 600; text-transform: none; }
+.checkSummaryList p.checkSpecificInputs { color: var(--ink-3); }
+.fullReview .deterministicFact { grid-column: 1 / -1; }
+.fullReview .deterministicFact .reviewFactContent { display: block; padding: 0; }
+.fullReview .deterministicFact .deterministicCheckTrigger { min-height: 112px; flex-direction: column; align-items: stretch; justify-content: space-between; padding: 24px; }
+.fullReview .deterministicFact .deterministicCheckLabel { font: 600 13px/1.4 var(--font-ui); }
+.fullReview .deterministicFact .deterministicCheckStatus { align-self: flex-start; font: 600 16px/1.4 var(--font-ui); text-align: left; }
+.fullReview .deterministicFact .deterministicCheckContent { padding: 0 24px 20px; }
+@media (max-width: 680px) {
+  .fullReview .deterministicFact .deterministicCheckTrigger { min-height: 96px; padding: 20px; }
+  .fullReview .deterministicFact .deterministicCheckContent { padding: 0 20px 18px; }
 }
 .checkList b {
   display: flex;
