@@ -112,12 +112,15 @@ async function api(path: string, options: RequestInit = {}) {
   let body: any;
   try { body = await response.json(); }
   catch { throw new Error(`The service returned an unreadable response (${response.status}). Reload the workspace to retry.`); }
-  if (!response.ok || body.ok === false)
-    throw new Error(
+  if (!response.ok || body.ok === false) {
+    const error = new Error(
       body.error?.message ||
         body.error ||
         `Request failed (${response.status})`,
     );
+    (error as Error & {code?: string}).code = body.error?.code;
+    throw error;
+  }
   return body.result ?? body;
 }
 function evidenceName(row: any) {
@@ -846,7 +849,7 @@ function App() {
       const next = await api(`/owner/api/claims/${encodeURIComponent(receipt.claim.id)}`);
       setReceipt(next);
       setJudgeMessage("Model review recorded. Open the review details to inspect the advice.");
-    } catch { setJudgeMessage("Model review did not complete. You can retry; no approval was recorded."); }
+    } catch (e:any) { setJudgeMessage(`${e.message || "Model review did not complete."}${e.code ? ` (${e.code})` : ""} No approval was recorded.`); }
     finally { decisionPending.current = false; setBusy(false); setJudgeRunning(false); }
   }
   async function runChecks() {
@@ -1579,7 +1582,7 @@ function ActivityPage({ rows }: any) {
         {filtered.slice(current * 20, (current + 1) * 20).map((r: any) => (
           <TableRow key={r.id || r.audit_id}>
             <TableCell data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></TableCell>
-            <TableCell data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?claim_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <Disclosure><DisclosureTrigger>Details</DisclosureTrigger><DisclosureContent><p>{r.detail}</p></DisclosureContent></Disclosure>}{r.scope && <small>{r.scope}</small>}</>}</TableCell>
+            <TableCell data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?claim_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <Disclosure><DisclosureTrigger>Details</DisclosureTrigger><DisclosureContent><p>{r.detail}{r.error_code ? ` (${r.error_code})` : ""}</p></DisclosureContent></Disclosure>}{r.scope && <small>{r.scope}</small>}</>}</TableCell>
             <TableCell data-label="Actor">{r.actor || r.principal_id || "Actor not recorded"}{r.model && <small>{r.model}</small>}{r.initiator && r.initiator!==r.actor && <small>Requested by {r.initiator}</small>}</TableCell>
             <TableCell data-label="Result">{view==="logs" ? <ActivityResult outcome={r.outcome} /> : <Badge state={r.outcome} />}</TableCell>
           </TableRow>

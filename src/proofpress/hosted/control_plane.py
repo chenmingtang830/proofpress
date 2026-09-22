@@ -82,23 +82,32 @@ def _now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _judge_job_failure_detail(exc: Exception) -> str:
-    """Map only judge's bounded stderr marker into owner-facing job status."""
-    details = {
-        "authentication": "LM provider rejected the configured API key. Update it and retry.",
-        "configuration": "LM review is not fully configured. Update the review policy and retry.",
-        "model_or_endpoint": "LM provider did not recognize the selected model or endpoint.",
-        "rate_limited": "LM provider rate limited the review. Retry later.",
-        "provider_unavailable": "LM provider is temporarily unavailable. Retry later.",
-        "provider_rejected": "LM provider rejected the review request.",
-        "connection": "LM provider connection failed or timed out. Retry later.",
-        "input_limit": "LM review packet exceeded the configured input limit.",
-        "invalid_verdict": "LM provider returned an invalid advisory verdict.",
-    }
+_JUDGE_FAILURE_DETAILS = {
+    "authentication": "LM provider rejected the configured API key. Update it and retry.",
+    "configuration": "LM review is not fully configured. Update the review policy and retry.",
+    "model_or_endpoint": "LM provider did not recognize the selected model or endpoint.",
+    "rate_limited": "LM provider rate limited the review. Retry later.",
+    "provider_unavailable": "LM provider is temporarily unavailable. Retry later.",
+    "provider_rejected": "LM provider rejected the review request.",
+    "connection": "LM provider connection failed or timed out. Retry later.",
+    "input_limit": "LM review packet exceeded the configured input limit.",
+    "invalid_verdict": "LM provider returned an invalid advisory verdict.",
+}
+
+
+def _judge_failure_code(exc: Exception) -> str | None:
+    """Interpret only known bounded judge markers, never upstream response text."""
     message = str(exc)
-    for code, detail in details.items():
+    for code in _JUDGE_FAILURE_DETAILS:
         if f"judge_failure:{code}" in message:
-            return detail
+            return code
+    return None
+
+
+def _judge_job_failure_detail(exc: Exception) -> str:
+    code = _judge_failure_code(exc)
+    if code:
+        return _JUDGE_FAILURE_DETAILS[code]
     return "LM advice failed. Retry from the review page."
 
 
@@ -166,6 +175,15 @@ class HostedControlPlane:
                     idempotency_key TEXT,
                     outcome TEXT NOT NULL,
                     event_head TEXT
+                );
+                CREATE TABLE IF NOT EXISTS hosted_judge_attempts (
+                    attempt_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    occurred_at TEXT NOT NULL,
+                    workspace_id TEXT NOT NULL,
+                    claim_id TEXT NOT NULL,
+                    actor TEXT NOT NULL,
+                    error_code TEXT NOT NULL,
+                    detail TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS hosted_recovery (
                     workspace_id TEXT PRIMARY KEY,
@@ -714,6 +732,24 @@ class HostedControlPlane:
                     "detail": job["detail"],
                     "kind": f"lm_review_{job['state']}",
                 })
+            for attempt in connection.execute(
+                "SELECT * FROM hosted_judge_attempts WHERE workspace_id=? ORDER BY attempt_id DESC LIMIT ?",
+                (owner.workspace_id, limit),
+            ):
+                claim = subjects.get(attempt["claim_id"], {})
+                rows.append({
+                    "id": f"judge-attempt-{attempt['attempt_id']}",
+                    "occurred_at": attempt["occurred_at"],
+                    "actor": attempt["actor"],
+                    "action": "Model review failed",
+                    "outcome": "failed",
+                    "subject_id": attempt["claim_id"],
+                    "statement": claim.get("statement", ""),
+                    "scope": claim.get("scope", ""),
+                    "detail": attempt["detail"],
+                    "error_code": attempt["error_code"],
+                    "kind": "lm_review_failed",
+                })
             return sorted(rows, key=lambda row: (row["occurred_at"], row["id"]), reverse=True)[:limit]
         finally:
             connection.close()
@@ -970,6 +1006,18 @@ class HostedControlPlane:
         with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
             envelope = kernel_ops.execute_local_operation(normalized)
             head = store.head()
+            if (operation == "claim.judge" and not envelope.get("ok")
+                    and envelope.get("error", {}).get("code") == "operation_rejected"):
+                failure = ValueError(envelope["error"].get("message", ""))
+                category = _judge_failure_code(failure)
+                error_code = f"judge_{category}" if category else "judge_failed"
+                detail = _judge_job_failure_detail(failure)
+                envelope = {**envelope, "error": {**envelope["error"], "code": error_code, "message": detail}}
+                with self._db() as connection:
+                    connection.execute(
+                        "INSERT INTO hosted_judge_attempts(occurred_at,workspace_id,claim_id,actor,error_code,detail) VALUES(?,?,?,?,?,?)",
+                        (_now(), context.workspace_id, str((parameters or {}).get("claim_id", "")), context.principal_id, error_code, detail),
+                    )
             if envelope.get("ok") and operation == "review.receipt":
                 result = envelope["result"]
                 evaluation = result.get("evaluation") or {}
