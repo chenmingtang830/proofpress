@@ -169,7 +169,8 @@
 .reviewActions > button.secondaryAction { width:auto; align-self:flex-start; padding-inline:0; color:var(--ink-2); }
 .queuedAction { display:flex; min-height:44px; align-items:center; padding:0 12px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:600; }
 .decisionStack { margin:16px 0; border-top:1px solid var(--line); }
-.decisionStack > div { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.decisionStack > div:not(.deterministicCheckDisclosure) { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.decisionStack .reviewStepValue { color:var(--ink); text-align:right; overflow-wrap:anywhere; }
 .decisionStack span { color:var(--ink-2); }
 .decisionStack span.pass, .quickSnapshot dd.checkSummary.pass { color:var(--add); font-weight:600; }
 .decisionStack span.fail, .quickSnapshot dd.checkSummary.fail { color:var(--del); font-weight:600; }

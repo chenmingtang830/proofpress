@@ -26,6 +26,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
@@ -1276,8 +1277,8 @@ function ReviewPage({
     </div>
   );
 }
-function ReviewFact({label,value,detail,tone="",className="",children}:any){
-  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong>{detail && <small className="modelAttribution">{detail}</small>}{children}</CardContent></Card>;
+function ReviewFact({label,value,detail,tone="",className=""}:any){
+  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong>{detail && <small className="modelAttribution">{detail}</small>}</CardContent></Card>;
 }
 
 function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
@@ -1302,17 +1303,18 @@ function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
   </div>;
 }
 
-function DeterministicCheckDisclosure({evaluation}: {evaluation?: Receipt["evaluation"]}) {
+function DeterministicCheckDisclosure({evaluation, status, tone = "", card = false}: {evaluation?: Receipt["evaluation"]; status: string; tone?: string; card?: boolean}) {
   const checks = Object.entries(evaluation?.checks || {});
-  if (!checks.length) return null;
   const receipts = evaluation?.check_receipts || {};
   const sharedInputs = Object.values(receipts)[0]?.inputs;
   const boundEvidence = Array.isArray(sharedInputs?.bound_evidence) ? sharedInputs.bound_evidence : null;
   const availableEvidence = Array.isArray(sharedInputs?.available_evidence) ? sharedInputs.available_evidence : null;
-  return <Accordion type="single" collapsible className="checkReceiptDisclosure">
-    <AccordionItem value="deterministic-receipt">
-      <AccordionTrigger>What was checked ({checks.length})</AccordionTrigger>
-      <AccordionContent>
+  const disclosure = <Collapsible className={`deterministicCheckDisclosure${card ? " cardVariant" : ""}`}>
+    <CollapsibleTrigger asChild><Button type="button" variant="ghost" size="content" className="deterministicCheckTrigger" disabled={!checks.length}>
+      <span className="deterministicCheckLabel">Deterministic checks{checks.length > 0 && <ChevronRight aria-hidden="true" />}</span>
+      <strong className={`deterministicCheckStatus ${tone}`}>{status}</strong>
+    </Button></CollapsibleTrigger>
+    {checks.length > 0 && <CollapsibleContent className="deterministicCheckContent">
         {sharedInputs && <div className="checkInputBasis">
           <span>Input basis</span>
           <p>Candidate <code>{String(sharedInputs.candidate || "Not recorded")}</code></p>
@@ -1328,9 +1330,9 @@ function DeterministicCheckDisclosure({evaluation}: {evaluation?: Receipt["evalu
             {receipt ? <><p>{receipt.rule || "Recorded deterministic policy requirement."}</p>{specificInputs.length > 0 && <p className="checkSpecificInputs">{specificInputs.map(([label, input]) => `${label.replaceAll("_", " ")}: ${String(input)}`).join(" · ")}</p>}</> : <p>Result recorded; checked inputs unavailable for this earlier receipt.</p>}
           </li>;
         })}</ul>
-      </AccordionContent>
-    </AccordionItem>
-  </Accordion>;
+    </CollapsibleContent>}
+  </Collapsible>;
+  return card ? <Card className="reviewFact deterministicFact"><CardContent className="reviewFactContent">{disclosure}</CardContent></Card> : disclosure;
 }
 
 function ApplicabilityPanel({claim, compact = false}: {claim: Receipt["claim"]; compact?: boolean}) {
@@ -1424,13 +1426,17 @@ function Inspector({
         {fullReview ? <div className="reviewFactsGrid">
           <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
           <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
-          {can && <><ReviewFact className="deterministicFact" label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""}><DeterministicCheckDisclosure evaluation={r.evaluation} /></ReviewFact><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
+          {can && <><DeterministicCheckDisclosure card evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : failedChecks.length ? "fail" : ""} /><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
         </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
         {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
-        {can && !fullReview && <dl className="decisionStack"><div className="deterministicCheckSummary"><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd><DeterministicCheckDisclosure evaluation={r.evaluation} /></div><div><dt>Model review <small className="modelAttribution">{modelAttribution}</small></dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
+        {can && !fullReview && <div className="decisionStack" role="group" aria-label="Review steps">
+          <DeterministicCheckDisclosure evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"} tone={checksMissing ? "" : failedChecks.length ? "fail" : "pass"} />
+          <div><span className="reviewStepLabel">Model review <small className="modelAttribution">{modelAttribution}</small></span><span className="reviewStepValue">{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</span></div>
+          <div className="authorityStep"><span className="reviewStepLabel">Owner authorization</span><span className="reviewStepValue">{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div>
+        </div>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
         {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">

@@ -701,36 +701,54 @@ td:last-child svg {
   overflow-wrap: anywhere;
   font-family: var(--font-proof);
 }
-.checkReceiptDisclosure {
-  min-width: 0;
-  margin-top: 10px;
-  border-top: 1px solid var(--line);
+.deterministicCheckDisclosure { min-width: 0; }
+.deterministicCheckTrigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
 }
-.checkReceiptDisclosure [data-slot="accordion-trigger"] {
-  min-height: 34px;
-  padding: 8px 0;
-  color: var(--ink-2);
-  font: 500 11px/1.45 var(--font-ui);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.checkReceiptDisclosure [data-slot="accordion-content"] { padding-bottom: 2px; }
-.checkReceiptDisclosure [data-slot="accordion-content"] > div { min-width: 0; }
-.checkInputBasis { padding: 8px 0 12px; border-bottom: 1px solid var(--line); }
+.deterministicCheckTrigger:hover { color: var(--accent); }
+.deterministicCheckTrigger:hover .deterministicCheckLabel { color: var(--accent); }
+.deterministicCheckTrigger:disabled { cursor: default; opacity: 1; }
+.deterministicCheckTrigger:disabled:hover { color: inherit; }
+.deterministicCheckTrigger:disabled:hover .deterministicCheckLabel { color: var(--ink-2); }
+.deterministicCheckLabel { display: inline-flex; min-width: 0; align-items: center; gap: 6px; color: var(--ink-2); }
+.deterministicCheckLabel svg { width: 14px; height: 14px; flex: 0 0 14px; color: var(--ink-3); transition: transform .18s ease; }
+.deterministicCheckTrigger[data-state="open"] .deterministicCheckLabel svg { transform: rotate(90deg); }
+.deterministicCheckStatus { color: var(--ink); font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+.deterministicCheckStatus.pass { color: var(--add); }
+.deterministicCheckStatus.fail { color: var(--del); }
+.decisionStack > .deterministicCheckDisclosure { border-bottom: 1px solid var(--line); }
+.decisionStack .deterministicCheckTrigger { min-height: 44px; padding: 10px 0; font: 400 13px/1.5 var(--font-ui); }
+.decisionStack .deterministicCheckStatus { max-width: 60%; }
+.deterministicCheckContent { min-width: 0; padding: 0 0 12px; }
+.checkInputBasis { padding: 8px 0 10px; }
 .checkInputBasis > span { display: block; margin-bottom: 5px; color: var(--ink); font: 600 12px/1.4 var(--font-ui); }
 .checkInputBasis p, .checkSummaryList p { margin: 4px 0; color: var(--ink-2); font: 400 11px/1.5 var(--font-ui); }
 .checkInputBasis ul { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 5px 0 8px; padding: 0; list-style: none; }
 .checkInputBasis li { min-width: 0; overflow-wrap: anywhere; }
 .checkInputBasis code { font: 400 10px/1.45 var(--font-proof); overflow-wrap: anywhere; }
 .checkSummaryList { margin: 0; padding: 0; list-style: none; }
-.checkSummaryList > li { padding: 10px 0; border-bottom: 1px solid var(--line); }
-.checkSummaryList > li:last-child { border-bottom: 0; }
+.checkSummaryList > li { padding: 7px 0; }
 .checkSummaryResult { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font: 600 12px/1.4 var(--font-ui); text-transform: capitalize; }
 .checkSummaryResult strong { flex: 0 0 auto; font-weight: 600; text-transform: none; }
 .checkSummaryList p.checkSpecificInputs { color: var(--ink-3); }
-.deterministicCheckSummary .checkReceiptDisclosure { grid-column: 1 / -1; width: 100%; margin-top: 0; }
 .fullReview .deterministicFact { grid-column: 1 / -1; }
-.fullReview .deterministicFact .checkReceiptDisclosure { margin-top: 14px; }
+.fullReview .deterministicFact .reviewFactContent { display: block; padding: 0; }
+.fullReview .deterministicFact .deterministicCheckTrigger { min-height: 112px; flex-direction: column; align-items: stretch; justify-content: space-between; padding: 24px; }
+.fullReview .deterministicFact .deterministicCheckLabel { font: 600 13px/1.4 var(--font-ui); }
+.fullReview .deterministicFact .deterministicCheckStatus { align-self: flex-start; font: 600 16px/1.4 var(--font-ui); text-align: left; }
+.fullReview .deterministicFact .deterministicCheckContent { padding: 0 24px 20px; }
+@media (max-width: 680px) {
+  .fullReview .deterministicFact .deterministicCheckTrigger { min-height: 96px; padding: 20px; }
+  .fullReview .deterministicFact .deterministicCheckContent { padding: 0 20px 18px; }
+}
 .checkList b {
   display: flex;
   align-items: center;
