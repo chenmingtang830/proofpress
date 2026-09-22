@@ -19,7 +19,7 @@ from proofpress.hosted import review_policy
 
 
 OWNER_ONLY_OPERATIONS = frozenset({
-    "claim.review", "claim.supersede",
+    "claim.review", "claim.supersede", "claim.withdraw", "claim.reassess",
     "relation.review", "relation.resolve",
 })
 AGENT_OPERATIONS = frozenset({
@@ -41,6 +41,8 @@ IDENTITY_PARAMETERS = {
     "relation.judge": "actor",
     "claim.review": "reviewer",
     "claim.supersede": "reviewer",
+    "claim.withdraw": "reviewer",
+    "claim.reassess": "reviewer",
     "relation.review": "reviewer",
     "relation.resolve": "reviewer",
     "context.get": "actor",
@@ -78,6 +80,26 @@ class PrincipalContext:
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def _judge_job_failure_detail(exc: Exception) -> str:
+    """Map only judge's bounded stderr marker into owner-facing job status."""
+    details = {
+        "authentication": "LM provider rejected the configured API key. Update it and retry.",
+        "configuration": "LM review is not fully configured. Update the review policy and retry.",
+        "model_or_endpoint": "LM provider did not recognize the selected model or endpoint.",
+        "rate_limited": "LM provider rate limited the review. Retry later.",
+        "provider_unavailable": "LM provider is temporarily unavailable. Retry later.",
+        "provider_rejected": "LM provider rejected the review request.",
+        "connection": "LM provider connection failed or timed out. Retry later.",
+        "input_limit": "LM review packet exceeded the configured input limit.",
+        "invalid_verdict": "LM provider returned an invalid advisory verdict.",
+    }
+    message = str(exc)
+    for code, detail in details.items():
+        if f"judge_failure:{code}" in message:
+            return detail
+    return "LM advice failed. Retry from the review page."
 
 
 def _secret_hash(secret: str, salt: bytes) -> bytes:
@@ -634,19 +656,20 @@ class HostedControlPlane:
             rows = []
             for raw in events:
                 event = json.loads(raw["payload_json"])
-                if event.get("type") == "human_reviewed":
-                    reviews[event["event_id"]] = event
-                claim = event.get("claim")
-                if claim:
-                    subjects[claim["id"]] = claim
-                row = review_policy.semantic_event(event, raw["principal_id"])
-                if row:
-                    if event.get("review_ref") in reviews:
-                        row["detail"] = reviews[event["review_ref"]].get("note") or row["detail"]
-                    if event.get("type") == "evidence_bound":
-                        evidence = event.get("evidence", {})
-                        row["detail"] = evidence.get("retrieval_receipt", {}).get("source", {}).get("uri") or evidence.get("path") or row["subject_id"]
-                    rows.append(row)
+                for item in kernel_ops.logical_events([event]):
+                    if item.get("type") == "governance_transaction":
+                        continue
+                    if item.get("type") == "human_reviewed": reviews[item["event_id"]] = item
+                    claim = item.get("claim")
+                    if claim: subjects[claim["id"]] = claim
+                    row = review_policy.semantic_event(item, raw["principal_id"])
+                    if row:
+                        if item.get("review_ref") in reviews:
+                            row["detail"] = reviews[item["review_ref"]].get("note") or row["detail"]
+                        if item.get("type") == "evidence_bound":
+                            evidence = item.get("evidence", {})
+                            row["detail"] = evidence.get("retrieval_receipt", {}).get("source", {}).get("uri") or evidence.get("path") or row["subject_id"]
+                        rows.append(row)
             for row in rows:
                 subject = subjects.get(row["subject_id"], {})
                 row["statement"] = subject.get("statement", "")
@@ -661,6 +684,36 @@ class HostedControlPlane:
                 rows.append({"id": f"policy-{raw['version']}", "occurred_at": raw["created_at"],
                              "actor": raw["actor"], "action": "Updated review policy", "outcome": "recorded",
                              "detail": f"Version {raw['version']}", "kind": "policy_updated"})
+            # A completed job is represented by its durable judge_recommended event.
+            # Terminal jobs without that event need their own semantic activity row:
+            # otherwise an owner sees checks pass and then no explanation for a
+            # still-unreviewed claim.
+            job_labels = {
+                "failed": "Model review failed",
+                "blocked": "Model review blocked",
+                "interrupted": "Model review interrupted",
+                "skipped": "Model review skipped",
+            }
+            jobs = connection.execute(
+                "SELECT job_id, claim_id, requested_by, state, updated_at, detail "
+                "FROM hosted_judge_jobs WHERE workspace_id=? "
+                "AND state IN ('failed', 'blocked', 'interrupted', 'skipped')",
+                (owner.workspace_id,)).fetchall()
+            for job in jobs:
+                claim = subjects.get(job["claim_id"], {})
+                rows.append({
+                    "id": f"judge-job-{job['job_id']}",
+                    "occurred_at": job["updated_at"],
+                    "actor": "system:auto-review",
+                    "initiator": job["requested_by"],
+                    "action": job_labels[job["state"]],
+                    "outcome": job["state"],
+                    "subject_id": job["claim_id"],
+                    "statement": claim.get("statement", ""),
+                    "scope": claim.get("scope", ""),
+                    "detail": job["detail"],
+                    "kind": f"lm_review_{job['state']}",
+                })
             return sorted(rows, key=lambda row: (row["occurred_at"], row["id"]), reverse=True)[:limit]
         finally:
             connection.close()
@@ -714,8 +767,9 @@ class HostedControlPlane:
                                 recommendation.get("policy_digest") == record["policy"]["digest"]):
                             kernel_ops.judge_v2(job["claim_id"])
                         state, detail = "completed", "LM advice recorded."
-            except Exception:
+            except Exception as exc:
                 # Do not persist provider responses or executable diagnostics in owner-facing data.
+                detail = _judge_job_failure_detail(exc)
                 try:
                     store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
                     with using_event_store(store), kernel_ops.using_policy(self._policy(job["workspace_id"])["policy"]):
@@ -728,9 +782,12 @@ class HostedControlPlane:
                     pass
             with self._db() as connection:
                 connection.execute("UPDATE hosted_judge_jobs SET state=?, detail=?, updated_at=? WHERE job_id=?", (state, detail, _now(), job["job_id"]))
+            self._audit_judge_job(job, state)
 
     def resume_judge_jobs(self):
         with self._db() as connection:
+            interrupted = connection.execute(
+                "SELECT * FROM hosted_judge_jobs WHERE state='running'").fetchall()
             connection.execute("UPDATE hosted_judge_jobs SET state='interrupted', detail='Server restarted during LM review. Retry explicitly.', updated_at=? WHERE state='running'", (_now(),))
             # Repair a crash between committing a new proposal and enqueueing its review.
             workspaces = connection.execute("SELECT workspace_id FROM hosted_workspaces").fetchall()
@@ -744,7 +801,30 @@ class HostedControlPlane:
                         claim = event["claim"]
                         job_id = kernel_ops.digest([workspace["workspace_id"], claim["id"], claim["digest"], record["policy"]["digest"]])
                         connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')", (job_id, workspace["workspace_id"], claim["id"], record["policy"]["digest"], raw["principal_id"], _now(), _now()))
+        for job in interrupted:
+            self._audit_judge_job(job, "interrupted")
         threading.Thread(target=self.run_judge_jobs, daemon=True).start()
+
+    def _audit_judge_job(self, job, state):
+        """Record automatic review execution without storing provider diagnostics."""
+        outcome = {
+            "completed": "ok",
+            "failed": "judge_failed",
+            "blocked": "judge_blocked",
+            "interrupted": "judge_interrupted",
+            "skipped": "judge_skipped",
+        }.get(state, "judge_failed")
+        connection = self._connect()
+        try:
+            connection.execute(
+                "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
+                "credential_id, operation, request_id, idempotency_key, outcome, event_head) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (_now(), job["workspace_id"], "system:auto-review", None,
+                 "claim.judge.auto", job["job_id"], job["job_id"], outcome, None))
+            connection.commit()
+        finally:
+            connection.close()
 
     def revoke_credential(self, owner_token: str | PrincipalContext,
                           credential_id: str) -> None:

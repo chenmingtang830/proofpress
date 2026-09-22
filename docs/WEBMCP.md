@@ -15,10 +15,12 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 
 [//]: # (ob:6c1ab1db)
 - `get_workspace_summary()` — orient the agent to queue, state counts, and current knowledge
+- `get_claim_graph(scope?)` — read the bounded evidence, claim, lifecycle, and relation graph
 - `list_review_queue(state?, scope?, limit?)` — enumerate the bounded work requiring attention
 - `get_current_context(scope, task?)` — read eligible governed claims
 - `get_review_state(claim_id)` — inspect checks, policy/LM recommendation, human-decision state
-- `get_lineage(claim_id)` — evidence, history, whether the ledger currently exposes the claim
+- `get_lineage(claim_id)` — evidence, relations, lifecycle impact, history, and current exposure state
+- `open_claim_lifecycle(claim_id, action)` — navigate the owner to withdrawal or reassessment without recording a decision
 - `prepare_review_response(claim_id, response)` — prepare a bounded revision handoff for the connected agent MCP/CLI
 - `run_deterministic_checks(claim_id)` — execute non-authorizing integrity and prerequisite checks
 - `open_review(claim_id, full?)` — route the owner to the right decision surface
@@ -32,7 +34,7 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 ## What agents may not do
 
 [//]: # (ob:2123724d)
-`approve` / `admit` is not registered. Human Approval stays on the owner decision bar.
+`approve` / `admit` / `withdraw` / `reassess` are not registered as decision tools. Human authority stays in the owner UI; WebMCP may only inspect or navigate to those surfaces.
 
 [//]: # (ob:86eecbb5)
 ## How to exercise it

@@ -182,21 +182,30 @@ class LocalMVPTests(unittest.TestCase):
                          "upper": confidence["interval"]["upper"],
                          "level": confidence["interval"]["level"]},
             "method": {"name": confidence["method"]["name"],
-                       "resamples": confidence["method"]["resamples"]},
+                       "algorithm": confidence["method"]["algorithm"],
+                       "resamples": confidence["method"]["resamples"],
+                       "seed": confidence["method"]["seed"]},
             "sample_size": confidence["sample_size"],
             "evidence_digests": confidence["evidence_digests"],
+            "contract": confidence["contract"],
+            "statistic": confidence["statistic"],
+            "unit": confidence["unit"],
+            "direction": confidence["direction"],
+            "estimate": confidence["estimate"],
+            "evidence": confidence["evidence"],
         })
-        # The sixteen keys the adapter does not read are dropped from the projection, not carried
+        # Producer-specific keys remain dropped from the projection, not carried
         # through. Scoped to the confidence block: the decision's rationale is prose the adapter
         # keeps on purpose, and it mentions the verdict in words.
         projected = decision["attributes"]["event"]["confidence"]
         self.assertEqual(set(projected),
-                         {"interval", "method", "sample_size", "evidence_digests"})
-        for dropped in ("min_effect", "verdict", "estimate", "profile_sha256", "sizing",
-                        "contract", "statistic", "unit", "direction", "evidence", "holdout"):
+                         {"interval", "method", "sample_size", "evidence_digests",
+                          "contract", "statistic", "unit", "direction", "estimate",
+                          "evidence"})
+        for dropped in ("min_effect", "verdict", "profile_sha256", "sizing", "holdout",
+                        "confirm_policy", "candidate_method_tree_sha256", "look_index",
+                        "parent_method_tree_sha256", "suite"):
             self.assertNotIn(dropped, projected)
-        self.assertNotIn("algorithm", projected["method"])
-        self.assertNotIn("seed", projected["method"])
         self.assertTrue(kernel_events.verify_history_envelopes(
             kernel_events.history_envelopes(projection["events"]))["ok"])
         self.assertEqual(projection["claims"], {})
@@ -246,17 +255,26 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(decision["source_schema"], "0.5.1")
         self.assertEqual(decision["attributes"]["event"]["confidence"], {
             "interval": {"lower": 41.25, "upper": 583.75, "level": 0.9},
-            "method": {"name": "paired_percentile_bootstrap", "resamples": 5000},
+            "method": {"name": "paired_percentile_bootstrap",
+                       "algorithm": "rsi-exam-gate/percentile-bootstrap/1",
+                       "resamples": 5000, "seed": 20260902},
             "sample_size": 8,
             "evidence_digests": {
                 "parent-results": "sha256:" + "a" * 64,
                 "candidate-results": "sha256:" + "b" * 64,
             },
+            "contract": "rsi-exam-decision-log/v1",
+            "statistic": "mean_paired_delta",
+            "unit": "points",
+            "direction": "higher",
+            "estimate": 284.5,
+            "evidence": [
+                {"role": "parent-results", "locator": "methods/results/v2/visible.json",
+                 "sha256": "a" * 64},
+                {"role": "candidate-results", "locator": "methods/results/v3/visible.json",
+                 "sha256": "b" * 64},
+            ],
         })
-        rendered = json.dumps(projection["sources"])
-        for dropped in ("mean_paired_delta", "rsi-exam-gate/percentile-bootstrap/1",
-                        "methods/results/v3/visible.json", "20260902"):
-            self.assertNotIn(dropped, rendered)
         self.assertTrue(kernel_events.verify_history_envelopes(
             kernel_events.history_envelopes(projection["events"]))["ok"])
         self.assertEqual(projection["claims"], {})
@@ -266,6 +284,14 @@ class LocalMVPTests(unittest.TestCase):
         """Accepting a wire version does not widen the profile. TRACE 0.5.1 makes evidence_digests
         optional and this adapter requires it, and a malformed consumed field is still refused
         under 0.5.1 rather than waved through by the version gate."""
+        nullable_method = json.loads(TRACE_V051_FIXTURE.read_text())
+        method = nullable_method["events"][0]["decision"]["confidence"]["method"]
+        method.update({"algorithm": None, "resamples": None, "seed": None})
+        path = self.repo / "nullable-method-fields.trace.json"
+        path.write_text(json.dumps(nullable_method))
+        imported = self.data("evidence", "import", str(path))
+        self.assertEqual(len(imported["imported_evidence"]), 1)
+
         for label, mutate in (
             ("omitted", lambda c: c.pop("evidence_digests")),
             ("null", lambda c: c.__setitem__("evidence_digests", None)),
@@ -279,6 +305,23 @@ class LocalMVPTests(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0, label)
             self.assertIn("evidence_digests must be a non-empty object", result.stderr)
 
+        for field in ("statistic", "direction", "estimate"):
+            payload = json.loads(TRACE_V051_FIXTURE.read_text())
+            payload["events"][0]["decision"]["confidence"].pop(field)
+            path = self.repo / f"missing-{field}.trace.json"
+            path.write_text(json.dumps(payload))
+            result = self.cli("evidence", "import", str(path), check=False)
+            self.assertNotEqual(result.returncode, 0, field)
+            self.assertIn(field + " required for TRACE 0.5.1", result.stderr)
+
+        payload = json.loads(TRACE_V051_FIXTURE.read_text())
+        payload["events"][0]["decision"]["confidence"]["interval"].pop("level")
+        path = self.repo / "missing-level.trace.json"
+        path.write_text(json.dumps(payload))
+        result = self.cli("evidence", "import", str(path), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("interval.level is required for TRACE 0.5.1", result.stderr)
+
         payload = json.loads(TRACE_V051_FIXTURE.read_text())
         payload["events"][0]["decision"]["confidence"]["interval"]["lower"] = 584.0
         path = self.repo / "malformed-051.trace.json"
@@ -286,6 +329,77 @@ class LocalMVPTests(unittest.TestCase):
         result = self.cli("evidence", "import", str(path), check=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("interval.lower must not exceed interval.upper", result.stderr)
+
+    def test_trace_051_confidence_cross_validates_evidence_refs(self):
+        cases = (
+            ("role", lambda c: c["evidence"][0].__setitem__("role", "other"),
+             "evidence roles and sha256 values must match evidence_digests"),
+            ("digest", lambda c: c["evidence"][0].__setitem__("sha256", "c" * 64),
+             "evidence roles and sha256 values must match evidence_digests"),
+            ("duplicate", lambda c: c["evidence"][1].__setitem__(
+                "role", c["evidence"][0]["role"]), "evidence role is duplicated"),
+        )
+        for label, mutate, message in cases:
+            payload = json.loads(TRACE_V051_FIXTURE.read_text())
+            mutate(payload["events"][0]["decision"]["confidence"])
+            path = self.repo / f"mismatched-{label}.trace.json"
+            path.write_text(json.dumps(payload))
+            result = self.cli("evidence", "import", str(path), check=False)
+            self.assertNotEqual(result.returncode, 0, label)
+            self.assertIn(message, result.stderr)
+
+    def test_trace_051_confidence_accepts_safe_uri_and_rejects_local_or_traversal_locators(self):
+        safe = json.loads(TRACE_V051_FIXTURE.read_text())
+        safe["events"][0]["decision"]["confidence"]["evidence"][0]["locator"] = (
+            "https://example.test/results/parent.json?monkey=1&sessionidentifier=public"
+            "&authenticationMode=none#view=summary")
+        safe["events"][0]["decision"]["confidence"]["evidence"][1]["locator"] = (
+            "s3://customer-controlled/results/candidate.json")
+        safe_path = self.repo / "safe-uri.trace.json"
+        safe_path.write_text(json.dumps(safe))
+        imported = self.data("evidence", "import", str(safe_path))
+        self.assertEqual(len(imported["imported_evidence"]), 1)
+
+        for label, locator, message in (
+            ("posix-absolute", "/Users/producer/private.json", "absolute local path"),
+            ("windows-absolute", r"C:\\Users\\producer\\private.json", "Windows drive path"),
+            ("windows-drive-relative", r"C:private\\results.json", "Windows drive path"),
+            ("file-uri", "file:///Users/producer/private.json", "file URI"),
+            ("traversal", "../private/results.json", "safe relative path or URI"),
+            ("windows-traversal", r"..\\private\\results.json", "safe relative path or URI"),
+            ("credentials", "https://token@example.test/results.json", "must not contain credentials"),
+            ("credential-query", "https://example.test/results.json?access_token=secret",
+             "credential query parameters"),
+            ("camel-credential-query", "https://example.test/results.json?authToken=secret",
+             "credential query parameters"),
+            ("compact-credential-query", "https://example.test/results.json?sessionid=secret",
+             "credential query parameters"),
+            ("credential-fragment", "https://example.test/#/callback?code=secret",
+             "credential fragments"),
+            ("compact-credential-fragment", "https://example.test/#/callback?sessionid=secret",
+             "credential fragments"),
+        ):
+            payload = json.loads(TRACE_V051_FIXTURE.read_text())
+            payload["events"][0]["decision"]["confidence"]["evidence"][0]["locator"] = locator
+            path = self.repo / f"unsafe-{label}.trace.json"
+            path.write_text(json.dumps(payload))
+            result = self.cli("evidence", "import", str(path), check=False)
+            self.assertNotEqual(result.returncode, 0, label)
+            self.assertIn(message, result.stderr)
+
+    def test_trace_050_confidence_keeps_the_legacy_minimal_projection(self):
+        payload = json.loads(TRACE_V051_FIXTURE.read_text())
+        payload["trace_version"] = "0.5.0"
+        confidence = payload["events"][0]["decision"]["confidence"]
+        for field in ("statistic", "direction", "estimate", "contract", "unit", "evidence"):
+            confidence.pop(field, None)
+        confidence["interval"].pop("level")
+        confidence["method"].pop("algorithm")
+        confidence["method"].pop("seed")
+        path = self.repo / "legacy-050-confidence.trace.json"
+        path.write_text(json.dumps(payload))
+        imported = self.data("evidence", "import", str(path))
+        self.assertEqual(len(imported["imported_evidence"]), 1)
 
     def test_trace_allowlist_gate_accepts_every_registered_version(self):
         """Gate coverage, not release conformance: it restamps one document, so it proves

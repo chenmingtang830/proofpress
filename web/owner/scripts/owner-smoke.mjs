@@ -68,7 +68,7 @@ try {
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-columns-1536.png`});
   }
   const webMcpNames = await page.evaluate(() => window.__proofpressWebMcpTools.map(tool => tool.name));
-  for (const name of ['get_workspace_summary','list_review_queue','get_review_state','get_lineage','run_deterministic_checks','open_review','get_review_policy','prepare_review_policy_change','get_agent_access','prepare_agent_credential_issue']) assert.ok(webMcpNames.includes(name),`Missing WebMCP tool ${name}`);
+  for (const name of ['get_workspace_summary','get_claim_graph','list_review_queue','get_review_state','get_lineage','open_claim_lifecycle','run_deterministic_checks','open_review','get_review_policy','prepare_review_policy_change','get_agent_access','prepare_agent_credential_issue']) assert.ok(webMcpNames.includes(name),`Missing WebMCP tool ${name}`);
   assert.equal(webMcpNames.some(name => /approve|admit/.test(name)),false,'Human Approval must not be exposed to WebMCP');
   const workspaceToolResult = await page.evaluate(async () => {
     const tool = window.__proofpressWebMcpTools.find(candidate => candidate.name === 'get_workspace_summary');

@@ -5,9 +5,9 @@ from __future__ import annotations
 import hashlib, json, math, os, re, secrets, subprocess, sys, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, parse_qsl, unquote, urlparse, urlsplit
 from datetime import datetime, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from contextlib import contextmanager
 from contextvars import ContextVar
 
@@ -32,6 +32,19 @@ TRACE_SUPPORTED_VERSIONS = {
               "sha256": "sha256:ce7b5bf03b31ab669d12018b0d64fa2421d03b7e7ab2da156f98581e4d62c544"},
 }
 TRACE_DIGEST_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
+TRACE_BARE_SHA256_RE = re.compile(r"[0-9a-f]{64}\Z")
+TRACE_CONTROL_RE = re.compile(r"[\x00-\x1f\x7f-\x9f\u2028\u2029]")
+TRACE_SECRET_KEY_RE = re.compile(
+    r"(?:^|[_-])(api[_-]?key|key|access[_-]?token|refresh[_-]?token|token|"
+    r"secret|client[_-]?secret|private[_-]?key|password|credential|"
+    r"authorization|auth|signature|sig|signed|code|session)(?:$|[_-])",
+    re.IGNORECASE)
+TRACE_COMPACT_SECRET_KEYS = frozenset({
+    "apikey", "key", "accesstoken", "refreshtoken", "token", "secret",
+    "clientsecret", "privatekey", "password", "credential", "authorization",
+    "auth", "authtoken", "signature", "sig", "signed", "code", "session",
+    "sessionid",
+})
 
 def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
 def canon(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
@@ -83,13 +96,57 @@ def _trace_sha256(value, field):
     return value
 
 
-def trace_decision_confidence(decision):
+def _trace_text(value, field):
+    if not isinstance(value, str) or not value or TRACE_CONTROL_RE.search(value):
+        raise ValueError(f"TRACE decision confidence {field} must be a non-empty string without control characters")
+    return value
+
+
+def _trace_locator(value, field):
+    """Keep portable relative paths and non-file URIs, never producer-local paths."""
+    value = _trace_text(value, field)
+    windows_path = PureWindowsPath(value)
+    if windows_path.drive:
+        raise ValueError(f"TRACE decision confidence {field} must not be a Windows drive path")
+    if Path(value).is_absolute():
+        raise ValueError(f"TRACE decision confidence {field} must not be an absolute local path")
+    parsed = urlsplit(value)
+    if parsed.scheme:
+        if parsed.scheme.lower() == "file":
+            raise ValueError(f"TRACE decision confidence {field} must not be a file URI")
+        if parsed.username is not None or parsed.password is not None:
+            raise ValueError(f"TRACE decision confidence {field} URI must not contain credentials")
+    elif (parsed.netloc
+          or any(part == ".." for part in PurePosixPath(parsed.path).parts)
+          or any(part == ".." for part in PureWindowsPath(parsed.path).parts)):
+        raise ValueError(f"TRACE decision confidence {field} must be a safe relative path or URI")
+    for key, _ in parse_qsl(parsed.query, keep_blank_values=True):
+        if _trace_secret_parameter(key):
+            raise ValueError(f"TRACE decision confidence {field} must not contain credential query parameters")
+    fragment = unquote(parsed.fragment)
+    for candidate in (fragment, fragment.rsplit("?", 1)[-1] if "?" in fragment else ""):
+        for key, _ in parse_qsl(candidate, keep_blank_values=True):
+            if _trace_secret_parameter(key):
+                raise ValueError(f"TRACE decision confidence {field} must not contain credential fragments")
+    return value
+
+
+def _trace_secret_parameter(value):
+    """Recognize separated, camelCase, and compact credential parameter aliases."""
+    separated = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "_", value)
+    compact = re.sub(r"[^a-z0-9]", "", value.lower())
+    return bool(TRACE_SECRET_KEY_RE.search(separated)
+                or compact in TRACE_COMPACT_SECRET_KEYS)
+
+
+def trace_decision_confidence(decision, trace_version=None):
     """Project the bounded TRACE v0.5 decision-confidence extension.
 
     TRACE v0.5 deliberately permits additive decision fields. This adapter only
-    preserves the numeric interval, method metadata, sample size, and content
-    digests; it does not evaluate the result files or turn the disposition into
-    a Proofpress admission decision.
+    preserves the standard measurement fields and bounded evidence references;
+    it does not evaluate result files or turn the disposition into a Proofpress
+    admission decision. TRACE 0.5.1 fields are validated as that release types
+    them, while the older 0.5.0 projection remains backward-compatible.
     """
     if "confidence" not in decision or decision["confidence"] is None:
         return None
@@ -104,20 +161,33 @@ def trace_decision_confidence(decision):
     if lower > upper:
         raise ValueError("TRACE decision confidence interval.lower must not exceed interval.upper")
     projected_interval = {"lower": lower, "upper": upper}
+    if trace_version == "0.5.1" and "level" not in interval:
+        raise ValueError("TRACE decision confidence interval.level is required for TRACE 0.5.1")
     if "level" in interval:
         level = _trace_number(interval["level"], "interval.level")
         if not 0 < level < 1:
             raise ValueError("TRACE decision confidence interval.level must be between 0 and 1")
         projected_interval["level"] = level
     method = raw.get("method")
-    if not isinstance(method, dict) or not isinstance(method.get("name"), str) or not method["name"].strip():
+    if not isinstance(method, dict):
+        raise ValueError("TRACE decision confidence method must be an object")
+    try:
+        method_name = _trace_text(method.get("name"), "method.name")
+    except ValueError:
         raise ValueError("TRACE decision confidence method.name must be a non-empty string")
-    projected_method = {"name": method["name"]}
-    if "resamples" in method:
+    projected_method = {"name": method_name}
+    if method.get("algorithm") is not None:
+        projected_method["algorithm"] = _trace_text(method["algorithm"], "method.algorithm")
+    if method.get("resamples") is not None:
         resamples = method["resamples"]
         if isinstance(resamples, bool) or not isinstance(resamples, int) or resamples < 1:
             raise ValueError("TRACE decision confidence method.resamples must be a positive integer")
         projected_method["resamples"] = resamples
+    if method.get("seed") is not None:
+        seed = method["seed"]
+        if isinstance(seed, bool) or not isinstance(seed, int):
+            raise ValueError("TRACE decision confidence method.seed must be an integer")
+        projected_method["seed"] = seed
     sample_size = raw.get("sample_size")
     if isinstance(sample_size, bool) or not isinstance(sample_size, int) or sample_size < 1:
         raise ValueError("TRACE decision confidence sample_size must be a positive integer")
@@ -126,14 +196,55 @@ def trace_decision_confidence(decision):
         raise ValueError("TRACE decision confidence evidence_digests must be a non-empty object")
     projected_digests = {}
     for label, value in evidence_digests.items():
-        if not isinstance(label, str) or not label:
+        try:
+            label = _trace_text(label, "evidence_digests key")
+        except ValueError:
             raise ValueError("TRACE decision confidence evidence_digests keys must be non-empty strings")
         projected_digests[label] = _trace_sha256(value, f"evidence_digests.{label}")
-    return {"interval": projected_interval, "method": projected_method,
-            "sample_size": sample_size, "evidence_digests": projected_digests}
+    projected = {"interval": projected_interval, "method": projected_method,
+                 "sample_size": sample_size, "evidence_digests": projected_digests}
+    required_measurement_fields = ("statistic", "direction", "estimate")
+    if trace_version == "0.5.1":
+        missing = [field for field in required_measurement_fields if field not in raw]
+        if missing:
+            raise ValueError("TRACE decision confidence " + ", ".join(missing)
+                             + " required for TRACE 0.5.1")
+    if "statistic" in raw:
+        projected["statistic"] = _trace_text(raw["statistic"], "statistic")
+    if "direction" in raw:
+        if raw["direction"] not in {"higher", "lower"}:
+            raise ValueError("TRACE decision confidence direction must be higher or lower")
+        projected["direction"] = raw["direction"]
+    if "estimate" in raw:
+        projected["estimate"] = _trace_number(raw["estimate"], "estimate")
+    for field in ("unit", "contract"):
+        if raw.get(field) is not None:
+            projected[field] = _trace_text(raw[field], field)
+    if "evidence" in raw:
+        refs = raw["evidence"]
+        if not isinstance(refs, list):
+            raise ValueError("TRACE decision confidence evidence must be an array")
+        projected_refs = []
+        by_role = {}
+        for index, ref in enumerate(refs):
+            if not isinstance(ref, dict):
+                raise ValueError(f"TRACE decision confidence evidence[{index}] must be an object")
+            role = _trace_text(ref.get("role"), f"evidence[{index}].role")
+            if role in by_role:
+                raise ValueError(f"TRACE decision confidence evidence role is duplicated: {role}")
+            locator = _trace_locator(ref.get("locator"), f"evidence[{index}].locator")
+            raw_digest = ref.get("sha256")
+            if not isinstance(raw_digest, str) or not TRACE_BARE_SHA256_RE.fullmatch(raw_digest):
+                raise ValueError(f"TRACE decision confidence evidence[{index}].sha256 must be 64 lowercase hex characters")
+            by_role[role] = "sha256:" + raw_digest
+            projected_refs.append({"role": role, "locator": locator, "sha256": raw_digest})
+        if by_role != projected_digests:
+            raise ValueError("TRACE decision confidence evidence roles and sha256 values must match evidence_digests")
+        projected["evidence"] = projected_refs
+    return projected
 
 
-def trace_payload(event):
+def trace_payload(event, trace_version=None):
     """Project reviewable TRACE decision provenance, excluding raw tool I/O."""
     kind=event["type"]
     if kind=="tool_call":
@@ -143,7 +254,7 @@ def trace_payload(event):
     if kind=="decision":
         row=event.get("decision") or {}
         projected = {"description":row.get("description"),"rationale":row.get("rationale"),"disposition":row.get("disposition"),"suggestion_type":row.get("suggestion_type"),"proposed_by":trace_actor(row.get("proposed_by")),"resolved_by":trace_actor(row.get("resolved_by")),"revision_note":row.get("revision_note"),"revises":trace_relation(event["session_id"],row["revises_event_id"]) if row.get("revises_event_id") else None,"tags":row.get("tags") or [],"warnings":row.get("warnings") or []}
-        if confidence := trace_decision_confidence(row):
+        if confidence := trace_decision_confidence(row, trace_version):
             projected["confidence"] = confidence
         return projected
     if kind=="annotation":
@@ -161,7 +272,7 @@ def trace_source(session,event):
     session_id=str(session["id"]); event_id=str(event.get("id") or "")
     if not event_id: raise ValueError("TRACE event has no id")
     metadata=session.get("metadata") or {}
-    record={"id":ident({"protocol":"TRACE","session":session_id,"event":event_id},"src_"),"kind":"source_event","source_protocol":"TRACE","source_schema":session.get("trace_version"),"source_ref":trace_relation(session_id,event_id),"trace_id":session_id,"span_id":event_id,"name":"trace."+event["type"],"timestamp":event.get("timestamp"),"status":((event.get("tool_call") or {}).get("status") if event["type"]=="tool_call" else None),"attributes":{"project":metadata.get("project"),"project_key":metadata.get("project_key"),"event_type":event["type"],"actor":trace_actor(event.get("actor")),"event":trace_payload(event)}}
+    record={"id":ident({"protocol":"TRACE","session":session_id,"event":event_id},"src_"),"kind":"source_event","source_protocol":"TRACE","source_schema":session.get("trace_version"),"source_ref":trace_relation(session_id,event_id),"trace_id":session_id,"span_id":event_id,"name":"trace."+event["type"],"timestamp":event.get("timestamp"),"status":((event.get("tool_call") or {}).get("status") if event["type"]=="tool_call" else None),"attributes":{"project":metadata.get("project"),"project_key":metadata.get("project_key"),"event_type":event["type"],"actor":trace_actor(event.get("actor")),"event":trace_payload(event, session.get("trace_version"))}}
     record["record_hash"]=digest(record); return record
 def evidence(src):
     item={"id":ident({"source":src["id"],"hash":src["record_hash"]},"evd_"),"kind":"evidence","source_ref":src["id"],"source_digest":src["record_hash"],"observation":{"name":src["name"],"timestamp":src["timestamp"],"status":src["status"],"attributes":src["attributes"]}}
@@ -367,6 +478,16 @@ LOCAL_OPERATION_SPECS = {
         "optional": ("note",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
+    "claim.withdraw": {
+        "required": ("claim_id", "reviewer", "note", "request_id", "expected_head"),
+        "optional": (), "mutates": True,
+        "replay_semantics": "parameter_request_id",
+    },
+    "claim.reassess": {
+        "required": ("claim_id", "decision", "reviewer", "note", "request_id", "expected_head"),
+        "optional": ("retire_relation_ids",), "mutates": True,
+        "replay_semantics": "parameter_request_id",
+    },
     "relation.propose": {
         "required": ("source_id", "target_id", "relation_type", "proposer"),
         "optional": ("confidence", "qualifiers", "actor"), "mutates": True,
@@ -482,6 +603,7 @@ DEFAULT_POLICY_V2 = {
 RELATION_TYPES = {"supports", "qualifies", "contradicts", "supersedes",
                   "depends_on", "same_as"}
 SYMMETRIC_RELATIONS = {"contradicts", "same_as"}
+RELATION_CITATION_SCHEMA = "proofpress/relation-citation/v1"
 LEGAL_PROFILE_SCHEMA = "proofpress/profile/legal/v1"
 
 
@@ -514,6 +636,16 @@ LEGACY_EVENT_TYPES = {"conclusion_proposed": "claim_proposed",
 
 def _canonical_event_type(event):
     return LEGACY_EVENT_TYPES.get(event.get("type"), event.get("type"))
+
+
+def logical_events(events):
+    """Yield replayable logical events, including atomic transaction children."""
+    for event in events:
+        yield event
+        if event.get("type") == "governance_transaction":
+            for child in event.get("events", []):
+                yield {**child, "commit": event.get("commit"),
+                       "transaction_ref": event.get("event_id")}
 
 
 def append_v2(event, existing_rows=None):
@@ -566,7 +698,9 @@ def _idempotent_review(projection, subject, request_id, review_key, final_keys):
     return {"ok": True, "review": review, "result": final, "idempotent": True}
 
 
-def _require_expected_head(expected_head):
+def _require_expected_head(expected_head, *, required=False):
+    if required and (not isinstance(expected_head, str) or not expected_head):
+        raise ValueError("expected ledger head is required")
     if expected_head is not None and expected_head != v2_head():
         raise ValueError("STALE_LEDGER_HEAD")
 
@@ -691,15 +825,15 @@ def v2_projection(events=None):
     result = {
         "sources": {}, "evidence": {}, "claims": {}, "evaluations": {},
         "recommendations": {}, "reviews": {}, "admissions": {},
-        "rejections": {}, "revision_requests": {}, "supersessions": {}, "relations": {},
+        "rejections": {}, "revision_requests": {}, "supersessions": {}, "withdrawals": {}, "relations": {},
         "relation_evaluations": {}, "relation_reviews": {},
         "relation_recommendations": {}, "relation_admissions": {},
-        "relation_rejections": {}, "relation_revision_requests": {},
+        "relation_rejections": {}, "relation_revision_requests": {}, "relation_retirements": {},
         "conflict_resolutions": {}, "events": events,
         "runs": {}, "context_receipts": {}, "reliances": {},
         "outputs": {}, "observations": {},
     }
-    for event in events:
+    def project(event):
         kind = event.get("type")
         subject = event.get("subject_ref")
         if kind == "source_recorded": result["sources"][subject] = event["record"]
@@ -707,11 +841,16 @@ def v2_projection(events=None):
         elif kind in {"claim_proposed", "conclusion_proposed"}: result["claims"][subject] = event.get("claim") or event.get("conclusion")
         elif kind == "policy_evaluated": result["evaluations"][subject] = event
         elif kind == "judge_recommended": result["recommendations"][subject] = event
-        elif kind == "human_reviewed": result["reviews"][subject] = event
-        elif kind in {"claim_admitted", "conclusion_admitted"}: result["admissions"][subject] = event
+        elif kind == "human_reviewed":
+            result["reviews"][subject] = event
+            result.setdefault("review_history", {}).setdefault(subject, []).append(event)
+        elif kind in {"claim_admitted", "conclusion_admitted"}:
+            result["admissions"][subject] = event
+            result.setdefault("admission_history", {}).setdefault(subject, []).append(event)
         elif kind in {"claim_rejected", "conclusion_rejected"}: result["rejections"][subject] = event
         elif kind in {"claim_revision_requested", "conclusion_revision_requested"}: result["revision_requests"][subject] = event
         elif kind in {"claim_superseded", "conclusion_superseded"}: result["supersessions"][subject] = event
+        elif kind == "claim_withdrawn": result["withdrawals"][subject] = event
         elif kind == "relation_proposed": result["relations"][subject] = event["relation"]
         elif kind == "relation_evaluated": result["relation_evaluations"][subject] = event
         elif kind == "relation_judge_recommended": result["relation_recommendations"][subject] = event
@@ -719,6 +858,7 @@ def v2_projection(events=None):
         elif kind == "relation_admitted": result["relation_admissions"][subject] = event
         elif kind == "relation_rejected": result["relation_rejections"][subject] = event
         elif kind == "relation_revision_requested": result["relation_revision_requests"][subject] = event
+        elif kind == "relation_retired": result["relation_retirements"][subject] = event
         elif kind == "contradiction_resolved": result["conflict_resolutions"][subject] = event
         elif kind == "run_started": result["runs"][subject] = dict(event["run"])
         elif kind == "run_finished":
@@ -731,6 +871,8 @@ def v2_projection(events=None):
         elif kind == "reliance_recorded": result["reliances"][subject] = event["reliance"]
         elif kind == "output_recorded": result["outputs"][subject] = event["output"]
         elif kind == "observation_recorded": result["observations"][subject] = event["observation"]
+    for event in logical_events(events):
+        project(event)
     return result
 
 
@@ -778,10 +920,11 @@ def validate_profile(profile, qualifiers):
     return {**qualifiers, "profile": LEGAL_PROFILE_SCHEMA}
 
 
-def v2_state(projection, claim, policy=None):
+def _base_v2_state(projection, claim, policy=None):
     cid = claim["id"]
     policy = policy or load_v2_policy()
     if cid in projection["supersessions"]: return "superseded"
+    if cid in projection["withdrawals"]: return "withdrawn"
     if claim.get("expires_at") and claim["expires_at"] <= now(): return "expired"
     if cid in projection["rejections"]: return "rejected"
     if cid in projection["revision_requests"]: return "needs_revision"
@@ -792,10 +935,108 @@ def v2_state(projection, claim, policy=None):
     return "admitted"
 
 
-def review_state_v2(projection, claim, policy=None):
+def _event_time(event):
+    return (event or {}).get("created_at", "")
+
+
+def _governed_dependency_relations(projection):
+    """Approved dependency edges remain governing until explicitly retired."""
+    return [row for row in projection.get("relations", {}).values()
+            if row.get("type") == "depends_on"
+            and row.get("id") in projection.get("relation_admissions", {})
+            and row.get("id") not in projection.get("relation_retirements", {})]
+
+
+def dependency_impacts(projection, policy=None):
+    """Derive fail-closed dependency invalidation from admitted, non-retired edges.
+
+    A root invalid edge is discovered once, then propagated through the reverse
+    dependency graph with one representative path per affected claim. This keeps
+    the projection polynomial in claims and edges while preserving enough path
+    context for Owner review.
+    """
+    policy = policy or load_v2_policy()
+    dependencies = _governed_dependency_relations(projection)
+    reverse = {cid: set() for cid in projection.get("claims", {})}
+    for relation in dependencies:
+        reverse.setdefault(relation["from"], set())
+        reverse.setdefault(relation["to"], set()).add(relation["from"])
+
+    def edge_problem(relation):
+        cid = relation["from"]
+        upstream_id = relation["to"]
+        upstream = projection["claims"].get(upstream_id)
+        current_relation_state = relation_state(projection, relation)
+        upstream_state = (_base_v2_state(projection, upstream, policy)
+                          if upstream else "missing")
+        admission = projection["admissions"].get(cid)
+        relation_admission = projection["relation_admissions"].get(relation["id"])
+        upstream_admission = projection["admissions"].get(upstream_id)
+        freshness = max(_event_time(relation_admission), _event_time(upstream_admission),
+                        _event_time(projection["withdrawals"].get(upstream_id)),
+                        _event_time(projection["supersessions"].get(upstream_id)))
+        if current_relation_state != "admitted":
+            return {"reason": "relation_" + current_relation_state,
+                    "upstream_id": upstream_id, "relation_id": relation["id"]}
+        if upstream_state != "admitted":
+            return {"reason": upstream_state, "upstream_id": upstream_id,
+                    "relation_id": relation["id"]}
+        if admission and freshness > _event_time(admission):
+            return {"reason": "dependency_changed", "upstream_id": upstream_id,
+                    "relation_id": relation["id"]}
+        return None
+
+    impacts = {cid: [] for cid in projection.get("claims", {})}
+    emitted = {cid: set() for cid in impacts}
+    root_causes = []
+    for relation in dependencies:
+        problem = edge_problem(relation)
+        if problem:
+            root_causes.append({**problem, "path": [relation["from"], relation["to"]]})
+    for cause in root_causes:
+        origin = cause["path"][0]
+        visited = {origin}
+        queue = [(origin, cause["path"])]
+        while queue:
+            current, path = queue.pop(0)
+            signature = (cause["reason"], cause["upstream_id"], cause["relation_id"], tuple(path))
+            if signature not in emitted[current]:
+                emitted[current].add(signature)
+                impacts[current].append({**cause, "path": path})
+            for dependent in sorted(reverse.get(current, ())):
+                if dependent in visited:
+                    continue
+                visited.add(dependent)
+                queue.append((dependent, [dependent] + path))
+    return impacts
+
+
+def dependent_claims(projection, upstream_id):
+    reverse = {}
+    for relation in _governed_dependency_relations(projection):
+        reverse.setdefault(relation["to"], set()).add(relation["from"])
+    direct = sorted(reverse.get(upstream_id, set()))
+    seen, stack = set(direct), list(direct)
+    while stack:
+        current = stack.pop()
+        for dependent in reverse.get(current, set()):
+            if dependent not in seen:
+                seen.add(dependent); stack.append(dependent)
+    return {"direct": direct, "transitive": sorted(seen - set(direct))}
+
+
+def v2_state(projection, claim, policy=None, impacts=None):
+    state = _base_v2_state(projection, claim, policy)
+    impacts = dependency_impacts(projection, policy) if impacts is None else impacts
+    if state == "admitted" and impacts.get(claim["id"]):
+        return "dependency_invalidated"
+    return state
+
+
+def review_state_v2(projection, claim, policy=None, impacts=None):
     """Owner-facing state: failed current checks are blocked, not review work."""
     policy = policy or load_v2_policy()
-    state = v2_state(projection, claim, policy)
+    state = v2_state(projection, claim, policy, impacts)
     evaluation = projection["evaluations"].get(claim["id"])
     if (state in {"needs_review", "unresolved"} and evaluation and
             evaluation.get("claim_digest") == claim["digest"] and
@@ -1510,8 +1751,78 @@ def _relation_digest(row):
     return digest({k: v for k, v in row.items() if k != "digest"})
 
 
+def _relation_citation_v1(projection, source, target, qualifiers):
+    """Validate an optional relation citation against already-bound evidence.
+
+    The local ledger retains the citation's bounded evidence receipt, not the
+    whole source document. This check therefore proves citation-to-evidence
+    binding only; it never claims to re-read the source or establish semantic
+    support for the relation.
+    """
+    if not isinstance(qualifiers, dict) or "citation" not in qualifiers:
+        return None
+    citation = qualifiers["citation"]
+    if not isinstance(citation, dict):
+        raise ValueError("relation citation must be an object")
+    required = {"schema_version", "evidence_ref", "quote_digest"}
+    unknown = sorted(set(citation) - required)
+    missing = sorted(required - set(citation))
+    if unknown:
+        raise ValueError("unknown relation citation fields: " + ", ".join(unknown))
+    if missing:
+        raise ValueError("relation citation missing: " + ", ".join(missing))
+    if citation["schema_version"] != RELATION_CITATION_SCHEMA:
+        raise ValueError("unsupported relation citation schema")
+    evidence_ref = citation["evidence_ref"]
+    if not isinstance(evidence_ref, str) or not evidence_ref.strip():
+        raise ValueError("relation citation evidence_ref must be a non-empty string")
+    source_row = projection["claims"].get(source)
+    target_row = projection["claims"].get(target)
+    if not source_row or not target_row:
+        raise ValueError("relation citation endpoints must be present")
+    endpoint_evidence = (set(source_row.get("evidence_refs", [])) |
+                         set(target_row.get("evidence_refs", [])))
+    if evidence_ref not in endpoint_evidence:
+        raise ValueError("relation citation evidence_ref must be bound to a relation endpoint")
+    evidence = projection["evidence"].get(evidence_ref)
+    if not evidence or evidence.get("kind") != "retrieval_evidence":
+        raise ValueError("relation citation evidence_ref must reference retrieval evidence")
+    if not _retrieval_receipt_valid(evidence):
+        raise ValueError("relation citation evidence receipt is invalid")
+    quote_digest = _required_digest(citation["quote_digest"], "relation citation quote_digest")
+    if quote_digest != evidence.get("quote_digest"):
+        raise ValueError("relation citation quote_digest does not match bound evidence")
+    return {"schema_version": RELATION_CITATION_SCHEMA,
+            "evidence_ref": evidence_ref, "quote_digest": quote_digest}
+
+
+def _relation_citation_valid(projection, row):
+    qualifiers = row.get("qualifiers")
+    if not isinstance(qualifiers, dict) or "citation" not in qualifiers:
+        return True
+    try:
+        _relation_citation_v1(projection, row["from"], row["to"], qualifiers)
+    except ValueError:
+        return False
+    return True
+
+
+def _relation_citation_packet(projection, row):
+    """Materialize the bounded citation projection for an advisory judge."""
+    citation = _relation_citation_v1(projection, row["from"], row["to"],
+                                     row.get("qualifiers", {}))
+    if citation is None:
+        return None
+    evidence = projection["evidence"][citation["evidence_ref"]]
+    receipt = evidence["retrieval_receipt"]
+    return {**citation, "quote": receipt["quote"],
+            "source_content_digest": evidence["source_content_digest"],
+            "locator": receipt["locator"]}
+
+
 def relation_state(projection, row):
     rid = row["id"]
+    if rid in projection["relation_retirements"]: return "retired"
     if rid in projection["relation_rejections"]: return "rejected"
     if rid in projection["relation_revision_requests"]: return "needs_revision"
     admitted = projection["relation_admissions"].get(rid)
@@ -1525,7 +1836,7 @@ def _relation_cycle(projection, source, target, relation_type):
     if relation_type not in {"depends_on", "supersedes"}: return False
     graph = {}
     for row in projection["relations"].values():
-        if row["type"] == relation_type and relation_state(projection, row) != "rejected":
+        if row["type"] == relation_type and relation_state(projection, row) not in {"rejected", "retired"}:
             graph.setdefault(row["from"], set()).add(row["to"])
     graph.setdefault(source, set()).add(target)
     stack, seen = [target], set()
@@ -1552,6 +1863,9 @@ def propose_relation_v2(source, target, relation_type, proposer,
     if source == target: raise ValueError("relation endpoints must be distinct")
     if confidence is not None and not 0 <= confidence <= 1:
         raise ValueError("relation confidence must be between 0 and 1")
+    citation = _relation_citation_v1(projection, source, target, qualifiers)
+    if citation is not None:
+        qualifiers = {**qualifiers, "citation": citation}
     left, right = (sorted((source, target)) if relation_type in SYMMETRIC_RELATIONS
                    else (source, target))
     row = {"id": ident({"from": left, "to": right, "type": relation_type}, "rel_"),
@@ -1589,6 +1903,7 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=N
         "known_relation_type": row["type"] in RELATION_TYPES,
         "no_duplicate": not duplicate,
         "acyclic_when_directed": not _relation_cycle(projection, row["from"], row["to"], row["type"]),
+        "citation_binding_valid": _relation_citation_valid(projection, row),
     }
     event = append_v2({"type": "relation_evaluated", "subject_ref": rid,
                        "relation_digest": row["digest"], "checks": checks,
@@ -1597,18 +1912,20 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None, actor=N
                        "verification_profile": policy["verification"]["profile"],
                        "verification_config_digest": digest(policy["verification"]),
                        "eligible": all(checks.values()),
-                       "semantic_boundary": "structural checks do not establish semantic correctness"},
+                       "semantic_boundary": ("structural checks do not establish semantic correctness; "
+                                             "citation binding does not re-read source text")},
                       existing_rows=events)
     return event
 
 
-def _decision_audit_fields(verdict):
+def _decision_audit_fields(verdict, expected_relation_type=None):
     """Additive typed-advice metadata; legacy command responses remain valid."""
     audit = verdict.get("decision_audit")
     if audit is None:
         return {}
     from proofpress.hosted.jev import validate_audit
-    return {"decision_audit": validate_audit(audit, verdict["recommendation"])}
+    return {"decision_audit": validate_audit(
+        audit, verdict["recommendation"], expected_relation_type)}
 
 
 def judge_relation_v2(rid, actor=None):
@@ -1627,13 +1944,17 @@ def judge_relation_v2(rid, actor=None):
                                        actor=actor))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    citation = _relation_citation_packet(projection, row)
+    evidence = ([projection["evidence"][citation["evidence_ref"]]] if citation else [
+        projection["evidence"][ref] for ref in sorted(set(
+            projection["claims"][row["from"]]["evidence_refs"] +
+            projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]])
     packet = {"schema_version": "proofpress/relation-judge-request/v1",
               "relation": row,
               "from_claim": projection["claims"][row["from"]],
               "to_claim": projection["claims"][row["to"]],
-              "evidence": [projection["evidence"][ref] for ref in sorted(set(
-                  projection["claims"][row["from"]]["evidence_refs"] +
-                  projection["claims"][row["to"]]["evidence_refs"])) if ref in projection["evidence"]],
+              "evidence": evidence,
+              "relation_citation": citation,
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
               "policy": _judge_policy_payload(policy),
               "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
@@ -1660,7 +1981,8 @@ def judge_relation_v2(rid, actor=None):
                       "recommendation": verdict["recommendation"],
                       "rationale": verdict["rationale"],
                       "adapter": verdict.get("adapter", command[0]),
-                      "model": verdict.get("model"), **_decision_audit_fields(verdict)}, existing_rows=events)
+                      "model": verdict.get("model"),
+                      **_decision_audit_fields(verdict, row["type"])}, existing_rows=events)
 
 
 def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
@@ -1675,6 +1997,10 @@ def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
     _require_expected_head(expected_head)
     row = projection["relations"].get(rid)
     if not row: raise ValueError("relation not found: " + rid)
+    if (row["type"] == "depends_on" and
+            relation_state(projection, row) == "admitted" and
+            rid not in projection["relation_retirements"]):
+        raise ValueError("admitted dependency may only transition through claim reassessment")
     if row["type"] == "contradicts" and relation_state(projection, row) == "admitted":
         raise ValueError("admitted contradiction may only transition through relation resolve")
     if decision == "admit" and reviewer == row["proposer"]:
@@ -2031,6 +2357,8 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     _require_expected_head(expected_head)
     row = projection["claims"].get(cid)
     if not row: raise ValueError("claim not found: " + cid)
+    if decision == "admit" and v2_state(projection, row) == "dependency_invalidated":
+        raise ValueError("dependency-invalidated claims must use claim.reassess")
     if decision != "admit":
         policy = load_v2_policy()
         conflicts = _active_contradictions(projection, policy)
@@ -2075,6 +2403,154 @@ def supersede_v2(cid, replacement, reviewer, note=None):
     return append_v2({"type": "claim_superseded", "subject_ref": cid,
                       "superseded_by": replacement, "reviewer": reviewer,
                       "identity_basis": "self_asserted", "note": note})
+
+
+def _transaction_child(event, created_at):
+    child = {"schema_version": EVENT_SCHEMA, "created_at": created_at, **event}
+    child["event_id"] = _event_id(child)
+    return child
+
+
+def _prior_governance_request(projection, operation, request_id):
+    matches = [event for event in projection["events"]
+               if event.get("type") == "governance_transaction"
+               and event.get("operation") == operation
+               and event.get("request_id") == request_id]
+    if not matches: return None
+    return matches[-1]
+
+
+def withdraw_v2(cid, reviewer, note, request_id, expected_head):
+    note = _require_text(note, "withdrawal note")
+    request_id = _require_text(request_id, "request_id", 128)
+    request_fingerprint = digest({"operation": "claim.withdraw", "subject_ref": cid,
+                                  "reviewer": reviewer, "note": note})
+    projection = v2_projection()
+    prior = _prior_governance_request(projection, "claim.withdraw", request_id)
+    if prior:
+        if (prior.get("subject_ref") != cid or
+                prior.get("request_fingerprint") != request_fingerprint):
+            raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
+        return {"ok": True, "withdrawal": prior["events"][0],
+                "transaction": prior, "idempotent": True}
+    _require_expected_head(expected_head, required=True)
+    row = projection["claims"].get(cid)
+    if not row: raise ValueError("claim not found: " + cid)
+    if _base_v2_state(projection, row) != "admitted":
+        raise ValueError("only an admitted claim may be withdrawn")
+    if reviewer == row["proposer"]:
+        raise ValueError("proposer may not withdraw their own claim")
+    at = now()
+    withdrawal = _transaction_child({
+        "type": "claim_withdrawn", "subject_ref": cid,
+        "reviewer": reviewer, "identity_basis": "self_asserted",
+        "note": note, "request_id": request_id,
+        "prior_admission_ref": projection["admissions"][cid]["event_id"],
+    }, at)
+    transaction = append_v2({
+        "type": "governance_transaction", "subject_ref": cid,
+        "operation": "claim.withdraw", "request_id": request_id,
+        "request_fingerprint": request_fingerprint,
+        "expected_head": expected_head, "reviewer": reviewer,
+        "events": [withdrawal], "created_at": at,
+    })
+    impacts = dependency_impacts(v2_projection())
+    affected = sorted(claim_id for claim_id, rows in impacts.items()
+                      if any(cid in item.get("path", [])[1:] for item in rows))
+    direct = sorted(claim_id for claim_id in affected
+                    if any(item.get("path") == [claim_id, cid]
+                           for item in impacts[claim_id]))
+    return {"ok": True, "withdrawal": withdrawal, "transaction": transaction,
+            "impact": {"direct": direct, "transitive": sorted(set(affected) - set(direct))}}
+
+
+def reassess_v2(cid, decision, reviewer, note, request_id, expected_head,
+                retire_relation_ids=None):
+    if decision not in {"retain", "request_changes"}:
+        raise ValueError("reassessment decision must be retain or request_changes")
+    note = _require_text(note, "reassessment note")
+    request_id = _require_text(request_id, "request_id", 128)
+    if retire_relation_ids is None:
+        retire_relation_ids = []
+    if (not isinstance(retire_relation_ids, list) or
+            not all(isinstance(item, str) and item.strip() for item in retire_relation_ids)):
+        raise ValueError("retire_relation_ids must be an array of non-empty relation IDs")
+    retire_relation_ids = sorted(set(retire_relation_ids))
+    request_fingerprint = digest({"operation": "claim.reassess", "subject_ref": cid,
+                                  "decision": decision, "reviewer": reviewer,
+                                  "note": note, "retire_relation_ids": retire_relation_ids})
+    projection = v2_projection()
+    prior = _prior_governance_request(projection, "claim.reassess", request_id)
+    if prior:
+        if (prior.get("subject_ref") != cid or prior.get("decision") != decision or
+                prior.get("request_fingerprint") != request_fingerprint):
+            raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
+        return {"ok": True, "transaction": prior, "events": prior["events"],
+                "idempotent": True}
+    _require_expected_head(expected_head, required=True)
+    row = projection["claims"].get(cid)
+    if not row: raise ValueError("claim not found: " + cid)
+    if v2_state(projection, row) != "dependency_invalidated":
+        raise ValueError("claim does not need dependency reassessment")
+    if reviewer == row["proposer"]:
+        raise ValueError("proposer may not reassess their own claim")
+    at = now(); policy = load_v2_policy(); children = []
+    if decision == "request_changes":
+        review = _transaction_child({"type": "human_reviewed", "subject_ref": cid,
+                                     "decision": decision, "reviewer": reviewer,
+                                     "identity_basis": "self_asserted", "note": note,
+                                     "request_id": request_id, "claim_digest": row["digest"],
+                                     "policy_digest": policy["digest"]}, at)
+        children.extend([review, _transaction_child({
+            "type": "claim_revision_requested", "subject_ref": cid,
+            "review_ref": review["event_id"], "reviewer": reviewer,
+            "claim_digest": row["digest"], "policy_digest": policy["digest"],
+            "reassessment": True}, at)])
+    else:
+        active_invalid = {item["relation_id"] for item in dependency_impacts(projection, policy).get(cid, [])
+                          if item.get("relation_id")}
+        unknown = set(retire_relation_ids) - active_invalid
+        if unknown:
+            raise ValueError("only active invalid dependencies may be retired: " + ", ".join(sorted(unknown)))
+        for rid in retire_relation_ids:
+            relation = projection["relations"].get(rid)
+            if not relation or relation.get("from") != cid or relation.get("type") != "depends_on":
+                raise ValueError("reassessment may retire only direct depends_on relations")
+            children.append(_transaction_child({
+                "type": "relation_retired", "subject_ref": rid,
+                "claim_ref": cid, "reviewer": reviewer,
+                "identity_basis": "self_asserted", "note": note,
+                "request_id": request_id,
+                "prior_admission_ref": projection["relation_admissions"][rid]["event_id"]}, at))
+        review = _transaction_child({"type": "human_reviewed", "subject_ref": cid,
+                                     "decision": "retain", "reviewer": reviewer,
+                                     "identity_basis": "self_asserted", "note": note,
+                                     "request_id": request_id, "claim_digest": row["digest"],
+                                     "policy_digest": policy["digest"],
+                                     "reassessment": True}, at)
+        admission = _transaction_child({
+            "type": "claim_admitted", "subject_ref": cid,
+            "review_ref": review["event_id"], "reviewer": reviewer,
+            "claim_digest": row["digest"],
+            "evidence_digests": {ref: projection["evidence"][ref]["digest"]
+                                 for ref in row["evidence_refs"]},
+            "policy_digest": policy["digest"], "reassessment": True}, at)
+        children.extend([review, admission])
+        simulated = v2_projection(projection["events"] + [{
+            "type": "governance_transaction", "events": children,
+            "subject_ref": cid, "event_id": "simulation", "created_at": at}])
+        if dependency_impacts(simulated, policy).get(cid):
+            remaining = sorted({item.get("relation_id") or item.get("upstream_id")
+                                for item in dependency_impacts(simulated, policy)[cid]})
+            raise ValueError("active invalid dependencies remain: " + ", ".join(remaining))
+    transaction = append_v2({
+        "type": "governance_transaction", "subject_ref": cid,
+        "operation": "claim.reassess", "decision": decision,
+        "request_id": request_id, "expected_head": expected_head,
+        "request_fingerprint": request_fingerprint,
+        "reviewer": reviewer, "events": children, "created_at": at,
+    })
+    return {"ok": True, "transaction": transaction, "events": children}
 
 
 def _actor_can_read(row, policy, actor):
@@ -2122,9 +2598,10 @@ def discover_context_v2(actor=None, task=None, limit=24):
     if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 100:
         raise ValueError("limit must be an integer from 1 to 100")
     projection, policy = v2_projection(), load_v2_policy()
+    impacts = dependency_impacts(projection, policy)
     conflicts = _active_contradictions(projection, policy)
     cards = [_context_card(row, task) for cid, row in projection["claims"].items()
-             if v2_state(projection, row, policy) == "admitted"
+             if v2_state(projection, row, policy, impacts) == "admitted"
              and _actor_can_read(row, policy, actor) and cid not in conflicts]
     cards.sort(key=lambda card: (-card["match"]["score"], card["title"], card["id"]))
     return {"schema_version": "proofpress/context-discovery/v1",
@@ -2134,11 +2611,12 @@ def discover_context_v2(actor=None, task=None, limit=24):
 
 def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False):
     projection, policy = v2_projection(), load_v2_policy()
+    impacts = dependency_impacts(projection, policy)
     governed, blocked, eligible = [], [], {}
     conflicts = _active_contradictions(projection, policy)
     for cid, row in projection["claims"].items():
         if scope and row["scope"] != scope: continue
-        current = v2_state(projection, row, policy)
+        current = v2_state(projection, row, policy, impacts)
         actor_ok = _actor_can_read(row, policy, actor)
         if current == "admitted" and actor_ok and cid not in conflicts:
             eligible[cid] = row
@@ -2148,16 +2626,28 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             continue
         else:
             conflict_rows = conflicts.get(cid, [])
+            dependency_rows = impacts.get(cid, [])
             reason = (conflict_rows[0]["reason"] if conflict_rows else
+                      "dependency_invalidated" if dependency_rows else
                       current if current != "admitted" else "actor_not_allowed")
             item = {"id": cid, "reason": reason,
                     "required_action": ("human_conflict_review" if conflict_rows else
                                         "propose_revision" if reason == "needs_revision" else
-                                        "reverify" if reason in {"expired", "unresolved", "superseded"} else
+                                        "reassess" if reason == "dependency_invalidated" else
+                                        "reverify" if reason in {"expired", "unresolved", "superseded", "withdrawn"} else
                                         "human_review")}
             if conflict_rows:
                 item["relation_ids"] = sorted({row["relation_id"] for row in conflict_rows})
                 item["peer_ids"] = sorted({row["peer_id"] for row in conflict_rows})
+            if dependency_rows:
+                visible = [impact for impact in dependency_rows
+                           if all(_actor_can_read(projection["claims"].get(node, {}), policy, actor)
+                                  for node in impact.get("path", []))]
+                if visible:
+                    item["relation_ids"] = sorted({impact["relation_id"] for impact in visible
+                                                   if impact.get("relation_id")})
+                    item["upstream_ids"] = sorted({impact["upstream_id"] for impact in visible})
+                    item["dependency_paths"] = [impact["path"] for impact in visible]
             if include_blocked_statements: item["statement"] = row["statement"]
             blocked.append(item)
     for cid, row in eligible.items():
@@ -2377,6 +2867,7 @@ def record_observation_v1(run_id, kind, source, meaning, actor, evidence_refs=No
 
 def graph_v2(scope=None, actor=None):
     projection, policy = v2_projection(), load_v2_policy(); nodes, edges = [], []
+    impacts = dependency_impacts(projection, policy)
     wanted = {cid: row for cid, row in projection["claims"].items()
               if (not scope or row["scope"] == scope)
               and _actor_can_read(row, policy, actor)}
@@ -2408,7 +2899,7 @@ def graph_v2(scope=None, actor=None):
                       for parent in evidence.get("source_evidence_refs", [])]
     for cid, row in wanted.items():
         review = projection["reviews"].get(cid)
-        nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row),
+        nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row, policy, impacts),
                       "scope": row["scope"],
                       "applicability": row.get("applicability"), "label": row["statement"], "title": row.get("title"),
                       "created_at": row.get("created_at"),
@@ -2419,19 +2910,36 @@ def graph_v2(scope=None, actor=None):
                           "type": "re_proposed_as"})
         if review:
             rid = review["event_id"]
-            nodes.append({"id": rid, "type": "review", "state": v2_state(projection, row),
+            nodes.append({"id": rid, "type": "review", "state": v2_state(projection, row, policy, impacts),
                           "label": f"{review['decision']} · {review['reviewer']}"})
             edges.append({"from": cid, "to": rid, "type": "reviewed_by"})
         if cid in projection["admissions"]:
             aid = projection["admissions"][cid]["event_id"]
-            nodes.append({"id": aid, "type": "governed", "state": v2_state(projection, row), "label": "Governed context"})
+            nodes.append({"id": aid, "type": "governed", "state": v2_state(projection, row, policy, impacts), "label": "Governed context"})
             edges.append({"from": review["event_id"] if review else cid, "to": aid, "type": "admitted_by"})
         if cid in projection["supersessions"]:
             edges.append({"from": cid, "to": projection["supersessions"][cid]["superseded_by"], "type": "superseded_by"})
+        if cid in projection["withdrawals"]:
+            withdrawal = projection["withdrawals"][cid]
+            nodes.append({"id": withdrawal["event_id"], "type": "lifecycle",
+                          "state": "withdrawn", "label": "Withdrawn claim"})
+            edges.append({"from": cid, "to": withdrawal["event_id"], "type": "withdrawn_by"})
     for row in projection["relations"].values():
         if row["from"] in wanted and row["to"] in wanted:
+            recommendation = projection["relation_recommendations"].get(row["id"])
+            current_recommendation = (
+                recommendation if recommendation
+                and recommendation.get("relation_digest") == row["digest"]
+                and recommendation.get("policy_digest") == policy["digest"]
+                else None
+            )
             edges.append({"id": row["id"], "from": row["from"], "to": row["to"],
-                          "type": row["type"], "state": relation_state(projection, row)})
+                          "type": row["type"], "state": relation_state(projection, row),
+                          "citation": row.get("qualifiers", {}).get("citation"),
+                          "advice": ({key: current_recommendation.get(key)
+                                      for key in ("recommendation", "rationale", "adapter", "model", "decision_audit")
+                                      if current_recommendation.get(key) is not None}
+                                     if current_recommendation else None)})
     return {"nodes": nodes, "edges": edges}
 
 
@@ -2676,7 +3184,7 @@ def disclose_v1(query, actor, scope=None, seeds=None, corpus_manifest=None,
                                                           max_discovered, sidecar, config)
         for item in discovered:
             item["gap_refs"] = [gap_id] if gap_id else []
-    lineage = [receipt_v2(cid) for cid in selected_ids]
+    lineage = [receipt_v2(cid, actor) for cid in selected_ids]
     gaps = ([] if governed and not unmet else [{"id": gap_id, "kind": "unmet_question",
              "query_terms": gap_terms,
              "required_action": "inspect_discovered_evidence_or_propose_new_claim"}])
@@ -2910,11 +3418,14 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
 
 def summary_v2(scope=None, actor=None):
     projection, policy = v2_projection(), load_v2_policy()
+    impacts = dependency_impacts(projection, policy)
     rows = [r for r in projection["claims"].values()
             if (not scope or r["scope"] == scope) and _actor_can_read(r, policy, actor)]
-    counts = {key: 0 for key in ("needs_review", "needs_revision", "admitted",
-                                  "rejected", "superseded", "expired", "unresolved")}
-    for row in rows: counts[v2_state(projection, row)] += 1
+    counts = {key: 0 for key in ("needs_review", "needs_revision", "needs_reassessment",
+                                  "dependency_invalidated", "admitted", "rejected",
+                                  "withdrawn", "superseded", "expired", "unresolved")}
+    for row in rows: counts[v2_state(projection, row, policy, impacts)] += 1
+    counts["needs_reassessment"] = counts["dependency_invalidated"]
     return {"total": len(rows), "counts": counts, "scope": scope}
 
 
@@ -2941,18 +3452,35 @@ def receipt_v2(cid, actor=None):
         raise ValueError("claim not found: " + cid)
     parent_id = row.get("qualifiers", {}).get("revision_of")
     parent = projection["claims"].get(parent_id)
-    return {"claim": row, "state": review_state_v2(projection, row),
+    impact_map = dependency_impacts(projection, policy)
+    impacts = impact_map.get(cid, [])
+    visible_impacts = [impact for impact in impacts
+                       if all(_actor_can_read(projection["claims"].get(node, {}), policy, actor)
+                              for node in impact.get("path", []))]
+    dependent_impact = dependent_claims(projection, cid)
+    visible_dependents = {
+        dependent_id for dependent_id in dependent_impact["direct"] + dependent_impact["transitive"]
+        if _actor_can_read(projection["claims"].get(dependent_id, {}), policy, actor)
+    }
+    visible_relations = [
+        relation for relation in projection.get("relations", {}).values()
+        if (relation["from"] == cid or relation["to"] == cid)
+        and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
+        and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)
+    ]
+    return {"claim": row, "state": review_state_v2(projection, row, policy, impact_map),
+            "ledger_head": v2_head(),
             "revision_request": projection["revision_requests"].get(cid),
             "revision_parent": ({"id": parent_id, "statement": parent["statement"],
                                   "evidence_refs": parent["evidence_refs"],
                                   "review": projection["reviews"].get(parent_id)} if parent else None),
             "revisions": [{"id": candidate["id"], "statement": candidate["statement"],
-                           "state": v2_state(projection, candidate)}
+                           "state": v2_state(projection, candidate, policy, impact_map)}
                           for candidate in projection["claims"].values()
                           if candidate.get("qualifiers", {}).get("revision_of") == cid],
             "reproposal_parent": _reproposal_parent(projection, row),
             "reproposals": [{"id": candidate["id"], "statement": candidate["statement"],
-                              "state": v2_state(projection, candidate)}
+                              "state": v2_state(projection, candidate, policy, impact_map)}
                              for candidate in projection["claims"].values()
                              if candidate.get("reproposal_of") == cid],
             "evidence": [projection["evidence"].get(x) for x in row["evidence_refs"]],
@@ -2960,13 +3488,42 @@ def receipt_v2(cid, actor=None):
             "recommendation": projection["recommendations"].get(cid),
             "review": projection["reviews"].get(cid),
             "admission": projection["admissions"].get(cid),
+            "prior_reviews": projection.get("review_history", {}).get(cid, [])[:-1],
+            "prior_admissions": projection.get("admission_history", {}).get(cid, [])[:-1],
             "rejection": projection["rejections"].get(cid),
             "supersession": projection["supersessions"].get(cid),
+            "withdrawal": projection.get("withdrawals", {}).get(cid),
+            "dependency_impact": {"items": visible_impacts,
+                                  "redacted": len(impacts) - len(visible_impacts)},
+            "dependent_impact": {
+                "direct_ids": [item for item in dependent_impact["direct"] if item in visible_dependents],
+                "transitive_ids": [item for item in dependent_impact["transitive"] if item in visible_dependents],
+                "redacted": len(dependent_impact["direct"]) + len(dependent_impact["transitive"]) - len(visible_dependents),
+            },
+            "dependencies": [{**relation, "state": relation_state(projection, relation),
+                              "upstream": {
+                                  "id": relation["to"],
+                                  "title": projection["claims"][relation["to"]].get("title"),
+                                  "statement": projection["claims"][relation["to"]].get("statement"),
+                              },
+                              "retirement": projection.get("relation_retirements", {}).get(relation["id"])}
+                             for relation in projection.get("relations", {}).values()
+                             if relation["type"] == "depends_on" and relation["from"] == cid
+                             and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)],
+            "relations": [{**relation, "state": relation_state(projection, relation)}
+                          for relation in visible_relations],
+            "relation_advice": [{
+                "relation": relation, "state": relation_state(projection, relation),
+                "recommendation": projection["relation_recommendations"].get(relation["id"]),
+                "evaluation": projection["relation_evaluations"].get(relation["id"]),
+            } for relation in visible_relations
+              if projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")],
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
                          "model": e.get("model"), "note": e.get("note"),
                          "created_at": e["created_at"], "commit": e.get("commit")}
-                        for e in projection["events"] if e.get("subject_ref") == cid]}
+                        for e in logical_events(projection["events"])
+                        if e.get("subject_ref") == cid or e.get("claim_ref") == cid]}
 
 
 def relation_receipt_v2(rid):
@@ -2979,9 +3536,11 @@ def relation_receipt_v2(rid):
             "admission": projection["relation_admissions"].get(rid),
             "rejection": projection["relation_rejections"].get(rid),
             "resolution": projection["conflict_resolutions"].get(rid),
+            "retirement": projection["relation_retirements"].get(rid),
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "created_at": e["created_at"], "commit": e.get("commit")}
-                        for e in projection["events"] if e.get("subject_ref") == rid]}
+                        for e in logical_events(projection["events"])
+                        if e.get("subject_ref") == rid]}
 
 
 def import_v1(path):
@@ -3216,6 +3775,17 @@ def add_flat_cli(sub):
     review_parser.add_argument("--request-id"); review_parser.add_argument("--expected-head")
     supersede_parser = sub.add_parser("supersede"); supersede_parser.add_argument("claim"); supersede_parser.add_argument("--by", required=True)
     supersede_parser.add_argument("--reviewer", required=True); supersede_parser.add_argument("--note"); supersede_parser.set_defaults(f=cmd_flat, flat_cmd="supersede")
+    withdraw_parser = sub.add_parser("withdraw", help="owner-withdraw an admitted claim without replacement")
+    withdraw_parser.add_argument("claim"); withdraw_parser.add_argument("--reviewer", required=True)
+    withdraw_parser.add_argument("--note", required=True); withdraw_parser.add_argument("--request-id", required=True)
+    withdraw_parser.add_argument("--expected-head", required=True); withdraw_parser.set_defaults(f=cmd_flat, flat_cmd="withdraw")
+    reassess_parser = sub.add_parser("reassess", help="owner-reassess a dependency-invalidated claim")
+    reassess_parser.add_argument("claim"); reassess_decision = reassess_parser.add_mutually_exclusive_group(required=True)
+    reassess_decision.add_argument("--retain", action="store_true"); reassess_decision.add_argument("--request-changes", action="store_true")
+    reassess_parser.add_argument("--retire-relation", action="append", default=[])
+    reassess_parser.add_argument("--reviewer", required=True); reassess_parser.add_argument("--note", required=True)
+    reassess_parser.add_argument("--request-id", required=True); reassess_parser.add_argument("--expected-head", required=True)
+    reassess_parser.set_defaults(f=cmd_flat, flat_cmd="reassess")
     relation_parser = sub.add_parser("relation", help="propose, evaluate, or review a typed claim relation")
     relation_sub = relation_parser.add_subparsers(dest="relation_cmd", required=True)
     relation_propose = relation_sub.add_parser("propose")
@@ -3527,6 +4097,16 @@ def _execute_local_operation(request):
             result = supersede_v2(
                 parameters["claim_id"], parameters["replacement_id"],
                 parameters["reviewer"], parameters.get("note"))
+        elif operation == "claim.withdraw":
+            result = withdraw_v2(
+                parameters["claim_id"], parameters["reviewer"], parameters["note"],
+                parameters["request_id"], parameters["expected_head"])
+        elif operation == "claim.reassess":
+            result = reassess_v2(
+                parameters["claim_id"], parameters["decision"],
+                parameters["reviewer"], parameters["note"],
+                parameters["request_id"], parameters["expected_head"],
+                parameters.get("retire_relation_ids"))
         elif operation == "relation.propose":
             result = propose_relation_v2(
                 parameters["source_id"], parameters["target_id"],
@@ -3696,6 +4276,19 @@ def cmd_flat(a):
         out = _local_request("claim.supersede", {
             "claim_id": a.claim, "replacement_id": a.by,
             "reviewer": a.reviewer, "note": a.note,
+        })
+    elif command == "withdraw":
+        out = _local_request("claim.withdraw", {
+            "claim_id": a.claim, "reviewer": a.reviewer, "note": a.note,
+            "request_id": a.request_id, "expected_head": a.expected_head,
+        })
+    elif command == "reassess":
+        out = _local_request("claim.reassess", {
+            "claim_id": a.claim,
+            "decision": "retain" if a.retain else "request_changes",
+            "reviewer": a.reviewer, "note": a.note,
+            "request_id": a.request_id, "expected_head": a.expected_head,
+            "retire_relation_ids": a.retire_relation,
         })
     elif command == "relation-propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None

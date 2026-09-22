@@ -30,6 +30,8 @@ import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } fro
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { ModalSurface } from "@/components/ui/modal-surface";
+import { ReassessmentPanel, type DependencyImpact, type DependencyRelation } from "@/components/reassessment-panel";
+import { RelationAdvicePanel } from "@/components/relation-advice";
 import "./index.css";
 import "./review-local.css";
 import "./components/governance.css";
@@ -49,6 +51,7 @@ type NodeRow = {
 };
 type Receipt = {
   state: string;
+  ledger_head?: string;
   claim: {
     id: string;
     statement: string;
@@ -75,6 +78,9 @@ type Receipt = {
   reproposal_parent?: {id:string;statement:string;evidence_refs:string[];new_evidence_refs?:string[];reused_evidence_refs?:string[];reproposal_response?:string;rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
   reproposals?: {id:string;statement:string;state:string}[];
   history?: any[];
+  dependency_impact?: {items:DependencyImpact[];redacted:number};
+  dependencies?: DependencyRelation[];
+  relations?: any[];
   judge_job?: {state:string;detail:string};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
@@ -247,6 +253,7 @@ function App() {
   const [edges, setEdges] = React.useState<any[]>([]);
   const [graphNodes, setGraphNodes] = React.useState<any[]>([]);
   const [contextRelations, setContextRelations] = React.useState<any[]>([]);
+  const [contextBlocked, setContextBlocked] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
   const [selected, setSelected] = React.useState<string | null>(
@@ -255,6 +262,14 @@ function App() {
   const [receipt, setReceipt] = React.useState<Receipt | null>(null);
   const selectionRequest = React.useRef(0);
   const decisionPending = React.useRef(false);
+  const mutationRequestIds = React.useRef(new Map<string, string>());
+  const mutationRequestId = (key: string) => {
+    const existing = mutationRequestIds.current.get(key);
+    if (existing) return existing;
+    const created = crypto.randomUUID();
+    mutationRequestIds.current.set(key, created);
+    return created;
+  };
   const [eligible, setEligible] = React.useState<NodeRow[]>([]);
   const [contextLoading, setContextLoading] = React.useState(true);
   const [contextError, setContextError] = React.useState("");
@@ -282,6 +297,7 @@ function App() {
   const [runsLoading, setRunsLoading] = React.useState(false);
   const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
   const [judgeMessage, setJudgeMessage] = React.useState("");
+  const [governanceMessage, setGovernanceMessage] = React.useState("");
   const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [credentialSecret, setCredentialSecret] = React.useState("");
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
@@ -377,7 +393,7 @@ function App() {
     setContextLoading(true);
     setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
-      if (active) { setContextRelations(context.relations || []); setEligible((context.governed_context || []).map((row: any) => ({
+      if (active) { setContextRelations(context.relations || []); setContextBlocked(context.blocked || []); setEligible((context.governed_context || []).map((row: any) => ({
         ...row, label: row.statement, type: "claim", state: "admitted",
       }))); }
     }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
@@ -404,9 +420,18 @@ function App() {
             review: summary,
             current_governed_context_count: (context.governed_context || []).length,
             claim_states: claims.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
+            needs_reassessment_count: claims.filter((row: any) => row.state === "dependency_invalidated").length,
             authority: "Agents may inspect and prepare work. Human Approval is not exposed.",
           });
         },
+      },
+      {
+        name: "get_claim_graph",
+        description: "Read the bounded evidence, claim, lifecycle, and relation graph for the owner workspace. This does not change state.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        inputSchema: { type: "object", properties: { scope: { type: "string" } } },
+        execute: async ({ scope = "" }: any) =>
+          toolText(await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`)),
       },
       {
         name: "list_review_queue",
@@ -471,7 +496,49 @@ function App() {
             claim: r.claim,
             state: r.state,
             evidence: r.evidence,
+            withdrawal: r.withdrawal,
+            dependency_impact: r.dependency_impact,
+            dependent_impact: r.dependent_impact,
+            dependencies: r.dependencies,
+            relations: r.relations,
+            relation_advice: r.relation_advice,
             history: r.history,
+          });
+        },
+      },
+      {
+        name: "open_claim_lifecycle",
+        description: "Open an owner-only withdrawal or dependency-reassessment surface for one claim. Navigation does not record a decision.",
+        annotations: { readOnlyHint: true, untrustedContentHint: false },
+        inputSchema: {
+          type: "object",
+          properties: {
+            claim_id: { type: "string" },
+            action: { type: "string", enum: ["withdraw", "reassess"] },
+          },
+          required: ["claim_id", "action"],
+        },
+        execute: async ({ claim_id, action }: any) => {
+          const request = ++selectionRequest.current;
+          const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
+          if (request !== selectionRequest.current) throw new Error("The selected claim changed before the lifecycle surface opened");
+          const actionAllowed = action === "reassess"
+            ? result.state === "dependency_invalidated"
+            : ["admitted", "dependency_invalidated"].includes(result.state);
+          if (!actionAllowed) throw new Error(`${action} is not available for a claim in state ${result.state}`);
+          setNote("");
+          setSelected(claim_id);
+          setReceipt(result);
+          setPage(action === "reassess" ? "review" : "ledger");
+          setFullReview(action === "reassess");
+          return toolText({
+            opened: true,
+            action,
+            claim_id,
+            state: result.state,
+            decision_recorded: false,
+            requires_human_owner: true,
+            url: `${location.origin}/${action === "reassess" ? "review" : "ledger"}?claim_id=${encodeURIComponent(claim_id)}${action === "reassess" ? "&view=full" : ""}`,
           });
         },
       },
@@ -597,10 +664,11 @@ function App() {
     );
   }, []);
   React.useEffect(() => {
+    const preserveClaim = selected && (page === "review" || page === "ledger");
     history.replaceState(
       history.state,
       "",
-      `/${page}${page === "review" && selected ? `?claim_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
+      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : ""}`,
     );
   }, [page, selected, fullReview]);
   function openFullReview() {
@@ -737,6 +805,33 @@ function App() {
       decisionPending.current = false;
       setBusy(false);
     }
+  }
+  async function withdrawClaim(claimId: string, reason: string, expectedHead: string, close?: () => void) {
+    if (decisionPending.current) return;
+    decisionPending.current = true; setBusy(true); setError("");
+    const requestKey = ["withdraw", claimId, expectedHead, reason].join("\u0000");
+    try {
+      await api("/owner/api/withdraw", {method: "POST", body: JSON.stringify({csrf, claim_id: claimId, note: reason, expected_head: expectedHead, request_id: mutationRequestId(requestKey)})});
+      mutationRequestIds.current.delete(requestKey);
+      close?.(); setSelected(null); setReceipt(null);
+      setGovernanceMessage("Claim withdrawn. Its approval and history remain recorded; affected reuse is paused.");
+      await load(null);
+    } catch (e:any) { throw new Error(e.message); }
+    finally { decisionPending.current = false; setBusy(false); }
+  }
+  async function reassessClaim(decision: "retain" | "request_changes", relationIds: string[]) {
+    if (!receipt || decisionPending.current) return;
+    if (!note.trim()) { setError("Explain the reassessment decision."); return; }
+    decisionPending.current = true; setBusy(true); setError("");
+    const requestKey = ["reassess", receipt.claim.id, receipt.ledger_head || "", decision, note.trim(), ...relationIds.slice().sort()].join("\u0000");
+    try {
+      const next = await api("/owner/api/reassess", {method: "POST", body: JSON.stringify({csrf, claim_id: receipt.claim.id, decision, note: note.trim(), retire_relation_ids: relationIds, expected_head: receipt.ledger_head, request_id: mutationRequestId(requestKey)})});
+      mutationRequestIds.current.delete(requestKey);
+      setNote(""); setGovernanceMessage(decision === "retain" ? "Claim reaffirmed with fresh Human Approval." : "Revision requested after the dependency change.");
+      if (decision === "request_changes") setRevisionHandoff(next);
+      await load(receipt.claim.id);
+    } catch (e:any) { setError(`Reassessment was not recorded: ${e.message}`); }
+    finally { decisionPending.current = false; setBusy(false); }
   }
   async function runJudge() {
     if (!receipt || decisionPending.current) return;
@@ -895,6 +990,7 @@ function App() {
             }}>Undo</Button>
           </Alert>
         )}
+        {governanceMessage && <Alert className="decisionNotice" role="status"><span>{governanceMessage}</span><Button variant="ghost" size="content" aria-label="Dismiss governance status" onClick={() => setGovernanceMessage("")}><X /></Button></Alert>}
         <section className="stage">
           {page === "home" && (
             <HomePage
@@ -931,6 +1027,7 @@ function App() {
               note={note}
               setNote={setNote}
               onDecide={decide}
+              onReassess={reassessClaim}
               busy={busy}
               judgeRunning={judgeRunning}
               onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
@@ -946,6 +1043,7 @@ function App() {
               nodes={graphNodes}
               edges={edges}
               relations={contextRelations}
+              blocked={contextBlocked}
               onReview={() => navigate("review")}
               contextError={contextError}
               detailError={detailError}
@@ -953,6 +1051,8 @@ function App() {
               selected={selected}
               receipt={receipt}
               onChoose={choose}
+              onWithdraw={withdrawClaim}
+              busy={busy}
             />
           )}
           {page === "runs" && <RunsPage rows={runs} selected={selectedRun} loading={runsLoading}
@@ -1005,7 +1105,9 @@ function PageHead({
 }
 function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, contextError, onReview, onLedger, onAdmin, onChoose, onKnowledgeChoose }: any) {
   const queue = rows.filter((row: NodeRow) => ["needs_review", "unresolved"].includes(row.state));
+  const reassessment = rows.filter((row: NodeRow) => row.state === "dependency_invalidated");
   const next = queue[0];
+  const actionableCount = queue.length + reassessment.length;
   const recentKnowledge = [...eligible].sort((a: NodeRow, b: NodeRow) => (b.created_at || "").localeCompare(a.created_at || "")).slice(0, 4);
   return (
     <div className="pageBody workspaceHome">
@@ -1015,8 +1117,10 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
       />
       <div className="homeWorkGrid">
         <section className="homeReview" aria-labelledby="home-review-title">
-          <div className="sectionTitle"><h2 id="home-review-title">Needs your decision</h2><span>{loading ? "Loading…" : `${queue.length} to review`}</span></div>
-          {loading ? <p role="status">Loading candidate claims…</p> : next ? <>
+          <div className="sectionTitle"><h2 id="home-review-title">Needs your decision</h2><span>{loading ? "Loading…" : `${actionableCount} actionable`}</span></div>
+          {loading ? <p role="status">Loading candidate claims…</p> : <>
+          {reassessment.length > 0 && <section className="homeReassessment"><div><strong>{reassessment.length} need reassessment</strong><p>Prior approval remains recorded, but current reuse is paused because a dependency changed.</p></div>{reassessment.slice(0, 3).map((row:NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><Badge state={row.state} /><ChevronRight /></Button>)}</section>}
+          {next ? <>
             <article className="nextClaim">
               <Badge state={next.state} />
               <h3>{claimDisplayTitle(next)}</h3>{hasDistinctClaimHeading(next) && <p className="claimBodyPreview">{next.label}</p>}
@@ -1026,8 +1130,9 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
             </article>
             {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><ChevronRight /></Button>)}</div>}
             <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}<ChevronRight /></Button>
-          </> : <Empty className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></Empty>}
+          </> : !reassessment.length && <Empty className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></Empty>}
           {rows.some((r: NodeRow) => r.state === "needs_revision") && <Button variant="ghost" size="content" className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></Button>}
+          </>}
         </section>
         <section className="homeKnowledge" aria-labelledby="home-knowledge-title">
           <div className="sectionTitle"><h2 id="home-knowledge-title">Available knowledge</h2><span>{contextLoading ? "Loading…" : contextError ? "Unavailable" : `${admitted} current`}</span></div>
@@ -1072,12 +1177,12 @@ function ReviewPage({
   busy,
   judgeRunning,
   onJudge, onEvaluate, onConfigurePolicy,
-  fullReview, onOpenFull, onBack, onLedger, detailError,
+  fullReview, onOpenFull, onBack, onLedger, onReassess, detailError,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
   const [reviewPage, setReviewPage] = React.useState(0);
   const pageSize = 20;
-  const queueFor = (state: string) => state === "unresolved" ? "needs_review" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
+  const queueFor = (state: string) => state === "unresolved" ? "needs_review" : state === "dependency_invalidated" ? "needs_reassessment" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
   React.useEffect(() => { if (selected && receipt?.claim.id === selected) { setQueue(queueFor(receipt.state)); setReviewPage(0); } }, [selected, receipt?.state]);
   const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue).sort((left: any, right: any) => {
     const leftTime = Date.parse(queue === "decided" ? left.decision_at || left.created_at || "" : left.created_at || "");
@@ -1087,6 +1192,9 @@ function ReviewPage({
   const pageCount = Math.max(1, Math.ceil(visibleRows.length / pageSize));
   const currentPage = Math.min(reviewPage, pageCount - 1);
   const pageRows = visibleRows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+  const queueCounts = rows.reduce((counts: Record<string, number>, row: NodeRow) => {
+    const key = queueFor(row.state); counts[key] = (counts[key] || 0) + 1; return counts;
+  }, {});
   const switchQueue = (next: string) => { onClose(); setQueue(next); setReviewPage(0); };
   return (
     <div className={`workspacePage reviewWorkspace${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
@@ -1096,9 +1204,10 @@ function ReviewPage({
           description="Evidence and recommendations inform the decision. Only your approval admits claims."
         />
         <div className="filterbar">
-          <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review</Button>
-          <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision</Button>
-          <Button variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history</Button>
+          <Button aria-label="Needs review" variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review · {queueCounts.needs_review || 0}</Button>
+          <Button aria-label="Needs revision" variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision · {queueCounts.needs_revision || 0}</Button>
+          <Button aria-label="Needs reassessment" variant={queue === "needs_reassessment" ? "default" : "outline"} onClick={() => switchQueue("needs_reassessment")}>Needs reassessment · {queueCounts.needs_reassessment || 0}</Button>
+          <Button aria-label="Decision history" variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history · {queueCounts.decided || 0}</Button>
           <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} claims`}</span>
         </div>
         <div className="tableWrap reviewTableWrap">
@@ -1133,8 +1242,8 @@ function ReviewPage({
           </Table>
           {!loading && visibleRows.length === 0 && (
             <Empty className="emptyState reviewEmpty">
-              <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_revision" ? "No revision requests" : "No decisions yet"}</strong>
-              <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : "Your approval, rejection, and revision decisions will appear here."}</p>
+              <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_revision" ? "No revision requests" : queue === "needs_reassessment" ? "No dependency changes need review" : "No decisions yet"}</strong>
+              <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Your approval, rejection, and revision decisions will appear here."}</p>
               {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current claims</Button>}
             </Empty>
           )}
@@ -1153,6 +1262,7 @@ function ReviewPage({
         note={note}
         setNote={setNote}
         onDecide={onDecide}
+        onReassess={onReassess}
         busy={busy}
         judgeRunning={judgeRunning}
         onJudge={onJudge}
@@ -1251,7 +1361,7 @@ function Inspector({
   onDecide,
   busy,
   judgeRunning = false,
-  onJudge, onEvaluate,
+  onJudge, onEvaluate, onReassess,
   readOnly = false,
   fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false, detailError = "",
 }: any) {
@@ -1264,15 +1374,16 @@ function Inspector({
   React.useEffect(() => {
     if (!r || !window.matchMedia("(max-width: 899px)").matches) return;
     const opener = document.querySelector<HTMLElement>(".work tr.selected .claimSelect") || document.activeElement as HTMLElement | null;
-    panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
+    panel.current?.querySelector<HTMLButtonElement>(fullReview ? ".fullReviewBack" : ".mobileBack")?.focus();
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
-  }, [r?.claim.id]);
+  }, [r?.claim.id, fullReview]);
   if (!r) {
     if (detailError) return <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details"><Empty className="missingConclusion"><strong>Claim not found</strong><p>{detailError}</p><Button variant="outline" onClick={fullReview ? onBack : onClose}>Back to review queue</Button></Empty></aside>;
     return pending ? <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
   }
   const modelAttribution = r.recommendation?.decision_audit?.backend === "jev" ? "Powered by Jev · Advisory" : "Advisory";
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
+  const needsReassessment = r.state === "dependency_invalidated" && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
   const checkReason = (name:string) => ({"evidence present":"Required evidence missing","evidence integrity":"Evidence integrity unverified","experiment evidence present":"Typed experiment evidence missing","experiment evidence valid":"Experiment evidence invalid","experiment identity bound":"Experiment identity unbound","not expired":"Claim expired","not superseded":"Claim superseded","reuse boundary present":"Reuse boundary missing"} as Record<string,string>)[name] || `${name} failed`;
   const checksMissing = !Object.keys(r.evaluation?.checks || {}).length || (r.review_policy && !r.review_policy.checks_current);
@@ -1297,7 +1408,7 @@ function Inspector({
       <InspectorHeader className="inspectorTop">
         {(can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
-        {fullReview ? <h1 className="fullStatement">{claimTitle}</h1> : <h2>{claimTitle}</h2>}
+        {fullReview ? <><h1 className="fullStatement">{claimTitle}</h1>{hasConciseHeading && <p className="claimFullStatement primaryClaimStatement">{r.claim.statement}</p>}</> : <h2>{claimTitle}</h2>}
         {claimDescription && <p className="claimDescription">{claimDescription}</p>}
         {hasConciseHeading && <Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>}
         <p>
@@ -1306,7 +1417,9 @@ function Inspector({
         </p>
         {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button>)}
       </InspectorHeader>
+      <RelationAdvicePanel items={r.relation_advice} />
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
+      {needsReassessment && <ReassessmentPanel claimId={r.claim.id} impacts={r.dependency_impact?.items || []} dependencies={r.dependencies || []} redacted={r.dependency_impact?.redacted || 0} note={note} setNote={setNote} busy={busy} showDecision={!onOpenFull || fullReview} onReassess={onReassess} />}
       <div className="quickSnapshot">
         {fullReview ? <div className="reviewFactsGrid">
           <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
