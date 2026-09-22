@@ -429,6 +429,30 @@ main {
   padding: 4px 0;
   background: transparent;
 }
+.filterbar > button {
+  flex-shrink: 0;
+  height: auto;
+  min-height: 44px;
+  padding-block: 8px;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+@media (min-width: 681px) and (max-width: 1350px) {
+  .reviewWorkspace:not(.overviewOnly):not(.fullReviewPage) .filterbar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  .reviewWorkspace:not(.overviewOnly):not(.fullReviewPage) .filterbar > button {
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+  }
+  .reviewWorkspace:not(.overviewOnly):not(.fullReviewPage) .filterbar > span {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
 .filterbar label {
   display: flex;
   height: 34px;
