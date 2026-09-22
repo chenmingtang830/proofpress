@@ -313,7 +313,7 @@ main {
   position: fixed; inset: 0; z-index: 80; background: rgba(32, 34, 43, 0.4);
 }
 .confirmationDialog {
-  position: fixed; z-index: 81; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  position: fixed; z-index: 81; left: 50%; top: 50%; translate: -50% -50%; transform: none;
   width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
   background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 28px;
 }
@@ -1627,9 +1627,6 @@ td:last-child svg {
     min-width: 0;
     white-space: normal;
   }
-  .filterbar > button:nth-of-type(3) {
-    grid-column: 1 / -1;
-  }
   .filterbar > span {
     grid-column: 1 / -1;
     justify-self: end;
@@ -2640,6 +2637,26 @@ tbody tr.selected td:first-child b {
 .homeReassessment { margin-top:20px; padding-top:18px; border-top:1px solid var(--line); display:grid; gap:10px; }
 .homeReassessment > div p { margin:5px 0 8px; color:var(--ink-2); font-size:13px; line-height:1.55; }
 .homeReassessment > button { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px; padding:12px 0; text-align:left; border-top:1px solid var(--line); }
+.homeCorrection { margin-top:20px; padding-top:18px; border-top:1px solid var(--line); display:grid; gap:10px; }
+.homeCorrection > div p { margin:5px 0 8px; color:var(--ink-2); font-size:13px; line-height:1.55; }
+.homeCorrection > button { width:100%; display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:10px; padding:12px 0; text-align:left; border-top:1px solid var(--line); }
+.blockedReviewPanel { display:grid; gap:14px; margin:20px; padding:20px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+.blockedReviewPanel h2 { margin:0; font:600 18px/1.4 var(--font-ui); }
+.blockedReviewPanel > p { max-width:65ch; margin:0; color:var(--ink-2); font:400 14px/1.6 var(--font-ui); }
+.blockedReviewPanel .reviewDisclosure { margin:0; }
+.blockedCorrectionHandoff { display:grid; gap:12px; padding-top:14px; border-top:1px solid var(--line); }
+.blockedCorrectionHandoff > div strong { font:600 13px/1.4 var(--font-ui); }
+.blockedCorrectionHandoff > div p { margin:5px 0 0; color:var(--ink-2); font:400 13px/1.55 var(--font-ui); }
+.blockedCorrectionHandoff ul { margin:0; padding-left:20px; color:var(--ink); font:500 13px/1.6 var(--font-ui); }
+.blockedCorrectionHandoff > button { justify-self:start; min-height:42px; }
+.blockedCorrectionHandoff textarea { min-height:110px; font:400 13px/1.5 var(--font-ui); }
+.lmAttemptFailure { display:grid; gap:6px; margin:14px 0; padding:14px 16px; border:1px solid var(--line); border-radius:8px; background:var(--wash); }
+.lmAttemptFailure > strong { font:600 13px/1.4 var(--font-ui); }
+.lmAttemptFailure > p { margin:0; color:var(--ink-2); font:400 13px/1.55 var(--font-ui); }
+.lmAttemptFailure .badge { vertical-align:middle; }
+.approvalReceiptDetails { display:grid; grid-template-columns:minmax(96px, auto) minmax(0,1fr); gap:8px 16px; margin:20px 0 0; }
+.approvalReceiptDetails dt { color:var(--ink-2); font-size:12px; }
+.approvalReceiptDetails dd { margin:0; overflow-wrap:anywhere; font-size:13px; font-weight:600; }
 .reassessmentPanel { margin:20px; padding:20px; border:1px solid var(--line); border-radius:14px; background:var(--del-bg); }
 .reassessmentPanel h3 { margin:12px 0 6px; }
 .reassessmentPanel > p { max-width:65ch; color:var(--ink-2); line-height:1.6; }

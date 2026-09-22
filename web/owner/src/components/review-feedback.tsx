@@ -1,7 +1,7 @@
 import { Alert } from "./ui/alert";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
-import { Check } from "./ui/icon";
+import { Check, X } from "./ui/icon";
 import { Button } from "./ui/button";
 
 export function revisionInstructions(r: any) {
@@ -11,7 +11,8 @@ export function revisionInstructions(r: any) {
 
 export function DecisionNotice({state, children}: any) {
   const title = state === "needs_revision" ? "Changes requested" : state === "admitted" ? "Approved for reuse" : state === "rejected" ? "Rejected" : "Not available for reuse";
-  return <Alert className="decisionNotice" data-state={state} role="status"><Check aria-hidden="true" /><div><strong>{title}</strong>{children}</div></Alert>;
+  const excluded = ["blocked", "rejected", "withdrawn", "dependency_invalidated"].includes(state);
+  return <Alert className="decisionNotice" data-state={state} role="status">{excluded ? <X aria-hidden="true" /> : <Check aria-hidden="true" />}<div><strong>{title}</strong>{children}</div></Alert>;
 }
 
 export function RevisionInstructions({receipt, autoCopy = false}: any) {
@@ -32,6 +33,24 @@ export function RevisionInstructions({receipt, autoCopy = false}: any) {
     {!autoCopy && status === "copied" ? <span className="copySuccess" role="status"><Check />Copied to clipboard</span> : (!autoCopy || status === "failed") && <Button variant="outline" disabled={status === "copying"} onClick={() => void copy()}>{status === "copying" ? "Copying…" : "Copy instructions for agent"}</Button>}
     {status === "failed" && <Button variant="outline" onClick={() => { field.current?.focus(); field.current?.select(); }}>Select instructions</Button>}
   </div>;
+}
+
+export function BlockedCorrectionHandoff({receipt}: any) {
+  const [status, setStatus] = React.useState<"idle"|"copied"|"failed">("idle");
+  const field = React.useRef<HTMLTextAreaElement>(null);
+  const failed = Object.entries(receipt?.evaluation?.checks || {}).filter(([, passed]) => !passed).map(([name]) => name.replaceAll("_", " "));
+  const instructions = `Review Proofpress candidate ${receipt?.claim?.id || ""}. Deterministic checks failed: ${failed.join(", ") || "see the current review receipt"}. Correct the evidence or claim and submit a new candidate for owner review. Keep the blocked candidate excluded from reuse; do not overwrite or approve it.`;
+  async function copy() {
+    try { await navigator.clipboard.writeText(instructions); setStatus("copied"); }
+    catch { setStatus("failed"); }
+  }
+  return <section className="blockedCorrectionHandoff" aria-label="Correction handoff">
+    <div><strong>Next step</strong><p>Ask {receipt?.claim?.proposer || "the proposing agent"} to address these checks and submit a corrected candidate. This blocked claim stays excluded from reuse.</p></div>
+    {failed.length > 0 && <ul aria-label="Failed deterministic checks">{failed.map((name:string) => <li key={name}>{name}</li>)}</ul>}
+    <Button variant="outline" onClick={() => void copy()}>{status === "copied" ? "Instructions copied" : "Copy instructions for proposer"}</Button>
+    {status === "failed" && <><p role="status">Clipboard access failed. Select and copy these instructions.</p><Textarea ref={field} readOnly aria-label="Correction instructions" value={instructions} /><Button variant="ghost" onClick={() => { field.current?.focus(); field.current?.select(); }}>Select instructions</Button></>}
+    {status === "copied" && <span className="copySuccess" role="status">Instructions copied. Share them with the proposer.</span>}
+  </section>;
 }
 
 export function RevisionPanel({receipt, onChoose}: any) {

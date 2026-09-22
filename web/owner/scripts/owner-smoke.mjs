@@ -177,7 +177,8 @@ try {
   await page.reload();
   await page.getByRole('button',{name:/model rationale/,exact:false}).click();
   await page.getByText(rationale,{exact:true}).waitFor();
-  assert.equal(await page.getByText('stale failure',{exact:true}).count(),0);
+  await page.getByText('stale failure',{exact:true}).waitFor();
+  await page.getByText('Previous advice:',{exact:false}).waitFor();
   await page.unroute(`**/owner/api/claims/${data.ids[0]}`);
   await page.reload();
   for(const tab of ['Checks','History','Evidence']) await page.getByRole('tab',{name:tab,exact:true}).click();
@@ -202,6 +203,9 @@ try {
   await page.setViewportSize({width:1536,height:1024});
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
+  await page.getByRole('dialog').getByText('Approval recorded').waitFor();
+  assert.match(await page.getByRole('dialog').innerText(),/View approval receipt/);
+  await page.getByRole('button',{name:'Review next claim',exact:true}).click();
   await page.locator('tbody tr.selected').filter({hasText:data.ids[1]}).waitFor();
   const approvalReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
   assert.equal(approvalReceipt.result.state,'admitted');
@@ -301,6 +305,8 @@ try {
   await page.getByRole('heading',{name:'Revision of previous claim',exact:true}).waitFor();
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
+  await page.getByRole('dialog').getByText('Approval recorded').waitFor();
+  await page.getByRole('button',{name:'Done',exact:true}).click();
   await page.getByText('You are caught up',{exact:true}).waitFor();
   const revisionApproval = await (await page.request.get(`${data.base}/owner/api/claims/${revision.claim.id}`)).json();
   assert.equal(revisionApproval.result.state,'admitted');

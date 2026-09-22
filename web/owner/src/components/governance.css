@@ -12,6 +12,9 @@
 .decisionNotice svg { width:18px; height:18px; flex:none; color:var(--accent); }
 .decisionNotice[data-state="admitted"] svg { color:var(--add); }
 .decisionNotice[data-state="rejected"] svg { color:var(--remove, #ad443c); }
+.decisionNotice[data-state="blocked"] svg,
+.decisionNotice[data-state="withdrawn"] svg,
+.decisionNotice[data-state="dependency_invalidated"] svg { color:var(--del); }
 .decisionNotice strong { font-weight:600; }
 .decisionNotice button { margin-left:16px; }
 .revisionPanel { padding:24px; border-bottom:1px solid var(--line); }
@@ -167,6 +170,7 @@
 .reviewActions { display:flex; flex-direction:column; align-items:stretch; gap:8px; margin-top:16px; }
 .reviewActions > button { width:100%; justify-content:center; }
 .reviewActions > button.secondaryAction { width:auto; align-self:flex-start; padding-inline:0; color:var(--ink-2); }
+.reviewActions .modelReviewDisclosure { flex-basis:100%; margin:2px 0 0; color:var(--ink-2); font:400 12px/1.5 var(--font-ui); }
 .queuedAction { display:flex; min-height:44px; align-items:center; padding:0 12px; border:1px solid var(--accent); background:var(--accent-soft); color:var(--accent); font-size:13px; font-weight:600; }
 .decisionStack { margin:16px 0; border-top:1px solid var(--line); }
 .decisionStack > div:not(.deterministicCheckDisclosure) { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
