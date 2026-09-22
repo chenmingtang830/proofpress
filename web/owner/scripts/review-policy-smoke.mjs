@@ -28,8 +28,7 @@ try {
   await page.getByRole('dialog',{name:'Review evidence with a model'}).waitFor();
   await screen('lm-confirm');
   await page.getByRole('button',{name:'Run model review',exact:true}).click();
-  await page.getByText('Reviewing bound evidence… You can keep reading this claim.').waitFor();
-  await page.getByText('Model review recorded. Open the review details to inspect the advice.').waitFor();
+  await page.getByText('Model review recorded. Read the advice and make your own decision below.',{exact:false}).waitFor();
   await page.getByRole('tab',{name:'Checks',exact:true}).click();
   await page.getByText('fixture/offline-judge · judge:fixture',{exact:true}).waitFor();
   await screen('lm-advice');
@@ -47,11 +46,13 @@ try {
   const approve = page.getByRole('button',{name:'Approve',exact:true});
   assert.ok(await approve.count() === 0 || !(await approve.isEnabled()), 'Failed checks must prevent approval');
   assert.equal(await page.getByRole('button',{name:'Run optional model review',exact:true}).count(),0);
+  await page.getByRole('heading',{name:'Not ready for owner review'}).waitFor();
+  await page.getByRole('button',{name:'Copy instructions for proposer'}).waitFor();
   await screen('blocked-before-model-or-human-review');
   await page.goto(`${data.base}/review?claim_id=${data.ids[3]}&view=full`);
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
   await page.getByRole('button',{name:'Run model review',exact:true}).click();
-  await page.getByText('Model review did not complete. You can retry; no approval was recorded.').waitFor();
+  await page.getByText('No approval was recorded.',{exact:false}).waitFor();
   await screen('lm-failed');
   await page.getByRole('button',{name:'Admin',exact:true}).click();
   await page.getByRole('heading',{name:'Review policy',exact:true}).waitFor();

@@ -19,6 +19,8 @@ try {
     createInterface({input:fixture.stdout}).once('line',line=>{clearTimeout(timer);resolve(JSON.parse(line));});
     fixture.once('exit', code=>{clearTimeout(timer);reject(new Error(`Fixture exited ${code}: ${diagnostics}`));});
   });
+  const screenshots = process.env.QA_SCREENSHOTS;
+  if (screenshots) await mkdir(screenshots,{recursive:true});
   if (process.env.QA_AGENT_BROWSER) {
     const exec = promisify(execFile);
     const args = ['--yes','agent-browser','--session','proofpress-jev-fixture'];
@@ -35,6 +37,7 @@ try {
   await page.goto(`${data.base}/home`);
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
+  if (screenshots) await page.screenshot({path:`${screenshots}/owner-home.png`,fullPage:true});
   await page.goto(`${data.base}/admin`);
   await page.getByLabel('Model provider',{exact:true}).selectOption('vercel_jev');
   assert.equal(await page.getByLabel('Model',{exact:true}).inputValue(),'typesafe-ai/jev');
@@ -50,9 +53,16 @@ try {
   assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'vercel_jev');
   assert.equal(await page.getByLabel('API key',{exact:true}).inputValue(),'');
   assert.ok(!(await page.locator('body').innerText()).includes('synthetic-jev-browser-key'));
+  await page.goto(`${data.base}/review`);
+  if (screenshots) await page.screenshot({path:`${screenshots}/review-queue.png`,fullPage:true});
   await page.goto(`${data.base}/review?claim_id=${data.ids[0]}&view=full`);
   await page.getByRole('button',{name:'Run deterministic checks',exact:true}).click();
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
+  const dialog = page.getByRole('dialog');
+  const bounds = await dialog.boundingBox();
+  assert.ok(bounds && Math.abs(bounds.x + bounds.width / 2 - 1536 / 2) <= 2,
+    'Model review dialog must be centered in the viewport');
+  if (screenshots) await page.screenshot({path:`${screenshots}/model-review-dialog.png`,fullPage:true});
   await page.getByRole('button',{name:'Run model review',exact:true}).click();
   await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).waitFor();
   await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).click();
@@ -64,8 +74,20 @@ try {
   assert.match(text,/98\.0%/);
   assert.match(text,/0\.950/);
   await page.getByRole('button',{name:'Dismiss model review status'}).click();
-  const screenshots = process.env.QA_SCREENSHOTS;
-  if (screenshots) await mkdir(screenshots,{recursive:true});
+  await page.goto(`${data.base}/review?claim_id=${data.ids[1]}`);
+  await page.getByRole('button',{name:'Run deterministic checks',exact:true}).click();
+  await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
+  await page.getByRole('button',{name:'Run model review',exact:true}).click();
+  await page.getByRole('button',{name:'Approve',exact:true}).waitFor();
+  assert.match(page.url(),/view=full/, 'Recorded advice should lead to the owner decision');
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),true);
+  await page.getByRole('button',{name:'Refresh model advice',exact:true}).click();
+  await page.getByRole('button',{name:'Run model review',exact:true}).click();
+  await page.locator('.shell[aria-busy="false"]').waitFor();
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),true,
+    'Retrying model advice must leave a viable human decision');
+  await page.goto(`${data.base}/review?claim_id=${data.ids[0]}&view=full`);
+  await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).click();
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:width === 390 ? 844 : 1024});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
@@ -85,6 +107,17 @@ try {
     await page.goto(`${data.base}/${route}`);
     assert.ok((await page.locator('body').innerText()).length > 30);
   }
+  await page.goto(`${data.base}/review?claim_id=${data.ids[1]}&view=full`);
+  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  const approvalDialog = page.getByRole('dialog');
+  const approvalBounds = await approvalDialog.boundingBox();
+  assert.ok(approvalBounds && Math.abs(approvalBounds.x + approvalBounds.width / 2 - 1536 / 2) <= 2,
+    'Approval dialog must be centered in the viewport');
+  if (screenshots) await page.screenshot({path:`${screenshots}/approval-confirmation.png`,fullPage:true});
+  await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
+  await page.getByRole('dialog').getByText('Approval recorded').waitFor();
+  assert.match(await page.getByRole('dialog').innerText(),/View approval receipt/);
+  if (screenshots) await page.screenshot({path:`${screenshots}/approval-receipt.png`,fullPage:true});
   assert.deepEqual(errors,[]);
   assert.equal((await page.request.get(`${data.base}/readyz`)).status(),200);
   console.log(JSON.stringify({ok:true,mode:'offline synthetic Jev',viewports:[1536,1024,390],browserErrors:errors}));

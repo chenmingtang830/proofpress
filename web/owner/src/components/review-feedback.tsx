@@ -34,6 +34,24 @@ export function RevisionInstructions({receipt, autoCopy = false}: any) {
   </div>;
 }
 
+export function BlockedCorrectionHandoff({receipt}: any) {
+  const [status, setStatus] = React.useState<"idle"|"copied"|"failed">("idle");
+  const field = React.useRef<HTMLTextAreaElement>(null);
+  const failed = Object.entries(receipt?.evaluation?.checks || {}).filter(([, passed]) => !passed).map(([name]) => name.replaceAll("_", " "));
+  const instructions = `Review Proofpress candidate ${receipt?.claim?.id || ""}. Deterministic checks failed: ${failed.join(", ") || "see the current review receipt"}. Correct the evidence or claim and submit a new candidate for owner review. Keep the blocked candidate excluded from reuse; do not overwrite or approve it.`;
+  async function copy() {
+    try { await navigator.clipboard.writeText(instructions); setStatus("copied"); }
+    catch { setStatus("failed"); }
+  }
+  return <section className="blockedCorrectionHandoff" aria-label="Correction handoff">
+    <div><strong>Next step</strong><p>Ask {receipt?.claim?.proposer || "the proposing agent"} to address these checks and submit a corrected candidate. This blocked claim stays excluded from reuse.</p></div>
+    {failed.length > 0 && <ul aria-label="Failed deterministic checks">{failed.map((name:string) => <li key={name}>{name}</li>)}</ul>}
+    <Button variant="outline" onClick={() => void copy()}>{status === "copied" ? "Instructions copied" : "Copy instructions for proposer"}</Button>
+    {status === "failed" && <><p role="status">Clipboard access failed. Select and copy these instructions.</p><Textarea ref={field} readOnly aria-label="Correction instructions" value={instructions} /><Button variant="ghost" onClick={() => { field.current?.focus(); field.current?.select(); }}>Select instructions</Button></>}
+    {status === "copied" && <span className="copySuccess" role="status">Instructions copied. Share them with the proposer.</span>}
+  </section>;
+}
+
 export function RevisionPanel({receipt, onChoose}: any) {
   return <section className="revisionPanel"><h3>Requested change</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote><RevisionInstructions key={receipt.revision_request.event_id} receipt={receipt} />{receipt.revisions?.length > 0 && <div className="revisionSubmissions"><h4>Revised proposals</h4>{receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>)}</div>}</section>;
 }

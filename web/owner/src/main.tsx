@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
+import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { ModalSurface } from "@/components/ui/modal-surface";
@@ -74,6 +74,8 @@ type Receipt = {
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean>; check_receipts?: Record<string, {rule?: string; inputs?: Record<string, unknown>}> };
   recommendation?: { recommendation?: string; rationale?: string; decision_audit?: DecisionAudit };
+  review?: {reviewer?: string; created_at?: string; note?: string};
+  admission?: {created_at?: string};
   revision_request?: any;
   revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
   reproposal_parent?: {id:string;statement:string;evidence_refs:string[];new_evidence_refs?:string[];reused_evidence_refs?:string[];reproposal_response?:string;rejection_reason?:string;rejection?:{note?:string};review?:{note?:string}} | null;
@@ -300,7 +302,8 @@ function App() {
   const [selectedRun, setSelectedRun] = React.useState<any>(null);
   const [runsLoading, setRunsLoading] = React.useState(false);
   const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
-  const [judgeMessage, setJudgeMessage] = React.useState("");
+  const [judgeMessage, setJudgeMessage] = React.useState<{claimId:string; claimTitle:string; text:string; tone:"info"|"success"|"error"}|null>(null);
+  const [admissionReceipt, setAdmissionReceipt] = React.useState<{receipt:Receipt; nextId:string|null}|null>(null);
   const [governanceMessage, setGovernanceMessage] = React.useState("");
   const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [credentialSecret, setCredentialSecret] = React.useState("");
@@ -714,6 +717,7 @@ function App() {
     setReceipt(null);
     setNote("");
     setError("");
+    setJudgeMessage(null);
     setDetailError("");
     try {
       const detail = await api(`/owner/api/claims/${encodeURIComponent(id)}`);
@@ -797,6 +801,7 @@ function App() {
       if (decision === "admit") {
         setFullReview(false);
         await load(nextPending);
+        setAdmissionReceipt({receipt: next, nextId: nextPending});
         requestAnimationFrame(() => document.querySelector(".stage")?.scrollTo({top: 0, behavior: "smooth"}));
       } else {
         setReceipt(next);
@@ -839,18 +844,25 @@ function App() {
   }
   async function runJudge() {
     if (!receipt || decisionPending.current) return;
+    const claimId = receipt.claim.id;
     setJudgeConfirmation(false);
     decisionPending.current = true;
     setBusy(true);
     setJudgeRunning(true);
     setError("");
-    setJudgeMessage("Reviewing bound evidence… You can keep reading this claim.");
+    const claimTitle = claimDisplayTitle(receipt.claim);
+    setJudgeMessage({claimId, claimTitle, text:"Reviewing bound evidence…", tone:"info"});
     try {
-      await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, claim_id: receipt.claim.id, confirmed: true})});
-      const next = await api(`/owner/api/claims/${encodeURIComponent(receipt.claim.id)}`);
+      await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, claim_id: claimId, confirmed: true})});
+      const next = await api(`/owner/api/claims/${encodeURIComponent(claimId)}`);
       setReceipt(next);
-      setJudgeMessage("Model review recorded. Open the review details to inspect the advice.");
-    } catch (e:any) { setJudgeMessage(`${e.message || "Model review did not complete."}${e.code ? ` (${e.code})` : ""} No approval was recorded.`); }
+      setJudgeMessage({claimId, claimTitle, text:"Model review recorded. Read the advice and make your own decision below.", tone:"success"});
+      openFullReview();
+    } catch (e:any) {
+      setJudgeMessage({claimId, claimTitle, text:`${e.message || "Model review did not complete."}${e.code ? ` (${e.code})` : ""} No approval was recorded.`, tone:"error"});
+      try { setReceipt(await api(`/owner/api/claims/${encodeURIComponent(claimId)}`)); }
+      catch { /* Keep the failure visible and let the owner retry. */ }
+    }
     finally { decisionPending.current = false; setBusy(false); setJudgeRunning(false); }
   }
   async function runChecks() {
@@ -894,7 +906,7 @@ function App() {
       setBusy(false);
     }
   }
-  const pending = rows.filter((r) => r.state === "needs_review" && r.id !== pendingRejection?.id).length;
+  const reviewAttentionCount = rows.filter((r) => ["needs_review", "unresolved", "blocked", "dependency_invalidated"].includes(r.state) && r.id !== pendingRejection?.id).length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
@@ -924,6 +936,29 @@ function App() {
             <div className="confirmationActions"><Button variant="outline" onClick={() => setRevisionHandoff(null)}>Close</Button><Button onClick={() => { setRevisionHandoff(null); openFullReview(); }}>View revision request</Button></div>
           </ModalSurface>
       </Dialog>
+      <Dialog open={Boolean(admissionReceipt)} onOpenChange={open => { if (!open) setAdmissionReceipt(null); }}>
+        <ModalSurface>
+          <DialogTitle>Approval recorded</DialogTitle>
+          <DialogDescription>The owner decision is in the ledger. Agents can rely on this claim only when its applicability and their access allow it.</DialogDescription>
+          {admissionReceipt && <dl className="approvalReceiptDetails">
+            <dt>Claim</dt><dd>{claimDisplayTitle(admissionReceipt.receipt.claim)}</dd>
+            <dt>Applies to</dt><dd>{reuseBoundary(admissionReceipt.receipt.claim)}</dd>
+            <dt>Recorded by</dt><dd>{admissionReceipt.receipt.review?.reviewer || "Owner"}</dd>
+            <dt>Recorded at</dt><dd>{admissionReceipt.receipt.admission?.created_at ? new Date(admissionReceipt.receipt.admission.created_at).toLocaleString() : "Recorded in decision history"}</dd>
+            <dt>Receipt state</dt><dd>{admissionReceipt.receipt.state === "admitted" ? "Admitted" : admissionReceipt.receipt.state}</dd>
+          </dl>}
+          <div className="confirmationActions">
+            <Button variant="outline" onClick={() => {
+              if (!admissionReceipt) return;
+              const claimId = admissionReceipt.receipt.claim.id;
+              setAdmissionReceipt(null);
+              setFullReview(true);
+              void choose(claimId);
+            }}>View approval receipt</Button>
+            <Button onClick={() => setAdmissionReceipt(null)}>{admissionReceipt?.nextId ? "Review next claim" : "Done"}</Button>
+          </div>
+        </ModalSurface>
+      </Dialog>
       <aside className="sidebar">
         <div className="brand">
           <span className="brandMark"><img src="/logo.svg" alt="" /></span>
@@ -942,7 +977,7 @@ function App() {
               >
                 <Icon />
                 <span>{labels[id]}</span>
-                {id === "review" && pending > 0 && <em>{pending}</em>}
+                {id === "review" && reviewAttentionCount > 0 && <em>{reviewAttentionCount}</em>}
               </Button>
             );
           })}
@@ -998,7 +1033,7 @@ function App() {
         <section className="stage">
           {page === "home" && (
             <HomePage
-              pending={pending}
+              pending={reviewAttentionCount}
               admitted={admitted}
               eligible={eligible}
               loading={loading}
@@ -1020,6 +1055,7 @@ function App() {
               onBack={backToReview}
               selected={selected}
               receipt={receipt}
+              judgeMessage={judgeMessage}
               detailError={detailError}
               loading={loading}
               onChoose={choose}
@@ -1080,7 +1116,7 @@ function App() {
           )}
         </section>
       </main>
-      {judgeMessage && page === "review" && <Alert className="judgeProgress" role="status">{judgeMessage}<Button variant="ghost" size="content" aria-label="Dismiss model review status" onClick={()=>setJudgeMessage("")}><X /></Button></Alert>}
+      {judgeMessage && page === "review" && judgeMessage.claimId === selected && <Alert className={`judgeProgress ${judgeMessage.tone}`} role={judgeMessage.tone === "error" ? "alert" : "status"}><span><strong>{judgeMessage.claimTitle}</strong> · {judgeMessage.text}</span><Button variant="ghost" size="content" aria-label="Dismiss model review status" onClick={()=>setJudgeMessage(null)}><X /></Button></Alert>}
       <Dialog open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
         <ModalSurface><DialogTitle>Review evidence with a model</DialogTitle><DialogDescription>Send this claim and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</DialogDescription><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run model review</Button></div></ModalSurface>
       </Dialog>
@@ -1110,8 +1146,9 @@ function PageHead({
 function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, contextError, onReview, onLedger, onAdmin, onChoose, onKnowledgeChoose }: any) {
   const queue = rows.filter((row: NodeRow) => ["needs_review", "unresolved"].includes(row.state));
   const reassessment = rows.filter((row: NodeRow) => row.state === "dependency_invalidated");
+  const correction = rows.filter((row: NodeRow) => row.state === "blocked");
   const next = queue[0];
-  const actionableCount = queue.length + reassessment.length;
+  const actionableCount = queue.length + reassessment.length + correction.length;
   const recentKnowledge = [...eligible].sort((a: NodeRow, b: NodeRow) => (b.created_at || "").localeCompare(a.created_at || "")).slice(0, 4);
   return (
     <div className="pageBody workspaceHome">
@@ -1124,6 +1161,7 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
           <div className="sectionTitle"><h2 id="home-review-title">Needs your decision</h2><span>{loading ? "Loading…" : `${actionableCount} actionable`}</span></div>
           {loading ? <p role="status">Loading candidate claims…</p> : <>
           {reassessment.length > 0 && <section className="homeReassessment"><div><strong>{reassessment.length} need reassessment</strong><p>Prior approval remains recorded, but current reuse is paused because a dependency changed.</p></div>{reassessment.slice(0, 3).map((row:NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><Badge state={row.state} /><ChevronRight /></Button>)}</section>}
+          {correction.length > 0 && <section className="homeCorrection"><div><strong>{correction.length} need correction</strong><p>Deterministic checks failed. Ask the proposer to correct the evidence or claim and submit a new candidate.</p></div>{correction.slice(0, 3).map((row:NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><Badge state={row.state} /><ChevronRight /></Button>)}</section>}
           {next ? <>
             <article className="nextClaim">
               <Badge state={next.state} />
@@ -1133,8 +1171,8 @@ function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, 
               <Button onClick={() => onChoose(next.id)}>Review this claim <ChevronRight /></Button>
             </article>
             {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><ChevronRight /></Button>)}</div>}
-            <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} pending` : ""}<ChevronRight /></Button>
-          </> : !reassessment.length && <Empty className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></Empty>}
+            <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} need attention` : ""}<ChevronRight /></Button>
+          </> : !reassessment.length && !correction.length && <Empty className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></Empty>}
           {rows.some((r: NodeRow) => r.state === "needs_revision") && <Button variant="ghost" size="content" className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></Button>}
           </>}
         </section>
@@ -1172,6 +1210,7 @@ function ReviewPage({
   rows,
   selected,
   receipt,
+  judgeMessage,
   loading,
   onChoose,
   onClose,
@@ -1186,7 +1225,7 @@ function ReviewPage({
   const [queue, setQueue] = React.useState("needs_review");
   const [reviewPage, setReviewPage] = React.useState(0);
   const pageSize = 20;
-  const queueFor = (state: string) => state === "unresolved" ? "needs_review" : state === "dependency_invalidated" ? "needs_reassessment" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
+  const queueFor = (state: string) => state === "unresolved" ? "needs_review" : state === "dependency_invalidated" ? "needs_reassessment" : state === "blocked" ? "needs_correction" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
   React.useEffect(() => { if (selected && receipt?.claim.id === selected) { setQueue(queueFor(receipt.state)); setReviewPage(0); } }, [selected, receipt?.state]);
   const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue).sort((left: any, right: any) => {
     const leftTime = Date.parse(queue === "decided" ? left.decision_at || left.created_at || "" : left.created_at || "");
@@ -1209,6 +1248,7 @@ function ReviewPage({
         />
         <div className="filterbar">
           <Button aria-label="Needs review" variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review · {queueCounts.needs_review || 0}</Button>
+          <Button aria-label="Needs correction" variant={queue === "needs_correction" ? "default" : "outline"} onClick={() => switchQueue("needs_correction")}>Needs correction · {queueCounts.needs_correction || 0}</Button>
           <Button aria-label="Needs revision" variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision · {queueCounts.needs_revision || 0}</Button>
           <Button aria-label="Needs reassessment" variant={queue === "needs_reassessment" ? "default" : "outline"} onClick={() => switchQueue("needs_reassessment")}>Needs reassessment · {queueCounts.needs_reassessment || 0}</Button>
           <Button aria-label="Decision history" variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history · {queueCounts.decided || 0}</Button>
@@ -1246,8 +1286,8 @@ function ReviewPage({
           </Table>
           {!loading && visibleRows.length === 0 && (
             <Empty className="emptyState reviewEmpty">
-              <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_revision" ? "No revision requests" : queue === "needs_reassessment" ? "No dependency changes need review" : "No decisions yet"}</strong>
-              <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Your approval, rejection, and revision decisions will appear here."}</p>
+              <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_correction" ? "No blocked candidates" : queue === "needs_revision" ? "No revision requests" : queue === "needs_reassessment" ? "No dependency changes need review" : "No decisions yet"}</strong>
+              <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_correction" ? "Candidates with failed deterministic checks will appear here with a correction handoff for their proposer." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Your approval, rejection, and revision decisions will appear here."}</p>
               {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current claims</Button>}
             </Empty>
           )}
@@ -1262,6 +1302,7 @@ function ReviewPage({
         pending={!!selected && !receipt}
         detailError={detailError}
         receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
+        judgeMessage={judgeMessage}
         onClose={onClose}
         note={note}
         setNote={setNote}
@@ -1368,7 +1409,7 @@ function Inspector({
   judgeRunning = false,
   onJudge, onEvaluate, onReassess,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false, detailError = "",
+  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, onViewLineage, pending = false, detailError = "", judgeMessage,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
@@ -1394,8 +1435,9 @@ function Inspector({
   const checksMissing = !Object.keys(r.evaluation?.checks || {}).length || (r.review_policy && !r.review_policy.checks_current);
   const judgeNeedsSetup = r.review_policy?.mode === "off";
   const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
-  const judgeInProgress = judgeRunning || (!r.recommendation && ["queued", "running"].includes(r.judge_job?.state));
-  const judgeFailed = !r.recommendation && ["failed", "interrupted"].includes(r.judge_job?.state);
+  const judgeInProgress = judgeRunning || ["queued", "running"].includes(r.judge_job?.state);
+  const judgeAttemptFailed = ["failed", "interrupted", "skipped"].includes(r.judge_job?.state) || (judgeMessage?.claimId === r.claim.id && judgeMessage?.tone === "error");
+  const judgeFailed = !r.recommendation && judgeAttemptFailed;
   const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting model advice. Refresh the model review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The model marked this claim Needs Attention. This workspace requires supporting model advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The model found that the evidence does not support this claim. This workspace requires supporting model advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting model advice before approval." : "";
   const evidenceRows = r.evidence || [];
   const previewEvidence = evidenceRows.slice(0, 2);
@@ -1420,8 +1462,14 @@ function Inspector({
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>
         </p>
-        {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button>)}
+        {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : r.state === "blocked" ? "Review blocked candidate" : "View decision"}</Button>)}
       </InspectorHeader>
+      {r.state === "blocked" && !readOnly && <section className="blockedReviewPanel" aria-labelledby="blocked-review-title">
+        <h2 id="blocked-review-title">Not ready for owner review</h2>
+        <p>The deterministic checks did not pass, so this candidate cannot be approved or sent to LM review. The proposer needs to correct it and submit a new candidate.</p>
+        <BlockedCorrectionHandoff receipt={r} />
+        <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="failed-checks"><AccordionTrigger>Inspect check receipts</AccordionTrigger><AccordionContent><CheckReceiptRows evaluation={r.evaluation} /></AccordionContent></AccordionItem></Accordion>
+      </section>}
       <RelationAdvicePanel items={r.relation_advice} />
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       {needsReassessment && <ReassessmentPanel claimId={r.claim.id} impacts={r.dependency_impact?.items || []} dependencies={r.dependencies || []} redacted={r.dependency_impact?.redacted || 0} note={note} setNote={setNote} busy={busy} showDecision={!onOpenFull || fullReview} onReassess={onReassess} />}
@@ -1433,29 +1481,30 @@ function Inspector({
         </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
-        {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
+        <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : r.judge_job?.state === "skipped" ? "Review skipped" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
+        {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>{r.recommendation ? "Refreshing model advice" : "LM is reviewing the bound evidence"}</strong><p>{r.recommendation ? "The previous advice remains recorded while this attempt runs." : "Checking whether each source supports the exact claim and reuse boundary."}</p></div></div>}
         {can && !fullReview && <div className="decisionStack" role="group" aria-label="Review steps">
           <DeterministicCheckDisclosure evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"} tone={checksMissing ? "" : failedChecks.length ? "fail" : "pass"} />
           <div><span className="reviewStepLabel">Model review <small className="modelAttribution">{modelAttribution}</small></span><span className="reviewStepValue">{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</span></div>
           <div className="authorityStep"><span className="reviewStepLabel">Owner authorization</span><span className="reviewStepValue">{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div>
         </div>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
-        {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
+        {judgeAttemptFailed && <section className="lmAttemptFailure" role="status"><strong>Latest model attempt {r.judge_job?.state === "skipped" ? "was skipped" : r.judge_job?.state === "interrupted" ? "was interrupted" : "failed"}</strong><p>{r.judge_job?.detail || "No new model advice was recorded."}</p>{r.recommendation && <p>Previous advice: <Badge state={r.recommendation.recommendation} /> {r.review_policy?.advice_current ? "It still matches the active review policy." : "It does not satisfy the active review policy."}</p>}</section>}
+        {r.judge_job?.state === "blocked" && <p>{r.judge_job.detail}</p>}
         {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">
           {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
             : <>
               {(judgeNeedsSetup || !onJudge) && onConfigurePolicy
                 ? <Button variant="outline" onClick={onConfigurePolicy}>Set up model review</Button>
-                : judgeFailed && onJudge
+                : judgeAttemptFailed && onJudge
                   ? <Button variant="outline" disabled={busy} onClick={onJudge}>Retry model review</Button>
-                  : judgePending && r.review_policy?.mode === "automatic"
+                  : judgePending && ["queued", "running"].includes(r.judge_job?.state)
                     ? <span className="queuedAction">Model review runs automatically after checks</span>
-                    : judgePending && onJudge && r.review_policy?.mode === "manual"
-                      ? <Button variant="outline" disabled={busy} onClick={onJudge}>Run optional model review</Button>
+                    : judgePending && onJudge
+                      ? <Button variant="outline" disabled={busy} onClick={onJudge}>{r.review_policy?.mode === "manual" ? "Run optional model review" : "Run model review"}</Button>
                       : null}
             </>}
-          {r.recommendation && onJudge && <Button variant="outline" disabled={busy} onClick={onJudge}>Refresh model advice</Button>}
+          {r.recommendation && onJudge && !judgeAttemptFailed && <Button variant="outline" disabled={busy} onClick={onJudge}>Refresh model advice</Button>}
           {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
