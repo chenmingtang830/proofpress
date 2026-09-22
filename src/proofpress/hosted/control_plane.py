@@ -8,6 +8,7 @@ import hashlib
 import hmac
 import json
 from pathlib import Path
+import re
 import secrets
 import sqlite3
 import threading
@@ -97,11 +98,9 @@ _JUDGE_FAILURE_DETAILS = {
 
 def _judge_failure_code(exc: Exception) -> str | None:
     """Interpret only known bounded judge markers, never upstream response text."""
-    message = str(exc)
-    for code in _JUDGE_FAILURE_DETAILS:
-        if f"judge_failure:{code}" in message:
-            return code
-    return None
+    match = re.match(r"judge command failed: judge_failure:([a-z_]+)(?:\s|;|$)", str(exc))
+    code = match.group(1) if match else None
+    return code if code in _JUDGE_FAILURE_DETAILS else None
 
 
 def _judge_job_failure_detail(exc: Exception) -> str:
