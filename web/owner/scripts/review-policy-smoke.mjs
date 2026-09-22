@@ -25,9 +25,7 @@ try {
   const screen=async name=>{if(process.env.QA_SCREENSHOTS){await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/${name}.png`});}};
   await page.goto(`${data.base}/review?claim_id=${data.ids[0]}&view=full`);
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
-  await page.getByRole('dialog',{name:'Review evidence with a model'}).waitFor();
-  await screen('lm-confirm');
-  await page.getByRole('button',{name:'Run model review',exact:true}).click();
+  assert.equal(await page.getByRole('dialog').count(),0,'Model review starts without a confirmation gate');
   await page.getByText('Model review recorded. Read the advice and make your own decision below.',{exact:false}).waitFor();
   await page.getByRole('tab',{name:'Checks',exact:true}).click();
   await page.getByText('fixture/offline-judge · judge:fixture',{exact:true}).waitFor();
@@ -51,7 +49,6 @@ try {
   await screen('blocked-before-model-or-human-review');
   await page.goto(`${data.base}/review?claim_id=${data.ids[3]}&view=full`);
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
-  await page.getByRole('button',{name:'Run model review',exact:true}).click();
   await page.getByText('No approval was recorded.',{exact:false}).waitFor();
   await screen('lm-failed');
   await page.getByRole('button',{name:'Admin',exact:true}).click();
@@ -78,5 +75,5 @@ try {
   await page.getByRole('columnheader',{name:'Operation',exact:true}).waitFor();
   await screen('technical-logs');
   assert.deepEqual(errors,[]);
-  console.log('PASS: offline LM dialog, success, failure, blocked approval, persistent policy, semantic activity and responsive admin');
+  console.log('PASS: direct offline LM review, success, failure, blocked approval, persistent policy, semantic activity and responsive admin');
 } finally {await browser?.close();fixture.stdin.end('\n');fixture.kill('SIGTERM');}

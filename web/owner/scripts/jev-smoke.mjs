@@ -58,12 +58,7 @@ try {
   await page.goto(`${data.base}/review?claim_id=${data.ids[0]}&view=full`);
   await page.getByRole('button',{name:'Run deterministic checks',exact:true}).click();
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
-  const dialog = page.getByRole('dialog');
-  const bounds = await dialog.boundingBox();
-  assert.ok(bounds && Math.abs(bounds.x + bounds.width / 2 - 1536 / 2) <= 2,
-    'Model review dialog must be centered in the viewport');
-  if (screenshots) await page.screenshot({path:`${screenshots}/model-review-dialog.png`,fullPage:true});
-  await page.getByRole('button',{name:'Run model review',exact:true}).click();
+  assert.equal(await page.getByRole('dialog').count(),0,'One click must start model review without a second confirmation');
   await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).waitFor();
   await page.getByRole('button',{name:'Jev review details · experimental',exact:true}).click();
   await page.getByText('Distribution confidence',{exact:true}).waitFor();
@@ -77,12 +72,10 @@ try {
   await page.goto(`${data.base}/review?claim_id=${data.ids[1]}`);
   await page.getByRole('button',{name:'Run deterministic checks',exact:true}).click();
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
-  await page.getByRole('button',{name:'Run model review',exact:true}).click();
   await page.getByRole('button',{name:'Approve',exact:true}).waitFor();
   assert.match(page.url(),/view=full/, 'Recorded advice should lead to the owner decision');
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),true);
   await page.getByRole('button',{name:'Refresh model advice',exact:true}).click();
-  await page.getByRole('button',{name:'Run model review',exact:true}).click();
   await page.locator('.shell[aria-busy="false"]').waitFor();
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).isEnabled(),true,
     'Retrying model advice must leave a viable human decision');

@@ -301,7 +301,6 @@ function App() {
   const [runs, setRuns] = React.useState<any[]>([]);
   const [selectedRun, setSelectedRun] = React.useState<any>(null);
   const [runsLoading, setRunsLoading] = React.useState(false);
-  const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
   const [judgeMessage, setJudgeMessage] = React.useState<{claimId:string; claimTitle:string; text:string; tone:"info"|"success"|"error"}|null>(null);
   const [admissionReceipt, setAdmissionReceipt] = React.useState<{receipt:Receipt; nextId:string|null}|null>(null);
   const [governanceMessage, setGovernanceMessage] = React.useState("");
@@ -845,7 +844,6 @@ function App() {
   async function runJudge() {
     if (!receipt || decisionPending.current) return;
     const claimId = receipt.claim.id;
-    setJudgeConfirmation(false);
     decisionPending.current = true;
     setBusy(true);
     setJudgeRunning(true);
@@ -1070,7 +1068,7 @@ function App() {
               onReassess={reassessClaim}
               busy={busy}
               judgeRunning={judgeRunning}
-              onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
+              onJudge={judgeConfigured ? () => void runJudge() : undefined}
               onEvaluate={runChecks}
               onConfigurePolicy={showAdmin}
               onLedger={() => navigate("ledger")}
@@ -1117,9 +1115,6 @@ function App() {
         </section>
       </main>
       {judgeMessage && page === "review" && judgeMessage.claimId === selected && <Alert className={`judgeProgress ${judgeMessage.tone}`} role={judgeMessage.tone === "error" ? "alert" : "status"}><span><strong>{judgeMessage.claimTitle}</strong> · {judgeMessage.text}</span><Button variant="ghost" size="content" aria-label="Dismiss model review status" onClick={()=>setJudgeMessage(null)}><X /></Button></Alert>}
-      <Dialog open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
-        <ModalSurface><DialogTitle>Review evidence with a model</DialogTitle><DialogDescription>Send this claim and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</DialogDescription><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run model review</Button></div></ModalSurface>
-      </Dialog>
     </div>
   );
 }
@@ -1506,6 +1501,7 @@ function Inspector({
             </>}
           {r.recommendation && onJudge && !judgeAttemptFailed && <Button variant="outline" disabled={busy} onClick={onJudge}>Refresh model advice</Button>}
           {approvalBlock && r.review_policy?.require_judge && onConfigurePolicy && <Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>}
+          {onJudge && !judgeNeedsSetup && <p className="modelReviewDisclosure">Model review sends bound evidence to {r.review_policy?.model || "the configured provider"}. Provider charges may apply. Advice does not authorize reuse.</p>}
         </div>}
         {can && !fullReview && <section className="evidenceArgument" aria-labelledby="evidence-argument-title">
           <div className="evidenceArgumentHead">

@@ -1,7 +1,7 @@
 import { Alert } from "./ui/alert";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
-import { Check } from "./ui/icon";
+import { Check, X } from "./ui/icon";
 import { Button } from "./ui/button";
 
 export function revisionInstructions(r: any) {
@@ -11,7 +11,8 @@ export function revisionInstructions(r: any) {
 
 export function DecisionNotice({state, children}: any) {
   const title = state === "needs_revision" ? "Changes requested" : state === "admitted" ? "Approved for reuse" : state === "rejected" ? "Rejected" : "Not available for reuse";
-  return <Alert className="decisionNotice" data-state={state} role="status"><Check aria-hidden="true" /><div><strong>{title}</strong>{children}</div></Alert>;
+  const excluded = ["blocked", "rejected", "withdrawn", "dependency_invalidated"].includes(state);
+  return <Alert className="decisionNotice" data-state={state} role="status">{excluded ? <X aria-hidden="true" /> : <Check aria-hidden="true" />}<div><strong>{title}</strong>{children}</div></Alert>;
 }
 
 export function RevisionInstructions({receipt, autoCopy = false}: any) {
