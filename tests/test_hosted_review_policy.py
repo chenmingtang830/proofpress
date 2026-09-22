@@ -307,6 +307,30 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertTrue(any(row["operation"] == "claim.judge.auto" and row["outcome"] == "judge_failed"
                             for row in audit))
 
+    def test_manual_judge_failure_interprets_safe_code_and_records_activity(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            self.control.save_review_policy(self.owner, self.settings, 0)
+        claim_id = self.proposal("manual failure")["result"]["claim"]["id"]
+        self.control.execute(self.owner, operation("claim.evaluate", {"claim_id": claim_id}))
+        with patch.object(kernel, "judge_v2", side_effect=ValueError(
+                "judge command failed: judge_failure:rate_limited; private provider body")):
+            failed = self.control.execute(self.owner, operation(
+                "claim.judge", {"claim_id": claim_id}))
+
+        self.assertFalse(failed["ok"])
+        self.assertEqual(failed["error"]["code"], "judge_rate_limited")
+        self.assertEqual(failed["error"]["message"],
+                         "LM provider rate limited the review. Retry later.")
+        self.assertNotIn("private provider body", str(failed))
+        activity = self.control.list_activity(self.owner)
+        attempt = next(row for row in activity if row["id"].startswith("judge-attempt-"))
+        self.assertEqual((attempt["subject_id"], attempt["error_code"]),
+                         (claim_id, "judge_rate_limited"))
+        self.assertNotIn("private provider body", str(attempt))
+        audit = self.control.list_audit(self.owner)
+        self.assertTrue(any(row["operation"] == "claim.judge" and
+                            row["outcome"] == "judge_rate_limited" for row in audit))
+
     def test_receipt_reconciles_failed_job_when_current_advice_was_recorded(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
             self.control.save_review_policy(

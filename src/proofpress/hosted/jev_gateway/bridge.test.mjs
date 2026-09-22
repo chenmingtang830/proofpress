@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { evaluateRequest, boundedFetch } from './bridge.mjs';
+import { evaluateRequest, boundedFetch, GatewayFailure } from './bridge.mjs';
 const body = { model: 'typesafe-ai/jev', state: { synthetic: true }, questions: {
   item_0_recommendation: { type: 'choice', instructions: 'Decide', criteria: { accept: 'Yes', reject: 'No', escalate: 'Unsure' } },
   item_0_support: { type: 'boolean', instructions: 'Supported?' },
@@ -33,9 +33,15 @@ test('missing keys and wrong model fail before network', async () => {
 });
 test('no retry on provider failure; malformed answers fail SDK validation', async () => {
   let calls = 0;
-  await assert.rejects(evaluateRequest(body, 'test', async () => { calls++; return new Response('Unavailable', { status: 503 }); }));
+  await assert.rejects(evaluateRequest(body, 'test', async () => { calls++; return new Response('secret provider body', { status: 503 }); }),
+    error => error instanceof GatewayFailure && error.code === 'http_503' && !String(error).includes('secret'));
   assert.equal(calls, 1);
-  await assert.rejects(evaluateRequest(body, 'test', async () => Response.json({ ...response, answers: {} })));
+  await assert.rejects(evaluateRequest(body, 'test', async () => Response.json({ ...response, answers: {} })),
+    error => error instanceof GatewayFailure && error.code === 'evaluation');
+});
+test('Gateway authentication status is classified without its response body', async () => {
+  await assert.rejects(evaluateRequest(body, 'test', async () => new Response('secret key detail', { status: 401 })),
+    error => error instanceof GatewayFailure && error.code === 'http_401' && !String(error).includes('secret'));
 });
 test('provider bodies are bounded before parsing', async () => {
   const prior = globalThis.fetch;

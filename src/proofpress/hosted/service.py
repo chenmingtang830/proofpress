@@ -135,7 +135,7 @@ def _status_for(envelope):
         return HTTPStatus.FORBIDDEN
     if code in {"ledger_head_conflict", "idempotency_conflict"}:
         return HTTPStatus.CONFLICT
-    if code in {"operation_rejected", "resource_not_found"}:
+    if code in {"operation_rejected", "resource_not_found"} or (isinstance(code, str) and code.startswith("judge_")):
         return HTTPStatus.UNPROCESSABLE_ENTITY
     if code in {"operation_io_error", "idempotency_store_invalid",
                 "idempotency_store_write_failed"}:

@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 from cryptography.fernet import Fernet
 from proofpress.hosted import jev, review_policy
-from proofpress.hosted.judge import judge
+from proofpress.hosted.judge import judge, JudgeFailure
 from proofpress.hosted.control_plane import HostedControlPlane
 from proofpress.kernel import operations as kernel
 from test_hosted_authority import evidence_payload, operation
@@ -379,6 +379,25 @@ class JevGatewayTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "no recommendation recorded") as caught:
                     judge(self.packet, provider="vercel_jev")
                 self.assertNotIn("secret", str(caught.exception)); self.assertEqual(run.call_count, 1)
+
+    def test_gateway_http_status_becomes_safe_judge_failure(self):
+        for status, code in ((401, "authentication"), (404, "model_or_endpoint"),
+                             (429, "rate_limited"), (503, "provider_unavailable"),
+                             (422, "provider_rejected")):
+            failure = subprocess.CalledProcessError(
+                1, "node", stderr=f"jev_gateway_failure:http_{status}\n".encode())
+            with self.subTest(status=status), patch.dict(os.environ, {
+                    "PROOFPRESS_JUDGE_API_KEY": "test"}), patch.object(
+                    jev.subprocess, "run", side_effect=failure):
+                with self.assertRaises(JudgeFailure) as caught:
+                    judge(self.packet, provider="vercel_jev")
+                self.assertEqual(caught.exception.code, code)
+        with patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "test"}), patch.object(
+                jev.subprocess, "run", side_effect=subprocess.CalledProcessError(
+                    1, "node", stderr=b"secret provider response")):
+            with self.assertRaisesRegex(ValueError, "no recommendation recorded") as caught:
+                judge(self.packet, provider="vercel_jev")
+            self.assertNotIn("secret", str(caught.exception))
 
 
 class JevGatewayHostedTests(JevHostedTests):

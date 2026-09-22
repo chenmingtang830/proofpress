@@ -5,6 +5,10 @@ import { pathToFileURL } from 'node:url';
 const LIMIT = 128_000;
 globalThis.AI_SDK_LOG_WARNINGS = false;
 
+export class GatewayFailure extends Error {
+  constructor(code) { super('Gateway evaluation failed'); this.code = code; }
+}
+
 // Bound provider responses before the SDK parses them, including error responses.
 export async function boundedFetch(url, options) {
   const response = await fetch(url, options);
@@ -27,11 +31,29 @@ export async function boundedFetch(url, options) {
 export async function evaluateRequest(body, apiKey, transport = boundedFetch) {
   if (!apiKey?.trim()) throw new Error('Gateway key is required');
   if (body.model !== 'typesafe-ai/jev') throw new Error('Unsupported evaluation model');
-  const gateway = createGateway({ apiKey, fetch: transport });
-  const result = await evaluate({
-    model: gateway.evaluationModel(body.model), state: body.state, questions: body.questions,
-    providerOptions: body.providerOptions, maxRetries: 0, abortSignal: AbortSignal.timeout(45_000),
-  });
+  let httpStatus = null;
+  let transportFailed = false;
+  const observedTransport = async (url, options) => {
+    try {
+      const response = await transport(url, options);
+      if (!response.ok) httpStatus = response.status;
+      return response;
+    } catch {
+      transportFailed = true;
+      throw new GatewayFailure('transport');
+    }
+  };
+  const gateway = createGateway({ apiKey, fetch: observedTransport });
+  let result;
+  try {
+    result = await evaluate({
+      model: gateway.evaluationModel(body.model), state: body.state, questions: body.questions,
+      providerOptions: body.providerOptions, maxRetries: 0, abortSignal: AbortSignal.timeout(45_000),
+    });
+  } catch {
+    if (httpStatus !== null) throw new GatewayFailure(`http_${httpStatus}`);
+    throw new GatewayFailure(transportFailed ? 'transport' : 'evaluation');
+  }
   // No raw headers, provider errors, or arbitrary provider metadata cross the boundary.
   const confidence = result.providerMetadata?.typesafe?.confidence;
   const answers = Object.fromEntries(Object.entries(result.answers).map(([id, answer]) => [id,
@@ -57,8 +79,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const output = JSON.stringify(result);
     if (Buffer.byteLength(output) > LIMIT) throw new Error('Output exceeds limit');
     process.stdout.write(output);
-  } catch {
-    process.stderr.write('Jev Gateway evaluation failed; no recommendation recorded\n');
+  } catch (error) {
+    process.stderr.write(`jev_gateway_failure:${error instanceof GatewayFailure ? error.code : 'unavailable'}\n`);
     process.exitCode = 1;
   }
 }
