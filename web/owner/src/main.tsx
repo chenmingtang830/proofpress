@@ -1166,8 +1166,61 @@ function ReviewPage({
     </div>
   );
 }
-function ReviewFact({label,value,detail,tone="",className=""}:any){
-  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong>{detail && <small className="modelAttribution">{detail}</small>}</CardContent></Card>;
+function ReviewFact({label,value,detail,tone="",className="",children}:any){
+  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong>{detail && <small className="modelAttribution">{detail}</small>}{children}</CardContent></Card>;
+}
+
+function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
+  return <div className="checkList">
+    {!Object.keys(evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
+    {Object.entries(evaluation?.checks || {}).map(([key, value]: any) => {
+      const receipt = evaluation?.check_receipts?.[key];
+      return <section key={key} className="checkReceipt">
+        <div className="checkReceiptResult">
+          <span>{key.replaceAll("_", " ")}</span>
+          <b className={value ? "pass" : "fail"}>{value ? <><Check />Passed</> : "Failed"}</b>
+        </div>
+        {receipt ? <div className="checkReceiptDetail">
+          <p>{receipt.rule || "Recorded deterministic policy requirement."}</p>
+          <dl>{Object.entries(receipt.inputs || {}).map(([label, input]) => <div key={label}>
+            <dt>{label.replaceAll("_", " ")}</dt>
+            <dd>{Array.isArray(input) ? (input.length ? input.join(", ") : "None") : String(input)}</dd>
+          </div>)}</dl>
+        </div> : <p className="checkReceiptLegacy">This earlier receipt records the result but not the checked inputs.</p>}
+      </section>;
+    })}
+  </div>;
+}
+
+function DeterministicCheckDisclosure({evaluation}: {evaluation?: Receipt["evaluation"]}) {
+  const checks = Object.entries(evaluation?.checks || {});
+  if (!checks.length) return null;
+  const receipts = evaluation?.check_receipts || {};
+  const sharedInputs = Object.values(receipts)[0]?.inputs;
+  const boundEvidence = Array.isArray(sharedInputs?.bound_evidence) ? sharedInputs.bound_evidence : null;
+  const availableEvidence = Array.isArray(sharedInputs?.available_evidence) ? sharedInputs.available_evidence : null;
+  return <Accordion type="single" collapsible className="checkReceiptDisclosure">
+    <AccordionItem value="deterministic-receipt">
+      <AccordionTrigger>What was checked ({checks.length})</AccordionTrigger>
+      <AccordionContent>
+        {sharedInputs && <div className="checkInputBasis">
+          <span>Input basis</span>
+          <p>Candidate <code>{String(sharedInputs.candidate || "Not recorded")}</code></p>
+          <p>Bound evidence ({boundEvidence?.length ?? 0})</p>
+          {boundEvidence?.length ? <ul>{boundEvidence.map((id, i) => <li key={`${String(id)}-${i}`}><code>{String(id)}</code></li>)}</ul> : <p>None</p>}
+          {availableEvidence && <p>{availableEvidence.length} of {boundEvidence?.length ?? 0} evidence envelopes available at evaluation.</p>}
+        </div>}
+        <ul className="checkSummaryList">{checks.map(([key, passed]) => {
+          const receipt = receipts[key];
+          const specificInputs = Object.entries(receipt?.inputs || {}).filter(([label]) => !["candidate", "bound_evidence", "available_evidence"].includes(label));
+          return <li key={key}>
+            <div className="checkSummaryResult"><span>{key.replaceAll("_", " ")}</span><strong className={passed ? "pass" : "fail"}>{passed ? "Passed" : "Failed"}</strong></div>
+            {receipt ? <><p>{receipt.rule || "Recorded deterministic policy requirement."}</p>{specificInputs.length > 0 && <p className="checkSpecificInputs">{specificInputs.map(([label, input]) => `${label.replaceAll("_", " ")}: ${String(input)}`).join(" · ")}</p>}</> : <p>Result recorded; checked inputs unavailable for this earlier receipt.</p>}
+          </li>;
+        })}</ul>
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>;
 }
 
 function ApplicabilityPanel({claim, compact = false}: {claim: Receipt["claim"]; compact?: boolean}) {
@@ -1258,13 +1311,13 @@ function Inspector({
         {fullReview ? <div className="reviewFactsGrid">
           <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
           <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
-          {can && <><ReviewFact label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""} /><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
+          {can && <><ReviewFact className="deterministicFact" label="Deterministic checks" value={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : ""}><DeterministicCheckDisclosure evaluation={r.evaluation} /></ReviewFact><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
         </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
         {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>LM is reviewing the bound evidence</strong><p>Checking whether each source supports the exact claim and reuse boundary.</p></div></div>}
-        {can && !fullReview && <dl className="decisionStack"><div><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd></div><div><dt>Model review <small className="modelAttribution">{modelAttribution}</small></dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
+        {can && !fullReview && <dl className="decisionStack"><div className="deterministicCheckSummary"><dt>Deterministic checks</dt><dd className={checksMissing ? "" : failedChecks.length ? "fail" : "pass"}>{checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"}</dd><DeterministicCheckDisclosure evaluation={r.evaluation} /></div><div><dt>Model review <small className="modelAttribution">{modelAttribution}</small></dt><dd>{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</dd></div><div className="authorityStep"><dt>Owner authorization</dt><dd>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</dd></div></dl>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
         {r.judge_job && ((judgeFailed && ["failed","interrupted"].includes(r.judge_job.state)) || r.judge_job.state === "blocked") && <p>{r.judge_job.detail}</p>}
         {can && (checksMissing || !failedChecks.length) && <div className="reviewActions">
@@ -1325,38 +1378,7 @@ function Inspector({
           )}
         </TabsContent>
         <TabsContent value="checks" className="tabContent">
-          <div className="checkList">
-            {!Object.keys(r.evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
-            {Object.entries(r.evaluation?.checks || {}).map(
-              ([key, value]: any) => {
-                const receipt = r.evaluation?.check_receipts?.[key];
-                return <section key={key} className="checkReceipt">
-                  <div className="checkReceiptResult">
-                  <span>{key.replaceAll("_", " ")}</span>
-                  <b className={value ? "pass" : "fail"}>
-                    {value ? (
-                      <>
-                        <Check />
-                        Passed
-                      </>
-                    ) : (
-                      "Failed"
-                    )}
-                  </b>
-                  </div>
-                  {receipt ? <div className="checkReceiptDetail">
-                    <p>{receipt.rule || "Recorded deterministic policy requirement."}</p>
-                    <dl>
-                      {Object.entries(receipt.inputs || {}).map(([label, input]) => <div key={label}>
-                        <dt>{label.replaceAll("_", " ")}</dt>
-                        <dd>{Array.isArray(input) ? (input.length ? input.join(", ") : "None") : String(input)}</dd>
-                      </div>)}
-                    </dl>
-                  </div> : <p className="checkReceiptLegacy">This earlier receipt records the result but not the checked inputs.</p>}
-                </section>;
-              },
-            )}
-          </div>
+          <CheckReceiptRows evaluation={r.evaluation} />
           <div className="recommendation">
             <span>Model review</span>
             {r.recommendation ? <Badge state={r.recommendation.recommendation} /> : <b>No recommendation recorded</b>}
