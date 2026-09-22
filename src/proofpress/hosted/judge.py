@@ -4,7 +4,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import socket
 import sys
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
@@ -32,6 +34,31 @@ PROVIDERS = {
 }
 
 
+class JudgeFailure(ValueError):
+    """A bounded, safe-to-display judge failure category."""
+
+    def __init__(self, code, message):
+        self.code = code
+        super().__init__(message)
+
+
+def _provider_failure(exc):
+    """Project an upstream failure without retaining its body or credentials."""
+    if isinstance(exc, HTTPError):
+        if exc.code in {401, 403}:
+            return JudgeFailure("authentication", "Judge provider authentication failed; update the API key.")
+        if exc.code == 404:
+            return JudgeFailure("model_or_endpoint", "Judge provider did not recognize the selected model or endpoint.")
+        if exc.code == 429:
+            return JudgeFailure("rate_limited", "Judge provider rate limited the review; retry later.")
+        if 500 <= exc.code <= 599:
+            return JudgeFailure("provider_unavailable", "Judge provider is temporarily unavailable; retry later.")
+        return JudgeFailure("provider_rejected", "Judge provider rejected the review request.")
+    if isinstance(exc, (TimeoutError, socket.timeout, URLError, OSError)):
+        return JudgeFailure("connection", "Judge provider connection failed or timed out; retry later.")
+    return JudgeFailure("invalid_verdict", "Judge unavailable or returned an invalid verdict; no recommendation recorded")
+
+
 def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
     model = model or ({"typesafe": "jev-latest", "vercel_jev": "typesafe-ai/jev"}.get(provider, DEFAULT_MODEL))
     if provider == "vercel_jev":
@@ -48,10 +75,10 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
            else os.environ.get("OPENROUTER_API_KEY", "") if provider == "openrouter" else "") or ""
     key = key.strip()
     if not key:
-        raise ValueError("Judge API key is not configured")
+        raise JudgeFailure("configuration", "Judge API key is not configured")
     packed = json.dumps(packet, ensure_ascii=False)
     if len(packed.encode()) > MAX_PACKET_BYTES:
-        raise ValueError("Judge evidence packet exceeds the bounded input limit")
+        raise JudgeFailure("input_limit", "Judge evidence packet exceeds the bounded input limit")
     instruction = SYSTEM + ("\n\nWorkspace evaluation criteria:\n" + criteria if criteria else "")
     target = endpoint or PROVIDERS.get(provider, "")
     if provider == "anthropic":
@@ -95,7 +122,7 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
             raise ValueError("invalid rationale")
     except Exception as exc:
         # Never return provider bodies, credentials, or raw evidence in an error.
-        raise ValueError("Judge unavailable or returned an invalid verdict; no recommendation recorded") from exc
+        raise _provider_failure(exc) from exc
     return {"recommendation": verdict["recommendation"], "rationale": rationale,
             "adapter": f"proofpress-{provider}-judge/v1", "model": model}
 
@@ -111,10 +138,13 @@ def main():
     try:
         raw = sys.stdin.buffer.read(MAX_PACKET_BYTES + 1)
         if len(raw) > MAX_PACKET_BYTES:
-            raise ValueError("Judge evidence packet exceeds the bounded input limit")
+            raise JudgeFailure("input_limit", "Judge evidence packet exceeds the bounded input limit")
         print(json.dumps(judge(json.loads(raw), args.model, args.provider, args.endpoint, args.criteria, args.zdr)))
+    except JudgeFailure as exc:
+        print(f"judge_failure:{exc.code}", file=sys.stderr)
+        return 1
     except Exception:
-        print("Advisory judge failed; check configuration or retry.", file=sys.stderr)
+        print("judge_failure:unavailable", file=sys.stderr)
         return 1
     return 0
 
