@@ -112,6 +112,10 @@ class ContextDiscoveryTests(unittest.TestCase):
             proposer="agent:contract-review")
         evaluation = self.kernel_ops.evaluate_v2(proposal["claim"]["id"])
         self.assertFalse(evaluation["checks"]["reuse_boundary_present"])
+        receipt = evaluation["check_receipts"]["reuse_boundary_present"]
+        self.assertIn("legacy scope", receipt["rule"])
+        self.assertEqual(receipt["inputs"]["candidate"], proposal["claim"]["id"])
+        self.assertEqual(receipt["inputs"]["bound_evidence"], [evidence])
 
     def test_relations_are_not_constrained_by_legacy_scope(self):
         evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]

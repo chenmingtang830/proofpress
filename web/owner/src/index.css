@@ -665,14 +665,41 @@ td:last-child svg {
   color: var(--ink-2);
   font-size: 10px;
 }
-.checkList > div {
+.checkReceipt {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
+}
+.checkReceiptResult {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  padding: 10px 0;
   text-transform: capitalize;
   font-size: 12px;
+}
+.checkReceiptDetail > p,
+.checkReceiptLegacy {
+  max-width: 70ch;
+  margin: 7px 0 0;
+  color: var(--ink-2);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.checkReceiptDetail dl {
+  display: grid;
+  grid-template-columns: minmax(120px, .32fr) minmax(0, 1fr);
+  gap: 5px 14px;
+  margin: 10px 0 0;
+  font-size: 11px;
+}
+.checkReceiptDetail dt {
+  color: var(--ink-2);
+  text-transform: capitalize;
+}
+.checkReceiptDetail dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--font-proof);
 }
 .checkList b {
   display: flex;

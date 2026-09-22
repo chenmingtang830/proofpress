@@ -68,7 +68,7 @@ type Receipt = {
     } | null;
   };
   evidence?: any[];
-  evaluation?: { checks?: Record<string, boolean> };
+  evaluation?: { checks?: Record<string, boolean>; check_receipts?: Record<string, {rule?: string; inputs?: Record<string, unknown>}> };
   recommendation?: { recommendation?: string; rationale?: string; decision_audit?: DecisionAudit };
   revision_request?: any;
   revision_parent?: {id:string;statement:string;evidence_refs:string[];review?:{note?:string}} | null;
@@ -1328,8 +1328,10 @@ function Inspector({
           <div className="checkList">
             {!Object.keys(r.evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
             {Object.entries(r.evaluation?.checks || {}).map(
-              ([key, value]: any) => (
-                <div key={key}>
+              ([key, value]: any) => {
+                const receipt = r.evaluation?.check_receipts?.[key];
+                return <section key={key} className="checkReceipt">
+                  <div className="checkReceiptResult">
                   <span>{key.replaceAll("_", " ")}</span>
                   <b className={value ? "pass" : "fail"}>
                     {value ? (
@@ -1341,8 +1343,18 @@ function Inspector({
                       "Failed"
                     )}
                   </b>
-                </div>
-              ),
+                  </div>
+                  {receipt ? <div className="checkReceiptDetail">
+                    <p>{receipt.rule || "Recorded deterministic policy requirement."}</p>
+                    <dl>
+                      {Object.entries(receipt.inputs || {}).map(([label, input]) => <div key={label}>
+                        <dt>{label.replaceAll("_", " ")}</dt>
+                        <dd>{Array.isArray(input) ? (input.length ? input.join(", ") : "None") : String(input)}</dd>
+                      </div>)}
+                    </dl>
+                  </div> : <p className="checkReceiptLegacy">This earlier receipt records the result but not the checked inputs.</p>}
+                </section>;
+              },
             )}
           </div>
           <div className="recommendation">
