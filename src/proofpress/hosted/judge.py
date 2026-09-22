@@ -65,7 +65,10 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
         from . import jev
         if endpoint and endpoint != "https://ai-gateway.vercel.sh/v4/ai":
             raise ValueError("Vercel Jev uses the fixed AI SDK Gateway endpoint")
-        return jev.judge(packet, model, criteria, gateway=True, zdr=zdr)
+        try:
+            return jev.judge(packet, model, criteria, gateway=True, zdr=zdr)
+        except jev.JevGatewayFailure as exc:
+            raise JudgeFailure(exc.code, str(exc)) from None
     if provider == "typesafe":
         from .jev import judge as jev_judge
         if endpoint and endpoint != "https://api.typesafe.ai/v1/systemone":

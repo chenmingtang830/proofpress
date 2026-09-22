@@ -93,6 +93,8 @@ _JUDGE_FAILURE_DETAILS = {
     "connection": "LM provider connection failed or timed out. Retry later.",
     "input_limit": "LM review packet exceeded the configured input limit.",
     "invalid_verdict": "LM provider returned an invalid advisory verdict.",
+    "gateway_transport": "Vercel Gateway transport failed. Retry later.",
+    "gateway_evaluation": "Vercel Gateway evaluation failed after transport; check model support or response contract.",
 }
 
 
