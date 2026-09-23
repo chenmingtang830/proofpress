@@ -276,7 +276,7 @@ def judge(packet, model=DEFAULT_MODEL, criteria="", *, opener=urlopen, gateway=F
             rationale += (f" Relation type: declared={declared_relation_type}; "
                          f"selected={selected}; probability={relation_answer['probabilities'][selected]:.3f}; "
                          f"confidence={relation_answer['confidence']:.3f}.")
-        rationale += " Human Approval remains required."
+        rationale += " A recommendation does not approve a claim; only an owner decision or an explicitly enabled owner policy can admit it."
         audit = {"schema_version": "proofpress/decision-audit/v1", "backend": "jev",
                  "question_set_version": (RELATION_TYPE_QUESTION_VERSION if declared_relation_type is not None
                                           else VERSION),

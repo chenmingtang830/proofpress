@@ -11,7 +11,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
-const AGENT_POLICY_FIELDS = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent"];
+const AGENT_POLICY_FIELDS = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent","auto_admit_new_claims"];
 
 export function mergeAgentPolicyDraft(current: any, draft: any) {
   if (!draft || typeof draft !== "object" || Array.isArray(draft)) throw new Error("invalid draft");
@@ -55,7 +55,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     try {
       const row = await api("/owner/api/review-policy");
       setRecord(row);
-      const initial = row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true} : row.settings;
+      const initial = row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true, auto_admit_new_claims:false} : row.settings;
       const base = ensureProviderDefault(initial, row.providers);
       const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
       if (prepared) {
@@ -93,6 +93,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
+  const hasProviderCredential = Boolean(record?.credential?.configured && !removeKey) || Boolean(apiKey.trim());
   const selectedProvider = record?.providers?.[settings?.provider];
   const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
   return <Card className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
@@ -100,7 +101,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload</Button></div>}
     {!settings ? <CardContent><p role="status">Loading policy…</p></CardContent> : <CardContent><form onSubmit={save}>
       <fieldset className="approvalRequirement"><legend>Approval gate</legend>
-        <RadioGroup className="approvalChoices" value={settings.require_judge ? "required" : "advisory"} onValueChange={value=>change("require_judge",value==="required")}>
+        <RadioGroup className="approvalChoices" value={settings.require_judge ? "required" : "advisory"} onValueChange={value=>setSettings({...settings,require_judge:value==="required",auto_admit_new_claims:value==="required"?settings.auto_admit_new_claims:false})}>
           <Label className={!settings.require_judge ? "selected" : ""}><RadioGroupItem value="advisory"/><span><b>Human decision anytime</b><small>Model advice informs the review but does not block Approve.</small></span></Label>
           <Label className={settings.require_judge ? "selected" : ""}><RadioGroupItem value="required" disabled={settings.mode==="off"}/><span><b>Require supporting model advice</b><small>Approve unlocks only when current model advice supports the evidence.</small></span></Label>
         </RadioGroup>
@@ -114,7 +115,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
           </NativeSelect>}
             {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <Input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
             <small>Choose a provider model or enter another supported model ID.</small></Label>
-          <Label>Model review<NativeSelect aria-label="Model review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></NativeSelect></Label>
+          <Label>Model review<NativeSelect aria-label="Model review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge,auto_admit_new_claims:mode==="automatic"?settings.auto_admit_new_claims:false});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></NativeSelect></Label>
           {(selectedProvider?.endpoint_required || selectedProvider?.endpoint_editable) && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off" && selectedProvider.endpoint_required} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} />{selectedProvider.endpoint_editable && <small>Leave blank to use the provider's hosted endpoint.</small>}</Label>}
         </div>
         <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
@@ -136,7 +137,11 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
         <Label className="policyCheck"><Checkbox checked={settings.external_consent} onCheckedChange={checked=>change("external_consent",checked === true)} />Allow external model processing for this workspace</Label>
         {["openrouter", "vercel_jev"].includes(settings.provider) && <Label className="policyCheck"><Checkbox checked={settings.zdr} onCheckedChange={checked=>change("zdr",checked === true)} />Require {settings.provider === "vercel_jev" ? "Vercel Gateway" : "OpenRouter"} Zero Data Retention routing</Label>}
       </fieldset>
-      <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":"Save & activate"}</Button></div>
+      <fieldset className="autoAdmissionFieldset"><legend>Automatic approval</legend>
+        <Label className="policyCheck autoAdmissionToggle"><Checkbox checked={settings.auto_admit_new_claims === true} disabled={!settings.auto_admit_new_claims && (settings.mode !== "automatic" || !settings.require_judge || !settings.criteria.trim() || !settings.external_consent || !hasProviderCredential)} onCheckedChange={checked=>change("auto_admit_new_claims",checked === true)} /><span><b>Approve qualifying new claims automatically</b><small>Applies to every new claim in this workspace, including high-risk claims.</small></span></Label>
+        {settings.auto_admit_new_claims ? <div className="policyWarning autoAdmissionWarning" role="note"><strong>Automatic approval will take effect when you save.</strong><p>Scope: every new claim in this workspace, including high-risk claims. New claims enter approved knowledge when current checks pass, there is no unresolved conflict or invalid dependency, and the configured model recommends “Evidence supported.” Claims the model rejects, escalates, or cannot review stay for your decision. Qualifying claims will not receive per-claim human approval. Model recommendations are not calibrated probabilities.</p></div> : <p className="policyHint">Off by default. To enable it, run model review automatically, require supporting advice, add criteria, provide a valid API key, and allow provider processing.</p>}
+      </fieldset>
+      <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":settings.auto_admit_new_claims?"Save & enable automatic approval":"Save & activate"}</Button></div>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}
     </form></CardContent>}
   </Card>;

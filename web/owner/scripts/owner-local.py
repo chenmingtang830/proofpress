@@ -10,7 +10,10 @@ import threading
 from pathlib import Path
 
 from proofpress import ProofpressClient
-from proofpress.hosted.service import create_hosted_server
+from proofpress.hosted.service import (
+    create_hosted_server,
+    enable_local_owner_preview,
+)
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
@@ -58,7 +61,7 @@ def seed_preview(base, agent_token):
     statements = [
         "A durable product decision should stay connected to the minimum evidence needed for a future reviewer to understand when it applies.",
         "Long model advice should remain available for audit without displacing the human decision path in the review interface.",
-        "Only authorized Human Approval admits a candidate conclusion for downstream reuse; automated checks and model advice remain inputs to that decision.",
+        "A candidate becomes reusable only after an owner decision or an explicitly enabled owner policy; checks and model advice remain recorded inputs.",
     ]
     for index, statement in enumerate(statements, start=1):
         quote = statement + " " + (
@@ -90,10 +93,11 @@ def seed_preview(base, agent_token):
                 },
             }
         )
-        proposal = client.propose_conclusion(
-            statement, evidence["evidence"], "local-preview", "agent:local-preview"
+        proposal = client.propose_claim(
+            statement, evidence["evidence"], "local-preview", "agent:local-preview",
+            title=f"Synthetic preview claim {index}",
         )
-        client.evaluate_conclusion(proposal["conclusion"]["id"])
+        client.evaluate_claim(proposal["claim"]["id"])
 
 
 def ensure_admitted_preview(base, agent_token, owner_token):
@@ -101,12 +105,12 @@ def ensure_admitted_preview(base, agent_token, owner_token):
     agent = ProofpressClient.localhost(base, agent_token)
     owner = ProofpressClient.localhost(base, owner_token)
     statement = (
-        "A localhost preview should preserve one human-admitted synthetic conclusion "
+        "A localhost preview should preserve one owner-approved synthetic conclusion "
         "so reviewers can inspect governed lineage without using production knowledge."
     )
     quote = (
         statement
-        + " This fixture is synthetic, scoped only to local-preview, and admitted by "
+        + " This fixture is synthetic, scoped only to local-preview, and approved by "
         "the dedicated localhost owner credential for interface verification."
     )
     evidence = agent.submit_evidence(
@@ -150,7 +154,7 @@ def ensure_admitted_preview(base, agent_token, owner_token):
         claim_id,
         "admit",
         "human:local-owner",
-        note="Synthetic localhost fixture admitted for Ledger and lineage UI verification.",
+        note="Synthetic localhost fixture approved for Knowledge and lineage UI verification.",
         idempotency_key="local-preview-admitted-review-v2",
     )
 
@@ -158,11 +162,14 @@ def ensure_admitted_preview(base, agent_token, owner_token):
 def main():
     if "--serve-only" in sys.argv:
         # Manual UI review against an existing synthetic workspace. Do not read
-        # credentials, create proposals, or record admissions on this path.
-        if not DATABASE.exists():
+        # or rotate credentials, create proposals, or record admissions. The
+        # stored owner token is used only server-side for loopback browser login.
+        if not DATABASE.exists() or not CREDENTIALS.exists():
             raise SystemExit("No existing local preview database. Run the normal local preview setup manually first.")
         os.environ["PROOFPRESS_WORKSPACE_LABEL"] = "Local preview · persistent synthetic data"
         server = create_hosted_server(DATABASE, port=PORT)
+        credentials = json.loads(CREDENTIALS.read_text(encoding="utf-8"))
+        enable_local_owner_preview(server, credentials["owner"])
         print(json.dumps({"event": "local_preview_ready", "base": f"http://127.0.0.1:{server.server_port}", "mode": "serve-only"}), flush=True)
         try:
             server.serve_forever()
@@ -186,6 +193,7 @@ def main():
     )
     server.proofpress_control.authenticate(credentials["owner"])
     server.proofpress_control.authenticate(credentials["agent"])
+    enable_local_owner_preview(server, credentials["owner"])
     threading.Thread(target=server.serve_forever, daemon=True).start()
     base = f"http://127.0.0.1:{server.server_port}"
     if not database_exists:
@@ -197,7 +205,6 @@ def main():
             {
                 "event": "local_preview_ready",
                 "base": base,
-                "owner_credential": credentials["owner"],
                 "credential_file": str(CREDENTIALS),
                 "reused": database_exists,
             }

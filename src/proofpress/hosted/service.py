@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 from html import escape
+import ipaddress
 import json
 import mimetypes
 import os
@@ -318,6 +319,35 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return None
         return session
 
+    def _local_preview_host_allowed(self):
+        if not getattr(self.server, "proofpress_local_owner_context", None):
+            return True
+        try:
+            if not ipaddress.ip_address(self.client_address[0]).is_loopback:
+                return False
+        except ValueError:
+            return False
+        port = self.server.server_port
+        return self.headers.get("Host", "").lower() in {
+            f"127.0.0.1:{port}", f"localhost:{port}", f"[::1]:{port}"}
+
+    def _new_local_preview_session(self):
+        context = self.server.proofpress_control.refresh_context(
+            self.server.proofpress_local_owner_context)
+        if context.role != "owner":
+            return None
+        session_id = secrets.token_urlsafe(32)
+        session = {
+            "context": context,
+            "csrf": secrets.token_urlsafe(24),
+            "expires_at": time.time() + self.server.proofpress_owner_session_ttl_seconds,
+        }
+        with self.server.proofpress_owner_session_lock:
+            self.server.proofpress_owner_sessions[session_id] = session
+        cookie = (f"pp_owner={session_id}; Path=/; HttpOnly; SameSite=Strict"
+                  f"; Max-Age={self.server.proofpress_owner_session_ttl_seconds}")
+        return dict(session), cookie
+
     @staticmethod
     def _page(title, body):
         return ("<!doctype html><html><head><meta charset=utf-8>"
@@ -335,12 +365,14 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def _ui_asset():
         return Path(__file__).with_name("static") / "index.html"
 
-    def _owner_ui(self, session):
+    def _owner_ui(self, session, cookie=None):
         encoded = self._ui_asset().read_bytes()
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(encoded)))
         self.send_header("Cache-Control", "no-store")
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Content-Security-Policy",
                          "default-src 'none'; style-src 'self' 'unsafe-inline'; "
@@ -381,7 +413,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     "withdraw": True, "reassess": True,
                     "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),
                     "judge": self._owner_operation(session, "configuration.get")["result"]["judge"]["configured"],
-                }}})
+                }, "local_owner_preview": bool(
+                    self.server.proofpress_local_owner_context)}})
         if path == "/owner/api/review-policy":
             return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["context"])})
         if path == "/owner/api/summary":
@@ -403,6 +436,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "task": query.get("task", [None])[-1],
                 "include_blocked_statements": True,
             })
+        elif path == "/owner/api/dashboard":
+            return self._json(HTTPStatus.OK, {"ok": True, "result":
+                self.server.proofpress_control.home_dashboard(session["context"])})
         elif path == "/owner/api/runs":
             query = parse_qs(parsed.query)
             envelope = self._owner_operation(session, "run.list", {
@@ -494,6 +530,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path
+        if not self._local_preview_host_allowed():
+            return self._json(HTTPStatus.FORBIDDEN, {"error": "local_preview_origin_required"})
         if path == "/.well-known/oauth-protected-resource":
             return self._json(HTTPStatus.OK, {
                 "resource": self._mcp_resource(),
@@ -587,13 +625,32 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._static_asset(path)
         if path in {"/", "/home", "/review", "/ledger", "/runs", "/activity", "/admin"}:
             session = self._owner_session()
+            cookie = None
+            if (not session
+                    and getattr(self.server, "proofpress_local_owner_context", None)
+                    and ipaddress.ip_address(self.client_address[0]).is_loopback):
+                local_session = self._new_local_preview_session()
+                if local_session:
+                    session, cookie = local_session
             if not session:
                 return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
-            return self._owner_ui(session)
+            return self._owner_ui(session, cookie)
         return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if not self._local_preview_host_allowed():
+            return self._json(HTTPStatus.FORBIDDEN, {"error": "local_preview_origin_required"})
+        local_context = getattr(self.server, "proofpress_local_owner_context", None)
+        origin = self.headers.get("Origin")
+        if local_context and origin:
+            expected_origins = {
+                f"http://127.0.0.1:{self.server.server_port}",
+                f"http://localhost:{self.server.server_port}",
+                f"http://[::1]:{self.server.server_port}",
+            }
+            if origin.rstrip("/").lower() not in expected_origins:
+                return self._json(HTTPStatus.FORBIDDEN, {"error": "local_preview_origin_required"})
         if path == "/register":
             if not self._allow_auth_attempt("register"):
                 return self._auth_rate_limited()
@@ -968,6 +1025,7 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     server = HostedThreadingHTTPServer(
         (host, port), HostedOperationHandler, max_concurrent_requests)
     server.proofpress_control = control
+    server.proofpress_local_owner_context = None
     server.proofpress_max_request_bytes = max_request_bytes
     server.proofpress_owner_sessions = {}
     server.proofpress_owner_session_lock = threading.Lock()
@@ -990,6 +1048,20 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
         server.proofpress_public_base_url = None
     control.resume_judge_jobs()
     return server
+
+
+def enable_local_owner_preview(server, owner_token):
+    """Enable automatic browser sign-in only for an explicitly local preview."""
+    try:
+        loopback = ipaddress.ip_address(server.server_address[0]).is_loopback
+    except ValueError:
+        loopback = False
+    if not loopback:
+        raise ValueError("local owner preview requires a loopback-bound server")
+    context = server.proofpress_control.authenticate(owner_token)
+    if context.role != "owner":
+        raise ValueError("local owner preview requires an owner credential")
+    server.proofpress_local_owner_context = context
 
 
 def _owner_token(args):

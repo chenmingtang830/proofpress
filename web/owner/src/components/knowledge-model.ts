@@ -33,6 +33,9 @@ export function selectKnowledge(rows: KnowledgeRow[], query: string, topic: stri
 }
 export function admissionRecord(receipt: any) {
   if (receipt.review?.decision === "admit") return receipt.review;
+  if (receipt.admission?.authority === "owner_policy") return receipt.admission;
+  const automatic = [...(receipt.history || [])].reverse().find(event => event.type === "claim_auto_admitted" && event.authority === "owner_policy");
+  if (automatic) return automatic;
   return [...(receipt.history || [])].reverse().find(event => ["human_reviewed", "human_review"].includes(event.type) && event.decision === "admit") || null;
 }
 export function knowledgeDate(value?: string) {

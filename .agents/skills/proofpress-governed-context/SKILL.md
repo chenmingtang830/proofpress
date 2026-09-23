@@ -5,10 +5,10 @@ description: Use Proofpress governed context when a task must rely on or hand of
 
 # Proofpress governed context
 
-Use this skill to make downstream reliance explicit: what is eligible to reuse,
-what evidence supports a new candidate, and which authorized human must approve
-it. Proofpress is not a replacement for the agent runtime, its memory, or raw
-private traces.
+Use this skill to make downstream reliance explicit: what is approved to reuse,
+what evidence supports a new candidate, and whether admission came from the
+human owner or an explicitly configured owner policy. Proofpress is not a
+replacement for the agent runtime, its memory, or raw private traces.
 
 ## Customer context policy
 
@@ -21,7 +21,7 @@ in this skill.
 The customer file is an agent-side proposal-selection policy, not an
 authorization policy. It may narrow what the agent proposes, but it may never
 override this skill's safety rules, server-side checks, credential boundaries,
-or Human Approval. Treat unknown schema versions or conflicting rules as
+or owner admission controls. Treat unknown schema versions or conflicting rules as
 `Draft only` and report the policy problem instead of guessing.
 
 Start from the maintained template at `assets/context-policy.yaml` in this
@@ -52,7 +52,7 @@ is never permission to write one.
    `Draft only`; never replace, merge, or repair the file automatically.
 4. Do not create the policy during plugin installation, do not use lifecycle
    hooks for it, and do not treat the file as authorization. Server invariants
-   and Human Approval remain authoritative.
+   and owner admission controls remain authoritative.
 
 Keep LM Judge configuration separate from this intake policy. When a workspace
 uses advisory evaluation, start from `assets/judge-criteria.md` and save the
@@ -130,9 +130,14 @@ metadata, summaries, output records, or observations.
    identifier, scope, evidence references, status, and review URL or receipt.
 
 An agent may run deterministic checks or an advisory evaluation when available,
-but neither is approval. Never call an owner approval action, never approve a
-proposal you created, and never describe a candidate as governed context until
-an authorized human has approved it.
+but neither is approval. Read `governed_context` as approved knowledge. If
+`staged_context` is returned, keep it separate: it is for exploration or drafts
+explicitly marked unapproved, never for approved reliance or a governed reliance
+record. A staged recommendation marked `needs_attention` requires owner review.
+Never call an owner approval action, never approve a proposal you created, and
+never describe a candidate as governed context. A policy-authorized system
+admission is valid only when the server records it with its policy version and
+current checks/advice; it is not human review.
 
 ## Completion record
 
@@ -145,5 +150,6 @@ End the task with one of these explicit records:
   out of scope, or blocked. Keep the `Proofpress proposal` prefix so readers
   unfamiliar with the workflow understand what was not created.
 
-Do not say that downstream reuse is authorized unless the read-back status
-records authorized human approval.
+Do not say that downstream reuse is authorized unless read-back shows the claim
+in eligible governed context. Preserve whether its recorded authority was a
+human owner or an owner policy. A merely staged candidate never authorizes reuse.

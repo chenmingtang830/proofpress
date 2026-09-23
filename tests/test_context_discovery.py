@@ -105,6 +105,90 @@ class ContextDiscoveryTests(unittest.TestCase):
         self.assertEqual([card["id"] for card in self.kernel_ops.discover_context_v2(
             actor="agent:other", task="Acme liability cap")["cards"]], [claim["id"]])
 
+    def test_staged_context_is_separate_and_requires_current_accept_or_escalate(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        claim = self.kernel_ops.propose_v2(
+            "The Acme liability cap is one year of fees.", [evidence],
+            proposer="agent:contract-review", scope="contract-review")["claim"]
+        self.kernel_ops.evaluate_v2(claim["id"])
+        policy = self.kernel_ops.load_v2_policy()
+
+        def recommend(decision, *, claim_digest=None, policy_digest=None):
+            return self.kernel_ops.append_v2({
+                "type": "judge_recommended", "subject_ref": claim["id"],
+                "claim_digest": claim_digest or claim["digest"],
+                "policy_digest": policy_digest or policy["digest"],
+                "recommendation": decision, "rationale": "test recommendation",
+                "judge": "judge:test"})
+
+        self.assertEqual(self.kernel_ops.context_v2(actor="agent:contract-review")["staged_context"], [])
+        recommend("accept")
+        packet = self.kernel_ops.context_v2(actor="agent:contract-review")
+        self.assertEqual(packet["governed_context"], [])
+        self.assertEqual([row["id"] for row in packet["staged_context"]], [claim["id"]])
+        self.assertEqual(packet["staged_context"][0]["staging"]["status"], "ready_for_draft")
+        restricted = {**policy, "allowed_actors": ["agent:contract-review"]}
+        with self.kernel_ops.using_policy(restricted):
+            self.assertEqual(self.kernel_ops.context_v2(actor="agent:other")["staged_context"], [])
+        self.assertEqual(self.kernel_ops.context_v2(actor="agent:contract-review", scope="other")["staged_context"], [])
+
+        recommend("escalate")
+        escalated = self.kernel_ops.context_v2(actor="agent:contract-review")["staged_context"][0]
+        self.assertEqual(escalated["staging"]["status"], "needs_attention")
+        recommend("accept", claim_digest="sha256:stale")
+        self.assertEqual(self.kernel_ops.context_v2(actor="agent:contract-review")["staged_context"], [])
+
+    def test_staged_context_excludes_invalid_dependencies(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        upstream = self.kernel_ops.propose_v2(
+            "The source states a one-year cap.", [evidence],
+            proposer="agent:contract-review", scope="contract-review")["claim"]
+        self.kernel_ops.evaluate_v2(upstream["id"])
+        self.kernel_ops.review_v2(upstream["id"], "admit", "human:legal")
+        candidate = self.kernel_ops.propose_v2(
+            "A candidate interpretation depends on the source claim.", [evidence],
+            proposer="agent:contract-review", scope="contract-review")["claim"]
+        self.kernel_ops.evaluate_v2(candidate["id"])
+        policy = self.kernel_ops.load_v2_policy()
+        self.kernel_ops.append_v2({
+            "type": "judge_recommended", "subject_ref": candidate["id"],
+            "claim_digest": candidate["digest"], "policy_digest": policy["digest"],
+            "recommendation": "accept", "rationale": "test recommendation", "judge": "judge:test"})
+        relation = self.kernel_ops.propose_relation_v2(
+            candidate["id"], upstream["id"], "depends_on", "agent:contract-review")["relation"]
+        self.kernel_ops.review_relation_v2(relation["id"], "admit", "human:legal")
+        self.assertEqual([row["id"] for row in self.kernel_ops.context_v2()["staged_context"]],
+                         [candidate["id"]])
+        self.kernel_ops.append_v2({"type": "claim_withdrawn", "subject_ref": upstream["id"],
+                                   "reviewer": "human:legal", "note": "Source invalidated"})
+        self.assertEqual(self.kernel_ops.context_v2()["staged_context"], [])
+        self.assertEqual(self.kernel_ops.discover_context_v2()["staged_context"], [])
+
+    def test_auto_admission_checks_contradictions_prospectively(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        current = self.kernel_ops.propose_v2(
+            "The cap is one year of fees.", [evidence],
+            proposer="agent:contract-review", scope="contract-review")["claim"]
+        self.kernel_ops.evaluate_v2(current["id"])
+        self.kernel_ops.review_v2(current["id"], "admit", "human:legal")
+        candidate = self.kernel_ops.propose_v2(
+            "The cap is unlimited.", [evidence],
+            proposer="agent:contract-review", scope="contract-review")["claim"]
+        relation = self.kernel_ops.propose_relation_v2(
+            candidate["id"], current["id"], "contradicts", "agent:contract-review")["relation"]
+        self.kernel_ops.review_relation_v2(relation["id"], "admit", "human:legal")
+        self.kernel_ops.evaluate_v2(candidate["id"])
+        policy = self.kernel_ops.load_v2_policy()
+        self.kernel_ops.append_v2({
+            "type": "judge_recommended", "subject_ref": candidate["id"],
+            "claim_digest": candidate["digest"], "policy_digest": policy["digest"],
+            "recommendation": "accept", "rationale": "test recommendation", "judge": "judge:test"})
+        result = self.kernel_ops.auto_admit_v2(
+            candidate["id"], "human:owner", 1, "test-policy", "",
+            self.kernel_ops.v2_head())
+        self.assertEqual(result["skipped"], "claim has an unresolved conflict")
+        self.assertNotIn(candidate["id"], self.kernel_ops.v2_projection()["admissions"])
+
     def test_a_reuse_boundary_requires_a_legacy_scope_or_applicability(self):
         evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
         proposal = self.kernel_ops.propose_v2(

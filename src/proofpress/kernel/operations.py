@@ -648,7 +648,7 @@ def logical_events(events):
                        "transaction_ref": event.get("event_id")}
 
 
-def append_v2(event, existing_rows=None):
+def append_v2(event, existing_rows=None, expected_head=None):
     event = {"schema_version": EVENT_SCHEMA, **event}
     existing_rows = v2_events() if existing_rows is None else existing_rows
     immutable = {"source_recorded": "record", "evidence_bound": "evidence",
@@ -674,7 +674,7 @@ def append_v2(event, existing_rows=None):
     appended = store.append(
         event,
         message=f"{event['type']}: {event.get('subject_ref', event['event_id'])}",
-        expected_head=store.head())
+        expected_head=store.head() if expected_head is None else expected_head)
     existing_rows.append(appended)
     return appended
 
@@ -844,7 +844,7 @@ def v2_projection(events=None):
         elif kind == "human_reviewed":
             result["reviews"][subject] = event
             result.setdefault("review_history", {}).setdefault(subject, []).append(event)
-        elif kind in {"claim_admitted", "conclusion_admitted"}:
+        elif kind in {"claim_admitted", "conclusion_admitted", "claim_auto_admitted"}:
             result["admissions"][subject] = event
             result.setdefault("admission_history", {}).setdefault(subject, []).append(event)
         elif kind in {"claim_rejected", "conclusion_rejected"}: result["rejections"][subject] = event
@@ -2392,6 +2392,81 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     return {"ok": True, "review": review_event, "result": final}
 
 
+def auto_admit_v2(cid, authorized_by, policy_version, auto_policy_digest,
+                  enabled_at, expected_head):
+    """Record a delegated policy decision for a newly proposed claim.
+
+    This is a system operation authorized by the owner policy. It never creates
+    a human_reviewed event or attributes approval to the proposer.
+    """
+    projection = v2_projection()
+    request_id = ident([cid, policy_version, auto_policy_digest], "req_")
+    prior = _prior_governance_request(
+        projection, "claim.auto_admit",
+        request_id)
+    if prior:
+        child = prior.get("events", [{}])[0]
+        return {"ok": True, "result": child, "transaction": prior,
+                "idempotent": True}
+    _require_expected_head(expected_head, required=True)
+    row = projection["claims"].get(cid)
+    if not row:
+        raise ValueError("claim not found: " + cid)
+    if row.get("created_at", "") < enabled_at:
+        raise ValueError("claim predates automatic approval policy")
+    if cid in projection["admissions"] or cid in projection["rejections"] or cid in projection["revision_requests"]:
+        return {"ok": True, "skipped": "claim already has an owner decision"}
+    if v2_state(projection, row) not in {"needs_review", "unresolved"}:
+        return {"ok": True, "skipped": "claim is no longer awaiting review"}
+
+    evaluation = evaluate_v2(cid)
+    if not evaluation.get("eligible"):
+        return {"ok": True, "skipped": "current deterministic checks did not pass"}
+    decision_head = v2_head()
+    projection = v2_projection()
+    policy = load_v2_policy()
+    row = projection["claims"].get(cid)
+    recommendation = projection["recommendations"].get(cid)
+    if not row or not recommendation or not (
+            recommendation.get("claim_digest") == row["digest"] and
+            recommendation.get("policy_digest") == policy["digest"] and
+            recommendation.get("recommendation") == "accept"):
+        return {"ok": True, "skipped": "no current accepting judge recommendation"}
+    # Test the relation state that admission would create. The ordinary
+    # conflict projection excludes this pending endpoint until it is admitted.
+    projected_admission = {**projection, "admissions": {
+        **projection["admissions"], cid: {
+            "claim_digest": row["digest"], "policy_digest": policy["digest"]}}}
+    conflicts = _active_contradictions(projected_admission, policy)
+    if cid in conflicts:
+        return {"ok": True, "skipped": "claim has an unresolved conflict"}
+    if dependency_impacts(projection, policy).get(cid):
+        return {"ok": True, "skipped": "claim has an invalid dependency"}
+    at = now()
+    admitted = {"schema_version": EVENT_SCHEMA, "type": "claim_auto_admitted",
+                "subject_ref": cid, "claim_digest": row["digest"],
+                "evidence_digests": {ref: projection["evidence"][ref]["digest"]
+                                     for ref in row["evidence_refs"]},
+                "policy_digest": policy["digest"],
+                "authority": "owner_policy",
+                "authorized_by": authorized_by,
+                "auto_policy_version": policy_version,
+                "auto_policy_digest": auto_policy_digest,
+                "evaluation_ref": evaluation["event_id"],
+                "recommendation_ref": recommendation["event_id"],
+                "request_id": request_id, "created_at": at}
+    admitted["event_id"] = _event_id(admitted)
+    transaction = append_v2({
+        "type": "governance_transaction", "subject_ref": cid,
+        "operation": "claim.auto_admit", "request_id": request_id,
+        "expected_head": expected_head, "reviewer": authorized_by,
+        "events": [admitted], "created_at": at,
+    }, expected_head=decision_head)
+    child = {**admitted, "commit": transaction.get("commit"),
+             "transaction_ref": transaction["event_id"]}
+    return {"ok": True, "result": child, "transaction": transaction}
+
+
 def supersede_v2(cid, replacement, reviewer, note=None):
     projection = v2_projection()
     old, new = projection["claims"].get(cid), projection["claims"].get(replacement)
@@ -2560,6 +2635,43 @@ def _actor_can_read(row, policy, actor):
                 or actor in policy["allowed_actors"])
 
 
+def _staged_claim_status(projection, row, policy, actor=None, scope=None,
+                         conflicts=None, impacts=None):
+    """Return a disclosure-safe staging summary when a current judge reviewed it."""
+    cid = row["id"]
+    if scope and row.get("scope") != scope:
+        return None
+    if not _actor_can_read(row, policy, actor):
+        return None
+    conflicts = _active_contradictions(projection, policy) if conflicts is None else conflicts
+    if cid in conflicts:
+        return None
+    impacts = dependency_impacts(projection, policy) if impacts is None else impacts
+    if impacts.get(cid):
+        return None
+    current = v2_state(projection, row, policy, impacts)
+    if current not in {"needs_review", "unresolved"}:
+        return None
+    evaluation = projection["evaluations"].get(cid)
+    recommendation = projection["recommendations"].get(cid)
+    if not (evaluation and evaluation.get("eligible")
+            and evaluation.get("claim_digest") == row["digest"]
+            and evaluation.get("policy_digest") == policy["digest"]
+            and recommendation
+            and recommendation.get("recommendation") in {"accept", "escalate"}
+            and recommendation.get("claim_digest") == row["digest"]
+            and recommendation.get("policy_digest") == policy["digest"]):
+        return None
+    return {"status": ("ready_for_draft" if recommendation["recommendation"] == "accept"
+                       else "needs_attention"),
+            "recommendation": recommendation["recommendation"],
+            "rationale": recommendation.get("rationale", ""),
+            "policy_digest": policy["digest"],
+            "evaluation_ref": evaluation.get("event_id"),
+            "recommendation_ref": recommendation.get("event_id"),
+            "authority": "not_admitted"}
+
+
 def _discovery_text(row):
     applicability = row.get("applicability") or {}
     values = [row.get("statement", ""), row.get("title", ""), applicability.get("title", ""),
@@ -2587,7 +2699,7 @@ def _context_card(row, task=None):
 
 
 def discover_context_v2(actor=None, task=None, limit=24):
-    """List only visible, eligible context cards, ranked by task-word overlap.
+    """List governed cards and clearly separate claims suitable for drafts.
 
     This is discovery, not semantic authorization: access filtering happens
     before cards are shaped or ranked, and callers still inspect the full
@@ -2603,16 +2715,25 @@ def discover_context_v2(actor=None, task=None, limit=24):
     cards = [_context_card(row, task) for cid, row in projection["claims"].items()
              if v2_state(projection, row, policy, impacts) == "admitted"
              and _actor_can_read(row, policy, actor) and cid not in conflicts]
+    staged = []
+    for row in projection["claims"].values():
+        status = _staged_claim_status(projection, row, policy, actor,
+                                      conflicts=conflicts, impacts=impacts)
+        if status:
+            staged.append({**_context_card(row, task), "statement": row["statement"],
+                           "claim_digest": row["digest"], "staging": status})
     cards.sort(key=lambda card: (-card["match"]["score"], card["title"], card["id"]))
+    staged.sort(key=lambda card: (-card["match"]["score"], card["title"], card["id"]))
     return {"schema_version": "proofpress/context-discovery/v1",
             "actor": actor, "task": task, "cards": cards[:limit],
-            "next_action": "select a card, then read its governed context and receipt before relying on it"}
+            "staged_context": staged[:limit],
+            "next_action": "Use cards as approved context; use staged_context only to draft and verify, never as admitted knowledge."}
 
 
 def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False):
     projection, policy = v2_projection(), load_v2_policy()
     impacts = dependency_impacts(projection, policy)
-    governed, blocked, eligible = [], [], {}
+    governed, blocked, eligible, staged_context = [], [], {}, []
     conflicts = _active_contradictions(projection, policy)
     for cid, row in projection["claims"].items():
         if scope and row["scope"] != scope: continue
@@ -2650,6 +2771,10 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                     item["dependency_paths"] = [impact["path"] for impact in visible]
             if include_blocked_statements: item["statement"] = row["statement"]
             blocked.append(item)
+            staged = _staged_claim_status(projection, row, policy, actor, scope,
+                                          conflicts, impacts)
+            if staged:
+                staged_context.append({**row, "staging": staged})
     for cid, row in eligible.items():
         admitted = projection["admissions"][cid]
         governed.append({**row, "receipt": {"admission_event": admitted["event_id"],
@@ -2663,8 +2788,9 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                  and row["from"] in admitted_ids and row["to"] in admitted_ids]
     return {"schema_version": CONTEXT_SCHEMA, "ledger_head": head, "scope": scope,
             "actor": actor, "task": task, "policy_digest": policy["digest"],
-            "governed_context": governed, "relations": relations, "blocked": blocked,
-            "next_action": "continue from admitted claims; reverify or review blocked claims"}
+            "governed_context": governed, "staged_context": staged_context,
+            "relations": relations, "blocked": blocked,
+            "next_action": "Use governed_context as approved context; use staged_context only for drafts and verification."}
 
 
 RUN_STATUSES = {"completed", "failed", "aborted"}
@@ -2885,7 +3011,11 @@ def graph_v2(scope=None, actor=None):
         for eid in evidence_ids
         if eid in projection["evidence"] and projection["evidence"][eid].get("source_ref")
     }
-    for sid in source_ids: nodes.append({"id": sid, "type": "raw", "label": projection["sources"][sid].get("name", Path(projection["sources"][sid].get("path", sid)).name)})
+    for sid in source_ids:
+        source = projection["sources"][sid]
+        label = (source.get("name") or Path(source.get("path") or "").name
+                 or source.get("uri") or sid)
+        nodes.append({"id": sid, "type": "raw", "label": label})
     for eid in evidence_ids:
         if eid in projection["evidence"]:
             evidence = projection["evidence"][eid]
@@ -2914,8 +3044,12 @@ def graph_v2(scope=None, actor=None):
                           "label": f"{review['decision']} · {review['reviewer']}"})
             edges.append({"from": cid, "to": rid, "type": "reviewed_by"})
         if cid in projection["admissions"]:
-            aid = projection["admissions"][cid]["event_id"]
-            nodes.append({"id": aid, "type": "governed", "state": v2_state(projection, row, policy, impacts), "label": "Governed context"})
+            admission = projection["admissions"][cid]
+            aid = admission["event_id"]
+            admission_label = (f"Owner policy v{admission.get('auto_policy_version', '?')}"
+                               if admission.get("authority") == "owner_policy"
+                               else "Governed context")
+            nodes.append({"id": aid, "type": "governed", "state": v2_state(projection, row, policy, impacts), "label": admission_label})
             edges.append({"from": review["event_id"] if review else cid, "to": aid, "type": "admitted_by"})
         if cid in projection["supersessions"]:
             edges.append({"from": cid, "to": projection["supersessions"][cid]["superseded_by"], "type": "superseded_by"})
@@ -3520,6 +3654,9 @@ def receipt_v2(cid, actor=None):
               if projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")],
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
+                         "authority": e.get("authority"),
+                         "authorized_by": e.get("authorized_by"),
+                         "auto_policy_version": e.get("auto_policy_version"),
                          "model": e.get("model"), "note": e.get("note"),
                          "created_at": e["created_at"], "commit": e.get("commit")}
                         for e in logical_events(projection["events"])

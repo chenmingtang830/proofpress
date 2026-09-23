@@ -1,9 +1,27 @@
 .knowledgeWorkspace { display: grid; grid-template-columns: minmax(0, 1fr); height: 100%; min-height: 0; overflow: hidden; }
-.knowledgeWorkspace.hasRecord { grid-template-columns: minmax(340px, 1fr) minmax(420px, .95fr); }
+.knowledgeWorkspace.hasRecord { grid-template-columns: minmax(320px, 1fr) 8px minmax(320px, var(--knowledge-detail-width)); }
+.knowledgeWorkspace.pane-left { grid-template-columns: minmax(0, 1fr) 48px; }
+.knowledgeWorkspace.pane-right { grid-template-columns: 48px minmax(0, 1fr); }
+.knowledgeWorkspace.pane-left .knowledgeRecord, .knowledgeWorkspace.pane-right .knowledgeLibrary { display: none; }
+.knowledgePaneDivider { position: relative; z-index: 1; cursor: col-resize; touch-action: none; background: var(--paper); }
+.knowledgePaneDivider::before { content: ""; position: absolute; inset: 0 auto 0 3px; width: 1px; background: var(--line); }
+.knowledgePaneDivider:hover::before, .knowledgePaneDivider:focus-visible::before { background: var(--accent); }
+.knowledgePaneDivider:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.knowledgePaneRail { display: flex; flex-direction: column; align-items: center; gap: 18px; padding-top: 20px; color: var(--ink-2); background: var(--paper); }
+.knowledgePaneRail span { writing-mode: vertical-rl; font: 500 12px/1.4 var(--font-ui); }
+.pane-left .knowledgePaneRail { border-left: 1px solid var(--line); }
+.pane-right .knowledgePaneRail { border-right: 1px solid var(--line); }
+.knowledgePaneRail button { width: 36px; height: 36px; padding: 0; }
+.knowledgePaneRail svg, .knowledgePaneToggle svg { width: 16px; height: 16px; }
+.knowledgeCollapseMap svg, .knowledgeExpandDetailsIcon { transform: rotate(180deg); }
+.knowledgePaneToggle { width: 32px; min-width: 32px; padding: 0; }
 .knowledgeLibrary { min-width: 0; overflow: auto; padding: 36px 40px 64px; }
 .knowledgeHead { display: flex; align-items: start; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.hasRecord .knowledgeHead { display: block; }
+.hasRecord .knowledgeHeadActions { margin-top: 16px; flex-wrap: wrap; }
 .knowledgeHead > button { flex-shrink: 0; white-space: nowrap; }
-.knowledgeHeadActions { display:flex; align-items:center; gap:12px; }
+.knowledgeHeadActions { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.knowledgeHeadActions > button { white-space:nowrap; }
 .knowledgeViewToggle { display:flex; padding:3px; border:1px solid var(--line); border-radius:8px; background:var(--wash); }
 .knowledgeViewToggle button[aria-pressed="true"] { background:var(--paper); color:var(--ink); box-shadow:0 1px 2px rgba(24,35,36,.08); }
 .knowledgeHead h1 { font: 600 28px/1.2 var(--font-ui); letter-spacing: -.025em; margin: 0 0 10px; }
@@ -20,7 +38,7 @@
 .knowledgeCount span { color: var(--ink-2); }
 .knowledgeList { list-style: none; padding: 0; margin: 0; }
 .knowledgeList > li { border-bottom: 1px solid var(--line); }
-.knowledgeList > li > button { width: 100%; display: flex; flex-direction: column; text-align: left; gap: 12px; padding: 24px 14px; margin: 0; border: 0; border-radius: 0; background: transparent; cursor: pointer; color: var(--ink); transition: background-color 160ms ease-out; }
+.knowledgeList > li > button { width: 100%; display: flex; flex-direction: column; align-items:stretch; text-align: left; gap: 12px; padding: 24px 14px; margin: 0; border: 0; border-radius: 0; background: transparent; cursor: pointer; color: var(--ink); transition: background-color 160ms ease-out; }
 .knowledgeList > li > button:hover { background: var(--wash); }
 .knowledgeList > li > button.isSelected { background: var(--accent-soft); box-shadow: inset 1px 0 var(--accent); }
 .knowledgeListMeta { display: flex; justify-content: space-between; gap: 14px; font-size: 12px; line-height: 1.5; color: var(--ink-2); width: 100%; }
@@ -30,7 +48,9 @@
 .knowledgeRead { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .knowledgeRead svg { width: 14px; height: 14px; }
 .knowledgeRecord { min-width: 0; overflow: auto; border-left: 1px solid var(--line); background: var(--paper); }
+.knowledgeWorkspace.hasRecord .knowledgeRecord { border-left: 0; }
 .knowledgeRecordBar { display: flex; justify-content: space-between; gap: 20px; align-items: center; padding: 20px 28px; border-bottom: 1px solid var(--line); color: var(--ink-2); font-size: 12px; }
+.knowledgeRecordBarActions { display: flex; align-items: center; gap: 8px; }
 .knowledgeRecordBar button { min-height: 36px; cursor: pointer; }
 .knowledgeWorkspace :is(input, select, summary, button):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .knowledgeRecordBody { padding: 32px 32px 48px; }
@@ -74,6 +94,13 @@
 .confirmationDialog .technicalDetails { margin:10px 0 16px; font-size:12px; }
 .confirmationDialog .technicalDetails code { display:block; margin-top:8px; overflow-wrap:anywhere; white-space:normal; }
 .knowledgeRecordFooter .mono { color: var(--ink-3); font-size: 11px; overflow-wrap: anywhere; }
+.knowledgeGraphInspection .knowledgeRecordBody { padding-top: 28px; }
+.knowledgeGraphInspection h2 { margin: 0 0 16px; }
+.knowledgeGraphStatement { max-width: 65ch; margin: 0 0 28px; color: var(--ink-2); font: 14px/1.7 var(--font-ui); overflow-wrap: anywhere; }
+.knowledgeGraphInspection .knowledgeAttribution { gap: 16px 24px; }
+.knowledgeGraphCount { margin: 20px 0 0; color: var(--ink-2); font: 12px/1.5 var(--font-ui); }
+.knowledgeGraphOpen { margin: 24px -12px 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.knowledgeGraphOpen svg { width: 14px; height: 14px; }
 .knowledgeEmpty, .knowledgePending { padding: 48px 20px; }
 .knowledgeEmpty h2, .knowledgePending h2 { font-size: 20px; margin: 0 0 12px; }
 .knowledgeEmpty p, .knowledgePending p { color: var(--ink-2); font-size: 14px; line-height: 1.7; margin-bottom: 24px; max-width: 50ch; }
@@ -98,7 +125,7 @@
 }
 @media (min-width: 1100px) { .hasRecord .knowledgeToolbar { grid-template-columns: minmax(0, 1fr); gap: 10px; } }
 @media (min-width: 1100px) and (max-width: 1350px) { .knowledgeLibrary { padding: 28px 24px; } .knowledgeRecordBody { padding: 28px 24px; } .knowledgeListMeta { flex-wrap: wrap; gap: 4px; } .knowledgeCount { flex-wrap: wrap; } }
-@media (max-width: 1099px) { .knowledgeWorkspace.hasRecord { grid-template-columns: minmax(0, 1fr); } .knowledgeWorkspace.hasRecord > .knowledgeLibrary { display: none; } .knowledgeRecord { border: 0; } .knowledgeRecordBody { max-width: 780px; margin: 0 auto; } }
+@media (max-width: 1099px) { .knowledgeWorkspace.hasRecord, .knowledgeWorkspace.pane-left, .knowledgeWorkspace.pane-right { grid-template-columns: minmax(0, 1fr); } .knowledgeWorkspace.hasRecord > .knowledgeLibrary, .knowledgePaneDivider, .knowledgePaneRail, .knowledgePaneToggle { display: none; } .knowledgeWorkspace.hasRecord > .knowledgeRecord { display: block; } .knowledgeRecord { border: 0; } .knowledgeRecordBody { max-width: 780px; margin: 0 auto; } }
 @media (max-width: 599px) { .knowledgeLibrary { padding: 28px 20px 48px; } .knowledgeHead { display:block; gap: 12px; } .knowledgeHeadActions { justify-content:space-between; margin-top:18px; } .knowledgeHead h1 { font-size: 26px; } .knowledgeFilters { gap: 12px; } .knowledgeCount { flex-wrap: wrap; } .knowledgeList > li > button { padding: 22px 4px; } .knowledgeListMeta { flex-wrap: wrap; gap: 4px; } .knowledgeList strong { font-size: 16px; } .knowledgeRecordBar { padding: 14px 20px; } .knowledgeRecordBody { padding: 24px 20px calc(32px + env(safe-area-inset-bottom)); } .knowledgeRecord h2 { font-size: 21px; } .knowledgeAttribution { gap: 16px; } .knowledgeRecordFooter > div { width:100%; } .knowledgeRecordFooter button { flex:1; } .withdrawImpact { grid-template-columns:1fr; } }
 @media (prefers-reduced-motion: reduce) { .knowledgeList > li > button { transition: none; } }
 .claimBodyPreview { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: var(--ink-2); font: 400 14px/1.6 var(--font-ui); margin: 8px 0 16px; max-width: 70ch; overflow-wrap: anywhere; }

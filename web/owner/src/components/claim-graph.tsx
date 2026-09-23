@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
-import { claimDisplayTitle } from "./claim-display";
+import { claimDisplayTitle, claimStatement } from "./claim-display";
 import { knowledgeTopic, type KnowledgeRow } from "./knowledge-model";
 import "./claim-graph.css";
 
@@ -10,8 +10,23 @@ const relationLabel = (value: string) => value.replaceAll("_", " ");
 const relationState = (edge: any) => edge.state || "needs_review";
 const relationAdviceAttribution = (advice: any) => [advice?.adapter, advice?.model].filter(Boolean).join(" · ") || "Model";
 
-export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
-  const [selection, setSelection] = React.useState("");
+export type GraphInspection = {
+  key: string;
+  kind: "claim" | "evidence" | "relation";
+  title: string;
+  claimId?: string;
+  statement?: string;
+  scope?: string;
+  count?: number;
+  from?: string;
+  to?: string;
+  state?: string;
+  evidenceRef?: string;
+  advice?: string;
+};
+
+export function ClaimGraph({ rows, nodes, edges, relations, onChoose, inspection, onInspect }: any) {
+  const selection = (inspection as GraphInspection | null)?.key || "";
   const [claimLimit, setClaimLimit] = React.useState(6);
   const [evidenceLimit, setEvidenceLimit] = React.useState(16);
   const [relationsOpen, setRelationsOpen] = React.useState(false);
@@ -23,6 +38,10 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const support = edges.filter((edge: any) => edge.type === "supports" && claimIds.has(edge.to) && !isClaimNode(edge.from));
   const allEvidenceIds = [...new Set(support.map((edge: any) => edge.from))] as string[];
   const evidenceIds = allEvidenceIds.slice(0, evidenceLimit);
+  const evidenceLabel = (id: string) => {
+    const sourceId = edges.find((edge: any) => edge.type === "bound_as" && edge.to === id)?.from;
+    return nodes.find((node: any) => node.id === sourceId)?.label || nodes.find((node: any) => node.id === id)?.label || "Bound evidence";
+  };
   const relationMap = new Map<string, any>();
   [...relations, ...edges.filter((edge: any) => RELATION_TYPES.has(edge.type))]
     .filter((edge: any) => claimIds.has(edge.from) && claimIds.has(edge.to))
@@ -47,14 +66,13 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
   const selectedRelation = selectedRelationIndex >= 0 ? claimRelations[selectedRelationIndex] : null;
   const selectedClaim = selection.startsWith("claim:") ? claimById(selection.slice(6)) : null;
   const selectedEvidenceId = selection.startsWith("evidence:") ? selection.slice(9) : "";
-  const selectedEvidence = selectedEvidenceId ? nodes.find((node: any) => node.id === selectedEvidenceId) : null;
   React.useEffect(() => {
     const valid = !selection
       || selection.startsWith("relation:") && Boolean(selectedRelation)
       || selection.startsWith("claim:") && Boolean(selectedClaim)
       || selection.startsWith("evidence:") && evidenceIds.includes(selectedEvidenceId);
-    if (!valid) setSelection("");
-  }, [selection, selectedRelation, selectedClaim, selectedEvidenceId, evidenceIds]);
+    if (!valid) onInspect(null);
+  }, [selection, selectedRelation, selectedClaim, selectedEvidenceId, evidenceIds, onInspect]);
   const visibleRelations = selectedRelation
     ? [selectedRelation]
     : selectedClaim
@@ -72,7 +90,19 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
     if (selectedRelation) return selectedRelation.from === id || selectedRelation.to === id;
     return selectedClaim?.id === id;
   };
-  const select = (value: string) => setSelection(current => current === value ? "" : value);
+  const select = (value: string, element: HTMLElement) => {
+    if (selection === value) { onInspect(null); return; }
+    if (value.startsWith("claim:")) {
+      const row = claimById(value.slice(6));
+      if (row) onInspect({ key: value, kind: "claim", title: claimDisplayTitle(row), claimId: row.id, statement: claimStatement(row), scope: knowledgeTopic(row) || "Not recorded", count: claimRelations.filter((edge: any) => edge.from === row.id || edge.to === row.id).length } satisfies GraphInspection, element);
+    } else if (value.startsWith("evidence:")) {
+      const id = value.slice(9);
+      onInspect({ key: value, kind: "evidence", title: evidenceLabel(id), evidenceRef: id, count: support.filter((edge: any) => edge.from === id).length } satisfies GraphInspection, element);
+    } else {
+      const edge = claimRelations.find((item: any) => relationKey(item) === value.slice(9));
+      if (edge) onInspect({ key: value, kind: "relation", title: relationLabel(edge.type), from: claimDisplayTitle(claimById(edge.from)!), to: claimDisplayTitle(claimById(edge.to)!), state: relationLabel(relationState(edge)), evidenceRef: edge.citation?.evidence_ref, advice: edge.advice?.recommendation ? `${relationAdviceAttribution(edge.advice)} · ${edge.advice.recommendation} · advisory` : undefined } satisfies GraphInspection, element);
+    }
+  };
 
   return <section className="claimMap" aria-label="Current claim graph">
     <header className="claimMapHead">
@@ -82,7 +112,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       </div>
     </header>
 
-    <div className="claimMapWorkspace">
+    <div className="claimMapWorkspace" style={{ "--claim-map-height": `${height}px` } as React.CSSProperties}>
       <div className="claimMapPrimary">
       <div className="claimMapDesktop">
       <div className="claimMapScroll" tabIndex={0} aria-label="Scrollable claim graph canvas">
@@ -98,17 +128,18 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
             {visibleRelations.map((edge: any) => {
               const index = claimRelations.indexOf(edge);
               const from = claimIndex(edge.from), to = claimIndex(edge.to);
-              const bend = 840 + (index % 3) * 18;
+              const start = selection ? 864 : 810;
+              const bend = selection ? 880 + (index % 2) * 10 : 840 + (index % 3) * 18;
               const middle = (claimY(from) + claimY(to)) / 2 + claimAnchor;
               const state = relationState(edge);
               return <g key={relationKey(edge)} className={`relationPath relation-${edge.type} state-${state}${selectedRelationIndex === index ? " selected" : ""}`}>
-                <path className="claimRelationLine" markerEnd="url(#claimRelationArrow)" d={`M 810 ${claimY(from) + claimAnchor} C ${bend} ${claimY(from) + claimAnchor}, ${bend} ${claimY(to) + claimAnchor}, 810 ${claimY(to) + claimAnchor}`} />
+                <path className="claimRelationLine" markerEnd="url(#claimRelationArrow)" d={`M ${start} ${claimY(from) + claimAnchor} C ${bend} ${claimY(from) + claimAnchor}, ${bend} ${claimY(to) + claimAnchor}, ${start} ${claimY(to) + claimAnchor}`} />
                 <text x="892" y={middle - 7} textAnchor="end">{relationLabel(edge.type)} · {relationLabel(state)}</text>
               </g>;
             })}
           </svg>
-          {evidenceIds.map((id, index) => { const node = nodes.find((item: any) => item.id === id); const active = selection === `evidence:${id}`; const count = support.filter((edge: any) => edge.from === id).length; return <Button key={id} variant="ghost" size="content" className="claimMapNode evidenceNode" style={{ top: evidenceY(index), opacity: evidenceRelatedToSelection(id) ? 1 : .28 }} aria-pressed={active} onClick={() => select(`evidence:${id}`)}><small>Evidence</small><strong>{node?.label || "Bound evidence"}</strong><span>{count} {count === 1 ? "claim" : "claims"}</span></Button>; })}
-          {claims.map((row, index) => { const active = selection === `claim:${row.id}`; const count = claimRelations.filter((edge: any) => edge.from === row.id || edge.to === row.id).length; return <Button key={row.id} variant="ghost" size="content" className="claimMapNode currentClaimNode" style={{ top: claimY(index), opacity: relatedToSelection(row.id) ? 1 : .28 }} aria-pressed={active} onClick={() => select(`claim:${row.id}`)}><small>{knowledgeTopic(row) || "Scope not recorded"}</small><strong>{claimDisplayTitle(row)}</strong><span>{count} {count === 1 ? "relation" : "relations"}</span></Button>; })}
+          {evidenceIds.map((id, index) => { const active = selection === `evidence:${id}`; const count = support.filter((edge: any) => edge.from === id).length; return <Button key={id} variant="ghost" size="content" className="claimMapNode evidenceNode" style={{ top: evidenceY(index), opacity: evidenceRelatedToSelection(id) ? 1 : .28 }} aria-pressed={active} onClick={event => select(`evidence:${id}`, event.currentTarget)}><small>Evidence</small><strong>{evidenceLabel(id)}</strong><span>{count} {count === 1 ? "claim" : "claims"}</span></Button>; })}
+          {claims.map((row, index) => { const active = selection === `claim:${row.id}`; const count = claimRelations.filter((edge: any) => edge.from === row.id || edge.to === row.id).length; return <Button key={row.id} variant="ghost" size="content" className="claimMapNode currentClaimNode" style={{ top: claimY(index), opacity: relatedToSelection(row.id) ? 1 : .28 }} aria-pressed={active} onClick={event => select(`claim:${row.id}`, event.currentTarget)}><small>{knowledgeTopic(row) || "Scope not recorded"}</small><strong>{claimDisplayTitle(row)}</strong><span>{count} {count === 1 ? "relation" : "relations"}</span></Button>; })}
         </div>
       </div>
       </div>
@@ -117,7 +148,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       {claims.map(row => {
         const incoming = claimRelations.filter((edge: any) => edge.to === row.id);
         const outgoing = claimRelations.filter((edge: any) => edge.from === row.id);
-        const evidence = support.filter((edge: any) => edge.to === row.id && evidenceIds.includes(edge.from)).map((edge: any) => nodes.find((node: any) => node.id === edge.from));
+        const evidence = support.filter((edge: any) => edge.to === row.id && evidenceIds.includes(edge.from)).map((edge: any) => ({id:edge.from,label:evidenceLabel(edge.from)}));
         return <article className="claimLineageCard" key={row.id}>
           <div className="claimLineageHead"><strong>{claimDisplayTitle(row)}</strong><span>{knowledgeTopic(row) || "Scope not recorded"}</span></div>
           <dl>
@@ -137,7 +168,7 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       {relationsOpen && (claimRelations.length ? <div className="claimRelationList">{claimRelations.map((edge: any, index: number) => {
         const active = selectedRelationIndex === index;
         const state = relationState(edge);
-        return <Button key={relationKey(edge)} variant="ghost" size="content" className="claimRelationButton" aria-pressed={active} onClick={() => select(`relation:${relationKey(edge)}`)}>
+        return <Button key={relationKey(edge)} variant="ghost" size="content" className="claimRelationButton" aria-pressed={active} onClick={event => select(`relation:${relationKey(edge)}`, event.currentTarget)}>
           <span className="relationStatement"><b>{claimDisplayTitle(claimById(edge.from)!)}</b><span aria-hidden="true">→</span><span>{relationLabel(edge.type)}</span><span aria-hidden="true">→</span><b>{claimDisplayTitle(claimById(edge.to)!)}</b></span>
           <span className="relationSignals">{edge.citation && <i>Citation bound</i>}{edge.advice?.recommendation && <i>{relationAdviceAttribution(edge.advice)}: {edge.advice.recommendation}</i>}<em data-state={state}>{CURRENT_RELATION_STATES.has(state) ? "Current admitted" : relationLabel(state)}</em></span>
         </Button>;
@@ -145,34 +176,6 @@ export function ClaimGraph({ rows, nodes, edges, relations, onChoose }: any) {
       </div>
       </div>
 
-      <aside className={`claimMapSidecar${selection ? " isOpen" : ""}`} aria-live="polite" aria-label="Selected graph item details">
-        {selection ? <>
-          <header className="claimMapSidecarHead">
-            <small>{selectedRelation ? "Relation" : selectedClaim ? "Claim" : "Evidence"}</small>
-            <Button variant="ghost" size="sm" onClick={() => setSelection("")}>Close</Button>
-          </header>
-          <h3>{selectedRelation ? relationLabel(selectedRelation.type) : selectedClaim ? claimDisplayTitle(selectedClaim) : selectedEvidence?.label || "Bound evidence"}</h3>
-          <dl className="claimMapSidecarDetails">
-            {selectedRelation && <>
-              <div><dt>From</dt><dd>{claimDisplayTitle(claimById(selectedRelation.from)!)}</dd></div>
-              <div><dt>To</dt><dd>{claimDisplayTitle(claimById(selectedRelation.to)!)}</dd></div>
-              <div><dt>State</dt><dd>{relationLabel(relationState(selectedRelation))}</dd></div>
-              {selectedRelation.citation && <div><dt>Evidence</dt><dd>{selectedRelation.citation.evidence_ref}</dd></div>}
-              {selectedRelation.advice?.recommendation && <div><dt>Model advice</dt><dd>{relationAdviceAttribution(selectedRelation.advice)} · {selectedRelation.advice.recommendation} · advisory</dd></div>}
-            </>}
-            {selectedClaim && <>
-              <div><dt>State</dt><dd>Current admitted</dd></div>
-              <div><dt>Applicability</dt><dd>{knowledgeTopic(selectedClaim) || "Not recorded"}</dd></div>
-              <div><dt>Relations</dt><dd>{claimRelations.filter((edge: any) => edge.from === selectedClaim.id || edge.to === selectedClaim.id).length}</dd></div>
-            </>}
-            {selectedEvidenceId && <>
-              <div><dt>Receipt</dt><dd>{selectedEvidenceId}</dd></div>
-              <div><dt>Supports</dt><dd>{support.filter((edge: any) => edge.from === selectedEvidenceId).length} claims</dd></div>
-            </>}
-          </dl>
-          {selectedClaim && <Button className="claimMapSidecarAction" variant="outline" size="sm" onClick={event => onChoose(selectedClaim.id, event.currentTarget)}>Open claim record</Button>}
-        </> : <div className="claimMapSidecarEmpty"><strong>Select a block</strong><span>Details appear here.</span></div>}
-      </aside>
     </div>
 
     {(allClaims.length > claims.length || allEvidenceIds.length > evidenceIds.length) && <footer className="claimMapFooter">

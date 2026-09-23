@@ -108,6 +108,22 @@ describe("governance components", () => {
     expect(html).toContain("Showing 16 of 17 evidence receipts");
     expect(html).toContain("Show 1 more evidence");
   });
+  it("opens current knowledge in Map by default", () => {
+    const row = {id:"claim",label:"Current claim",state:"admitted"};
+    const html = renderToStaticMarkup(<KnowledgeLibrary rows={[row]} allRows={[row]} nodes={[{id:"claim",type:"claim"}]} edges={[]} relations={[]} selected="" receipt={null} onChoose={()=>{}} onReview={()=>{}} loading={false} contextError="" detailError="" renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain('aria-pressed="true">Map</button>');
+    expect(html).toContain("Current claim graph");
+    expect(html).not.toContain("knowledgeList");
+  });
+  it("offers an accessible resize handle and collapse controls when a record is open", () => {
+    const row = {id:"claim",label:"Current claim",state:"admitted"};
+    const receipt = {state:"admitted",claim:{id:"claim",statement:"Current claim"},evidence:[],history:[]};
+    const html = renderToStaticMarkup(<KnowledgeLibrary rows={[row]} allRows={[row]} nodes={[{id:"claim",type:"claim"}]} edges={[]} relations={[]} selected="claim" receipt={receipt} onChoose={()=>{}} onReview={()=>{}} loading={false} contextError="" detailError="" renderEvidence={()=>null} evidenceName={()=>"Evidence"} />);
+    expect(html).toContain('role="separator"');
+    expect(html).toContain('aria-label="Resize Knowledge panes"');
+    expect(html).toContain('aria-label="Collapse map"');
+    expect(html).toContain('aria-label="Collapse details"');
+  });
   it("shows invalidated admitted claims as paused while preserving withdrawal access", () => {
     const html = renderToStaticMarkup(<KnowledgeRecord receipt={{
       state:"dependency_invalidated", ledger_head:"head", claim:{id:"claim",statement:"Paused claim"},

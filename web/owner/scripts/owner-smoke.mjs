@@ -45,9 +45,19 @@ try {
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
   assert.match(page.url(), /\/home$/);
-  await page.locator('.nextClaim h3').waitFor();
-  assert.equal(await page.locator('.homeLifecycle').getAttribute('open'),null);
-  assert.equal(await page.locator('.homeKnowledgeList button').count(),0,'Candidates must not appear as available knowledge');
+  await page.locator('.homeClaimNode').first().waitFor();
+  assert.equal(await page.locator('.homeClaimNode').count() > 0,true,'Pending claims appear in the Home graph');
+  assert.equal(await page.locator('.homeKnowledgeList').count(),0,'Home does not present candidates as approved knowledge');
+  await page.route('**/owner/api/dashboard',async route => {
+    const response = await route.fetch();
+    const payload = await response.json();
+    await route.fulfill({response,json:{...payload,result:{...payload.result,jobs:{[data.ids[0]]:'running'}}}});
+  });
+  await page.reload();
+  await page.locator('.homeClaimNode.processing').first().waitFor();
+  await page.waitForResponse(response => response.url().endsWith('/owner/api/graph'),{timeout:8000});
+  await page.unroute('**/owner/api/dashboard');
+  await page.reload();
   if (process.env.QA_SCREENSHOTS) {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
     for (const width of [1536,1024,390]) {
@@ -74,7 +84,7 @@ try {
     const tool = window.__proofpressWebMcpTools.find(candidate => candidate.name === 'get_workspace_summary');
     return tool.execute({});
   });
-  assert.match(workspaceToolResult.content[0].text,/Human Approval is not exposed/);
+  assert.match(workspaceToolResult.content[0].text,/Agent approval is never available/);
   const checksToolResult = await page.evaluate(async claim_id => {
     const tool = window.__proofpressWebMcpTools.find(candidate => candidate.name === 'run_deterministic_checks');
     return tool.execute({claim_id});
@@ -388,10 +398,8 @@ try {
   for(const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:900});
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
-    assert.equal(await page.locator('.homeKnowledgeList button').count(),2,'Home contains only both admitted, current claims');
-    assert.equal(await page.locator('.homeKnowledgeList').getByText('Browser fixture reject:',{exact:false}).count(),0);
-    assert.equal(await page.locator('.homeKnowledgeList').getByText('Browser fixture clarify:',{exact:false}).count(),0);
-    assert.equal(await page.locator('.homeLifecycle').getAttribute('open'),null);
+    await page.getByRole('button',{name:/Approved knowledge/}).getByText('2',{exact:true}).waitFor();
+    assert.equal(await page.locator('.homeClaimNode').filter({hasText:'Browser fixture approve:'}).count(),0,'Approved knowledge must not appear in the candidate graph');
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
       await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/home-${width}.png`});
@@ -405,6 +413,7 @@ try {
   assert.equal(await page.getByText('Available for reuse',{exact:true}).count(),0);
   await page.unroute('**/owner/api/context?*');
   await page.getByRole('button',{name:'Reload workspace',exact:true}).click();
+  await page.getByRole('button',{name:'List',exact:true}).click();
   const availableClaim = page.locator('.knowledgeList > li > button').filter({hasText:'Browser fixture approve:'});
   await availableClaim.waitFor();
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));

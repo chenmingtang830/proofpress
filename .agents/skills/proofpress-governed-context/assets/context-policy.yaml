@@ -1,7 +1,7 @@
 schema_version: proofpress/context-policy/v1alpha1
 
 # This guides an agent's decision to draft or propose knowledge. It is not an
-# authorization policy. Server checks and Human Approval remain authoritative.
+# authorization policy. Server checks and owner admission controls remain authoritative.
 purpose: Decide which durable outcomes from this repository should become Proofpress candidates.
 
 propose_when:
@@ -51,4 +51,5 @@ non_overridable_safety:
   agent_may_not_self_approve: true
   owner_or_recovery_credentials_forbidden: true
   candidate_is_not_governed_context: true
-  human_approval_remains_required: true
+  agent_may_not_admit: true
+  staged_context_is_draft_only: true

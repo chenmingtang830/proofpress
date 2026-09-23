@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect } from "@/components/ui/native-select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
@@ -179,7 +180,7 @@ function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?:
         <div><dt>Source</dt><dd>{receipt?.source?.uri || source.uri || "Source not recorded"}</dd></div>
       </dl>
       <p>{text}</p>
-      <small>External evidence remains evidence only. Human Approval is required before a claim becomes reusable.</small>
+      <small>External evidence supports a claim. Owner review or a matching owner policy is required before it becomes reusable.</small>
       <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>
     </>;
   }
@@ -262,6 +263,7 @@ function App() {
   const [contextBlocked, setContextBlocked] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
+  const [localOwnerPreview, setLocalOwnerPreview] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(
     new URLSearchParams(location.search).get("claim_id"),
   );
@@ -277,6 +279,8 @@ function App() {
     return created;
   };
   const [eligible, setEligible] = React.useState<NodeRow[]>([]);
+  const [stagedContext, setStagedContext] = React.useState<any[]>([]);
+  const [homeScope, setHomeScope] = React.useState<string | null>(null);
   const [contextLoading, setContextLoading] = React.useState(true);
   const [contextError, setContextError] = React.useState("");
   const [detailError, setDetailError] = React.useState("");
@@ -366,6 +370,7 @@ function App() {
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setWorkspaceLabel(session.workspace || "Owner workspace");
+      setLocalOwnerPreview(Boolean(session.local_owner_preview));
       setCsrf(session.csrf);
       const selectedExists = Boolean(targetSelection && next.some((n: NodeRow) => n.id === targetSelection));
       const desired = targetSelection
@@ -390,16 +395,23 @@ function App() {
       setLoading(false);
     }
   }, [selected]);
+  const refreshHome = React.useCallback(async () => {
+    const graph = await api("/owner/api/graph");
+    setRows((graph.nodes || []).filter((node: NodeRow) => node.type === "claim"));
+    setGraphNodes(graph.nodes || []);
+    setEdges(graph.edges || []);
+  }, []);
   React.useEffect(() => {
     load();
   }, []);
   React.useEffect(() => {
     let active = true;
     setEligible([]);
+    setStagedContext([]);
     setContextLoading(true);
     setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
-      if (active) { setContextRelations(context.relations || []); setContextBlocked(context.blocked || []); setEligible((context.governed_context || []).map((row: any) => ({
+      if (active) { setContextRelations(context.relations || []); setContextBlocked(context.blocked || []); setStagedContext(context.staged_context || []); setEligible((context.governed_context || []).map((row: any) => ({
         ...row, label: row.statement, type: "claim", state: "admitted",
       }))); }
     }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
@@ -425,9 +437,10 @@ function App() {
           return toolText({
             review: summary,
             current_governed_context_count: (context.governed_context || []).length,
+            staged_draft_candidate_count: (context.staged_context || []).length,
             claim_states: claims.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
             needs_reassessment_count: claims.filter((row: any) => row.state === "dependency_invalidated").length,
-            authority: "Agents may inspect and prepare work. Human Approval is not exposed.",
+            authority: "Agents may inspect and prepare work. Agent approval is never available.",
           });
         },
       },
@@ -453,7 +466,7 @@ function App() {
       {
         name: "get_current_context",
         description:
-          "Retrieve eligible governed claims for a scope. Does not approve claims.",
+          "Retrieve approved claims and a separate staged_context list. Staged candidates are for clearly marked drafts only, never approved reliance. Does not approve claims.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
@@ -557,7 +570,7 @@ function App() {
           await api("/owner/api/evaluate", { method: "POST", body: JSON.stringify({ csrf: csrfRef.current, claim_id }) });
           const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
           setReloadVersion(version => version + 1);
-          return toolText({ claim_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "Model advice is required by policy before Human Approval." : "Open the review surface for the owner decision." });
+          return toolText({ claim_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "Model advice is required by policy. Admission still requires an owner decision or a separately enabled Owner policy." : "Open the review surface or check whether the Owner policy is configured to admit qualifying new claims." });
         },
       },
       {
@@ -589,7 +602,7 @@ function App() {
             prepared: true,
             recorded: false,
             admitted: false,
-            next: "Use the connected agent MCP or CLI to submit supporting evidence and a revision proposal; Human Approval remains separate.",
+            next: "Use the connected agent MCP or CLI to submit supporting evidence and a revision proposal; only an owner decision or explicitly enabled owner policy can approve it.",
           }),
       },
       {
@@ -628,6 +641,7 @@ function App() {
             mode: { type: "string", enum: ["off", "manual", "automatic"] },
             require_judge: { type: "boolean" },
             external_consent: { type: "boolean" },
+            auto_admit_new_claims: { type: "boolean", description: "Propose whether a saved Owner policy should automatically approve qualifying new claims workspace-wide. Off by default; the owner must review and save this setting." },
           },
           required: ["provider", "endpoint", "model", "criteria", "zdr", "mode", "require_judge", "external_consent"],
         },
@@ -671,10 +685,12 @@ function App() {
   }, []);
   React.useEffect(() => {
     const preserveClaim = selected && (page === "review" || page === "ledger");
+    const activityView = page === "activity" ? new URLSearchParams(location.search).get("view") : null;
+    const activityQuery = activityView === "retrievals" || activityView === "logs" ? `?view=${activityView}` : "";
     history.replaceState(
       history.state,
       "",
-      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : ""}`,
+      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : activityQuery}`,
     );
   }, [page, selected, fullReview]);
   function openFullReview() {
@@ -688,11 +704,11 @@ function App() {
     history.pushState(null, "", `/review?claim_id=${encodeURIComponent(selected || "")}`);
     setFullReview(false);
   }
-  function navigate(next: Page) {
+  function navigate(next: Page, query = "") {
     if (next === page) return;
     if (next === "review") { ++selectionRequest.current; setSelected(null); setReceipt(null); }
     setFullReview(false);
-    history.pushState(null, "", `/${next}`);
+    history.pushState(null, "", `/${next}${query}`);
     setPage(next);
     requestAnimationFrame(() => { document.querySelector(".stage")?.scrollTo({top:0}); window.scrollTo({top:0}); });
   }
@@ -708,9 +724,9 @@ function App() {
     window.addEventListener("popstate", restore);
     return () => window.removeEventListener("popstate", restore);
   }, []);
-  async function choose(id: string) {
+  async function choose(id: string, force = false) {
     if (decisionPending.current) return;
-    if (selected === id && receipt?.claim.id === id) return;
+    if (!force && selected === id && receipt?.claim.id === id) return;
     const request = ++selectionRequest.current;
     setSelected(id);
     setReceipt(null);
@@ -993,14 +1009,14 @@ function App() {
             <strong>Proofpress</strong>
           </div>
           <span className="workspaceLabel"><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
-          <Button variant="outline" onClick={() => {
+          {!localOwnerPreview && <Button variant="outline" onClick={() => {
             const body = new URLSearchParams({ csrf });
             void fetch("/owner/logout", {
               method: "POST",
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
               body,
             }).finally(() => location.assign("/"));
-          }}>Sign out</Button>
+          }}>Sign out</Button>}
         </header>
         {error && (
           <Alert className="error" role="alert">
@@ -1034,15 +1050,22 @@ function App() {
               pending={reviewAttentionCount}
               admitted={admitted}
               eligible={eligible}
+              stagedContext={stagedContext}
+              graphNodes={graphNodes}
+              graphEdges={edges}
+              homeScope={homeScope}
+              setHomeScope={setHomeScope}
               loading={loading}
               contextLoading={contextLoading}
               contextError={contextError}
               rows={rows.filter(row => row.id !== pendingRejection?.id)}
-              onChoose={(id: string) => { navigate("review"); choose(id); }}
+              onChoose={(id: string) => { navigate("review"); setFullReview(true); void choose(id, true); }}
+              onActivity={(view: string) => navigate("activity", view === "retrievals" ? "?view=retrievals" : "")}
               onKnowledgeChoose={(id: string) => { navigate("ledger"); choose(id); }}
               onReview={() => navigate("review")}
               onLedger={() => navigate("ledger")}
               onAdmin={() => navigate("admin")}
+              onRefresh={refreshHome}
             />
           )}
           {page === "review" && (
@@ -1138,68 +1161,87 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ pending, admitted, rows, eligible, loading, contextLoading, contextError, onReview, onLedger, onAdmin, onChoose, onKnowledgeChoose }: any) {
-  const queue = rows.filter((row: NodeRow) => ["needs_review", "unresolved"].includes(row.state));
-  const reassessment = rows.filter((row: NodeRow) => row.state === "dependency_invalidated");
-  const correction = rows.filter((row: NodeRow) => row.state === "blocked");
-  const next = queue[0];
-  const actionableCount = queue.length + reassessment.length + correction.length;
-  const recentKnowledge = [...eligible].sort((a: NodeRow, b: NodeRow) => (b.created_at || "").localeCompare(a.created_at || "")).slice(0, 4);
-  return (
-    <div className="pageBody workspaceHome">
-      <PageHead
-        title="Your knowledge workspace"
-        description="Decide what enters. Find what you can rely on. Keep the evidence in reach."
-      />
-      <div className="homeWorkGrid">
-        <section className="homeReview" aria-labelledby="home-review-title">
-          <div className="sectionTitle"><h2 id="home-review-title">Needs your decision</h2><span>{loading ? "Loading…" : `${actionableCount} actionable`}</span></div>
-          {loading ? <p role="status">Loading candidate claims…</p> : <>
-          {reassessment.length > 0 && <section className="homeReassessment"><div><strong>{reassessment.length} need reassessment</strong><p>Prior approval remains recorded, but current reuse is paused because a dependency changed.</p></div>{reassessment.slice(0, 3).map((row:NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><Badge state={row.state} /><ChevronRight /></Button>)}</section>}
-          {correction.length > 0 && <section className="homeCorrection"><div><strong>{correction.length} need correction</strong><p>Deterministic checks failed. Ask the proposer to correct the evidence or claim and submit a new candidate.</p></div>{correction.slice(0, 3).map((row:NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><Badge state={row.state} /><ChevronRight /></Button>)}</section>}
-          {next ? <>
-            <article className="nextClaim">
-              <Badge state={next.state} />
-              <h3>{claimDisplayTitle(next)}</h3>{hasDistinctClaimHeading(next) && <p className="claimBodyPreview">{next.label}</p>}
-              <dl><dt>Proposed use</dt><dd>{next.applicability?.title || next.applicability?.description || next.scope || "Not recorded"}</dd></dl>
-              <p>Inspect the evidence and usage conditions before making a decision.</p>
-              <Button onClick={() => onChoose(next.id)}>Review this claim <ChevronRight /></Button>
-            </article>
-            {queue.length > 1 && <div className="homeQueue">{queue.slice(1, 4).map((row: NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onChoose(row.id)}><span>{claimDisplayTitle(row)}</span><ChevronRight /></Button>)}</div>}
-            <Button variant="outline" onClick={onReview}>Open review queue{pending > 0 ? ` · ${pending} need attention` : ""}<ChevronRight /></Button>
-          </> : !reassessment.length && !correction.length && <Empty className="emptyState"><strong>You are caught up</strong><p>New candidate claims stay outside governed context until you review them.</p><Button variant="outline" onClick={onReview}>View review history</Button></Empty>}
-          {rows.some((r: NodeRow) => r.state === "needs_revision") && <Button variant="ghost" size="content" className="revisionQueueLink" onClick={() => onChoose(rows.find((r: NodeRow) => r.state === "needs_revision").id)}>{rows.filter((r: NodeRow) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></Button>}
-          </>}
-        </section>
-        <section className="homeKnowledge" aria-labelledby="home-knowledge-title">
-          <div className="sectionTitle"><h2 id="home-knowledge-title">Available knowledge</h2><span>{contextLoading ? "Loading…" : contextError ? "Unavailable" : `${admitted} current`}</span></div>
-          <p>Admitted and eligible for this owner view. Each agent’s access is checked separately.</p>
-          {contextLoading ? <p role="status">Loading current knowledge…</p> : contextError ? <p role="alert">Knowledge could not be loaded. Use Reload workspace to retry.</p> : recentKnowledge.length ? <div className="homeKnowledgeList">{recentKnowledge.map((row: NodeRow) => <Button variant="ghost" size="content" key={row.id} onClick={() => onKnowledgeChoose(row.id)}><strong>{claimDisplayTitle(row)}</strong>{hasDistinctClaimHeading(row) && <p className="claimBodyPreview">{row.label}</p>}<span>{row.applicability?.title || row.applicability?.description || row.scope || "Applicability not recorded"}</span><ChevronRight /></Button>)}</div> : <Empty className="emptyState"><strong>No claims are available for reuse</strong><p>Approved claims appear here when they are current and eligible.</p></Empty>}
-          <Button variant="outline" onClick={onLedger}>Browse knowledge <BookOpen /></Button>
-        </section>
+function HomePage({ rows, graphNodes, graphEdges, loading, onReview, onLedger, onChoose, onActivity, onRefresh }: any) {
+  const [dashboard, setDashboard] = React.useState<any>(null);
+  const [failed, setFailed] = React.useState(false);
+  React.useEffect(() => {
+    let active = true;
+    setFailed(false);
+    Promise.all([api("/owner/api/dashboard"), api("/owner/api/context")]).then(([result, context]) => { if (active) setDashboard({...result, knowledge_count: context.governed_context.length}); }).catch(() => { if (active) setFailed(true); });
+    return () => { active = false; };
+  }, [rows]);
+  const open = rows.filter((row: NodeRow) => ["needs_review", "unresolved", "blocked", "needs_revision", "dependency_invalidated"].includes(row.state));
+  const waiting = (row: NodeRow) => ["queued", "running"].includes(dashboard?.jobs[row.id]) && !["blocked", "dependency_invalidated", "needs_revision"].includes(row.state);
+  const progress = open.filter(waiting);
+  const hasActiveJobs = progress.length > 0;
+  React.useEffect(() => {
+    if (!hasActiveJobs) return;
+    let inFlight = false;
+    const timer = window.setInterval(() => {
+      if (inFlight) return;
+      inFlight = true;
+      Promise.resolve(onRefresh()).catch(() => setFailed(true)).finally(() => { inFlight = false; });
+    }, 5000);
+    return () => window.clearInterval(timer);
+  }, [hasActiveJobs, onRefresh]);
+  const attention = open.filter((row: NodeRow) => !waiting(row)).sort((a: NodeRow, b: NodeRow) =>
+    Number(["blocked", "dependency_invalidated"].includes(b.state)) - Number(["blocked", "dependency_invalidated"].includes(a.state)));
+  const sources = graphNodes.filter((node: any) => node.type === "raw").sort((a: any, b: any) => a.label.localeCompare(b.label)).slice(0, 5);
+  const reason = (row: NodeRow) => row.state === "dependency_invalidated" ? "A dependency changed" : row.state === "blocked" ? "Checks need attention" : row.state === "needs_revision" ? "Changes requested" : ["failed", "blocked", "interrupted"].includes(dashboard?.jobs[row.id]) ? "Model review needs attention" : "Ready for your review";
+  return <div className="pageBody workspaceHome">
+    <header className="homeDashHead"><h1>Workspace overview</h1><span>All scopes</span></header>
+    <section className="homeMetrics" aria-label="Workspace activity">
+      <Button variant="ghost" size="content" onClick={onLedger} className="homeMetric"><span>Approved knowledge <ChevronRight /></span><strong>{dashboard?.knowledge_count ?? "—"}</strong><small>Available for reuse</small></Button>
+      <Button variant="ghost" size="content" onClick={() => onActivity("activity")} className="homeMetric"><span>Approved · 7 days <ChevronRight /></span><strong>{dashboard?.approved_7d ?? "—"}</strong><small>Newly approved claims</small></Button>
+      <Button variant="ghost" size="content" onClick={() => onActivity("retrievals")} className="homeMetric"><span>Agent reads · 7 days <ChevronRight /></span><strong>{dashboard?.agent_reads_7d ?? "—"}</strong><small>Context requests, not confirmed use</small></Button>
+    </section>
+    {failed && <p role="status">Recent activity is unavailable. Reload to retry.</p>}
+    <section className="homeClaimNetwork" aria-label="Claim graph">
+      <header><h2>Needs your attention <span>{attention.length}</span></h2><Button variant="ghost" onClick={onReview}>All reviews <ChevronRight /></Button></header>
+<div className="homeNetworkLegend"><span className="sourceType">Sources</span><span className="claimType">Candidate claims</span><small className="desktopHint">Select a claim to preview</small><small className="mobileHint">Scroll right to view claims →</small></div>
+      {loading ? <p role="status">Loading claims…</p> : open.length ? <HomeClaimGraph claims={[...attention, ...progress]} graphNodes={graphNodes} graphEdges={graphEdges} waiting={waiting} reason={reason} onChoose={onChoose} /> : <div className="homeCaughtUp"><strong>Nothing needs your attention</strong><p>{rows.length ? "Approved claims live in Knowledge." : "No claims yet. Connect an agent to start proposing claims."}</p><Button variant="ghost" onClick={onLedger}>Browse knowledge <ChevronRight /></Button></div>}
+    </section>
+  </div>;
+}
+function HomeClaimGraph({ claims, graphNodes, graphEdges, waiting, reason, onChoose }: any) {
+  const [offset, setOffset] = React.useState(0);
+  const [selectedId, setSelectedId] = React.useState<string | null>(null);
+  const [detail, setDetail] = React.useState<Receipt | null>(null);
+  const [detailError, setDetailError] = React.useState("");
+  const selected = claims.find((claim: NodeRow) => claim.id === selectedId);
+  React.useEffect(() => {
+    let active = true;
+    setDetail(null); setDetailError("");
+    if (selectedId) api(`/owner/api/claims/${encodeURIComponent(selectedId)}`).then(value => { if(active) setDetail(value); }).catch(error => { if(active) setDetailError(error.message); });
+    return () => { active = false; };
+  }, [selectedId]);
+  const page = Math.min(offset, Math.max(0, Math.ceil(claims.length / 6) - 1));
+  const visible = claims.slice(page * 6, page * 6 + 6);
+  const bindings = visible.map((claim: NodeRow) => {
+    const evidence = graphEdges.filter((edge: any) => edge.type === "supports" && edge.to === claim.id).map((edge: any) => edge.from);
+    return [...new Set<string>(graphEdges.filter((edge: any) => edge.type === "bound_as" && evidence.includes(edge.to)).map((edge: any) => edge.from))];
+  });
+  const selectedSourceCount = selected ? bindings[visible.findIndex((claim: NodeRow) => claim.id === selected.id)]?.length ?? 0 : 0;
+  const sourceIds = [...new Set<string>(bindings.flat())];
+  const height = Math.max(430, visible.length * 140 + 70, sourceIds.length * 88 + 90);
+  const claimY = (index: number) => 70 + index * (height - 160) / Math.max(1, visible.length - 1);
+  const sourceY = (index: number) => 85 + index * (height - 190) / Math.max(1, sourceIds.length - 1);
+  return <><div className={`homeGraphSplit ${selected ? "hasSelection" : ""}`}>
+    <div className="homeNetworkViewport" tabIndex={0} role="region" aria-label="Sources connected to pending claims; scroll horizontally on small screens">
+      <div className="homeNetworkCanvas" style={{height}}>
+        <span className="homeLaneLabel source">Sources</span><span className="homeLaneLabel claim">Claims · {claims.length} open</span>
+        <svg viewBox={`0 0 1000 ${height}`} preserveAspectRatio="none" aria-hidden="true">{visible.flatMap((claim: NodeRow, index: number) => bindings[index].map((id: string) => <path className={selectedId === claim.id ? "selected" : selectedId ? "dimmed" : ""} key={`${id}-${claim.id}`} d={`M300 ${sourceY(sourceIds.indexOf(id)) + 30} C355 ${sourceY(sourceIds.indexOf(id)) + 30}, 395 ${claimY(index) + 49}, 450 ${claimY(index) + 49}`} />))}</svg>
+        {sourceIds.map((id, index) => <div className="homeSourceNode" key={id} style={{top: sourceY(index)}}><BookOpen /><span>{graphNodes.find((node: any) => node.id === id)?.label || id}</span></div>)}
+        {visible.map((claim: NodeRow, index: number) => {
+          const tone = waiting(claim) ? "processing" : ["blocked", "dependency_invalidated"].includes(claim.state) ? "blocked" : "attention";
+          return <Button variant="ghost" size="content" key={claim.id} className={`homeClaimNode ${tone} ${selectedId === claim.id ? "selected" : ""}`} style={{top: claimY(index), left: "45%"}} aria-pressed={selectedId === claim.id} onClick={() => setSelectedId(claim.id)} aria-label={`${claimDisplayTitle(claim)} — ${waiting(claim) ? "In progress" : reason(claim)}. Preview claim`}><span>{waiting(claim) ? "In progress" : reason(claim)}<ChevronRight /></span><strong>{claimDisplayTitle(claim)}</strong><small>{claim.scope || "Workspace"}{bindings[index].length === 0 ? " · No linked source" : ` · ${bindings[index].length} ${bindings[index].length === 1 ? "source" : "sources"}`}</small></Button>;
+        })}
       </div>
-      {!loading && !rows.length && <section className="homeGettingStarted"><div><h2>No claims yet</h2><p>Connect an agent to submit evidence and propose the first claim. Nothing becomes reusable without your approval.</p></div><Button variant="outline" onClick={onAdmin}>Manage agent access</Button></section>}
-      <Disclosure className="homeLifecycle"><DisclosureTrigger>How claims move through Proofpress</DisclosureTrigger><DisclosureContent>
-      <ol className="claimsPath" aria-label="How claims move through Proofpress">
-        <li>
-          <span>Candidate</span>
-          <strong>Agents propose</strong>
-          <p>Evidence and a scoped claim enter the review queue.</p>
-        </li>
-        <li>
-          <span>Review</span>
-          <strong>You decide</strong>
-          <p>Inspect the evidence, checks, recommendation, and reuse boundary.</p>
-        </li>
-        <li>
-          <span>Current claims</span>
-          <strong>Approved claims become reusable</strong>
-          <p>Eligibility is still checked for each scope and identity.</p>
-        </li>
-      </ol>
-      </DisclosureContent></Disclosure>
     </div>
-  );
+    {selected && <aside className="homeClaimDetail" aria-label="Claim preview"><header><span>Candidate claim</span><Button variant="ghost" size="sm" aria-label="Close claim preview" onClick={() => setSelectedId(null)}><X /></Button></header><h2>{claimDisplayTitle(selected)}</h2><p>{selected.label}</p><dl><div><dt>Status</dt><dd>{reason(selected)}</dd></div><div><dt>Scope</dt><dd>{selected.scope || "Workspace"}</dd></div><div><dt>Sources</dt><dd>{selectedSourceCount}</dd></div><div><dt>Deterministic checks</dt><dd>{detail ? detail.evaluation?.checks ? Object.values(detail.evaluation.checks).every(Boolean) ? "Passed" : "Needs attention" : "Not recorded" : "…"}</dd></div></dl>{detailError && <p role="alert">{detailError}</p>}<Button onClick={() => onChoose(selected.id)}>Review <ChevronRight /></Button></aside>}
+    </div>
+    {claims.length > 6 && <nav className="homeNetworkPages" aria-label="Claim graph pages"><Button variant="outline" disabled={page === 0} onClick={() => {setOffset(page - 1);setSelectedId(null);}}>Previous</Button><span>{page * 6 + 1}–{Math.min(claims.length, page * 6 + 6)} of {claims.length}</span><Button variant="outline" disabled={(page + 1) * 6 >= claims.length} onClick={() => {setOffset(page + 1);setSelectedId(null);}}>Next</Button></nav>}
+  </>;
 }
 function ReviewPage({
   rows,
@@ -1239,7 +1281,7 @@ function ReviewPage({
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
           title="Review"
-          description="Evidence and recommendations inform the decision. Only your approval admits claims."
+          description="Check the evidence, then decide whether this claim can be reused. Workspace policy may also approve qualifying new claims."
         />
         <div className="filterbar">
           <Button aria-label="Needs review" variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review · {queueCounts.needs_review || 0}</Button>
@@ -1247,7 +1289,7 @@ function ReviewPage({
           <Button aria-label="Needs revision" variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision · {queueCounts.needs_revision || 0}</Button>
           <Button aria-label="Needs reassessment" variant={queue === "needs_reassessment" ? "default" : "outline"} onClick={() => switchQueue("needs_reassessment")}>Needs reassessment · {queueCounts.needs_reassessment || 0}</Button>
           <Button aria-label="Decision history" variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history · {queueCounts.decided || 0}</Button>
-          <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} claims`}</span>
+          <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} ${visibleRows.length === 1 ? "claim" : "claims"}`}</span>
         </div>
         <div className="tableWrap reviewTableWrap">
           <Table className="reviewTable">
@@ -1282,14 +1324,14 @@ function ReviewPage({
           {!loading && visibleRows.length === 0 && (
             <Empty className="emptyState reviewEmpty">
               <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_correction" ? "No blocked candidates" : queue === "needs_revision" ? "No revision requests" : queue === "needs_reassessment" ? "No dependency changes need review" : "No decisions yet"}</strong>
-              <p>{queue === "needs_review" ? "New candidate claims will appear here and remain excluded until you approve them." : queue === "needs_correction" ? "Candidates with failed deterministic checks will appear here with a correction handoff for their proposer." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Your approval, rejection, and revision decisions will appear here."}</p>
+              <p>{queue === "needs_review" ? "New candidates appear here until an Owner decision or an enabled auto-approval policy resolves them." : queue === "needs_correction" ? "Candidates with failed deterministic checks appear here for correction." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Owner and policy decisions appear here."}</p>
               {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current claims</Button>}
             </Empty>
           )}
         </div>
         {!loading && visibleRows.length > 0 && <nav className="pagination reviewPagination" aria-label={`${queue === "decided" ? "Decision history" : "Review queue"} pages`}>
           <Button variant="outline" disabled={currentPage === 0} onClick={() => setReviewPage(currentPage - 1)}>Previous</Button>
-          <span>Page {currentPage + 1} of {pageCount} · {visibleRows.length} {queue === "decided" ? "decisions" : "claims"} · {pageSize} per page</span>
+          <span>Page {currentPage + 1} of {pageCount} · {visibleRows.length} {queue === "decided" ? visibleRows.length === 1 ? "decision" : "decisions" : visibleRows.length === 1 ? "claim" : "claims"} · {pageSize} per page</span>
           <Button variant="outline" disabled={currentPage + 1 >= pageCount} onClick={() => setReviewPage(currentPage + 1)}>Next</Button>
         </nav>}
       </div>
@@ -1515,7 +1557,7 @@ function Inspector({
         </section>}
         {can && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="applicability"><AccordionTrigger>Applicability & conditions</AccordionTrigger><AccordionContent className="pt-2"><ApplicabilityPanel claim={r.claim} /></AccordionContent></AccordionItem></Accordion> : <Card className="m-5 shadow-none"><CardContent className="p-5"><ApplicabilityPanel claim={r.claim} compact /></CardContent></Card>)}
         <TypedJudgeAdvice audit={r.recommendation?.decision_audit} />
-        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">{r.recommendation.decision_audit ? "Jev template summary" : "model rationale"} <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The model evaluates evidence support. Only Human Approval admits the claim.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="model review rationale"><div className="lmRationaleHeader"><span>{r.recommendation.decision_audit ? "Jev template summary" : "Why the model reached this advice"}</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full model rationale" /><small>The model evaluates evidence support. Only Human Approval admits the claim.</small></section>)}
+        {r.recommendation?.rationale && (fullReview ? <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="rationale"><AccordionTrigger><span className="accordionLabel">{r.recommendation.decision_audit ? "Jev template summary" : "model rationale"} <Badge state={r.recommendation.recommendation} /></span></AccordionTrigger><AccordionContent><p>{r.recommendation.rationale}</p><small>The model evaluates evidence support. Owner review or a separately enabled owner policy decides admission.</small></AccordionContent></AccordionItem></Accordion> : <section className="lmRationale" aria-label="model review rationale"><div className="lmRationaleHeader"><span>{r.recommendation.decision_audit ? "Jev template summary" : "Why the model reached this advice"}</span><Badge state={r.recommendation.recommendation} /></div><ExpandableText key={r.claim.id} text={r.recommendation.rationale} label="Read full model rationale" /><small>The model evaluates evidence support. Owner review or a separately enabled owner policy decides admission.</small></section>)}
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
@@ -1640,7 +1682,10 @@ function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
 }
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
-  const [view, setView] = React.useState("activity");
+  const [view, setView] = React.useState(() => {
+    const requested = new URLSearchParams(location.search).get("view");
+    return requested === "retrievals" || requested === "logs" ? requested : "activity";
+  });
   const [logs, setLogs] = React.useState<any[]>([]);
   const [error, setError] = React.useState("");
   React.useEffect(() => {
@@ -1659,7 +1704,7 @@ function ActivityPage({ rows }: any) {
         description="Who contributed claims, reviewed it, and retrieved context. Technical requests are kept separately."
       />
       <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
-        {[["activity","Claims activity"],["retrievals","Context retrievals"],["logs","Technical logs"]].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");}}>{label}</Button>)}
+        {[["activity","Claims activity"],["retrievals","Context retrievals"],["logs","Technical logs"]].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");history.replaceState(null,"",key === "activity" ? "/activity" : `/activity?view=${key}`);}}>{label}</Button>)}
       </div>
       {error && <p role="alert">{error}</p>}
       <div className="tableWrap activityTable">
