@@ -626,6 +626,7 @@ class HostedControlPlane:
             if type(expected_version) is not int or expected_version != prior["version"]:
                 raise HostedAuthError("stale_policy", "Review policy changed. Reload before saving.")
             policy = review_policy.validate(settings, prior["policy"])
+            settings = review_policy.normalize(settings)
             changed_at = _now()
             provider_changed = settings["provider"] != prior["settings"].get("provider")
             if api_key and delete_key:

@@ -2432,7 +2432,12 @@ def auto_admit_v2(cid, authorized_by, policy_version, auto_policy_digest,
             recommendation.get("policy_digest") == policy["digest"] and
             recommendation.get("recommendation") == "accept"):
         return {"ok": True, "skipped": "no current accepting judge recommendation"}
-    conflicts = _active_contradictions(projection, policy)
+    # Test the relation state that admission would create. The ordinary
+    # conflict projection excludes this pending endpoint until it is admitted.
+    projected_admission = {**projection, "admissions": {
+        **projection["admissions"], cid: {
+            "claim_digest": row["digest"], "policy_digest": policy["digest"]}}}
+    conflicts = _active_contradictions(projected_admission, policy)
     if cid in conflicts:
         return {"ok": True, "skipped": "claim has an unresolved conflict"}
     if dependency_impacts(projection, policy).get(cid):
@@ -2640,6 +2645,9 @@ def _staged_claim_status(projection, row, policy, actor=None, scope=None,
         return None
     conflicts = _active_contradictions(projection, policy) if conflicts is None else conflicts
     if cid in conflicts:
+        return None
+    impacts = dependency_impacts(projection, policy) if impacts is None else impacts
+    if impacts.get(cid):
         return None
     current = v2_state(projection, row, policy, impacts)
     if current not in {"needs_review", "unresolved"}:

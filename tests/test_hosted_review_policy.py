@@ -71,6 +71,15 @@ class ReviewPolicyTests(unittest.TestCase):
                              "auto_admit_new_claims": True}, 0)
         self.assertTrue(enabled["settings"]["auto_admit_new_claims"])
 
+    def test_legacy_settings_save_is_normalized_and_idempotent(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            saved = self.control.save_review_policy(self.owner, self.settings, 0)
+            repeated = self.control.save_review_policy(
+                self.owner, self.settings, saved["version"])
+        self.assertEqual(saved["version"], repeated["version"])
+        self.assertFalse(saved["settings"]["auto_admit_new_claims"])
+        self.assertEqual(saved["settings"], repeated["settings"])
+
     def test_auto_approval_adds_policy_admission_without_faking_human_review(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
             policy = self.control.save_review_policy(

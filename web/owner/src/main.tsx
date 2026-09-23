@@ -395,6 +395,12 @@ function App() {
       setLoading(false);
     }
   }, [selected]);
+  const refreshHome = React.useCallback(async () => {
+    const graph = await api("/owner/api/graph");
+    setRows((graph.nodes || []).filter((node: NodeRow) => node.type === "claim"));
+    setGraphNodes(graph.nodes || []);
+    setEdges(graph.edges || []);
+  }, []);
   React.useEffect(() => {
     load();
   }, []);
@@ -1059,6 +1065,7 @@ function App() {
               onReview={() => navigate("review")}
               onLedger={() => navigate("ledger")}
               onAdmin={() => navigate("admin")}
+              onRefresh={refreshHome}
             />
           )}
           {page === "review" && (
@@ -1154,7 +1161,7 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ rows, graphNodes, graphEdges, loading, onReview, onLedger, onChoose, onActivity }: any) {
+function HomePage({ rows, graphNodes, graphEdges, loading, onReview, onLedger, onChoose, onActivity, onRefresh }: any) {
   const [dashboard, setDashboard] = React.useState<any>(null);
   const [failed, setFailed] = React.useState(false);
   React.useEffect(() => {
@@ -1166,6 +1173,17 @@ function HomePage({ rows, graphNodes, graphEdges, loading, onReview, onLedger, o
   const open = rows.filter((row: NodeRow) => ["needs_review", "unresolved", "blocked", "needs_revision", "dependency_invalidated"].includes(row.state));
   const waiting = (row: NodeRow) => ["queued", "running"].includes(dashboard?.jobs[row.id]) && !["blocked", "dependency_invalidated", "needs_revision"].includes(row.state);
   const progress = open.filter(waiting);
+  const hasActiveJobs = progress.length > 0;
+  React.useEffect(() => {
+    if (!hasActiveJobs) return;
+    let inFlight = false;
+    const timer = window.setInterval(() => {
+      if (inFlight) return;
+      inFlight = true;
+      Promise.resolve(onRefresh()).catch(() => setFailed(true)).finally(() => { inFlight = false; });
+    }, 5000);
+    return () => window.clearInterval(timer);
+  }, [hasActiveJobs, onRefresh]);
   const attention = open.filter((row: NodeRow) => !waiting(row)).sort((a: NodeRow, b: NodeRow) =>
     Number(["blocked", "dependency_invalidated"].includes(b.state)) - Number(["blocked", "dependency_invalidated"].includes(a.state)));
   const sources = graphNodes.filter((node: any) => node.type === "raw").sort((a: any, b: any) => a.label.localeCompare(b.label)).slice(0, 5);

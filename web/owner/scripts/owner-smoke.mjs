@@ -48,6 +48,16 @@ try {
   await page.locator('.homeClaimNode').first().waitFor();
   assert.equal(await page.locator('.homeClaimNode').count() > 0,true,'Pending claims appear in the Home graph');
   assert.equal(await page.locator('.homeKnowledgeList').count(),0,'Home does not present candidates as approved knowledge');
+  await page.route('**/owner/api/dashboard',async route => {
+    const response = await route.fetch();
+    const payload = await response.json();
+    await route.fulfill({response,json:{...payload,result:{...payload.result,jobs:{[data.ids[0]]:'running'}}}});
+  });
+  await page.reload();
+  await page.locator('.homeClaimNode.processing').first().waitFor();
+  await page.waitForResponse(response => response.url().endsWith('/owner/api/graph'),{timeout:8000});
+  await page.unroute('**/owner/api/dashboard');
+  await page.reload();
   if (process.env.QA_SCREENSHOTS) {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
     for (const width of [1536,1024,390]) {
