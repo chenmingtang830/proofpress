@@ -3,6 +3,7 @@ import { mkdir } from 'node:fs/promises';
 
 export async function inspectKnowledge(page, data) {
   if (process.env.QA_SCREENSHOTS) await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+  await page.getByRole('button',{name:'List',exact:true}).click();
   const list = page.locator('.knowledgeList > li > button');
   const first = list.filter({hasText:'Browser fixture approve:'});
   const record = page.getByRole('article',{name:'Knowledge record'});
@@ -103,7 +104,7 @@ if (process.argv.includes('--standalone')) {
     await page.goto(`${data.base}/home`);
     await page.locator('input[name=token]').fill(data.owner);
     await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
-    await page.locator('.nextClaim h3').waitFor();
+    await page.locator('.homeClaimNode').first().waitFor();
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
       for(const width of [1536,1024,390]) {
@@ -126,6 +127,7 @@ if (process.argv.includes('--standalone')) {
 }
 
 export async function inspectKnowledgeRace(page, data) {
+  await page.getByRole('button',{name:'List',exact:true}).click();
   const list = page.locator('.knowledgeList > li > button');
   await list.first().waitFor();
   assert.equal(await list.count(),2);

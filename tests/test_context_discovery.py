@@ -110,7 +110,7 @@ class ContextDiscoveryTests(unittest.TestCase):
         claim = self.kernel_ops.propose_v2(
             "The Acme liability cap is one year of fees.", [evidence],
             proposer="agent:contract-review", scope="contract-review")["claim"]
-        evaluation = self.kernel_ops.evaluate_v2(claim["id"])
+        self.kernel_ops.evaluate_v2(claim["id"])
         policy = self.kernel_ops.load_v2_policy()
 
         def recommend(decision, *, claim_digest=None, policy_digest=None):
