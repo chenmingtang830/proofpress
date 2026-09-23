@@ -34,10 +34,140 @@ class ReviewPolicyTests(unittest.TestCase):
             "evidence_refs": evidence["result"]["evidence"], "scope": "test",
             "proposer": "agent:codex"}, "proposal-" + label))
 
+    def test_dashboard_counts_agent_reads_not_owner_views_and_isolates_workspace(self):
+        self.control.execute(self.owner, operation("context.get", {}))
+        self.assertEqual(self.control.home_dashboard(self.owner)["agent_reads_7d"], 0)
+        for _ in range(251):
+            self.control.execute(self.agent, operation("context.get", {}))
+        self.assertEqual(self.control.home_dashboard(self.owner)["agent_reads_7d"], 251)
+        with self.control._db() as connection:
+            connection.execute("UPDATE hosted_context_reads SET created_at='2000-01-01T00:00:00Z' WHERE read_id=(SELECT MIN(read_id) FROM hosted_context_reads)")
+        self.assertEqual(self.control.home_dashboard(self.owner)["agent_reads_7d"], 250)
+        with self.control._db() as connection:
+            connection.execute("UPDATE hosted_context_reads SET workspace_id='workspace:other'")
+        self.assertEqual(self.control.home_dashboard(self.owner)["agent_reads_7d"], 0)
+        with self.assertRaises(HostedAuthError):
+            self.control.home_dashboard(self.agent)
+
     def test_agent_prompt_only_authors_criteria(self):
         self.assertIn('{"criteria":', POLICY_AUTHORING_PROMPT)
         self.assertIn("Do not choose a model or provider", POLICY_AUTHORING_PROMPT)
         self.assertNotIn("return only JSON with these fields: provider", POLICY_AUTHORING_PROMPT)
+
+    def test_automatic_approval_is_off_by_default_and_requires_explicit_gate(self):
+        record = self.control.get_review_policy(self.owner)
+        self.assertFalse(record["settings"]["auto_admit_new_claims"])
+        missing_criteria = {**self.settings, "mode": "automatic",
+                            "auto_admit_new_claims": True, "criteria": "  "}
+        with self.assertRaisesRegex(ValueError, "workspace criteria"):
+            review_policy.validate(missing_criteria, self.control._policy("workspace:test")["policy"])
+        no_consent = {**self.settings, "mode": "automatic",
+                      "auto_admit_new_claims": True, "external_consent": False}
+        with self.assertRaisesRegex(ValueError, "consent"):
+            review_policy.validate(no_consent, self.control._policy("workspace:test")["policy"])
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            enabled = self.control.save_review_policy(
+                self.owner, {**self.settings, "mode": "automatic",
+                             "auto_admit_new_claims": True}, 0)
+        self.assertTrue(enabled["settings"]["auto_admit_new_claims"])
+
+    def test_auto_approval_adds_policy_admission_without_faking_human_review(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            policy = self.control.save_review_policy(
+                self.owner, {**self.settings, "mode": "automatic",
+                             "auto_admit_new_claims": True}, 0)
+        with patch("proofpress.hosted.control_plane.threading.Thread"):
+            proposal = self.proposal("policy admitted")
+        cid = proposal["result"]["claim"]["id"]
+
+        def record_accept(claim_id):
+            projection = kernel.v2_projection()
+            claim = projection["claims"][claim_id]
+            return kernel.append_v2({
+                "type": "judge_recommended", "subject_ref": claim_id,
+                "claim_digest": claim["digest"],
+                "policy_digest": policy["policy_digest"],
+                "judge": "judge:test", "recommendation": "accept",
+                "rationale": "Bounded test evidence supports this candidate."})
+
+        auto_errors = []
+        auto_original = kernel.auto_admit_v2
+        def record_auto_error(*args, **kwargs):
+            try:
+                return auto_original(*args, **kwargs)
+            except Exception as exc:
+                auto_errors.append(repr(exc))
+                raise
+        with patch.object(kernel, "judge_v2", side_effect=record_accept), \
+             patch.object(kernel, "auto_admit_v2", side_effect=record_auto_error) as auto_admit:
+            self.control.run_judge_jobs()
+            self.assertTrue(auto_admit.called, self.control.list_activity(self.owner))
+        receipt = self.control.execute(
+            self.owner, operation("review.receipt", {"claim_id": cid}))["result"]
+        self.assertEqual(receipt["state"], "admitted", {
+            "job": receipt.get("judge_job"), "auto_admit_calls": auto_admit.call_args_list,
+            "auto_errors": auto_errors,
+            "policy": policy})
+        self.assertEqual(receipt["admission"]["type"], "claim_auto_admitted")
+        self.assertEqual(receipt["admission"]["authority"], "owner_policy")
+        self.assertEqual(receipt["admission"]["auto_policy_version"], policy["version"])
+        self.assertIsNone(receipt["review"])
+        history_entry = next(event for event in receipt["history"]
+                             if event["type"] == "claim_auto_admitted")
+        self.assertEqual(history_entry["authority"], "owner_policy")
+        self.assertEqual(history_entry["authorized_by"], "human:owner")
+        self.assertNotIn(cid, kernel.v2_projection()["reviews"])
+        activity = next(row for row in self.control.list_activity(self.owner)
+                        if row.get("kind") == "claim_auto_admitted")
+        self.assertEqual(activity["actor"], "System · Owner policy")
+        self.assertEqual(activity["outcome"], "auto_admitted")
+        self.assertEqual(self.control.home_dashboard(self.owner)["approved_7d"], 1)
+
+    def test_policy_change_during_judge_prevents_auto_admission(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            enabled = self.control.save_review_policy(
+                self.owner, {**self.settings, "mode": "automatic",
+                             "auto_admit_new_claims": True}, 0)
+        with patch("proofpress.hosted.control_plane.threading.Thread"):
+            proposal = self.proposal("policy changed in flight")
+        cid = proposal["result"]["claim"]["id"]
+
+        def accept_then_disable(claim_id):
+            projection = kernel.v2_projection()
+            claim = projection["claims"][claim_id]
+            event = kernel.append_v2({
+                "type": "judge_recommended", "subject_ref": claim_id,
+                "claim_digest": claim["digest"],
+                "policy_digest": enabled["policy_digest"],
+                "judge": "judge:test", "recommendation": "accept",
+                "rationale": "test recommendation"})
+            self.control.save_review_policy(
+                self.owner, {**enabled["settings"], "auto_admit_new_claims": False},
+                enabled["version"])
+            return event
+
+        with patch.object(kernel, "judge_v2", side_effect=accept_then_disable):
+            self.control.run_judge_jobs()
+        receipt = self.control.execute(
+            self.owner, operation("review.receipt", {"claim_id": cid}))["result"]
+        self.assertEqual(receipt["state"], "needs_review")
+        self.assertIsNone(receipt["admission"])
+        self.assertEqual(receipt["recommendation"]["recommendation"], "accept")
+
+    def test_restart_requeues_interrupted_job_only_for_current_auto_policy(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            self.control.save_review_policy(
+                self.owner, {**self.settings, "mode": "automatic",
+                             "auto_admit_new_claims": True}, 0)
+        with patch("proofpress.hosted.control_plane.threading.Thread"):
+            self.proposal("restart recovery")
+        with self.control._db() as connection:
+            connection.execute("UPDATE hosted_judge_jobs SET state='running'")
+        with patch("proofpress.hosted.control_plane.threading.Thread"):
+            self.control.resume_judge_jobs()
+        with self.control._db() as connection:
+            job = connection.execute("SELECT state FROM hosted_judge_jobs").fetchone()
+        self.assertEqual(job["state"], "queued")
 
     def test_common_model_providers_are_available_individually(self):
         self.assertEqual(

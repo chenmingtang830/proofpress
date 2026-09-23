@@ -35,7 +35,7 @@ export function TypedJudgeAdvice({audit}: {audit?: DecisionAudit}) {
         <Card className="jevReviewCard">
           <CardHeader>
             <CardTitle>Powered by Jev</CardTitle>
-            <CardDescription>Experimental model estimates. Human Approval remains required.</CardDescription>
+            <CardDescription>Experimental estimates do not approve claims. Owner review or a separately enabled owner policy decides admission.</CardDescription>
           </CardHeader>
           <CardContent>
             <Table aria-label="Recommendation distribution">

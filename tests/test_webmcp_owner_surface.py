@@ -41,7 +41,7 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertNotIn("approve", names)
         self.assertNotIn("approve_claim", names)
         self.assertNotIn("admit", names)
-        self.assertIn("Human Approval is not exposed", self.page)
+        self.assertIn("Agent approval is never available", self.page)
 
     def test_lifecycle_tools_inspect_or_navigate_but_do_not_decide(self):
         self.assertIn('needs_reassessment_count', self.page)

@@ -16,6 +16,8 @@ const governanceCss = readFileSync(
 );
 const knowledgeSource = readFileSync(fileURLToPath(new URL("./components/knowledge-library.tsx", import.meta.url)), "utf8");
 const reassessmentSource = readFileSync(fileURLToPath(new URL("./components/reassessment-panel.tsx", import.meta.url)), "utf8");
+const homeCss = readFileSync(fileURLToPath(new URL("./components/workspace-home.css", import.meta.url)), "utf8");
+const policySource = readFileSync(fileURLToPath(new URL("./components/review-policy.tsx", import.meta.url)), "utf8");
 
 describe("Proofpress owner workspace contract", () => {
   it("keeps the MVP focused on review and human-readable lineage", () => {
@@ -33,7 +35,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Previous revision");
     expect(source).toContain("External system");
     expect(source).toContain("Known omissions");
-    expect(source).toContain("External evidence remains evidence only");
+    expect(source).toContain("Owner review or a matching owner policy is required before it becomes reusable");
     expect(knowledgeSource).toContain("<LineageGraph");
     expect(source).toContain("(current + 1) * 20");
   });
@@ -81,31 +83,30 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Read the complete advisory rationale in the review summary above.");
     expect(css).toContain(".expandableText p");
   });
-  it("explains evidence and downstream consequence before authority changes", () => {
-    expect(source).toContain("How claims move through Proofpress");
-    expect(source).toContain("Agents propose");
-    expect(source).toContain("You decide");
-    expect(source).toContain("Approved claims become reusable");
-    expect(source).toContain("Evidence for this claim");
-    expect(source).toContain("Applicability and conditions");
-    expect(source).toContain("Available knowledge");
-    expect(source).toContain("Needs review");
-    expect(source).not.toContain("Outside current context");
-    expect(css).toContain("--evidence:");
-    expect(css).toContain("--review-queue:");
-    expect(css).toContain(".orientation > .reviewOrientation");
-    expect(css).toContain(".orientation > .admittedOrientation");
+  it("keeps Home focused on action with no approved-claim network", () => {
+    expect(source).toContain("Needs your attention");
+    expect(source).toContain("Nothing needs your attention");
+    expect(source).toContain('setFullReview(true); void choose(id, true)');
+    expect(source).not.toContain('aria-label="Claim network"');
+    expect(homeCss).toContain(".homeAttention");
   });
 
   it("gives first-run and caught-up states an explicit next step", () => {
     expect(source).toContain("No claims yet");
-    expect(source).toContain("Manage agent access");
-    expect(source).toContain("You are caught up");
-    expect(source).toContain("Browse current claims");
-    expect(source).toContain("No claims are available for reuse");
+    expect(source).toContain("Browse knowledge");
+    expect(source).toContain('aria-label="Claim graph"');
     expect(knowledgeSource).toContain("Review candidate claims");
     expect(css).toContain(".claimsPath");
     expect(css).toContain(".emptyState");
+  });
+  it("keeps automatic approval explicit, workspace-wide, and distinct from human review", () => {
+    expect(policySource).toContain("auto_admit_new_claims");
+    expect(policySource).toContain("including high-risk claims");
+    expect(policySource).toContain("Qualifying claims will not receive per-claim human approval");
+    expect(policySource).toContain("Model recommendations are not calibrated probabilities");
+    expect(policySource).toContain("valid API key");
+    expect(knowledgeSource).toContain('admission?.authority === "owner_policy"');
+    expect(knowledgeSource).toContain("not a human review");
   });
   it("delays rejection for ten seconds while continuing the needs-review queue", () => {
     expect(source).toContain('row.state === "needs_review" && row.id !== rejectedId');
@@ -134,7 +135,7 @@ describe("Proofpress owner workspace contract", () => {
   it("keeps escalated model advice readable and explains why approval is unavailable", () => {
     expect(source).toContain('className="lmRationaleHeader"');
     expect(source).toContain("The model marked this claim Needs Attention");
-    expect(source).toContain("Only Human Approval admits the claim");
+    expect(source).toContain("Owner review or a separately enabled owner policy decides admission");
     expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onJudge}>Refresh model advice</Button>');
     expect(source).toContain('<Button variant="outline" disabled={busy} onClick={onConfigurePolicy}>Review approval policy</Button>');
     expect(css).toContain(".modalActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 24px; }");
@@ -144,7 +145,7 @@ describe("Proofpress owner workspace contract", () => {
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
-    expect(source).toContain("Human Approval is not exposed");
+    expect(source).toContain("Agent approval is never available");
     expect(source).not.toMatch(/name:\s*"(?:approve|admit)/);
   });
   it("makes activity and policy agent-addressable without granting authority", () => {

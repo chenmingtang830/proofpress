@@ -10,6 +10,7 @@ const results: Record<string, {label:string; tone:string}> = {
   judge_blocked: {label:"Model review blocked", tone:"danger"},
   judge_interrupted: {label:"Model review interrupted", tone:"danger"},
   judge_skipped: {label:"Model review skipped", tone:"neutral"},
+  auto_admitted: {label:"Approved by policy", tone:"success"},
 };
 export function activityResult(outcome:string) {
   return results[outcome] || {label:outcome ? "Request failed" : "Unknown", tone:outcome ? "danger" : "neutral"};

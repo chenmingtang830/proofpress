@@ -58,6 +58,7 @@ export function RevisionPanel({receipt, onChoose}: any) {
 }
 
 export function historyActor(event: any): string {
+  if (event.authority === "owner_policy") return `System · Owner policy v${event.auto_policy_version ?? "?"}`;
   const actor = event.reviewer || event.claim?.proposer || event.verifier || event.judge || event.actor;
   const identity = typeof actor === "string" ? actor : actor?.id || actor?.name;
   return [identity || "Actor not recorded", event.model].filter(Boolean).join(" · ");

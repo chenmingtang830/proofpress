@@ -316,6 +316,47 @@ class HostedServiceTests(unittest.TestCase):
         context = successor.context(scope="web-review-test", actor="spoofed")
         self.assertEqual([row["id"] for row in context["governed_context"]], [claim_id])
 
+    def test_local_owner_preview_skips_login_only_for_loopback_ui(self):
+        self.service.enable_local_owner_preview(self.server, self.owner["token"])
+        request = Request(self.base_url + "/home")
+        with urlopen(request) as response:
+            page = response.read().decode()
+            cookie = response.headers["Set-Cookie"].split(";", 1)[0]
+        self.assertEqual(response.status, 200)
+        self.assertNotIn(self.owner["token"], page)
+        self.assertNotIn("Owner credential", page)
+
+        status, session = self.owner_json("/owner/api/session", cookie)
+        self.assertEqual(status, 200)
+        self.assertTrue(session["result"]["local_owner_preview"])
+        self.assertTrue(session["result"]["csrf"])
+        status, denied = self.owner_json("/owner/api/session", "")
+        self.assertEqual(status, 401)
+        self.assertEqual(denied["error"]["code"], "owner_session_required")
+
+        wrong_origin = Request(
+            self.base_url + "/owner/api/reviews",
+            data=b"{}", method="POST",
+            headers={"Content-Type": "application/json",
+                     "Origin": "http://attacker.example"})
+        with self.assertRaises(HTTPError) as raised:
+            urlopen(wrong_origin)
+        self.assertEqual(raised.exception.code, 403)
+        self.assertIn("local_preview_origin_required",
+                      raised.exception.read().decode())
+        raised.exception.close()
+
+        public_bind = type("PublicBind", (), {"server_address": ("0.0.0.0", 7334)})()
+        with self.assertRaisesRegex(ValueError, "loopback-bound"):
+            self.service.enable_local_owner_preview(public_bind, self.owner["token"])
+
+        wrong_host = Request(
+            self.base_url + "/home", headers={"Host": "attacker.example"})
+        with self.assertRaises(HTTPError) as raised:
+            urlopen(wrong_host)
+        self.assertEqual(raised.exception.code, 403)
+        raised.exception.close()
+
     def test_owner_review_rejects_csrf_failure(self):
         request = Request(
             self.base_url + "/owner/login",

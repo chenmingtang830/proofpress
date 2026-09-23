@@ -105,6 +105,39 @@ class ContextDiscoveryTests(unittest.TestCase):
         self.assertEqual([card["id"] for card in self.kernel_ops.discover_context_v2(
             actor="agent:other", task="Acme liability cap")["cards"]], [claim["id"]])
 
+    def test_staged_context_is_separate_and_requires_current_accept_or_escalate(self):
+        evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
+        claim = self.kernel_ops.propose_v2(
+            "The Acme liability cap is one year of fees.", [evidence],
+            proposer="agent:contract-review", scope="contract-review")["claim"]
+        evaluation = self.kernel_ops.evaluate_v2(claim["id"])
+        policy = self.kernel_ops.load_v2_policy()
+
+        def recommend(decision, *, claim_digest=None, policy_digest=None):
+            return self.kernel_ops.append_v2({
+                "type": "judge_recommended", "subject_ref": claim["id"],
+                "claim_digest": claim_digest or claim["digest"],
+                "policy_digest": policy_digest or policy["digest"],
+                "recommendation": decision, "rationale": "test recommendation",
+                "judge": "judge:test"})
+
+        self.assertEqual(self.kernel_ops.context_v2(actor="agent:contract-review")["staged_context"], [])
+        recommend("accept")
+        packet = self.kernel_ops.context_v2(actor="agent:contract-review")
+        self.assertEqual(packet["governed_context"], [])
+        self.assertEqual([row["id"] for row in packet["staged_context"]], [claim["id"]])
+        self.assertEqual(packet["staged_context"][0]["staging"]["status"], "ready_for_draft")
+        restricted = {**policy, "allowed_actors": ["agent:contract-review"]}
+        with self.kernel_ops.using_policy(restricted):
+            self.assertEqual(self.kernel_ops.context_v2(actor="agent:other")["staged_context"], [])
+        self.assertEqual(self.kernel_ops.context_v2(actor="agent:contract-review", scope="other")["staged_context"], [])
+
+        recommend("escalate")
+        escalated = self.kernel_ops.context_v2(actor="agent:contract-review")["staged_context"][0]
+        self.assertEqual(escalated["staging"]["status"], "needs_attention")
+        recommend("accept", claim_digest="sha256:stale")
+        self.assertEqual(self.kernel_ops.context_v2(actor="agent:contract-review")["staged_context"], [])
+
     def test_a_reuse_boundary_requires_a_legacy_scope_or_applicability(self):
         evidence = self.kernel_ops.submit_evidence_v2(evidence_payload())["evidence"][0]
         proposal = self.kernel_ops.propose_v2(

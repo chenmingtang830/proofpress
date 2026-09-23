@@ -87,6 +87,16 @@ def migrate(connection):
     if "conclusion_ids_json" in read_columns and "claim_ids_json" not in read_columns:
         connection.execute(
             "ALTER TABLE hosted_context_reads RENAME COLUMN conclusion_ids_json TO claim_ids_json")
+    read_columns = {row["name"] for row in connection.execute(
+        "PRAGMA table_info(hosted_context_reads)")}
+    if "staged_claim_ids_json" not in read_columns:
+        connection.execute(
+            "ALTER TABLE hosted_context_reads ADD COLUMN staged_claim_ids_json "
+            "TEXT NOT NULL DEFAULT '[]'")
+    if "read_kind" not in read_columns:
+        connection.execute(
+            "ALTER TABLE hosted_context_reads ADD COLUMN read_kind "
+            "TEXT NOT NULL DEFAULT 'context.get'")
 
 
 def current(connection, workspace_id):
@@ -112,7 +122,8 @@ def current(connection, workspace_id):
 def normalize(settings):
     return {"provider": "openrouter", "endpoint": "", "criteria": "", "zdr": True,
             "mode": "off", "model": "", "rubric": "evidence-support/v1",
-            "require_judge": False, "external_consent": False, **settings}
+            "require_judge": False, "external_consent": False,
+            "auto_admit_new_claims": False, **settings}
 
 
 def _cipher():
@@ -195,18 +206,23 @@ def _endpoint(settings):
 
 
 def validate(settings, prior):
-    if not isinstance(settings, dict) or set(settings) != {
+    legacy_fields = {
         "provider", "endpoint", "model", "rubric", "criteria", "zdr",
         "mode", "require_judge", "external_consent"
-    }:
+    }
+    if (not isinstance(settings, dict) or
+            frozenset(settings) not in {frozenset(legacy_fields),
+                                        frozenset(legacy_fields | {"auto_admit_new_claims"})}):
         raise ValueError("Provide mode, model, rubric, require_judge and external_consent.")
+    settings = normalize(settings)
     if settings["mode"] not in {"off", "manual", "automatic"}:
         raise ValueError("Select off, manual or automatic.")
     if settings["rubric"] not in RUBRICS:
         raise ValueError("Unsupported review rubric version.")
     if settings["provider"] not in PROVIDERS:
         raise ValueError("Select a supported model provider.")
-    if any(type(settings[k]) is not bool for k in ("require_judge", "external_consent", "zdr")):
+    if any(type(settings[k]) is not bool for k in (
+            "require_judge", "external_consent", "zdr", "auto_admit_new_claims")):
         raise ValueError("Consent and approval requirements must be boolean.")
     model = settings["model"]
     if not isinstance(model, str) or (model and not re.fullmatch(r"[A-Za-z0-9_.:/-]{1,160}", model)):
@@ -222,6 +238,11 @@ def validate(settings, prior):
         raise ValueError("Choose a model and consent to external processing.")
     if not enabled and settings["require_judge"]:
         raise ValueError("Enable LM advice before making it an approval requirement.")
+    if settings["auto_admit_new_claims"]:
+        if settings["mode"] != "automatic" or not settings["require_judge"]:
+            raise ValueError("Automatic approval requires automatic model review as a required gate.")
+        if not criteria.strip():
+            raise ValueError("Add workspace criteria before enabling automatic approval.")
     policy = json.loads(json.dumps(prior))
     policy["require_judge"] = settings["require_judge"]
     command = [sys.executable, "-m", "proofpress.hosted.judge", "--provider", settings["provider"],
@@ -245,6 +266,7 @@ def semantic_event(event, initiator):
     labels = {"claim_proposed": "Proposed a claim", "evidence_bound": "Submitted evidence",
               "policy_evaluated": "Checked evidence", "judge_recommended": "Reviewed evidence with LM",
               "claim_admitted": "Approved for reuse", "claim_rejected": "Rejected a claim",
+              "claim_auto_admitted": "Automatically approved for reuse",
               "claim_revision_requested": "Requested changes", "claim_superseded": "Replaced a claim",
               "claim_withdrawn": "Withdrew a claim", "relation_retired": "Retired a dependency",
               "relation_proposed": "Proposed a relationship", "relation_admitted": "Approved a relationship"}
@@ -255,10 +277,15 @@ def semantic_event(event, initiator):
     if kind not in labels:
         return None
     actor = event.get("verifier") or event.get("judge") or event.get("reviewer") or event.get("claim", {}).get("proposer") or initiator
-    outcome = {"claim_admitted": "admitted", "claim_rejected": "rejected",
+    outcome = {"claim_admitted": "admitted", "claim_auto_admitted": "auto_admitted",
+               "claim_rejected": "rejected",
                "claim_revision_requested": "needs_revision", "claim_withdrawn": "withdrawn",
                "relation_retired": "retired"}.get(kind, "recorded")
     detail = event.get("note") or ""
+    if kind == "claim_auto_admitted":
+        actor = "System · Owner policy"
+        detail = (f"Authorized by owner policy v{event.get('auto_policy_version', '?')}; "
+                  "current checks passed and the current model review supported this claim.")
     if kind == "policy_evaluated":
         failed = [name.replace("_", " ") for name, passed in event.get("checks", {}).items() if not passed]
         outcome = "checks_passed" if event.get("eligible") else "blocked"

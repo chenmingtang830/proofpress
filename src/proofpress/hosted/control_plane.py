@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from contextlib import contextmanager
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import hashlib
 import hmac
 import json
@@ -663,6 +663,27 @@ class HostedControlPlane:
         finally:
             connection.close()
 
+    def home_dashboard(self, token):
+        owner = self._owner(token)
+        now = datetime.now(timezone.utc)
+        since = now - timedelta(days=7)
+        approved = set()
+        with self._db() as connection:
+            for raw in connection.execute("SELECT payload_json FROM events WHERE workspace_id=?", (owner.workspace_id,)):
+                for event in kernel_ops.logical_events([json.loads(raw["payload_json"])]):
+                    if event.get("type") not in {"claim_admitted", "claim_auto_admitted"} or event.get("reassessment"):
+                        continue
+                    occurred = datetime.fromisoformat(event["created_at"].replace("Z", "+00:00"))
+                    if since <= occurred <= now:
+                        approved.add(event["subject_ref"])
+            reads = sum(since <= datetime.fromisoformat(row["created_at"].replace("Z", "+00:00")) <= now
+                        for row in connection.execute("SELECT created_at FROM hosted_context_reads WHERE workspace_id=?", (owner.workspace_id,)))
+            jobs = {}
+            for job in connection.execute("SELECT claim_id,state FROM hosted_judge_jobs WHERE workspace_id=? ORDER BY updated_at,job_id", (owner.workspace_id,)):
+                jobs[job["claim_id"]] = job["state"]
+        return {"approved_7d": len(approved), "agent_reads_7d": reads,
+                "since": since.isoformat(), "as_of": now.isoformat(), "jobs": jobs}
+
     def list_activity(self, token, limit=100):
         owner = self._owner(token)
         limit = max(1, min(int(limit), 250))
@@ -695,10 +716,17 @@ class HostedControlPlane:
                 row["scope"] = subject.get("scope", "")
             for raw in connection.execute("SELECT * FROM hosted_context_reads WHERE workspace_id=? ORDER BY read_id DESC LIMIT ?", (owner.workspace_id, limit)):
                 ids = json.loads(raw["claim_ids_json"])
+                staged_ids = json.loads(raw["staged_claim_ids_json"] or "[]")
                 rows.append({"id": f"read-{raw['read_id']}", "occurred_at": raw["created_at"],
-                             "actor": raw["actor"], "action": "Retrieved governed context", "kind": "context_retrieved",
-                             "outcome": "retrieved", "scope": raw["scope"], "claim_ids": ids,
-                             "detail": f"{len(ids)} claims returned. Retrieval does not prove use."})
+                             "actor": raw["actor"],
+                             "action": ("Retrieved approved and draft context" if staged_ids
+                                        else "Retrieved approved context"),
+                             "kind": "context_retrieved", "outcome": "retrieved",
+                             "scope": raw["scope"], "claim_ids": ids,
+                             "staged_claim_ids": staged_ids,
+                             "detail": (f"{len(ids)} approved and {len(staged_ids)} draft-only claims returned. "
+                                        "Retrieval does not prove use." if staged_ids else
+                                        f"{len(ids)} approved claims returned. Retrieval does not prove use.")})
             for raw in connection.execute("SELECT * FROM hosted_review_policies WHERE workspace_id=?", (owner.workspace_id,)):
                 rows.append({"id": f"policy-{raw['version']}", "occurred_at": raw["created_at"],
                              "actor": raw["actor"], "action": "Updated review policy", "outcome": "recorded",
@@ -804,6 +832,36 @@ class HostedControlPlane:
                                 recommendation.get("policy_digest") == record["policy"]["digest"]):
                             kernel_ops.judge_v2(job["claim_id"])
                         state, detail = "completed", "LM advice recorded."
+                    if state == "completed" and record["settings"].get("auto_admit_new_claims"):
+                        # Serialize the final version/setting check and append
+                        # with policy writes on the same SQLite transaction.
+                        # This prevents a concurrent policy disable/change from
+                        # racing between authorization and the admission event.
+                        with using_event_store(store), store.transaction():
+                            connection = store._connection.get()
+                            latest = review_policy.current(connection, job["workspace_id"])
+                            if (latest["version"] != record["version"] or
+                                    not latest["settings"].get("auto_admit_new_claims")):
+                                detail = "LM advice recorded. Automatic approval policy changed; owner review is required."
+                            else:
+                                with kernel_ops.using_policy(latest["policy"]):
+                                    candidate = kernel_ops.v2_projection()["claims"].get(job["claim_id"])
+                                    if candidate and candidate.get("created_at", "") >= record["updated_at"]:
+                                        auto_digest = kernel_ops.digest({
+                                            "policy_digest": latest["policy"]["digest"],
+                                            "version": latest["version"],
+                                            "enabled_at": latest["updated_at"],
+                                        })
+                                        admission = kernel_ops.auto_admit_v2(
+                                            job["claim_id"], record["actor"], record["version"],
+                                            auto_digest, record["updated_at"],
+                                            kernel_ops.v2_head())
+                                        if admission.get("result"):
+                                            detail = "Automatically approved under the current owner policy."
+                                        elif admission.get("skipped"):
+                                            detail = "LM advice recorded. " + admission["skipped"] + "; owner review is required."
+                                    else:
+                                        detail = "LM advice recorded. This claim predates automatic approval; owner review is required."
             except Exception as exc:
                 # Do not persist provider responses or executable diagnostics in owner-facing data.
                 detail = _judge_job_failure_detail(exc)
@@ -838,6 +896,14 @@ class HostedControlPlane:
                         claim = event["claim"]
                         job_id = kernel_ops.digest([workspace["workspace_id"], claim["id"], claim["digest"], record["policy"]["digest"]])
                         connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')", (job_id, workspace["workspace_id"], claim["id"], record["policy"]["digest"], raw["principal_id"], _now(), _now()))
+                # Retry only current-policy jobs when the owner explicitly
+                # enabled automatic admission. A durable current recommendation
+                # is reused; the admission itself is CAS-checked and idempotent.
+                if record["settings"].get("auto_admit_new_claims"):
+                    connection.execute(
+                        "UPDATE hosted_judge_jobs SET state='queued', detail='', updated_at=? "
+                        "WHERE workspace_id=? AND state='interrupted' AND policy_digest=?",
+                        (_now(), workspace["workspace_id"], record["policy"]["digest"]))
         for job in interrupted:
             self._audit_judge_job(job, "interrupted")
         threading.Thread(target=self.run_judge_jobs, daemon=True).start()
@@ -1065,6 +1131,15 @@ class HostedControlPlane:
                 "principal_id": context.principal_id,
                 "role": context.role,
                 "owner_approval_available": context.role == "owner",
+                "staged_context_available": True,
+                "automatic_claim_admission": bool(record["settings"].get("auto_admit_new_claims")),
+            }
+            result["authority_separation"] = {
+                **result.get("authority_separation", {}),
+                "agent_may_admit": False,
+                "owner_policy_may_auto_admit": bool(record["settings"].get("auto_admit_new_claims")),
+                "human_approval_required_for_admission": not bool(
+                    record["settings"].get("auto_admit_new_claims")),
             }
             envelope = {**envelope, "result": result}
         self._audit(context, request, envelope, head)
@@ -1072,11 +1147,19 @@ class HostedControlPlane:
             claim = envelope["result"]["claim"]
             if claim["id"] not in prior_claims:
                 self._schedule_judge(context, claim, record)
-        if envelope.get("ok") and operation == "context.get" and context.role == "agent":
+        if (envelope.get("ok") and operation in {"context.get", "context.discover"}
+                and context.role == "agent"):
             ids = [row["id"] for row in envelope["result"].get("governed_context", [])]
+            if operation == "context.discover":
+                ids = [row["id"] for row in envelope["result"].get("cards", [])]
+            staged_ids = [row["id"] for row in envelope["result"].get("staged_context", [])]
+            read_scope = (parameters or {}).get("scope")
             with self._db() as connection:
-                connection.execute("INSERT INTO hosted_context_reads(workspace_id,actor,scope,claim_ids_json,created_at) VALUES(?,?,?,?,?)",
-                                   (context.workspace_id, context.principal_id, (parameters or {}).get("scope"), json.dumps(ids), _now()))
+                connection.execute(
+                    "INSERT INTO hosted_context_reads(workspace_id,actor,scope,claim_ids_json,created_at,staged_claim_ids_json,read_kind) "
+                    "VALUES(?,?,?,?,?,?,?)",
+                    (context.workspace_id, context.principal_id, read_scope, json.dumps(ids),
+                     _now(), json.dumps(staged_ids), operation))
         return envelope
 
     def _audit(self, context: PrincipalContext, request: Any,

@@ -82,13 +82,15 @@ reads this file before choosing `Draft only` or `Propose`.
 
 This is an agent-side proposal-selection policy, not a server authorization
 policy. It may narrow what an agent proposes, but cannot weaken server checks,
-credential isolation, lifecycle rules, or Human Approval. Customers configure
+credential isolation, lifecycle rules, or owner admission controls. Customers configure
 this file instead of forking the Proofpress-maintained core skill.
 
 If the workspace enables the advisory LM Judge, copy and adapt the maintained
 [`judge-criteria.md`](../.agents/skills/proofpress-governed-context/assets/judge-criteria.md)
 in Hosted Admin. Keep it separate from the repository intake policy: Judge
-criteria assess evidence support and never replace Human Approval.
+criteria assess evidence support and never admit a claim by themselves. Owners
+may separately enable workspace-wide automatic admission for qualifying new
+claims; resulting system decisions remain distinct from human approval.
 
 Open `/connect` on the deployed Proofpress origin and copy the displayed MCP
 URL into a client that supports remote Streamable HTTP servers. The client
@@ -158,8 +160,10 @@ OAuth sessions immediately.
 
 ## Authority boundary
 
-Remote MCP exposes evidence submission, claim proposal, governed-context
-retrieval, bounded graph and lineage reads, and review links. It never exposes
+Remote MCP exposes evidence submission, claim proposal, approved and separately
+staged context retrieval, bounded graph and lineage reads, and review links.
+Staged context is for unapproved drafts only and cannot be recorded as governed
+reliance. It never exposes
 Human Approval, policy mutation, credential administration, or recovery.
 
 `proofpress_propose_claim` accepts `reproposal_of` when an agent is

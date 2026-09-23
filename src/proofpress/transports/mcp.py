@@ -14,7 +14,9 @@ from proofpress.client import ProofpressClient
 MCP_SERVER_NAME = "Proofpress"
 MCP_INSTRUCTIONS = (
     "Proofpress governs agent-produced knowledge. Submit only bounded evidence; "
-    "propose claims with evidence references; retrieve only governed context. "
+    "propose claims with evidence references; use governed_context for approved reliance. "
+    "If staged_context is returned, keep it separate and use it only for drafts "
+    "marked unapproved; never record it as governed reliance. "
     "This server intentionally exposes no Human Approval, rejection, supersession, "
     "policy, credential, or owner-recovery tool. Ask the human owner to use the "
     "separate review surface for authority-bearing decisions."
