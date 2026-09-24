@@ -111,10 +111,10 @@ export function App() {
         <section className="hero" id="top" aria-labelledby="hero-title">
           <div className="heroCopy">
             <h1 id="hero-title">
-              Verified knowledge infra for AI research teams.
+              Make every discovery count.
             </h1>
-            <p className="heroAudience">Reuse trusted findings. Reduce repeated work.</p>
-            <p className="heroLead">Spend less time and compute rebuilding context—and more on new research.</p>
+            <p className="heroAudience">The Intelligence Ledger for AI research teams.</p>
+            <p className="heroLead">Preserve trusted findings so every researcher and agent can build on what came before.</p>
             <div className="heroActions" aria-label="Get started">
               <ButtonLink href="#partners">Explore a design partnership <Arrow /></ButtonLink>
               <ButtonLink href={repoUrl} variant="secondary">Explore open source on GitHub</ButtonLink>
@@ -216,32 +216,27 @@ export function App() {
           </div>
         </section>
 
+        <section className="trustFoundation" aria-labelledby="trust-title">
+          <h2 id="trust-title">Your knowledge deserves its own foundation.</h2>
+          <dl className="trustPrinciples">
+            <div><dt>Open source</dt><dd>Inspect how trust is established. The code behind evidence, review, and reuse is open to examine.</dd></div>
+            <div><dt>Vendor-neutral</dt><dd>Keep knowledge independent of the tools that produced it. Connect your agents through MCP, CLI, Python, or HTTP.</dd></div>
+            <div><dt>Governed claims</dt><dd>A finding carries its evidence, scope, and approval history—so the next agent knows what it may rely on.</dd></div>
+          </dl>
+        </section>
+
         <section className="intelligenceLoop" id="intelligence-loop" aria-labelledby="intelligence-loop-title">
           <div className="loopIntro loopIntroSolo">
-            <h2 id="intelligence-loop-title">The learning loop.</h2>
+            <h2 id="intelligence-loop-title">Your tools evolve.<br /><span>Your intelligence accumulates.</span></h2>
           </div>
-          <svg className="compoundingGraph" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <g className="graphEdges">
-              <path d="M80 402L188 336L252 438L188 506L80 402M188 336L252 438" />
-              <path d="M252 438L418 318L514 404L604 276L706 384L790 250" />
-              <path d="M418 318L484 220L604 276M514 404L620 502L706 384M604 276L690 180L790 250" />
-              <path d="M790 250L906 192L982 286L1080 178L1174 268L1296 202L1372 292" />
-              <path d="M706 384L850 442L982 286L1062 404L1174 268L1248 430L1372 292" />
-              <path d="M850 442L942 524L1062 404L1144 516L1248 430L1354 506" />
-              <path d="M906 192L970 112L1080 178L1162 96L1296 202M982 286L1080 178M1062 404L1174 268M1144 516L1248 430" />
-            </g>
-            <g className="graphNodes">
-              <circle cx="80" cy="402" r="7" /><circle cx="188" cy="336" r="9" /><circle cx="252" cy="438" r="8" /><circle cx="188" cy="506" r="6" />
-              <circle cx="418" cy="318" r="8" /><circle cx="484" cy="220" r="6" /><circle cx="514" cy="404" r="10" /><circle cx="604" cy="276" r="8" /><circle cx="620" cy="502" r="6" /><circle cx="690" cy="180" r="7" /><circle cx="706" cy="384" r="11" /><circle cx="790" cy="250" r="8" />
-              <circle cx="850" cy="442" r="8" /><circle cx="906" cy="192" r="10" /><circle cx="942" cy="524" r="6" /><circle cx="970" cy="112" r="7" /><circle cx="982" cy="286" r="12" /><circle cx="1062" cy="404" r="9" /><circle cx="1080" cy="178" r="11" /><circle cx="1144" cy="516" r="7" /><circle cx="1162" cy="96" r="6" /><circle cx="1174" cy="268" r="13" /><circle cx="1248" cy="430" r="11" /><circle cx="1296" cy="202" r="9" /><circle cx="1354" cy="506" r="7" /><circle cx="1372" cy="292" r="10" />
-            </g>
-          </svg>
-          <div className="organizationStory" aria-label="The long-term outcome of continuous organizational learning">
-            <div><span>01 USE GOVERNED CONTEXT</span><strong>Agents build new work and claims on admitted knowledge.</strong></div>
-            <div><span>02 EVALUATE OUTCOMES</span><strong>Connect results to the knowledge and claims that shaped them.</strong></div>
-            <div><span>03 REFINE KNOWLEDGE</span><strong>Use new evidence to reinforce, revise, or retire findings.</strong></div>
+          <div className="learningCycle" aria-label="Learning cycle: reuse trusted findings, discover new evidence, refine through review, then reuse again">
+            <div><h3>Reuse</h3><p>Build on trusted findings.</p></div>
+            <span className="cycleArrow" aria-hidden="true"><Arrow /></span>
+            <div><h3>Discover</h3><p>Learn from new work.</p></div>
+            <span className="cycleArrow" aria-hidden="true"><Arrow /></span>
+            <div><h3>Refine</h3><p>Review what changes.</p></div>
+            <div className="cycleReturn" aria-hidden="true"><span>Better context for the next cycle</span></div>
           </div>
-          <p className="organizationOutcome">A trusted foundation for recursive self-improvement.</p>
         </section>
 
         <section className="teams" id="teams" aria-labelledby="teams-title">
@@ -271,6 +266,18 @@ export function App() {
               <p>Carry evaluation conclusions and workflow learnings forward as systems and deployments evolve.</p>
             </div>
           </div>
+        </section>
+
+        <section className="knowledgeVision" aria-labelledby="vision-title">
+          <h2 id="vision-title">Defining the atomic unit of knowledge in the agent era</h2>
+          <p className="visionSubtitle">Trust infrastructure for compounding intelligence</p>
+          <img src="/compounding-intelligence.webp" alt="Translucent knowledge records grow into an archive and an expansive shared horizon." width="1600" height="533" loading="eager" decoding="async" />
+          <div className="visionScales" aria-label="Our long-term vision">
+            <div><h3>Research</h3><p>Build on every discovery.</p></div>
+            <div><h3>Organization</h3><p>Carry learning across teams.</p></div>
+            <div><h3>Civilization</h3><p>Pass knowledge to the next generation.</p></div>
+          </div>
+          <p className="visionHorizon">Starting with research teams. Building toward a future where no generation starts from zero.</p>
         </section>
 
         <section className="writing" id="writing" aria-labelledby="writing-title">
@@ -314,6 +321,7 @@ export function App() {
 
         <section className="finalCta" id="partners" aria-labelledby="cta-title">
           <div>
+
             <span className="eyebrow">Your experiments already produce learnings</span>
             <h2 id="cta-title">Don’t waste your intelligence.</h2>
           </div>

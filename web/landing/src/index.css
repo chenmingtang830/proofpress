@@ -27,7 +27,7 @@ h1, h2, h3, p { margin-top: 0; }
 ::selection { color: var(--ink); background: #dcebed; }
 * { scrollbar-width: thin; scrollbar-color: var(--ink-3) var(--paper); }
 
-.skipLink { position: fixed; z-index: 20; top: 12px; left: 12px; transform: translateY(-160%); padding: 10px 14px; background: var(--ink); color: #fff; }
+.skipLink { display: block; position: fixed; z-index: 20; top: 12px; left: 12px; transform: translateY(-160%); padding: 10px 14px; background: var(--ink); color: #fff; }
 .skipLink:focus { transform: translateY(0); }
 .siteShell { width: 100%; max-width: 1520px; margin: 0 auto; border-inline: 1px solid var(--line); }
 .siteHeader { display: flex; min-height: 72px; align-items: center; justify-content: space-between; padding: 0 72px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.94); }
@@ -543,4 +543,54 @@ footer > a:last-child { min-height: 44px; display: inline-flex; align-items: cen
   .stackComparison th:first-child { display: block; width: auto; padding: 0 0 16px; border: 0; }
   .stackComparison td { display: block; padding: 12px 16px; border: 0; }
   .stackComparison td::before { content: attr(data-label); display: block; font-size: 13px; margin-bottom: 5px; }
+}
+
+/* Knowledge narrative: shared rules and aligned type, with the approved vision artwork. */
+.trustFoundation, .knowledgeVision { padding: clamp(64px, 6vw, 96px) 72px; border-top: 1px solid var(--line); }
+.trustFoundation h2, .knowledgeVision h2 { max-width: 1080px; margin: 0; font-size: clamp(2.8rem, 4.7vw, 4.6rem); line-height: 1.06; font-weight: 600; letter-spacing: -.035em; text-wrap: balance; }
+.trustPrinciples { margin: 48px 0 0; }
+.trustPrinciples > div { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 48px; padding: 28px 0; border-top: 1px solid var(--line); }
+.trustPrinciples dt { font-size: 27px; font-weight: 500; letter-spacing: -.02em; color: var(--accent); }
+.trustPrinciples dd { margin: 0; max-width: 65ch; font-size: 18px; line-height: 1.6; color: var(--ink-2); }
+.intelligenceLoop { min-height: 0; }
+.loopIntro h2 { font-size: clamp(2.8rem, 4.7vw, 4.6rem); line-height: 1.06; letter-spacing: -.035em; }
+.learningCycle { display: grid; grid-template-columns: 1fr 48px 1fr 48px 1fr; align-items: center; margin: 64px 0 24px; text-align: center; }
+.learningCycle h3 { margin: 0 0 12px; color: var(--accent); font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 500; letter-spacing: -.02em; }
+.learningCycle p { margin: 0; font-size: 18px; line-height: 1.5; color: var(--ink-2); }
+.cycleArrow { color: var(--accent); }
+.cycleArrow svg { width: 32px; height: 32px; }
+.cycleReturn { position: relative; grid-column: 1 / -1; height: 72px; margin: 24px 12% 0; border: 1px solid var(--accent); border-top: 0; border-radius: 0 0 32px 32px; }
+.cycleReturn::before { content: ""; position: absolute; top: 0; left: -5px; width: 8px; height: 8px; border-left: 1px solid var(--accent); border-top: 1px solid var(--accent); transform: rotate(45deg); }
+.cycleReturn span { position: absolute; left: 50%; bottom: -12px; transform: translateX(-50%); padding: 0 16px; background: var(--paper); color: var(--accent); white-space: nowrap; font-size: 16px; }
+.historyNote { margin: 32px 0 0; color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.knowledgeVision { background: #fff; }
+.visionSubtitle { margin: 24px 0 0; color: var(--accent); font-size: clamp(1.35rem, 2.2vw, 2rem); line-height: 1.35; }
+.knowledgeVision > img { display: block; width: 100%; height: auto; margin: 32px 0 0; }
+.visionScales { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; border-top: 1px solid var(--line); padding-top: 28px; }
+.visionScales h3 { margin: 0 0 12px; font-size: 27px; font-weight: 500; letter-spacing: -.02em; }
+.visionScales p { margin: 0; color: var(--ink-2); font-size: 18px; line-height: 1.5; }
+.visionHorizon { margin: 48px 0 0; max-width: 65ch; font-size: 18px; line-height: 1.6; color: var(--accent); }
+@media (max-width: 1000px) {
+  .trustFoundation, .knowledgeVision { padding-inline: 32px; }
+  .findingHistory > div { padding-inline: 20px; }
+}
+@media (max-width: 700px) {
+  .trustFoundation h2, .knowledgeVision h2, .loopIntro h2 { font-size: clamp(2.3rem, 9vw, 3.4rem); }
+  .trustPrinciples > div { grid-template-columns: 1fr; gap: 12px; }
+  .findingHistory, .visionScales { grid-template-columns: 1fr; }
+  .findingHistory > div, .findingHistory > div:first-child, .findingHistory > div:last-child { padding: 28px 0; }
+  .findingHistory > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .findingHistory h3 { margin-top: 16px; }
+  .historyNote { margin-top: 0; }
+  .visionScales { gap: 24px; }
+  .visionScales > div + div { border-top: 1px solid var(--line); padding-top: 24px; }
+}
+
+@media (max-width: 700px) {
+  .learningCycle { grid-template-columns: 1fr; position: relative; margin-top: 40px; padding-right: 26px; gap: 20px; }
+  .cycleArrow { transform: rotate(90deg); }
+  .cycleReturn { position: absolute; right: 0; top: 30px; bottom: 30px; width: 22px; height: auto; margin: 0; border: 1px solid var(--accent); border-left: 0; border-radius: 0 20px 20px 0; }
+  .cycleReturn::before { top: -5px; left: 0; transform: rotate(-45deg); }
+  .cycleReturn span { display: none; }
+  .intelligenceLoop .historyNote { margin-top: 36px; }
 }
