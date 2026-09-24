@@ -162,6 +162,12 @@
 .approvalChoices b { color:var(--ink); font-size:14px; line-height:1.4; }
 .approvalChoices small { margin-top:6px; color:var(--ink-2); font-size:12px; line-height:1.45; }
 .policyCheck input { width:16px; height:16px; flex:0 0 16px; padding:0; }
+.autoAdmissionToggle > span { display:grid; gap:4px; min-width:0; }
+.autoAdmissionToggle b { font-weight:600; line-height:1.4; }
+.autoAdmissionToggle small { color:var(--ink-2); font-size:12px; line-height:1.5; }
+.autoAdmissionFieldset .policyHint { margin:8px 0 0; font-size:13px; }
+.autoAdmissionWarning { max-width:75ch; }
+.autoAdmissionWarning p { margin:8px 0 0; }
 .policyWarning, .policyError { color:var(--del)!important; font-size:13px; }
 .policyError { margin:0 0 20px; }
 .policyError button { margin-left:12px; }
