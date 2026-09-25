@@ -26,5 +26,12 @@
     "date": "2026-09-08T22:33:46.000Z",
     "label": "ARTICLE",
     "image": "/blog-media/2097453369535386089-cover.jpg"
+  },
+  {
+    "slug": "atom-bit-commit-agent-knowledge",
+    "title": "Atom, Bit, Commit, and the Emerging Unit of Agent Knowledge",
+    "date": "2026-09-25T09:36:48.000Z",
+    "label": "ARTICLE",
+    "image": "/blog-media/atom-bit-commit-hero.jpg"
   }
 ]
