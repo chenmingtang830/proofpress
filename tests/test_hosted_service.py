@@ -234,6 +234,36 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(
             proposed["claim"]["proposer"], "agent:codex-laptop")
 
+    def test_owner_execution_inspection_requires_session(self):
+        from proofpress.kernel import operations as kernel
+
+        submitted = self.server.proofpress_control.execute(self.agent["token"], {
+            "schema_version": kernel.LOCAL_OPERATION_SCHEMA,
+            "operation": "evidence.submit",
+            "parameters": {"payload": evidence_payload()},
+            "idempotency_key": "http-execution-1",
+        })
+        self.assertTrue(submitted["ok"])
+        self.assertEqual(self.owner_json("/owner/api/executions", "")[0], 401)
+        request = Request(
+            self.base_url + "/owner/login",
+            data=urlencode({"token": self.owner["token"]}).encode(),
+            method="POST", headers={"Content-Type": "application/x-www-form-urlencoded"})
+
+        class NoRedirect(__import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                return None
+
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(NoRedirect())
+        with self.assertRaises(HTTPError) as raised:
+            opener.open(request)
+        cookie = raised.exception.headers["Set-Cookie"].split(";", 1)[0]
+        raised.exception.close()
+        status, result = self.owner_json("/owner/api/executions", cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(result["result"][0]["operation"], "evidence.submit")
+        self.assertEqual(result["result"][0]["state"], "succeeded")
+
     def test_owner_web_login_review_and_successor_context(self):
         agent = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])

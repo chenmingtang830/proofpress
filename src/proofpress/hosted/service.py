@@ -20,6 +20,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlencode, urlparse
 
 from proofpress.kernel import operations as kernel_ops
+from proofpress.hosted import execution
 from proofpress.hosted.control_plane import HostedAuthError, HostedControlPlane
 from proofpress.hosted.mcp_http import handle_rpc
 
@@ -134,7 +135,9 @@ def _status_for(envelope):
         return HTTPStatus.UNAUTHORIZED
     if code == "operation_forbidden":
         return HTTPStatus.FORBIDDEN
-    if code in {"ledger_head_conflict", "idempotency_conflict"}:
+    if code in {"ledger_head_conflict", "idempotency_conflict",
+                "execution_version_conflict", "execution_in_progress",
+                "execution_terminal"}:
         return HTTPStatus.CONFLICT
     if code in {"operation_rejected", "resource_not_found"} or (isinstance(code, str) and code.startswith("judge_")):
         return HTTPStatus.UNPROCESSABLE_ENTITY
@@ -458,6 +461,14 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                   {"error": "invalid_limit"})
             return self._json(HTTPStatus.OK,
                               {"ok": True, "result": rows})
+        elif path == "/owner/api/executions":
+            try:
+                limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
+                rows = self.server.proofpress_control.list_executions(
+                    session["context"], limit)
+            except ValueError:
+                return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_limit"})
+            return self._json(HTTPStatus.OK, {"ok": True, "result": rows})
         else:
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
         return self._json(_status_for(envelope), envelope)
@@ -1047,6 +1058,8 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     else:
         server.proofpress_public_base_url = None
     control.resume_judge_jobs()
+    with control._db() as connection:
+        execution.resume(connection)
     return server
 
 
