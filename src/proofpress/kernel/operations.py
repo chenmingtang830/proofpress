@@ -11,8 +11,8 @@ from pathlib import Path, PurePosixPath, PureWindowsPath
 from contextlib import contextmanager
 from contextvars import ContextVar
 
-from proofpress.integrations import repository as proofpress_repo
-from proofpress.integrations import external_experiment as proofpress_external_experiment
+from proofpress.profiles import repository as proofpress_repo
+from proofpress.profiles import external_experiment as proofpress_external_experiment
 from proofpress.profiles import experiment as proofpress_experiment
 from proofpress.kernel.events import current_event_store
 
@@ -1923,7 +1923,7 @@ def _decision_audit_fields(verdict, expected_relation_type=None):
     audit = verdict.get("decision_audit")
     if audit is None:
         return {}
-    from proofpress.hosted.jev import validate_audit
+    from proofpress.profiles.jev_audit import validate_audit
     return {"decision_audit": validate_audit(
         audit, verdict["recommendation"], expected_relation_type)}
 

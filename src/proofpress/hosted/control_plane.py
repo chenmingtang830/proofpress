@@ -15,23 +15,13 @@ import threading
 from typing import Any
 
 from proofpress.kernel import operations as kernel_ops
+from proofpress.kernel.contracts import (
+    AGENT_OPERATIONS, operation_authority, validate_operation_contracts,
+)
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from proofpress.hosted import review_policy
 
-
-OWNER_ONLY_OPERATIONS = frozenset({
-    "claim.review", "claim.supersede", "claim.withdraw", "claim.reassess",
-    "relation.review", "relation.resolve",
-})
-AGENT_OPERATIONS = frozenset({
-    "capabilities.get", "configuration.get", "evidence.submit", "experiment.ingest",
-    "claim.propose", "claim.evaluate", "claim.judge",
-    "claim.judge_batch", "relation.propose", "relation.evaluate",
-    "relation.judge", "graph.get", "graph.traverse", "context.get", "context.discover",
-    "review.summary", "review.receipt",
-    "run.start", "run.finish", "run.get", "run.list", "context.capture",
-    "reliance.record", "output.record", "observation.record",
-})
+validate_operation_contracts(kernel_ops.LOCAL_OPERATION_SPECS)
 IDENTITY_PARAMETERS = {
     "claim.propose": "proposer",
     "claim.evaluate": "actor",
@@ -1041,10 +1031,10 @@ class HostedControlPlane:
                    request: dict[str, Any]) -> dict[str, Any]:
         """Execute with an already authenticated server-side principal context."""
         operation = request.get("operation") if isinstance(request, dict) else None
-        allowed = (operation in AGENT_OPERATIONS and
-                   (context.role == "owner" or operation in context.permissions))
-        if operation in OWNER_ONLY_OPERATIONS:
-            allowed = context.role == "owner"
+        authority = operation_authority(operation)
+        allowed = ((authority == "owner" and context.role == "owner") or
+                   (authority == "agent" and
+                    (context.role == "owner" or operation in context.permissions)))
         if not allowed:
             envelope = self._error_envelope(
                 request, "operation_forbidden", "operation is not permitted for this principal")
