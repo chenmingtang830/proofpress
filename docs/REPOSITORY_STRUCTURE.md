@@ -8,11 +8,11 @@ plus examples and research studies. The canonical production code lives under
 
 | Path | Owns | May depend on |
 |---|---|---|
-| `src/proofpress/kernel/` | Governance operations, policy, projections, and event-store contracts | Python standard library and narrowly declared runtime dependencies |
+| `src/proofpress/kernel/` | Governance operations, operation authority classes, policy, projections, and event-store contracts | Standard library and built-in validation profiles; never hosted services or source adapters |
 | `src/proofpress/hosted/` | Single-owner hosted control plane, HTTP/MCP boundaries, review policy, and packaged Owner assets | `kernel`, `transports`, and bounded integrations |
 | `src/proofpress/transports/` | Client-side HTTP and MCP transport adapters | Public client contracts, not hosted internals |
-| `src/proofpress/integrations/` | Optional evidence-entry and repository adapters | Kernel/public contracts |
-| `src/proofpress/profiles/` | Domain-specific evidence validation profiles | Kernel/public contracts |
+| `src/proofpress/integrations/` | Optional source translation, evidence-entry, and repository workflow adapters | Public client contracts and validation profiles |
+| `src/proofpress/profiles/` | Versioned evidence and advisory-audit validation profiles | Standard library and domain contracts; no provider calls or admission |
 | `src/proofpress/legacy/` | Maintained portable-ledger compatibility surface | Must not become a dependency of new product behavior |
 | `src/proofpress/client.py` | Supported Python SDK facade | Transports and public operation schema |
 | `src/proofpress/cli.py` | Supported `proofpress` command router | Product entry points |
@@ -53,6 +53,32 @@ plus examples and research studies. The canonical production code lives under
    product.
 6. Keep generated output out of source directories unless packaging requires
    it; document the generator beside any committed generated asset.
+
+## Service and authority contracts
+
+The existing `proofpress/local-operation/v1alpha1` envelope is the shared
+in-process and hosted operation interface. `kernel/operations.py` defines its
+parameters and results; `kernel/contracts.py` classifies every operation as
+agent, Owner, or local-only. Hosted execution must reject unclassified
+operations. Local CLI review is an operator action in a local workspace; the
+hosted service additionally authenticates the Owner and binds the actor to the
+credential. Neither MCP adapter exposes an Owner operation.
+
+| Boundary | Existing interface | Owner of the decision |
+|---|---|---|
+| Evidence submission | `evidence.submit` binds a bounded evidence envelope and returns evidence IDs | Kernel validates and appends; integrations only translate source material |
+| Verification | `claim.evaluate` and `relation.evaluate` record deterministic checks; `claim.judge` and `relation.judge` record optional advice | Kernel decides check state; an advisory provider cannot admit |
+| Admission | `claim.review` and `relation.review` are Owner-only hosted operations; Owner-policy automatic claim admission is an internal hosted path | Kernel enforces lifecycle gates; hosted verifies the human or policy authority |
+| Governed retrieval | `context.get`, `context.discover`, and `graph.traverse` return eligible admitted context with staged candidates separate | Kernel projects eligibility; hosted binds the reader identity and workspace |
+| Operational audit | `HostedControlPlane.execute_as` emits a bounded `hosted_audit` row after allowed or denied calls | Hosted control plane records actor, operation, outcome, and event head; adapters do not issue audit or authority events |
+
+Repository verification and external experiment manifest validation live in
+`profiles`; the repository and Baseten integration modules retain their
+existing import paths as adapter and compatibility surfaces. The Jev audit
+profile validates a versioned advisory receipt without importing the hosted
+provider transport. Existing local CLI execution wiring remains in
+`kernel/operations.py`; this slice changes module ownership and authority
+classification without a service split or a wire-format change.
 
 ## Verification map
 
