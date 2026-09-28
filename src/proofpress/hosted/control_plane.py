@@ -19,7 +19,7 @@ from proofpress.kernel.contracts import (
     AGENT_OPERATIONS, operation_authority, validate_operation_contracts,
 )
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
-from proofpress.hosted import review_policy
+from proofpress.hosted import execution, review_policy
 
 validate_operation_contracts(kernel_ops.LOCAL_OPERATION_SPECS)
 IDENTITY_PARAMETERS = {
@@ -215,6 +215,7 @@ class HostedControlPlane:
                 );
             """)
             review_policy.migrate(connection)
+            execution.migrate(connection)
             self._migrate_legacy_permissions(connection)
             connection.commit()
         finally:
@@ -770,9 +771,91 @@ class HostedControlPlane:
                     "error_code": attempt["error_code"],
                     "kind": "lm_review_failed",
                 })
+            for attempt in connection.execute(
+                "SELECT a.attempt_id,a.finished_at,a.state,a.error_code,"
+                "e.operation,e.principal_id,e.input_refs_json "
+                "FROM hosted_execution_attempts a JOIN hosted_executions e "
+                "ON e.execution_id=a.execution_id WHERE e.workspace_id=? "
+                "AND a.state IN ('retryable_failed','terminal_failed','interrupted') "
+                "ORDER BY a.attempt_id DESC LIMIT ?", (owner.workspace_id, limit)):
+                refs = json.loads(attempt["input_refs_json"])
+                rows.append({
+                    "id": f"execution-attempt-{attempt['attempt_id']}",
+                    "occurred_at": attempt["finished_at"],
+                    "actor": attempt["principal_id"],
+                    "action": f"{attempt['operation']} execution {attempt['state'].replace('_', ' ')}",
+                    "outcome": attempt["state"],
+                    "subject_id": refs.get("claim_id") or refs.get("run_id"),
+                    "detail": "Inspect the execution record for attempts and safe retry status.",
+                    "error_code": attempt["error_code"],
+                    "kind": "workflow_execution",
+                })
             return sorted(rows, key=lambda row: (row["occurred_at"], row["id"]), reverse=True)[:limit]
         finally:
             connection.close()
+
+    def list_executions(self, token, limit=100):
+        """Owner-only, content-minimized execution and causal-link inspection."""
+        owner = self._owner(token)
+        limit = max(1, min(int(limit), 250))
+        with self._db() as connection:
+            rows = connection.execute(
+                "SELECT * FROM hosted_executions WHERE workspace_id=? "
+                "ORDER BY updated_at DESC,execution_id LIMIT ?",
+                (owner.workspace_id, limit)).fetchall()
+            attempts = {}
+            if rows:
+                placeholders = ",".join("?" for _ in rows)
+                for row in connection.execute(
+                    "SELECT a.* FROM hosted_execution_attempts a JOIN hosted_executions e "
+                    "ON e.execution_id=a.execution_id WHERE e.workspace_id=? "
+                    f"AND e.execution_id IN ({placeholders}) ORDER BY a.attempt_id",
+                    (owner.workspace_id, *(record["execution_id"] for record in rows))):
+                    attempts.setdefault(row["execution_id"], []).append({
+                        "attempt_id": row["attempt_id"], "started_at": row["started_at"],
+                        "finished_at": row["finished_at"], "state": row["state"],
+                        "error_code": row["error_code"],
+                        "idempotent_replay": bool(row["idempotent_replay"]),
+                    })
+        store = SQLiteEventStore(self.database, owner.workspace_id, owner.principal_id)
+        with using_event_store(store), kernel_ops.using_policy(self._policy(owner.workspace_id)["policy"]):
+            projection = kernel_ops.v2_projection()
+            policy = kernel_ops.load_v2_policy()
+        results = []
+        for row in rows:
+            inputs = json.loads(row["input_refs_json"])
+            outputs = json.loads(row["output_refs_json"])
+            evidence_ids = set(outputs.get("evidence_ids", []))
+            linked = []
+            for claim in projection["claims"].values():
+                if claim["id"] != inputs.get("claim_id") and not evidence_ids.intersection(
+                        claim.get("evidence_refs", [])):
+                    continue
+                admission = projection["admissions"].get(claim["id"]) or {}
+                review = projection["reviews"].get(claim["id"]) or {}
+                linked.append({
+                    "claim_id": claim["id"],
+                    "state": kernel_ops.v2_state(projection, claim, policy),
+                    "review_decision": review.get("decision"),
+                    "admission_event_id": admission.get("event_id"),
+                    "authority_basis": admission.get("authority") or (
+                        "human_review" if admission.get("review_ref") else None),
+                })
+            results.append({
+                "schema_version": execution.SCHEMA_VERSION,
+                "execution_id": row["execution_id"],
+                "operation": row["operation"], "state": row["state"],
+                "principal_id": row["principal_id"],
+                "idempotency_key": row["idempotency_key"],
+                "request_fingerprint": row["request_fingerprint"],
+                "versions": json.loads(row["versions_json"]),
+                "input_refs": inputs, "output_refs": outputs,
+                "error_code": row["error_code"],
+                "created_at": row["created_at"], "updated_at": row["updated_at"],
+                "attempts": attempts.get(row["execution_id"], []),
+                "linked_claims": linked,
+            })
+        return results
 
     def _schedule_judge(self, context, claim, record, start=True):
         if record["settings"]["mode"] != "automatic":
@@ -1054,6 +1137,25 @@ class HostedControlPlane:
         store = SQLiteEventStore(
             self.database, context.workspace_id, context.principal_id)
         record = self._policy(context.workspace_id)
+        attempt_id = None
+        key = normalized.get("idempotency_key")
+        if (operation in execution.TRACKED_OPERATIONS and isinstance(key, str)
+                and 0 < len(key) <= 128 and isinstance(parameters, dict)):
+            versions, input_refs = execution.metadata(operation, parameters, record["policy"])
+            fingerprint = kernel_ops.digest({"operation": operation, "parameters": parameters})
+            with self._db() as connection:
+                attempt_id, problem = execution.begin(
+                    connection, workspace_id=context.workspace_id,
+                    principal_id=context.principal_id, idempotency_key=key,
+                    operation=operation, fingerprint=fingerprint,
+                    versions=versions, input_refs=input_refs)
+            if problem:
+                envelope = self._error_envelope(
+                    normalized, problem, "execution key cannot be reused for this request")
+                if problem == "execution_in_progress":
+                    envelope["error"]["retryable"] = True
+                self._audit(context, normalized, envelope, None)
+                return envelope
         prior_claims = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "claim_proposed"} if operation == "claim.propose" else set()
         judge_environment = {}
         if operation in {"claim.judge", "claim.judge_batch", "relation.judge"}:
@@ -1133,6 +1235,9 @@ class HostedControlPlane:
                     record["settings"].get("auto_admit_new_claims")),
             }
             envelope = {**envelope, "result": result}
+        if attempt_id is not None:
+            with self._db() as connection:
+                execution.finish(connection, attempt_id, envelope)
         self._audit(context, request, envelope, head)
         if envelope.get("ok") and operation == "claim.propose":
             claim = envelope["result"]["claim"]
