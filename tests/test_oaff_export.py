@@ -67,6 +67,9 @@ class OaffExportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "do not match"):
             export_claim(self.claim["id"], namespace="https://example.org/oaff",
                          sources={self.evidence_id: ("https://example.org/source", b"different")})
+        with self.assertRaisesRegex(ValueError, "credential-free"):
+            export_claim(self.claim["id"], namespace="https://example.org/oaff",
+                         sources={self.evidence_id: ("https://example.org/source?token=secret", SOURCE)})
         unscoped = operations.propose_v2(
             "A second observation.", [self.evidence_id], proposer="agent:tester"
         )["claim"]

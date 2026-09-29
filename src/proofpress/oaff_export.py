@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 from urllib.parse import urlparse
 
 from .kernel import operations
@@ -34,6 +35,23 @@ def _utc(value: str) -> str:
     return value
 
 
+def _text(value: str, field: str, maximum: int) -> str:
+    if not isinstance(value, str) or not value.strip() or len(value) > maximum:
+        raise ValueError(f"{field} must be non-empty and at most {maximum} characters")
+    return value
+
+
+def _public_uri(value: str, field: str) -> str:
+    if not isinstance(value, str):
+        raise ValueError(f"{field} must be a credential-free absolute URI")
+    parsed = urlparse(value)
+    if (not 3 <= len(value) <= 2048
+            or not re.fullmatch(r"[A-Za-z][A-Za-z0-9+.-]*:[^\s]+", value)
+            or parsed.username or parsed.password or parsed.query or parsed.fragment):
+        raise ValueError(f"{field} must be a credential-free absolute URI without query or fragment")
+    return value
+
+
 def export_claim(
     claim_id: str,
     *,
@@ -47,8 +65,9 @@ def export_claim(
     Only claims with an explicit validity condition and retrieval evidence are
     supported. Unsupported claims fail rather than receiving invented scope.
     """
+    namespace = _public_uri(namespace, "namespace")
     parsed = urlparse(namespace)
-    if (parsed.scheme != "https" or not parsed.netloc or parsed.username
+    if (len(namespace) > 1900 or parsed.scheme != "https" or not parsed.netloc or parsed.username
             or parsed.password or parsed.query or parsed.fragment):
         raise ValueError("namespace must be an organization-controlled HTTPS URI")
     try:
@@ -70,6 +89,11 @@ def export_claim(
     description = card.get("description")
     if not description or not conditions:
         raise ValueError("claim needs explicit applicability description and validity conditions")
+    description = _text(description, "applicability description", 4096)
+    if (not isinstance(conditions, list) or len(conditions) != len(set(conditions))):
+        raise ValueError("applicability conditions must be unique")
+    conditions = [_text(value, "applicability condition", 512) for value in conditions]
+    _text(claim["statement"], "claim statement", 4096)
     refs = claim.get("evidence_refs") or []
     if not refs or set(refs) != set(sources):
         raise ValueError("provide exactly one source URI and byte sequence per bound evidence")
@@ -80,11 +104,9 @@ def export_claim(
         if not row or row.get("kind") != "retrieval_evidence" or not operations._retrieval_receipt_valid(row):
             raise ValueError(f"unsupported or invalid retrieval evidence: {ref}")
         source_uri, source_bytes = sources[ref]
-        source_parsed = urlparse(source_uri)
-        if (not source_parsed.scheme or not isinstance(source_bytes, bytes)
-                or source_parsed.username or source_parsed.password
-                or "?" in source_uri or "#" in source_uri):
-            raise ValueError(f"source {ref} needs a credential-free URI and bytes")
+        _public_uri(source_uri, f"source {ref}")
+        if not isinstance(source_bytes, bytes):
+            raise ValueError(f"source {ref} needs bytes")
         recorded = row["source_content_digest"]
         if recorded != "sha256:" + _digest(source_bytes):
             raise ValueError(f"source bytes do not match recorded digest: {ref}")
@@ -103,7 +125,9 @@ def export_claim(
         "statement": claim["statement"],
         "type": "observation",
         "applicability": {"description": description, "conditions": conditions},
-        "producer": _actor(namespace, claim["proposer"], "agent" if claim["proposer"].startswith("agent:") else "human"),
+        "producer": _actor(namespace, claim["proposer"],
+                           "agent" if claim["proposer"].startswith("agent:") else
+                           "human" if claim["proposer"].startswith("human:") else "system"),
         "created_at": _utc(claim["created_at"]),
         "evidence": evidence,
     }
