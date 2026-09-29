@@ -733,6 +733,11 @@ def load_v2_policy():
     override = _policy_override.get()
     if override is not None:
         return json.loads(json.dumps(override))
+    return load_deployment_policy()
+
+
+def load_deployment_policy():
+    """Read operator defaults without inheriting a request's policy override."""
     raw = {}
     path = Path(POLICY_PATH)
     if path.exists():

@@ -99,7 +99,10 @@ def migrate(connection):
             "TEXT NOT NULL DEFAULT 'context.get'")
 
 
-def current(connection, workspace_id):
+def current(connection, workspace_id, *, legacy_default_workspace_id=None):
+    if not connection.execute(
+            "SELECT 1 FROM hosted_workspaces WHERE workspace_id=?", (workspace_id,)).fetchone():
+        raise ValueError("workspace_policy_missing")
     row = connection.execute(
         "SELECT * FROM hosted_review_policies WHERE workspace_id=? ORDER BY version DESC LIMIT 1",
         (workspace_id,)).fetchone()
@@ -108,7 +111,9 @@ def current(connection, workspace_id):
         return {"version": row["version"], "settings": settings,
                 "policy": json.loads(row["policy_json"]), "actor": row["actor"],
                 "updated_at": row["created_at"]}
-    policy = kernel.load_v2_policy()
+    if workspace_id != legacy_default_workspace_id:
+        raise ValueError("workspace_policy_missing")
+    policy = kernel.load_deployment_policy()
     command = policy["judge"]["command"]
     model = command[command.index("--model") + 1] if "--model" in command else ""
     provider = command[command.index("--provider") + 1] if "--provider" in command else "openrouter"
@@ -126,6 +131,14 @@ def normalize(settings):
             "auto_admit_new_claims": False, **settings}
 
 
+def initial_workspace_policy():
+    """Safe version-zero seed used only while saving a new workspace policy."""
+    policy = json.loads(json.dumps(kernel.DEFAULT_POLICY_V2))
+    policy["digest"] = kernel.digest(policy)
+    return {"version": 0, "settings": normalize({}), "policy": policy,
+            "actor": "unconfigured workspace", "updated_at": None}
+
+
 def _cipher():
     from cryptography.fernet import Fernet
     key = os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY", "").strip().encode()
@@ -137,9 +150,11 @@ def _cipher():
         raise ValueError("Secure credential storage is misconfigured.") from exc
 
 
-def credential_status(connection, workspace_id, provider="openrouter"):
+def credential_status(connection, workspace_id, provider="openrouter", *,
+                      legacy_default_workspace_id=None):
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
-    configured = bool(row) or (provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
+    configured = bool(row) or (workspace_id == legacy_default_workspace_id and
+                               provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
     return {"configured": configured, "last_four": row["last_four"] if row else None,
             "updated_at": row["updated_at"] if row else None,
             "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))}
@@ -157,10 +172,12 @@ def delete_credential(connection, workspace_id):
     connection.execute("DELETE FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,))
 
 
-def credential(connection, workspace_id, provider="openrouter"):
+def credential(connection, workspace_id, provider="openrouter", *,
+               legacy_default_workspace_id=None):
     row = connection.execute("SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     if not row:
-        legacy = os.environ.get("OPENROUTER_API_KEY", "").strip() if provider == "openrouter" else ""
+        legacy = (os.environ.get("OPENROUTER_API_KEY", "").strip()
+                  if workspace_id == legacy_default_workspace_id and provider == "openrouter" else "")
         return legacy or None
     from cryptography.fernet import InvalidToken
     try:
@@ -172,7 +189,7 @@ def credential(connection, workspace_id, provider="openrouter"):
 def public(record, credential=None):
     return {key: record[key] for key in ("version", "settings", "actor", "updated_at")} | {
         "policy_digest": record["policy"]["digest"], "rubrics": RUBRICS,
-        "providers": PROVIDERS, "credential": credential or {"configured": bool(os.environ.get("OPENROUTER_API_KEY")), "last_four": None, "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))},
+        "providers": PROVIDERS, "credential": credential if credential is not None else {"configured": False, "last_four": None, "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))},
         "authoring_prompt": POLICY_AUTHORING_PROMPT}
 
 

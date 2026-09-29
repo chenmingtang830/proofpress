@@ -139,7 +139,7 @@ def _status_for(envelope):
                 "execution_version_conflict", "execution_in_progress",
                 "execution_terminal"}:
         return HTTPStatus.CONFLICT
-    if code in {"operation_rejected", "resource_not_found"} or (isinstance(code, str) and code.startswith("judge_")):
+    if code in {"operation_rejected", "resource_not_found", "workspace_policy_missing"} or (isinstance(code, str) and code.startswith("judge_")):
         return HTTPStatus.UNPROCESSABLE_ENTITY
     if code in {"operation_io_error", "idempotency_store_invalid",
                 "idempotency_store_write_failed"}:
@@ -409,13 +409,19 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def _owner_api(self, parsed, session):
         path = parsed.path
         if path == "/owner/api/session":
+            workspace_id = session["context"].workspace_id
+            legacy_workspace = self.server.proofpress_control.legacy_default_workspace_id
+            configuration = self._owner_operation(session, "configuration.get")
             return self._json(HTTPStatus.OK, {"ok": True, "result": {
-                "csrf": session["csrf"], "workspace": os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal"),
+                "csrf": session["csrf"], "workspace_id": workspace_id,
+                "workspace": (os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal")
+                              if workspace_id == legacy_workspace else workspace_id),
                 "principal": "owner", "capabilities": {
                     "review": True, "credential_admin": True,
                     "withdraw": True, "reassess": True,
-                    "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),
-                    "judge": self._owner_operation(session, "configuration.get")["result"]["judge"]["configured"],
+                    "assistant": (workspace_id == legacy_workspace and
+                                  bool(os.environ.get("OPENROUTER_API_KEY"))),
+                    "judge": bool((configuration.get("result") or {}).get("judge", {}).get("configured")),
                 }, "local_owner_preview": bool(
                     self.server.proofpress_local_owner_context)}})
         if path == "/owner/api/review-policy":
@@ -799,6 +805,11 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "csrf_failed",
                                       "message": "Refresh the page and try again."}})
             from proofpress.hosted import assistant
+            if (session["context"].workspace_id !=
+                    self.server.proofpress_control.legacy_default_workspace_id):
+                return self._json(HTTPStatus.SERVICE_UNAVAILABLE, {"ok": False,
+                    "error": {"code": "assistant_unconfigured",
+                              "message": "Ask Proofpress is unavailable for this workspace."}})
             result = assistant.ask(request.get("question", ""), request.get("snapshot") or {})
             status = HTTPStatus.OK if result.get("ok") else HTTPStatus.BAD_REQUEST
             if result.get("error", {}).get("code") == "assistant_unconfigured":
@@ -1017,7 +1028,8 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
                          socket_timeout_seconds=DEFAULT_SOCKET_TIMEOUT_SECONDS,
                          auth_attempt_limit=DEFAULT_AUTH_ATTEMPT_LIMIT,
                          auth_attempt_window_seconds=DEFAULT_AUTH_ATTEMPT_WINDOW_SECONDS,
-                         max_concurrent_requests=DEFAULT_MAX_CONCURRENT_REQUESTS):
+                         max_concurrent_requests=DEFAULT_MAX_CONCURRENT_REQUESTS,
+                         legacy_default_workspace_id=None):
     if host not in LOOPBACK_HOSTS and not allow_public_bind:
         raise ValueError(
             "hosted origin binds loopback only; terminate public HTTPS at a same-host reverse proxy")
@@ -1032,7 +1044,8 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     if any(not isinstance(value, int) or value <= 0
            for value in numeric_options.values()):
         raise ValueError("hosted server limits must be positive integers")
-    control = HostedControlPlane(database)
+    control = HostedControlPlane(
+        database, legacy_default_workspace_id=legacy_default_workspace_id)
     server = HostedThreadingHTTPServer(
         (host, port), HostedOperationHandler, max_concurrent_requests)
     server.proofpress_control = control
@@ -1057,9 +1070,14 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
         server.proofpress_public_base_url = configured_url.rstrip("/")
     else:
         server.proofpress_public_base_url = None
-    control.resume_judge_jobs()
     with control._db() as connection:
-        execution.resume(connection)
+        workspace_ids = [row["workspace_id"] for row in connection.execute(
+            "SELECT workspace_id FROM hosted_workspaces")]
+    for workspace_id in workspace_ids:
+        control.resume_judge_jobs(workspace_id=workspace_id)
+    with control._db() as connection:
+        for workspace_id in workspace_ids:
+            execution.resume(connection, workspace_id=workspace_id)
     return server
 
 

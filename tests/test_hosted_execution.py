@@ -45,7 +45,7 @@ class HostedExecutionTests(unittest.TestCase):
         with self.control._db() as connection:
             row = connection.execute("SELECT state FROM hosted_executions").fetchone()
             self.assertEqual(row["state"], "running")
-            execution.resume(connection)
+            execution.resume(connection, workspace_id="workspace:one")
         self.assertEqual(self.control.list_executions(self.owner)[0]["state"], "interrupted")
 
         restarted = HostedControlPlane(self.database)
