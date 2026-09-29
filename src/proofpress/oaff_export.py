@@ -39,7 +39,6 @@ def export_claim(
     *,
     namespace: str,
     sources: dict[str, tuple[str, bytes]],
-    projection: dict | None = None,
 ) -> dict:
     """Return an OAFF v0.1 package for a claim with verified source bytes.
 
@@ -57,7 +56,10 @@ def export_claim(
     except ImportError as exc:
         raise RuntimeError("Install proofpress-local[oaff] for OAFF export") from exc
 
-    projection = projection if projection is not None else operations.v2_projection()
+    ledger_head = operations.v2_head()
+    projection = operations.v2_projection()
+    if operations.v2_head() != ledger_head:
+        raise ValueError("Proofpress ledger changed during export; retry")
     claim = projection["claims"].get(claim_id)
     if claim is None:
         raise ValueError("claim not found")
@@ -129,7 +131,13 @@ def export_claim(
             "issued_at": _utc(withdrawal["created_at"]),
             "method": "Proofpress withdrawal", "result": "withdrawn",
         })
-    package = {"oaff_version": "0.1.0", "finding": finding, "receipts": receipts}
+    package = {
+        "oaff_version": "0.1.0", "finding": finding, "receipts": receipts,
+        "extensions": {
+            namespace.rstrip("/") + "/proofpress/ledger-head": ledger_head,
+            namespace.rstrip("/") + "/proofpress/exported-at": operations.now(),
+        },
+    }
     package["integrity"] = {"algorithm": "sha-256-jcs", "digest": _digest(rfc8785.dumps(package))}
     return package
 

@@ -22,6 +22,8 @@ The caller supplies an externally suitable source URI and organization-owned
 HTTPS namespace; private workspace paths and raw actor IDs are not copied.
 The output describes restricted availability because export does not grant
 public access to the source.
+Namespaced package extensions record the exact local ledger head and export
+time for audit. They do not turn the package into a signed Proofpress history.
 
 The exporter rejects claims without explicit applicability description and
 validity conditions, non-retrieval evidence, unavailable or changed source
