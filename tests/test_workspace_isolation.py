@@ -570,18 +570,42 @@ class WorkspaceIsolationTests(unittest.TestCase):
                 a_audits)
 
     def test_store_and_policy_context_reset_after_exception_and_threads(self):
-        self.configure_b()
+        a_policy = self.configure_workspace(self.a_owner, criteria="A-only criteria")
+        b_policy = self.configure_b()
+        self.assertNotEqual(a_policy["policy_digest"], b_policy["policy_digest"])
+        a_claim, _ = self.seed_claim(self.a_agent, self.a_owner, "A-concurrent")
+        b_claim, _ = self.seed_claim(self.b_agent, self.b_owner, "B-concurrent")
         from proofpress.kernel.events import current_event_store
+        original_execute = kernel.execute_local_operation
+        both_reading = threading.Barrier(2)
+
+        def execute_together(request):
+            if request["operation"] == "context.get":
+                both_reading.wait(timeout=5)
+            return original_execute(request)
+
         def inspect(token):
             context = self.control.authenticate(token)
             result = self.control.execute(token, operation("context.get", {
                 "scope": "shared-topic"}))
-            return context.workspace_id, result["ok"], result["result"]["actor"]
-        with ThreadPoolExecutor(max_workers=2) as pool:
-            observations = list(pool.map(inspect, (self.a_agent, self.b_agent)))
-        self.assertEqual({row[0] for row in observations},
-                         {"workspace:A", "workspace:B"})
-        self.assertTrue(all(row[1] and row[2] == "agent:same" for row in observations))
+            return context.workspace_id, result
+        with patch("proofpress.hosted.control_plane.kernel_ops.execute_local_operation",
+                   side_effect=execute_together):
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                observations = dict(pool.map(inspect, (self.a_agent, self.b_agent)))
+        self.assertEqual(set(observations), {"workspace:A", "workspace:B"})
+        for workspace, own_claim, foreign_claim, policy in (
+                ("workspace:A", a_claim, b_claim, a_policy),
+                ("workspace:B", b_claim, a_claim, b_policy)):
+            response = observations[workspace]
+            self.assertTrue(response["ok"], response)
+            result = response["result"]
+            self.assertEqual(result["actor"], "agent:same")
+            self.assertEqual(result["policy_digest"], policy["policy_digest"])
+            claim_ids = {row["id"] for row in result["governed_context"]}
+            self.assertIn(own_claim["id"], claim_ids)
+            self.assertNotIn(foreign_claim["id"], claim_ids)
+            self.assertNotIn(foreign_claim["statement"], json.dumps(result))
         with patch("proofpress.hosted.control_plane.kernel_ops.execute_local_operation",
                    side_effect=RuntimeError("synthetic failure")):
             with self.assertRaisesRegex(RuntimeError, "synthetic failure"):
