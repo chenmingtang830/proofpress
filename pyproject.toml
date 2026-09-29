@@ -23,6 +23,7 @@ proofpress-rd = "proofpress.compat:rd_main"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
+oaff = ["rfc8785>=0.1.4,<1"]
 
 [tool.ruff]
 target-version = "py311"
