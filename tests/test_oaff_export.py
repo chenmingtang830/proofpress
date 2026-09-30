@@ -8,7 +8,7 @@ import tempfile
 import unittest
 
 from proofpress.kernel import operations
-from proofpress.oaff_export import export_claim
+from proofpress.oaff_export import export_claim, export_claim_file
 import rfc8785
 
 
@@ -92,6 +92,71 @@ class OaffExportTests(unittest.TestCase):
         report = verify_bytes(json.dumps(package).encode())
         self.assertEqual(report["status"], "valid_with_limits")
         self.assertEqual(report["local_authority"], "not_evaluated")
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "standalone AFF receiver unavailable")
+    def test_aff_file_moves_from_source_to_independent_hosted_receiver(self):
+        from proofpress.hosted.control_plane import HostedControlPlane
+        from oaff import verify_bytes
+        from test_hosted_authority import operation
+
+        operations.evaluate_v2(self.claim["id"])
+        operations.review_v2(self.claim["id"], "admit", "human:source-owner")
+        source_path = Path(self.tmp.name) / "source.txt"
+        source_path.write_bytes(SOURCE)
+        package_path = Path(self.tmp.name) / "finding.aff"
+        package = export_claim_file(
+            self.claim["id"], namespace="https://example.org/oaff",
+            sources={self.evidence_id: ("https://example.org/sources/cap", source_path)},
+            output=package_path,
+        )
+        package_bytes = package_path.read_bytes()
+        self.assertEqual(verify_bytes(package_bytes)["status"], "valid_with_limits")
+        self.assertEqual(package["receipts"][0]["authority_basis"], "human_approval")
+
+        receiver = HostedControlPlane(Path(self.tmp.name) / "receiver.db")
+        owner = receiver.bootstrap("workspace:receiver", "human:receiver-owner")["token"]
+        agent = receiver.issue_agent_credential(owner, "agent:receiver", "Receiver agent")["token"]
+        receiver.save_review_policy(owner, {
+            "mode": "off", "provider": "openrouter", "endpoint": "", "model": "",
+            "criteria": "", "zdr": True, "rubric": "evidence-support/v1",
+            "external_consent": False, "require_judge": False,
+        }, 0)
+        imported = receiver.ingest_oaff_candidate(agent, package_bytes)
+        self.assertEqual(imported["state"], "candidate")
+        self.assertEqual(imported["local_authority"], "none")
+        before = receiver.execute(agent, operation("context.get", {}))
+        self.assertNotIn(self.claim["statement"], json.dumps(before))
+
+        local_payload = {
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {"uri": "workspace://receiver-source.txt",
+                       "content_digest": "sha256:" + hashlib.sha256(SOURCE).hexdigest()},
+            "evidence": {"quote": QUOTE, "locator": {
+                "kind": "text_span", "start": 22, "end": 22 + len(QUOTE),
+                "text_digest": "sha256:" + hashlib.sha256(SOURCE).hexdigest()}},
+            "retrieval": {"adapter": "receiver-test", "version": "1", "query": "cap",
+                          "config_digest": "sha256:" + "b" * 64},
+        }
+        submitted = receiver.execute(agent, operation("evidence.submit", {"payload": local_payload}))
+        self.assertTrue(submitted["ok"], submitted)
+        local_evidence_id = submitted["result"]["evidence"][0]
+        foreign_evidence_id = package["finding"]["evidence"][0]["id"]
+        proposed = receiver.propose_oaff_candidate(
+            agent, imported["digest"], {foreign_evidence_id: local_evidence_id})
+        self.assertTrue(proposed["ok"], proposed)
+        local_claim = proposed["result"]["claim"]
+        self.assertEqual(local_claim["qualifiers"]["aff_origin"]["package_digest"],
+                         imported["digest"])
+        self.assertNotIn(local_claim["id"], [item["id"] for item in
+            receiver.execute(agent, operation("context.get", {}))["result"]["governed_context"]])
+        self.assertTrue(receiver.execute(agent, operation(
+            "claim.evaluate", {"claim_id": local_claim["id"]}))["ok"])
+        self.assertTrue(receiver.execute(owner, operation("claim.review", {
+            "claim_id": local_claim["id"], "decision": "admit",
+            "request_id": "independent-receiver-review",
+        }))["ok"])
+        self.assertIn(local_claim["id"], [item["id"] for item in
+            receiver.execute(agent, operation("context.get", {}))["result"]["governed_context"]])
 
 
 if __name__ == "__main__":
