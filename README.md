@@ -300,7 +300,8 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 - `proofpress.integrations.repository` binds one repository change to Git and check receipts for self-dogfood.
 - `proofpress.integrations.matter_catalog` and `proofpress.integrations.document_extraction` are optional evidence-entry integrations. Their output remains candidate evidence.
 - `proofpress hosted` runs the single-owner hosted control plane and web review surface. See [Self-hosting](docs/SELF_HOSTING.md).
-- AFF's OAFF v0.1 integration can [export bounded claims](docs/OAFF_EXPORT.md) and [receive foreign candidate packages](docs/OAFF_IMPORT.md) without granting local authority.
+- [AFF](https://github.com/only-then-labs/aff) is the separate Apache-2.0 format and CLI for portable agent Findings. Its [collaborator trial](https://github.com/only-then-labs/aff/blob/main/docs/SHARE.md) works with a Git collection; Proofpress is an optional open-source governance runtime for authenticated review and reuse.
+- Proofpress's OAFF v0.1 integration can [export bounded claims](docs/OAFF_EXPORT.md) and [receive foreign candidate packages](docs/OAFF_IMPORT.md) without granting receiver-local authority.
 
 [//]: # (ob:b877cee5)
 [//]: # (ob:reading-path)

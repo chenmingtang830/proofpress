@@ -2,7 +2,7 @@
 
 Status: authenticated candidate intake and local proposal bridge. The public name is AFF — Agent
 Findings Format; published v0.1 packages still use `oaff_version` and
-`.oaff.json`.
+`.aff` (older `.oaff.json` packages remain readable).
 
 The hosted service accepts exact JSON package bytes at
 `POST /v1/oaff/candidates` with `Content-Type: application/json` and an agent
@@ -40,13 +40,14 @@ source URI or copies the source bytes from the package. Hosted intake and
 proposal creation share a file lock, so a newly ingested withdrawal cannot
 overtake a proposal after its freshness check on the same hosted database.
 
-The OAFF Python package is a prerequisite for this optional route. Until the
-first versioned OAFF distribution is released, install the public source at
-commit `4d6e7ef9544bd0d2271816baa293820de9f8d587` alongside Proofpress;
-the `oaff-import` extra declares the expected package version for later
-distribution. The CI integration test and checked-in Render build install
-that exact commit. Other deployments must install it explicitly; absence of
-the package returns `oaff_unavailable` instead of accepting unverified bytes.
+The OAFF Python package is a prerequisite for this optional route. The
+[AFF v0.1 alpha prerelease](https://github.com/only-then-labs/aff/releases/tag/v0.1.0a1)
+is available for standalone trials. This Proofpress integration, including its
+CI test and checked-in Render build, currently pins the public source at
+commit `4d6e7ef9544bd0d2271816baa293820de9f8d587`; the `oaff-import`
+extra declares the expected package version. Other deployments must install
+the compatible package explicitly. An absent package returns
+`oaff_unavailable` rather than accepting unverified bytes.
 
 Example, after configuring a hosted workspace and issuing an agent credential:
 
@@ -54,7 +55,7 @@ Example, after configuring a hosted workspace and issuing an agent credential:
 curl -fsS -X POST "$PROOFPRESS_BASE/v1/oaff/candidates" \
   -H "Authorization: Bearer $PROOFPRESS_AGENT_TOKEN" \
   -H 'Content-Type: application/json' \
-  --data-binary @finding.oaff.json
+  --data-binary @finding.aff
 ```
 
 The request is capped by the hosted server's JSON request size limit. Invalid
