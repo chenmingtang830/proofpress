@@ -58,11 +58,32 @@ RETRIEVAL_EVIDENCE_SCHEMA = {
     "required": ["schema_version", "source", "evidence", "retrieval"],
 }
 
+_NON_EMPTY_TEXT = {"type": "string", "minLength": 1}
+# The kernel treats a null list field as absent, so the schema allows it too.
+_TEXT_LIST_OR_NULL = {"anyOf": [{"type": "array", "items": _NON_EMPTY_TEXT}, {"type": "null"}]}
+APPLICABILITY_SCHEMA = {
+    "type": "object",
+    "description": (
+        "Discovery card for reuse; give at least one field. title and "
+        "description are strings; when_relevant, keywords, and "
+        "validity_conditions are arrays of non-empty strings, never one sentence."
+    ),
+    "properties": {
+        "title": _NON_EMPTY_TEXT,
+        "description": _NON_EMPTY_TEXT,
+        "when_relevant": _TEXT_LIST_OR_NULL,
+        "keywords": _TEXT_LIST_OR_NULL,
+        "validity_conditions": _TEXT_LIST_OR_NULL,
+    },
+    "minProperties": 1,
+    "additionalProperties": False,
+}
+
 
 TOOLS = [
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
     {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
-    {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"title": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Short claim heading. Statement remains the complete claim reviewed for admission."}, "statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": {"type": "object", "description": "Discovery card: title, description, when_relevant, keywords, validity_conditions."}, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["title", "statement", "evidence_refs"]}},
+    {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"title": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Short claim heading. Statement remains the complete claim reviewed for admission."}, "statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": APPLICABILITY_SCHEMA, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["title", "statement", "evidence_refs"]}},
     {"name": "proofpress_discover_context", "description": "Return separate lists of approved context cards and reviewed candidate claims. Use approved cards as governed knowledge; staged_context is only for clearly labeled drafts and verification.", "inputSchema": {"type": "object", "properties": {"task": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 100}}}},
     {"name": "proofpress_get_context", "description": "Return approved context and a separate staged_context list for eligible candidates. Candidates may inform drafts only and must not be represented as approved facts or recorded as governed reliance.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}, "task": {"type": "string"}}}},
     {"name": "proofpress_get_graph", "description": "Return the bounded evidence, claim, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},

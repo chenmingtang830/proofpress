@@ -1631,6 +1631,10 @@ def _check_receipts(row, cid, policy, evidence_ok, checks, projection):
     return receipts
 
 
+APPLICABILITY_TEXT_FIELDS = ("title", "description")
+APPLICABILITY_LIST_FIELDS = ("when_relevant", "keywords", "validity_conditions")
+
+
 def _text_list(value, field):
     if value is None:
         return []
@@ -1652,19 +1656,18 @@ def _applicability(value):
         return None
     if not isinstance(value, dict):
         raise ValueError("applicability must be an object")
-    allowed = {"title", "description", "when_relevant", "keywords",
-               "validity_conditions"}
+    allowed = set(APPLICABILITY_TEXT_FIELDS) | set(APPLICABILITY_LIST_FIELDS)
     unknown = sorted(set(value) - allowed)
     if unknown:
         raise ValueError("unknown applicability fields: " + ", ".join(unknown))
     card = {}
-    for field in ("title", "description"):
+    for field in APPLICABILITY_TEXT_FIELDS:
         if field in value:
             text = value[field]
             if not isinstance(text, str) or not text.strip():
                 raise ValueError(f"applicability.{field} must be a non-empty string")
             card[field] = text.strip()
-    for field in ("when_relevant", "keywords", "validity_conditions"):
+    for field in APPLICABILITY_LIST_FIELDS:
         items = _text_list(value.get(field), field)
         if items:
             card[field] = items

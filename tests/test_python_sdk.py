@@ -43,6 +43,35 @@ class PythonSDKTests(unittest.TestCase):
         os.chdir(self.previous)
         self.tmp.cleanup()
 
+    def test_http_transport_reports_a_non_json_response_as_a_transport_error(self):
+        from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+        class HtmlProxy(BaseHTTPRequestHandler):
+            def do_POST(self):
+                self.rfile.read(int(self.headers.get("Content-Length", 0)))
+                body = b"<html><body>Service temporarily unavailable</body></html>"
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+
+            def log_message(self, format, *args):
+                pass
+
+        proxy = ThreadingHTTPServer(("127.0.0.1", 0), HtmlProxy)
+        thread = threading.Thread(target=proxy.serve_forever, daemon=True)
+        thread.start()
+        try:
+            client = self.sdk.ProofpressClient.localhost(
+                f"http://127.0.0.1:{proxy.server_port}", self.token)
+            with self.assertRaises(self.sdk.ProofpressTransportError) as caught:
+                client.capabilities()
+        finally:
+            proxy.shutdown(); proxy.server_close(); thread.join()
+        self.assertEqual(caught.exception.code, "invalid_transport_response")
+        self.assertNotIn("<html>", caught.exception.message)
+
     def test_in_process_and_http_share_one_typed_lifecycle(self):
         self.assertEqual(self.direct.capabilities()["transport"], "in_process")
         self.assertEqual(self.http.capabilities()["transport"], "localhost_http")
