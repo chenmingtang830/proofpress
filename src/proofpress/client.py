@@ -99,7 +99,7 @@ def _execute_http(base_url: str, token: str, timeout: float,
                  "Content-Type": "application/json"})
     try:
         with urlopen(http_request, timeout=timeout) as response:
-            return json.loads(response.read())
+            raw = response.read()
     except HTTPError as exc:
         try:
             payload = json.loads(exc.read())
@@ -115,6 +115,14 @@ def _execute_http(base_url: str, token: str, timeout: float,
     except (URLError, TimeoutError, OSError) as exc:
         raise ProofpressTransportError(
             "transport_unavailable", str(exc), retryable=True) from exc
+    try:
+        return json.loads(raw)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        # A proxy or maintenance page answering 200 with HTML is a transport
+        # failure, not a request the caller can correct.
+        raise ProofpressTransportError(
+            "invalid_transport_response",
+            "transport returned a non-JSON response") from exc
 
 
 class ProofpressClient:

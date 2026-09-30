@@ -187,6 +187,22 @@ words rank those visible cards; this ranking is a discovery aid, never an
 authorization decision.
 
 New proposals may provide that card as `applicability` and omit `scope`.
+`title` and `description` are strings; `when_relevant`, `keywords`, and
+`validity_conditions` are arrays of strings, so one sentence must still be
+wrapped in a list. Both MCP transports publish this shape in the tool's input
+schema. Over the local stdio server a rejected call comes back as an error
+result whose text is `Error executing tool <name>: ` followed by the reason.
+For an argument that breaks the published schema, the SDK names the field and
+what it expected. For any other rejected call (an evidence URL where an `evd_`
+ID belongs, an unknown profile, an empty card) the reason starts with a stable
+code: `invalid_tool_request` for a check in the MCP layer, otherwise the
+operation envelope's code such as `operation_rejected`, followed by the
+envelope's details when there are any and by `(retryable)` when a retry may
+succeed. A failure of the server's own environment (a transport error, an I/O
+error on the workspace) returns only its code and a fixed phrase; the detail
+stays in the server log. An unexpected exception in the server still returns
+only the generic line. The hosted transport returns the same reasons in its
+error result under the single code `invalid_tool_request`.
 `scope` remains an optional exact filter for legacy callers and existing
 records. The hosted credential supplies the authenticated workspace and agent
 identity; new proposals do not configure per-knowledge reader lists. Historical

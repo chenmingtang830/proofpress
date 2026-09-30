@@ -2,14 +2,35 @@
 from __future__ import annotations
 
 import argparse
+import functools
+import json
+import logging
 import os
 from pathlib import Path
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Annotated, Any, TypeAlias
 from urllib.parse import urlencode, urlparse
 
-from proofpress.client import ProofpressClient
+try:  # both ship with pydantic, an mcp dependency; without the extra pydantic never sees this module
+    from annotated_types import MinLen
+    from typing_extensions import TypedDict  # pydantic reads TypedDict metadata only from this on 3.11
+except ImportError:  # pragma: no cover - only without the mcp extra
+    MinLen = None
+    from typing import TypedDict
 
+from proofpress.client import ProofpressClient, ProofpressError, ProofpressTransportError
+
+# The kernel's non-empty rule, published and enforced at argument validation.
+if TYPE_CHECKING:
+    from annotated_types import MinLen as _MinLen
+    NonEmptyText: TypeAlias = Annotated[str, _MinLen(1)]
+elif MinLen is not None:
+    NonEmptyText = Annotated[str, MinLen(1)]
+else:
+    NonEmptyText = str
+
+
+logger = logging.getLogger(__name__)
 
 MCP_SERVER_NAME = "Proofpress"
 MCP_INSTRUCTIONS = (
@@ -43,6 +64,10 @@ MCP_SAFE_TOOLS = (
     "proofpress_record_observation",
 )
 EVIDENCE_ID_RE = re.compile(r"evd_[0-9a-f]{16}\Z")
+
+
+class McpRequestError(ValueError):
+    """A call the MCP layer rejects before it reaches the kernel; the message is for the agent."""
 
 
 class ProofpressMcpGateway:
@@ -79,7 +104,7 @@ class ProofpressMcpGateway:
                         idempotency_key: str | None = None, *,
                         profile: str | None = None) -> dict[str, Any]:
         if profile not in {None, "experiment"}:
-            raise ValueError(
+            raise McpRequestError(
                 "unsupported evidence profile: " + str(profile) +
                 "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
         return self.client.submit_evidence(
@@ -97,7 +122,7 @@ class ProofpressMcpGateway:
         if (not evidence_refs or
                 any(not isinstance(ref, str) or EVIDENCE_ID_RE.fullmatch(ref) is None
                     for ref in evidence_refs)):
-            raise ValueError(
+            raise McpRequestError(
                 "evidence_refs must contain evd_ IDs returned by "
                 "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
         return self.client.propose_claim(
@@ -229,6 +254,88 @@ class ProofpressMcpGateway:
         return result
 
 
+class ApplicabilityCard(TypedDict, total=False):
+    """Discovery card for a proposed claim; give at least one field.
+
+    title and description are strings. when_relevant, keywords, and
+    validity_conditions are arrays of non-empty strings, never one sentence.
+    No other keys are accepted.
+    """
+
+    # Unknown keys then fail argument validation by name instead of being dropped;
+    # the schema also states the kernel's at-least-one-field rule and this docstring.
+    __pydantic_config__ = {"extra": "forbid",  # type: ignore[misc]
+                           "json_schema_extra": {"minProperties": 1}}
+
+    title: NonEmptyText
+    description: NonEmptyText
+    when_relevant: list[NonEmptyText] | None
+    keywords: list[NonEmptyText] | None
+    validity_conditions: list[NonEmptyText] | None
+
+
+SERVER_SIDE_ERROR_TEXT = (
+    "the Proofpress server could not complete the operation; see the server log")
+# The kernel's envelope code for an OSError; its text can name a file on the server.
+_SERVER_SIDE_CODES = frozenset({"operation_io_error"})
+
+
+def _is_server_side(exc: ProofpressError) -> bool:
+    """A failure of the server's own environment rather than of the request."""
+    return isinstance(exc, ProofpressTransportError) or exc.code in _SERVER_SIDE_CODES
+
+
+def _tool_error_text(exc: Exception) -> str:
+    """Text an agent reads for an anticipated failure: always "code: message".
+
+    A ProofpressError carries the stable code of the operation envelope (for
+    example operation_rejected), its details when there are any, and says
+    when a retry may succeed. For a transport or I/O failure only the code and
+    a fixed phrase are forwarded; the message belongs in the server log. An
+    McpRequestError comes from a check in this MCP layer and gets the same
+    code the hosted MCP transport uses for those checks, invalid_tool_request.
+    """
+    if isinstance(exc, ProofpressError):
+        if _is_server_side(exc):
+            text = f"{exc.code}: {SERVER_SIDE_ERROR_TEXT}"
+        else:
+            text = f"{exc.code}: {exc.message}"
+            if exc.details:
+                text += " " + json.dumps(exc.details, sort_keys=True)
+        return text + " (retryable)" if exc.retryable else text
+    return f"invalid_tool_request: {exc}"
+
+
+def _agent_facing(fn):
+    """Forward anticipated failures to the agent; leave genuine crashes to the SDK.
+
+    The official SDK forwards only the text of its own ToolError to the client.
+    Every other exception is treated as a crash: the client reads just
+    "Error executing tool <name>" and the reason stays in the server log.
+    Proofpress reports contract violations as McpRequestError (the gateway's
+    own checks) and ProofpressError (the operation envelope any transport
+    returns, raised by the client), so both are re-raised as ToolError. A
+    request-level error keeps its message so the agent can correct the call.
+    A failure of the server's own environment (a transport error, an I/O
+    error) forwards its code only, so the agent can tell a broken server from
+    a bad request while the message, which can name files or upstream
+    services, is logged here. Anything else, a plain ValueError included, is
+    left alone and stays generic.
+    """
+    from mcp.server.mcpserver.exceptions import ToolError
+
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except (McpRequestError, ProofpressError) as exc:
+            if isinstance(exc, ProofpressError) and _is_server_side(exc):
+                logger.error("%s: %s", exc.code, exc.message)
+            raise ToolError(_tool_error_text(exc)) from exc
+
+    return wrapper
+
+
 def build_mcp_server(gateway: ProofpressMcpGateway):
     """Build the optional official-SDK server without making MCP a core dependency."""
     try:
@@ -240,12 +347,18 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
 
     server = MCPServer(MCP_SERVER_NAME, instructions=MCP_INSTRUCTIONS)
 
-    @server.tool(name="proofpress_capabilities")
+    def tool(name: str):
+        """Register one agent-facing tool; every tool goes through _agent_facing."""
+        def register(fn):
+            return server.tool(name=name)(_agent_facing(fn))
+        return register
+
+    @tool(name="proofpress_capabilities")
     def proofpress_capabilities() -> dict[str, Any]:
         """Describe the safe MCP surface and underlying Proofpress contract."""
         return gateway.capabilities()
 
-    @server.tool(name="proofpress_submit_evidence")
+    @tool(name="proofpress_submit_evidence")
     def proofpress_submit_evidence(
             payload: dict[str, Any],
             profile: str | None = None,
@@ -258,12 +371,12 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         return gateway.submit_evidence(
             payload, idempotency_key=idempotency_key, profile=profile)
 
-    @server.tool(name="proofpress_propose_claim")
+    @tool(name="proofpress_propose_claim")
     def proofpress_propose_claim(
             statement: str, evidence_refs: list[str], scope: str | None = None,
             expires_at: str | None = None,
             artifact_refs: list[str] | None = None,
-            applicability: dict[str, Any] | None = None,
+            applicability: ApplicabilityCard | None = None,
             reproposal_of: str | None = None,
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
@@ -277,8 +390,10 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         proofpress_submit_evidence, not source or artifact URLs.
 
         Scope is optional legacy exact-filter metadata. Applicability is a
-        small discoverable card: title, description, when_relevant, keywords,
-        and validity_conditions. To answer request_changes, read the original review receipt and pass
+        small discoverable card with at least one field: title and
+        description are strings; when_relevant, keywords, and
+        validity_conditions are arrays of non-empty strings, never a single
+        sentence. To answer request_changes, read the original review receipt and pass
         qualifiers.revision_of (original claim ID) and
         qualifiers.revision_request_ref (revision_request.event_id). Preserve
         any required profile qualifiers and state the revised applicability.
@@ -291,9 +406,10 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """
         return gateway.propose_claim(
             statement, evidence_refs, scope, expires_at, artifact_refs,
-            applicability, reproposal_of, qualifiers, profile, idempotency_key, title=title)
+            None if applicability is None else dict(applicability),
+            reproposal_of, qualifiers, profile, idempotency_key, title=title)
 
-    @server.tool(name="proofpress_discover_context")
+    @tool(name="proofpress_discover_context")
     def proofpress_discover_context(
             task: str | None = None, limit: int = 24) -> dict[str, Any]:
         """Discover only admitted, current context visible to this agent.
@@ -303,7 +419,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """
         return gateway.discover_context(task, limit)
 
-    @server.tool(name="proofpress_get_context")
+    @tool(name="proofpress_get_context")
     def proofpress_get_context(
             scope: str | None = None,
             task: str | None = None) -> dict[str, Any]:
@@ -314,42 +430,42 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """
         return gateway.get_context(scope, task)
 
-    @server.tool(name="proofpress_get_graph")
+    @tool(name="proofpress_get_graph")
     def proofpress_get_graph(scope: str | None = None) -> dict[str, Any]:
         """Read the governed claim graph for an optional scope."""
         return gateway.get_graph(scope)
 
-    @server.tool(name="proofpress_start_run")
+    @tool(name="proofpress_start_run")
     def proofpress_start_run(purpose: str, metadata: dict[str, Any] | None = None,
                              idempotency_key: str | None = None) -> dict[str, Any]:
         """Start a task run. The configured principal is recorded by the server."""
         return gateway.start_run(purpose, metadata, idempotency_key)
 
-    @server.tool(name="proofpress_finish_run")
+    @tool(name="proofpress_finish_run")
     def proofpress_finish_run(run_id: str, status: str, summary: str | None = None,
                               idempotency_key: str | None = None) -> dict[str, Any]:
         """Finish a run as completed, failed, or aborted."""
         return gateway.finish_run(run_id, status, summary, idempotency_key)
 
-    @server.tool(name="proofpress_get_run")
+    @tool(name="proofpress_get_run")
     def proofpress_get_run(run_id: str) -> dict[str, Any]:
         """Read one run and its frozen receipts, declared reliance, outputs, and observations."""
         return gateway.get_run(run_id)
 
-    @server.tool(name="proofpress_list_runs")
+    @tool(name="proofpress_list_runs")
     def proofpress_list_runs(status: str | None = None,
                              limit: int = 50) -> dict[str, Any]:
         """List task runs without changing governance state."""
         return gateway.list_runs(status, limit)
 
-    @server.tool(name="proofpress_capture_context")
+    @tool(name="proofpress_capture_context")
     def proofpress_capture_context(run_id: str, scope: str | None = None,
                                    task: str | None = None,
                                    idempotency_key: str | None = None) -> dict[str, Any]:
         """Retrieve authorized governed context and freeze the exact returned versions for a run."""
         return gateway.capture_context(run_id, scope, task, idempotency_key)
 
-    @server.tool(name="proofpress_record_reliance")
+    @tool(name="proofpress_record_reliance")
     def proofpress_record_reliance(run_id: str, receipt_id: str, claim_id: str,
                                    claim_digest: str, purpose: str,
                                    idempotency_key: str | None = None) -> dict[str, Any]:
@@ -357,7 +473,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         return gateway.record_reliance(run_id, receipt_id, claim_id, claim_digest,
                                        purpose, idempotency_key)
 
-    @server.tool(name="proofpress_record_output")
+    @tool(name="proofpress_record_output")
     def proofpress_record_output(run_id: str, reference: str, content_digest: str,
                                  summary: str | None = None,
                                  reliance_ids: list[str] | None = None,
@@ -367,7 +483,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         return gateway.record_output(run_id, reference, content_digest, summary,
                                      reliance_ids, media_type, idempotency_key)
 
-    @server.tool(name="proofpress_record_observation")
+    @tool(name="proofpress_record_observation")
     def proofpress_record_observation(run_id: str, kind: str, source: str,
                                       meaning: str,
                                       evidence_refs: list[str] | None = None,
@@ -379,7 +495,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
                                           evidence_refs, output_ids, observed_at,
                                           idempotency_key)
 
-    @server.tool(name="proofpress_traverse_graph")
+    @tool(name="proofpress_traverse_graph")
     def proofpress_traverse_graph(
             seed_ids: list[str], scope: str | None = None,
             task: str | None = None, max_depth: int = 2,
@@ -388,24 +504,24 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         return gateway.traverse_graph(
             seed_ids, scope, task, max_depth, max_claims)
 
-    @server.tool(name="proofpress_get_lineage")
+    @tool(name="proofpress_get_lineage")
     def proofpress_get_lineage(claim_id: str) -> dict[str, Any]:
         """Trace a claim through evidence derivations to source records."""
         return gateway.get_lineage(claim_id)
 
-    @server.tool(name="proofpress_get_review_summary")
+    @tool(name="proofpress_get_review_summary")
     def proofpress_get_review_summary(
             scope: str | None = None) -> dict[str, Any]:
         """Read review-state counts without making an authority decision."""
         return gateway.get_review_summary(scope)
 
-    @server.tool(name="proofpress_get_review_receipt")
+    @tool(name="proofpress_get_review_receipt")
     def proofpress_get_review_receipt(
             claim_id: str) -> dict[str, Any]:
         """Read the evidence, checks, state, and authority receipt for a claim."""
         return gateway.get_review_receipt(claim_id)
 
-    @server.tool(name="proofpress_get_review_link")
+    @tool(name="proofpress_get_review_link")
     def proofpress_get_review_link(claim_id: str) -> dict[str, Any]:
         """Create a link for the human owner; this tool cannot approve the claim."""
         return gateway.get_review_link(claim_id)
