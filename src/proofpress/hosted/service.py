@@ -801,6 +801,18 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
                     "error": {"code": "invalid_candidate", "message": str(exc)}})
             return self._json(HTTPStatus.OK, {"ok": True, "result": result})
+        if path.startswith("/v1/oaff/candidates/") and path.endswith("/proposals"):
+            digest = path.removeprefix("/v1/oaff/candidates/").removesuffix("/proposals")
+            try:
+                request = self._request_json()
+                envelope = self.server.proofpress_control.propose_oaff_candidate(
+                    self._token(), digest, request.get("evidence_map"))
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_candidate_proposal", "message": str(exc)}})
+            return self._json(_status_for(envelope), envelope)
         if path in {"/owner/api/review-policy", "/owner/api/evaluate"}:
             session = self._owner_session()
             if not session:

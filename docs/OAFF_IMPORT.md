@@ -19,14 +19,24 @@ a digest from another workspace returns `candidate_not_found`.
 The response separates `verification` from `local_authority`, which is always
 `none`. Originating admission receipts are untrusted attribution. Intake does
 not create a Proofpress claim, run model review, admit a claim, or place the
-Finding in governed context. Any local proposal must bind locally accessible
-evidence and pass the ordinary receiver-side evaluation and Human Approval or
-explicit Owner-policy gates. A valid package alone does not satisfy those
-gates.
+Finding in governed context. A valid package alone does not satisfy local
+approval gates.
+
+`POST /v1/oaff/candidates/{package_digest}/proposals` accepts a JSON
+`evidence_map` from every package-local evidence ID to an already submitted
+Proofpress retrieval evidence ID in the same workspace. The bridge checks
+those local receipt digests against the foreign descriptors, creates a new
+local candidate claim, and retains the Finding ID, revision and package digest
+as attributed origin metadata. It does **not** project the origin's approval
+receipt into local authority. The normal local evaluation and Human Approval
+or explicit Owner-policy path still decides reuse. The bridge refuses an older
+receipt snapshot, a package with a withdrawal or rejection receipt, or links
+that need O5 lifecycle and dependency reconciliation. It never fetches a
+source URI or copies the source bytes from the package.
 
 The OAFF Python package is a prerequisite for this optional route. Until the
 first versioned OAFF distribution is released, install the public source at
-commit `6009aaa83200b7aca7c7d0336eb07b2fc33865c8` alongside Proofpress;
+commit `86cdda19a0c90dd575e66c900bc71373a4a394ea` alongside Proofpress;
 the `oaff-import` extra declares the expected package version for later
 distribution. The CI integration test installs that exact commit. Absence of
 the package returns `oaff_unavailable` instead of accepting unverified bytes.
@@ -46,7 +56,22 @@ their bytes. Reimporting an identical snapshot is idempotent. A distinct
 immutable Finding value under the same revision URI is quarantined. The inbox
 is an untrusted staging store and is not an event-ledger replacement.
 
-Next O4 slice: an owner decision surface and an explicit bridge from a selected
-candidate to a local evidence-bound proposal. That bridge must never inherit
-the origin receipt's authority, must not fetch arbitrary source URIs, and
-must prove two-workspace isolation through the full local approval flow.
+After independently submitting receiver-local retrieval evidence through the
+normal `evidence.submit` operation, a caller can propose the selected package:
+
+```sh
+curl -fsS -X POST "$PROOFPRESS_BASE/v1/oaff/candidates/$PACKAGE_DIGEST/proposals" \
+  -H "Authorization: Bearer $PROOFPRESS_AGENT_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{"evidence_map":{"source-1":"evd_REPLACE_WITH_LOCAL_ID"}}'
+```
+
+The bridge compares recorded SHA-256 source digests. It does not independently
+rehash source bytes, authenticate the originating producer, or decide whether
+the local evidence supports the statement. The normal evaluation and local
+review must do that work.
+
+Next O4 product slice: an owner decision surface for comparing the foreign
+Finding and local evidence before review. The API path has a synthetic
+two-workspace handoff test; a real independent producer/receiver and hosted
+deployment remain external validation gates.

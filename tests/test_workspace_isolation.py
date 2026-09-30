@@ -196,6 +196,36 @@ class WorkspaceIsolationTests(unittest.TestCase):
             context = self.control.execute(token, operation("context.get", {}))
             self.assertTrue(context["ok"], context)
             self.assertNotIn("synthetic foreign Finding", json.dumps(context))
+        local_payload = evidence_payload()
+        local_payload["source"]["content_digest"] = "sha256:" + hashlib.sha256(b"source").hexdigest()
+        local_payload["evidence"]["quote"] = "source"
+        local_payload["evidence"]["locator"] = {
+            "kind": "text_span", "start": 0, "end": 6,
+            "text_digest": "sha256:" + hashlib.sha256(b"source").hexdigest()}
+        local_evidence = self.control.execute(self.a_agent, operation(
+            "evidence.submit", {"payload": local_payload}))
+        self.assertTrue(local_evidence["ok"], local_evidence)
+        local_id = local_evidence["result"]["evidence"][0]
+        with self.assertRaisesRegex(ValueError, "valid receipt"):
+            self.control.propose_oaff_candidate(
+                self.b_agent, b["digest"], {"source-1": local_id})
+        proposed = self.control.propose_oaff_candidate(
+            self.a_agent, a["digest"], {"source-1": local_id})
+        self.assertTrue(proposed["ok"], proposed)
+        claim = proposed["result"]["claim"]
+        self.assertEqual(claim["qualifiers"]["aff_origin"]["package_digest"], a["digest"])
+        before_review = self.control.execute(self.a_agent, operation("context.get", {}))
+        self.assertNotIn(claim["id"], [row["id"] for row in
+            before_review["result"]["governed_context"]])
+        self.assertTrue(self.control.execute(self.a_agent, operation(
+            "claim.evaluate", {"claim_id": claim["id"]}))["ok"])
+        self.assertTrue(self.control.execute(self.a_owner, operation(
+            "claim.review", {"claim_id": claim["id"], "decision": "admit",
+                             "request_id": "local-aff-review"}))["ok"])
+        after_review = self.control.execute(self.a_agent, operation("context.get", {}))
+        self.assertIn(claim["id"], [row["id"] for row in
+            after_review["result"]["governed_context"]])
+        self.assertNotIn("B private synthetic foreign Finding", json.dumps(after_review))
         server = create_hosted_server(
             self.database, port=0, legacy_default_workspace_id="workspace:A")
         thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -222,6 +252,12 @@ class WorkspaceIsolationTests(unittest.TestCase):
                     "Authorization": "Bearer " + self.a_agent}))
             self.assertEqual(foreign.exception.code, 404)
             foreign.exception.close()
+            with urlopen(Request(base + "/" + a["digest"] + "/proposals",
+                                 data=json.dumps({"evidence_map": {"source-1": local_id}}).encode(),
+                                 method="POST", headers={
+                    "Authorization": "Bearer " + self.a_agent,
+                    "Content-Type": "application/json"})) as response:
+                self.assertTrue(json.loads(response.read())["ok"])
             with self.assertRaises(HTTPError) as unauthenticated:
                 urlopen(Request(base, data=package, method="POST",
                                 headers={"Content-Type": "application/json"}))
@@ -231,6 +267,29 @@ class WorkspaceIsolationTests(unittest.TestCase):
             server.shutdown()
             server.server_close()
             thread.join()
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
+    def test_oaff_local_proposal_refuses_stale_and_withdrawn_snapshots(self):
+        import rfc8785
+        candidate = synthetic_oaff_candidate()
+        first = self.control.ingest_oaff_candidate(self.a_agent, candidate)
+        later = json.loads(candidate)
+        later["receipts"].append({
+            "id": "tag:example.org,2026:oaff/receipt/withdraw-1",
+            "kind": "lifecycle", "subject_revision": later["finding"]["revision"],
+            "issuer": {"id": "tag:example.org,2026:human/source-owner", "kind": "human"},
+            "issued_at": "2026-09-30T12:05:00Z", "method": "synthetic withdrawal",
+            "result": "withdrawn"})
+        later.pop("integrity")
+        later["integrity"] = {"algorithm": "sha-256-jcs",
+            "digest": hashlib.sha256(rfc8785.dumps(later)).hexdigest()}
+        withdrawn = self.control.ingest_oaff_candidate(
+            self.a_agent, json.dumps(later).encode())
+        self.assertEqual(withdrawn["state"], "candidate")
+        with self.assertRaisesRegex(ValueError, "not the latest"):
+            self.control.propose_oaff_candidate(self.a_agent, first["digest"], {})
+        with self.assertRaisesRegex(ValueError, "withdrawn or rejected"):
+            self.control.propose_oaff_candidate(self.a_agent, withdrawn["digest"], {})
 
     def test_policy_and_deployment_key_do_not_cross_workspace(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-a-only",

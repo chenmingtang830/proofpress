@@ -663,6 +663,71 @@ class HostedControlPlane:
         with CandidateInbox(self.oaff_inbox_database) as inbox:
             return inbox.get_candidate(context.workspace_id, package_digest)
 
+    def propose_oaff_candidate(self, token: str | PrincipalContext,
+                               package_digest: str,
+                               evidence_map: dict[str, str]) -> dict[str, Any]:
+        """Create a receiver-local proposal using already submitted local evidence.
+
+        The origin's receipts are never projected as local checks or authority.
+        Evaluation and review remain the existing Proofpress operations.
+        """
+        context = self._oaff_context(token)
+        selected = self.get_oaff_candidate(context, package_digest)
+        if selected is None:
+            raise ValueError("candidate_not_found")
+        if not selected.get("latest_snapshot"):
+            raise ValueError("candidate snapshot is not the latest retained revision")
+        package = selected["package"]
+        if any(receipt["result"] in {"withdrawn", "rejected"}
+               for receipt in package["receipts"]):
+            raise ValueError("withdrawn or rejected origin requires lifecycle review")
+        finding = package["finding"]
+        if finding.get("links"):
+            raise ValueError("linked Finding requires lifecycle and dependency reconciliation")
+        descriptors = finding["evidence"]
+        if not isinstance(evidence_map, dict) or set(evidence_map) != {
+                row["id"] for row in descriptors} or any(
+                not isinstance(value, str) for value in evidence_map.values()):
+            raise ValueError("map every foreign evidence ID to one local evidence ID")
+        store = SQLiteEventStore(self.database, context.workspace_id, context.principal_id)
+        with using_event_store(store), kernel_ops.using_policy(
+                self._policy(context.workspace_id)["policy"]):
+            local = kernel_ops.v2_projection()["evidence"]
+        for descriptor in descriptors:
+            row = local.get(evidence_map[descriptor["id"]])
+            expected = "sha256:" + descriptor["content_digest"]["value"]
+            if (not row or row.get("kind") != "retrieval_evidence"
+                    or not kernel_ops._retrieval_receipt_valid(row)
+                    or row.get("source_content_digest") != expected):
+                raise ValueError("local evidence must be a valid receipt for each source digest")
+        scope = finding["applicability"]
+        description = scope["description"]
+        exclusions = scope.get("exclusions", [])
+        if exclusions:
+            description += " Excluded when: " + "; ".join(exclusions)
+        statement = finding["statement"]
+        evidence_refs = [evidence_map[row["id"]] for row in descriptors]
+        fingerprint = hashlib.sha256(json.dumps(evidence_refs, sort_keys=True).encode()).hexdigest()
+        request = {
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
+            "operation": "claim.propose",
+            "idempotency_key": "oaff-local-" + package_digest[:24] + "-" + fingerprint[:24],
+            "parameters": {
+                "title": statement[:120], "statement": statement,
+                "evidence_refs": evidence_refs,
+                "applicability": {"description": description,
+                                  "validity_conditions": scope["conditions"]},
+                "artifact_refs": ["urn:sha256:" + package_digest],
+                "qualifiers": {"aff_origin": {
+                    "finding_id": finding["id"],
+                    "revision": finding["revision"],
+                    "package_digest": package_digest,
+                    "exclusions": exclusions,
+                }},
+            },
+        }
+        return self.execute_as(context, request)
+
     @contextmanager
     def _db(self):
         connection = self._connect()
