@@ -638,10 +638,25 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         if path == "/v1/oaff/candidates":
             try:
                 counts = self.server.proofpress_control.oaff_candidate_counts(self._token())
+                candidates = self.server.proofpress_control.list_oaff_candidates(self._token())
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             return self._json(HTTPStatus.OK, {"ok": True, "counts": counts,
+                                              "candidates": candidates,
                                               "local_authority": "none"})
+        if path.startswith("/v1/oaff/candidates/"):
+            try:
+                selected = self.server.proofpress_control.get_oaff_candidate(
+                    self._token(), path.rsplit("/", 1)[-1])
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_digest", "message": str(exc)}})
+            if selected is None:
+                return self._json(HTTPStatus.NOT_FOUND, {"ok": False,
+                    "error": {"code": "candidate_not_found"}})
+            return self._json(HTTPStatus.OK, {"ok": True, "candidate": selected})
         if path == "/v1/owner/credentials":
             try:
                 session = self._owner_session()

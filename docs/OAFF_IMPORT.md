@@ -11,8 +11,10 @@ derives the workspace from the hosted principal, requires that workspace's
 review policy, verifies the package with the independent OAFF library, and
 stores a candidate or quarantine result in a separate SQLite inbox beside the
 hosted database. The package cannot select a workspace. `GET
-/v1/oaff/candidates` returns only that authenticated workspace's revision,
-snapshot, and quarantine counts.
+/v1/oaff/candidates` returns that authenticated workspace's counts and latest
+candidate snapshot per immutable Finding revision. `GET
+/v1/oaff/candidates/{package_digest}` returns one selected package for review;
+a digest from another workspace returns `candidate_not_found`.
 
 The response separates `verification` from `local_authority`, which is always
 `none`. Originating admission receipts are untrusted attribution. Intake does
@@ -24,7 +26,7 @@ gates.
 
 The OAFF Python package is a prerequisite for this optional route. Until the
 first versioned OAFF distribution is released, install the public source at
-commit `54bf6435530a8f1793111fc24da04186fcf2b88f` alongside Proofpress;
+commit `6009aaa83200b7aca7c7d0336eb07b2fc33865c8` alongside Proofpress;
 the `oaff-import` extra declares the expected package version for later
 distribution. The CI integration test installs that exact commit. Absence of
 the package returns `oaff_unavailable` instead of accepting unverified bytes.
@@ -44,7 +46,7 @@ their bytes. Reimporting an identical snapshot is idempotent. A distinct
 immutable Finding value under the same revision URI is quarantined. The inbox
 is an untrusted staging store and is not an event-ledger replacement.
 
-Next O4 slice: an owner review surface and an explicit bridge from a selected
+Next O4 slice: an owner decision surface and an explicit bridge from a selected
 candidate to a local evidence-bound proposal. That bridge must never inherit
 the origin receipt's authority, must not fetch arbitrary source URIs, and
 must prove two-workspace isolation through the full local approval flow.

@@ -150,6 +150,16 @@ class WorkspaceIsolationTests(unittest.TestCase):
     @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
     def test_oaff_intake_is_workspace_scoped_and_never_adopts_foreign_approval(self):
         package = synthetic_oaff_candidate()
+        import rfc8785
+        b_document = json.loads(package)
+        b_document["finding"]["id"] += "-b"
+        b_document["finding"]["revision"] += "-b"
+        b_document["finding"]["statement"] = "B private synthetic foreign Finding."
+        b_document["receipts"][0]["subject_revision"] = b_document["finding"]["revision"]
+        b_document.pop("integrity")
+        b_document["integrity"] = {"algorithm": "sha-256-jcs",
+            "digest": hashlib.sha256(rfc8785.dumps(b_document)).hexdigest()}
+        b_package = json.dumps(b_document).encode()
         with self.assertRaisesRegex(HostedAuthError, "explicit review policy"):
             self.control.ingest_oaff_candidate(self.b_agent, package)
         self.configure_b()
@@ -161,10 +171,17 @@ class WorkspaceIsolationTests(unittest.TestCase):
                          "idempotent")
         self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["snapshots"], 1)
         self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["snapshots"], 0)
-        b = self.control.ingest_oaff_candidate(self.b_agent, package)
+        b = self.control.ingest_oaff_candidate(self.b_agent, b_package)
         self.assertEqual(b["state"], "candidate")
         self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["snapshots"], 1)
         self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["snapshots"], 1)
+        self.assertEqual(self.control.list_oaff_candidates(self.a_agent)[0]["digest"], a["digest"])
+        self.assertEqual(self.control.list_oaff_candidates(self.b_agent)[0]["digest"], b["digest"])
+        self.assertEqual(self.control.get_oaff_candidate(self.a_agent, a["digest"])[
+            "package"]["finding"]["statement"],
+            "A synthetic foreign Finding requires local review.")
+        self.assertIsNone(self.control.get_oaff_candidate(self.a_agent, b["digest"]))
+        self.assertIsNone(self.control.get_oaff_candidate(self.b_agent, a["digest"]))
 
         tampered = package.replace(b"requires local review", b"needs no local review")
         self.assertEqual(self.control.ingest_oaff_candidate(self.a_agent, tampered)["state"],
@@ -193,7 +210,18 @@ class WorkspaceIsolationTests(unittest.TestCase):
                 self.assertEqual(result["result"]["local_authority"], "none")
             with urlopen(Request(base, headers={
                     "Authorization": "Bearer " + self.b_agent})) as response:
-                self.assertEqual(json.loads(response.read())["counts"]["quarantined"], 0)
+                listing = json.loads(response.read())
+                self.assertEqual(listing["counts"]["quarantined"], 0)
+                self.assertEqual(listing["candidates"][0]["local_authority"], "none")
+            with urlopen(Request(base + "/" + b["digest"], headers={
+                    "Authorization": "Bearer " + self.b_agent})) as response:
+                self.assertEqual(json.loads(response.read())["candidate"][
+                    "local_authority"], "none")
+            with self.assertRaises(HTTPError) as foreign:
+                urlopen(Request(base + "/" + b["digest"], headers={
+                    "Authorization": "Bearer " + self.a_agent}))
+            self.assertEqual(foreign.exception.code, 404)
+            foreign.exception.close()
             with self.assertRaises(HTTPError) as unauthenticated:
                 urlopen(Request(base, data=package, method="POST",
                                 headers={"Content-Type": "application/json"}))

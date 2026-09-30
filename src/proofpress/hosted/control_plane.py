@@ -639,6 +639,30 @@ class HostedControlPlane:
         with CandidateInbox(self.oaff_inbox_database) as inbox:
             return inbox.counts(context.workspace_id)
 
+    def list_oaff_candidates(self, token: str | PrincipalContext,
+                             *, limit: int = 20) -> list[dict[str, Any]]:
+        context = self._oaff_context(token)
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.list_candidates(context.workspace_id, limit=limit)
+
+    def get_oaff_candidate(self, token: str | PrincipalContext,
+                           package_digest: str) -> dict[str, Any] | None:
+        context = self._oaff_context(token)
+        if not isinstance(package_digest, str) or not re.fullmatch(r"[0-9a-f]{64}", package_digest):
+            raise ValueError("package digest must be lowercase SHA-256 hex")
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.get_candidate(context.workspace_id, package_digest)
+
     @contextmanager
     def _db(self):
         connection = self._connect()
