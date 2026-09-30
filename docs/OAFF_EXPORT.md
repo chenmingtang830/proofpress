@@ -2,7 +2,9 @@
 
 Install the optional canonicalization dependency with `pip install -e '.[oaff]'`.
 The open format and standalone verifier live at
-[only-then-labs/oaff](https://github.com/only-then-labs/oaff).
+[only-then-labs/aff](https://github.com/only-then-labs/aff). See the
+[collaborator trial](https://github.com/only-then-labs/aff/blob/main/docs/SHARE.md)
+for the standalone CLI and Git collection path.
 
 From a local Proofpress workspace with its claim ledger, run:
 
