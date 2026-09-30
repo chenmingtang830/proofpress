@@ -36,7 +36,7 @@ source URI or copies the source bytes from the package.
 
 The OAFF Python package is a prerequisite for this optional route. Until the
 first versioned OAFF distribution is released, install the public source at
-commit `86cdda19a0c90dd575e66c900bc71373a4a394ea` alongside Proofpress;
+commit `9ce7bdf2ae075c65a872f1656dbf6f7ea20773d9` alongside Proofpress;
 the `oaff-import` extra declares the expected package version for later
 distribution. The CI integration test installs that exact commit. Absence of
 the package returns `oaff_unavailable` instead of accepting unverified bytes.

@@ -290,6 +290,15 @@ class WorkspaceIsolationTests(unittest.TestCase):
             self.control.propose_oaff_candidate(self.a_agent, first["digest"], {})
         with self.assertRaisesRegex(ValueError, "withdrawn or rejected"):
             self.control.propose_oaff_candidate(self.a_agent, withdrawn["digest"], {})
+        # A late, older snapshot must not obscure the retained withdrawal.
+        self.configure_b()
+        other_withdrawn = self.control.ingest_oaff_candidate(
+            self.b_agent, json.dumps(later).encode())
+        other_old = self.control.ingest_oaff_candidate(self.b_agent, candidate)
+        self.assertTrue(self.control.get_oaff_candidate(
+            self.b_agent, other_withdrawn["digest"])["latest_snapshot"])
+        with self.assertRaisesRegex(ValueError, "not the latest"):
+            self.control.propose_oaff_candidate(self.b_agent, other_old["digest"], {})
 
     def test_policy_and_deployment_key_do_not_cross_workspace(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-a-only",
