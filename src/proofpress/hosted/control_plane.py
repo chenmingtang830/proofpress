@@ -7,6 +7,7 @@ from datetime import datetime, timezone, timedelta
 import hashlib
 import hmac
 import json
+import os
 from pathlib import Path
 import re
 import secrets
@@ -112,7 +113,9 @@ class HostedControlPlane:
 
     def __init__(self, database: str | Path, *, legacy_default_workspace_id: str | None = None):
         self.database = Path(database)
-        self.oaff_inbox_database = self.database.with_name(self.database.name + ".oaff-inbox")
+        # The hosted SQLite backup must contain candidate and quarantine rows.
+        self.oaff_inbox_database = self.database
+        self._oaff_mutex = threading.RLock()
         self.database.parent.mkdir(parents=True, exist_ok=True)
         self._migrate()
         with self._connect() as connection:
@@ -611,6 +614,24 @@ class HostedControlPlane:
                                   "This workspace needs an explicit review policy.") from exc
         return context
 
+    @contextmanager
+    def _oaff_mutation_guard(self):
+        """Serialize inbox updates and candidate proposals on the hosted file.
+
+        The file lock coordinates multiple hosted processes sharing this local
+        SQLite database; the RLock also covers threads within one process.
+        """
+        with self._oaff_mutex:
+            import fcntl
+            descriptor = os.open(str(self.database) + ".oaff.lock",
+                                 os.O_CREAT | os.O_RDWR, 0o600)
+            try:
+                fcntl.flock(descriptor, fcntl.LOCK_EX)
+                yield
+            finally:
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+                os.close(descriptor)
+
     def ingest_oaff_candidate(self, token: str | PrincipalContext, data: bytes) -> dict[str, Any]:
         """Quarantine or retain a foreign package in the caller's workspace.
 
@@ -625,8 +646,17 @@ class HostedControlPlane:
         except ImportError as exc:
             raise HostedAuthError("oaff_unavailable",
                                   "Install the OAFF import extra before intake.") from exc
-        with CandidateInbox(self.oaff_inbox_database) as inbox:
-            return inbox.ingest(context.workspace_id, data)
+        with self._oaff_mutation_guard(), CandidateInbox(self.oaff_inbox_database) as inbox:
+            result = inbox.ingest(context.workspace_id, data)
+            with self._db() as connection:
+                connection.execute(
+                    "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
+                    "credential_id, operation, request_id, idempotency_key, outcome, event_head) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (_now(), context.workspace_id, context.principal_id,
+                     context.credential_id, "oaff.candidate.ingest", result["digest"],
+                     None, result["state"], None))
+            return result
 
     def oaff_candidate_counts(self, token: str | PrincipalContext) -> dict[str, int]:
         """Return only the authenticated workspace's inbox counts."""
@@ -640,7 +670,8 @@ class HostedControlPlane:
             return inbox.counts(context.workspace_id)
 
     def list_oaff_candidates(self, token: str | PrincipalContext,
-                             *, limit: int = 20) -> list[dict[str, Any]]:
+                             *, limit: int = 20,
+                             before: str | None = None) -> list[dict[str, Any]]:
         context = self._oaff_context(token)
         try:
             from oaff import CandidateInbox
@@ -648,7 +679,7 @@ class HostedControlPlane:
             raise HostedAuthError("oaff_unavailable",
                                   "Install the OAFF import extra before intake.") from exc
         with CandidateInbox(self.oaff_inbox_database) as inbox:
-            return inbox.list_candidates(context.workspace_id, limit=limit)
+            return inbox.list_candidates(context.workspace_id, limit=limit, before=before)
 
     def get_oaff_candidate(self, token: str | PrincipalContext,
                            package_digest: str) -> dict[str, Any] | None:
@@ -672,6 +703,12 @@ class HostedControlPlane:
         Evaluation and review remain the existing Proofpress operations.
         """
         context = self._oaff_context(token)
+        with self._oaff_mutation_guard():
+            return self._propose_oaff_candidate_locked(context, package_digest, evidence_map)
+
+    def _propose_oaff_candidate_locked(self, context: PrincipalContext,
+                                       package_digest: str,
+                                       evidence_map: dict[str, str]) -> dict[str, Any]:
         selected = self.get_oaff_candidate(context, package_digest)
         if selected is None:
             raise ValueError("candidate_not_found")

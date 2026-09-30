@@ -52,7 +52,10 @@ The checked-in deployment installs runtime dependencies from
 `requirements-deploy.txt` with hashes, then installs Proofpress without resolving
 dependencies again. Refresh that file deliberately when `pyproject.toml` changes;
 CI separately tests the supported Python range and the exact Render Python 3.13
-line.
+line. The checked-in Render build additionally installs the public AFF/OAFF
+source at the exact commit named in [the import guide](OAFF_IMPORT.md) for the
+optional candidate routes. Other self-hosted builds must install that same
+package to enable those routes.
 
 Owner browser sessions expire after eight hours by default and can be revoked
 with **Sign out**. Authentication endpoints are rate limited per source address,

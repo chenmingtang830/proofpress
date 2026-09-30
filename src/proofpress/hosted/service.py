@@ -637,12 +637,21 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._json(_status_for(envelope), envelope)
         if path == "/v1/oaff/candidates":
             try:
+                query = parse_qs(parsed.query)
+                limit = int(query.get("limit", ["20"])[-1])
+                before = query.get("before", [None])[-1]
                 counts = self.server.proofpress_control.oaff_candidate_counts(self._token())
-                candidates = self.server.proofpress_control.list_oaff_candidates(self._token())
+                candidates = self.server.proofpress_control.list_oaff_candidates(
+                    self._token(), limit=limit, before=before)
             except HostedAuthError as exc:
                 return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_candidate_page", "message": str(exc)}})
             return self._json(HTTPStatus.OK, {"ok": True, "counts": counts,
                                               "candidates": candidates,
+                                              "next_cursor": candidates[-1]["digest"]
+                                              if len(candidates) == limit else None,
                                               "local_authority": "none"})
         if path.startswith("/v1/oaff/candidates/"):
             try:

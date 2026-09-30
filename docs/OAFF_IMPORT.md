@@ -1,6 +1,6 @@
 # OAFF v0.1 hosted candidate intake
 
-Status: authenticated candidate intake only. The public name is AFF — Agent
+Status: authenticated candidate intake and local proposal bridge. The public name is AFF — Agent
 Findings Format; published v0.1 packages still use `oaff_version` and
 `.oaff.json`.
 
@@ -9,10 +9,14 @@ The hosted service accepts exact JSON package bytes at
 Bearer credential allowed to propose claims. It revalidates that credential,
 derives the workspace from the hosted principal, requires that workspace's
 review policy, verifies the package with the independent OAFF library, and
-stores a candidate or quarantine result in a separate SQLite inbox beside the
-hosted database. The package cannot select a workspace. `GET
+stores a candidate or quarantine result in tables in the hosted SQLite database
+so ordinary hosted backup and restore retain both. Intake records the
+authenticated principal and credential in hosted audit. The package cannot
+select a workspace. `GET
 /v1/oaff/candidates` returns that authenticated workspace's counts and latest
-candidate snapshot per immutable Finding revision. `GET
+candidate snapshot per immutable Finding revision. Use `?limit=20&before=DIGEST`
+to page by the last result digest; `next_cursor` is null after the last page.
+`GET
 /v1/oaff/candidates/{package_digest}` returns one selected package for review;
 a digest from another workspace returns `candidate_not_found`.
 
@@ -32,13 +36,16 @@ receipt into local authority. The normal local evaluation and Human Approval
 or explicit Owner-policy path still decides reuse. The bridge refuses an older
 receipt snapshot, a package with a withdrawal or rejection receipt, or links
 that need O5 lifecycle and dependency reconciliation. It never fetches a
-source URI or copies the source bytes from the package.
+source URI or copies the source bytes from the package. Hosted intake and
+proposal creation share a file lock, so a newly ingested withdrawal cannot
+overtake a proposal after its freshness check on the same hosted database.
 
 The OAFF Python package is a prerequisite for this optional route. Until the
 first versioned OAFF distribution is released, install the public source at
-commit `9ce7bdf2ae075c65a872f1656dbf6f7ea20773d9` alongside Proofpress;
+commit `4d6e7ef9544bd0d2271816baa293820de9f8d587` alongside Proofpress;
 the `oaff-import` extra declares the expected package version for later
-distribution. The CI integration test installs that exact commit. Absence of
+distribution. The CI integration test and checked-in Render build install
+that exact commit. Other deployments must install it explicitly; absence of
 the package returns `oaff_unavailable` instead of accepting unverified bytes.
 
 Example, after configuring a hosted workspace and issuing an agent credential:
