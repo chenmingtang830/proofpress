@@ -2,6 +2,7 @@
 from dataclasses import replace
 import base64
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -23,6 +24,39 @@ from proofpress.kernel import operations as kernel
 from proofpress.kernel.contracts import AGENT_OPERATIONS
 from proofpress.kernel.events import SQLiteEventStore
 from test_hosted_authority import evidence_payload, operation
+
+
+def synthetic_oaff_candidate():
+    import rfc8785
+    finding_revision = "tag:example.org,2026:oaff/revision/foreign-1"
+    value = {
+        "oaff_version": "0.1.0",
+        "finding": {
+            "id": "tag:example.org,2026:oaff/finding/foreign-1",
+            "revision": finding_revision,
+            "statement": "A synthetic foreign Finding requires local review.",
+            "type": "observation",
+            "applicability": {"description": "Synthetic test only.",
+                              "conditions": ["Synthetic fixture environment."]},
+            "producer": {"id": "tag:example.org,2026:agent/source", "kind": "agent"},
+            "created_at": "2026-09-29T12:00:00Z",
+            "evidence": [{
+                "id": "source-1", "source_uri": "https://example.org/foreign/1",
+                "content_digest": {"algorithm": "sha-256", "value": hashlib.sha256(b"source").hexdigest()},
+                "availability": "restricted",
+            }],
+        },
+        "receipts": [{
+            "id": "tag:example.org,2026:oaff/receipt/admit-1",
+            "kind": "adoption_decision", "subject_revision": finding_revision,
+            "issuer": {"id": "tag:example.org,2026:human/source-owner", "kind": "human"},
+            "issued_at": "2026-09-29T12:05:00Z", "method": "synthetic origin review",
+            "result": "admitted", "authority_basis": "human_approval",
+        }],
+    }
+    value["integrity"] = {"algorithm": "sha-256-jcs",
+                          "digest": hashlib.sha256(rfc8785.dumps(value)).hexdigest()}
+    return json.dumps(value).encode()
 
 
 class WorkspaceIsolationTests(unittest.TestCase):
@@ -112,6 +146,271 @@ class WorkspaceIsolationTests(unittest.TestCase):
         self.assertEqual(before, after)
         with self.assertRaisesRegex(ValueError, "already bootstrapped"):
             self.control.bootstrap("workspace:C", "human:owner")
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
+    def test_oaff_intake_is_workspace_scoped_and_never_adopts_foreign_approval(self):
+        package = synthetic_oaff_candidate()
+        import rfc8785
+        b_document = json.loads(package)
+        b_document["finding"]["id"] += "-b"
+        b_document["finding"]["revision"] += "-b"
+        b_document["finding"]["statement"] = "B private synthetic foreign Finding."
+        b_document["receipts"][0]["subject_revision"] = b_document["finding"]["revision"]
+        b_document.pop("integrity")
+        b_document["integrity"] = {"algorithm": "sha-256-jcs",
+            "digest": hashlib.sha256(rfc8785.dumps(b_document)).hexdigest()}
+        b_package = json.dumps(b_document).encode()
+        with self.assertRaisesRegex(HostedAuthError, "explicit review policy"):
+            self.control.ingest_oaff_candidate(self.b_agent, package)
+        self.configure_b()
+        a = self.control.ingest_oaff_candidate(self.a_agent, package)
+        self.assertEqual(a["state"], "candidate")
+        self.assertEqual(a["local_authority"], "none")
+        self.assertEqual(a["verification"]["receipt_counts"]["adoption_decision"], 1)
+        self.assertEqual(self.control.ingest_oaff_candidate(self.a_agent, package)["state"],
+                         "idempotent")
+        self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["snapshots"], 1)
+        self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["snapshots"], 0)
+        b = self.control.ingest_oaff_candidate(self.b_agent, b_package)
+        self.assertEqual(b["state"], "candidate")
+        self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["snapshots"], 1)
+        self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["snapshots"], 1)
+        self.assertEqual(self.control.list_oaff_candidates(self.a_agent)[0]["digest"], a["digest"])
+        self.assertEqual(self.control.list_oaff_candidates(self.b_agent)[0]["digest"], b["digest"])
+        self.assertEqual(self.control.get_oaff_candidate(self.a_agent, a["digest"])[
+            "package"]["finding"]["statement"],
+            "A synthetic foreign Finding requires local review.")
+        self.assertIsNone(self.control.get_oaff_candidate(self.a_agent, b["digest"]))
+        self.assertIsNone(self.control.get_oaff_candidate(self.b_agent, a["digest"]))
+
+        tampered = package.replace(b"requires local review", b"needs no local review")
+        self.assertEqual(self.control.ingest_oaff_candidate(self.a_agent, tampered)["state"],
+                         "quarantined")
+        self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["quarantined"], 1)
+        self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["quarantined"], 0)
+        with self.control._db() as connection:
+            audit = connection.execute(
+                "SELECT credential_id,outcome FROM hosted_audit WHERE workspace_id=? "
+                "AND operation='oaff.candidate.ingest' ORDER BY audit_id",
+                ("workspace:A",)).fetchall()
+        self.assertEqual([row[1] for row in audit],
+                         ["candidate", "idempotent", "quarantined"])
+        self.assertTrue(all(row[0] == self.control.authenticate(
+            self.a_agent).credential_id for row in audit))
+        forged = replace(self.control.authenticate(self.a_agent), workspace_id="workspace:B")
+        with self.assertRaises(HostedAuthError):
+            self.control.ingest_oaff_candidate(forged, package)
+
+        for token in (self.a_agent, self.b_agent):
+            context = self.control.execute(token, operation("context.get", {}))
+            self.assertTrue(context["ok"], context)
+            self.assertNotIn("synthetic foreign Finding", json.dumps(context))
+        local_payload = evidence_payload()
+        local_payload["source"]["content_digest"] = "sha256:" + hashlib.sha256(b"source").hexdigest()
+        local_payload["evidence"]["quote"] = "source"
+        local_payload["evidence"]["locator"] = {
+            "kind": "text_span", "start": 0, "end": 6,
+            "text_digest": "sha256:" + hashlib.sha256(b"source").hexdigest()}
+        local_evidence = self.control.execute(self.a_agent, operation(
+            "evidence.submit", {"payload": local_payload}))
+        self.assertTrue(local_evidence["ok"], local_evidence)
+        local_id = local_evidence["result"]["evidence"][0]
+        with self.assertRaisesRegex(ValueError, "valid receipt"):
+            self.control.propose_oaff_candidate(
+                self.b_agent, b["digest"], {"source-1": local_id})
+        proposed = self.control.propose_oaff_candidate(
+            self.a_agent, a["digest"], {"source-1": local_id})
+        self.assertTrue(proposed["ok"], proposed)
+        claim = proposed["result"]["claim"]
+        self.assertEqual(claim["qualifiers"]["aff_origin"]["package_digest"], a["digest"])
+        before_review = self.control.execute(self.a_agent, operation("context.get", {}))
+        self.assertNotIn(claim["id"], [row["id"] for row in
+            before_review["result"]["governed_context"]])
+        self.assertTrue(self.control.execute(self.a_agent, operation(
+            "claim.evaluate", {"claim_id": claim["id"]}))["ok"])
+        self.assertTrue(self.control.execute(self.a_owner, operation(
+            "claim.review", {"claim_id": claim["id"], "decision": "admit",
+                             "request_id": "local-aff-review"}))["ok"])
+        after_review = self.control.execute(self.a_agent, operation("context.get", {}))
+        self.assertIn(claim["id"], [row["id"] for row in
+            after_review["result"]["governed_context"]])
+        self.assertNotIn("B private synthetic foreign Finding", json.dumps(after_review))
+        second_document = json.loads(package)
+        second_document["finding"]["id"] += "-second"
+        second_document["finding"]["revision"] += "-second"
+        second_document["finding"]["statement"] = "Second synthetic A Finding."
+        second_document["receipts"][0]["subject_revision"] = second_document[
+            "finding"]["revision"]
+        second_document.pop("integrity")
+        second_document["integrity"] = {"algorithm": "sha-256-jcs",
+            "digest": hashlib.sha256(rfc8785.dumps(second_document)).hexdigest()}
+        second = self.control.ingest_oaff_candidate(
+            self.a_agent, json.dumps(second_document).encode())
+        server = create_hosted_server(
+            self.database, port=0, legacy_default_workspace_id="workspace:A")
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            base = f"http://127.0.0.1:{server.server_port}/v1/oaff/candidates"
+            with urlopen(Request(base, data=package, method="POST",
+                                 headers={"Authorization": "Bearer " + self.a_agent,
+                                          "Content-Type": "application/json"})) as response:
+                result = json.loads(response.read())
+                self.assertEqual(result["result"]["state"], "idempotent")
+                self.assertEqual(result["result"]["local_authority"], "none")
+            with urlopen(Request(base, headers={
+                    "Authorization": "Bearer " + self.b_agent})) as response:
+                listing = json.loads(response.read())
+                self.assertEqual(listing["counts"]["quarantined"], 0)
+                self.assertEqual(listing["candidates"][0]["local_authority"], "none")
+            with urlopen(Request(base + "?limit=1", headers={
+                    "Authorization": "Bearer " + self.a_agent})) as response:
+                first_page = json.loads(response.read())
+                self.assertEqual(first_page["candidates"][0]["digest"], second["digest"])
+                cursor = first_page["next_cursor"]
+            with urlopen(Request(base + "?limit=1&before=" + cursor, headers={
+                    "Authorization": "Bearer " + self.a_agent})) as response:
+                second_page = json.loads(response.read())
+                self.assertEqual(second_page["candidates"][0]["digest"], a["digest"])
+            with self.assertRaises(HTTPError) as foreign_page:
+                urlopen(Request(base + "?before=" + cursor, headers={
+                    "Authorization": "Bearer " + self.b_agent}))
+            self.assertEqual(foreign_page.exception.code, 400)
+            foreign_page.exception.close()
+            with urlopen(Request(base + "/" + b["digest"], headers={
+                    "Authorization": "Bearer " + self.b_agent})) as response:
+                self.assertEqual(json.loads(response.read())["candidate"][
+                    "local_authority"], "none")
+            with self.assertRaises(HTTPError) as foreign:
+                urlopen(Request(base + "/" + b["digest"], headers={
+                    "Authorization": "Bearer " + self.a_agent}))
+            self.assertEqual(foreign.exception.code, 404)
+            foreign.exception.close()
+            with urlopen(Request(base + "/" + a["digest"] + "/proposals",
+                                 data=json.dumps({"evidence_map": {"source-1": local_id}}).encode(),
+                                 method="POST", headers={
+                    "Authorization": "Bearer " + self.a_agent,
+                    "Content-Type": "application/json"})) as response:
+                self.assertTrue(json.loads(response.read())["ok"])
+            with self.assertRaises(HTTPError) as unauthenticated:
+                urlopen(Request(base, data=package, method="POST",
+                                headers={"Content-Type": "application/json"}))
+            self.assertEqual(unauthenticated.exception.code, 401)
+            unauthenticated.exception.close()
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
+    def test_oaff_local_proposal_refuses_stale_and_withdrawn_snapshots(self):
+        import rfc8785
+        candidate = synthetic_oaff_candidate()
+        first = self.control.ingest_oaff_candidate(self.a_agent, candidate)
+        later = json.loads(candidate)
+        later["receipts"].append({
+            "id": "tag:example.org,2026:oaff/receipt/withdraw-1",
+            "kind": "lifecycle", "subject_revision": later["finding"]["revision"],
+            "issuer": {"id": "tag:example.org,2026:human/source-owner", "kind": "human"},
+            "issued_at": "2026-09-30T12:05:00Z", "method": "synthetic withdrawal",
+            "result": "withdrawn"})
+        later.pop("integrity")
+        later["integrity"] = {"algorithm": "sha-256-jcs",
+            "digest": hashlib.sha256(rfc8785.dumps(later)).hexdigest()}
+        withdrawn = self.control.ingest_oaff_candidate(
+            self.a_agent, json.dumps(later).encode())
+        self.assertEqual(withdrawn["state"], "candidate")
+        with self.assertRaisesRegex(ValueError, "not the latest"):
+            self.control.propose_oaff_candidate(self.a_agent, first["digest"], {})
+        with self.assertRaisesRegex(ValueError, "withdrawn or rejected"):
+            self.control.propose_oaff_candidate(self.a_agent, withdrawn["digest"], {})
+        # A late, older snapshot must not obscure the retained withdrawal.
+        self.configure_b()
+        other_withdrawn = self.control.ingest_oaff_candidate(
+            self.b_agent, json.dumps(later).encode())
+        other_old = self.control.ingest_oaff_candidate(self.b_agent, candidate)
+        self.assertTrue(self.control.get_oaff_candidate(
+            self.b_agent, other_withdrawn["digest"])["latest_snapshot"])
+        with self.assertRaisesRegex(ValueError, "not the latest"):
+            self.control.propose_oaff_candidate(self.b_agent, other_old["digest"], {})
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
+    def test_oaff_candidates_and_quarantine_survive_hosted_backup(self):
+        from proofpress.kernel.events import restore_sqlite_backup
+        package = synthetic_oaff_candidate()
+        result = self.control.ingest_oaff_candidate(self.a_agent, package)
+        self.control.ingest_oaff_candidate(self.a_agent, package + b"tampered")
+        backup = Path(self.temp.name) / "backup.db"
+        SQLiteEventStore(self.database, "workspace:A", "agent:same").backup_to(backup)
+        restored = Path(self.temp.name) / "restored.db"
+        restore_sqlite_backup(backup, restored)
+        restored_control = HostedControlPlane(
+            restored, legacy_default_workspace_id="workspace:A")
+        counts = restored_control.oaff_candidate_counts(self.a_agent)
+        self.assertEqual(counts["snapshots"], 1)
+        self.assertEqual(counts["quarantined"], 1)
+        self.assertEqual(restored_control.get_oaff_candidate(
+            self.a_agent, result["digest"])["local_authority"], "none")
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
+    def test_oaff_withdrawal_ingest_waits_for_inflight_local_proposal(self):
+        import rfc8785
+        package = synthetic_oaff_candidate()
+        selected = self.control.ingest_oaff_candidate(self.a_agent, package)
+        payload = evidence_payload()
+        payload["source"]["content_digest"] = "sha256:" + hashlib.sha256(b"source").hexdigest()
+        payload["evidence"]["quote"] = "source"
+        payload["evidence"]["locator"] = {
+            "kind": "text_span", "start": 0, "end": 6,
+            "text_digest": "sha256:" + hashlib.sha256(b"source").hexdigest()}
+        receipt = self.control.execute(self.a_agent, operation(
+            "evidence.submit", {"payload": payload}))
+        self.assertTrue(receipt["ok"], receipt)
+        evidence_id = receipt["result"]["evidence"][0]
+        withdrawn = json.loads(package)
+        withdrawn["receipts"].append({
+            "id": "tag:example.org,2026:oaff/receipt/withdraw-concurrent",
+            "kind": "lifecycle", "subject_revision": withdrawn["finding"]["revision"],
+            "issuer": {"id": "tag:example.org,2026:human/source-owner", "kind": "human"},
+            "issued_at": "2026-09-30T12:05:00Z", "method": "synthetic withdrawal",
+            "result": "withdrawn"})
+        withdrawn.pop("integrity")
+        withdrawn["integrity"] = {"algorithm": "sha-256-jcs",
+            "digest": hashlib.sha256(rfc8785.dumps(withdrawn)).hexdigest()}
+        other = HostedControlPlane(self.database, legacy_default_workspace_id="workspace:A")
+        proposal_entered = threading.Event()
+        release = threading.Event()
+        ingest_started = threading.Event()
+        execute_as = self.control.execute_as
+
+        def delayed_execute(context, request):
+            proposal_entered.set()
+            self.assertTrue(release.wait(5))
+            return execute_as(context, request)
+
+        def ingest():
+            ingest_started.set()
+            return other.ingest_oaff_candidate(self.a_agent, json.dumps(withdrawn).encode())
+
+        with patch.object(self.control, "execute_as", side_effect=delayed_execute):
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                proposed = pool.submit(self.control.propose_oaff_candidate,
+                    self.a_agent, selected["digest"], {"source-1": evidence_id})
+                self.assertTrue(proposal_entered.wait(5))
+                later = pool.submit(ingest)
+                self.assertTrue(ingest_started.wait(5))
+                try:
+                    time.sleep(0.1)
+                    self.assertFalse(later.done())
+                finally:
+                    release.set()
+                self.assertTrue(proposed.result(timeout=5)["ok"])
+                self.assertEqual(later.result(timeout=5)["state"], "candidate")
+        self.assertFalse(self.control.get_oaff_candidate(
+            self.a_agent, selected["digest"])["latest_snapshot"])
+        with self.assertRaisesRegex(ValueError, "not the latest"):
+            self.control.propose_oaff_candidate(
+                self.a_agent, selected["digest"], {"source-1": evidence_id})
 
     def test_policy_and_deployment_key_do_not_cross_workspace(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-a-only",

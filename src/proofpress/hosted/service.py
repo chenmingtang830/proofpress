@@ -261,9 +261,23 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             raise HostedAuthError("invalid_request", "JSON body must be an object")
         return value
 
+    def _request_json_bytes(self):
+        if self.headers.get("Content-Type", "").split(";", 1)[0] != "application/json":
+            raise HostedAuthError("unsupported_media_type", "content type must be application/json")
+        try:
+            length = int(self.headers.get("Content-Length", ""))
+        except ValueError as exc:
+            raise HostedAuthError("invalid_request", "content length required") from exc
+        if length < 0 or length > self.server.proofpress_max_request_bytes:
+            raise HostedAuthError("invalid_request", "invalid request length")
+        return self.rfile.read(length)
+
     def _owner_error(self, exc):
-        status = HTTPStatus.UNAUTHORIZED if exc.code in {
-            "invalid_credential", "owner_required"} else HTTPStatus.BAD_REQUEST
+        status = (HTTPStatus.UNAUTHORIZED if exc.code in {"invalid_credential", "owner_required"}
+                  else HTTPStatus.FORBIDDEN if exc.code == "operation_forbidden"
+                  else HTTPStatus.SERVICE_UNAVAILABLE if exc.code == "oaff_unavailable"
+                  else HTTPStatus.UNPROCESSABLE_ENTITY if exc.code == "workspace_policy_missing"
+                  else HTTPStatus.BAD_REQUEST)
         return self._json(status, {"ok": False, "error": {
             "code": exc.code, "message": str(exc)}})
 
@@ -621,6 +635,37 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "operation": "capabilities.get", "parameters": {},
             })
             return self._json(_status_for(envelope), envelope)
+        if path == "/v1/oaff/candidates":
+            try:
+                query = parse_qs(parsed.query)
+                limit = int(query.get("limit", ["20"])[-1])
+                before = query.get("before", [None])[-1]
+                counts = self.server.proofpress_control.oaff_candidate_counts(self._token())
+                candidates = self.server.proofpress_control.list_oaff_candidates(
+                    self._token(), limit=limit, before=before)
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_candidate_page", "message": str(exc)}})
+            return self._json(HTTPStatus.OK, {"ok": True, "counts": counts,
+                                              "candidates": candidates,
+                                              "next_cursor": candidates[-1]["digest"]
+                                              if len(candidates) == limit else None,
+                                              "local_authority": "none"})
+        if path.startswith("/v1/oaff/candidates/"):
+            try:
+                selected = self.server.proofpress_control.get_oaff_candidate(
+                    self._token(), path.rsplit("/", 1)[-1])
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_digest", "message": str(exc)}})
+            if selected is None:
+                return self._json(HTTPStatus.NOT_FOUND, {"ok": False,
+                    "error": {"code": "candidate_not_found"}})
+            return self._json(HTTPStatus.OK, {"ok": True, "candidate": selected})
         if path == "/v1/owner/credentials":
             try:
                 session = self._owner_session()
@@ -754,6 +799,29 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 return
             return self._json(HTTPStatus.OK, response)
+        if path == "/v1/oaff/candidates":
+            try:
+                data = self._request_json_bytes()
+                result = self.server.proofpress_control.ingest_oaff_candidate(
+                    self._token(), data)
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_candidate", "message": str(exc)}})
+            return self._json(HTTPStatus.OK, {"ok": True, "result": result})
+        if path.startswith("/v1/oaff/candidates/") and path.endswith("/proposals"):
+            digest = path.removeprefix("/v1/oaff/candidates/").removesuffix("/proposals")
+            try:
+                request = self._request_json()
+                envelope = self.server.proofpress_control.propose_oaff_candidate(
+                    self._token(), digest, request.get("evidence_map"))
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "invalid_candidate_proposal", "message": str(exc)}})
+            return self._json(_status_for(envelope), envelope)
         if path in {"/owner/api/review-policy", "/owner/api/evaluate"}:
             session = self._owner_session()
             if not session:

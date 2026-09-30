@@ -10,9 +10,12 @@ From a local Proofpress workspace with its claim ledger, run:
 python -m proofpress.oaff_export clm_EXAMPLE \
   --namespace https://your-organization.example/oaff \
   --source evd_EXAMPLE https://your-organization.example/sources/contract-v2 ./contract-v2.pdf \
-  --output finding.oaff.json
-oaff verify finding.oaff.json --evidence EVIDENCE_ID_IN_PACKAGE=./contract-v2.pdf
+  --output finding.aff
+aff verify finding.aff --evidence EVIDENCE_ID_IN_PACKAGE=./contract-v2.pdf
 ```
+
+`.aff` is the preferred filename for new packages. Its bytes remain v0.1 JSON
+with `oaff_version: "0.1.0"`; older `.oaff.json` files remain readable.
 
 Repeat `--source` for **every** evidence reference on the claim. The package
 uses a derived package-local evidence ID, shown in its `finding.evidence`
