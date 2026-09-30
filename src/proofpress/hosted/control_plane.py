@@ -112,6 +112,7 @@ class HostedControlPlane:
 
     def __init__(self, database: str | Path, *, legacy_default_workspace_id: str | None = None):
         self.database = Path(database)
+        self.oaff_inbox_database = self.database.with_name(self.database.name + ".oaff-inbox")
         self.database.parent.mkdir(parents=True, exist_ok=True)
         self._migrate()
         with self._connect() as connection:
@@ -595,6 +596,48 @@ class HostedControlPlane:
         if context.role != "owner":
             raise HostedAuthError("owner_required", "owner credential required")
         return context
+
+    def _oaff_context(self, token: str | PrincipalContext) -> PrincipalContext:
+        context = (self.refresh_context(token) if isinstance(token, PrincipalContext)
+                   else self.authenticate(token))
+        if context.role != "owner" and "claim.propose" not in context.permissions:
+            raise HostedAuthError("operation_forbidden", "candidate intake is not permitted")
+        try:
+            self._policy(context.workspace_id)
+        except ValueError as exc:
+            if str(exc) != "workspace_policy_missing":
+                raise
+            raise HostedAuthError("workspace_policy_missing",
+                                  "This workspace needs an explicit review policy.") from exc
+        return context
+
+    def ingest_oaff_candidate(self, token: str | PrincipalContext, data: bytes) -> dict[str, Any]:
+        """Quarantine or retain a foreign package in the caller's workspace.
+
+        This operation never creates a Proofpress claim or local adoption.
+        The package cannot choose its destination workspace.
+        """
+        context = self._oaff_context(token)
+        if not isinstance(data, bytes):
+            raise ValueError("OAFF package must be exact bytes")
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.ingest(context.workspace_id, data)
+
+    def oaff_candidate_counts(self, token: str | PrincipalContext) -> dict[str, int]:
+        """Return only the authenticated workspace's inbox counts."""
+        context = self._oaff_context(token)
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.counts(context.workspace_id)
 
     @contextmanager
     def _db(self):

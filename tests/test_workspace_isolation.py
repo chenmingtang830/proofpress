@@ -2,6 +2,7 @@
 from dataclasses import replace
 import base64
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -23,6 +24,39 @@ from proofpress.kernel import operations as kernel
 from proofpress.kernel.contracts import AGENT_OPERATIONS
 from proofpress.kernel.events import SQLiteEventStore
 from test_hosted_authority import evidence_payload, operation
+
+
+def synthetic_oaff_candidate():
+    import rfc8785
+    finding_revision = "tag:example.org,2026:oaff/revision/foreign-1"
+    value = {
+        "oaff_version": "0.1.0",
+        "finding": {
+            "id": "tag:example.org,2026:oaff/finding/foreign-1",
+            "revision": finding_revision,
+            "statement": "A synthetic foreign Finding requires local review.",
+            "type": "observation",
+            "applicability": {"description": "Synthetic test only.",
+                              "conditions": ["Synthetic fixture environment."]},
+            "producer": {"id": "tag:example.org,2026:agent/source", "kind": "agent"},
+            "created_at": "2026-09-29T12:00:00Z",
+            "evidence": [{
+                "id": "source-1", "source_uri": "https://example.org/foreign/1",
+                "content_digest": {"algorithm": "sha-256", "value": hashlib.sha256(b"source").hexdigest()},
+                "availability": "restricted",
+            }],
+        },
+        "receipts": [{
+            "id": "tag:example.org,2026:oaff/receipt/admit-1",
+            "kind": "adoption_decision", "subject_revision": finding_revision,
+            "issuer": {"id": "tag:example.org,2026:human/source-owner", "kind": "human"},
+            "issued_at": "2026-09-29T12:05:00Z", "method": "synthetic origin review",
+            "result": "admitted", "authority_basis": "human_approval",
+        }],
+    }
+    value["integrity"] = {"algorithm": "sha-256-jcs",
+                          "digest": hashlib.sha256(rfc8785.dumps(value)).hexdigest()}
+    return json.dumps(value).encode()
 
 
 class WorkspaceIsolationTests(unittest.TestCase):
@@ -112,6 +146,63 @@ class WorkspaceIsolationTests(unittest.TestCase):
         self.assertEqual(before, after)
         with self.assertRaisesRegex(ValueError, "already bootstrapped"):
             self.control.bootstrap("workspace:C", "human:owner")
+
+    @unittest.skipUnless(importlib.util.find_spec("oaff"), "OAFF import extra unavailable")
+    def test_oaff_intake_is_workspace_scoped_and_never_adopts_foreign_approval(self):
+        package = synthetic_oaff_candidate()
+        with self.assertRaisesRegex(HostedAuthError, "explicit review policy"):
+            self.control.ingest_oaff_candidate(self.b_agent, package)
+        self.configure_b()
+        a = self.control.ingest_oaff_candidate(self.a_agent, package)
+        self.assertEqual(a["state"], "candidate")
+        self.assertEqual(a["local_authority"], "none")
+        self.assertEqual(a["verification"]["receipt_counts"]["adoption_decision"], 1)
+        self.assertEqual(self.control.ingest_oaff_candidate(self.a_agent, package)["state"],
+                         "idempotent")
+        self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["snapshots"], 1)
+        self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["snapshots"], 0)
+        b = self.control.ingest_oaff_candidate(self.b_agent, package)
+        self.assertEqual(b["state"], "candidate")
+        self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["snapshots"], 1)
+        self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["snapshots"], 1)
+
+        tampered = package.replace(b"requires local review", b"needs no local review")
+        self.assertEqual(self.control.ingest_oaff_candidate(self.a_agent, tampered)["state"],
+                         "quarantined")
+        self.assertEqual(self.control.oaff_candidate_counts(self.a_agent)["quarantined"], 1)
+        self.assertEqual(self.control.oaff_candidate_counts(self.b_agent)["quarantined"], 0)
+        forged = replace(self.control.authenticate(self.a_agent), workspace_id="workspace:B")
+        with self.assertRaises(HostedAuthError):
+            self.control.ingest_oaff_candidate(forged, package)
+
+        for token in (self.a_agent, self.b_agent):
+            context = self.control.execute(token, operation("context.get", {}))
+            self.assertTrue(context["ok"], context)
+            self.assertNotIn("synthetic foreign Finding", json.dumps(context))
+        server = create_hosted_server(
+            self.database, port=0, legacy_default_workspace_id="workspace:A")
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            base = f"http://127.0.0.1:{server.server_port}/v1/oaff/candidates"
+            with urlopen(Request(base, data=package, method="POST",
+                                 headers={"Authorization": "Bearer " + self.a_agent,
+                                          "Content-Type": "application/json"})) as response:
+                result = json.loads(response.read())
+                self.assertEqual(result["result"]["state"], "idempotent")
+                self.assertEqual(result["result"]["local_authority"], "none")
+            with urlopen(Request(base, headers={
+                    "Authorization": "Bearer " + self.b_agent})) as response:
+                self.assertEqual(json.loads(response.read())["counts"]["quarantined"], 0)
+            with self.assertRaises(HTTPError) as unauthenticated:
+                urlopen(Request(base, data=package, method="POST",
+                                headers={"Content-Type": "application/json"}))
+            self.assertEqual(unauthenticated.exception.code, 401)
+            unauthenticated.exception.close()
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
 
     def test_policy_and_deployment_key_do_not_cross_workspace(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-a-only",
