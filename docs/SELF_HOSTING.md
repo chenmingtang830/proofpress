@@ -1,6 +1,10 @@
 [//]: # (ob:26309ab6)
 # Self-hosting Proofpress
 
+The hosted ownership contract and legacy default binding are described in
+`docs/WORKSPACE_OWNERSHIP.md`. This reference deployment still bootstraps one
+workspace; shared hosting and customer provisioning are not enabled.
+
 [//]: # (ob:2baf81ed)
 > Status: experimental open-source self-hosting reference. It is available for
 > one operator to deploy on infrastructure they control. It is not a

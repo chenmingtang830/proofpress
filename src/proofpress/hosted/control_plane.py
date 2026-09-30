@@ -110,10 +110,17 @@ def _secret_hash(secret: str, salt: bytes) -> bytes:
 class HostedControlPlane:
     """One-owner authority service over workspace-scoped SQLite history."""
 
-    def __init__(self, database: str | Path):
+    def __init__(self, database: str | Path, *, legacy_default_workspace_id: str | None = None):
         self.database = Path(database)
         self.database.parent.mkdir(parents=True, exist_ok=True)
         self._migrate()
+        with self._connect() as connection:
+            workspaces = [row["workspace_id"] for row in connection.execute(
+                "SELECT workspace_id FROM hosted_workspaces")]
+        if legacy_default_workspace_id is not None and legacy_default_workspace_id not in workspaces:
+            raise ValueError("legacy default workspace does not exist")
+        self.legacy_default_workspace_id = (legacy_default_workspace_id if legacy_default_workspace_id
+                                            is not None else workspaces[0] if len(workspaces) == 1 else None)
         self._judge_worker_lock = threading.Lock()
         SQLiteEventStore(self.database, "__schema__", "system:migration")
 
@@ -458,6 +465,7 @@ class HostedControlPlane:
             raise
         finally:
             connection.close()
+        self.legacy_default_workspace_id = workspace_id
         return {"workspace_id": workspace_id, "principal_id": owner_principal_id,
                 "credential_id": credential_id, "token": token,
                 "recovery_secret": recovery_secret}
@@ -599,13 +607,30 @@ class HostedControlPlane:
 
     def _policy(self, workspace_id):
         with self._db() as connection:
-            return review_policy.current(connection, workspace_id)
+            return self._current_policy(connection, workspace_id)
+
+    def _current_policy(self, connection, workspace_id):
+        return review_policy.current(connection, workspace_id,
+            legacy_default_workspace_id=self.legacy_default_workspace_id)
+
+    def _provider_credential(self, connection, workspace_id, provider):
+        return review_policy.credential(connection, workspace_id, provider,
+            legacy_default_workspace_id=self.legacy_default_workspace_id)
+
+    def _credential_status(self, connection, workspace_id, provider):
+        return review_policy.credential_status(connection, workspace_id, provider,
+            legacy_default_workspace_id=self.legacy_default_workspace_id)
 
     def get_review_policy(self, token):
         owner = self._owner(token)
         with self._db() as connection:
-            record = review_policy.current(connection, owner.workspace_id)
-            return review_policy.public(record, review_policy.credential_status(
+            try:
+                record = self._current_policy(connection, owner.workspace_id)
+            except ValueError as exc:
+                if str(exc) != "workspace_policy_missing":
+                    raise
+                record = review_policy.initial_workspace_policy()
+            return review_policy.public(record, self._credential_status(
                 connection, owner.workspace_id, record["settings"]["provider"]))
 
     def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False):
@@ -613,7 +638,14 @@ class HostedControlPlane:
         connection = self._connect()
         try:
             connection.execute("BEGIN IMMEDIATE")
-            prior = review_policy.current(connection, owner.workspace_id)
+            try:
+                prior = self._current_policy(connection, owner.workspace_id)
+                prior_saved = True
+            except ValueError as exc:
+                if str(exc) != "workspace_policy_missing":
+                    raise
+                prior = review_policy.initial_workspace_policy()
+                prior_saved = False
             if type(expected_version) is not int or expected_version != prior["version"]:
                 raise HostedAuthError("stale_policy", "Review policy changed. Reload before saving.")
             policy = review_policy.validate(settings, prior["policy"])
@@ -628,11 +660,11 @@ class HostedControlPlane:
                 review_policy.delete_credential(connection, owner.workspace_id)
             elif api_key:
                 review_policy.save_credential(connection, owner.workspace_id, api_key, changed_at)
-            if settings["mode"] != "off" and not review_policy.credential(
+            if settings["mode"] != "off" and not self._provider_credential(
                     connection, owner.workspace_id, settings["provider"]):
                 raise ValueError("Add a provider API key before enabling LM review.")
-            if settings == prior["settings"] and not api_key and not delete_key:
-                return review_policy.public(prior, review_policy.credential_status(
+            if prior_saved and settings == prior["settings"] and not api_key and not delete_key:
+                return review_policy.public(prior, self._credential_status(
                     connection, owner.workspace_id, prior["settings"]["provider"]))
             record = {"version": prior["version"] + 1, "settings": settings, "policy": policy,
                       "actor": owner.principal_id, "updated_at": changed_at}
@@ -649,8 +681,9 @@ class HostedControlPlane:
                 for claim in candidates:
                     self._schedule_judge(owner, claim, record, start=False)
                 if candidates:
-                    threading.Thread(target=self.run_judge_jobs, daemon=True).start()
-            return review_policy.public(record, review_policy.credential_status(
+                    threading.Thread(target=self.run_judge_jobs,
+                                     kwargs={"workspace_id": owner.workspace_id}, daemon=True).start()
+            return review_policy.public(record, self._credential_status(
                 connection, owner.workspace_id, settings["provider"]))
         finally:
             connection.close()
@@ -865,22 +898,31 @@ class HostedControlPlane:
             connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')",
                                (job_id, context.workspace_id, claim["id"], record["policy"]["digest"], context.principal_id, _now(), _now()))
         if start:
-            threading.Thread(target=self.run_judge_jobs, daemon=True).start()
+            threading.Thread(target=self.run_judge_jobs,
+                             kwargs={"workspace_id": context.workspace_id}, daemon=True).start()
 
-    def run_judge_jobs(self):
+    def run_judge_jobs(self, *, workspace_id: str | None = None):
         """Durable queue, one claim per job; interrupted calls require explicit manual retry."""
+        workspace_id = workspace_id or self._single_workspace_id()
         with self._judge_worker_lock:
-            self._drain_judge_jobs()
+            self._drain_judge_jobs(workspace_id=workspace_id)
 
-    def _drain_judge_jobs(self):
+    def _single_workspace_id(self):
+        with self._db() as connection:
+            rows = connection.execute("SELECT workspace_id FROM hosted_workspaces").fetchall()
+        if len(rows) != 1:
+            raise ValueError("workspace_id required for multi-workspace processing")
+        return rows[0]["workspace_id"]
+
+    def _drain_judge_jobs(self, *, workspace_id: str):
         while True:
             connection = self._connect()
             try:
                 connection.execute("BEGIN IMMEDIATE")
-                job = connection.execute("SELECT * FROM hosted_judge_jobs WHERE state='queued' ORDER BY created_at LIMIT 1").fetchone()
+                job = connection.execute("SELECT * FROM hosted_judge_jobs WHERE workspace_id=? AND state='queued' ORDER BY created_at LIMIT 1", (workspace_id,)).fetchone()
                 if not job:
                     return
-                connection.execute("UPDATE hosted_judge_jobs SET state='running', updated_at=? WHERE job_id=?", (_now(), job["job_id"]))
+                connection.execute("UPDATE hosted_judge_jobs SET state='running', updated_at=? WHERE job_id=? AND workspace_id=?", (_now(), job["job_id"], workspace_id))
                 connection.commit()
             finally:
                 connection.close()
@@ -889,7 +931,7 @@ class HostedControlPlane:
                 record = self._policy(job["workspace_id"])
                 store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
                 with self._db() as secret_connection:
-                    provider_secret = review_policy.credential(
+                    provider_secret = self._provider_credential(
                         secret_connection, job["workspace_id"], record["settings"]["provider"])
                 with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or ""}):
                     if record["settings"]["mode"] != "automatic" or record["policy"]["digest"] != job["policy_digest"]:
@@ -913,7 +955,7 @@ class HostedControlPlane:
                         # racing between authorization and the admission event.
                         with using_event_store(store), store.transaction():
                             connection = store._connection.get()
-                            latest = review_policy.current(connection, job["workspace_id"])
+                            latest = self._current_policy(connection, job["workspace_id"])
                             if (latest["version"] != record["version"] or
                                     not latest["settings"].get("auto_admit_new_claims")):
                                 detail = "LM advice recorded. Automatic approval policy changed; owner review is required."
@@ -950,18 +992,24 @@ class HostedControlPlane:
                 except Exception:
                     pass
             with self._db() as connection:
-                connection.execute("UPDATE hosted_judge_jobs SET state=?, detail=?, updated_at=? WHERE job_id=?", (state, detail, _now(), job["job_id"]))
+                connection.execute("UPDATE hosted_judge_jobs SET state=?, detail=?, updated_at=? WHERE job_id=? AND workspace_id=?", (state, detail, _now(), job["job_id"], workspace_id))
             self._audit_judge_job(job, state)
 
-    def resume_judge_jobs(self):
+    def resume_judge_jobs(self, *, workspace_id: str | None = None):
+        workspace_id = workspace_id or self._single_workspace_id()
         with self._db() as connection:
             interrupted = connection.execute(
-                "SELECT * FROM hosted_judge_jobs WHERE state='running'").fetchall()
-            connection.execute("UPDATE hosted_judge_jobs SET state='interrupted', detail='Server restarted during LM review. Retry explicitly.', updated_at=? WHERE state='running'", (_now(),))
+                "SELECT * FROM hosted_judge_jobs WHERE workspace_id=? AND state='running'", (workspace_id,)).fetchall()
+            connection.execute("UPDATE hosted_judge_jobs SET state='interrupted', detail='Server restarted during LM review. Retry explicitly.', updated_at=? WHERE workspace_id=? AND state='running'", (_now(), workspace_id))
             # Repair a crash between committing a new proposal and enqueueing its review.
-            workspaces = connection.execute("SELECT workspace_id FROM hosted_workspaces").fetchall()
+            workspaces = connection.execute("SELECT workspace_id FROM hosted_workspaces WHERE workspace_id=?", (workspace_id,)).fetchall()
             for workspace in workspaces:
-                record = review_policy.current(connection, workspace["workspace_id"])
+                try:
+                    record = self._current_policy(connection, workspace["workspace_id"])
+                except ValueError as exc:
+                    if str(exc) == "workspace_policy_missing":
+                        continue
+                    raise
                 if record["settings"]["mode"] != "automatic" or not record["updated_at"]:
                     continue
                 for raw in connection.execute("SELECT payload_json, principal_id FROM events WHERE workspace_id=?", (workspace["workspace_id"],)).fetchall():
@@ -980,7 +1028,8 @@ class HostedControlPlane:
                         (_now(), workspace["workspace_id"], record["policy"]["digest"]))
         for job in interrupted:
             self._audit_judge_job(job, "interrupted")
-        threading.Thread(target=self.run_judge_jobs, daemon=True).start()
+        threading.Thread(target=self.run_judge_jobs,
+                         kwargs={"workspace_id": workspace_id}, daemon=True).start()
 
     def _audit_judge_job(self, job, state):
         """Record automatic review execution without storing provider diagnostics."""
@@ -1113,6 +1162,10 @@ class HostedControlPlane:
     def execute_as(self, context: PrincipalContext,
                    request: dict[str, Any]) -> dict[str, Any]:
         """Execute with an already authenticated server-side principal context."""
+        try:
+            context = self.refresh_context(context)
+        except (HostedAuthError, AttributeError) as exc:
+            return self._error_envelope(request, "invalid_credential", str(exc))
         operation = request.get("operation") if isinstance(request, dict) else None
         authority = operation_authority(operation)
         allowed = ((authority == "owner" and context.role == "owner") or
@@ -1136,7 +1189,15 @@ class HostedControlPlane:
                 parameters[IDENTITY_PARAMETERS[operation]] = context.principal_id
         store = SQLiteEventStore(
             self.database, context.workspace_id, context.principal_id)
-        record = self._policy(context.workspace_id)
+        try:
+            record = self._policy(context.workspace_id)
+        except ValueError as exc:
+            if str(exc) != "workspace_policy_missing":
+                raise
+            envelope = self._error_envelope(request, "workspace_policy_missing",
+                "This workspace needs an explicit review policy before governed work.")
+            self._audit(context, request, envelope, None)
+            return envelope
         attempt_id = None
         key = normalized.get("idempotency_key")
         if (operation in execution.TRACKED_OPERATIONS and isinstance(key, str)
@@ -1160,7 +1221,7 @@ class HostedControlPlane:
         judge_environment = {}
         if operation in {"claim.judge", "claim.judge_batch", "relation.judge"}:
             with self._db() as connection:
-                provider_secret = review_policy.credential(
+                provider_secret = self._provider_credential(
                     connection, context.workspace_id, record["settings"]["provider"])
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
         with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
@@ -1207,7 +1268,7 @@ class HostedControlPlane:
                         detail = "LM advice recorded."
                         connection.execute(
                             "UPDATE hosted_judge_jobs SET state='completed', detail=?, updated_at=? "
-                            "WHERE job_id=?", (detail, _now(), job["job_id"]))
+                            "WHERE job_id=? AND workspace_id=?", (detail, _now(), job["job_id"], context.workspace_id))
                         result["judge_job"] = {"state": "completed", "detail": detail}
         if envelope.get("ok") and operation == "capabilities.get":
             result = dict(envelope["result"])
@@ -1237,7 +1298,9 @@ class HostedControlPlane:
             envelope = {**envelope, "result": result}
         if attempt_id is not None:
             with self._db() as connection:
-                execution.finish(connection, attempt_id, envelope)
+                execution.finish(connection, attempt_id, envelope,
+                                 workspace_id=context.workspace_id,
+                                 principal_id=context.principal_id)
         self._audit(context, request, envelope, head)
         if envelope.get("ok") and operation == "claim.propose":
             claim = envelope["result"]["claim"]

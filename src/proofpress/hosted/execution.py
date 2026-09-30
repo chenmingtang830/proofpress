@@ -135,7 +135,15 @@ def begin(connection: sqlite3.Connection, *, workspace_id: str, principal_id: st
 
 
 def finish(connection: sqlite3.Connection, attempt_id: int,
-           envelope: dict[str, Any]) -> None:
+           envelope: dict[str, Any], *, workspace_id: str,
+           principal_id: str) -> None:
+    parent = connection.execute(
+        "SELECT e.execution_id FROM hosted_execution_attempts a "
+        "JOIN hosted_executions e ON e.execution_id=a.execution_id "
+        "WHERE a.attempt_id=? AND e.workspace_id=? AND e.principal_id=?",
+        (attempt_id, workspace_id, principal_id)).fetchone()
+    if not parent:
+        raise ValueError("execution_attempt_not_found")
     error_code = envelope.get("error", {}).get("code") if not envelope.get("ok") else None
     state = ("succeeded" if envelope.get("ok") else
              "retryable_failed" if error_code in RETRYABLE_ERRORS else "terminal_failed")
@@ -149,20 +157,24 @@ def finish(connection: sqlite3.Connection, attempt_id: int,
             refs["evaluation_event_id"] = result["event_id"]
     connection.execute(
         "UPDATE hosted_execution_attempts SET state=?,error_code=?,finished_at=?,"
-        "idempotent_replay=? WHERE attempt_id=?",
-        (state, error_code, _now(), int(bool(envelope.get("idempotent_replay"))), attempt_id))
+        "idempotent_replay=? WHERE attempt_id=? AND execution_id=?",
+        (state, error_code, _now(), int(bool(envelope.get("idempotent_replay"))),
+         attempt_id, parent["execution_id"]))
     connection.execute(
         "UPDATE hosted_executions SET state=?,error_code=?,output_refs_json=?,updated_at=? "
-        "WHERE execution_id=(SELECT execution_id FROM hosted_execution_attempts WHERE attempt_id=?)",
-        (state, error_code, json.dumps(refs, sort_keys=True), _now(), attempt_id))
+        "WHERE execution_id=? AND workspace_id=? AND principal_id=?",
+        (state, error_code, json.dumps(refs, sort_keys=True), _now(),
+         parent["execution_id"], workspace_id, principal_id))
 
 
-def resume(connection: sqlite3.Connection) -> None:
+def resume(connection: sqlite3.Connection, *, workspace_id: str) -> None:
     """An interrupted request waits for explicit resubmission with the same key."""
     at = _now()
     connection.execute(
         "UPDATE hosted_execution_attempts SET state='interrupted', finished_at=? "
-        "WHERE state='running'", (at,))
+        "WHERE state='running' AND execution_id IN "
+        "(SELECT execution_id FROM hosted_executions WHERE workspace_id=?)",
+        (at, workspace_id))
     connection.execute(
         "UPDATE hosted_executions SET state='interrupted', updated_at=? "
-        "WHERE state='running'", (at,))
+        "WHERE state='running' AND workspace_id=?", (at, workspace_id))

@@ -40,6 +40,12 @@ and idempotency transaction remains the source of truth: if a crash occurs
 after that transaction but before execution bookkeeping finishes, retrying
 the same request replays the result without adding governed events.
 
+Completion resolves each attempt through its parent execution with the
+authenticated workspace and principal before either row changes. Recovery
+is scoped to one workspace; startup explicitly dispatches recovery for each
+registered workspace. The same boundary applies to Judge queue processing
+and recovery. These internal contracts do not enable shared hosting.
+
 Owner-only `GET /owner/api/executions` returns bounded records and attempts.
 `/owner/api/activity` also shows failed or interrupted attempts. The
 inspection result resolves evidence IDs to current claim IDs and shows their

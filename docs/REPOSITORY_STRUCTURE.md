@@ -23,6 +23,9 @@ plus examples and research studies. The canonical production code lives under
 | `examples/` | Small runnable demonstrations | Supported public interfaces |
 | `studies/` | Reproducible research and evaluation harnesses | May exercise public interfaces; results are not product guarantees |
 
+Hosted workspace ownership and legacy deployment defaults are documented in
+`docs/WORKSPACE_OWNERSHIP.md`.
+
 ## Deliberate compatibility boundaries
 
 - Files such as `src/proofpress_sdk.py` and `src/proofpress_service.py` are
