@@ -7,6 +7,7 @@ from datetime import datetime, timezone, timedelta
 import hashlib
 import hmac
 import json
+import os
 from pathlib import Path
 import re
 import secrets
@@ -112,6 +113,9 @@ class HostedControlPlane:
 
     def __init__(self, database: str | Path, *, legacy_default_workspace_id: str | None = None):
         self.database = Path(database)
+        # The hosted SQLite backup must contain candidate and quarantine rows.
+        self.oaff_inbox_database = self.database
+        self._oaff_mutex = threading.RLock()
         self.database.parent.mkdir(parents=True, exist_ok=True)
         self._migrate()
         with self._connect() as connection:
@@ -595,6 +599,171 @@ class HostedControlPlane:
         if context.role != "owner":
             raise HostedAuthError("owner_required", "owner credential required")
         return context
+
+    def _oaff_context(self, token: str | PrincipalContext) -> PrincipalContext:
+        context = (self.refresh_context(token) if isinstance(token, PrincipalContext)
+                   else self.authenticate(token))
+        if context.role != "owner" and "claim.propose" not in context.permissions:
+            raise HostedAuthError("operation_forbidden", "candidate intake is not permitted")
+        try:
+            self._policy(context.workspace_id)
+        except ValueError as exc:
+            if str(exc) != "workspace_policy_missing":
+                raise
+            raise HostedAuthError("workspace_policy_missing",
+                                  "This workspace needs an explicit review policy.") from exc
+        return context
+
+    @contextmanager
+    def _oaff_mutation_guard(self):
+        """Serialize inbox updates and candidate proposals on the hosted file.
+
+        The file lock coordinates multiple hosted processes sharing this local
+        SQLite database; the RLock also covers threads within one process.
+        """
+        with self._oaff_mutex:
+            import fcntl
+            descriptor = os.open(str(self.database) + ".oaff.lock",
+                                 os.O_CREAT | os.O_RDWR, 0o600)
+            try:
+                fcntl.flock(descriptor, fcntl.LOCK_EX)
+                yield
+            finally:
+                fcntl.flock(descriptor, fcntl.LOCK_UN)
+                os.close(descriptor)
+
+    def ingest_oaff_candidate(self, token: str | PrincipalContext, data: bytes) -> dict[str, Any]:
+        """Quarantine or retain a foreign package in the caller's workspace.
+
+        This operation never creates a Proofpress claim or local adoption.
+        The package cannot choose its destination workspace.
+        """
+        context = self._oaff_context(token)
+        if not isinstance(data, bytes):
+            raise ValueError("OAFF package must be exact bytes")
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with self._oaff_mutation_guard(), CandidateInbox(self.oaff_inbox_database) as inbox:
+            result = inbox.ingest(context.workspace_id, data)
+            with self._db() as connection:
+                connection.execute(
+                    "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
+                    "credential_id, operation, request_id, idempotency_key, outcome, event_head) "
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (_now(), context.workspace_id, context.principal_id,
+                     context.credential_id, "oaff.candidate.ingest", result["digest"],
+                     None, result["state"], None))
+            return result
+
+    def oaff_candidate_counts(self, token: str | PrincipalContext) -> dict[str, int]:
+        """Return only the authenticated workspace's inbox counts."""
+        context = self._oaff_context(token)
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.counts(context.workspace_id)
+
+    def list_oaff_candidates(self, token: str | PrincipalContext,
+                             *, limit: int = 20,
+                             before: str | None = None) -> list[dict[str, Any]]:
+        context = self._oaff_context(token)
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.list_candidates(context.workspace_id, limit=limit, before=before)
+
+    def get_oaff_candidate(self, token: str | PrincipalContext,
+                           package_digest: str) -> dict[str, Any] | None:
+        context = self._oaff_context(token)
+        if not isinstance(package_digest, str) or not re.fullmatch(r"[0-9a-f]{64}", package_digest):
+            raise ValueError("package digest must be lowercase SHA-256 hex")
+        try:
+            from oaff import CandidateInbox
+        except ImportError as exc:
+            raise HostedAuthError("oaff_unavailable",
+                                  "Install the OAFF import extra before intake.") from exc
+        with CandidateInbox(self.oaff_inbox_database) as inbox:
+            return inbox.get_candidate(context.workspace_id, package_digest)
+
+    def propose_oaff_candidate(self, token: str | PrincipalContext,
+                               package_digest: str,
+                               evidence_map: dict[str, str]) -> dict[str, Any]:
+        """Create a receiver-local proposal using already submitted local evidence.
+
+        The origin's receipts are never projected as local checks or authority.
+        Evaluation and review remain the existing Proofpress operations.
+        """
+        context = self._oaff_context(token)
+        with self._oaff_mutation_guard():
+            return self._propose_oaff_candidate_locked(context, package_digest, evidence_map)
+
+    def _propose_oaff_candidate_locked(self, context: PrincipalContext,
+                                       package_digest: str,
+                                       evidence_map: dict[str, str]) -> dict[str, Any]:
+        selected = self.get_oaff_candidate(context, package_digest)
+        if selected is None:
+            raise ValueError("candidate_not_found")
+        if not selected.get("latest_snapshot"):
+            raise ValueError("candidate snapshot is not the latest retained revision")
+        package = selected["package"]
+        if any(receipt["result"] in {"withdrawn", "rejected"}
+               for receipt in package["receipts"]):
+            raise ValueError("withdrawn or rejected origin requires lifecycle review")
+        finding = package["finding"]
+        if finding.get("links"):
+            raise ValueError("linked Finding requires lifecycle and dependency reconciliation")
+        descriptors = finding["evidence"]
+        if not isinstance(evidence_map, dict) or set(evidence_map) != {
+                row["id"] for row in descriptors} or any(
+                not isinstance(value, str) for value in evidence_map.values()):
+            raise ValueError("map every foreign evidence ID to one local evidence ID")
+        store = SQLiteEventStore(self.database, context.workspace_id, context.principal_id)
+        with using_event_store(store), kernel_ops.using_policy(
+                self._policy(context.workspace_id)["policy"]):
+            local = kernel_ops.v2_projection()["evidence"]
+        for descriptor in descriptors:
+            row = local.get(evidence_map[descriptor["id"]])
+            expected = "sha256:" + descriptor["content_digest"]["value"]
+            if (not row or row.get("kind") != "retrieval_evidence"
+                    or not kernel_ops._retrieval_receipt_valid(row)
+                    or row.get("source_content_digest") != expected):
+                raise ValueError("local evidence must be a valid receipt for each source digest")
+        scope = finding["applicability"]
+        description = scope["description"]
+        exclusions = scope.get("exclusions", [])
+        if exclusions:
+            description += " Excluded when: " + "; ".join(exclusions)
+        statement = finding["statement"]
+        evidence_refs = [evidence_map[row["id"]] for row in descriptors]
+        fingerprint = hashlib.sha256(json.dumps(evidence_refs, sort_keys=True).encode()).hexdigest()
+        request = {
+            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
+            "operation": "claim.propose",
+            "idempotency_key": "oaff-local-" + package_digest[:24] + "-" + fingerprint[:24],
+            "parameters": {
+                "title": statement[:120], "statement": statement,
+                "evidence_refs": evidence_refs,
+                "applicability": {"description": description,
+                                  "validity_conditions": scope["conditions"]},
+                "artifact_refs": ["urn:sha256:" + package_digest],
+                "qualifiers": {"aff_origin": {
+                    "finding_id": finding["id"],
+                    "revision": finding["revision"],
+                    "package_digest": package_digest,
+                    "exclusions": exclusions,
+                }},
+            },
+        }
+        return self.execute_as(context, request)
 
     @contextmanager
     def _db(self):

@@ -300,6 +300,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 - `proofpress.integrations.repository` binds one repository change to Git and check receipts for self-dogfood.
 - `proofpress.integrations.matter_catalog` and `proofpress.integrations.document_extraction` are optional evidence-entry integrations. Their output remains candidate evidence.
 - `proofpress hosted` runs the single-owner hosted control plane and web review surface. See [Self-hosting](docs/SELF_HOSTING.md).
+- AFF's OAFF v0.1 integration can [export bounded claims](docs/OAFF_EXPORT.md) and [receive foreign candidate packages](docs/OAFF_IMPORT.md) without granting local authority.
 
 [//]: # (ob:b877cee5)
 [//]: # (ob:reading-path)
