@@ -31,6 +31,7 @@ PROVIDERS = {
     "groq": "https://api.groq.com/openai/v1/chat/completions",
     "mistral": "https://api.mistral.ai/v1/chat/completions",
     "baseten": "https://inference.baseten.co/v1/chat/completions",
+    "gmi_cloud": "https://api.gmi-serving.com/v1/chat/completions",
 }
 
 
@@ -75,7 +76,8 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
             raise ValueError("TypeSafe uses its fixed System One endpoint")
         return jev_judge(packet, model=model, criteria=criteria, opener=opener)
     key = (os.environ.get("PROOFPRESS_JUDGE_API_KEY") if "PROOFPRESS_JUDGE_API_KEY" in os.environ
-           else os.environ.get("OPENROUTER_API_KEY", "") if provider == "openrouter" else "") or ""
+           else os.environ.get("OPENROUTER_API_KEY", "") if provider == "openrouter"
+           else os.environ.get("GMI_API_KEY", "") if provider == "gmi_cloud" else "") or ""
     key = key.strip()
     if not key:
         raise JudgeFailure("configuration", "Judge API key is not configured")
@@ -84,6 +86,8 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
         raise JudgeFailure("input_limit", "Judge evidence packet exceeds the bounded input limit")
     instruction = SYSTEM + ("\n\nWorkspace evaluation criteria:\n" + criteria if criteria else "")
     target = endpoint or PROVIDERS.get(provider, "")
+    if provider == "gmi_cloud" and target != PROVIDERS["gmi_cloud"]:
+        raise JudgeFailure("configuration", "GMI Cloud uses its fixed hosted endpoint")
     if provider == "anthropic":
         body = json.dumps({"model": model, "max_tokens": 1800,
             "system": instruction, "messages": [{"role": "user", "content": packed}]}).encode()
@@ -98,6 +102,8 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
             payload[token_limit] = 1800
         if provider == "openrouter" and zdr:
             payload["provider"] = {"zdr": True, "data_collection": "deny"}
+        if provider == "gmi_cloud":
+            payload["context_length_exceeded_behavior"] = "error"
         body = json.dumps(payload).encode()
         headers = {"Content-Type": "application/json"}
         if provider == "azure_openai":

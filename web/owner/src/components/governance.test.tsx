@@ -167,6 +167,14 @@ describe("governance components", () => {
     expect(applyProviderPreset(current, "openai", providers)).toEqual({provider:"openai", model:"gpt-5.4", endpoint:""});
     expect(applyProviderPreset(current, "custom", providers)).toEqual({provider:"custom", model:"", endpoint:""});
   });
+  it("selects the GMI Cloud model and resets review to explicit consent", () => {
+    const current = {provider:"baseten", model:"deployment-model", endpoint:"https://model.example/v1/chat/completions", mode:"automatic", external_consent:true, auto_admit_new_claims:true, zdr:true};
+    const providers = {gmi_cloud:{default_model:"deepseek-ai/DeepSeek-V4.1-Flash"}};
+    expect(applyProviderPreset(current, "gmi_cloud", providers)).toEqual({
+      provider:"gmi_cloud", model:"deepseek-ai/DeepSeek-V4.1-Flash", endpoint:"",
+      mode:"manual", external_consent:false, auto_admit_new_claims:false, zdr:false,
+    });
+  });
   it("shows provider models while preserving a saved model outside the current catalog", () => {
     const provider = {models:["gpt-5.4", "gpt-5.4-mini"]};
     expect(providerModelOptions(provider, "gpt-5.4")).toEqual(["gpt-5.4", "gpt-5.4-mini"]);

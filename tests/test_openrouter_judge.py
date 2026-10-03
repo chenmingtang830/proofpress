@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 from urllib.error import HTTPError
 
-from proofpress.hosted.judge import DEFAULT_MODEL, judge
+from proofpress.hosted.judge import DEFAULT_MODEL, JudgeFailure, judge
 from proofpress.kernel import operations
 
 
@@ -105,6 +105,28 @@ class OpenRouterJudgeTests(unittest.TestCase):
         self.assertEqual(
             requests[0].get_header("Authorization"),
             "Api-Key baseten-test-only")
+
+    @patch.dict(os.environ, {"GMI_API_KEY": "gmi-test-only"}, clear=True)
+    def test_gmi_cloud_uses_hosted_endpoint_and_bearer_auth(self):
+        requests = []
+        def opener(request, timeout):
+            requests.append(request)
+            return self.response({"recommendation": "escalate", "rationale": "Evidence is incomplete."})
+        result = judge({}, model="deepseek-ai/DeepSeek-V4.1-Flash",
+                       provider="gmi_cloud", opener=opener)
+        self.assertEqual(requests[0].full_url, "https://api.gmi-serving.com/v1/chat/completions")
+        self.assertEqual(requests[0].get_header("Authorization"), "Bearer gmi-test-only")
+        payload = json.loads(requests[0].data)
+        self.assertEqual(payload["response_format"], {"type": "json_object"})
+        self.assertEqual(payload["context_length_exceeded_behavior"], "error")
+        self.assertEqual(result["adapter"], "proofpress-gmi_cloud-judge/v1")
+
+    @patch.dict(os.environ, {"GMI_API_KEY": "gmi-test-only"}, clear=True)
+    def test_gmi_cloud_cannot_redirect_key(self):
+        with self.assertRaises(JudgeFailure):
+            judge({}, model="deepseek-ai/DeepSeek-V4.1-Flash", provider="gmi_cloud",
+                  endpoint="https://attacker.example/v1/chat/completions",
+                  opener=lambda *args, **kwargs: self.fail("No provider call allowed"))
 
     @patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-only"})
     def test_invalid_verdict_fails_closed(self):

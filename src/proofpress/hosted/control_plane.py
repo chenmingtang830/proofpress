@@ -198,6 +198,15 @@ class HostedControlPlane:
                     error_code TEXT NOT NULL,
                     detail TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS hosted_managed_gmi_calls (
+                    call_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    occurred_at TEXT NOT NULL,
+                    workspace_id TEXT NOT NULL,
+                    claim_id TEXT NOT NULL,
+                    actor TEXT NOT NULL,
+                    policy_digest TEXT NOT NULL,
+                    state TEXT NOT NULL
+                );
                 CREATE TABLE IF NOT EXISTS hosted_recovery (
                     workspace_id TEXT PRIMARY KEY,
                     secret_salt BLOB NOT NULL,
@@ -870,6 +879,28 @@ class HostedControlPlane:
         return review_policy.credential_status(connection, workspace_id, provider,
             legacy_default_workspace_id=self.legacy_default_workspace_id)
 
+    def _managed_gmi_available(self, workspace_id):
+        return bool(review_policy.deployment_credential(
+            workspace_id, "gmi_cloud",
+            legacy_default_workspace_id=self.legacy_default_workspace_id))
+
+    def _reserve_managed_gmi_call(self, workspace_id, claim_id, actor, policy_digest):
+        """Bound billable attempts atomically; interrupted attempts count conservatively."""
+        today = datetime.now(timezone.utc).date().isoformat()
+        with self._db() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            count = connection.execute(
+                "SELECT COUNT(*) FROM hosted_managed_gmi_calls WHERE workspace_id=? "
+                "AND occurred_at>=?", (workspace_id, today + "T00:00:00Z")).fetchone()[0]
+            if count >= review_policy.managed_gmi_limit():
+                return None
+            cursor = connection.execute(
+                "INSERT INTO hosted_managed_gmi_calls "
+                "(occurred_at,workspace_id,claim_id,actor,policy_digest,state) "
+                "VALUES(?,?,?,?,?,'reserved')",
+                (_now(), workspace_id, claim_id, actor, policy_digest))
+            return cursor.lastrowid
+
     def get_review_policy(self, token):
         owner = self._owner(token)
         with self._db() as connection:
@@ -880,7 +911,8 @@ class HostedControlPlane:
                     raise
                 record = review_policy.initial_workspace_policy()
             return review_policy.public(record, self._credential_status(
-                connection, owner.workspace_id, record["settings"]["provider"]))
+                connection, owner.workspace_id, record["settings"]["provider"]),
+                managed_gmi_available=self._managed_gmi_available(owner.workspace_id))
 
     def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False):
         owner = self._admin(token)
@@ -903,8 +935,14 @@ class HostedControlPlane:
             provider_changed = settings["provider"] != prior["settings"].get("provider")
             if api_key and delete_key:
                 raise ValueError("Add or remove the provider API key, not both.")
-            if provider_changed and not api_key:
+            if provider_changed and not api_key and not review_policy.deployment_credential(
+                    owner.workspace_id, settings["provider"],
+                    legacy_default_workspace_id=self.legacy_default_workspace_id):
                 raise ValueError("Add the API key for the selected provider.")
+            if provider_changed and not api_key:
+                # A deployment key for the new provider must never be shadowed by
+                # a stored key that belonged to the old provider.
+                review_policy.delete_credential(connection, owner.workspace_id)
             if delete_key:
                 review_policy.delete_credential(connection, owner.workspace_id)
             elif api_key:
@@ -912,9 +950,15 @@ class HostedControlPlane:
             if settings["mode"] != "off" and not self._provider_credential(
                     connection, owner.workspace_id, settings["provider"]):
                 raise ValueError("Add a provider API key before enabling LM review.")
+            credential_status = self._credential_status(
+                connection, owner.workspace_id, settings["provider"])
+            if (credential_status["source"] == "managed_gmi"
+                    and (settings["mode"] == "automatic" or settings["auto_admit_new_claims"])):
+                raise ValueError("Proofpress-managed GMI pilot supports manual advice only.")
             if prior_saved and settings == prior["settings"] and not api_key and not delete_key:
                 return review_policy.public(prior, self._credential_status(
-                    connection, owner.workspace_id, prior["settings"]["provider"]))
+                    connection, owner.workspace_id, prior["settings"]["provider"]),
+                    managed_gmi_available=self._managed_gmi_available(owner.workspace_id))
             record = {"version": prior["version"] + 1, "settings": settings, "policy": policy,
                       "actor": owner.principal_id, "updated_at": changed_at}
             connection.execute("INSERT INTO hosted_review_policies VALUES (?, ?, ?, ?, ?, ?)",
@@ -933,7 +977,8 @@ class HostedControlPlane:
                     threading.Thread(target=self.run_judge_jobs,
                                      kwargs={"workspace_id": owner.workspace_id}, daemon=True).start()
             return review_policy.public(record, self._credential_status(
-                connection, owner.workspace_id, settings["provider"]))
+                connection, owner.workspace_id, settings["provider"]),
+                managed_gmi_available=self._managed_gmi_available(owner.workspace_id))
         finally:
             connection.close()
 
@@ -1182,7 +1227,7 @@ class HostedControlPlane:
                 with self._db() as secret_connection:
                     provider_secret = self._provider_credential(
                         secret_connection, job["workspace_id"], record["settings"]["provider"])
-                with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or ""}):
+                with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or "", "GMI_API_KEY": ""}):
                     if record["settings"]["mode"] != "automatic" or record["policy"]["digest"] != job["policy_digest"]:
                         state, detail = "skipped", "Review policy changed."
                     elif kernel_ops.receipt_v2(job["claim_id"])["state"] not in {"needs_review", "unresolved"}:
@@ -1495,13 +1540,49 @@ class HostedControlPlane:
                 return envelope
         prior_claims = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "claim_proposed"} if operation == "claim.propose" else set()
         judge_environment = {}
+        managed_gmi_call_id = None
         if operation in {"claim.judge", "claim.judge_batch", "relation.judge"}:
             with self._db() as connection:
+                credential_status = self._credential_status(
+                    connection, context.workspace_id, record["settings"]["provider"])
                 provider_secret = self._provider_credential(
                     connection, context.workspace_id, record["settings"]["provider"])
+            if credential_status["source"] == "managed_gmi":
+                if operation != "claim.judge" or record["settings"]["mode"] != "manual":
+                    envelope = self._error_envelope(normalized, "managed_gmi_manual_only",
+                        "Proofpress-managed GMI pilot supports manual claim review only.")
+                    if attempt_id is not None:
+                        with self._db() as connection:
+                            execution.finish(connection, attempt_id, envelope,
+                                workspace_id=context.workspace_id,
+                                principal_id=context.principal_id)
+                    self._audit(context, normalized, envelope, None)
+                    return envelope
+                managed_gmi_call_id = self._reserve_managed_gmi_call(
+                    context.workspace_id, str((parameters or {}).get("claim_id", "")),
+                    context.principal_id, record["policy"]["digest"])
+                if managed_gmi_call_id is None:
+                    envelope = self._error_envelope(normalized, "managed_gmi_daily_limit",
+                        "Proofpress-managed GMI daily review limit reached.")
+                    if attempt_id is not None:
+                        with self._db() as connection:
+                            execution.finish(connection, attempt_id, envelope,
+                                workspace_id=context.workspace_id,
+                                principal_id=context.principal_id)
+                    self._audit(context, normalized, envelope, None)
+                    return envelope
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
+            # Only the selected workspace credential reaches the judge process.
+            judge_environment["GMI_API_KEY"] = ""
         with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
             envelope = kernel_ops.execute_local_operation(normalized)
+            if managed_gmi_call_id is not None:
+                with self._db() as connection:
+                    connection.execute(
+                        "UPDATE hosted_managed_gmi_calls SET state=? WHERE call_id=? "
+                        "AND workspace_id=?",
+                        ("completed" if envelope.get("ok") else "failed",
+                         managed_gmi_call_id, context.workspace_id))
             head = store.head()
             if (operation == "claim.judge" and not envelope.get("ok")
                     and envelope.get("error", {}).get("code") == "operation_rejected"):

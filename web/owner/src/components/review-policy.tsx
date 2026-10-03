@@ -27,7 +27,8 @@ export function mergeAgentPolicyDraft(current: any, draft: any) {
 
 export function applyProviderPreset(settings: any, provider: string, providers: any) {
   const preset = providers?.[provider] || {};
-  return {...settings, provider, model:preset.default_model || "", endpoint:""};
+  return {...settings, provider, model:preset.default_model || "", endpoint:"",
+    ...(provider === "gmi_cloud" ? {mode:"manual", external_consent:false, auto_admit_new_claims:false, zdr:false} : {})};
 }
 
 export function providerModelOptions(provider: any, current: string) {
@@ -93,7 +94,8 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
-  const hasProviderCredential = Boolean(record?.credential?.configured && !removeKey) || Boolean(apiKey.trim());
+  const managedGmiSelected = settings?.provider === "gmi_cloud" && record?.managed_gmi_available && !apiKey.trim() && !removeKey;
+  const hasProviderCredential = Boolean(apiKey.trim()) || Boolean(record?.credential?.configured && record?.settings?.provider === settings?.provider && !removeKey) || Boolean(managedGmiSelected);
   const selectedProvider = record?.providers?.[settings?.provider];
   const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
   return <Card className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
@@ -115,16 +117,17 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
           </NativeSelect>}
             {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <Input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
             <small>Choose a provider model or enter another supported model ID.</small></Label>
-          <Label>Model review<NativeSelect aria-label="Model review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge,auto_admit_new_claims:mode==="automatic"?settings.auto_admit_new_claims:false});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></NativeSelect></Label>
+          <Label>Model review<NativeSelect aria-label="Model review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge,auto_admit_new_claims:mode==="automatic"?settings.auto_admit_new_claims:false});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic" disabled={Boolean(managedGmiSelected)}>After checks pass</option></NativeSelect></Label>
           {(selectedProvider?.endpoint_required || selectedProvider?.endpoint_editable) && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off" && selectedProvider.endpoint_required} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} />{selectedProvider.endpoint_editable && <small>Leave blank to use the provider's hosted endpoint.</small>}</Label>}
         </div>
-        <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
+        <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={managedGmiSelected ? "Proofpress-managed pilot key available" : record.credential.configured && record.settings.provider === settings.provider ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
           <p>{record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
           {record.credential.configured && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{setRemoveKey(checked === true);setApiKey("");}} />Remove stored key when saving</Label>}
           {!record.credential.storage_ready && <p className="policyWarning">Secure credential storage is unavailable on this deployment.</p>}
         </div>
       </fieldset>
       {["typesafe", "vercel_jev"].includes(settings.provider) && <p className="policyWarning">Jev is experimental. It returns typed decisions and a template summary, not a generated explanation. Test with your own labeled evidence before relying on its advice.</p>}
+      {managedGmiSelected && <p className="policyWarning" role="note">Proofpress-managed GMI pilot: Proofpress provides the model key and pays for usage. Only manual claim review is available, with a deployment-set daily call limit. The selected claim and bounded evidence text are sent to GMI Cloud; this feature does not collect a full agent trace. Review the evidence for secrets and personal data before enabling external processing. GMI data retention terms for this endpoint have not been verified.</p>}
       <fieldset><legend>Evaluation</legend>
         <Label className="criteriaLabel">Criteria<Textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></Label>
         <Disclosure className="agentPolicyDraft"><DisclosureTrigger>Draft criteria with your agent</DisclosureTrigger><DisclosureContent><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
@@ -138,7 +141,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
         {["openrouter", "vercel_jev"].includes(settings.provider) && <Label className="policyCheck"><Checkbox checked={settings.zdr} onCheckedChange={checked=>change("zdr",checked === true)} />Require {settings.provider === "vercel_jev" ? "Vercel Gateway" : "OpenRouter"} Zero Data Retention routing</Label>}
       </fieldset>
       <fieldset className="autoAdmissionFieldset"><legend>Automatic approval</legend>
-        <Label className="policyCheck autoAdmissionToggle"><Checkbox checked={settings.auto_admit_new_claims === true} disabled={!settings.auto_admit_new_claims && (settings.mode !== "automatic" || !settings.require_judge || !settings.criteria.trim() || !settings.external_consent || !hasProviderCredential)} onCheckedChange={checked=>change("auto_admit_new_claims",checked === true)} /><span><b>Approve qualifying new claims automatically</b><small>Applies to every new claim in this workspace, including high-risk claims.</small></span></Label>
+        <Label className="policyCheck autoAdmissionToggle"><Checkbox checked={settings.auto_admit_new_claims === true} disabled={Boolean(managedGmiSelected) || (!settings.auto_admit_new_claims && (settings.mode !== "automatic" || !settings.require_judge || !settings.criteria.trim() || !settings.external_consent || !hasProviderCredential))} onCheckedChange={checked=>change("auto_admit_new_claims",checked === true)} /><span><b>Approve qualifying new claims automatically</b><small>Applies to every new claim in this workspace, including high-risk claims.</small></span></Label>
         {settings.auto_admit_new_claims ? <div className="policyWarning autoAdmissionWarning" role="note"><strong>Automatic approval will take effect when you save.</strong><p>Scope: every new claim in this workspace, including high-risk claims. New claims enter approved knowledge when current checks pass, there is no unresolved conflict or invalid dependency, and the configured model recommends “Evidence supported.” Claims the model rejects, escalates, or cannot review stay for your decision. Qualifying claims will not receive per-claim human approval. Model recommendations are not calibrated probabilities.</p></div> : <p className="policyHint">Off by default. To enable it, run model review automatically, require supporting advice, add criteria, provide a valid API key, and allow provider processing.</p>}
       </fieldset>
       <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":settings.auto_admit_new_claims?"Save & enable automatic approval":"Save & activate"}</Button></div>

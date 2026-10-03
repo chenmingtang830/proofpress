@@ -189,10 +189,12 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertTrue(PROVIDERS["amazon_bedrock"]["endpoint_required"])
         self.assertTrue(PROVIDERS["baseten"]["endpoint_editable"])
         self.assertTrue(PROVIDERS["baseten"]["editable_model"])
+        self.assertEqual(PROVIDERS["gmi_cloud"]["label"], "GMI Cloud")
+        self.assertTrue(PROVIDERS["gmi_cloud"]["editable_model"])
         for key, provider in PROVIDERS.items():
             if provider["models"]:
                 self.assertIn(provider["default_model"], provider["models"])
-                expected_count = 1 if key in {"typesafe", "vercel_jev", "baseten"} else 10
+                expected_count = 1 if key in {"typesafe", "vercel_jev", "baseten", "gmi_cloud"} else 10
                 self.assertEqual(len(provider["models"]), expected_count)
                 self.assertEqual(provider["default_model"], provider["models"][0])
 
@@ -235,6 +237,82 @@ class ReviewPolicyTests(unittest.TestCase):
             command[command.index("--endpoint") + 1],
             "https://inference.baseten.co/v1/chat/completions",
         )
+
+    def test_gmi_cloud_uses_deployment_key_without_reusing_previous_secret(self):
+        with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
+            self.control.save_review_policy(self.owner, self.settings, 0, "old-provider-key")
+            with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                    "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test"}, clear=False):
+                settings = {**self.settings, "provider": "gmi_cloud",
+                            "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
+                record = self.control.save_review_policy(self.owner, settings, 1)
+                self.assertTrue(record["credential"]["configured"])
+                self.assertEqual(record["credential"]["source"], "managed_gmi")
+                self.assertTrue(record["managed_gmi_available"])
+                self.assertIsNone(record["credential"]["last_four"])
+                with self.control._db() as connection:
+                    self.assertEqual(self.control._provider_credential(connection, "workspace:test", "gmi_cloud"),
+                                     "gmi-deployment-key")
+                    self.assertIsNone(connection.execute(
+                        "SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?",
+                        ("workspace:test",)).fetchone())
+                command = self.control._policy("workspace:test")["policy"]["judge"]["command"]
+                self.assertEqual(command[command.index("--endpoint") + 1],
+                                 "https://api.gmi-serving.com/v1/chat/completions")
+
+    def test_gmi_deployment_key_is_not_shared_with_other_workspaces(self):
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test"}, clear=False):
+            self.assertIsNone(review_policy.deployment_credential(
+                "workspace:other", "gmi_cloud",
+                legacy_default_workspace_id="workspace:test"))
+
+    def test_managed_gmi_requires_allowlist_consent_and_manual_mode(self):
+        settings = {**self.settings, "provider": "gmi_cloud",
+                    "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": ""}, clear=False):
+            self.assertFalse(self.control.get_review_policy(self.owner)["managed_gmi_available"])
+            with self.assertRaisesRegex(ValueError, "Add the API key"):
+                self.control.save_review_policy(self.owner, settings, 0)
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test"}, clear=False):
+            with self.assertRaisesRegex(ValueError, "consent"):
+                self.control.save_review_policy(self.owner, {**settings, "external_consent": False}, 0)
+            with self.assertRaisesRegex(ValueError, "manual advice only"):
+                self.control.save_review_policy(self.owner, {**settings, "mode": "automatic"}, 0)
+            saved = self.control.save_review_policy(self.owner, settings, 0)
+            self.assertEqual(saved["settings"]["mode"], "manual")
+
+    def test_managed_gmi_judge_is_bounded_audited_and_keeps_claim_unapproved(self):
+        settings = {**self.settings, "provider": "gmi_cloud",
+                    "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test",
+                "PROOFPRESS_MANAGED_GMI_DAILY_CALL_LIMIT": "1"}, clear=False):
+            self.control.save_review_policy(self.owner, settings, 0)
+            first_id = self.proposal("managed first")["result"]["claim"]["id"]
+            second_id = self.proposal("managed second")["result"]["claim"]["id"]
+            self.control.execute(self.owner, operation("claim.evaluate", {"claim_id": first_id}))
+            self.control.execute(self.owner, operation("claim.evaluate", {"claim_id": second_id}))
+            with patch.object(kernel, "judge_v2", return_value={"recommendation": "accept",
+                    "rationale": "Synthetic evidence supports this claim."}) as judge:
+                first = self.control.execute(self.owner, operation(
+                    "claim.judge", {"claim_id": first_id}))
+                second = self.control.execute(self.owner, operation(
+                    "claim.judge", {"claim_id": second_id}))
+            self.assertTrue(first["ok"])
+            self.assertEqual(second["error"]["code"], "managed_gmi_daily_limit")
+            self.assertEqual(judge.call_count, 1)
+            with self.control._db() as connection:
+                calls = connection.execute("SELECT claim_id, state FROM hosted_managed_gmi_calls").fetchall()
+            self.assertEqual([(row["claim_id"], row["state"]) for row in calls],
+                             [(first_id, "completed")])
+            receipt = self.control.execute(self.owner, operation(
+                "review.receipt", {"claim_id": first_id}))["result"]
+            self.assertNotEqual(receipt["state"], "approved")
+            self.assertTrue(any(row["outcome"] == "managed_gmi_daily_limit"
+                                for row in self.control.list_audit(self.owner)))
 
     def test_baseten_endpoint_cannot_redirect_a_stored_credential(self):
         settings = {**self.settings, "provider": "baseten", "model": "custom-model",
