@@ -120,7 +120,7 @@ def _secret_hash(secret: str, salt: bytes) -> bytes:
 
 
 class HostedControlPlane:
-    """Workspace-scoped authority service with distinct human owner credentials."""
+    """Workspace-scoped authority service for Owners, Reviewers, and agents."""
 
     def __init__(self, database: str | Path, *, legacy_default_workspace_id: str | None = None):
         self.database = Path(database)

@@ -262,8 +262,8 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
   validation without changing the authority model.
 - **Owner UI preview:** run `npm run preview:local` from `web/owner`; it reuses
   one ignored, mode-`0600` local credential and synthetic workspace.
-- **Hosted boundary:** the reference deployment is private, single-instance, and
-  single-instance—not a multi-tenant Proofpress cloud. See [Self-hosting](docs/SELF_HOSTING.md).
+- **Hosted boundary:** the reference deployment is private and single-instance,
+  not a multi-tenant Proofpress cloud. See [Self-hosting](docs/SELF_HOSTING.md).
 
 ### Self-host in three steps
 
