@@ -432,7 +432,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                               if workspace_id == legacy_workspace else workspace_id),
                 "principal": session["context"].principal_id,
                 "role": session["context"].role, "capabilities": {
-                    "review": True, "credential_admin": True,
+                    "review": True, "credential_admin": session["context"].role == "owner",
                     "withdraw": True, "reassess": True,
                     "assistant": (workspace_id == legacy_workspace and
                                   bool(os.environ.get("OPENROUTER_API_KEY"))),
@@ -477,6 +477,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
                 control = self.server.proofpress_control
                 rows = (control.list_activity if path.endswith("/activity") else control.list_audit)(session["context"], limit)
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
             except ValueError:
                 return self._json(HTTPStatus.BAD_REQUEST,
                                   {"error": "invalid_limit"})
@@ -963,8 +965,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = control.issue_agent_credential(
                         owner_token, request.get("principal_id", ""),
                         request.get("label", ""), request.get("display_name"))
-                elif action == "issue_owner":
-                    result = control.issue_owner_credential(
+                elif action == "issue_reviewer":
+                    result = control.issue_reviewer_credential(
                         owner_token, request.get("principal_id", ""),
                         request.get("label", ""), request.get("display_name"))
                 elif action == "rotate":
@@ -977,7 +979,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = {"revoked": request.get("credential_id")}
                 else:
                     raise HostedAuthError(
-                        "invalid_request", "action must be issue, issue_owner, rotate, or revoke")
+                        "invalid_request", "action must be issue, issue_reviewer, rotate, or revoke")
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             except ValueError as exc:
@@ -990,7 +992,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             try:
                 form = self._form()
                 context = self.server.proofpress_control.authenticate(form.get("token", ""))
-                if context.role != "owner":
+                if context.role not in {"owner", "reviewer"}:
                     raise ValueError("owner credential required")
             except (ValueError, UnicodeDecodeError):
                 return self._html(HTTPStatus.UNAUTHORIZED,

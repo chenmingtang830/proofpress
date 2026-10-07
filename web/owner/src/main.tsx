@@ -263,6 +263,7 @@ function App() {
   const [contextBlocked, setContextBlocked] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
+  const [canManageWorkspace, setCanManageWorkspace] = React.useState(true);
   const [localOwnerPreview, setLocalOwnerPreview] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(
     new URLSearchParams(location.search).get("claim_id"),
@@ -370,7 +371,9 @@ function App() {
       setGraphNodes(graph.nodes || []);
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
+      setCanManageWorkspace(Boolean(session.capabilities?.credential_admin));
       setCurrentPrincipal(session.principal || "");
+      if (!session.capabilities?.credential_admin && page === "admin") navigate("home");
       setWorkspaceLabel(session.workspace || "Owner workspace");
       setLocalOwnerPreview(Boolean(session.local_owner_preview));
       setCsrf(session.csrf);
@@ -891,6 +894,7 @@ function App() {
     finally { decisionPending.current=false; setBusy(false); }
   }
   async function showAdmin() {
+    if (!canManageWorkspace) return;
     navigate("admin");
     try {
       const body = await api("/v1/owner/credentials");
@@ -982,6 +986,7 @@ function App() {
         </div>
         <nav aria-label="Workspace navigation">
           {(Object.keys(labels) as Page[]).map((id) => {
+            if (id === "admin" && !canManageWorkspace) return null;
             const Icon = icons[id];
             return (
               <Button variant="ghost" size="content"
@@ -1095,7 +1100,7 @@ function App() {
               judgeRunning={judgeRunning}
               onJudge={judgeConfigured ? () => void runJudge() : undefined}
               onEvaluate={runChecks}
-              onConfigurePolicy={showAdmin}
+              onConfigurePolicy={canManageWorkspace ? showAdmin : undefined}
               onLedger={() => navigate("ledger")}
             />
           )}
@@ -1125,8 +1130,8 @@ function App() {
               catch (e: any) { setError(`Run could not load: ${e.message}`); }
               finally { setRunsLoading(false); }
             }} onClose={() => setSelectedRun(null)} />}
-          {page === "activity" && <ActivityPage rows={activity} />}
-          {page === "admin" && (
+          {page === "activity" && <ActivityPage rows={activity} canViewLogs={canManageWorkspace} />}
+          {page === "admin" && canManageWorkspace && (
             <AdminPage
               policy={<ReviewPolicy csrf={csrf} api={api} onSaved={() => { void load(); }} />}
               credentials={credentials}
@@ -1682,7 +1687,7 @@ function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
     </div>
   </div>;
 }
-function ActivityPage({ rows }: any) {
+function ActivityPage({ rows, canViewLogs = true }: any) {
   const [page, setPage] = React.useState(0);
   const [view, setView] = React.useState(() => {
     const requested = new URLSearchParams(location.search).get("view");
@@ -1691,11 +1696,17 @@ function ActivityPage({ rows }: any) {
   const [logs, setLogs] = React.useState<any[]>([]);
   const [error, setError] = React.useState("");
   React.useEffect(() => {
-    if (view !== "logs") return;
+    if (!canViewLogs && view === "logs") {
+      setView("activity");
+      history.replaceState(null, "", "/activity");
+    }
+  }, [canViewLogs, view]);
+  React.useEffect(() => {
+    if (view !== "logs" || !canViewLogs) return;
     let active = true;
     api("/owner/api/technical-logs").then(rows => { if(active) setLogs(rows); }).catch(e=>{ if(active) setError(e.message); });
     return ()=>{ active=false; };
-  }, [view]);
+  }, [view, canViewLogs]);
   const filtered = view === "logs" ? logs : rows.filter((r:any)=>view!=="retrievals" || r.kind==="context_retrieved");
   const pages = Math.max(1, Math.ceil(filtered.length / 20));
   const current = Math.min(page, pages - 1);
@@ -1706,7 +1717,7 @@ function ActivityPage({ rows }: any) {
         description="Who contributed claims, reviewed it, and retrieved context. Technical requests are kept separately."
       />
       <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
-        {[["activity","Claims activity"],["retrievals","Context retrievals"],["logs","Technical logs"]].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");history.replaceState(null,"",key === "activity" ? "/activity" : `/activity?view=${key}`);}}>{label}</Button>)}
+        {[["activity","Claims activity"],["retrievals","Context retrievals"],...(canViewLogs ? [["logs","Technical logs"]] : [])].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");history.replaceState(null,"",key === "activity" ? "/activity" : `/activity?view=${key}`);}}>{label}</Button>)}
       </div>
       {error && <p role="alert">{error}</p>}
       <div className="tableWrap activityTable">
@@ -1762,7 +1773,7 @@ function AdminPage({
     <div className="pageBody">
       <PageHead
         title="Admin"
-        description="Configure review policy and manage human and agent access."
+        description="Configure review policy and manage reviewer and agent access."
         action={null}
       />
       {policy}
@@ -1802,18 +1813,18 @@ function AdminPage({
       </form>
       <form className="issueForm" onSubmit={(event) => {
         event.preventDefault();
-        onAction("issue_owner", { principal_id: humanPrincipal, label: humanLabel });
+        onAction("issue_reviewer", { principal_id: humanPrincipal, label: humanLabel });
       }}>
         <div className="issueFormHeader">
-          <b>Issue human Owner credential</b>
-          <small>This person can review findings, change policy, and manage credentials. Their decisions are recorded under their own identity.</small>
+          <b>Issue human Reviewer credential</b>
+          <small>This person can view and review findings. Policy and credential management stay with the workspace Owner.</small>
         </div>
         <div className="issueFormFields">
           <Label>Human identity<Input aria-label="Human identity" value={humanPrincipal}
             onChange={(e) => setHumanPrincipal(e.target.value)} placeholder="human:oliver" required /></Label>
           <Label>Key name<Input aria-label="Human key name" value={humanLabel}
             onChange={(e) => setHumanLabel(e.target.value)} placeholder="Oliver · personal laptop" required /></Label>
-          <Button disabled={busy}>Issue Owner credential</Button>
+          <Button disabled={busy}>Issue Reviewer credential</Button>
         </div>
       </form>
       {secret && (
@@ -1821,7 +1832,7 @@ function AdminPage({
           <div>
             <b>Copy this credential now</b>
             <p>
-              It is shown once. Give a human Owner credential to that person
+              It is shown once. Give a human Reviewer credential to that person
               through a secure channel; keep an agent credential in its client's secure configuration.
             </p>
             <code>{secret}</code>
@@ -1852,7 +1863,7 @@ function AdminPage({
             </div>
             <div>
               <b>{c.label || c.principal_id}</b>
-              <small>{c.principal_id} · {c.role === "owner" ? "Human Owner" : "Agent"}</small>
+              <small>{c.principal_id} · {c.role === "owner" ? "Human Owner" : c.role === "reviewer" ? "Human Reviewer" : "Agent"}</small>
             </div>
             <Badge state={c.revoked_at ? "revoked" : "active"} />
             {!c.revoked_at && c.role === "agent" ? (
@@ -1878,7 +1889,7 @@ function AdminPage({
                   Revoke
                 </Button>
               </div>
-            ) : !c.revoked_at && c.role === "owner" && !c.bootstrap_owner ? (
+            ) : !c.revoked_at && c.role === "reviewer" ? (
               <div className="credentialActions"><Button variant="danger" size="sm" disabled={busy}
                 onClick={() => onAction("revoke", { credential_id: c.credential_id })}>Revoke</Button></div>
             ) : (
@@ -1892,8 +1903,8 @@ function AdminPage({
         <div>
           <b>Authority boundary</b>
           <p>
-            Human Owners can review findings and administer the workspace under
-            their own identities. Agent credentials can submit evidence, propose
+            Human Reviewers can review findings under their own identities.
+            Workspace Owners administer policy and credentials. Agent credentials can submit evidence, propose
             claims, and read admitted context; they cannot approve claims or change policy.
           </p>
         </div>

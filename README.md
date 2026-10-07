@@ -256,7 +256,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 - **One local repository:** use the in-process client or localhost HTTP for a
   Git-backed ledger, local review, and governed-context reads.
 - **One private workspace across people, devices, and agents:** use `proofpress hosted`
-  for durable storage, distinct human Owner credentials, scoped agent credentials,
+  for durable storage, distinct human Reviewer credentials, scoped agent credentials,
   review, and HTTP/MCP access.
 - **Workflow-specific evidence:** use a profile or integration for typed
   validation without changing the authority model.
@@ -278,7 +278,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
    ```
 
 3. Store the one-time owner credential and recovery secret outside Git, then
-   issue a distinct credential for each human Owner and agent or device. Configure backups
+   issue a distinct credential for each human Reviewer and agent or device. Configure backups
    before relying on the instance.
 
 - The Blueprint contains no Proofpress credentials or customer data.
@@ -320,7 +320,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 [//]: # (ob:6ec793e2)
 [//]: # (ob:limits)
 - Python-first and one private workspace per deployment today.
-- Human co-owners have full Owner authority; granular roles, invitations, and customer VPC packaging are not available.
+- Human Reviewers may inspect and decide claims. Credential and policy administration stays with the bootstrap Owner; invitations and customer VPC packaging are not available.
 - No Notion or multi-repository knowledge ingestion.
 - Not a universal OCR, RAG, memory, or search platform.
 

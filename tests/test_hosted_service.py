@@ -533,14 +533,14 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(status, 401)
         self.assertEqual(denied["error"]["code"], "owner_required")
 
-    def test_distinct_human_owner_reviews_and_revocation_ends_session(self):
+    def test_human_reviewer_can_review_but_cannot_administer(self):
         status, denied = self.owner_admin(self.agent["token"], {
-            "action": "issue_owner", "principal_id": "human:oliver",
+            "action": "issue_reviewer", "principal_id": "human:oliver",
             "label": "Oliver laptop"})
         self.assertEqual(status, 401)
         self.assertEqual(denied["error"]["code"], "owner_required")
         status, issued = self.owner_admin(self.owner["token"], {
-            "action": "issue_owner", "principal_id": "human:oliver",
+            "action": "issue_reviewer", "principal_id": "human:oliver",
             "label": "Oliver laptop"})
         self.assertEqual(status, 200)
         human = issued["result"]
@@ -549,16 +549,27 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(status, 200)
         listed = next(row for row in listing["credentials"]
                       if row["credential_id"] == human["credential_id"])
-        self.assertEqual(listed["role"], "owner")
+        self.assertEqual(listed["role"], "reviewer")
         self.assertNotIn("token", listed)
         self.assertEqual(self.owner_admin(self.owner["token"], {
-            "action": "issue_owner", "principal_id": "agent:codex-laptop",
+            "action": "issue_reviewer", "principal_id": "agent:codex-laptop",
             "label": "Invalid"})[0], 400)
         self.assertEqual(self.owner_admin(self.owner["token"], {
-            "action": "issue_owner", "principal_id": "human:oliver",
+            "action": "issue_reviewer", "principal_id": "human:oliver",
             "label": "Impersonating key"})[0], 400)
         self.assertEqual(self.owner_admin(human["token"], {
-            "action": "revoke", "credential_id": self.owner["credential_id"]})[0], 400)
+            "action": "issue", "principal_id": "agent:forbidden",
+            "label": "Forbidden"})[0], 401)
+        self.assertEqual(self.get("/v1/owner/credentials", human["token"])[0], 401)
+        denied_proposal = self.server.proofpress_control.execute(human["token"], {
+            "schema_version": "proofpress/local-operation/v1",
+            "operation": "claim.propose", "parameters": {},
+        })
+        self.assertEqual(denied_proposal["error"]["code"], "operation_forbidden")
+        policy = self.server.proofpress_control.get_review_policy(human["token"])
+        with self.assertRaises(self.service.HostedAuthError):
+            self.server.proofpress_control.save_review_policy(
+                human["token"], policy["settings"], policy["version"])
 
         agent = self.sdk.ProofpressClient.localhost(self.base_url, self.agent["token"])
         reviewer = self.sdk.ProofpressClient.localhost(self.base_url, human["token"])
@@ -586,7 +597,10 @@ class HostedServiceTests(unittest.TestCase):
         status, session = self.owner_json("/owner/api/session", cookie)
         self.assertEqual(status, 200)
         self.assertEqual(session["result"]["principal"], "human:oliver")
+        self.assertEqual(session["result"]["role"], "reviewer")
+        self.assertFalse(session["result"]["capabilities"]["credential_admin"])
         self.assertEqual(self.owner_json("/owner/api/summary", cookie)[0], 200)
+        self.assertEqual(self.owner_json("/owner/api/technical-logs", cookie)[0], 401)
 
         status, _ = self.owner_admin(self.owner["token"], {
             "action": "revoke", "credential_id": human["credential_id"]})
@@ -596,12 +610,13 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(self.get("/v1/owner/credentials", human["token"])[0], 401)
 
     def test_recovery_stays_with_bootstrap_owner_after_member_added(self):
-        human = self.server.proofpress_control.issue_owner_credential(
+        human = self.server.proofpress_control.issue_reviewer_credential(
             self.owner["token"], "human:oliver", "Oliver laptop")
         recovered = self.server.proofpress_control.recover_owner(
             self.owner["workspace_id"], self.owner["recovery_secret"])
         self.assertEqual(recovered["principal_id"], self.owner["principal_id"])
-        self.assertEqual(self.get("/v1/owner/credentials", human["token"])[0], 200)
+        self.assertEqual(self.get("/v1/owner/credentials", human["token"])[0], 401)
+        self.assertEqual(self.get("/v1/owner/credentials", recovered["token"])[0], 200)
         self.assertEqual(self.get("/v1/owner/credentials", self.owner["token"])[0], 401)
 
     def test_legacy_recovery_migration_pins_original_owner(self):

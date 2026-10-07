@@ -70,6 +70,17 @@ class PrincipalContext:
     permissions: frozenset[str]
 
 
+def _effective_role(role: str, permissions: frozenset[str]) -> str:
+    return "reviewer" if role == "owner" and permissions == frozenset({"review"}) else role
+
+
+REVIEWER_AGENT_OPERATIONS = frozenset({
+    "capabilities.get", "configuration.get", "claim.evaluate", "claim.judge",
+    "graph.get", "graph.traverse", "context.get", "context.discover",
+    "review.summary", "review.receipt", "run.get", "run.list",
+})
+
+
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -515,16 +526,17 @@ class HostedControlPlane:
                 "UPDATE hosted_credentials SET last_used_at = ? WHERE credential_id = ?",
                 (_now(), credential_id))
             connection.commit()
+            permissions = frozenset(json.loads(row["permissions_json"]))
             return PrincipalContext(
-                row["workspace_id"], row["principal_id"], row["role"],
-                credential_id, frozenset(json.loads(row["permissions_json"])))
+                row["workspace_id"], row["principal_id"],
+                _effective_role(row["role"], permissions), credential_id, permissions)
         finally:
             connection.close()
 
     def issue_agent_credential(self, owner_token: str | PrincipalContext, principal_id: str,
                                label: str, display_name: str | None = None,
                                permissions: set[str] | None = None) -> dict[str, str]:
-        owner = self._owner(owner_token)
+        owner = self._admin(owner_token)
         granted = frozenset(permissions or AGENT_OPERATIONS)
         if not granted or not granted <= AGENT_OPERATIONS:
             raise ValueError("agent permissions must be a non-empty safe-operation subset")
@@ -554,11 +566,11 @@ class HostedControlPlane:
         return {"workspace_id": owner.workspace_id, "principal_id": principal_id,
                 "credential_id": credential_id, "token": token}
 
-    def issue_owner_credential(self, owner_token: str | PrincipalContext,
-                               principal_id: str, label: str,
-                               display_name: str | None = None) -> dict[str, str]:
-        """Issue a separate human Owner identity; never promote an agent identity."""
-        owner = self._owner(owner_token)
+    def issue_reviewer_credential(self, owner_token: str | PrincipalContext,
+                                  principal_id: str, label: str,
+                                  display_name: str | None = None) -> dict[str, str]:
+        """Issue a human reviewer identity without credential or policy authority."""
+        owner = self._admin(owner_token)
         if not isinstance(principal_id, str) or not re.fullmatch(
                 r"human:[A-Za-z0-9][A-Za-z0-9._-]{0,127}", principal_id):
             raise ValueError("human principal_id must use human:<name>")
@@ -580,12 +592,12 @@ class HostedControlPlane:
             connection.execute(
                 "INSERT INTO hosted_credentials VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
                 (credential_id, owner.workspace_id, principal_id, label.strip(), salt,
-                 secret_hash, json.dumps(["*"]), created_at))
+                 secret_hash, json.dumps(["review"]), created_at))
             connection.execute(
                 "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
                 "credential_id, operation, request_id, outcome) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 (created_at, owner.workspace_id, owner.principal_id, owner.credential_id,
-                 "credential.issue.owner", credential_id, "recorded"))
+                 "credential.issue.reviewer", credential_id, "recorded"))
             connection.commit()
         except BaseException:
             connection.rollback()
@@ -596,7 +608,7 @@ class HostedControlPlane:
                 "credential_id": credential_id, "token": token}
 
     def list_credentials(self, owner_token: str | PrincipalContext) -> list[dict[str, Any]]:
-        owner = self._owner(owner_token)
+        owner = self._admin(owner_token)
         connection = self._connect()
         try:
             rows = connection.execute(
@@ -611,14 +623,16 @@ class HostedControlPlane:
                 (owner.workspace_id,)).fetchall()
             return [{key: row[key] for key in row.keys()
                      if key != "permissions_json"} | {
-                         "permissions": json.loads(row["permissions_json"])}
+                         "permissions": json.loads(row["permissions_json"]),
+                         "role": _effective_role(row["role"],
+                             frozenset(json.loads(row["permissions_json"])))}
                     for row in rows]
         finally:
             connection.close()
 
     def list_audit(self, owner_token: str | PrincipalContext,
                    limit: int = 100) -> list[dict[str, Any]]:
-        owner = self._owner(owner_token)
+        owner = self._admin(owner_token)
         safe_limit = max(1, min(int(limit), 250))
         connection = self._connect()
         try:
@@ -645,18 +659,25 @@ class HostedControlPlane:
             if not row:
                 raise HostedAuthError(
                     "invalid_credential", "hosted session credential is no longer active")
+            permissions = frozenset(json.loads(row["permissions_json"]))
             return PrincipalContext(
-                row["workspace_id"], row["principal_id"], row["role"],
-                row["credential_id"],
-                frozenset(json.loads(row["permissions_json"])))
+                row["workspace_id"], row["principal_id"],
+                _effective_role(row["role"], permissions),
+                row["credential_id"], permissions)
         finally:
             connection.close()
 
     def _owner(self, token: str | PrincipalContext) -> PrincipalContext:
         context = (self.refresh_context(token) if isinstance(token, PrincipalContext)
                    else self.authenticate(token))
-        if context.role != "owner":
+        if context.role not in {"owner", "reviewer"}:
             raise HostedAuthError("owner_required", "owner credential required")
+        return context
+
+    def _admin(self, token: str | PrincipalContext) -> PrincipalContext:
+        context = self._owner(token)
+        if context.role != "owner" or "*" not in context.permissions:
+            raise HostedAuthError("owner_required", "workspace administrator required")
         return context
 
     def _oaff_context(self, token: str | PrincipalContext) -> PrincipalContext:
@@ -862,7 +883,7 @@ class HostedControlPlane:
                 connection, owner.workspace_id, record["settings"]["provider"]))
 
     def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False):
-        owner = self._owner(token)
+        owner = self._admin(token)
         connection = self._connect()
         try:
             connection.execute("BEGIN IMMEDIATE")
@@ -1282,7 +1303,7 @@ class HostedControlPlane:
 
     def revoke_credential(self, owner_token: str | PrincipalContext,
                           credential_id: str) -> None:
-        owner = self._owner(owner_token)
+        owner = self._admin(owner_token)
         if credential_id == owner.credential_id:
             raise ValueError("rotate the owner credential before revoking the active credential")
         connection = self._connect()
@@ -1326,7 +1347,7 @@ class HostedControlPlane:
     def rotate_agent_credential(self, owner_token: str | PrincipalContext,
                                 credential_id: str,
                                 label: str | None = None) -> dict[str, str]:
-        owner = self._owner(owner_token)
+        owner = self._admin(owner_token)
         new_id, token, salt, secret_hash = self._new_credential_values()
         created_at = _now()
         connection = self._connect()
@@ -1421,9 +1442,11 @@ class HostedControlPlane:
             return self._error_envelope(request, "invalid_credential", str(exc))
         operation = request.get("operation") if isinstance(request, dict) else None
         authority = operation_authority(operation)
-        allowed = ((authority == "owner" and context.role == "owner") or
+        allowed = ((authority == "owner" and context.role in {"owner", "reviewer"}) or
                    (authority == "agent" and
-                    (context.role == "owner" or operation in context.permissions)))
+                    (context.role == "owner" or
+                     (context.role == "reviewer" and operation in REVIEWER_AGENT_OPERATIONS) or
+                     operation in context.permissions)))
         if not allowed:
             envelope = self._error_envelope(
                 request, "operation_forbidden", "operation is not permitted for this principal")
@@ -1435,7 +1458,7 @@ class HostedControlPlane:
             # Owners inspect the whole workspace in their review surface. An
             # agent's actor identity is always server-derived for reads, so a
             # supplied actor cannot bypass row-level access controls.
-            if (context.role == "owner" and operation in
+            if (context.role in {"owner", "reviewer"} and operation in
                     {"graph.get", "review.summary", "review.receipt"}):
                 parameters.pop("actor", None)
             else:
@@ -1537,7 +1560,7 @@ class HostedControlPlane:
                 "workspace_id": context.workspace_id,
                 "principal_id": context.principal_id,
                 "role": context.role,
-                "owner_approval_available": context.role == "owner",
+                "owner_approval_available": context.role in {"owner", "reviewer"},
                 "staged_context_available": True,
                 "automatic_claim_admission": bool(record["settings"].get("auto_admit_new_claims")),
             }

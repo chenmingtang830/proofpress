@@ -385,8 +385,8 @@ try {
   await page.waitForLoadState('networkidle');
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${rotated}`}})).status(),401);
   await page.getByRole('textbox',{name:'Human identity',exact:true}).fill('human:temporary-browser');
-  await page.getByRole('textbox',{name:'Human key name',exact:true}).fill('Temporary human Owner');
-  await page.getByRole('button',{name:'Issue Owner credential',exact:true}).click();
+  await page.getByRole('textbox',{name:'Human key name',exact:true}).fill('Temporary human Reviewer');
+  await page.getByRole('button',{name:'Issue Reviewer credential',exact:true}).click();
   await page.locator('.secretReveal code').waitFor();
   const humanToken=await page.locator('.secretReveal code').textContent();
   const humanPage=await browser.newPage();
@@ -394,11 +394,17 @@ try {
   await humanPage.locator('input[name=token]').fill(humanToken);
   await humanPage.getByRole('button',{name:'Continue',exact:true}).click();
   await humanPage.getByText('Signed in: human:temporary-browser',{exact:true}).waitFor();
+  assert.equal(await humanPage.getByRole('button',{name:'Admin',exact:true}).count(),0);
   await humanPage.goto(`${data.base}/review`);
   await humanPage.getByRole('heading',{name:'Review',exact:true}).waitFor();
+  await humanPage.getByRole('button',{name:'Activity',exact:true}).click();
+  assert.equal(await humanPage.getByRole('button',{name:'Technical logs',exact:true}).count(),0);
   await page.getByRole('button',{name:'Done',exact:true}).click();
-  const humanCredential=page.locator('.credentialList > div').filter({hasText:'Temporary human Owner'});
-  await humanCredential.getByRole('button',{name:'Revoke',exact:true}).click();
+  const humanCredential=page.locator('.credentialList > div').filter({hasText:'Temporary human Reviewer'});
+  await Promise.all([
+    page.waitForResponse(r=>r.url().endsWith('/v1/owner/credentials') && r.request().method()==='POST'),
+    humanCredential.getByRole('button',{name:'Revoke',exact:true}).click(),
+  ]);
   await page.waitForLoadState('networkidle');
   assert.equal((await humanPage.request.get(`${data.base}/owner/api/session`)).status(),401);
   await humanPage.close();
