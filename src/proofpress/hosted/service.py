@@ -430,8 +430,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "csrf": session["csrf"], "workspace_id": workspace_id,
                 "workspace": (os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal")
                               if workspace_id == legacy_workspace else workspace_id),
-                "principal": "owner", "capabilities": {
-                    "review": True, "credential_admin": True,
+                "principal": session["context"].principal_id,
+                "role": session["context"].role, "capabilities": {
+                    "review": True, "credential_admin": session["context"].role == "owner",
                     "withdraw": True, "reassess": True,
                     "assistant": (workspace_id == legacy_workspace and
                                   bool(os.environ.get("OPENROUTER_API_KEY"))),
@@ -476,6 +477,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
                 control = self.server.proofpress_control
                 rows = (control.list_activity if path.endswith("/activity") else control.list_audit)(session["context"], limit)
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
             except ValueError:
                 return self._json(HTTPStatus.BAD_REQUEST,
                                   {"error": "invalid_limit"})
@@ -503,7 +506,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             "<form method=post action=/owner/login><label>Owner credential<br>"
             "<input type=password name=token required autocomplete=current-password></label><br>"
             "<button type=submit>Continue</button></form>"
-            "<p class=help>Owner access is created during workspace bootstrap. If access was rotated or lost, use the documented recovery procedure from an administrative shell.</p></main>")
+            "<p class=help>Each human Owner uses their own credential. The bootstrap Owner can recover access from an administrative shell.</p></main>")
 
     def _authorize_page(self, query, message=""):
         note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""
@@ -962,6 +965,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = control.issue_agent_credential(
                         owner_token, request.get("principal_id", ""),
                         request.get("label", ""), request.get("display_name"))
+                elif action == "issue_reviewer":
+                    result = control.issue_reviewer_credential(
+                        owner_token, request.get("principal_id", ""),
+                        request.get("label", ""), request.get("display_name"))
                 elif action == "rotate":
                     result = control.rotate_agent_credential(
                         owner_token, request.get("credential_id", ""),
@@ -972,7 +979,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = {"revoked": request.get("credential_id")}
                 else:
                     raise HostedAuthError(
-                        "invalid_request", "action must be issue, rotate, or revoke")
+                        "invalid_request", "action must be issue, issue_reviewer, rotate, or revoke")
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             except ValueError as exc:
@@ -985,7 +992,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             try:
                 form = self._form()
                 context = self.server.proofpress_control.authenticate(form.get("token", ""))
-                if context.role != "owner":
+                if context.role not in {"owner", "reviewer"}:
                     raise ValueError("owner credential required")
             except (ValueError, UnicodeDecodeError):
                 return self._html(HTTPStatus.UNAUTHORIZED,

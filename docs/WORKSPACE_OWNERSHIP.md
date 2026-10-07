@@ -24,10 +24,21 @@ for any other workspace fails closed for governed operations. Its Owner may
 save an explicit first policy from a safe, disabled version-zero seed; no
 policy or provider key is copied from another workspace.
 
+Human Reviewers have separate credentials and server-derived identities. The
+Owner may issue a `human:` Reviewer credential from Admin; that person can
+inspect and decide claims, but cannot administer credentials or review policy.
+Agent credentials remain agent-only and cannot be promoted by renaming or
+through a claim proposal. Revoking a Reviewer credential invalidates its
+browser session on the next request. The bootstrap Owner remains the recovery
+target. The stored human principal role remains `owner` for compatibility;
+review-only credential permissions produce the effective `reviewer` role at
+authentication and are rechecked on each request.
+
 Execution completion validates attempt, workspace, and principal together.
 Execution and Judge recovery process one workspace at a time; startup may
 iterate the registered workspaces as a deployment operation. Shared hosting,
-customer provisioning, memberships, and new role hierarchy remain disabled.
+customer provisioning, invitation delivery, and additional granular roles remain disabled.
 The two-workspace test fixture proves isolation in a shared SQLite database
-without changing production bootstrap behavior. No ownership schema or
-historical event migration is required for this slice.
+without changing production bootstrap behavior. The recovery record pins the
+original bootstrap principal during schema migration; historical governance
+events are unchanged.
