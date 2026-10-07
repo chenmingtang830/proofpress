@@ -533,6 +533,101 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(status, 401)
         self.assertEqual(denied["error"]["code"], "owner_required")
 
+    def test_distinct_human_owner_reviews_and_revocation_ends_session(self):
+        status, denied = self.owner_admin(self.agent["token"], {
+            "action": "issue_owner", "principal_id": "human:oliver",
+            "label": "Oliver laptop"})
+        self.assertEqual(status, 401)
+        self.assertEqual(denied["error"]["code"], "owner_required")
+        status, issued = self.owner_admin(self.owner["token"], {
+            "action": "issue_owner", "principal_id": "human:oliver",
+            "label": "Oliver laptop"})
+        self.assertEqual(status, 200)
+        human = issued["result"]
+        self.assertEqual(human["principal_id"], "human:oliver")
+        status, listing = self.get("/v1/owner/credentials", self.owner["token"])
+        self.assertEqual(status, 200)
+        listed = next(row for row in listing["credentials"]
+                      if row["credential_id"] == human["credential_id"])
+        self.assertEqual(listed["role"], "owner")
+        self.assertNotIn("token", listed)
+        self.assertEqual(self.owner_admin(self.owner["token"], {
+            "action": "issue_owner", "principal_id": "agent:codex-laptop",
+            "label": "Invalid"})[0], 400)
+        self.assertEqual(self.owner_admin(self.owner["token"], {
+            "action": "issue_owner", "principal_id": "human:oliver",
+            "label": "Impersonating key"})[0], 400)
+        self.assertEqual(self.owner_admin(human["token"], {
+            "action": "revoke", "credential_id": self.owner["credential_id"]})[0], 400)
+
+        agent = self.sdk.ProofpressClient.localhost(self.base_url, self.agent["token"])
+        reviewer = self.sdk.ProofpressClient.localhost(self.base_url, human["token"])
+        evidence = agent.submit_evidence(evidence_payload())
+        claim = agent.propose_claim("A bounded research finding", evidence["evidence"],
+                                    "research:dogfood", "spoofed", title="Research finding")["claim"]
+        agent.evaluate_claim(claim["id"])
+        reviewer.review_claim(claim["id"], "admit", "spoofed",
+                              review_request_id="oliver-review-1")
+        receipt = reviewer.review_receipt(claim["id"])
+        self.assertEqual(receipt["review"]["reviewer"], "human:oliver")
+
+        class NoRedirect(__import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                return None
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(NoRedirect())
+        request = Request(self.base_url + "/owner/login",
+                          data=urlencode({"token": human["token"]}).encode(), method="POST",
+                          headers={"Content-Type": "application/x-www-form-urlencoded"})
+        with self.assertRaises(HTTPError) as login:
+            opener.open(request)
+        self.assertEqual(login.exception.code, 303)
+        cookie = login.exception.headers["Set-Cookie"].split(";", 1)[0]
+        login.exception.close()
+        status, session = self.owner_json("/owner/api/session", cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(session["result"]["principal"], "human:oliver")
+        self.assertEqual(self.owner_json("/owner/api/summary", cookie)[0], 200)
+
+        status, _ = self.owner_admin(self.owner["token"], {
+            "action": "revoke", "credential_id": human["credential_id"]})
+        self.assertEqual(status, 200)
+        self.assertEqual(self.owner_json("/owner/api/session", cookie)[0], 401)
+        self.assertEqual(self.form("/owner/login", {"token": human["token"]})[0], 401)
+        self.assertEqual(self.get("/v1/owner/credentials", human["token"])[0], 401)
+
+    def test_recovery_stays_with_bootstrap_owner_after_member_added(self):
+        human = self.server.proofpress_control.issue_owner_credential(
+            self.owner["token"], "human:oliver", "Oliver laptop")
+        recovered = self.server.proofpress_control.recover_owner(
+            self.owner["workspace_id"], self.owner["recovery_secret"])
+        self.assertEqual(recovered["principal_id"], self.owner["principal_id"])
+        self.assertEqual(self.get("/v1/owner/credentials", human["token"])[0], 200)
+        self.assertEqual(self.get("/v1/owner/credentials", self.owner["token"])[0], 401)
+
+    def test_legacy_recovery_migration_pins_original_owner(self):
+        database = Path(self.tmp.name) / "legacy-owners.db"
+        with sqlite3.connect(database) as connection:
+            connection.executescript("""
+                CREATE TABLE hosted_workspaces(workspace_id TEXT PRIMARY KEY, created_at TEXT NOT NULL);
+                CREATE TABLE hosted_principals(
+                    workspace_id TEXT NOT NULL, principal_id TEXT NOT NULL,
+                    role TEXT NOT NULL, display_name TEXT NOT NULL, created_at TEXT NOT NULL,
+                    PRIMARY KEY(workspace_id, principal_id));
+                CREATE TABLE hosted_recovery(
+                    workspace_id TEXT PRIMARY KEY, secret_salt BLOB NOT NULL,
+                    secret_hash BLOB NOT NULL, rotated_at TEXT NOT NULL);
+                INSERT INTO hosted_workspaces VALUES ('workspace:legacy', '2026-01-01');
+                INSERT INTO hosted_principals VALUES
+                    ('workspace:legacy', 'human:original', 'owner', 'Original', '2026-01-01'),
+                    ('workspace:legacy', 'human:later', 'owner', 'Later', '2026-02-01');
+                INSERT INTO hosted_recovery VALUES ('workspace:legacy', x'01', x'02', '2026-01-01');
+            """)
+        self.service.HostedControlPlane(database)
+        with sqlite3.connect(database) as connection:
+            self.assertEqual(connection.execute(
+                "SELECT bootstrap_principal_id FROM hosted_recovery"
+            ).fetchone()[0], "human:original")
+
     def test_origin_refuses_public_bind_and_limits_request_bodies(self):
         with self.assertRaisesRegex(ValueError, "loopback"):
             self.service.create_hosted_server(

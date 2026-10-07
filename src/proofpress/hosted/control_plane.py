@@ -109,7 +109,7 @@ def _secret_hash(secret: str, salt: bytes) -> bytes:
 
 
 class HostedControlPlane:
-    """One-owner authority service over workspace-scoped SQLite history."""
+    """Workspace-scoped authority service with distinct human owner credentials."""
 
     def __init__(self, database: str | Path, *, legacy_default_workspace_id: str | None = None):
         self.database = Path(database)
@@ -192,6 +192,7 @@ class HostedControlPlane:
                     secret_salt BLOB NOT NULL,
                     secret_hash BLOB NOT NULL,
                     rotated_at TEXT NOT NULL,
+                    bootstrap_principal_id TEXT,
                     FOREIGN KEY (workspace_id) REFERENCES hosted_workspaces(workspace_id)
                 );
                 CREATE TABLE IF NOT EXISTS hosted_oauth_clients (
@@ -225,6 +226,17 @@ class HostedControlPlane:
                     FOREIGN KEY (credential_id) REFERENCES hosted_credentials(credential_id)
                 );
             """)
+            recovery_columns = {row["name"] for row in connection.execute(
+                "PRAGMA table_info(hosted_recovery)")}
+            if "bootstrap_principal_id" not in recovery_columns:
+                connection.execute(
+                    "ALTER TABLE hosted_recovery ADD COLUMN bootstrap_principal_id TEXT")
+            connection.execute(
+                "UPDATE hosted_recovery SET bootstrap_principal_id = ("
+                "SELECT p.principal_id FROM hosted_principals p "
+                "WHERE p.workspace_id = hosted_recovery.workspace_id AND p.role = 'owner' "
+                "ORDER BY p.created_at, p.rowid LIMIT 1) "
+                "WHERE bootstrap_principal_id IS NULL")
             review_policy.migrate(connection)
             execution.migrate(connection)
             self._migrate_legacy_permissions(connection)
@@ -460,9 +472,12 @@ class HostedControlPlane:
                 (credential_id, workspace_id, owner_principal_id, "owner-bootstrap",
                  salt, secret_hash, json.dumps(["*"]), created_at))
             connection.execute(
-                "INSERT INTO hosted_recovery VALUES (?, ?, ?, ?)",
+                "INSERT INTO hosted_recovery "
+                "(workspace_id, secret_salt, secret_hash, rotated_at, bootstrap_principal_id) "
+                "VALUES (?, ?, ?, ?, ?)",
                 (workspace_id, recovery_salt,
-                 _secret_hash(recovery_secret, recovery_salt), created_at))
+                 _secret_hash(recovery_secret, recovery_salt), created_at,
+                 owner_principal_id))
             connection.commit()
         except BaseException:
             connection.rollback()
@@ -539,15 +554,59 @@ class HostedControlPlane:
         return {"workspace_id": owner.workspace_id, "principal_id": principal_id,
                 "credential_id": credential_id, "token": token}
 
+    def issue_owner_credential(self, owner_token: str | PrincipalContext,
+                               principal_id: str, label: str,
+                               display_name: str | None = None) -> dict[str, str]:
+        """Issue a separate human Owner identity; never promote an agent identity."""
+        owner = self._owner(owner_token)
+        if not isinstance(principal_id, str) or not re.fullmatch(
+                r"human:[A-Za-z0-9][A-Za-z0-9._-]{0,127}", principal_id):
+            raise ValueError("human principal_id must use human:<name>")
+        if not isinstance(label, str) or not label.strip():
+            raise ValueError("credential label is required")
+        credential_id, token, salt, secret_hash = self._new_credential_values()
+        created_at = _now()
+        connection = self._connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute(
+                "SELECT role FROM hosted_principals WHERE workspace_id = ? AND principal_id = ?",
+                (owner.workspace_id, principal_id)).fetchone()
+            if row:
+                raise ValueError("principal_id already exists; choose a new human identity")
+            connection.execute(
+                "INSERT INTO hosted_principals VALUES (?, ?, 'owner', ?, ?)",
+                (owner.workspace_id, principal_id, display_name or principal_id, created_at))
+            connection.execute(
+                "INSERT INTO hosted_credentials VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
+                (credential_id, owner.workspace_id, principal_id, label.strip(), salt,
+                 secret_hash, json.dumps(["*"]), created_at))
+            connection.execute(
+                "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
+                "credential_id, operation, request_id, outcome) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (created_at, owner.workspace_id, owner.principal_id, owner.credential_id,
+                 "credential.issue.owner", credential_id, "recorded"))
+            connection.commit()
+        except BaseException:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+        return {"workspace_id": owner.workspace_id, "principal_id": principal_id,
+                "credential_id": credential_id, "token": token}
+
     def list_credentials(self, owner_token: str | PrincipalContext) -> list[dict[str, Any]]:
         owner = self._owner(owner_token)
         connection = self._connect()
         try:
             rows = connection.execute(
                 "SELECT c.credential_id, c.principal_id, p.role, c.label, "
+                "(c.principal_id = r.bootstrap_principal_id) AS bootstrap_owner, "
                 "c.permissions_json, c.created_at, c.last_used_at, c.revoked_at "
                 "FROM hosted_credentials c JOIN hosted_principals p "
-                "USING(workspace_id, principal_id) WHERE c.workspace_id = ? "
+                "USING(workspace_id, principal_id) "
+                "JOIN hosted_recovery r ON r.workspace_id = c.workspace_id "
+                "WHERE c.workspace_id = ? "
                 "ORDER BY c.created_at, c.credential_id",
                 (owner.workspace_id,)).fetchall()
             return [{key: row[key] for key in row.keys()
@@ -1228,12 +1287,38 @@ class HostedControlPlane:
             raise ValueError("rotate the owner credential before revoking the active credential")
         connection = self._connect()
         try:
+            connection.execute("BEGIN IMMEDIATE")
+            target = connection.execute(
+                "SELECT p.role, p.principal_id FROM hosted_credentials c JOIN hosted_principals p "
+                "USING(workspace_id, principal_id) WHERE c.credential_id = ? "
+                "AND c.workspace_id = ? AND c.revoked_at IS NULL",
+                (credential_id, owner.workspace_id)).fetchone()
+            if not target:
+                raise ValueError("active credential not found")
+            if target["role"] == "owner":
+                bootstrap = connection.execute(
+                    "SELECT bootstrap_principal_id FROM hosted_recovery WHERE workspace_id = ?",
+                    (owner.workspace_id,)).fetchone()
+                if bootstrap and target["principal_id"] == bootstrap["bootstrap_principal_id"]:
+                    raise ValueError("bootstrap Owner access is rotated through recovery")
+                remaining = connection.execute(
+                    "SELECT COUNT(*) FROM hosted_credentials c JOIN hosted_principals p "
+                    "USING(workspace_id, principal_id) WHERE c.workspace_id = ? "
+                    "AND p.role = 'owner' AND c.revoked_at IS NULL",
+                    (owner.workspace_id,)).fetchone()[0]
+                if remaining <= 1:
+                    raise ValueError("cannot revoke the last active owner credential")
             cursor = connection.execute(
                 "UPDATE hosted_credentials SET revoked_at = ? "
                 "WHERE credential_id = ? AND workspace_id = ? AND revoked_at IS NULL",
                 (_now(), credential_id, owner.workspace_id))
             if cursor.rowcount != 1:
                 raise ValueError("active credential not found")
+            connection.execute(
+                "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
+                "credential_id, operation, request_id, outcome) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (_now(), owner.workspace_id, owner.principal_id, owner.credential_id,
+                 "credential.revoke", credential_id, "recorded"))
             connection.commit()
         finally:
             connection.close()
@@ -1276,9 +1361,8 @@ class HostedControlPlane:
         connection = self._connect()
         try:
             row = connection.execute(
-                "SELECT r.*, p.principal_id FROM hosted_recovery r "
-                "JOIN hosted_principals p USING(workspace_id) "
-                "WHERE r.workspace_id = ? AND p.role = 'owner'",
+                "SELECT r.*, r.bootstrap_principal_id AS principal_id "
+                "FROM hosted_recovery r WHERE r.workspace_id = ?",
                 (workspace_id,)).fetchone()
             if not row or not hmac.compare_digest(
                     _secret_hash(recovery_secret, row["secret_salt"]),

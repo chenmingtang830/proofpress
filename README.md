@@ -255,13 +255,14 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 [//]: # (ob:5da4d7b8)
 - **One local repository:** use the in-process client or localhost HTTP for a
   Git-backed ledger, local review, and governed-context reads.
-- **One owner across devices or agents:** use `proofpress hosted` for durable
-  storage, scoped credentials, owner review, and HTTP/MCP access.
+- **One private workspace across people, devices, and agents:** use `proofpress hosted`
+  for durable storage, distinct human Owner credentials, scoped agent credentials,
+  review, and HTTP/MCP access.
 - **Workflow-specific evidence:** use a profile or integration for typed
   validation without changing the authority model.
 - **Owner UI preview:** run `npm run preview:local` from `web/owner`; it reuses
   one ignored, mode-`0600` local credential and synthetic workspace.
-- **Hosted boundary:** the reference deployment is private, single-owner, and
+- **Hosted boundary:** the reference deployment is private, single-instance, and
   single-instance—not a multi-tenant Proofpress cloud. See [Self-hosting](docs/SELF_HOSTING.md).
 
 ### Self-host in three steps
@@ -277,7 +278,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
    ```
 
 3. Store the one-time owner credential and recovery secret outside Git, then
-   issue a distinct credential for each agent or device. Configure backups
+   issue a distinct credential for each human Owner and agent or device. Configure backups
    before relying on the instance.
 
 - The Blueprint contains no Proofpress credentials or customer data.
@@ -299,7 +300,7 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 - `proofpress.profiles.experiment` validates bounded metric, table-cell, and derivation evidence.
 - `proofpress.integrations.repository` binds one repository change to Git and check receipts for self-dogfood.
 - `proofpress.integrations.matter_catalog` and `proofpress.integrations.document_extraction` are optional evidence-entry integrations. Their output remains candidate evidence.
-- `proofpress hosted` runs the single-owner hosted control plane and web review surface. See [Self-hosting](docs/SELF_HOSTING.md).
+- `proofpress hosted` runs the private hosted control plane and web review surface. See [Self-hosting](docs/SELF_HOSTING.md).
 - [AFF](https://github.com/only-then-labs/aff) is the separate Apache-2.0 format and CLI for portable agent Findings. Its [collaborator trial](https://github.com/only-then-labs/aff/blob/main/docs/SHARE.md) works with a Git collection; Proofpress is an optional open-source governance runtime for authenticated review and reuse.
 - Proofpress's OAFF v0.1 integration can [export bounded claims](docs/OAFF_EXPORT.md) and [receive foreign candidate packages](docs/OAFF_IMPORT.md) without granting receiver-local authority.
 
@@ -318,8 +319,8 @@ context = client.context(scope="experiment:demo", actor="agent:successor")
 
 [//]: # (ob:6ec793e2)
 [//]: # (ob:limits)
-- Python-first and single-owner today.
-- No multi-owner workspaces or customer VPC packaging.
+- Python-first and one private workspace per deployment today.
+- Human co-owners have full Owner authority; granular roles, invitations, and customer VPC packaging are not available.
 - No Notion or multi-repository knowledge ingestion.
 - Not a universal OCR, RAG, memory, or search platform.
 

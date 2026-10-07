@@ -430,7 +430,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "csrf": session["csrf"], "workspace_id": workspace_id,
                 "workspace": (os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal")
                               if workspace_id == legacy_workspace else workspace_id),
-                "principal": "owner", "capabilities": {
+                "principal": session["context"].principal_id,
+                "role": session["context"].role, "capabilities": {
                     "review": True, "credential_admin": True,
                     "withdraw": True, "reassess": True,
                     "assistant": (workspace_id == legacy_workspace and
@@ -503,7 +504,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             "<form method=post action=/owner/login><label>Owner credential<br>"
             "<input type=password name=token required autocomplete=current-password></label><br>"
             "<button type=submit>Continue</button></form>"
-            "<p class=help>Owner access is created during workspace bootstrap. If access was rotated or lost, use the documented recovery procedure from an administrative shell.</p></main>")
+            "<p class=help>Each human Owner uses their own credential. The bootstrap Owner can recover access from an administrative shell.</p></main>")
 
     def _authorize_page(self, query, message=""):
         note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""
@@ -962,6 +963,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = control.issue_agent_credential(
                         owner_token, request.get("principal_id", ""),
                         request.get("label", ""), request.get("display_name"))
+                elif action == "issue_owner":
+                    result = control.issue_owner_credential(
+                        owner_token, request.get("principal_id", ""),
+                        request.get("label", ""), request.get("display_name"))
                 elif action == "rotate":
                     result = control.rotate_agent_credential(
                         owner_token, request.get("credential_id", ""),
@@ -972,7 +977,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = {"revoked": request.get("credential_id")}
                 else:
                     raise HostedAuthError(
-                        "invalid_request", "action must be issue, rotate, or revoke")
+                        "invalid_request", "action must be issue, issue_owner, rotate, or revoke")
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             except ValueError as exc:

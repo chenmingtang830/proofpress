@@ -48,6 +48,22 @@ both outside the repository and deployment manifest. Before relying on the
 instance, configure backup/export, test recovery, restrict administrative shell
 access, and verify that the public endpoint is protected by platform TLS.
 
+### Add another human Owner
+
+Sign in with the bootstrap Owner credential, open **Admin**, and issue a
+**human Owner credential** with a distinct `human:` identity such as
+`human:oliver`. Give the one-time credential to that person through a secure
+channel. They can sign in to the same Owner UI to inspect and review research
+findings. Their review decisions record their own principal ID. They also have
+full workspace administration, including policy and credential management.
+
+Use a separate `agent:` credential for that person's MCP client. An Agent
+credential cannot log in as an Owner or gain authority through a claim proposal.
+Revoke the human credential in Admin to end its Owner sessions. The original
+bootstrap principal remains the recovery target; do not share the recovery
+secret. This is co-owner access to one private workspace, without invitations
+or narrower reviewer roles.
+
 The checked-in deployment installs runtime dependencies from
 `requirements-deploy.txt` with hashes, then installs Proofpress without resolving
 dependencies again. Refresh that file deliberately when `pyproject.toml` changes;
@@ -111,7 +127,7 @@ state. It cannot admit, reject, supersede, issue credentials, or change policy;
 those operations remain on authenticated owner-only surfaces.
 
 [//]: # (ob:22603d0a)
-## Decision
+## Original alpha decision
 
 [//]: # (ob:a09ba553)
 The self-hosting reference extends the completed single-node local control plane
@@ -159,7 +175,11 @@ or dependence on copying raw artifacts and traces into Proofpress.
 | Portability | Local Git history and portable artifact verification | Exportable, backend-independent event chain and offline verification |
 
 [//]: # (ob:507d8562)
-## Frozen alpha scope
+## Original alpha scope
+
+The table below records the initial alpha boundary. The human co-owner
+extension described above now supports multiple Owners in one private
+workspace; invitations and granular roles remain outside this reference.
 
 [//]: # (ob:e41232a3)
 | In scope | Explicitly out of scope |
@@ -365,13 +385,13 @@ centralized merely to complete the workflow.
 
 [//]: # (ob:208f35c8)
 Today Proofpress ships a local, Git-backed governance control plane and an
-experimental single-owner self-hosting reference. The latter makes the same
-governance state available across one operator's devices and agents, but the
-operator owns deployment, credentials, storage, backups, upgrades, security,
-and availability. It is not a managed Proofpress service, a team workspace, or
-enterprise Cloud. A future managed or multi-user product would add membership,
-authority, policy, and operational guarantees without changing the
-claim/evidence lifecycle or portable verification contract.
+experimental private-workspace self-hosting reference. The latter makes the same
+governance state available to separately authenticated human Owners and agents.
+The operator owns deployment, credentials, storage, backups, upgrades, security,
+and availability. It is not a managed Proofpress service or enterprise Cloud.
+Future shared hosting would add provisioning, granular membership, and
+operational guarantees without changing the claim/evidence lifecycle or
+portable verification contract.
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzg1MmNiMWMzOWY3YmMxNDc5MDllMWMzYyIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjI5YjMyZjc1IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9kODEzYzU3OWExMjhmMDE0YjQzMTE0MjciLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzFmNGZlMTk1ZTExM2U3MTlmYjFjMDc3YiIsInByb29mcHJlc3MiOjF9)
 [//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)

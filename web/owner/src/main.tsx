@@ -289,6 +289,7 @@ function App() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
   const [csrf, setCsrf] = React.useState("");
+  const [currentPrincipal, setCurrentPrincipal] = React.useState("");
   const csrfRef = React.useRef("");
   React.useEffect(() => { csrfRef.current = csrf; }, [csrf]);
   const [note, setNote] = React.useState("");
@@ -369,6 +370,7 @@ function App() {
       setGraphNodes(graph.nodes || []);
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
+      setCurrentPrincipal(session.principal || "");
       setWorkspaceLabel(session.workspace || "Owner workspace");
       setLocalOwnerPreview(Boolean(session.local_owner_preview));
       setCsrf(session.csrf);
@@ -903,7 +905,7 @@ function App() {
     values: Record<string, string>,
   ) {
     if ((action === "revoke" || action === "rotate") && !window.confirm(
-      action === "revoke" ? "Revoke this agent credential? Its access will stop immediately." : "Rotate this credential? The old credential will stop working."
+      action === "revoke" ? "Revoke this credential? Its access and active browser sessions will stop immediately." : "Rotate this agent credential? The old credential will stop working."
     )) return;
     setBusy(true);
     setError("");
@@ -999,7 +1001,7 @@ function App() {
         <div className="workspace">
           <span>WORKSPACE</span>
           <b>{workspaceLabel}</b>
-          <small>Single-owner governance</small>
+          <small>{currentPrincipal ? `Signed in: ${currentPrincipal}` : "Human-governed workspace"}</small>
         </div>
       </aside>
       <main>
@@ -1008,7 +1010,7 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <span className="workspaceLabel"><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
+          <span className="workspaceLabel" title={currentPrincipal ? `Signed in: ${currentPrincipal}` : undefined}><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
           {!localOwnerPreview && <Button variant="outline" onClick={() => {
             const body = new URLSearchParams({ csrf });
             void fetch("/owner/logout", {
@@ -1739,6 +1741,8 @@ function AdminPage({
 }: any) {
   const [principal, setPrincipal] = React.useState("");
   const [label, setLabel] = React.useState("");
+  const [humanPrincipal, setHumanPrincipal] = React.useState("");
+  const [humanLabel, setHumanLabel] = React.useState("");
   const [copyStatus, setCopyStatus] = React.useState("");
   const [agentDraftLoaded, setAgentDraftLoaded] = React.useState(false);
   React.useEffect(() => setCopyStatus(""), [secret]);
@@ -1758,7 +1762,7 @@ function AdminPage({
     <div className="pageBody">
       <PageHead
         title="Admin"
-        description="Configure review policy and manage agent access."
+        description="Configure review policy and manage human and agent access."
         action={null}
       />
       {policy}
@@ -1796,13 +1800,29 @@ function AdminPage({
           <Button disabled={busy}>Issue credential</Button>
         </div>
       </form>
+      <form className="issueForm" onSubmit={(event) => {
+        event.preventDefault();
+        onAction("issue_owner", { principal_id: humanPrincipal, label: humanLabel });
+      }}>
+        <div className="issueFormHeader">
+          <b>Issue human Owner credential</b>
+          <small>This person can review findings, change policy, and manage credentials. Their decisions are recorded under their own identity.</small>
+        </div>
+        <div className="issueFormFields">
+          <Label>Human identity<Input aria-label="Human identity" value={humanPrincipal}
+            onChange={(e) => setHumanPrincipal(e.target.value)} placeholder="human:oliver" required /></Label>
+          <Label>Key name<Input aria-label="Human key name" value={humanLabel}
+            onChange={(e) => setHumanLabel(e.target.value)} placeholder="Oliver · personal laptop" required /></Label>
+          <Button disabled={busy}>Issue Owner credential</Button>
+        </div>
+      </form>
       {secret && (
         <div className="secretReveal">
           <div>
             <b>Copy this credential now</b>
             <p>
-              It is shown once. Store it in the agent client's secure local
-              configuration.
+              It is shown once. Give a human Owner credential to that person
+              through a secure channel; keep an agent credential in its client's secure configuration.
             </p>
             <code>{secret}</code>
           </div>
@@ -1824,7 +1844,7 @@ function AdminPage({
         </div>
       )}
       <div className="credentialList" aria-busy={loading}>
-        {loading && !credentials.length && <p className="empty" role="status">Loading agent credentials…</p>}
+        {loading && !credentials.length && <p className="empty" role="status">Loading credentials…</p>}
         {credentials.map((c: any) => (
           <div key={c.credential_id}>
             <div className="credentialIcon">
@@ -1832,7 +1852,7 @@ function AdminPage({
             </div>
             <div>
               <b>{c.label || c.principal_id}</b>
-              <small>{c.principal_id}</small>
+              <small>{c.principal_id} · {c.role === "owner" ? "Human Owner" : "Agent"}</small>
             </div>
             <Badge state={c.revoked_at ? "revoked" : "active"} />
             {!c.revoked_at && c.role === "agent" ? (
@@ -1858,6 +1878,9 @@ function AdminPage({
                   Revoke
                 </Button>
               </div>
+            ) : !c.revoked_at && c.role === "owner" && !c.bootstrap_owner ? (
+              <div className="credentialActions"><Button variant="danger" size="sm" disabled={busy}
+                onClick={() => onAction("revoke", { credential_id: c.credential_id })}>Revoke</Button></div>
             ) : (
               <span />
             )}
@@ -1869,8 +1892,9 @@ function AdminPage({
         <div>
           <b>Authority boundary</b>
           <p>
-            Agent credentials can submit evidence, propose claims, and read
-            admitted context. They cannot approve claims or change policy.
+            Human Owners can review findings and administer the workspace under
+            their own identities. Agent credentials can submit evidence, propose
+            claims, and read admitted context; they cannot approve claims or change policy.
           </p>
         </div>
       </div>
