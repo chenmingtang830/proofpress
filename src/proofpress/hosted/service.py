@@ -501,12 +501,12 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         logo = ("<svg viewBox='0 0 48 48' fill='none' aria-hidden='true'>"
                 "<rect x='7' y='4' width='28' height='36' stroke='currentColor' stroke-width='3'/>"
                 "<circle cx='35' cy='36' r='9' fill='#2E8FA3'/></svg>")
-        return self._page("Proofpress owner sign in", "<main class=auth><div class=brand><span class=mark>" + logo + "</span><strong>Proofpress</strong></div><h1>Owner workspace</h1>" + note +
+        return self._page("Proofpress sign in", "<main class=auth><div class=brand><span class=mark>" + logo + "</span><strong>Proofpress</strong></div><h1>Workspace sign in</h1>" + note +
             "<p class=muted>Sign in to review what agents may rely on. Your credential stays in an HttpOnly session and never enters the URL.</p>"
-            "<form method=post action=/owner/login><label>Owner credential<br>"
+            "<form method=post action=/owner/login><label>Human credential<br>"
             "<input type=password name=token required autocomplete=current-password></label><br>"
             "<button type=submit>Continue</button></form>"
-            "<p class=help>Each human Owner uses their own credential. The bootstrap Owner can recover access from an administrative shell.</p></main>")
+            "<p class=help>Reviewers use their own credentials to inspect and decide findings. The workspace Owner manages access and policy.</p></main>")
 
     def _authorize_page(self, query, message=""):
         note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""
@@ -996,7 +996,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     raise ValueError("owner credential required")
             except (ValueError, UnicodeDecodeError):
                 return self._html(HTTPStatus.UNAUTHORIZED,
-                                  self._login_page("That owner credential was not accepted."))
+                                  self._login_page("That credential was not accepted."))
             session_id = secrets.token_urlsafe(32)
             now = time.time()
             expires_at = now + self.server.proofpress_owner_session_ttl_seconds
