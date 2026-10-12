@@ -6,58 +6,13 @@ import re
 from typing import Any
 
 from proofpress.kernel import operations as kernel_ops
+from proofpress.mcp_schemas import SHA256_PATTERN as SHA256_PATTERN, retrieval_evidence_schema  # SHA256_PATTERN: re-exported for importers
 
 
 PROTOCOL_VERSION = "2025-06-18"
 SERVER_INFO = {"name": "Proofpress", "version": "0.6.0a1"}
 EVIDENCE_ID_PATTERN = r"^evd_[0-9a-f]{16}$"
-SHA256_PATTERN = r"^sha256:[0-9a-f]{64}$"
-
-RETRIEVAL_EVIDENCE_SCHEMA = {
-    "type": "object",
-    "description": (
-        "A proofpress/retrieval-evidence/v1 envelope. Use profile=experiment "
-        "only for an experiment-profile payload."
-    ),
-    "properties": {
-        "schema_version": {
-            "type": "string", "const": "proofpress/retrieval-evidence/v1",
-        },
-        "source": {
-            "type": "object",
-            "properties": {
-                "uri": {"type": "string", "minLength": 1},
-                "content_digest": {"type": "string", "pattern": SHA256_PATTERN},
-                "media_type": {"type": "string", "minLength": 1},
-            },
-            "required": ["uri", "content_digest"],
-        },
-        "evidence": {
-            "type": "object",
-            "properties": {
-                "quote": {"type": "string", "minLength": 1},
-                "locator": {
-                    "type": "object",
-                    "description": "A text_span, page_span, or section_span locator bound to the source.",
-                },
-            },
-            "required": ["quote", "locator"],
-        },
-        "retrieval": {
-            "type": "object",
-            "properties": {
-                "adapter": {"type": "string", "minLength": 1},
-                "version": {"type": "string", "minLength": 1},
-                "query": {"type": "string", "minLength": 1},
-                "config_digest": {"type": "string", "pattern": SHA256_PATTERN},
-                "selection_reason": {"type": "string", "minLength": 1},
-            },
-            "required": ["adapter", "version", "query", "config_digest"],
-        },
-    },
-    "required": ["schema_version", "source", "evidence", "retrieval"],
-}
-
+RETRIEVAL_EVIDENCE_SCHEMA = retrieval_evidence_schema()  # this transport's own copy, under the name importers use
 _NON_EMPTY_TEXT = {"type": "string", "minLength": 1}
 # The kernel treats a null list field as absent, so the schema allows it too.
 _TEXT_LIST_OR_NULL = {"anyOf": [{"type": "array", "items": _NON_EMPTY_TEXT}, {"type": "null"}]}

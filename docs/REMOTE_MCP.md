@@ -215,3 +215,35 @@ context and its receipt before relying on the claim.
 `derived_from`, and `bound_as` edges to the original source records.
 `proofpress_traverse_graph` follows admitted claim-to-claim relations
 with server-enforced actor, scope, state, depth, and result limits.
+
+## Evidence envelope and locators
+
+`proofpress_submit_evidence` publishes the `proofpress/retrieval-evidence/v1`
+envelope in its input schema, on the hosted and the local stdio server alike
+(`proofpress.mcp_schemas`). The evidence `locator` says where the quote sits in
+the source, as one of five kinds:
+
+- `text_span`: `start`, `end` (character offsets; `end - start` is the quote's
+  length), `text_digest`
+- `page_span`: `page_start`, `page_end` (1-based), `page_digest`
+- `section_span`: `section_id`, `section_digest`, `page_start`, `page_end`
+- `spreadsheet_cell`: `sheet`, `cell` (an A1 address), `cell_digest`, and
+  optionally `previous_source_content_digest` with `previous_cell_digest`
+- `json_pointer`: `value` (an RFC 6901 pointer), and nothing else
+
+For example, a quote on page 2 of a PDF:
+
+```json
+{"kind": "page_span", "page_start": 2, "page_end": 2,
+ "page_digest": "sha256:9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"}
+```
+
+Digests are supplied by the submitting adapter; Proofpress records them and
+does not recompute them. The published schema states a selection of the
+kernel's rules; others (a page range's order, a text span's length, a cell's
+bounds, paired history digests, integers written as 2.0) are left to the
+kernel, which validates every payload. The schema tells clients more about the
+locator than before; what the kernel accepts is unchanged.
+On the stdio server the payload may instead be an experiment-profile payload
+(`schema_version` `proofpress/profile/experiment/v1`, with `profile=experiment`).
+

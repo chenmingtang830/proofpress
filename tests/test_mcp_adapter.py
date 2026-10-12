@@ -458,6 +458,19 @@ class McpServerErrorTests(GatewayFixture):
             self.assertEqual(published.get("minProperties"), 1)
             self.assertIn("arrays of non-empty strings", published.get("description", ""))
 
+    def test_published_schema_states_the_retrieval_evidence_envelope(self):
+        """The local server publishes the retrieval envelope, locators included, beside the experiment-profile payload,
+        so an agent need not learn the envelope from validation errors."""
+        import anyio
+        from proofpress.mcp_schemas import stdio_evidence_payload_schema
+
+        tools = {tool.name: tool for tool in anyio.run(self.server.list_tools)}
+        payload = tools["proofpress_submit_evidence"].input_schema["properties"]["payload"]
+        self.assertEqual({k: v for k, v in payload.items() if k != "title"}, stdio_evidence_payload_schema())  # the SDK adds a title
+        kinds = [k["properties"]["kind"]["const"] for k in payload["anyOf"][0]["properties"]["evidence"]["properties"]["locator"]["oneOf"]]
+        self.assertIn("page_span", kinds)
+
+
     def test_stdio_server_reports_the_reason_to_a_real_client(self):
         import anyio
         from mcp.client.session import ClientSession
