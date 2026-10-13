@@ -1064,6 +1064,27 @@ td:last-child svg {
   background: #fff;
   padding: 20px;
 }
+.issueForm--agent {
+  border-color: #bfd5d8;
+  border-left: 4px solid var(--accent);
+  background: var(--accent-soft);
+}
+.issueForm--reviewer {
+  border-color: #c6dfc9;
+  border-left: 4px solid var(--add);
+  background: var(--add-bg);
+}
+.issueFormKind {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: var(--accent-strong);
+  font: 700 10px/1.3 var(--font-ui);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.issueForm--reviewer .issueFormKind { color: var(--add); }
+.issueReviewerButton { background: var(--add); color: #fff; }
+.issueReviewerButton:hover:not(:disabled) { background: #245640; }
 .issueFormHeader b,
 .issueFormHeader small {
   display: block;
@@ -1121,6 +1142,10 @@ td:last-child svg {
   background: var(--panel-soft);
   padding: 20px;
 }
+.secretReveal:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.secretReveal--agent { border-color: #bfd5d8; background: var(--accent-soft); }
+.secretReveal--reviewer { border-color: #c6dfc9; background: var(--add-bg); }
+.secretReveal--reviewer:focus { outline-color: var(--add); }
 .secretReveal b {
   font-size: var(--type-body);
   font-weight: 600;
