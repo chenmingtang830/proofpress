@@ -298,6 +298,16 @@ class ReviewPolicyTests(unittest.TestCase):
             self.assertTrue(saved["managed_gmi_available"])
             self.assertEqual(saved["settings"]["mode"], "automatic")
 
+    def test_managed_gmi_lock_is_scoped_to_workspace(self):
+        first = self.control._managed_gmi_workspace_lock("workspace:test")
+        same = self.control._managed_gmi_workspace_lock("workspace:test")
+        other = self.control._managed_gmi_workspace_lock("workspace:other")
+        self.assertIs(first, same)
+        with first:
+            self.assertFalse(same.acquire(blocking=False))
+            self.assertTrue(other.acquire(blocking=False))
+            other.release()
+
     def test_managed_gmi_judge_is_bounded_audited_and_keeps_claim_unapproved(self):
         settings = {**self.settings, "provider": "gmi_cloud",
                     "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}

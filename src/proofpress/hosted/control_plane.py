@@ -137,7 +137,8 @@ class HostedControlPlane:
         self.legacy_default_workspace_id = (legacy_default_workspace_id if legacy_default_workspace_id
                                             is not None else workspaces[0] if len(workspaces) == 1 else None)
         self._judge_worker_lock = threading.Lock()
-        self._managed_gmi_lock = threading.Lock()
+        self._managed_gmi_locks_guard = threading.Lock()
+        self._managed_gmi_locks = {}
         SQLiteEventStore(self.database, "__schema__", "system:migration")
 
     def _connect(self) -> sqlite3.Connection:
@@ -885,6 +886,14 @@ class HostedControlPlane:
             workspace_id, "gmi_cloud",
             legacy_default_workspace_id=self.legacy_default_workspace_id))
 
+    def _managed_gmi_workspace_lock(self, workspace_id):
+        # Serialize preflight and provider attempts for this workspace only.
+        with self._managed_gmi_locks_guard:
+            lock = self._managed_gmi_locks.get(workspace_id)
+            if lock is None:
+                lock = self._managed_gmi_locks[workspace_id] = threading.Lock()
+            return lock
+
     def _reserve_managed_gmi_call(self, workspace_id, claim_id, actor, policy_digest):
         """Bound billable attempts atomically; interrupted attempts count conservatively."""
         today = datetime.now(timezone.utc).date().isoformat()
@@ -1570,7 +1579,7 @@ class HostedControlPlane:
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
             # Only the selected workspace credential reaches the judge process.
             judge_environment["GMI_API_KEY"] = ""
-        with (self._managed_gmi_lock if managed_gmi_selected else nullcontext()), using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment), kernel_ops.using_judge_before_provider_call(before_judge_call):
+        with (self._managed_gmi_workspace_lock(context.workspace_id) if managed_gmi_selected else nullcontext()), using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment), kernel_ops.using_judge_before_provider_call(before_judge_call):
             # Validate and resolve replays before reserving the daily allowance.
             # A reservation is retained only if the Judge reaches its provider call.
             preflight = kernel_ops.preflight_local_operation(normalized) if managed_gmi_selected else None
