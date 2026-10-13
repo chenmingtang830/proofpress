@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import sqlite3
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from cryptography.fernet import Fernet
@@ -284,6 +285,19 @@ class ReviewPolicyTests(unittest.TestCase):
             saved = self.control.save_review_policy(self.owner, settings, 0)
             self.assertEqual(saved["settings"]["mode"], "manual")
 
+    def test_allowlisted_gmi_byok_keeps_automatic_review_available(self):
+        settings = {**self.settings, "provider": "gmi_cloud",
+                    "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False,
+                    "mode": "automatic"}
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test",
+                "PROOFPRESS_SECRET_ENCRYPTION_KEY": Fernet.generate_key().decode()}, clear=False):
+            saved = self.control.save_review_policy(
+                self.owner, settings, 0, api_key="gmi-workspace-key")
+            self.assertEqual(saved["credential"]["source"], "workspace")
+            self.assertTrue(saved["managed_gmi_available"])
+            self.assertEqual(saved["settings"]["mode"], "automatic")
+
     def test_managed_gmi_judge_is_bounded_audited_and_keeps_claim_unapproved(self):
         settings = {**self.settings, "provider": "gmi_cloud",
                     "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
@@ -295,13 +309,26 @@ class ReviewPolicyTests(unittest.TestCase):
             second_id = self.proposal("managed second")["result"]["claim"]["id"]
             self.control.execute(self.owner, operation("claim.evaluate", {"claim_id": first_id}))
             self.control.execute(self.owner, operation("claim.evaluate", {"claim_id": second_id}))
-            with patch.object(kernel, "judge_v2", return_value={"recommendation": "accept",
-                    "rationale": "Synthetic evidence supports this claim."}) as judge:
+            malformed = self.control.execute(self.owner, operation("claim.judge", {}))
+            missing = self.control.execute(self.owner, operation(
+                "claim.judge", {"claim_id": "clm_missing"}))
+            self.assertEqual(malformed["error"]["code"], "invalid_parameters")
+            self.assertFalse(missing["ok"])
+            with self.control._db() as connection:
+                self.assertEqual(connection.execute(
+                    "SELECT COUNT(*) FROM hosted_managed_gmi_calls").fetchone()[0], 0)
+            verdict = {"recommendation": "accept", "rationale": "Synthetic evidence supports this claim.",
+                       "adapter": "proofpress-gmi_cloud-judge/v1", "model": settings["model"]}
+            with patch.object(kernel.subprocess, "run", return_value=SimpleNamespace(
+                    returncode=0, stdout=json.dumps(verdict))) as judge:
                 first = self.control.execute(self.owner, operation(
-                    "claim.judge", {"claim_id": first_id}))
+                    "claim.judge", {"claim_id": first_id}, "managed-first"))
+                replay = self.control.execute(self.owner, operation(
+                    "claim.judge", {"claim_id": first_id}, "managed-first"))
                 second = self.control.execute(self.owner, operation(
                     "claim.judge", {"claim_id": second_id}))
             self.assertTrue(first["ok"])
+            self.assertTrue(replay["idempotent_replay"])
             self.assertEqual(second["error"]["code"], "managed_gmi_daily_limit")
             self.assertEqual(judge.call_count, 1)
             with self.control._db() as connection:

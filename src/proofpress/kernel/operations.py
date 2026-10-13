@@ -707,6 +707,7 @@ def _require_expected_head(expected_head, *, required=False):
 
 _policy_override = ContextVar("proofpress_policy_override", default=None)
 _judge_environment = ContextVar("proofpress_judge_environment", default=None)
+_judge_before_provider_call = ContextVar("proofpress_judge_before_provider_call", default=None)
 
 
 @contextmanager
@@ -727,6 +728,16 @@ def using_judge_environment(environment):
         yield
     finally:
         _judge_environment.reset(token)
+
+
+@contextmanager
+def using_judge_before_provider_call(callback):
+    """Run a hosted quota guard only when a claim Judge reaches its provider call."""
+    token = _judge_before_provider_call.set(callback)
+    try:
+        yield
+    finally:
+        _judge_before_provider_call.reset(token)
 
 
 def load_v2_policy():
@@ -2216,6 +2227,9 @@ def judge_v2(cid, actor=None):
     try:
         environment = os.environ.copy()
         environment.update(_judge_environment.get() or {})
+        before_call = _judge_before_provider_call.get()
+        if before_call is not None:
+            before_call(cid)
         result = subprocess.run(command, input=json.dumps(packet), text=True,
                                 capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
                                 env=environment)
@@ -4113,7 +4127,7 @@ def _store_local_idempotency(key, fingerprint, operation, result):
             os.unlink(temporary)
 
 
-def _execute_local_operation(request):
+def _execute_local_operation(request, *, preflight=False):
     """Execute one internal-alpha operation over the local governance kernel.
 
     This is the shared seam for the CLI and future local transports. It is not
@@ -4202,6 +4216,9 @@ def _execute_local_operation(request):
                 result=prior.get("result"))
             envelope["idempotent_replay"] = True
             return envelope
+
+    if preflight:
+        return None
 
     try:
         if operation == "capabilities.get":
@@ -4371,6 +4388,11 @@ def execute_local_operation(request):
             return envelope
     except _RollbackOperation as rollback:
         return rollback.envelope
+
+
+def preflight_local_operation(request):
+    """Return a validation or replay envelope without running an operation."""
+    return _execute_local_operation(request, preflight=True)
 
 
 def _local_request(operation, parameters):

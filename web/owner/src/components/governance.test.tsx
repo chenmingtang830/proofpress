@@ -8,7 +8,7 @@ import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
-import { applyProviderPreset, ensureProviderDefault, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
+import { applyProviderPreset, ensureProviderDefault, isManagedGmiSelected, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
 
 describe("governance components", () => {
   it("keeps advisory support visually separate from admission", () => {
@@ -174,6 +174,15 @@ describe("governance components", () => {
       provider:"gmi_cloud", model:"deepseek-ai/DeepSeek-V4.1-Flash", endpoint:"",
       mode:"manual", external_consent:false, auto_admit_new_claims:false, zdr:false,
     });
+  });
+  it("keeps allowlisted BYOK GMI distinct from the managed pilot", () => {
+    const settings = {provider:"gmi_cloud"};
+    const savedByok = {settings, credential:{source:"workspace", configured:true}, managed_gmi_available:true};
+    expect(isManagedGmiSelected(settings, savedByok)).toBe(false);
+    expect(isManagedGmiSelected(settings, savedByok, "", true)).toBe(true);
+    expect(isManagedGmiSelected(settings, savedByok, "replacement-key")).toBe(false);
+    expect(isManagedGmiSelected(settings, {...savedByok, credential:{source:"managed_gmi", configured:true}})).toBe(true);
+    expect(isManagedGmiSelected(settings, {...savedByok, managed_gmi_available:false})).toBe(false);
   });
   it("shows provider models while preserving a saved model outside the current catalog", () => {
     const provider = {models:["gpt-5.4", "gpt-5.4-mini"]};

@@ -42,6 +42,13 @@ export function ensureProviderDefault(settings: any, providers: any) {
   return {...settings, model:defaultModel};
 }
 
+export function isManagedGmiSelected(settings: any, record: any, apiKey = "", removeKey = false) {
+  const storedGmiKey = record?.settings?.provider === "gmi_cloud" &&
+    record?.credential?.source === "workspace" && !removeKey;
+  return settings?.provider === "gmi_cloud" && Boolean(record?.managed_gmi_available) &&
+    !apiKey.trim() && !storedGmiKey;
+}
+
 export function ReviewPolicy({csrf, api, onSaved}: any) {
   const [record, setRecord] = React.useState<any>(null);
   const [settings, setSettings] = React.useState<any>(null);
@@ -94,7 +101,7 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
-  const managedGmiSelected = settings?.provider === "gmi_cloud" && record?.managed_gmi_available && !apiKey.trim() && !removeKey;
+  const managedGmiSelected = isManagedGmiSelected(settings, record, apiKey, removeKey);
   const hasProviderCredential = Boolean(apiKey.trim()) || Boolean(record?.credential?.configured && record?.settings?.provider === settings?.provider && !removeKey) || Boolean(managedGmiSelected);
   const selectedProvider = record?.providers?.[settings?.provider];
   const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
@@ -121,8 +128,8 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
           {(selectedProvider?.endpoint_required || selectedProvider?.endpoint_editable) && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off" && selectedProvider.endpoint_required} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} />{selectedProvider.endpoint_editable && <small>Leave blank to use the provider's hosted endpoint.</small>}</Label>}
         </div>
         <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={managedGmiSelected ? "Proofpress-managed pilot key available" : record.credential.configured && record.settings.provider === settings.provider ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
-          <p>{record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
-          {record.credential.configured && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{setRemoveKey(checked === true);setApiKey("");}} />Remove stored key when saving</Label>}
+          <p>{record.credential.source === "workspace" ? "A write-only credential is stored for this workspace." : managedGmiSelected ? "This workspace is eligible for a deployment-held pilot key." : "The key is encrypted for this workspace and never returned to the browser."}</p>
+          {record.credential.source === "workspace" && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{const removing=checked === true;setRemoveKey(removing);setApiKey("");if (removing && settings.provider === "gmi_cloud" && record.managed_gmi_available) setSettings({...settings,mode:"manual",auto_admit_new_claims:false});}} />Remove stored key when saving</Label>}
           {!record.credential.storage_ready && <p className="policyWarning">Secure credential storage is unavailable on this deployment.</p>}
         </div>
       </fieldset>

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext
 from datetime import datetime, timezone, timedelta
 import hashlib
 import hmac
@@ -137,6 +137,7 @@ class HostedControlPlane:
         self.legacy_default_workspace_id = (legacy_default_workspace_id if legacy_default_workspace_id
                                             is not None else workspaces[0] if len(workspaces) == 1 else None)
         self._judge_worker_lock = threading.Lock()
+        self._managed_gmi_lock = threading.Lock()
         SQLiteEventStore(self.database, "__schema__", "system:migration")
 
     def _connect(self) -> sqlite3.Connection:
@@ -1541,6 +1542,9 @@ class HostedControlPlane:
         prior_claims = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "claim_proposed"} if operation == "claim.propose" else set()
         judge_environment = {}
         managed_gmi_call_id = None
+        managed_gmi_selected = False
+        provider_call_started = False
+        before_judge_call = None
         if operation in {"claim.judge", "claim.judge_batch", "relation.judge"}:
             with self._db() as connection:
                 credential_status = self._credential_status(
@@ -1548,6 +1552,7 @@ class HostedControlPlane:
                 provider_secret = self._provider_credential(
                     connection, context.workspace_id, record["settings"]["provider"])
             if credential_status["source"] == "managed_gmi":
+                managed_gmi_selected = True
                 if operation != "claim.judge" or record["settings"]["mode"] != "manual":
                     envelope = self._error_envelope(normalized, "managed_gmi_manual_only",
                         "Proofpress-managed GMI pilot supports manual claim review only.")
@@ -1558,31 +1563,44 @@ class HostedControlPlane:
                                 principal_id=context.principal_id)
                     self._audit(context, normalized, envelope, None)
                     return envelope
-                managed_gmi_call_id = self._reserve_managed_gmi_call(
-                    context.workspace_id, str((parameters or {}).get("claim_id", "")),
-                    context.principal_id, record["policy"]["digest"])
-                if managed_gmi_call_id is None:
-                    envelope = self._error_envelope(normalized, "managed_gmi_daily_limit",
-                        "Proofpress-managed GMI daily review limit reached.")
-                    if attempt_id is not None:
-                        with self._db() as connection:
-                            execution.finish(connection, attempt_id, envelope,
-                                workspace_id=context.workspace_id,
-                                principal_id=context.principal_id)
-                    self._audit(context, normalized, envelope, None)
-                    return envelope
+                def mark_provider_call(_claim_id):
+                    nonlocal provider_call_started
+                    provider_call_started = True
+                before_judge_call = mark_provider_call
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
             # Only the selected workspace credential reaches the judge process.
             judge_environment["GMI_API_KEY"] = ""
-        with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
-            envelope = kernel_ops.execute_local_operation(normalized)
+        with (self._managed_gmi_lock if managed_gmi_selected else nullcontext()), using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment), kernel_ops.using_judge_before_provider_call(before_judge_call):
+            # Validate and resolve replays before reserving the daily allowance.
+            # A reservation is retained only if the Judge reaches its provider call.
+            preflight = kernel_ops.preflight_local_operation(normalized) if managed_gmi_selected else None
+            claim_id = (parameters or {}).get("claim_id") if isinstance(parameters, dict) else None
+            claim_missing = (managed_gmi_selected and preflight is None and
+                             (not isinstance(claim_id, str) or
+                              claim_id not in kernel_ops.v2_projection()["claims"]))
+            if managed_gmi_selected and preflight is None and not claim_missing:
+                managed_gmi_call_id = self._reserve_managed_gmi_call(
+                    context.workspace_id, claim_id, context.principal_id,
+                    record["policy"]["digest"])
+            if preflight is not None:
+                envelope = preflight
+            elif managed_gmi_selected and not claim_missing and managed_gmi_call_id is None:
+                envelope = self._error_envelope(normalized, "managed_gmi_daily_limit",
+                    "Proofpress-managed GMI daily review limit reached.")
+            else:
+                envelope = kernel_ops.execute_local_operation(normalized)
             if managed_gmi_call_id is not None:
                 with self._db() as connection:
-                    connection.execute(
-                        "UPDATE hosted_managed_gmi_calls SET state=? WHERE call_id=? "
-                        "AND workspace_id=?",
-                        ("completed" if envelope.get("ok") else "failed",
-                         managed_gmi_call_id, context.workspace_id))
+                    if provider_call_started:
+                        connection.execute(
+                            "UPDATE hosted_managed_gmi_calls SET state=? WHERE call_id=? "
+                            "AND workspace_id=?",
+                            ("completed" if envelope.get("ok") else "failed",
+                             managed_gmi_call_id, context.workspace_id))
+                    else:
+                        connection.execute(
+                            "DELETE FROM hosted_managed_gmi_calls WHERE call_id=? "
+                            "AND workspace_id=?", (managed_gmi_call_id, context.workspace_id))
             head = store.head()
             if (operation == "claim.judge" and not envelope.get("ok")
                     and envelope.get("error", {}).get("code") == "operation_rejected"):
