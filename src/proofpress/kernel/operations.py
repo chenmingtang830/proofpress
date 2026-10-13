@@ -2242,7 +2242,7 @@ def judge_v2(cid, actor=None):
         serialized_packet = json.dumps(packet)
         before_call = _judge_before_provider_call.get()
         if before_call is not None:
-            before_call(cid, serialized_packet)
+            before_call(cid, serialized_packet, evaluation)
         result = subprocess.run(command, input=serialized_packet, text=True,
                                 capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
                                 env=environment)

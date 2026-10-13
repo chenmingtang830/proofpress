@@ -1573,8 +1573,10 @@ class HostedControlPlane:
                                 principal_id=context.principal_id)
                     self._audit(context, normalized, envelope, None)
                     return envelope
-                def mark_provider_call(_claim_id, packet):
+                def mark_provider_call(_claim_id, packet, evaluation):
                     nonlocal provider_call_started
+                    if not evaluation["eligible"]:
+                        raise ValueError("managed_gmi_deterministic_checks_failed")
                     if len(packet.encode()) > MAX_PACKET_BYTES:
                         raise ValueError("judge command failed: judge_failure:input_limit")
                     provider_call_started = True
@@ -1630,9 +1632,13 @@ class HostedControlPlane:
             if (operation == "claim.judge" and not envelope.get("ok")
                     and envelope.get("error", {}).get("code") == "operation_rejected"):
                 failure = ValueError(envelope["error"].get("message", ""))
-                category = _judge_failure_code(failure)
-                error_code = f"judge_{category}" if category else "judge_failed"
-                detail = _judge_job_failure_detail(failure)
+                if str(failure) == "managed_gmi_deterministic_checks_failed":
+                    error_code = "deterministic_checks_failed"
+                    detail = "Fix deterministic checks before requesting LM advice."
+                else:
+                    category = _judge_failure_code(failure)
+                    error_code = f"judge_{category}" if category else "judge_failed"
+                    detail = _judge_job_failure_detail(failure)
                 envelope = {**envelope, "error": {**envelope["error"], "code": error_code, "message": detail}}
                 with self._db() as connection:
                     connection.execute(

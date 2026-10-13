@@ -355,6 +355,25 @@ class ReviewPolicyTests(unittest.TestCase):
                 self.assertEqual(connection.execute(
                     "SELECT COUNT(*) FROM hosted_managed_gmi_calls").fetchone()[0], 0)
 
+    def test_managed_gmi_rechecks_eligibility_inside_judge(self):
+        settings = {**self.settings, "provider": "gmi_cloud",
+                    "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test",
+                "PROOFPRESS_MANAGED_GMI_DAILY_CALL_LIMIT": "1"}, clear=False):
+            self.control.save_review_policy(self.owner, settings, 0)
+            claim_id = self.proposal("eligibility changed")["result"]["claim"]["id"]
+            with patch.object(kernel, "preview_evaluation_v2", return_value={"eligible": True}), \
+                    patch.object(kernel, "evaluate_v2", return_value={"eligible": False}), \
+                    patch.object(kernel.subprocess, "run") as provider:
+                result = self.control.execute(self.owner, operation(
+                    "claim.judge", {"claim_id": claim_id}))
+            self.assertEqual(result["error"]["code"], "deterministic_checks_failed")
+            provider.assert_not_called()
+            with self.control._db() as connection:
+                self.assertEqual(connection.execute(
+                    "SELECT COUNT(*) FROM hosted_managed_gmi_calls").fetchone()[0], 0)
+
     def test_managed_gmi_judge_is_bounded_audited_and_keeps_claim_unapproved(self):
         settings = {**self.settings, "provider": "gmi_cloud",
                     "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
