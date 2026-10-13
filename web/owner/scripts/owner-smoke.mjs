@@ -356,8 +356,12 @@ try {
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/admin-aligned.png`});
   await page.locator('.issueForm input').nth(0).fill('agent:temporary-browser');
   await page.locator('.issueForm input').nth(1).fill('Temporary browser credential');
-  await page.getByRole('button',{name:'Issue credential',exact:true}).click();
+  await page.getByRole('button',{name:'Issue agent credential',exact:true}).click();
   await page.locator('.secretReveal code').waitFor();
+  assert.equal(await page.getByRole('textbox',{name:'Agent identity',exact:true}).inputValue(),'');
+  assert.equal(await page.getByRole('textbox',{name:'Key name',exact:true}).inputValue(),'');
+  assert.equal(await page.getByRole('button',{name:'Issue agent credential',exact:true}).isDisabled(),true);
+  await page.getByText('Agent credential issued',{exact:true}).waitFor();
   const token=await page.locator('.secretReveal code').textContent();
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${token}`}})).status(),200);
   await page.getByRole('button',{name:'Done',exact:true}).click();
@@ -388,6 +392,10 @@ try {
   await page.getByRole('textbox',{name:'Human key name',exact:true}).fill('Temporary human Reviewer');
   await page.getByRole('button',{name:'Issue Reviewer credential',exact:true}).click();
   await page.locator('.secretReveal code').waitFor();
+  assert.equal(await page.getByRole('textbox',{name:'Human identity',exact:true}).inputValue(),'');
+  assert.equal(await page.getByRole('textbox',{name:'Human key name',exact:true}).inputValue(),'');
+  assert.equal(await page.getByRole('button',{name:'Issue Reviewer credential',exact:true}).isDisabled(),true);
+  await page.getByText('Human Reviewer credential issued',{exact:true}).waitFor();
   const humanToken=await page.locator('.secretReveal code').textContent();
   const humanPage=await browser.newPage();
   await humanPage.goto(data.base);

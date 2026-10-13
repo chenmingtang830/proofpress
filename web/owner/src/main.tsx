@@ -311,7 +311,7 @@ function App() {
   const [admissionReceipt, setAdmissionReceipt] = React.useState<{receipt:Receipt; nextId:string|null}|null>(null);
   const [governanceMessage, setGovernanceMessage] = React.useState("");
   const [judgeRunning, setJudgeRunning] = React.useState(false);
-  const [credentialSecret, setCredentialSecret] = React.useState("");
+  const [issuedCredential, setIssuedCredential] = React.useState<{token: string; kind: "agent" | "reviewer"; principal: string; label: string; rotated: boolean} | null>(null);
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
   React.useEffect(() => () => {
     if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
@@ -910,7 +910,7 @@ function App() {
   ) {
     if ((action === "revoke" || action === "rotate") && !window.confirm(
       action === "revoke" ? "Revoke this credential? Its access and active browser sessions will stop immediately." : "Rotate this agent credential? The old credential will stop working."
-    )) return;
+    )) return false;
     setBusy(true);
     setError("");
     try {
@@ -918,10 +918,22 @@ function App() {
         method: "POST",
         body: JSON.stringify({ action, csrf, ...values }),
       });
-      if (result.token) setCredentialSecret(result.token);
+      if (action !== "revoke" && !result.token) throw new Error("The credential was changed, but its one-time secret was not returned. Revoke it before issuing another.");
       await showAdmin();
+      if (result.token) {
+        const existing = action === "rotate" ? credentials.find(c => c.credential_id === values.credential_id) : null;
+        setIssuedCredential({
+          token: result.token,
+          kind: action === "issue_reviewer" ? "reviewer" : "agent",
+          principal: values.principal_id || existing?.principal_id || "",
+          label: values.label || existing?.label || "",
+          rotated: action === "rotate",
+        });
+      }
+      return true;
     } catch (e: any) {
       setError(e.message);
+      return false;
     } finally {
       setBusy(false);
     }
@@ -1136,10 +1148,10 @@ function App() {
               policy={<ReviewPolicy csrf={csrf} api={api} onSaved={() => { void load(); }} />}
               credentials={credentials}
               loading={credentialsLoading}
-              secret={credentialSecret}
+              issuedCredential={issuedCredential}
               busy={busy}
               onAction={credentialAction}
-              onDismissSecret={() => setCredentialSecret("")}
+              onDismissSecret={() => setIssuedCredential(null)}
             />
           )}
         </section>
@@ -1745,7 +1757,7 @@ function AdminPage({
   policy,
   credentials,
   loading,
-  secret,
+  issuedCredential,
   busy,
   onAction,
   onDismissSecret,
@@ -1756,7 +1768,11 @@ function AdminPage({
   const [humanLabel, setHumanLabel] = React.useState("");
   const [copyStatus, setCopyStatus] = React.useState("");
   const [agentDraftLoaded, setAgentDraftLoaded] = React.useState(false);
-  React.useEffect(() => setCopyStatus(""), [secret]);
+  const secretRef = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    setCopyStatus("");
+    if (issuedCredential) secretRef.current?.focus();
+  }, [issuedCredential]);
   React.useEffect(() => {
     const raw = sessionStorage.getItem("proofpress:agent-credential-draft");
     if (!raw) return;
@@ -1778,14 +1794,39 @@ function AdminPage({
       />
       {policy}
       {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared credential" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
+      {issuedCredential && (
+        <div className={`secretReveal secretReveal--${issuedCredential.kind}`} ref={secretRef} tabIndex={-1} role="region" aria-label="New credential">
+          <div>
+            <b>{issuedCredential.rotated ? "Agent credential rotated" : issuedCredential.kind === "reviewer" ? "Human Reviewer credential issued" : "Agent credential issued"}</b>
+            <p><strong>{issuedCredential.label}</strong> · {issuedCredential.principal}</p>
+            <p>Copy this credential now. It is shown once. {issuedCredential.kind === "reviewer"
+              ? "Give it to this person through a secure channel."
+              : "Keep it in this agent client's secure configuration."}</p>
+            <code>{issuedCredential.token}</code>
+          </div>
+          <div>
+            <Button variant="outline" onClick={async () => {
+              try { await navigator.clipboard.writeText(issuedCredential.token); setCopyStatus("Copied"); }
+              catch { setCopyStatus("Copy failed. Select the credential and copy it manually."); }
+            }}>Copy</Button>
+            <Button variant="ghost" onClick={onDismissSecret}>Done</Button>
+          </div>
+          {copyStatus && <p role="status">{copyStatus}</p>}
+        </div>
+      )}
       <form
-        className="issueForm"
-        onSubmit={(event) => {
+        className="issueForm issueForm--agent"
+        onSubmit={async (event) => {
           event.preventDefault();
-          onAction("issue", { principal_id: principal, label });
+          if (await onAction("issue", { principal_id: principal, label })) {
+            setPrincipal("");
+            setLabel("");
+            setAgentDraftLoaded(false);
+          }
         }}
       >
         <div className="issueFormHeader">
+          <span className="issueFormKind">Agent / device</span>
           <b>Issue agent credential</b>
           <small>
             Create a key for an agent or device. You can revoke its access later.
@@ -1797,6 +1838,7 @@ function AdminPage({
             aria-describedby="agentIdentityHelp"
             value={principal}
             onChange={(e) => setPrincipal(e.target.value)}
+            disabled={busy || Boolean(issuedCredential)}
             placeholder="agent:claude-code"
             required
           /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></Label>
@@ -1805,55 +1847,35 @@ function AdminPage({
             aria-describedby="keyNameHelp"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
+            disabled={busy || Boolean(issuedCredential)}
             placeholder="Claude Code · company laptop"
             required
           /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></Label>
-          <Button disabled={busy}>Issue credential</Button>
+          <Button disabled={busy || Boolean(issuedCredential)}>Issue agent credential</Button>
         </div>
       </form>
-      <form className="issueForm" onSubmit={(event) => {
+      <form className="issueForm issueForm--reviewer" onSubmit={async (event) => {
         event.preventDefault();
-        onAction("issue_reviewer", { principal_id: humanPrincipal, label: humanLabel });
+        if (await onAction("issue_reviewer", { principal_id: humanPrincipal, label: humanLabel })) {
+          setHumanPrincipal("");
+          setHumanLabel("");
+        }
       }}>
         <div className="issueFormHeader">
+          <span className="issueFormKind">Human access</span>
           <b>Issue human Reviewer credential</b>
           <small>This person can view and review findings. Policy and credential management stay with the workspace Owner.</small>
         </div>
         <div className="issueFormFields">
           <Label>Human identity<Input aria-label="Human identity" value={humanPrincipal}
+            disabled={busy || Boolean(issuedCredential)}
             onChange={(e) => setHumanPrincipal(e.target.value)} placeholder="human:oliver" required /></Label>
           <Label>Key name<Input aria-label="Human key name" value={humanLabel}
+            disabled={busy || Boolean(issuedCredential)}
             onChange={(e) => setHumanLabel(e.target.value)} placeholder="Oliver · personal laptop" required /></Label>
-          <Button disabled={busy}>Issue Reviewer credential</Button>
+          <Button className="issueReviewerButton" disabled={busy || Boolean(issuedCredential)}>Issue Reviewer credential</Button>
         </div>
       </form>
-      {secret && (
-        <div className="secretReveal">
-          <div>
-            <b>Copy this credential now</b>
-            <p>
-              It is shown once. Give a human Reviewer credential to that person
-              through a secure channel; keep an agent credential in its client's secure configuration.
-            </p>
-            <code>{secret}</code>
-          </div>
-          <div>
-            <Button
-              variant="outline"
-              onClick={async () => {
-                try { await navigator.clipboard.writeText(secret); setCopyStatus("Copied"); }
-                catch { setCopyStatus("Copy failed. Select the credential and copy it manually."); }
-              }}
-            >
-              Copy
-            </Button>
-            <Button variant="ghost" onClick={onDismissSecret}>
-              Done
-            </Button>
-          </div>
-          {copyStatus && <p role="status">{copyStatus}</p>}
-        </div>
-      )}
       <div className="credentialList" aria-busy={loading}>
         {loading && !credentials.length && <p className="empty" role="status">Loading credentials…</p>}
         {credentials.map((c: any) => (
@@ -1871,7 +1893,7 @@ function AdminPage({
                 <Button
                   variant="outline"
                   size="sm"
-                  disabled={busy}
+                  disabled={busy || Boolean(issuedCredential)}
                   onClick={() =>
                     onAction("rotate", { credential_id: c.credential_id })
                   }
@@ -1881,7 +1903,7 @@ function AdminPage({
                 <Button
                   variant="danger"
                   size="sm"
-                  disabled={busy}
+                  disabled={busy || Boolean(issuedCredential)}
                   onClick={() =>
                     onAction("revoke", { credential_id: c.credential_id })
                   }
@@ -1890,7 +1912,7 @@ function AdminPage({
                 </Button>
               </div>
             ) : !c.revoked_at && c.role === "reviewer" ? (
-              <div className="credentialActions"><Button variant="danger" size="sm" disabled={busy}
+              <div className="credentialActions"><Button variant="danger" size="sm" disabled={busy || Boolean(issuedCredential)}
                 onClick={() => onAction("revoke", { credential_id: c.credential_id })}>Revoke</Button></div>
             ) : (
               <span />
