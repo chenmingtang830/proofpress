@@ -13,12 +13,15 @@ from urllib.parse import urlencode, urlparse
 
 try:  # both ship with pydantic, an mcp dependency; without the extra pydantic never sees this module
     from annotated_types import MinLen
+    from pydantic import WithJsonSchema
     from typing_extensions import TypedDict  # pydantic reads TypedDict metadata only from this on 3.11
 except ImportError:  # pragma: no cover - only without the mcp extra
     MinLen = None
+    WithJsonSchema = None
     from typing import TypedDict
 
 from proofpress.client import ProofpressClient, ProofpressError, ProofpressTransportError
+from proofpress.mcp_schemas import stdio_evidence_payload_schema
 
 # The kernel's non-empty rule, published and enforced at argument validation.
 if TYPE_CHECKING:
@@ -254,6 +257,15 @@ class ProofpressMcpGateway:
         return result
 
 
+# The evidence envelope as the hosted server publishes it, so an agent on the local server sees the same format in the
+# tool's input schema instead of learning it from validation errors. Schema only: the kernel still validates the payload.
+EVIDENCE_PAYLOAD_SCHEMA = stdio_evidence_payload_schema()
+if TYPE_CHECKING or WithJsonSchema is None:
+    EvidencePayload: TypeAlias = dict[str, Any]
+else:
+    EvidencePayload = Annotated[dict[str, Any], WithJsonSchema(EVIDENCE_PAYLOAD_SCHEMA)]
+
+
 class ApplicabilityCard(TypedDict, total=False):
     """Discovery card for a proposed claim; give at least one field.
 
@@ -360,7 +372,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
 
     @tool(name="proofpress_submit_evidence")
     def proofpress_submit_evidence(
-            payload: dict[str, Any],
+            payload: EvidencePayload,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
         """Submit bounded evidence.
