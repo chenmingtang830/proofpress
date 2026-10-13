@@ -707,6 +707,7 @@ def _require_expected_head(expected_head, *, required=False):
 
 _policy_override = ContextVar("proofpress_policy_override", default=None)
 _judge_environment = ContextVar("proofpress_judge_environment", default=None)
+_judge_before_provider_call = ContextVar("proofpress_judge_before_provider_call", default=None)
 
 
 @contextmanager
@@ -727,6 +728,16 @@ def using_judge_environment(environment):
         yield
     finally:
         _judge_environment.reset(token)
+
+
+@contextmanager
+def using_judge_before_provider_call(callback):
+    """Run a hosted quota guard only when a claim Judge reaches its provider call."""
+    token = _judge_before_provider_call.set(callback)
+    try:
+        yield
+    finally:
+        _judge_before_provider_call.reset(token)
 
 
 def load_v2_policy():
@@ -2155,7 +2166,7 @@ def _conflict_resolution_receipts(projection, cid):
     return sorted(receipts, key=lambda row: row["relation_id"])
 
 
-def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
+def _evaluation_checks_v2(cid, projection=None, events=None, policy=None, actor=None):
     events = v2_events() if events is None else events
     projection = v2_projection(events) if projection is None else projection
     row = projection["claims"].get(cid)
@@ -2183,6 +2194,18 @@ def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
     checks.update(_experiment_profile_checks(
         row, [projection["evidence"][ref] for ref in evidence_ok],
         projection["evidence"]))
+    return events, projection, row, policy, verifier, evidence_ok, checks
+
+
+def preview_evaluation_v2(cid, actor=None):
+    """Read current deterministic eligibility without writing an evaluation event."""
+    *_, checks = _evaluation_checks_v2(cid, actor=actor)
+    return {"eligible": all(checks.values()), "checks": checks}
+
+
+def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
+    events, projection, row, policy, verifier, evidence_ok, checks = _evaluation_checks_v2(
+        cid, projection=projection, events=events, policy=policy, actor=actor)
     check_receipts = _check_receipts(row, cid, policy, evidence_ok, checks, projection)
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "claim_digest": row["digest"],
@@ -2216,7 +2239,11 @@ def judge_v2(cid, actor=None):
     try:
         environment = os.environ.copy()
         environment.update(_judge_environment.get() or {})
-        result = subprocess.run(command, input=json.dumps(packet), text=True,
+        serialized_packet = json.dumps(packet)
+        before_call = _judge_before_provider_call.get()
+        if before_call is not None:
+            before_call(cid, serialized_packet, evaluation)
+        result = subprocess.run(command, input=serialized_packet, text=True,
                                 capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
                                 env=environment)
     except subprocess.TimeoutExpired as exc:
@@ -4113,7 +4140,7 @@ def _store_local_idempotency(key, fingerprint, operation, result):
             os.unlink(temporary)
 
 
-def _execute_local_operation(request):
+def _execute_local_operation(request, *, preflight=False):
     """Execute one internal-alpha operation over the local governance kernel.
 
     This is the shared seam for the CLI and future local transports. It is not
@@ -4202,6 +4229,9 @@ def _execute_local_operation(request):
                 result=prior.get("result"))
             envelope["idempotent_replay"] = True
             return envelope
+
+    if preflight:
+        return None
 
     try:
         if operation == "capabilities.get":
@@ -4371,6 +4401,11 @@ def execute_local_operation(request):
             return envelope
     except _RollbackOperation as rollback:
         return rollback.envelope
+
+
+def preflight_local_operation(request):
+    """Return a validation or replay envelope without running an operation."""
+    return _execute_local_operation(request, preflight=True)
 
 
 def _local_request(operation, parameters):

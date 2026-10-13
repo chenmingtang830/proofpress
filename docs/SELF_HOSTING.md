@@ -193,11 +193,27 @@ workspace; invitations and granular roles remain outside this reference.
 
 ### Workspace review policy and provider credentials
 
-The owner configures LM review in **Admin → Judge & policy**. Proofpress supports OpenRouter, OpenAI, Anthropic, and a public HTTPS OpenAI-compatible endpoint. A model identifier and matching provider API key are required; customers bring the key through the owner UI and do not need access to the Render dashboard.
+The owner configures LM review in **Admin → Judge & policy**. Built-in choices include OpenRouter, OpenAI, Anthropic, Baseten, and GMI Cloud; Custom accepts a public HTTPS OpenAI-compatible endpoint. A model identifier and matching provider API key are required; customers bring the key through the owner UI and do not need access to the Render dashboard.
 
 Set `PROOFPRESS_SECRET_ENCRYPTION_KEY` on the deployment to a Fernet key before accepting workspace credentials. The browser can replace or remove a key but can never read it back. Policy versions contain provider, model, bounded criteria, automatic/manual mode, and consent—not the key. OpenRouter workspaces may require Zero Data Retention routing.
 
 The first-run form recommends automatic LM review with current supporting advice required. Nothing is activated until the owner reviews and saves the configuration. Deterministic checks always run first; failures become blocked candidates and are excluded from human review and model processing. A supporting LM recommendation is still advisory: human approval remains the only admission authority.
+
+#### GMI Cloud advisory review
+
+Select **GMI Cloud** in Admin → Judge & policy, choose a model available on your GMI account, enable external processing consent, and save the GMI API key in the owner form. The key is encrypted at rest with `PROOFPRESS_SECRET_ENCRYPTION_KEY`. Switching providers requires a key for the selected provider. GMI uses its fixed `https://api.gmi-serving.com/v1/chat/completions` endpoint, with Bearer authentication. It does not inherit OpenRouter's key or Zero Data Retention setting.
+
+For a Proofpress-paid pilot, set `GMI_API_KEY` as a hosted secret and explicitly allow workspace IDs through `PROOFPRESS_MANAGED_GMI_WORKSPACES`, a comma-separated list. An empty or absent allowlist enables no managed traffic. Optionally set `PROOFPRESS_MANAGED_GMI_DAILY_CALL_LIMIT` (default 20, per workspace, UTC day). The owner must select GMI Cloud and save external processing consent. This path supports manual `claim.judge` only; automatic review, automatic admission, batch review, and relation review are rejected. Usage reservations and outcome states are stored in `hosted_managed_gmi_calls`; interrupted attempts count toward the daily limit. A workspace with its own stored GMI key uses the BYOK path instead.
+
+The Judge sends a bounded claim and its cited evidence text to GMI, which may contain sensitive source material. It does not collect a full agent trace. The owner should inspect submitted evidence before opting in. Do not describe this endpoint as Zero Data Retention or as approved for customer private data until the actual account terms and retention controls are verified. Neither this code nor a local live check enables production traffic by itself.
+
+To check a live GMI model without changing a hosted workspace, set `GMI_API_KEY` in a local secret environment and run this explicit, billable verification from the repository root:
+
+```sh
+PYTHONPATH=src python scripts/verify_gmi_judge.py --live --model deepseek-ai/DeepSeek-V4.1-Flash
+```
+
+The script creates a temporary local Hosted Control Plane, submits synthetic evidence, proposes and evaluates one claim, calls GMI through the real `claim.judge` path, checks the review receipt, and confirms the unapproved claim is absent from governed context. It removes the temporary database and prints only a bounded result, never the key or provider response. First confirm the selected model is available to your GMI key; the default ID is an example, not a guarantee for every account. This verification establishes connectivity and the advisory workflow for that model only. It does not enable production traffic, prove recommendation quality, or approve a claim.
 
 [//]: # (ob:8618e948)
 ## Target architecture

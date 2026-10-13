@@ -39,6 +39,9 @@ PROVIDERS = {
                 "editable_model": True,
                 "endpoint_editable": True,
                 "endpoint_placeholder": "https://model-MODEL_ID.api.baseten.co/environments/production/sync/v1/chat/completions"},
+    "gmi_cloud": {"label": "GMI Cloud", "endpoint": "https://api.gmi-serving.com/v1/chat/completions", "zdr": False,
+                  "default_model": "deepseek-ai/DeepSeek-V4.1-Flash",
+                  "models": ["deepseek-ai/DeepSeek-V4.1-Flash"], "editable_model": True},
     "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False,
                "default_model": "",
                "models": [],
@@ -153,11 +156,14 @@ def _cipher():
 def credential_status(connection, workspace_id, provider="openrouter", *,
                       legacy_default_workspace_id=None):
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
-    configured = bool(row) or (workspace_id == legacy_default_workspace_id and
-                               provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
+    deployment = deployment_credential(
+        workspace_id, provider, legacy_default_workspace_id=legacy_default_workspace_id)
+    configured = bool(row) or bool(deployment)
     return {"configured": configured, "last_four": row["last_four"] if row else None,
             "updated_at": row["updated_at"] if row else None,
-            "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))}
+            "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY")),
+            "source": "workspace" if row else "managed_gmi" if provider == "gmi_cloud" and deployment
+                      else "deployment" if deployment else None}
 
 
 def save_credential(connection, workspace_id, secret, updated_at):
@@ -172,13 +178,37 @@ def delete_credential(connection, workspace_id):
     connection.execute("DELETE FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,))
 
 
+def deployment_credential(workspace_id, provider, *, legacy_default_workspace_id=None):
+    if provider == "gmi_cloud":
+        return (os.environ.get("GMI_API_KEY", "").strip()
+                if workspace_id in managed_gmi_workspaces() else None)
+    return (os.environ.get("OPENROUTER_API_KEY", "").strip()
+            if provider == "openrouter" and workspace_id == legacy_default_workspace_id else None)
+
+
+def managed_gmi_workspaces():
+    """An operator-controlled allowlist; absence means no managed traffic."""
+    return {part.strip() for part in os.environ.get(
+        "PROOFPRESS_MANAGED_GMI_WORKSPACES", "").split(",") if part.strip()}
+
+
+def managed_gmi_limit():
+    raw = os.environ.get("PROOFPRESS_MANAGED_GMI_DAILY_CALL_LIMIT", "20")
+    try:
+        limit = int(raw)
+    except ValueError as exc:
+        raise ValueError("Managed GMI daily call limit is misconfigured.") from exc
+    if limit < 1 or limit > 10000:
+        raise ValueError("Managed GMI daily call limit is misconfigured.")
+    return limit
+
+
 def credential(connection, workspace_id, provider="openrouter", *,
                legacy_default_workspace_id=None):
     row = connection.execute("SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     if not row:
-        legacy = (os.environ.get("OPENROUTER_API_KEY", "").strip()
-                  if workspace_id == legacy_default_workspace_id and provider == "openrouter" else "")
-        return legacy or None
+        return deployment_credential(workspace_id, provider,
+            legacy_default_workspace_id=legacy_default_workspace_id)
     from cryptography.fernet import InvalidToken
     try:
         return _cipher().decrypt(row["ciphertext"]).decode()
@@ -186,11 +216,12 @@ def credential(connection, workspace_id, provider="openrouter", *,
         raise ValueError("Stored provider credential cannot be decrypted.") from exc
 
 
-def public(record, credential=None):
+def public(record, credential=None, *, managed_gmi_available=False):
     return {key: record[key] for key in ("version", "settings", "actor", "updated_at")} | {
         "policy_digest": record["policy"]["digest"], "rubrics": RUBRICS,
         "providers": PROVIDERS, "credential": credential if credential is not None else {"configured": False, "last_four": None, "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))},
-        "authoring_prompt": POLICY_AUTHORING_PROMPT}
+        "authoring_prompt": POLICY_AUTHORING_PROMPT,
+        "managed_gmi_available": managed_gmi_available}
 
 
 def _endpoint(settings):
