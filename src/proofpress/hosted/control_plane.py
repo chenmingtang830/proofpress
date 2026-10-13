@@ -1587,12 +1587,25 @@ class HostedControlPlane:
             claim_missing = (managed_gmi_selected and preflight is None and
                              (not isinstance(claim_id, str) or
                               claim_id not in kernel_ops.v2_projection()["claims"]))
+            claim_ineligible = False
             if managed_gmi_selected and preflight is None and not claim_missing:
+                try:
+                    claim_ineligible = not kernel_ops.preview_evaluation_v2(
+                        claim_id, actor=context.principal_id)["eligible"]
+                except ValueError:
+                    # Let the kernel return its normal authorization or policy error.
+                    claim_missing = True
+            if claim_ineligible:
+                kernel_ops.evaluate_v2(claim_id, actor=context.principal_id)
+            elif managed_gmi_selected and preflight is None and not claim_missing:
                 managed_gmi_call_id = self._reserve_managed_gmi_call(
                     context.workspace_id, claim_id, context.principal_id,
                     record["policy"]["digest"])
             if preflight is not None:
                 envelope = preflight
+            elif claim_ineligible:
+                envelope = self._error_envelope(normalized, "deterministic_checks_failed",
+                    "Fix deterministic checks before requesting LM advice.")
             elif managed_gmi_selected and not claim_missing and managed_gmi_call_id is None:
                 envelope = self._error_envelope(normalized, "managed_gmi_daily_limit",
                     "Proofpress-managed GMI daily review limit reached.")

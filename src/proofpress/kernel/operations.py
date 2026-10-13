@@ -2166,7 +2166,7 @@ def _conflict_resolution_receipts(projection, cid):
     return sorted(receipts, key=lambda row: row["relation_id"])
 
 
-def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
+def _evaluation_checks_v2(cid, projection=None, events=None, policy=None, actor=None):
     events = v2_events() if events is None else events
     projection = v2_projection(events) if projection is None else projection
     row = projection["claims"].get(cid)
@@ -2194,6 +2194,18 @@ def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
     checks.update(_experiment_profile_checks(
         row, [projection["evidence"][ref] for ref in evidence_ok],
         projection["evidence"]))
+    return events, projection, row, policy, verifier, evidence_ok, checks
+
+
+def preview_evaluation_v2(cid, actor=None):
+    """Read current deterministic eligibility without writing an evaluation event."""
+    *_, checks = _evaluation_checks_v2(cid, actor=actor)
+    return {"eligible": all(checks.values()), "checks": checks}
+
+
+def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
+    events, projection, row, policy, verifier, evidence_ok, checks = _evaluation_checks_v2(
+        cid, projection=projection, events=events, policy=policy, actor=actor)
     check_receipts = _check_receipts(row, cid, policy, evidence_ok, checks, projection)
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "claim_digest": row["digest"],
