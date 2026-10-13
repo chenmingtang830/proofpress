@@ -2239,10 +2239,11 @@ def judge_v2(cid, actor=None):
     try:
         environment = os.environ.copy()
         environment.update(_judge_environment.get() or {})
+        serialized_packet = json.dumps(packet)
         before_call = _judge_before_provider_call.get()
         if before_call is not None:
-            before_call(cid)
-        result = subprocess.run(command, input=json.dumps(packet), text=True,
+            before_call(cid, serialized_packet)
+        result = subprocess.run(command, input=serialized_packet, text=True,
                                 capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
                                 env=environment)
     except subprocess.TimeoutExpired as exc:

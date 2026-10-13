@@ -21,6 +21,7 @@ from proofpress.kernel.contracts import (
 )
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from proofpress.hosted import execution, review_policy
+from proofpress.hosted.judge import MAX_PACKET_BYTES
 
 validate_operation_contracts(kernel_ops.LOCAL_OPERATION_SPECS)
 IDENTITY_PARAMETERS = {
@@ -1572,8 +1573,10 @@ class HostedControlPlane:
                                 principal_id=context.principal_id)
                     self._audit(context, normalized, envelope, None)
                     return envelope
-                def mark_provider_call(_claim_id):
+                def mark_provider_call(_claim_id, packet):
                     nonlocal provider_call_started
+                    if len(packet.encode()) > MAX_PACKET_BYTES:
+                        raise ValueError("judge command failed: judge_failure:input_limit")
                     provider_call_started = True
                 before_judge_call = mark_provider_call
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""

@@ -332,6 +332,29 @@ class ReviewPolicyTests(unittest.TestCase):
                 "review.receipt", {"claim_id": claim_id}))["result"]
             self.assertEqual(receipt["state"], "blocked")
 
+    def test_managed_gmi_oversized_packet_does_not_use_provider_or_quota(self):
+        settings = {**self.settings, "provider": "gmi_cloud",
+                    "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
+        with patch.dict(os.environ, {"GMI_API_KEY": "gmi-deployment-key",
+                "PROOFPRESS_MANAGED_GMI_WORKSPACES": "workspace:test",
+                "PROOFPRESS_MANAGED_GMI_DAILY_CALL_LIMIT": "1"}, clear=False):
+            self.control.save_review_policy(self.owner, settings, 0)
+            evidence = self.control.execute(self.agent, operation(
+                "evidence.submit", {"payload": evidence_payload()}))["result"]["evidence"]
+            proposed = self.control.execute(self.agent, operation("claim.propose", {
+                "title": "Large packet", "statement": "x" * 130_000,
+                "evidence_refs": evidence, "scope": "test", "proposer": "agent:codex"}))
+            self.assertTrue(proposed["ok"])
+            claim_id = proposed["result"]["claim"]["id"]
+            with patch.object(kernel.subprocess, "run") as provider:
+                result = self.control.execute(self.owner, operation(
+                    "claim.judge", {"claim_id": claim_id}))
+            self.assertEqual(result["error"]["code"], "judge_input_limit")
+            provider.assert_not_called()
+            with self.control._db() as connection:
+                self.assertEqual(connection.execute(
+                    "SELECT COUNT(*) FROM hosted_managed_gmi_calls").fetchone()[0], 0)
+
     def test_managed_gmi_judge_is_bounded_audited_and_keeps_claim_unapproved(self):
         settings = {**self.settings, "provider": "gmi_cloud",
                     "model": "deepseek-ai/DeepSeek-V4.1-Flash", "zdr": False}
