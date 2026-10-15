@@ -344,6 +344,58 @@ class ContextLineageTests(unittest.TestCase):
         self.assertEqual(entry["required_action"], "human_review")
         self.assertNotIn("successor_id", entry)
 
+    # Review decisions that the claim's state would shadow are refused.
+
+    def test_sent_back_claim_cannot_be_admitted_directly(self):
+        original = self.propose("Original claim")
+        self.send_back(original)
+        before = len(self.store.events)
+        with self.assertRaisesRegex(ValueError,
+                                    "admit would have no effect on a needs_revision claim"):
+            self.admit(original)
+        self.assertEqual(len(self.store.events), before)
+        blocked, governed = self.blocked()
+        self.assertEqual((governed, blocked[original]["required_action"]),
+                         ([], "propose_revision"))
+
+    def test_rejected_claim_takes_no_admission_or_change_request(self):
+        rejected = self.propose("Rejected claim")
+        self.reject(rejected)
+        with self.assertRaisesRegex(ValueError, "no effect on a rejected claim; correct it"):
+            self.admit(rejected)
+        with self.assertRaisesRegex(ValueError,
+                                    "request_changes would have no effect on a rejected claim"):
+            self.send_back(rejected)
+
+    def test_replaced_and_withdrawn_claims_take_no_new_decisions(self):
+        old = self.propose("Old claim")
+        self.admit(old)
+        correction = self.propose("Correction", evidence=[self.evidence[1]])
+        self.admit(correction)
+        kernel_ops.supersede_v2(old, correction, "human:owner")
+        with self.assertRaisesRegex(ValueError, "no effect on a superseded claim"):
+            self.admit(old)
+        withdrawn = self.propose("Retracted claim", evidence=[self.evidence[2]])
+        self.admit(withdrawn)
+        kernel_ops.withdraw_v2(withdrawn, "human:owner", "Source was retracted",
+                               "withdraw-decisions", kernel_ops.v2_head())
+        with self.assertRaisesRegex(ValueError, "no effect on a withdrawn claim"):
+            self.send_back(withdrawn)
+
+    def test_decisions_that_change_the_state_still_apply(self):
+        abandoned = self.propose("Abandoned claim")
+        self.send_back(abandoned)
+        self.reject(abandoned)
+        reopened = self.propose("Reopened claim", evidence=[self.evidence[1]])
+        self.admit(reopened)
+        self.send_back(reopened)
+        kernel_ops.review_v2(reopened, "request_changes", "human:owner", "Also cite the annex.")
+        projection = kernel_ops.v2_projection()
+        self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][abandoned]),
+                         "rejected")
+        self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][reopened]),
+                         "needs_revision")
+
 
 if __name__ == "__main__":
     unittest.main()

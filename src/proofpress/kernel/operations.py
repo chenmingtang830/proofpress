@@ -2359,6 +2359,26 @@ def _current_judge_recommendation(projection, row, policy):
                 recommendation.get("policy_digest") == policy["digest"])
 
 
+_REVIEW_OUTCOMES = {"admit": ("admissions", "admitted"),
+                    "reject": ("rejections", "rejected"),
+                    "request_changes": ("revision_requests", "needs_revision")}
+_REVIEW_REMEDIES = {"needs_revision": "; answer it with a revision (qualifiers.revision_of)",
+                    "rejected": "; correct it with a re-proposal (reproposal_of)"}
+
+
+def _review_outcome(projection, row, decision, policy):
+    """Return the claim's state now and after ``decision``, without writing.
+
+    ``_base_v2_state`` ranks supersession, withdrawal, expiry, rejection, and
+    revision requests above admission whatever their order, so a decision on
+    a claim in one of those states could be recorded and never take effect.
+    """
+    key = _REVIEW_OUTCOMES[decision][0]
+    simulated = {**projection, key: {**projection[key], row["id"]: {
+        "policy_digest": policy["digest"], "claim_digest": row["digest"]}}}
+    return _base_v2_state(projection, row, policy), _base_v2_state(simulated, row, policy)
+
+
 def review_v2(cid, decision, reviewer, note=None, request_id=None,
               expected_head=None):
     if decision not in {"admit", "reject", "request_changes"}:
@@ -2383,6 +2403,10 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
         conflicts = _active_contradictions(projection, policy)
         if cid in conflicts:
             raise ValueError("active contradiction endpoint may only transition through relation resolve")
+    current, after = _review_outcome(projection, row, decision, load_v2_policy())
+    if after != _REVIEW_OUTCOMES[decision][1]:
+        raise ValueError(f"review decision {decision} would have no effect on a {current} claim"
+                         + _REVIEW_REMEDIES.get(current, ""))
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a claim")
     evaluation = evaluate_v2(cid)
