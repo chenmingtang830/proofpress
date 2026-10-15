@@ -102,6 +102,13 @@ def main(argv=None):
             result = client.review_summary(args.scope)
         elif args.command == "revision-instructions":
             result = client.review_receipt(args.claim_id)
+            lineage = result.get("lineage")
+            if lineage and lineage.get("successor_state") == "needs_revision":
+                raise ValueError("A later revision was also sent back; run revision-instructions "
+                                 + lineage["successor_id"])
+            if lineage:
+                raise ValueError(f"{lineage['successor_id']} ({lineage['successor_state']}) "
+                                 "already answers this claim; do not revise it again")
             request = result.get("revision_request")
             if not request:
                 raise ValueError("No revision request recorded for this claim")
