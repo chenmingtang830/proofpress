@@ -2678,6 +2678,40 @@ def _actor_can_read(row, policy, actor):
                 or actor in policy["allowed_actors"])
 
 
+def _claim_readable(projection, policy, actor, cid):
+    """True when ``actor`` may read claim ``cid`` (unknown IDs follow the policy)."""
+    return _actor_can_read(projection["claims"].get(cid, {}), policy, actor)
+
+
+def _disclosed_claim(row, projection, policy, actor):
+    """Return ``row`` with lineage pointers to claims ``actor`` may not read cleared.
+
+    A claim row names its re-proposal predecessor (``reproposal_of``) and its
+    revision parent (``qualifiers.revision_of``); a reader who may read the
+    row but not the claim it points at sees ``None`` there instead.
+    """
+    qualifiers = row.get("qualifiers") or {}
+    hide_reproposal = bool(row.get("reproposal_of")) and not _claim_readable(
+        projection, policy, actor, row["reproposal_of"])
+    hide_revision = bool(qualifiers.get("revision_of")) and not _claim_readable(
+        projection, policy, actor, qualifiers["revision_of"])
+    if not (hide_reproposal or hide_revision):
+        return row
+    cleared = {**row}
+    if hide_reproposal:
+        cleared["reproposal_of"] = None
+    if hide_revision:
+        cleared["qualifiers"] = {**qualifiers, "revision_of": None}
+    return cleared
+
+
+def _disclosed_resolutions(resolutions, projection, policy, actor):
+    """Return conflict-resolution receipts with losers ``actor`` may not read set to None."""
+    return [resolution if _claim_readable(projection, policy, actor, resolution.get("loser"))
+            else {**resolution, "loser": None}
+            for resolution in resolutions]
+
+
 _LINEAGE_RANK = {"usable": 3, "pending": 2, "revisable": 1}
 
 
@@ -2896,9 +2930,12 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                     "required_action": ("human_conflict_review" if conflict_rows else
                                         _blocked_action(reason, lineage)),
                     **_successor_fields(lineage)}
-            if conflict_rows:
-                item["relation_ids"] = sorted({row["relation_id"] for row in conflict_rows})
-                item["peer_ids"] = sorted({row["peer_id"] for row in conflict_rows})
+            visible_conflicts = [conflict for conflict in conflict_rows
+                                 if _claim_readable(projection, policy, actor,
+                                                    conflict["peer_id"])]
+            if visible_conflicts:
+                item["relation_ids"] = sorted({row["relation_id"] for row in visible_conflicts})
+                item["peer_ids"] = sorted({row["peer_id"] for row in visible_conflicts})
             if dependency_rows:
                 visible = [impact for impact in dependency_rows
                            if all(_actor_can_read(projection["claims"].get(node, {}), policy, actor)
@@ -2913,13 +2950,17 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             staged = _staged_claim_status(projection, row, policy, actor, scope,
                                           conflicts, impacts)
             if staged:
-                staged_context.append({**row, "staging": staged})
+                staged_context.append({**_disclosed_claim(row, projection, policy, actor),
+                                       "staging": staged})
     for cid, row in eligible.items():
         admitted = projection["admissions"][cid]
-        governed.append({**row, "receipt": {"admission_event": admitted["event_id"],
-                          "policy_digest": admitted["policy_digest"],
-                          "evidence_digests": admitted["evidence_digests"],
-                          "conflict_resolutions": _conflict_resolution_receipts(projection, cid)}})
+        resolutions = _disclosed_resolutions(_conflict_resolution_receipts(projection, cid),
+                                             projection, policy, actor)
+        governed.append({**_disclosed_claim(row, projection, policy, actor),
+                         "receipt": {"admission_event": admitted["event_id"],
+                                     "policy_digest": admitted["policy_digest"],
+                                     "evidence_digests": admitted["evidence_digests"],
+                                     "conflict_resolutions": resolutions}})
     head = v2_head()
     admitted_ids = {row["id"] for row in governed}
     relations = [row for row in projection["relations"].values()
@@ -2989,13 +3030,39 @@ def finish_run_v1(run_id, status, actor, summary=None):
             "finish_summary": summary}
 
 
-def _run_detail(projection, run):
+def _run_detail(projection, run, actor=None):
+    """Return a run with the claims ``actor`` may not read removed.
+
+    Context receipts and reliances copy claim IDs and statements captured
+    under the run actor's rights. A receipt that lost claims carries
+    ``redacted_claims`` (its digest covers the unredacted receipt), and the
+    run carries ``redacted_reliances`` when reliances were removed.
+    """
     run_id = run["id"]
+    policy = load_v2_policy()
+    receipts = []
+    for receipt in projection["context_receipts"].values():
+        if receipt["run_id"] != run_id:
+            continue
+        claims = [{**row, "admission": {
+                      **row["admission"],
+                      "conflict_resolutions": _disclosed_resolutions(
+                          row["admission"].get("conflict_resolutions", []),
+                          projection, policy, actor)}}
+                  if isinstance(row.get("admission"), dict) else row
+                  for row in receipt.get("claims", [])
+                  if _claim_readable(projection, policy, actor, row["claim_id"])]
+        hidden = len(receipt.get("claims", [])) - len(claims)
+        receipts.append({**receipt, "claims": claims,
+                         **({"redacted_claims": hidden} if hidden else {})})
+    reliances = [row for row in projection["reliances"].values() if row["run_id"] == run_id]
+    visible = [row for row in reliances
+               if _claim_readable(projection, policy, actor, row["claim_id"])]
     return {**run,
-            "context_receipts": [r for r in projection["context_receipts"].values()
-                                 if r["run_id"] == run_id],
-            "reliances": [r for r in projection["reliances"].values()
-                          if r["run_id"] == run_id],
+            "context_receipts": receipts,
+            "reliances": visible,
+            **({"redacted_reliances": len(reliances) - len(visible)}
+               if len(visible) != len(reliances) else {}),
             "outputs": [r for r in projection["outputs"].values()
                         if r["run_id"] == run_id],
             "observations": [r for r in projection["observations"].values()
@@ -3007,7 +3074,7 @@ def _run_detail(projection, run):
 
 def get_run_v1(run_id, actor=None):
     projection = v2_projection()
-    return _run_detail(projection, _require_run(projection, run_id))
+    return _run_detail(projection, _require_run(projection, run_id), actor)
 
 
 def list_runs_v1(actor=None, status=None, limit=50):
@@ -3190,8 +3257,9 @@ def graph_v2(scope=None, actor=None):
                                else "Governed context")
             nodes.append({"id": aid, "type": "governed", "state": v2_state(projection, row, policy, impacts), "label": admission_label})
             edges.append({"from": review["event_id"] if review else cid, "to": aid, "type": "admitted_by"})
-        if cid in projection["supersessions"]:
-            edges.append({"from": cid, "to": projection["supersessions"][cid]["superseded_by"], "type": "superseded_by"})
+        successor = (projection["supersessions"].get(cid) or {}).get("superseded_by")
+        if successor and _claim_readable(projection, policy, actor, successor):
+            edges.append({"from": cid, "to": successor, "type": "superseded_by"})
         if cid in projection["withdrawals"]:
             withdrawal = projection["withdrawals"][cid]
             nodes.append({"id": withdrawal["event_id"], "type": "lifecycle",
@@ -3249,7 +3317,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
 
     def eligibility(cid):
         row = projection["claims"].get(cid)
-        if not row: return "not_found"
+        if not row or not _actor_can_read(row, policy, actor): return "not_found"
         if scope and row["scope"] != scope: return "scope_mismatch"
         current = v2_state(projection, row, policy)
         if current in {"rejected", "expired", "superseded"}: return current
@@ -3257,7 +3325,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         if state == "staged" and current != "admitted" and not staged_claim(cid, row):
             return "not_staged"
         if cid in conflicts: return conflicts[cid][0]["reason"]
-        return "eligible" if _actor_can_read(row, policy, actor) else "actor_not_allowed"
+        return "eligible"
 
     impacts = dependency_impacts(projection, policy)
     edges = _lineage_successors(projection)
@@ -3309,6 +3377,8 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         if depth >= max_depth: continue
         for neighbor, relation in adjacency.get(current, []):
             reason = eligibility(neighbor)
+            if reason == "not_found":
+                continue
             if reason != "eligible":
                 key = (neighbor, relation["id"], reason)
                 if key not in seen_blocked:
@@ -3735,7 +3805,12 @@ def receipt_v2(cid, actor=None):
     if not row or not _actor_can_read(row, policy, actor):
         raise ValueError("claim not found: " + cid)
     parent_id = row.get("qualifiers", {}).get("revision_of")
-    parent = projection["claims"].get(parent_id)
+    parent = (projection["claims"].get(parent_id)
+              if _claim_readable(projection, policy, actor, parent_id) else None)
+    supersession = projection["supersessions"].get(cid)
+    if supersession and not _claim_readable(projection, policy, actor,
+                                            supersession["superseded_by"]):
+        supersession = {**supersession, "superseded_by": None}
     impact_map = dependency_impacts(projection, policy)
     impacts = impact_map.get(cid, [])
     visible_impacts = [impact for impact in impacts
@@ -3752,7 +3827,8 @@ def receipt_v2(cid, actor=None):
         and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
         and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)
     ]
-    return {"claim": row, "state": review_state_v2(projection, row, policy, impact_map),
+    return {"claim": _disclosed_claim(row, projection, policy, actor),
+            "state": review_state_v2(projection, row, policy, impact_map),
             "ledger_head": v2_head(),
             "revision_request": projection["revision_requests"].get(cid),
             "revision_parent": ({"id": parent_id, "statement": parent["statement"],
@@ -3761,14 +3837,18 @@ def receipt_v2(cid, actor=None):
             "revisions": [{"id": candidate["id"], "statement": candidate["statement"],
                            "state": v2_state(projection, candidate, policy, impact_map)}
                           for candidate in projection["claims"].values()
-                          if candidate.get("qualifiers", {}).get("revision_of") == cid],
+                          if candidate.get("qualifiers", {}).get("revision_of") == cid
+                          and _actor_can_read(candidate, policy, actor)],
             "lineage": _successor_fields(lineage_successor(
                 projection, cid, policy, actor, impact_map)) or None,
-            "reproposal_parent": _reproposal_parent(projection, row),
+            "reproposal_parent": (_reproposal_parent(projection, row)
+                                  if _claim_readable(projection, policy, actor,
+                                                     row.get("reproposal_of")) else None),
             "reproposals": [{"id": candidate["id"], "statement": candidate["statement"],
                               "state": v2_state(projection, candidate, policy, impact_map)}
                              for candidate in projection["claims"].values()
-                             if candidate.get("reproposal_of") == cid],
+                             if candidate.get("reproposal_of") == cid
+                             and _actor_can_read(candidate, policy, actor)],
             "evidence": [projection["evidence"].get(x) for x in row["evidence_refs"]],
             "evaluation": projection["evaluations"].get(cid),
             "recommendation": projection["recommendations"].get(cid),
@@ -3777,7 +3857,7 @@ def receipt_v2(cid, actor=None):
             "prior_reviews": projection.get("review_history", {}).get(cid, [])[:-1],
             "prior_admissions": projection.get("admission_history", {}).get(cid, [])[:-1],
             "rejection": projection["rejections"].get(cid),
-            "supersession": projection["supersessions"].get(cid),
+            "supersession": supersession,
             "withdrawal": projection.get("withdrawals", {}).get(cid),
             "dependency_impact": {"items": visible_impacts,
                                   "redacted": len(impacts) - len(visible_impacts)},

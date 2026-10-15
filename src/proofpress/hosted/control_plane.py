@@ -1459,7 +1459,7 @@ class HostedControlPlane:
             # agent's actor identity is always server-derived for reads, so a
             # supplied actor cannot bypass row-level access controls.
             if (context.role in {"owner", "reviewer"} and operation in
-                    {"graph.get", "review.summary", "review.receipt"}):
+                    {"graph.get", "review.summary", "review.receipt", "run.get"}):
                 parameters.pop("actor", None)
             else:
                 parameters[IDENTITY_PARAMETERS[operation]] = context.principal_id
