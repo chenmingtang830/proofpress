@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { DecisionNotice, RevisionPanel, historyActor, revisionInstructions } from "./review-feedback";
+import { DecisionNotice, RevisionPanel, historyActor, reviewQueue, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
 import { ClaimGraph } from "./claim-graph";
 import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
@@ -59,6 +59,15 @@ describe("governance components", () => {
   it("binds handoff instructions to a recorded request", () => {
     expect(revisionInstructions({})).toBe("");
     expect(revisionInstructions({claim:{id:"knw_a"},review:{note:"Fix units"},revision_request:{event_id:"evt_b"}})).toContain('"revision_request_ref":"evt_b"');
+  });
+  it("moves a change request out of the queue once a later claim answers it", () => {
+    expect(reviewQueue("needs_revision")).toBe("needs_revision");
+    expect(reviewQueue("needs_revision", "knw_c")).toBe("decided");
+    expect(reviewQueue("needs_review", "knw_c")).toBe("needs_review");
+    expect(reviewQueue("unresolved")).toBe("needs_review");
+    expect(reviewQueue("dependency_invalidated")).toBe("needs_reassessment");
+    expect(reviewQueue("blocked")).toBe("needs_correction");
+    expect(reviewQueue("admitted")).toBe("decided");
   });
   it("does not hand off a revision that a later claim already answers", () => {
     const sentBack = {claim:{id:"knw_a"},review:{note:"Fix units"},revision_request:{event_id:"evt_b"}};

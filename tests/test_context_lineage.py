@@ -396,6 +396,24 @@ class ContextLineageTests(unittest.TestCase):
         self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][reopened]),
                          "needs_revision")
 
+    # Owner surfaces: graph claim nodes carry the same lineage.
+
+    def test_graph_nodes_carry_the_same_lineage(self):
+        original, middle, approved = self.sent_back_twice_then_approved()
+
+        def claim_nodes(actor):
+            return {node["id"]: node for node in kernel_ops.graph_v2(SCOPE, actor)["nodes"]
+                    if node["type"] == "claim"}
+
+        nodes = claim_nodes("agent:reader")
+        self.assertEqual((nodes[original]["state"], nodes[original]["successor_id"],
+                          nodes[original]["successor_state"]),
+                         ("needs_revision", approved, "admitted"))
+        self.assertEqual(nodes[middle]["successor_id"], approved)
+        self.assertNotIn("successor_id", nodes[approved])
+        self.restrict(approved, ["agent:owner"])
+        self.assertNotIn("successor_id", claim_nodes("agent:outsider")[original])
+
 
 if __name__ == "__main__":
     unittest.main()
