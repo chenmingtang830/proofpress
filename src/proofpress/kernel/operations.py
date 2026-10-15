@@ -2643,6 +2643,100 @@ def _actor_can_read(row, policy, actor):
                 or actor in policy["allowed_actors"])
 
 
+_LINEAGE_RANK = {"usable": 3, "pending": 2, "revisable": 1}
+
+
+def _lineage_successors(projection):
+    """Map each claim ID to the claims that answer it.
+
+    A claim is answered by its requested revisions (``qualifiers.revision_of``),
+    its re-proposals (``reproposal_of``), and the claim that superseded it.
+    """
+    edges = {}
+    for cid, row in projection["claims"].items():
+        parent = (row.get("qualifiers") or {}).get("revision_of")
+        if parent:
+            edges.setdefault(parent, []).append(cid)
+        if row.get("reproposal_of"):
+            edges.setdefault(row["reproposal_of"], []).append(cid)
+    for cid, event in projection["supersessions"].items():
+        edges.setdefault(cid, []).append(event["superseded_by"])
+    return edges
+
+
+def lineage_successor(projection, cid, policy, actor=None, impacts=None,
+                      conflicts=None, edges=None):
+    """Return the claim that currently stands for ``cid`` in its lineage.
+
+    Walks revision, re-proposal, and supersession edges from ``cid`` and ranks
+    every claim reached: usable (admitted and not in an active contradiction),
+    then pending review, then sent back for changes; the later proposal wins a
+    tie. Rejected, expired, withdrawn, superseded, and dependency-invalidated
+    claims are walked through but never chosen. Cycles terminate.
+
+    Returns None when no reachable claim ranks, and ``{"redacted": True}``
+    when ``actor`` may not read every claim on the path to the chosen one, so
+    callers fall back to a generic action without naming anything. Otherwise
+    returns ``{"id", "state", "rank", "path"}`` with ``path`` starting at
+    ``cid``. Pure: reads the projection only.
+    """
+    edges = _lineage_successors(projection) if edges is None else edges
+    if not edges.get(cid):
+        return None
+    impacts = dependency_impacts(projection, policy) if impacts is None else impacts
+    conflicts = _active_contradictions(projection, policy) if conflicts is None else conflicts
+    paths, queue, best = {cid: [cid]}, [cid], None
+    while queue:
+        current = queue.pop(0)
+        for successor in edges.get(current, []):
+            row = projection["claims"].get(successor)
+            if successor in paths or not row:
+                continue
+            paths[successor] = paths[current] + [successor]
+            queue.append(successor)
+            state = v2_state(projection, row, policy, impacts)
+            rank = ("usable" if state == "admitted" and successor not in conflicts else
+                    "pending" if state in {"needs_review", "unresolved"} else
+                    "revisable" if state == "needs_revision" else None)
+            if rank is None:
+                continue
+            key = (_LINEAGE_RANK[rank], row.get("created_at") or "", successor)
+            if best is None or key > best[0]:
+                best = (key, {"id": successor, "state": state, "rank": rank})
+    if best is None:
+        return None
+    found = best[1]
+    path = paths[found["id"]]
+    if not all(_actor_can_read(projection["claims"][node], policy, actor) for node in path):
+        return {"redacted": True}
+    return {**found, "path": path}
+
+
+def _blocked_action(reason, lineage):
+    """Return the next agent action for a blocked claim.
+
+    A lineage successor decides first; otherwise the claim's own state does.
+    """
+    if lineage and lineage.get("redacted"):
+        return "human_review"
+    if lineage:
+        return {"usable": "use_successor", "pending": "review_successor",
+                "revisable": "propose_revision"}[lineage["rank"]]
+    if reason == "needs_revision": return "propose_revision"
+    if reason == "dependency_invalidated": return "reassess"
+    if reason in {"expired", "unresolved"}: return "reverify"
+    if reason == "withdrawn": return "none"
+    return "human_review"
+
+
+def _successor_fields(lineage):
+    """Blocked-entry fields that name a lineage successor, when disclosable."""
+    if not lineage or lineage.get("redacted"):
+        return {}
+    return {"successor_id": lineage["id"], "successor_state": lineage["state"],
+            "lineage_path": lineage["path"]}
+
+
 def _staged_claim_status(projection, row, policy, actor=None, scope=None,
                          conflicts=None, impacts=None):
     """Return a disclosure-safe staging summary when a current judge reviewed it."""
@@ -2743,6 +2837,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
     impacts = dependency_impacts(projection, policy)
     governed, blocked, eligible, staged_context = [], [], {}, []
     conflicts = _active_contradictions(projection, policy)
+    edges = _lineage_successors(projection)
     for cid, row in projection["claims"].items():
         if scope and row["scope"] != scope: continue
         current = v2_state(projection, row, policy, impacts)
@@ -2759,12 +2854,13 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             reason = (conflict_rows[0]["reason"] if conflict_rows else
                       "dependency_invalidated" if dependency_rows else
                       current if current != "admitted" else "actor_not_allowed")
+            lineage = (None if conflict_rows else
+                       lineage_successor(projection, cid, policy, actor, impacts,
+                                         conflicts, edges))
             item = {"id": cid, "reason": reason,
                     "required_action": ("human_conflict_review" if conflict_rows else
-                                        "propose_revision" if reason == "needs_revision" else
-                                        "reassess" if reason == "dependency_invalidated" else
-                                        "reverify" if reason in {"expired", "unresolved", "superseded", "withdrawn"} else
-                                        "human_review")}
+                                        _blocked_action(reason, lineage)),
+                    **_successor_fields(lineage)}
             if conflict_rows:
                 item["relation_ids"] = sorted({row["relation_id"] for row in conflict_rows})
                 item["peer_ids"] = sorted({row["peer_id"] for row in conflict_rows})
