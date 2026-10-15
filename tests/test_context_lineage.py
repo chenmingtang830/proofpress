@@ -476,6 +476,25 @@ class ContextLineageTests(unittest.TestCase):
         self.assertEqual(kernel_ops.v2_state(projection, projection["claims"][reopened]),
                          "needs_revision")
 
+    def test_staged_traversal_blocks_a_sent_back_claim(self):
+        anchor_claim = self.propose("Admitted anchor claim")
+        self.admit(anchor_claim)
+        advised = self.propose("Claim with accepting advice", evidence=[self.evidence[1]])
+        kernel_ops.evaluate_v2(advised)
+        row = kernel_ops.v2_projection()["claims"][advised]
+        kernel_ops.append_v2({"type": "judge_recommended", "subject_ref": advised,
+                              "claim_digest": row["digest"],
+                              "policy_digest": kernel_ops.load_v2_policy()["digest"],
+                              "recommendation": "accept", "rationale": "test advice",
+                              "judge": "judge:test"})
+        self.send_back(advised)
+        traversal = kernel_ops.traverse_graph_v2([anchor_claim, advised], SCOPE, "agent:reader",
+                                                 state="staged")
+        self.assertNotIn(advised, traversal["claim_ids"])
+        entry = next(row for row in traversal["blocked_neighbors"] if row["claim_id"] == advised)
+        self.assertEqual((entry["reason"], entry["required_action"]),
+                         ("needs_revision", "propose_revision"))
+
     # Owner surfaces: graph claim nodes carry the same lineage.
 
     def test_graph_nodes_carry_the_same_lineage(self):

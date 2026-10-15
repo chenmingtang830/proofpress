@@ -55,6 +55,17 @@ class DisclosureGuardTests(unittest.TestCase):
         kernel_ops.review_v2(cid, "admit", "human:owner")
         return cid
 
+    def stage(self, cid):
+        """Give a candidate passing checks and current accepting advice (staged context)."""
+        kernel_ops.evaluate_v2(cid)
+        row = kernel_ops.v2_projection()["claims"][cid]
+        kernel_ops.append_v2({"type": "judge_recommended", "subject_ref": cid,
+                              "claim_digest": row["digest"],
+                              "policy_digest": kernel_ops.load_v2_policy()["digest"],
+                              "recommendation": "accept", "rationale": "test advice",
+                              "judge": "judge:test"})
+        return cid
+
     def send_back(self, cid):
         kernel_ops.review_v2(cid, "request_changes", "human:owner", "Narrow the claim.")
 
@@ -89,7 +100,7 @@ class DisclosureGuardTests(unittest.TestCase):
         self.revise(public_parent, "SECRET revision of a public claim")
         secret_parent = self.claim("SECRET parent sent back")
         self.send_back(secret_parent)
-        self.revise(secret_parent, "Public revision of a secret claim")
+        self.stage(self.revise(secret_parent, "Public revision of a secret claim"))
 
         public_old = self.admitted("Public claim replaced by a secret one")
         kernel_ops.supersede_v2(public_old, self.admitted("SECRET replacement"), "human:owner")
@@ -133,6 +144,8 @@ class DisclosureGuardTests(unittest.TestCase):
             "graph.get": kernel_ops.graph_v2(SCOPE, actor),
             "graph.traverse": kernel_ops.traverse_graph_v2(self.public, SCOPE, actor,
                                                            None, 3, 48),
+            "graph.traverse staged": kernel_ops.traverse_graph_v2(self.public, SCOPE, actor,
+                                                                  None, 3, 48, "staged"),
             "review.summary": kernel_ops.summary_v2(SCOPE, actor),
             "review.receipt": [kernel_ops.receipt_v2(cid, actor) for cid in self.public],
             "run.get": kernel_ops.get_run_v1(run_id, actor),
@@ -143,7 +156,9 @@ class DisclosureGuardTests(unittest.TestCase):
 
     def test_no_read_operation_names_a_restricted_claim(self):
         reads = self.reads(OUTSIDER, self.build())
-        self.assertEqual(set(reads) - {"disclose"}, COVERED_READS)
+        self.assertEqual(set(reads) - {"disclose", "graph.traverse staged"}, COVERED_READS)
+        staged = [row["statement"] for row in reads["context.get"]["staged_context"]]
+        self.assertIn("Public revision of a secret claim", staged)
         for name, result in reads.items():
             text = json.dumps(result, default=str)
             with self.subTest(read=name):

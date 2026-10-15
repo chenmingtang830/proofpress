@@ -3391,6 +3391,10 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         current = v2_state(projection, row, policy)
         if current in {"rejected", "expired", "superseded"}: return current
         if state == "admitted" and current != "admitted": return current
+        # Same candidate states as _staged_claim_status: retained checks and
+        # advice do not stage a claim that was sent back or invalidated.
+        if state == "staged" and current not in {"admitted", "needs_review", "unresolved"}:
+            return current
         if state == "staged" and current != "admitted" and not staged_claim(cid, row):
             return "not_staged"
         if cid in conflicts: return conflicts[cid][0]["reason"]
