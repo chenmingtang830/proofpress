@@ -2859,6 +2859,18 @@ def _successor_fields(lineage):
             "lineage_path": lineage["path"]}
 
 
+def _receipt_lineage(lineage):
+    """Receipt form of a lineage: None, ``{"withheld": True}``, or the successor fields.
+
+    ``withheld`` says no more than the ``human_review`` action context gives
+    the same reader, and stops receipt-driven tools from offering a revision
+    the fork guard would refuse.
+    """
+    if lineage and lineage.get("redacted"):
+        return {"withheld": True}
+    return _successor_fields(lineage) or None
+
+
 def _staged_claim_status(projection, row, policy, actor=None, scope=None,
                          conflicts=None, impacts=None):
     """Return a disclosure-safe staging summary when a current judge reviewed it."""
@@ -3896,8 +3908,8 @@ def receipt_v2(cid, actor=None):
                           for candidate in projection["claims"].values()
                           if candidate.get("qualifiers", {}).get("revision_of") == cid
                           and _actor_can_read(candidate, policy, actor)],
-            "lineage": _successor_fields(lineage_successor(
-                projection, cid, policy, actor, impact_map)) or None,
+            "lineage": _receipt_lineage(lineage_successor(
+                projection, cid, policy, actor, impact_map)),
             "reproposal_parent": (_reproposal_parent(projection, row)
                                   if _claim_readable(projection, policy, actor,
                                                      row.get("reproposal_of")) else None),

@@ -80,6 +80,10 @@ describe("governance components", () => {
     const later = {...sentBack, lineage:{successor_id:"knw_d",successor_state:"needs_revision",lineage_path:["knw_a","knw_d"]}};
     expect(renderToStaticMarkup(<RevisionPanel receipt={later} onChoose={()=>{}} />)).toContain("A later revision was also sent back");
     expect(renderToStaticMarkup(<RevisionPanel receipt={sentBack} onChoose={()=>{}} />)).toContain("Copy instructions for agent");
+    const withheld = renderToStaticMarkup(<RevisionPanel receipt={{...sentBack, lineage:{withheld:true}}} onChoose={()=>{}} />);
+    expect(withheld).toContain("Answered by a claim you cannot view");
+    expect(withheld).not.toContain("Copy instructions for agent");
+    expect(withheld).not.toContain("Open ");
   });
   it("bounds graph disclosure and does not equate admission with eligibility", () => {
     const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[{},{},{},{}]}} available={false} evidenceNames={["A","B","C","D"]} selection="claim" onSelect={()=>{}} />);

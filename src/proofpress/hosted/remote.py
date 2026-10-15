@@ -103,6 +103,9 @@ def main(argv=None):
         elif args.command == "revision-instructions":
             result = client.review_receipt(args.claim_id)
             lineage = result.get("lineage")
+            if lineage and lineage.get("withheld"):
+                raise ValueError("A claim you may not read already answers this claim; "
+                                 "ask an owner how to proceed")
             if lineage and lineage.get("successor_state") == "needs_revision":
                 raise ValueError("A later revision was also sent back; run revision-instructions "
                                  + lineage["successor_id"])

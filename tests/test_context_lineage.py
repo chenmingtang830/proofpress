@@ -390,7 +390,8 @@ class ContextLineageTests(unittest.TestCase):
     def test_receipt_hides_an_unreadable_successor(self):
         original, _, approved = self.sent_back_twice_then_approved()
         self.restrict(approved, ["agent:owner"])
-        self.assertIsNone(kernel_ops.receipt_v2(original, "agent:outsider")["lineage"])
+        self.assertEqual(kernel_ops.receipt_v2(original, "agent:outsider")["lineage"],
+                         {"withheld": True})
         self.assertEqual(kernel_ops.receipt_v2(original, "agent:owner")["lineage"]["successor_id"],
                          approved)
 

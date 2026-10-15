@@ -45,6 +45,16 @@ class RevisionInstructionsTests(unittest.TestCase):
                 self.assertRaisesRegex(SystemExit, "run revision-instructions knw_latest"):
             main(["--base-url", "https://example.test", "revision-instructions", "knw_original"])
 
+    def test_withheld_successor_refuses_instructions_without_naming_it(self):
+        client = Mock()
+        client.review_receipt.return_value = {
+            "revision_request": {"event_id": "evt_request"},
+            "lineage": {"withheld": True},
+        }
+        with patch("proofpress.hosted.remote._client", return_value=client), \
+                self.assertRaisesRegex(SystemExit, "A claim you may not read already answers"):
+            main(["--base-url", "https://example.test", "revision-instructions", "knw_original"])
+
     def test_missing_request_fails_without_fabricated_instructions(self):
         client = Mock()
         client.review_receipt.return_value = {}

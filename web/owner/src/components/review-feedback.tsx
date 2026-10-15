@@ -62,6 +62,7 @@ export function BlockedCorrectionHandoff({receipt}: any) {
 }
 
 export function LineageNotice({lineage, onChoose}: any) {
+  if (lineage.withheld) return <div className="lineageNotice" role="status"><strong>Answered by a claim you cannot view</strong><p>Ask an owner how to proceed.</p></div>;
   const title = lineage.successor_state === "admitted" ? "Settled by an approved claim"
     : lineage.successor_state === "needs_revision" ? "A later revision was also sent back"
     : "A later claim is awaiting review";
