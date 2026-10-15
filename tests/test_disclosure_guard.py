@@ -225,14 +225,16 @@ class DisclosureGuardTests(unittest.TestCase):
         self.restrict_secrets()
         request = kernel_ops.v2_projection()["revision_requests"][parent]["event_id"]
         qualifiers = {"revision_of": parent, "revision_request_ref": request}
-        errors = []
-        for guess in ("A wrong guess", "SECRET approved revision"):
-            with self.assertRaises(ValueError) as caught:
-                kernel_ops.propose_v2(guess, self.evidence[:1], SCOPE, OUTSIDER,
-                                      qualifiers=qualifiers)
-            errors.append(str(caught.exception))
-        self.assertEqual(errors[0], errors[1])
-        self.assertNotIn(hidden, errors[1])
+        for proposer in (OUTSIDER, "agent:author"):
+            errors = []
+            for guess in ("A wrong guess", "SECRET approved revision"):
+                with self.assertRaises(ValueError) as caught:
+                    kernel_ops.propose_v2(guess, self.evidence[:1], SCOPE, proposer,
+                                          qualifiers=qualifiers)
+                errors.append(str(caught.exception))
+            with self.subTest(proposer=proposer):
+                self.assertEqual(errors[0], errors[1])
+                self.assertNotIn(hidden, errors[1])
 
     def test_immutable_conflict_does_not_name_a_hidden_claim(self):
         hidden = self.admitted("SECRET standalone claim")

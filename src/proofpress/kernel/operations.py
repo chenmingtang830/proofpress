@@ -1780,7 +1780,10 @@ def _propose_v2_once(statement, evidence_refs, scope=None, proposer=None, expire
         raise ValueError("a claim cannot be a re-proposal of itself")
     prior = projection["claims"].get(row["id"])
     stable = set(row) - {"created_at", "digest"}
-    replay = bool(prior) and all(prior.get(key) == row.get(key) for key in stable)
+    # Only a replay the proposer may still read skips the lineage check, so an
+    # exact guess at a hidden revision gets the same refusal as any other.
+    replay = (bool(prior) and _actor_can_read(prior, load_v2_policy(), proposer)
+              and all(prior.get(key) == row.get(key) for key in stable))
     parent_id = revision_of or reproposal_of
     if parent_id and not replay:
         # One live successor per line: a second revision or re-proposal would
