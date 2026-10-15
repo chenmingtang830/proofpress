@@ -175,7 +175,7 @@ def trace_decision_confidence(decision, trace_version=None):
         method_name = _trace_text(method.get("name"), "method.name")
     except ValueError:
         raise ValueError("TRACE decision confidence method.name must be a non-empty string")
-    projected_method = {"name": method_name}
+    projected_method: dict[str, object] = {"name": method_name}
     if method.get("algorithm") is not None:
         projected_method["algorithm"] = _trace_text(method["algorithm"], "method.algorithm")
     if method.get("resamples") is not None:
@@ -706,7 +706,8 @@ def _require_expected_head(expected_head, *, required=False):
 
 
 _policy_override = ContextVar("proofpress_policy_override", default=None)
-_judge_environment = ContextVar("proofpress_judge_environment", default=None)
+_judge_environment: ContextVar[dict[str, str] | None] = ContextVar(
+    "proofpress_judge_environment", default=None)
 
 
 @contextmanager
@@ -1165,7 +1166,8 @@ def normalize_retrieval_evidence_v1(payload):
     if not isinstance(payload, dict) or payload.get("schema_version") != RETRIEVAL_EVIDENCE_SCHEMA:
         raise ValueError(f"retrieval evidence schema_version must be {RETRIEVAL_EVIDENCE_SCHEMA}")
     source_row, evidence_row, retrieval_row = payload.get("source"), payload.get("evidence"), payload.get("retrieval")
-    if not all(isinstance(row, dict) for row in (source_row, evidence_row, retrieval_row)):
+    if not (isinstance(source_row, dict) and isinstance(evidence_row, dict)
+            and isinstance(retrieval_row, dict)):
         raise ValueError("retrieval evidence source, evidence, and retrieval must be objects")
     quote = _required_string(evidence_row.get("quote"), "evidence.quote")
     source = {"uri": _required_string(source_row.get("uri"), "source.uri"),
@@ -1676,13 +1678,38 @@ def _applicability(value):
     return card
 
 
+class _StaleLineageCheck(Exception):
+    """The ledger moved between a lineage check and the append it guarded."""
+
+
 def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
                artifact_refs=None, applicability=None, qualifiers=None,
                profile=None, reproposal_of=None, title=None):
+    """Propose a claim (see ``_propose_v2_once``).
+
+    A revision or re-proposal is appended only against the ledger head its
+    lineage check read, so two concurrent proposals cannot both pass the fork
+    guard; when the head moved, the whole validation runs again, up to three
+    times, then fails with a retryable ``STALE_LEDGER_HEAD``.
+    """
+    for _ in range(3):
+        try:
+            return _propose_v2_once(statement, evidence_refs, scope, proposer, expires_at,
+                                    artifact_refs, applicability, qualifiers, profile,
+                                    reproposal_of, title)
+        except _StaleLineageCheck:
+            continue
+    raise ValueError("STALE_LEDGER_HEAD")
+
+
+def _propose_v2_once(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
+                     artifact_refs=None, applicability=None, qualifiers=None,
+                     profile=None, reproposal_of=None, title=None):
     if title is not None:
         if not isinstance(title, str) or not title.strip() or len(title.strip()) > 120:
             raise ValueError("title must be a non-empty string of at most 120 characters")
         title = title.strip()
+    head = v2_head()
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
@@ -1698,7 +1725,7 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
             raise ValueError("reproposal_of must be a non-empty claim ID")
         reproposal_of = reproposal_of.strip()
         predecessor = projection["claims"].get(reproposal_of)
-        if not predecessor:
+        if not predecessor or not _actor_can_read(predecessor, load_v2_policy(), proposer):
             raise ValueError("re-proposal requires an existing rejected claim")
         if v2_state(projection, predecessor) != "rejected":
             raise ValueError("re-proposal predecessor must be rejected")
@@ -1717,8 +1744,16 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
     if revision_of:
         parent = projection["claims"].get(revision_of)
         request = projection["revision_requests"].get(revision_of)
-        if not parent or not request:
+        if (not parent or not request
+                or not _actor_can_read(parent, load_v2_policy(), proposer)):
             raise ValueError("revision requires an existing request for changes")
+        # A revision request is never cleared, so the parent's current state
+        # decides: a rejected claim needs new evidence through re-proposal.
+        parent_state = _base_v2_state(projection, parent, load_v2_policy())
+        if parent_state == "rejected":
+            raise ValueError("a rejected claim is corrected by re-proposal (reproposal_of), not a revision")
+        if parent_state in {"superseded", "withdrawn"}:
+            raise ValueError(f"a {parent_state} claim cannot be revised")
         if (qualifiers or {}).get("revision_request_ref") != request["event_id"]:
             raise ValueError("revision must reference the current revision request")
     identity = {"statement": statement, "evidence": sorted(evidence_refs),
@@ -1744,14 +1779,42 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
     if row["id"] == reproposal_of:
         raise ValueError("a claim cannot be a re-proposal of itself")
     prior = projection["claims"].get(row["id"])
+    stable = set(row) - {"created_at", "digest"}
+    # Only a replay the proposer may still read skips the lineage check, so an
+    # exact guess at a hidden revision gets the same refusal as any other.
+    replay = (bool(prior) and _actor_can_read(prior, load_v2_policy(), proposer)
+              and all(prior.get(key) == row.get(key) for key in stable))
+    parent_id = revision_of or reproposal_of
+    if parent_id and not replay:
+        # One live successor per line: a second revision or re-proposal would
+        # fork a lineage that an approved, pending, or later claim answers.
+        # The proposer is the reader here: a successor they may not read is
+        # not named, and the refusal says no more than their context does.
+        settled = lineage_successor(projection, parent_id, load_v2_policy(), proposer)
+        if settled and settled.get("redacted"):
+            raise ValueError("this lineage is already answered; ask an owner how to proceed")
+        if settled and settled["rank"] == "usable":
+            raise ValueError("lineage already has an approved claim; rely on it instead of proposing another")
+        if settled and settled["rank"] == "pending":
+            raise ValueError("lineage already has a claim awaiting review; wait for that review")
+        if settled:
+            raise ValueError("a later claim in this lineage was sent back; revise that claim instead")
     if prior:
-        stable = set(row) - {"created_at", "digest"}
-        if any(prior.get(key) != row.get(key) for key in stable):
+        # Content-addressed IDs: never confirm or return a claim the proposer
+        # may not read, not even on an identical replay.
+        if not _actor_can_read(prior, load_v2_policy(), proposer):
+            raise ValueError("immutable claim conflict")
+        if not replay:
             raise ValueError("immutable claim conflict for " + row["id"])
         row = prior
     row["digest"] = _claim_digest(row)
-    event = append_v2({"type": "claim_proposed", "subject_ref": row["id"],
-                       "claim": row})
+    try:
+        event = append_v2({"type": "claim_proposed", "subject_ref": row["id"],
+                           "claim": row}, expected_head=head if parent_id else None)
+    except ValueError as exc:
+        if parent_id and str(exc) == "STALE_EVENT_STORE_HEAD":
+            raise _StaleLineageCheck from exc
+        raise
     return {"ok": True, "claim": row, "event_id": event["event_id"]}
 
 
@@ -1873,7 +1936,7 @@ def propose_relation_v2(source, target, relation_type, proposer,
         raise ValueError("relation confidence must be between 0 and 1")
     citation = _relation_citation_v1(projection, source, target, qualifiers)
     if citation is not None:
-        qualifiers = {**qualifiers, "citation": citation}
+        qualifiers = {**(qualifiers or {}), "citation": citation}
     left, right = (sorted((source, target)) if relation_type in SYMMETRIC_RELATIONS
                    else (source, target))
     row = {"id": ident({"from": left, "to": right, "type": relation_type}, "rel_"),
@@ -2073,6 +2136,7 @@ def resolve_contradiction_v2(rid, disposition, reviewer, winner=None, note=None,
     if "*" not in allowed and reviewer not in allowed:
         raise ValueError("reviewer is not allowed to resolve contradictions by policy")
     endpoints = {relation["from"], relation["to"]}
+    loser = None
     if disposition == "supersede":
         if winner not in endpoints:
             raise ValueError("supersede resolution requires --winner to be a relation endpoint")
@@ -2348,6 +2412,63 @@ def _current_judge_recommendation(projection, row, policy):
                 recommendation.get("policy_digest") == policy["digest"])
 
 
+_REVIEW_OUTCOMES = {"admit": ("admissions", "admitted"),
+                    "reject": ("rejections", "rejected"),
+                    "request_changes": ("revision_requests", "needs_revision")}
+_REVIEW_REMEDIES = {"needs_revision": "; answer it with a revision (qualifiers.revision_of)",
+                    "rejected": "; correct it with a re-proposal (reproposal_of)"}
+
+
+def _review_outcome(projection, row, decision, policy):
+    """Return the claim's state now and after ``decision``, without writing.
+
+    ``_base_v2_state`` ranks supersession, withdrawal, expiry, rejection, and
+    revision requests above admission whatever their order, so a decision on
+    a claim in one of those states could be recorded and never take effect.
+    """
+    key = _REVIEW_OUTCOMES[decision][0]
+    simulated = {**projection, key: {**projection[key], row["id"]: {
+        "policy_digest": policy["digest"], "claim_digest": row["digest"]}}}
+    return _base_v2_state(projection, row, policy), _base_v2_state(simulated, row, policy)
+
+
+def _require_reviewable(projection, row, decision, policy):
+    """Raise unless ``decision`` may be recorded on ``row`` now and would take effect."""
+    if decision == "admit" and v2_state(projection, row, policy) == "dependency_invalidated":
+        raise ValueError("dependency-invalidated claims must use claim.reassess")
+    if decision != "admit" and row["id"] in _active_contradictions(projection, policy):
+        raise ValueError("active contradiction endpoint may only transition through relation resolve")
+    _require_effective_review(projection, row, decision, policy)
+
+
+def _require_effective_review(projection, row, decision, policy):
+    """Raise unless ``decision`` would change the claim's state in ``projection``."""
+    current, after = _review_outcome(projection, row, decision, policy)
+    if after != _REVIEW_OUTCOMES[decision][1]:
+        raise ValueError(f"review decision {decision} would have no effect on a {current} claim"
+                         + _REVIEW_REMEDIES.get(current, ""))
+
+
+def _append_effective_review_event(event, row, decision, policy, attempts=3):
+    """Append one event of a review decision while the decision still takes effect.
+
+    Side effect: appends to the event store. Each attempt re-reads the ledger,
+    re-checks the decision, and appends against the head it checked, so a
+    decision another writer recorded in between is never silently shadowed.
+    A moved head retries; after ``attempts`` it fails with a retryable
+    ``STALE_LEDGER_HEAD``.
+    """
+    for _ in range(attempts):
+        head = v2_head()
+        _require_reviewable(v2_projection(), row, decision, policy)
+        try:
+            return append_v2(event, expected_head=head)
+        except ValueError as exc:
+            if str(exc) != "STALE_EVENT_STORE_HEAD":
+                raise
+    raise ValueError("STALE_LEDGER_HEAD")
+
+
 def review_v2(cid, decision, reviewer, note=None, request_id=None,
               expected_head=None):
     if decision not in {"admit", "reject", "request_changes"}:
@@ -2365,13 +2486,7 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     _require_expected_head(expected_head)
     row = projection["claims"].get(cid)
     if not row: raise ValueError("claim not found: " + cid)
-    if decision == "admit" and v2_state(projection, row) == "dependency_invalidated":
-        raise ValueError("dependency-invalidated claims must use claim.reassess")
-    if decision != "admit":
-        policy = load_v2_policy()
-        conflicts = _active_contradictions(projection, policy)
-        if cid in conflicts:
-            raise ValueError("active contradiction endpoint may only transition through relation resolve")
+    _require_reviewable(projection, row, decision, load_v2_policy())
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a claim")
     evaluation = evaluate_v2(cid)
@@ -2383,20 +2498,22 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     if decision == "admit" and policy["require_judge"]:
         if not recommendation or recommendation.get("policy_digest") != policy["digest"] or recommendation.get("recommendation") != "accept":
             raise ValueError("current policy requires an accepting judge recommendation")
-    review_event = append_v2({"type": "human_reviewed", "subject_ref": cid,
-                              "decision": decision, "reviewer": reviewer,
-                              "identity_basis": "self_asserted", "note": note,
-                              "request_id": request_id,
-                              "claim_digest": row["digest"],
-                              "policy_digest": policy["digest"]})
+    review_event = _append_effective_review_event(
+        {"type": "human_reviewed", "subject_ref": cid,
+         "decision": decision, "reviewer": reviewer,
+         "identity_basis": "self_asserted", "note": note,
+         "request_id": request_id,
+         "claim_digest": row["digest"],
+         "policy_digest": policy["digest"]}, row, decision, policy)
     final_type = ("claim_admitted" if decision == "admit" else
                   "claim_revision_requested" if decision == "request_changes" else
                   "claim_rejected")
-    final = append_v2({"type": final_type, "subject_ref": cid,
-                       "review_ref": review_event["event_id"],
-                       "reviewer": reviewer, "claim_digest": row["digest"],
-                       "evidence_digests": {ref: projection["evidence"][ref]["digest"] for ref in row["evidence_refs"]},
-                       "policy_digest": policy["digest"]})
+    final = _append_effective_review_event(
+        {"type": final_type, "subject_ref": cid,
+         "review_ref": review_event["event_id"],
+         "reviewer": reviewer, "claim_digest": row["digest"],
+         "evidence_digests": {ref: projection["evidence"][ref]["digest"] for ref in row["evidence_refs"]},
+         "policy_digest": policy["digest"]}, row, decision, policy)
     return {"ok": True, "review": review_event, "result": final}
 
 
@@ -2643,6 +2760,190 @@ def _actor_can_read(row, policy, actor):
                 or actor in policy["allowed_actors"])
 
 
+def _claim_readable(projection, policy, actor, cid):
+    """True when ``actor`` may read claim ``cid`` (unknown IDs follow the policy)."""
+    return _actor_can_read(projection["claims"].get(cid, {}), policy, actor)
+
+
+def _disclosed_claim(row, projection, policy, actor):
+    """Return ``row`` with lineage pointers to claims ``actor`` may not read cleared.
+
+    A claim row names its re-proposal predecessor (``reproposal_of``) and its
+    revision parent (``qualifiers.revision_of``); a reader who may read the
+    row but not the claim it points at sees ``None`` there instead.
+    """
+    qualifiers = row.get("qualifiers") or {}
+    hide_reproposal = bool(row.get("reproposal_of")) and not _claim_readable(
+        projection, policy, actor, row["reproposal_of"])
+    hide_revision = bool(qualifiers.get("revision_of")) and not _claim_readable(
+        projection, policy, actor, qualifiers["revision_of"])
+    if not (hide_reproposal or hide_revision):
+        return row
+    cleared = {**row}
+    if hide_reproposal:
+        cleared["reproposal_of"] = None
+    if hide_revision:
+        cleared["qualifiers"] = {**qualifiers, "revision_of": None}
+    return cleared
+
+
+def _disclosed_resolutions(resolutions, projection, policy, actor):
+    """Return conflict-resolution receipts with losers ``actor`` may not read set to None."""
+    return [resolution if _claim_readable(projection, policy, actor, resolution.get("loser"))
+            else {**resolution, "loser": None}
+            for resolution in resolutions]
+
+
+_LINEAGE_RANK = {"usable": 3, "pending": 2, "revisable": 1}
+
+
+def _lineage_successors(projection):
+    """Map each claim ID to the claims that answer it.
+
+    A claim is answered by its requested revisions (``qualifiers.revision_of``),
+    its re-proposals (``reproposal_of``), and the claim that superseded it.
+    """
+    edges = {}
+    for cid, row in projection["claims"].items():
+        parent = (row.get("qualifiers") or {}).get("revision_of")
+        if parent:
+            edges.setdefault(parent, []).append(cid)
+        if row.get("reproposal_of"):
+            edges.setdefault(row["reproposal_of"], []).append(cid)
+    for cid, event in projection["supersessions"].items():
+        edges.setdefault(cid, []).append(event["superseded_by"])
+    return edges
+
+
+def _proposal_order(projection):
+    """Map claim IDs to the position of their first proposal in the ledger."""
+    return {cid: index for index, cid in enumerate(projection["claims"])}
+
+
+def _lineage_ancestors(projection, cid):
+    """Return ``[cid, parent, ..., root]`` following revision parents and re-proposal predecessors."""
+    chain = [cid]
+    while True:
+        row = projection["claims"].get(chain[-1]) or {}
+        parent = (row.get("qualifiers") or {}).get("revision_of") or row.get("reproposal_of")
+        if not parent or parent in chain or parent not in projection["claims"]:
+            return chain
+        chain.append(parent)
+
+
+def _lineage_rank(projection, cid, policy, impacts, conflicts):
+    """Return ``(rank, state)`` for one lineage member, or ``(None, state)``.
+
+    An admitted claim quarantined by a contradiction, a dependency-invalidated
+    claim, and a claim awaiting (re-)review all still hold the line: they wait
+    for an owner, and a parallel proposal would fork it.
+    """
+    state = v2_state(projection, projection["claims"][cid], policy, impacts)
+    if state == "admitted" and cid in conflicts:
+        return "pending", conflicts[cid][0]["reason"]
+    if state == "admitted":
+        return "usable", state
+    if state in {"needs_review", "unresolved", "dependency_invalidated"}:
+        return "pending", state
+    return ("revisable" if state == "needs_revision" else None), state
+
+
+def lineage_successor(projection, cid, policy, actor=None, impacts=None,
+                      conflicts=None, edges=None, order=None):
+    """Return the claim that currently stands for ``cid`` in its lineage.
+
+    The lineage is the family under ``cid``'s root (reached by following
+    revision parents and re-proposal predecessors up) plus every claim
+    reachable from that root through revisions, re-proposals, and
+    supersessions, so sibling branches count. Every member except ``cid``'s
+    ancestors is ranked: usable (admitted, not quarantined), then pending (an
+    owner must review, resolve, or reassess it), then sent back for changes;
+    the later first proposal in the ledger wins a tie (so a revision always
+    outranks its parent). ``cid`` competes too; when it wins, nothing
+    else stands for it. Rejected, expired, withdrawn, and superseded claims
+    are walked through but never chosen. Cycles terminate.
+
+    Returns None when nothing other than ``cid`` stands for it, and
+    ``{"redacted": True}`` when ``actor`` may not read every claim on the path
+    from ``cid`` to the chosen claim (up to their nearest shared ancestor,
+    then down), so callers fall back to a generic action without naming
+    anything. Otherwise returns ``{"id", "state", "rank", "path"}`` with
+    ``path`` starting at ``cid``. Pure: reads the projection only.
+    """
+    edges = _lineage_successors(projection) if edges is None else edges
+    ancestors = _lineage_ancestors(projection, cid)
+    root = ancestors[-1]
+    if not edges.get(root):
+        return None
+    impacts = dependency_impacts(projection, policy) if impacts is None else impacts
+    conflicts = _active_contradictions(projection, policy) if conflicts is None else conflicts
+    order = _proposal_order(projection) if order is None else order
+    paths, queue = {root: [root]}, [root]
+    while queue:
+        current = queue.pop(0)
+        for successor in edges.get(current, []):
+            if successor in paths or successor not in projection["claims"]:
+                continue
+            paths[successor] = paths[current] + [successor]
+            queue.append(successor)
+    best, excluded = None, set(ancestors[1:])
+    for member in paths:
+        if member in excluded:
+            continue
+        rank, state = _lineage_rank(projection, member, policy, impacts, conflicts)
+        if rank is None:
+            continue
+        key = (_LINEAGE_RANK[rank], order[member])
+        if best is None or key > best[0]:
+            best = (key, {"id": member, "state": state, "rank": rank})
+    if best is None or best[1]["id"] == cid:
+        return None
+    found = best[1]
+    down = paths[found["id"]]
+    meet = next(node for node in ancestors if node in down)
+    path = ancestors[:ancestors.index(meet) + 1] + down[down.index(meet) + 1:]
+    if not all(_actor_can_read(projection["claims"][node], policy, actor) for node in path):
+        return {"redacted": True}
+    return {**found, "path": path}
+
+
+def _blocked_action(reason, lineage):
+    """Return the next agent action for a blocked claim.
+
+    A lineage successor decides first; otherwise the claim's own state does.
+    """
+    if lineage and lineage.get("redacted"):
+        return "human_review"
+    if lineage:
+        return {"usable": "use_successor", "pending": "review_successor",
+                "revisable": "propose_revision"}[lineage["rank"]]
+    if reason == "needs_revision": return "propose_revision"
+    if reason == "dependency_invalidated": return "reassess"
+    if reason in {"expired", "unresolved"}: return "reverify"
+    if reason == "withdrawn": return "none"
+    return "human_review"
+
+
+def _successor_fields(lineage):
+    """Blocked-entry fields that name a lineage successor, when disclosable."""
+    if not lineage or lineage.get("redacted"):
+        return {}
+    return {"successor_id": lineage["id"], "successor_state": lineage["state"],
+            "lineage_path": lineage["path"]}
+
+
+def _receipt_lineage(lineage):
+    """Receipt form of a lineage: None, ``{"withheld": True}``, or the successor fields.
+
+    ``withheld`` says no more than the ``human_review`` action context gives
+    the same reader, and stops receipt-driven tools from offering a revision
+    the fork guard would refuse.
+    """
+    if lineage and lineage.get("redacted"):
+        return {"withheld": True}
+    return _successor_fields(lineage) or None
+
+
 def _staged_claim_status(projection, row, policy, actor=None, scope=None,
                          conflicts=None, impacts=None):
     """Return a disclosure-safe staging summary when a current judge reviewed it."""
@@ -2743,6 +3044,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
     impacts = dependency_impacts(projection, policy)
     governed, blocked, eligible, staged_context = [], [], {}, []
     conflicts = _active_contradictions(projection, policy)
+    edges, order = _lineage_successors(projection), _proposal_order(projection)
     for cid, row in projection["claims"].items():
         if scope and row["scope"] != scope: continue
         current = v2_state(projection, row, policy, impacts)
@@ -2759,15 +3061,19 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             reason = (conflict_rows[0]["reason"] if conflict_rows else
                       "dependency_invalidated" if dependency_rows else
                       current if current != "admitted" else "actor_not_allowed")
+            lineage = (None if conflict_rows else
+                       lineage_successor(projection, cid, policy, actor, impacts,
+                                         conflicts, edges, order))
             item = {"id": cid, "reason": reason,
                     "required_action": ("human_conflict_review" if conflict_rows else
-                                        "propose_revision" if reason == "needs_revision" else
-                                        "reassess" if reason == "dependency_invalidated" else
-                                        "reverify" if reason in {"expired", "unresolved", "superseded", "withdrawn"} else
-                                        "human_review")}
-            if conflict_rows:
-                item["relation_ids"] = sorted({row["relation_id"] for row in conflict_rows})
-                item["peer_ids"] = sorted({row["peer_id"] for row in conflict_rows})
+                                        _blocked_action(reason, lineage)),
+                    **_successor_fields(lineage)}
+            visible_conflicts = [conflict for conflict in conflict_rows
+                                 if _claim_readable(projection, policy, actor,
+                                                    conflict["peer_id"])]
+            if visible_conflicts:
+                item["relation_ids"] = sorted({row["relation_id"] for row in visible_conflicts})
+                item["peer_ids"] = sorted({row["peer_id"] for row in visible_conflicts})
             if dependency_rows:
                 visible = [impact for impact in dependency_rows
                            if all(_actor_can_read(projection["claims"].get(node, {}), policy, actor)
@@ -2782,13 +3088,17 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
             staged = _staged_claim_status(projection, row, policy, actor, scope,
                                           conflicts, impacts)
             if staged:
-                staged_context.append({**row, "staging": staged})
+                staged_context.append({**_disclosed_claim(row, projection, policy, actor),
+                                       "staging": staged})
     for cid, row in eligible.items():
         admitted = projection["admissions"][cid]
-        governed.append({**row, "receipt": {"admission_event": admitted["event_id"],
-                          "policy_digest": admitted["policy_digest"],
-                          "evidence_digests": admitted["evidence_digests"],
-                          "conflict_resolutions": _conflict_resolution_receipts(projection, cid)}})
+        resolutions = _disclosed_resolutions(_conflict_resolution_receipts(projection, cid),
+                                             projection, policy, actor)
+        governed.append({**_disclosed_claim(row, projection, policy, actor),
+                         "receipt": {"admission_event": admitted["event_id"],
+                                     "policy_digest": admitted["policy_digest"],
+                                     "evidence_digests": admitted["evidence_digests"],
+                                     "conflict_resolutions": resolutions}})
     head = v2_head()
     admitted_ids = {row["id"] for row in governed}
     relations = [row for row in projection["relations"].values()
@@ -2858,13 +3168,39 @@ def finish_run_v1(run_id, status, actor, summary=None):
             "finish_summary": summary}
 
 
-def _run_detail(projection, run):
+def _run_detail(projection, run, actor=None):
+    """Return a run with the claims ``actor`` may not read removed.
+
+    Context receipts and reliances copy claim IDs and statements captured
+    under the run actor's rights. A receipt that lost claims carries
+    ``redacted_claims`` (its digest covers the unredacted receipt), and the
+    run carries ``redacted_reliances`` when reliances were removed.
+    """
     run_id = run["id"]
+    policy = load_v2_policy()
+    receipts = []
+    for receipt in projection["context_receipts"].values():
+        if receipt["run_id"] != run_id:
+            continue
+        claims = [{**row, "admission": {
+                      **row["admission"],
+                      "conflict_resolutions": _disclosed_resolutions(
+                          row["admission"].get("conflict_resolutions", []),
+                          projection, policy, actor)}}
+                  if isinstance(row.get("admission"), dict) else row
+                  for row in receipt.get("claims", [])
+                  if _claim_readable(projection, policy, actor, row["claim_id"])]
+        hidden = len(receipt.get("claims", [])) - len(claims)
+        receipts.append({**receipt, "claims": claims,
+                         **({"redacted_claims": hidden} if hidden else {})})
+    reliances = [row for row in projection["reliances"].values() if row["run_id"] == run_id]
+    visible = [row for row in reliances
+               if _claim_readable(projection, policy, actor, row["claim_id"])]
     return {**run,
-            "context_receipts": [r for r in projection["context_receipts"].values()
-                                 if r["run_id"] == run_id],
-            "reliances": [r for r in projection["reliances"].values()
-                          if r["run_id"] == run_id],
+            "context_receipts": receipts,
+            "reliances": visible,
+            **({"redacted_reliances": len(reliances) - len(visible)}
+               if len(visible) != len(reliances) else {}),
             "outputs": [r for r in projection["outputs"].values()
                         if r["run_id"] == run_id],
             "observations": [r for r in projection["observations"].values()
@@ -2876,7 +3212,7 @@ def _run_detail(projection, run):
 
 def get_run_v1(run_id, actor=None):
     projection = v2_projection()
-    return _run_detail(projection, _require_run(projection, run_id))
+    return _run_detail(projection, _require_run(projection, run_id), actor)
 
 
 def list_runs_v1(actor=None, status=None, limit=50):
@@ -3035,13 +3371,17 @@ def graph_v2(scope=None, actor=None):
                 edges.append({"from": evidence["source_ref"], "to": eid, "type": "bound_as"})
             edges += [{"from": parent, "to": eid, "type": "derived_from"}
                       for parent in evidence.get("source_evidence_refs", [])]
+    conflicts = _active_contradictions(projection, policy)
+    lineage_edges, order = _lineage_successors(projection), _proposal_order(projection)
     for cid, row in wanted.items():
         review = projection["reviews"].get(cid)
         nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row, policy, impacts),
                       "scope": row["scope"],
                       "applicability": row.get("applicability"), "label": row["statement"], "title": row.get("title"),
                       "created_at": row.get("created_at"),
-                      "decision_at": review.get("created_at") if review else None})
+                      "decision_at": review.get("created_at") if review else None,
+                      **_successor_fields(lineage_successor(projection, cid, policy, actor, impacts,
+                                                            conflicts, lineage_edges, order))})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         if row.get("reproposal_of") in wanted:
             edges.append({"from": row["reproposal_of"], "to": cid,
@@ -3059,8 +3399,9 @@ def graph_v2(scope=None, actor=None):
                                else "Governed context")
             nodes.append({"id": aid, "type": "governed", "state": v2_state(projection, row, policy, impacts), "label": admission_label})
             edges.append({"from": review["event_id"] if review else cid, "to": aid, "type": "admitted_by"})
-        if cid in projection["supersessions"]:
-            edges.append({"from": cid, "to": projection["supersessions"][cid]["superseded_by"], "type": "superseded_by"})
+        successor = (projection["supersessions"].get(cid) or {}).get("superseded_by")
+        if successor and _claim_readable(projection, policy, actor, successor):
+            edges.append({"from": cid, "to": successor, "type": "superseded_by"})
         if cid in projection["withdrawals"]:
             withdrawal = projection["withdrawals"][cid]
             nodes.append({"id": withdrawal["event_id"], "type": "lifecycle",
@@ -3118,15 +3459,37 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
 
     def eligibility(cid):
         row = projection["claims"].get(cid)
-        if not row: return "not_found"
+        if not row or not _actor_can_read(row, policy, actor): return "not_found"
         if scope and row["scope"] != scope: return "scope_mismatch"
         current = v2_state(projection, row, policy)
         if current in {"rejected", "expired", "superseded"}: return current
         if state == "admitted" and current != "admitted": return current
+        # Same candidate states as _staged_claim_status: retained checks and
+        # advice do not stage a claim that was sent back or invalidated.
+        if state == "staged" and current not in {"admitted", "needs_review", "unresolved"}:
+            return current
         if state == "staged" and current != "admitted" and not staged_claim(cid, row):
             return "not_staged"
         if cid in conflicts: return conflicts[cid][0]["reason"]
-        return "eligible" if _actor_can_read(row, policy, actor) else "actor_not_allowed"
+        return "eligible"
+
+    impacts = dependency_impacts(projection, policy)
+    edges, order = _lineage_successors(projection), _proposal_order(projection)
+
+    def blocked_entry(cid, reason, **extra):
+        """Apply the context_v2 blocked-entry rule; unreadable claims stay generic."""
+        entry = {"claim_id": cid, **extra, "reason": reason}
+        row = projection["claims"].get(cid)
+        if reason.startswith("contradiction_"):
+            entry["required_action"] = "human_conflict_review"
+        elif not row or not _actor_can_read(row, policy, actor):
+            entry["required_action"] = "human_review"
+        else:
+            lineage = lineage_successor(projection, cid, policy, actor, impacts,
+                                        conflicts, edges, order)
+            entry["required_action"] = _blocked_action(reason, lineage)
+            entry.update(_successor_fields(lineage))
+        return entry
 
     ordered_seeds = list(dict.fromkeys(seeds))
     blocked = []
@@ -3134,10 +3497,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
     for cid in ordered_seeds:
         reason = eligibility(cid)
         if reason == "eligible": eligible_seeds.append(cid)
-        else: blocked.append({"claim_id": cid, "reason": reason,
-                              "required_action": ("human_conflict_review"
-                                                  if reason.startswith("contradiction_")
-                                                  else "human_review")})
+        else: blocked.append(blocked_entry(cid, reason))
     if not eligible_seeds:
         raise ValueError("graph traversal has no eligible seeds")
 
@@ -3163,16 +3523,14 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         if depth >= max_depth: continue
         for neighbor, relation in adjacency.get(current, []):
             reason = eligibility(neighbor)
+            if reason == "not_found":
+                continue
             if reason != "eligible":
                 key = (neighbor, relation["id"], reason)
                 if key not in seen_blocked:
-                    blocked.append({"claim_id": neighbor,
-                                    "relation_id": relation["id"],
-                                    "relation_type": relation["type"],
-                                    "reason": reason,
-                                    "required_action": ("human_conflict_review"
-                                                        if reason.startswith("contradiction_")
-                                                        else "human_review")})
+                    blocked.append(blocked_entry(neighbor, reason,
+                                                 relation_id=relation["id"],
+                                                 relation_type=relation["type"]))
                     seen_blocked.add(key)
                 continue
             if relation["id"] not in seen_relations:
@@ -3593,7 +3951,12 @@ def receipt_v2(cid, actor=None):
     if not row or not _actor_can_read(row, policy, actor):
         raise ValueError("claim not found: " + cid)
     parent_id = row.get("qualifiers", {}).get("revision_of")
-    parent = projection["claims"].get(parent_id)
+    parent = (projection["claims"].get(parent_id)
+              if _claim_readable(projection, policy, actor, parent_id) else None)
+    supersession = projection["supersessions"].get(cid)
+    if supersession and not _claim_readable(projection, policy, actor,
+                                            supersession["superseded_by"]):
+        supersession = {**supersession, "superseded_by": None}
     impact_map = dependency_impacts(projection, policy)
     impacts = impact_map.get(cid, [])
     visible_impacts = [impact for impact in impacts
@@ -3610,7 +3973,8 @@ def receipt_v2(cid, actor=None):
         and _actor_can_read(projection["claims"].get(relation["from"], {}), policy, actor)
         and _actor_can_read(projection["claims"].get(relation["to"], {}), policy, actor)
     ]
-    return {"claim": row, "state": review_state_v2(projection, row, policy, impact_map),
+    return {"claim": _disclosed_claim(row, projection, policy, actor),
+            "state": review_state_v2(projection, row, policy, impact_map),
             "ledger_head": v2_head(),
             "revision_request": projection["revision_requests"].get(cid),
             "revision_parent": ({"id": parent_id, "statement": parent["statement"],
@@ -3619,12 +3983,18 @@ def receipt_v2(cid, actor=None):
             "revisions": [{"id": candidate["id"], "statement": candidate["statement"],
                            "state": v2_state(projection, candidate, policy, impact_map)}
                           for candidate in projection["claims"].values()
-                          if candidate.get("qualifiers", {}).get("revision_of") == cid],
-            "reproposal_parent": _reproposal_parent(projection, row),
+                          if candidate.get("qualifiers", {}).get("revision_of") == cid
+                          and _actor_can_read(candidate, policy, actor)],
+            "lineage": _receipt_lineage(lineage_successor(
+                projection, cid, policy, actor, impact_map)),
+            "reproposal_parent": (_reproposal_parent(projection, row)
+                                  if _claim_readable(projection, policy, actor,
+                                                     row.get("reproposal_of")) else None),
             "reproposals": [{"id": candidate["id"], "statement": candidate["statement"],
                               "state": v2_state(projection, candidate, policy, impact_map)}
                              for candidate in projection["claims"].values()
-                             if candidate.get("reproposal_of") == cid],
+                             if candidate.get("reproposal_of") == cid
+                             and _actor_can_read(candidate, policy, actor)],
             "evidence": [projection["evidence"].get(x) for x in row["evidence_refs"]],
             "evaluation": projection["evaluations"].get(cid),
             "recommendation": projection["recommendations"].get(cid),
@@ -3633,7 +4003,7 @@ def receipt_v2(cid, actor=None):
             "prior_reviews": projection.get("review_history", {}).get(cid, [])[:-1],
             "prior_admissions": projection.get("admission_history", {}).get(cid, [])[:-1],
             "rejection": projection["rejections"].get(cid),
-            "supersession": projection["supersessions"].get(cid),
+            "supersession": supersession,
             "withdrawal": projection.get("withdrawals", {}).get(cid),
             "dependency_impact": {"items": visible_impacts,
                                   "redacted": len(impacts) - len(visible_impacts)},
@@ -3769,11 +4139,11 @@ def _ui_asset():
 
 
 class _UIHandler(BaseHTTPRequestHandler):
-    token = None
-    scope = None
-    asset = None
+    token: str | None = None
+    scope: str | None = None
+    asset: Path | None = None
 
-    def log_message(self, fmt, *args): pass
+    def log_message(self, format, *args): pass
     def _authorized(self):
         parsed = urlparse(self.path)
         query_token = parse_qs(parsed.query).get("token", [None])[0]
@@ -3788,6 +4158,8 @@ class _UIHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/":
             if not self._authorized(): return self._json(HTTPStatus.FORBIDDEN, {"error": "invalid session token"})
+            if self.asset is None or self.token is None:
+                return self._json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "local UI is not configured"})
             html = self.asset.read_text(encoding="utf-8").replace("__PROOFPRESS_TOKEN__", self.token)
             body = html.encode(); self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
         if not self._authorized(): return self._json(HTTPStatus.FORBIDDEN, {"error": "invalid session token"})
@@ -4071,9 +4443,9 @@ def _local_operation_error(code, message, operation=None, request_id=None,
 
 
 def _local_idempotency_records():
-    store = current_event_store()
-    if hasattr(store, "idempotency_records"):
-        return store.idempotency_records()
+    records = getattr(current_event_store(), "idempotency_records", None)
+    if records is not None:
+        return records()
     path = Path(LOCAL_IDEMPOTENCY_PATH)
     if not path.exists():
         return {}
@@ -4087,9 +4459,9 @@ def _local_idempotency_records():
 
 
 def _store_local_idempotency(key, fingerprint, operation, result):
-    store = current_event_store()
-    if hasattr(store, "store_idempotency"):
-        store.store_idempotency(key, fingerprint, operation, result, now())
+    store_idempotency = getattr(current_event_store(), "store_idempotency", None)
+    if store_idempotency is not None:
+        store_idempotency(key, fingerprint, operation, result, now())
         return
     path = Path(LOCAL_IDEMPOTENCY_PATH)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -4360,11 +4732,11 @@ class _RollbackOperation(Exception):
 
 def execute_local_operation(request):
     """Execute atomically when the selected backend provides transactions."""
-    store = current_event_store()
-    if not hasattr(store, "transaction"):
+    transaction = getattr(current_event_store(), "transaction", None)
+    if transaction is None:
         return _execute_local_operation(request)
     try:
-        with store.transaction():
+        with transaction():
             envelope = _execute_local_operation(request)
             if not envelope["ok"]:
                 raise _RollbackOperation(envelope)

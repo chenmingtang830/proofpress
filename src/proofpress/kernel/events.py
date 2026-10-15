@@ -11,7 +11,7 @@ from pathlib import Path
 import sqlite3
 import subprocess
 import threading
-from typing import Any, Iterator, Mapping, Protocol
+from typing import Any, Iterator, Mapping, Protocol, Sequence
 from urllib.parse import quote
 
 
@@ -36,7 +36,7 @@ def content_digest(value: Any) -> str:
     return "sha256:" + hashlib.sha256(canonical_json(value)).hexdigest()
 
 
-def history_envelopes(events: list[Mapping[str, Any]]) -> list[JsonObject]:
+def history_envelopes(events: Sequence[Mapping[str, Any]]) -> list[JsonObject]:
     """Build backend-independent, hash-linked envelopes from ordered events."""
     rows: list[JsonObject] = []
     prior_digest = None
@@ -55,7 +55,7 @@ def history_envelopes(events: list[Mapping[str, Any]]) -> list[JsonObject]:
     return rows
 
 
-def verify_history_envelopes(envelopes: list[Mapping[str, Any]]) -> JsonObject:
+def verify_history_envelopes(envelopes: Sequence[Mapping[str, Any]]) -> JsonObject:
     prior_digest = None
     for sequence, envelope in enumerate(envelopes, start=1):
         if envelope.get("schema_version") != "proofpress/history-envelope/v1alpha1":
@@ -138,7 +138,13 @@ class GitEventStore:
         tree = self._git("mktree", input=f"100644 blob {blob}\tevent.json\n").strip()
         parent = ["-p", expected_head] if expected_head else []
         commit = self._git("commit-tree", tree, *parent, "-m", message).strip()
-        self._git("update-ref", self.ref, commit, expected_head or "0" * 40)
+        try:
+            self._git("update-ref", self.ref, commit, expected_head or "0" * 40)
+        except ValueError:
+            # Same signal as the other stores, so callers can retry a moved head.
+            if self.head() != expected_head:
+                raise ValueError("STALE_EVENT_STORE_HEAD") from None
+            raise
         return {**event, "commit": commit}
 
 
@@ -147,6 +153,7 @@ class MemoryEventStore:
 
     def __init__(self):
         self.events: list[JsonObject] = []
+        self._append_lock = threading.Lock()
 
     def list_events(self) -> list[JsonObject]:
         return [dict(row) for row in self.events]
@@ -157,11 +164,12 @@ class MemoryEventStore:
     def append(self, event: Mapping[str, Any], *, message: str,
                expected_head: str | None) -> JsonObject:
         del message
-        if expected_head != self.head():
-            raise ValueError("STALE_EVENT_STORE_HEAD")
-        commit = content_digest({"prior": expected_head, "event": event})
-        appended = {**event, "commit": commit}
-        self.events.append(appended)
+        with self._append_lock:  # compare-and-swap, atomic across threads
+            if expected_head != self.head():
+                raise ValueError("STALE_EVENT_STORE_HEAD")
+            commit = content_digest({"prior": expected_head, "event": event})
+            appended = {**event, "commit": commit}
+            self.events.append(appended)
         return dict(appended)
 
 

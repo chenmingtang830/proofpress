@@ -4,8 +4,16 @@ import React from "react";
 import { Check, X } from "./ui/icon";
 import { Button } from "./ui/button";
 
+export function reviewQueue(state: string, successorId?: string) {
+  if (state === "needs_revision" && successorId) return "decided";
+  if (state === "unresolved") return "needs_review";
+  if (state === "dependency_invalidated") return "needs_reassessment";
+  if (state === "blocked") return "needs_correction";
+  return ["needs_review", "needs_revision"].includes(state) ? state : "decided";
+}
+
 export function revisionInstructions(r: any) {
-  if (!r?.revision_request) return "";
+  if (!r?.revision_request || r.lineage) return "";
   return `Read proofpress_get_review_receipt for ${r.claim.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_claim with qualifiers: ${JSON.stringify({revision_of:r.claim.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers and state the revised applicability. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
 }
 
@@ -53,8 +61,19 @@ export function BlockedCorrectionHandoff({receipt}: any) {
   </section>;
 }
 
+export function LineageNotice({lineage, onChoose}: any) {
+  if (lineage.withheld) return <div className="lineageNotice" role="status"><strong>Answered by a claim you cannot view</strong><p>Ask an owner how to proceed.</p></div>;
+  const title = lineage.successor_state === "admitted" ? "Settled by an approved claim"
+    : lineage.successor_state === "needs_revision" ? "A later revision was also sent back"
+    : "A later claim is awaiting review";
+  const detail = lineage.successor_state === "needs_revision"
+    ? "Copy revision instructions from that claim instead of this one."
+    : "Do not ask for another revision of this claim.";
+  return <div className="lineageNotice" role="status"><strong>{title}</strong><p>{detail}</p><Button variant="outline" onClick={() => onChoose(lineage.successor_id)}>Open {lineage.successor_id}</Button></div>;
+}
+
 export function RevisionPanel({receipt, onChoose}: any) {
-  return <section className="revisionPanel"><h3>Requested change</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote><RevisionInstructions key={receipt.revision_request.event_id} receipt={receipt} />{receipt.revisions?.length > 0 && <div className="revisionSubmissions"><h4>Revised proposals</h4>{receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>)}</div>}</section>;
+  return <section className="revisionPanel"><h3>Requested change</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote>{receipt.lineage ? <LineageNotice lineage={receipt.lineage} onChoose={onChoose} /> : <RevisionInstructions key={receipt.revision_request.event_id} receipt={receipt} />}{receipt.revisions?.length > 0 && <div className="revisionSubmissions"><h4>Revised proposals</h4>{receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>)}</div>}</section>;
 }
 
 export function historyActor(event: any): string {

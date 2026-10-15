@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
+import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor, reviewQueue } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { ModalSurface } from "@/components/ui/modal-surface";
@@ -43,6 +43,8 @@ import "./components/ui/component-theme.css";
 type NodeRow = {
   id: string;
   type: string;
+  successor_id?: string;
+  successor_state?: string;
   label: string;
   title?: string;
   state: string;
@@ -1281,9 +1283,8 @@ function ReviewPage({
   const [queue, setQueue] = React.useState("needs_review");
   const [reviewPage, setReviewPage] = React.useState(0);
   const pageSize = 20;
-  const queueFor = (state: string) => state === "unresolved" ? "needs_review" : state === "dependency_invalidated" ? "needs_reassessment" : state === "blocked" ? "needs_correction" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
-  React.useEffect(() => { if (selected && receipt?.claim.id === selected) { setQueue(queueFor(receipt.state)); setReviewPage(0); } }, [selected, receipt?.state]);
-  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue).sort((left: any, right: any) => {
+  React.useEffect(() => { if (selected && receipt?.claim.id === selected) { setQueue(reviewQueue(receipt.state, receipt.lineage?.successor_id)); setReviewPage(0); } }, [selected, receipt?.state, receipt?.lineage?.successor_id]);
+  const visibleRows = rows.filter((row: any) => reviewQueue(row.state, row.successor_id) === queue).sort((left: any, right: any) => {
     const leftTime = Date.parse(queue === "decided" ? left.decision_at || left.created_at || "" : left.created_at || "");
     const rightTime = Date.parse(queue === "decided" ? right.decision_at || right.created_at || "" : right.created_at || "");
     return (Number.isFinite(rightTime) ? rightTime : 0) - (Number.isFinite(leftTime) ? leftTime : 0) || right.id.localeCompare(left.id);
@@ -1292,7 +1293,7 @@ function ReviewPage({
   const currentPage = Math.min(reviewPage, pageCount - 1);
   const pageRows = visibleRows.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
   const queueCounts = rows.reduce((counts: Record<string, number>, row: NodeRow) => {
-    const key = queueFor(row.state); counts[key] = (counts[key] || 0) + 1; return counts;
+    const key = reviewQueue(row.state, row.successor_id); counts[key] = (counts[key] || 0) + 1; return counts;
   }, {});
   const switchQueue = (next: string) => { onClose(); setQueue(next); setReviewPage(0); };
   return (

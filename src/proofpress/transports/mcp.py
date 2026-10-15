@@ -405,10 +405,15 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         small discoverable card with at least one field: title and
         description are strings; when_relevant, keywords, and
         validity_conditions are arrays of non-empty strings, never a single
-        sentence. To answer request_changes, read the original review receipt and pass
-        qualifiers.revision_of (original claim ID) and
-        qualifiers.revision_request_ref (revision_request.event_id). Preserve
-        any required profile qualifiers and state the revised applicability.
+        sentence. To answer request_changes, revise the claim that
+        proofpress_get_context names: when a blocked entry's required_action
+        is propose_revision, that is its successor_id if present, otherwise
+        its id. Read that claim's review receipt and pass
+        qualifiers.revision_of (that claim ID) and
+        qualifiers.revision_request_ref (revision_request.event_id). Do not
+        revise when required_action is use_successor or review_successor;
+        proposing is refused once a lineage has an approved or pending claim.
+        Preserve any required profile qualifiers and state the revised applicability.
         The revised candidate
         still needs human approval; proposing never replaces or admits it.
 
