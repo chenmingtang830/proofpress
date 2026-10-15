@@ -1720,6 +1720,13 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
         if (not parent or not request
                 or not _actor_can_read(parent, load_v2_policy(), proposer)):
             raise ValueError("revision requires an existing request for changes")
+        # A revision request is never cleared, so the parent's current state
+        # decides: a rejected claim needs new evidence through re-proposal.
+        parent_state = _base_v2_state(projection, parent, load_v2_policy())
+        if parent_state == "rejected":
+            raise ValueError("a rejected claim is corrected by re-proposal (reproposal_of), not a revision")
+        if parent_state in {"superseded", "withdrawn"}:
+            raise ValueError(f"a {parent_state} claim cannot be revised")
         if (qualifiers or {}).get("revision_request_ref") != request["event_id"]:
             raise ValueError("revision must reference the current revision request")
     identity = {"statement": statement, "evidence": sorted(evidence_refs),
@@ -1745,8 +1752,10 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
     if row["id"] == reproposal_of:
         raise ValueError("a claim cannot be a re-proposal of itself")
     prior = projection["claims"].get(row["id"])
+    stable = set(row) - {"created_at", "digest"}
+    replay = bool(prior) and all(prior.get(key) == row.get(key) for key in stable)
     parent_id = revision_of or reproposal_of
-    if parent_id and not prior:
+    if parent_id and not replay:
         # One live successor per line: a second revision or re-proposal would
         # fork a lineage that an approved, pending, or later claim answers.
         # The proposer is the reader here: a successor they may not read is
@@ -1761,8 +1770,11 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
         if settled:
             raise ValueError("a later claim in this lineage was sent back; revise that claim instead")
     if prior:
-        stable = set(row) - {"created_at", "digest"}
-        if any(prior.get(key) != row.get(key) for key in stable):
+        if not replay:
+            # Content-addressed IDs: never confirm the ID of a claim the
+            # proposer may not read.
+            if not _actor_can_read(prior, load_v2_policy(), proposer):
+                raise ValueError("immutable claim conflict")
             raise ValueError("immutable claim conflict for " + row["id"])
         row = prior
     row["digest"] = _claim_digest(row)

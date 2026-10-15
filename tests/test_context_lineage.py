@@ -331,6 +331,22 @@ class ContextLineageTests(unittest.TestCase):
 
     # propose_v2 refuses to fork a lineage.
 
+    def test_rejected_claim_is_corrected_by_reproposal_not_revision(self):
+        claim = self.propose("Original claim")
+        self.send_back(claim)
+        self.reject(claim)
+        with self.assertRaisesRegex(ValueError, "corrected by re-proposal"):
+            self.revise(claim, "Revision without new evidence")
+
+    def test_replaced_claim_cannot_be_revised(self):
+        claim = self.propose("Original claim")
+        self.send_back(claim)
+        replacement = self.propose("Rejected replacement", evidence=[self.evidence[1]])
+        self.reject(replacement)
+        kernel_ops.supersede_v2(claim, replacement, "human:owner")
+        with self.assertRaisesRegex(ValueError, "superseded claim cannot be revised"):
+            self.revise(claim, "Revision of a replaced claim")
+
     def test_propose_refuses_to_fork_a_settled_revision_line(self):
         original = self.sent_back_twice_then_approved()[0]
         with self.assertRaisesRegex(ValueError, "already has an approved claim"):

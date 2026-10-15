@@ -202,6 +202,30 @@ class DisclosureGuardTests(unittest.TestCase):
             propose_as_outsider("Re-proposal of a hidden claim", reproposal_of=secret_rejected,
                                 qualifiers={"reproposal_response": "Adds the second receipt."})
 
+    def test_guessing_a_hidden_revision_reads_like_any_other_refusal(self):
+        parent = self.claim("Public parent sent back")
+        self.send_back(parent)
+        hidden = self.revise(parent, "SECRET approved revision")
+        kernel_ops.review_v2(hidden, "admit", "human:owner")
+        self.restrict_secrets()
+        request = kernel_ops.v2_projection()["revision_requests"][parent]["event_id"]
+        qualifiers = {"revision_of": parent, "revision_request_ref": request}
+        errors = []
+        for guess in ("A wrong guess", "SECRET approved revision"):
+            with self.assertRaises(ValueError) as caught:
+                kernel_ops.propose_v2(guess, self.evidence[:1], SCOPE, OUTSIDER,
+                                      qualifiers=qualifiers)
+            errors.append(str(caught.exception))
+        self.assertEqual(errors[0], errors[1])
+        self.assertNotIn(hidden, errors[1])
+
+    def test_immutable_conflict_does_not_name_a_hidden_claim(self):
+        hidden = self.admitted("SECRET standalone claim")
+        self.restrict_secrets()
+        with self.assertRaises(ValueError) as caught:
+            kernel_ops.propose_v2("SECRET standalone claim", self.evidence[:1], SCOPE, OUTSIDER)
+        self.assertNotIn(hidden, str(caught.exception))
+
     def test_every_read_operation_with_a_reader_is_covered(self):
         reads = {name for name, spec in kernel_ops.LOCAL_OPERATION_SPECS.items()
                  if not spec["mutates"] and "actor" in spec["required"] + spec["optional"]}
