@@ -299,6 +299,51 @@ class ContextLineageTests(unittest.TestCase):
                          reproposal_of=rejected,
                          qualifiers={"reproposal_response": "Adds the annex."})
 
+    # Receipts, traversal, and disclosure apply the same rule.
+
+    def test_receipt_reports_the_same_lineage(self):
+        original, middle, approved = self.sent_back_twice_then_approved()
+        self.assertEqual(kernel_ops.receipt_v2(original, "agent:reader")["lineage"],
+                         {"successor_id": approved, "successor_state": "admitted",
+                          "lineage_path": [original, middle, approved]})
+        self.assertIsNone(kernel_ops.receipt_v2(approved, "agent:reader")["lineage"])
+
+    def test_receipt_hides_an_unreadable_successor(self):
+        original, _, approved = self.sent_back_twice_then_approved()
+        self.restrict(approved, ["agent:owner"])
+        self.assertIsNone(kernel_ops.receipt_v2(original, "agent:outsider")["lineage"])
+        self.assertEqual(kernel_ops.receipt_v2(original, "agent:owner")["lineage"]["successor_id"],
+                         approved)
+
+    def test_traversal_and_disclosure_carry_the_same_rule(self):
+        old = self.propose("Old liability cap claim")
+        self.admit(old)
+        correction = self.propose("Corrected liability cap claim", evidence=[self.evidence[1]])
+        self.admit(correction)
+        kernel_ops.supersede_v2(old, correction, "human:owner")
+        traversal = kernel_ops.traverse_graph_v2([correction, old], SCOPE, "agent:reader")
+        entry = next(row for row in traversal["blocked_neighbors"] if row["claim_id"] == old)
+        self.assertEqual((entry["reason"], entry["required_action"], entry["successor_id"]),
+                         ("superseded", "use_successor", correction))
+        packet = kernel_ops.disclose_v1("liability cap", "agent:reader", SCOPE,
+                                        seeds=[correction, old])
+        entries = [row for row in packet["blocked"] if old in (row.get("id"), row.get("claim_id"))]
+        self.assertEqual(len(entries), 2)
+        self.assertTrue(all(row["required_action"] == "use_successor"
+                            and row["successor_id"] == correction for row in entries))
+
+    def test_traversal_keeps_unreadable_claims_generic(self):
+        old = self.propose("Old claim")
+        self.admit(old)
+        correction = self.propose("Correction", evidence=[self.evidence[1]])
+        self.admit(correction)
+        kernel_ops.supersede_v2(old, correction, "human:owner")
+        self.restrict(old, ["agent:owner"])
+        traversal = kernel_ops.traverse_graph_v2([correction, old], SCOPE, "agent:outsider")
+        entry = next(row for row in traversal["blocked_neighbors"] if row["claim_id"] == old)
+        self.assertEqual(entry["required_action"], "human_review")
+        self.assertNotIn("successor_id", entry)
+
 
 if __name__ == "__main__":
     unittest.main()

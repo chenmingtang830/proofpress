@@ -3235,16 +3235,31 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         if cid in conflicts: return conflicts[cid][0]["reason"]
         return "eligible" if _actor_can_read(row, policy, actor) else "actor_not_allowed"
 
+    impacts = dependency_impacts(projection, policy)
+    edges = _lineage_successors(projection)
+
+    def blocked_entry(cid, reason, **extra):
+        """Apply the context_v2 blocked-entry rule; unreadable claims stay generic."""
+        entry = {"claim_id": cid, **extra, "reason": reason}
+        row = projection["claims"].get(cid)
+        if reason.startswith("contradiction_"):
+            entry["required_action"] = "human_conflict_review"
+        elif not row or not _actor_can_read(row, policy, actor):
+            entry["required_action"] = "human_review"
+        else:
+            lineage = lineage_successor(projection, cid, policy, actor, impacts,
+                                        conflicts, edges)
+            entry["required_action"] = _blocked_action(reason, lineage)
+            entry.update(_successor_fields(lineage))
+        return entry
+
     ordered_seeds = list(dict.fromkeys(seeds))
     blocked = []
     eligible_seeds = []
     for cid in ordered_seeds:
         reason = eligibility(cid)
         if reason == "eligible": eligible_seeds.append(cid)
-        else: blocked.append({"claim_id": cid, "reason": reason,
-                              "required_action": ("human_conflict_review"
-                                                  if reason.startswith("contradiction_")
-                                                  else "human_review")})
+        else: blocked.append(blocked_entry(cid, reason))
     if not eligible_seeds:
         raise ValueError("graph traversal has no eligible seeds")
 
@@ -3273,13 +3288,9 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
             if reason != "eligible":
                 key = (neighbor, relation["id"], reason)
                 if key not in seen_blocked:
-                    blocked.append({"claim_id": neighbor,
-                                    "relation_id": relation["id"],
-                                    "relation_type": relation["type"],
-                                    "reason": reason,
-                                    "required_action": ("human_conflict_review"
-                                                        if reason.startswith("contradiction_")
-                                                        else "human_review")})
+                    blocked.append(blocked_entry(neighbor, reason,
+                                                 relation_id=relation["id"],
+                                                 relation_type=relation["type"]))
                     seen_blocked.add(key)
                 continue
             if relation["id"] not in seen_relations:
@@ -3727,6 +3738,8 @@ def receipt_v2(cid, actor=None):
                            "state": v2_state(projection, candidate, policy, impact_map)}
                           for candidate in projection["claims"].values()
                           if candidate.get("qualifiers", {}).get("revision_of") == cid],
+            "lineage": _successor_fields(lineage_successor(
+                projection, cid, policy, actor, impact_map)) or None,
             "reproposal_parent": _reproposal_parent(projection, row),
             "reproposals": [{"id": candidate["id"], "statement": candidate["statement"],
                               "state": v2_state(projection, candidate, policy, impact_map)}
