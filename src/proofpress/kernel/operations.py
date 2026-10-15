@@ -1744,6 +1744,17 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
     if row["id"] == reproposal_of:
         raise ValueError("a claim cannot be a re-proposal of itself")
     prior = projection["claims"].get(row["id"])
+    parent_id = revision_of or reproposal_of
+    if parent_id and not prior:
+        # One live successor per line: a second revision or re-proposal would
+        # fork a lineage that an approved, pending, or later claim answers.
+        settled = lineage_successor(projection, parent_id, load_v2_policy())
+        if settled and settled["rank"] == "usable":
+            raise ValueError("lineage already has an approved claim; rely on it instead of proposing another")
+        if settled and settled["rank"] == "pending":
+            raise ValueError("lineage already has a claim awaiting review; wait for that review")
+        if settled:
+            raise ValueError("a later claim in this lineage was sent back; revise that claim instead")
     if prior:
         stable = set(row) - {"created_at", "digest"}
         if any(prior.get(key) != row.get(key) for key in stable):

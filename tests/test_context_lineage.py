@@ -266,6 +266,39 @@ class ContextLineageTests(unittest.TestCase):
                          ("use_successor", approved))
         self.assertEqual(blocked[fork["id"]]["required_action"], "human_review")
 
+    # propose_v2 refuses to fork a lineage.
+
+    def test_propose_refuses_to_fork_a_settled_revision_line(self):
+        original = self.sent_back_twice_then_approved()[0]
+        with self.assertRaisesRegex(ValueError, "already has an approved claim"):
+            self.revise(original, "Second attempt at the original")
+        pending_parent = self.propose("Another claim", evidence=[self.evidence[1]])
+        self.send_back(pending_parent)
+        pending = self.revise(pending_parent, "Pending revision")
+        with self.assertRaisesRegex(ValueError, "awaiting review"):
+            self.revise(pending_parent, "Parallel revision")
+        self.assertEqual(self.revise(pending_parent, "Pending revision"), pending)
+
+    def test_propose_requires_revising_the_latest_sent_back_claim(self):
+        original = self.propose("Original claim")
+        self.send_back(original)
+        latest = self.revise(original, "Revision also sent back")
+        self.send_back(latest)
+        with self.assertRaisesRegex(ValueError, "revise that claim instead"):
+            self.revise(original, "Revision of the stale original")
+        self.revise(latest, "Revision of the latest")
+
+    def test_propose_refuses_a_second_reproposal_while_one_is_pending(self):
+        rejected = self.propose("Rejected claim")
+        self.reject(rejected)
+        self.propose("First correction", evidence=[self.evidence[0], self.evidence[1]],
+                     reproposal_of=rejected,
+                     qualifiers={"reproposal_response": "Adds the schedule."})
+        with self.assertRaisesRegex(ValueError, "awaiting review"):
+            self.propose("Second correction", evidence=[self.evidence[0], self.evidence[2]],
+                         reproposal_of=rejected,
+                         qualifiers={"reproposal_response": "Adds the annex."})
+
 
 if __name__ == "__main__":
     unittest.main()
