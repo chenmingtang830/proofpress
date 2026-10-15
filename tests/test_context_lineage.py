@@ -35,6 +35,28 @@ class ContextLineageTests(unittest.TestCase):
     def tearDown(self):
         self.context.__exit__(None, None, None)
 
+    def setUp_ledger(self):
+        """Bind the fixture source and evidence into the currently active store."""
+        source = {"id": "src_lineage", "kind": "source", "name": "fixture"}
+        source["record_hash"] = kernel_ops.digest(source)
+        kernel_ops.append_v2({"type": "source_recorded", "subject_ref": source["id"],
+                              "record": source})
+        for index in range(3):
+            evidence = {"id": f"evd_lineage_{index}", "kind": "evidence",
+                        "source_ref": source["id"], "source_digest": source["record_hash"],
+                        "observation": {"bounded": True, "index": index}}
+            evidence["digest"] = kernel_ops.digest(evidence)
+            kernel_ops.append_v2({"type": "evidence_bound", "subject_ref": evidence["id"],
+                                  "evidence": evidence})
+
+    @staticmethod
+    def refused(action):
+        try:
+            action()
+        except ValueError:
+            return True
+        return False
+
     # Ledger builders: every step goes through the public kernel operations.
 
     def propose(self, statement, **kwargs):
@@ -495,6 +517,48 @@ class ContextLineageTests(unittest.TestCase):
         self.assertEqual((entry["reason"], entry["required_action"]),
                          ("needs_revision", "propose_revision"))
 
+    def test_a_revision_outranks_its_parent_even_with_identical_timestamps(self):
+        clock = kernel_ops.now
+        kernel_ops.now = lambda: "2026-10-15T00:00:00.000000Z"
+        try:
+            outcomes = []
+            for index in range(6):
+                with using_event_store(MemoryEventStore()):
+                    self.setUp_ledger()
+                    parent = self.propose(f"Parent claim {index}")
+                    self.send_back(parent)
+                    child = self.revise(parent, f"Revision {index}")
+                    self.send_back(child)
+                    blocked, _ = self.blocked()
+                    outcomes.append((blocked[parent].get("successor_id") == child,
+                                     self.refused(lambda: self.revise(parent, f"Fork {index}"))))
+        finally:
+            kernel_ops.now = clock
+        self.assertEqual(outcomes, [(True, True)] * 6)
+
+    def test_sibling_path_joins_at_the_shared_parent(self):
+        root = self.propose("Root claim")
+        self.send_back(root)
+        parent = self.revise(root, "Parent revision")
+        self.send_back(parent)
+        stale = self.revise(parent, "Stale branch")
+        self.send_back(stale)
+        request = kernel_ops.v2_projection()["revision_requests"][parent]["event_id"]
+        sibling = {"id": "clm_legacysibling00", "kind": "claim", "statement": "Approved sibling",
+                   "evidence_refs": [self.evidence[1]], "artifact_refs": [], "scope": SCOPE,
+                   "proposer": "agent:author", "expires_at": None, "applicability": None,
+                   "reproposal_of": None, "created_at": kernel_ops.now(),
+                   "qualifiers": {"revision_of": parent, "revision_request_ref": request}}
+        sibling["digest"] = kernel_ops.digest(sibling)
+        kernel_ops.append_v2({"type": "claim_proposed", "subject_ref": sibling["id"],
+                              "claim": sibling})
+        self.admit(sibling["id"])
+        self.restrict(root, ["agent:owner"])
+        blocked, _ = self.blocked("agent:outsider")
+        self.assertEqual((blocked[stale]["required_action"], blocked[stale]["successor_id"],
+                          blocked[stale]["lineage_path"]),
+                         ("use_successor", sibling["id"], [stale, parent, sibling["id"]]))
+
     # Concurrent writers: each check holds against the ledger head it read.
 
     def test_concurrent_revisions_cannot_both_pass_the_fork_guard(self):
@@ -542,6 +606,30 @@ class ContextLineageTests(unittest.TestCase):
         admissions = [event for event in kernel_ops.v2_events()
                       if event.get("type") == "claim_admitted" and event.get("subject_ref") == claim]
         self.assertEqual(admissions, [])
+
+    def test_retried_review_write_rechecks_the_contradiction_rule(self):
+        claim = self.propose("Admitted claim")
+        self.admit(claim)
+        rival = self.propose("Rival reading", evidence=[self.evidence[1]])
+        self.admit(rival)
+        append = kernel_ops.append_v2
+        injected = []
+
+        def interleaved(event, *args, **kwargs):
+            if event.get("type") == "claim_revision_requested" and not injected:
+                injected.append(True)
+                relation = kernel_ops.propose_relation_v2(claim, rival, "contradicts",
+                                                          "agent:author")["relation"]["id"]
+                kernel_ops.review_relation_v2(relation, "admit", "human:owner")
+            return append(event, *args, **kwargs)
+
+        kernel_ops.append_v2 = interleaved
+        try:
+            with self.assertRaisesRegex(ValueError, "only transition through relation resolve"):
+                self.send_back(claim)
+        finally:
+            kernel_ops.append_v2 = append
+        self.assertNotIn(claim, kernel_ops.v2_projection()["revision_requests"])
 
     # Owner surfaces: graph claim nodes carry the same lineage.
 

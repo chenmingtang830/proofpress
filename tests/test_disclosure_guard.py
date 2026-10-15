@@ -241,6 +241,13 @@ class DisclosureGuardTests(unittest.TestCase):
             kernel_ops.propose_v2("SECRET standalone claim", self.evidence[:1], SCOPE, OUTSIDER)
         self.assertNotIn(hidden, str(caught.exception))
 
+    def test_replay_does_not_return_a_claim_the_proposer_may_no_longer_read(self):
+        self.claim("SECRET claim its author may no longer read")
+        self.restrict_secrets()
+        with self.assertRaisesRegex(ValueError, "^immutable claim conflict$"):
+            kernel_ops.propose_v2("SECRET claim its author may no longer read", self.evidence[:1],
+                                  SCOPE, "agent:author")
+
     def test_every_read_operation_with_a_reader_is_covered(self):
         reads = {name for name, spec in kernel_ops.LOCAL_OPERATION_SPECS.items()
                  if not spec["mutates"] and "actor" in spec["required"] + spec["optional"]}

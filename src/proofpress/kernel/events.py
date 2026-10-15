@@ -153,6 +153,7 @@ class MemoryEventStore:
 
     def __init__(self):
         self.events: list[JsonObject] = []
+        self._append_lock = threading.Lock()
 
     def list_events(self) -> list[JsonObject]:
         return [dict(row) for row in self.events]
@@ -163,11 +164,12 @@ class MemoryEventStore:
     def append(self, event: Mapping[str, Any], *, message: str,
                expected_head: str | None) -> JsonObject:
         del message
-        if expected_head != self.head():
-            raise ValueError("STALE_EVENT_STORE_HEAD")
-        commit = content_digest({"prior": expected_head, "event": event})
-        appended = {**event, "commit": commit}
-        self.events.append(appended)
+        with self._append_lock:  # compare-and-swap, atomic across threads
+            if expected_head != self.head():
+                raise ValueError("STALE_EVENT_STORE_HEAD")
+            commit = content_digest({"prior": expected_head, "event": event})
+            appended = {**event, "commit": commit}
+            self.events.append(appended)
         return dict(appended)
 
 

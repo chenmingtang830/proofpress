@@ -123,6 +123,33 @@ class EventStoreTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "^STALE_EVENT_STORE_HEAD$"):
             git.append({"event_id": "two"}, message="two", expected_head=None)
 
+    def test_memory_store_compare_and_swap_holds_across_threads(self):
+        import threading
+        import time
+
+        class SlowHead(self.store.MemoryEventStore):
+            def head(self):
+                value = super().head()
+                time.sleep(0.05)
+                return value
+
+        memory, outcomes = SlowHead(), []
+        start = threading.Barrier(2)
+
+        def append(event_id):
+            start.wait()
+            try:
+                memory.append({"event_id": event_id}, message=event_id, expected_head=None)
+                outcomes.append("appended")
+            except ValueError as exc:
+                outcomes.append(str(exc))
+
+        threads = [threading.Thread(target=append, args=(name,)) for name in ("one", "two")]
+        for thread in threads: thread.start()
+        for thread in threads: thread.join()
+        self.assertEqual(sorted(outcomes), ["STALE_EVENT_STORE_HEAD", "appended"])
+        self.assertEqual(len(memory.events), 1)
+
     def test_memory_store_rejects_a_stale_append(self):
         memory = self.store.MemoryEventStore()
         memory.append({"event_id": "one"}, message="one", expected_head=None)

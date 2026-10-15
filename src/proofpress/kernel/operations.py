@@ -1797,11 +1797,11 @@ def _propose_v2_once(statement, evidence_refs, scope=None, proposer=None, expire
         if settled:
             raise ValueError("a later claim in this lineage was sent back; revise that claim instead")
     if prior:
+        # Content-addressed IDs: never confirm or return a claim the proposer
+        # may not read, not even on an identical replay.
+        if not _actor_can_read(prior, load_v2_policy(), proposer):
+            raise ValueError("immutable claim conflict")
         if not replay:
-            # Content-addressed IDs: never confirm the ID of a claim the
-            # proposer may not read.
-            if not _actor_can_read(prior, load_v2_policy(), proposer):
-                raise ValueError("immutable claim conflict")
             raise ValueError("immutable claim conflict for " + row["id"])
         row = prior
     row["digest"] = _claim_digest(row)
@@ -2429,6 +2429,15 @@ def _review_outcome(projection, row, decision, policy):
     return _base_v2_state(projection, row, policy), _base_v2_state(simulated, row, policy)
 
 
+def _require_reviewable(projection, row, decision, policy):
+    """Raise unless ``decision`` may be recorded on ``row`` now and would take effect."""
+    if decision == "admit" and v2_state(projection, row, policy) == "dependency_invalidated":
+        raise ValueError("dependency-invalidated claims must use claim.reassess")
+    if decision != "admit" and row["id"] in _active_contradictions(projection, policy):
+        raise ValueError("active contradiction endpoint may only transition through relation resolve")
+    _require_effective_review(projection, row, decision, policy)
+
+
 def _require_effective_review(projection, row, decision, policy):
     """Raise unless ``decision`` would change the claim's state in ``projection``."""
     current, after = _review_outcome(projection, row, decision, policy)
@@ -2448,7 +2457,7 @@ def _append_effective_review_event(event, row, decision, policy, attempts=3):
     """
     for _ in range(attempts):
         head = v2_head()
-        _require_effective_review(v2_projection(), row, decision, policy)
+        _require_reviewable(v2_projection(), row, decision, policy)
         try:
             return append_v2(event, expected_head=head)
         except ValueError as exc:
@@ -2474,14 +2483,7 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     _require_expected_head(expected_head)
     row = projection["claims"].get(cid)
     if not row: raise ValueError("claim not found: " + cid)
-    if decision == "admit" and v2_state(projection, row) == "dependency_invalidated":
-        raise ValueError("dependency-invalidated claims must use claim.reassess")
-    if decision != "admit":
-        policy = load_v2_policy()
-        conflicts = _active_contradictions(projection, policy)
-        if cid in conflicts:
-            raise ValueError("active contradiction endpoint may only transition through relation resolve")
-    _require_effective_review(projection, row, decision, load_v2_policy())
+    _require_reviewable(projection, row, decision, load_v2_policy())
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a claim")
     evaluation = evaluate_v2(cid)
@@ -2810,6 +2812,11 @@ def _lineage_successors(projection):
     return edges
 
 
+def _proposal_order(projection):
+    """Map claim IDs to the position of their first proposal in the ledger."""
+    return {cid: index for index, cid in enumerate(projection["claims"])}
+
+
 def _lineage_ancestors(projection, cid):
     """Return ``[cid, parent, ..., root]`` following revision parents and re-proposal predecessors."""
     chain = [cid]
@@ -2839,7 +2846,7 @@ def _lineage_rank(projection, cid, policy, impacts, conflicts):
 
 
 def lineage_successor(projection, cid, policy, actor=None, impacts=None,
-                      conflicts=None, edges=None):
+                      conflicts=None, edges=None, order=None):
     """Return the claim that currently stands for ``cid`` in its lineage.
 
     The lineage is the family under ``cid``'s root (reached by following
@@ -2848,13 +2855,14 @@ def lineage_successor(projection, cid, policy, actor=None, impacts=None,
     supersessions, so sibling branches count. Every member except ``cid``'s
     ancestors is ranked: usable (admitted, not quarantined), then pending (an
     owner must review, resolve, or reassess it), then sent back for changes;
-    the later proposal wins a tie. ``cid`` competes too; when it wins, nothing
+    the later first proposal in the ledger wins a tie (so a revision always
+    outranks its parent). ``cid`` competes too; when it wins, nothing
     else stands for it. Rejected, expired, withdrawn, and superseded claims
     are walked through but never chosen. Cycles terminate.
 
     Returns None when nothing other than ``cid`` stands for it, and
     ``{"redacted": True}`` when ``actor`` may not read every claim on the path
-    from ``cid`` to the chosen claim (up to the shared ancestor where needed,
+    from ``cid`` to the chosen claim (up to their nearest shared ancestor,
     then down), so callers fall back to a generic action without naming
     anything. Otherwise returns ``{"id", "state", "rank", "path"}`` with
     ``path`` starting at ``cid``. Pure: reads the projection only.
@@ -2866,6 +2874,7 @@ def lineage_successor(projection, cid, policy, actor=None, impacts=None,
         return None
     impacts = dependency_impacts(projection, policy) if impacts is None else impacts
     conflicts = _active_contradictions(projection, policy) if conflicts is None else conflicts
+    order = _proposal_order(projection) if order is None else order
     paths, queue = {root: [root]}, [root]
     while queue:
         current = queue.pop(0)
@@ -2881,14 +2890,15 @@ def lineage_successor(projection, cid, policy, actor=None, impacts=None,
         rank, state = _lineage_rank(projection, member, policy, impacts, conflicts)
         if rank is None:
             continue
-        key = (_LINEAGE_RANK[rank], projection["claims"][member].get("created_at") or "", member)
+        key = (_LINEAGE_RANK[rank], order[member])
         if best is None or key > best[0]:
             best = (key, {"id": member, "state": state, "rank": rank})
     if best is None or best[1]["id"] == cid:
         return None
     found = best[1]
     down = paths[found["id"]]
-    path = down[down.index(cid):] if cid in down else ancestors + down[1:]
+    meet = next(node for node in ancestors if node in down)
+    path = ancestors[:ancestors.index(meet) + 1] + down[down.index(meet) + 1:]
     if not all(_actor_can_read(projection["claims"][node], policy, actor) for node in path):
         return {"redacted": True}
     return {**found, "path": path}
@@ -3031,7 +3041,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
     impacts = dependency_impacts(projection, policy)
     governed, blocked, eligible, staged_context = [], [], {}, []
     conflicts = _active_contradictions(projection, policy)
-    edges = _lineage_successors(projection)
+    edges, order = _lineage_successors(projection), _proposal_order(projection)
     for cid, row in projection["claims"].items():
         if scope and row["scope"] != scope: continue
         current = v2_state(projection, row, policy, impacts)
@@ -3050,7 +3060,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                       current if current != "admitted" else "actor_not_allowed")
             lineage = (None if conflict_rows else
                        lineage_successor(projection, cid, policy, actor, impacts,
-                                         conflicts, edges))
+                                         conflicts, edges, order))
             item = {"id": cid, "reason": reason,
                     "required_action": ("human_conflict_review" if conflict_rows else
                                         _blocked_action(reason, lineage)),
@@ -3359,7 +3369,7 @@ def graph_v2(scope=None, actor=None):
             edges += [{"from": parent, "to": eid, "type": "derived_from"}
                       for parent in evidence.get("source_evidence_refs", [])]
     conflicts = _active_contradictions(projection, policy)
-    lineage_edges = _lineage_successors(projection)
+    lineage_edges, order = _lineage_successors(projection), _proposal_order(projection)
     for cid, row in wanted.items():
         review = projection["reviews"].get(cid)
         nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row, policy, impacts),
@@ -3368,7 +3378,7 @@ def graph_v2(scope=None, actor=None):
                       "created_at": row.get("created_at"),
                       "decision_at": review.get("created_at") if review else None,
                       **_successor_fields(lineage_successor(projection, cid, policy, actor, impacts,
-                                                            conflicts, lineage_edges))})
+                                                            conflicts, lineage_edges, order))})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         if row.get("reproposal_of") in wanted:
             edges.append({"from": row["reproposal_of"], "to": cid,
@@ -3461,7 +3471,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         return "eligible"
 
     impacts = dependency_impacts(projection, policy)
-    edges = _lineage_successors(projection)
+    edges, order = _lineage_successors(projection), _proposal_order(projection)
 
     def blocked_entry(cid, reason, **extra):
         """Apply the context_v2 blocked-entry rule; unreadable claims stay generic."""
@@ -3473,7 +3483,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
             entry["required_action"] = "human_review"
         else:
             lineage = lineage_successor(projection, cid, policy, actor, impacts,
-                                        conflicts, edges)
+                                        conflicts, edges, order)
             entry["required_action"] = _blocked_action(reason, lineage)
             entry.update(_successor_fields(lineage))
         return entry
