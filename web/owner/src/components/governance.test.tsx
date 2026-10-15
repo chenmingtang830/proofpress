@@ -1,7 +1,7 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { DecisionNotice, historyActor, revisionInstructions } from "./review-feedback";
+import { DecisionNotice, RevisionPanel, historyActor, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
 import { ClaimGraph } from "./claim-graph";
 import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
@@ -59,6 +59,18 @@ describe("governance components", () => {
   it("binds handoff instructions to a recorded request", () => {
     expect(revisionInstructions({})).toBe("");
     expect(revisionInstructions({claim:{id:"knw_a"},review:{note:"Fix units"},revision_request:{event_id:"evt_b"}})).toContain('"revision_request_ref":"evt_b"');
+  });
+  it("does not hand off a revision that a later claim already answers", () => {
+    const sentBack = {claim:{id:"knw_a"},review:{note:"Fix units"},revision_request:{event_id:"evt_b"}};
+    const settled = {...sentBack, lineage:{successor_id:"knw_c",successor_state:"admitted",lineage_path:["knw_a","knw_c"]}};
+    expect(revisionInstructions(settled)).toBe("");
+    const html = renderToStaticMarkup(<RevisionPanel receipt={settled} onChoose={()=>{}} />);
+    expect(html).toContain("Settled by an approved claim");
+    expect(html).toContain("knw_c");
+    expect(html).not.toContain("Copy instructions for agent");
+    const later = {...sentBack, lineage:{successor_id:"knw_d",successor_state:"needs_revision",lineage_path:["knw_a","knw_d"]}};
+    expect(renderToStaticMarkup(<RevisionPanel receipt={later} onChoose={()=>{}} />)).toContain("A later revision was also sent back");
+    expect(renderToStaticMarkup(<RevisionPanel receipt={sentBack} onChoose={()=>{}} />)).toContain("Copy instructions for agent");
   });
   it("bounds graph disclosure and does not equate admission with eligibility", () => {
     const html = renderToStaticMarkup(<LineageGraph receipt={{claim:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[{},{},{},{}]}} available={false} evidenceNames={["A","B","C","D"]} selection="claim" onSelect={()=>{}} />);
