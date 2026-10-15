@@ -2738,49 +2738,85 @@ def _lineage_successors(projection):
     return edges
 
 
+def _lineage_ancestors(projection, cid):
+    """Return ``[cid, parent, ..., root]`` following revision parents and re-proposal predecessors."""
+    chain = [cid]
+    while True:
+        row = projection["claims"].get(chain[-1]) or {}
+        parent = (row.get("qualifiers") or {}).get("revision_of") or row.get("reproposal_of")
+        if not parent or parent in chain or parent not in projection["claims"]:
+            return chain
+        chain.append(parent)
+
+
+def _lineage_rank(projection, cid, policy, impacts, conflicts):
+    """Return ``(rank, state)`` for one lineage member, or ``(None, state)``.
+
+    An admitted claim quarantined by a contradiction, a dependency-invalidated
+    claim, and a claim awaiting (re-)review all still hold the line: they wait
+    for an owner, and a parallel proposal would fork it.
+    """
+    state = v2_state(projection, projection["claims"][cid], policy, impacts)
+    if state == "admitted" and cid in conflicts:
+        return "pending", conflicts[cid][0]["reason"]
+    if state == "admitted":
+        return "usable", state
+    if state in {"needs_review", "unresolved", "dependency_invalidated"}:
+        return "pending", state
+    return ("revisable" if state == "needs_revision" else None), state
+
+
 def lineage_successor(projection, cid, policy, actor=None, impacts=None,
                       conflicts=None, edges=None):
     """Return the claim that currently stands for ``cid`` in its lineage.
 
-    Walks revision, re-proposal, and supersession edges from ``cid`` and ranks
-    every claim reached: usable (admitted and not in an active contradiction),
-    then pending review, then sent back for changes; the later proposal wins a
-    tie. Rejected, expired, withdrawn, superseded, and dependency-invalidated
-    claims are walked through but never chosen. Cycles terminate.
+    The lineage is the family under ``cid``'s root (reached by following
+    revision parents and re-proposal predecessors up) plus every claim
+    reachable from that root through revisions, re-proposals, and
+    supersessions, so sibling branches count. Every member except ``cid``'s
+    ancestors is ranked: usable (admitted, not quarantined), then pending (an
+    owner must review, resolve, or reassess it), then sent back for changes;
+    the later proposal wins a tie. ``cid`` competes too; when it wins, nothing
+    else stands for it. Rejected, expired, withdrawn, and superseded claims
+    are walked through but never chosen. Cycles terminate.
 
-    Returns None when no reachable claim ranks, and ``{"redacted": True}``
-    when ``actor`` may not read every claim on the path to the chosen one, so
-    callers fall back to a generic action without naming anything. Otherwise
-    returns ``{"id", "state", "rank", "path"}`` with ``path`` starting at
-    ``cid``. Pure: reads the projection only.
+    Returns None when nothing other than ``cid`` stands for it, and
+    ``{"redacted": True}`` when ``actor`` may not read every claim on the path
+    from ``cid`` to the chosen claim (up to the shared ancestor where needed,
+    then down), so callers fall back to a generic action without naming
+    anything. Otherwise returns ``{"id", "state", "rank", "path"}`` with
+    ``path`` starting at ``cid``. Pure: reads the projection only.
     """
     edges = _lineage_successors(projection) if edges is None else edges
-    if not edges.get(cid):
+    ancestors = _lineage_ancestors(projection, cid)
+    root = ancestors[-1]
+    if not edges.get(root):
         return None
     impacts = dependency_impacts(projection, policy) if impacts is None else impacts
     conflicts = _active_contradictions(projection, policy) if conflicts is None else conflicts
-    paths, queue, best = {cid: [cid]}, [cid], None
+    paths, queue = {root: [root]}, [root]
     while queue:
         current = queue.pop(0)
         for successor in edges.get(current, []):
-            row = projection["claims"].get(successor)
-            if successor in paths or not row:
+            if successor in paths or successor not in projection["claims"]:
                 continue
             paths[successor] = paths[current] + [successor]
             queue.append(successor)
-            state = v2_state(projection, row, policy, impacts)
-            rank = ("usable" if state == "admitted" and successor not in conflicts else
-                    "pending" if state in {"needs_review", "unresolved"} else
-                    "revisable" if state == "needs_revision" else None)
-            if rank is None:
-                continue
-            key = (_LINEAGE_RANK[rank], row.get("created_at") or "", successor)
-            if best is None or key > best[0]:
-                best = (key, {"id": successor, "state": state, "rank": rank})
-    if best is None:
+    best, excluded = None, set(ancestors[1:])
+    for member in paths:
+        if member in excluded:
+            continue
+        rank, state = _lineage_rank(projection, member, policy, impacts, conflicts)
+        if rank is None:
+            continue
+        key = (_LINEAGE_RANK[rank], projection["claims"][member].get("created_at") or "", member)
+        if best is None or key > best[0]:
+            best = (key, {"id": member, "state": state, "rank": rank})
+    if best is None or best[1]["id"] == cid:
         return None
     found = best[1]
-    path = paths[found["id"]]
+    down = paths[found["id"]]
+    path = down[down.index(cid):] if cid in down else ancestors + down[1:]
     if not all(_actor_can_read(projection["claims"][node], policy, actor) for node in path):
         return {"redacted": True}
     return {**found, "path": path}

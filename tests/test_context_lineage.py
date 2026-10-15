@@ -217,8 +217,9 @@ class ContextLineageTests(unittest.TestCase):
         kernel_ops.review_relation_v2(relation, "admit", "human:owner")
         blocked, governed = self.blocked()
         self.assertNotIn(correction, governed)
-        self.assertEqual(blocked[old]["required_action"], "human_review")
-        self.assertNotIn("successor_id", blocked[old])
+        self.assertEqual((blocked[old]["required_action"], blocked[old]["successor_id"],
+                          blocked[old]["successor_state"]),
+                         ("review_successor", correction, "contradiction_unresolved"))
 
     def test_dependency_invalidated_successor_is_not_offered_for_use(self):
         old = self.propose("Old claim")
@@ -234,7 +235,8 @@ class ContextLineageTests(unittest.TestCase):
         blocked, governed = self.blocked()
         self.assertNotIn(correction, governed)
         self.assertEqual(blocked[correction]["required_action"], "reassess")
-        self.assertEqual(blocked[old]["required_action"], "human_review")
+        self.assertEqual((blocked[old]["required_action"], blocked[old]["successor_state"]),
+                         ("review_successor", "dependency_invalidated"))
 
     def test_successor_in_another_scope_is_still_named(self):
         old = self.propose("Old claim")
@@ -261,10 +263,71 @@ class ContextLineageTests(unittest.TestCase):
         fork["digest"] = kernel_ops.digest(fork)
         kernel_ops.append_v2({"type": "claim_proposed", "subject_ref": fork["id"], "claim": fork})
         self.admit(approved)
+        self.send_back(fork["id"])
         blocked, _ = self.blocked()
         self.assertEqual((blocked[original]["required_action"], blocked[original]["successor_id"]),
                          ("use_successor", approved))
-        self.assertEqual(blocked[fork["id"]]["required_action"], "human_review")
+        self.assertEqual((blocked[fork["id"]]["required_action"], blocked[fork["id"]]["successor_id"],
+                          blocked[fork["id"]]["lineage_path"]),
+                         ("use_successor", approved, [fork["id"], original, approved]))
+        with self.assertRaisesRegex(ValueError, "already has an approved claim"):
+            self.revise(fork["id"], "Extension of the stale branch")
+
+    # Lineage families: siblings and successors that need an owner still hold the line.
+
+    def test_quarantined_revision_still_answers_its_original(self):
+        original = self.propose("Original claim")
+        self.send_back(original)
+        revision = self.revise(original, "Approved revision")
+        self.admit(revision)
+        rival = self.propose("Rival reading", evidence=[self.evidence[2]])
+        self.admit(rival)
+        relation = kernel_ops.propose_relation_v2(revision, rival, "contradicts",
+                                                  "agent:author")["relation"]["id"]
+        kernel_ops.review_relation_v2(relation, "admit", "human:owner")
+        blocked, _ = self.blocked()
+        self.assertEqual((blocked[original]["required_action"], blocked[original]["successor_id"],
+                          blocked[original]["successor_state"]),
+                         ("review_successor", revision, "contradiction_unresolved"))
+        with self.assertRaisesRegex(ValueError, "awaiting review"):
+            self.revise(original, "Second revision while the first is quarantined")
+
+    def test_rejected_branch_cannot_be_revived_beside_a_live_sibling(self):
+        original = self.propose("Original claim")
+        self.send_back(original)
+        rejected = self.revise(original, "Rejected revision")
+        self.reject(rejected)
+        live = self.revise(original, "Second revision")
+        blocked, _ = self.blocked()
+        self.assertEqual((blocked[rejected]["required_action"], blocked[rejected]["successor_id"],
+                          blocked[rejected]["lineage_path"]),
+                         ("review_successor", live, [rejected, original, live]))
+
+        def repropose():
+            return self.propose("Re-proposal of the rejected revision",
+                                evidence=[self.evidence[0], self.evidence[1]],
+                                reproposal_of=rejected,
+                                qualifiers={"reproposal_response": "Adds the schedule."})
+
+        with self.assertRaisesRegex(ValueError, "awaiting review"):
+            repropose()
+        self.admit(live)
+        with self.assertRaisesRegex(ValueError, "already has an approved claim"):
+            repropose()
+
+    def test_rejected_sibling_alone_leaves_both_continuations_open(self):
+        original = self.propose("Original claim")
+        self.send_back(original)
+        rejected = self.revise(original, "Rejected revision")
+        self.reject(rejected)
+        continuation = self.propose("Re-proposal of the rejected revision",
+                                    evidence=[self.evidence[0], self.evidence[1]],
+                                    reproposal_of=rejected,
+                                    qualifiers={"reproposal_response": "Adds the schedule."})
+        with self.assertRaisesRegex(ValueError, "awaiting review"):
+            self.revise(original, "Parallel revision of the original")
+        blocked, _ = self.blocked()
+        self.assertEqual(blocked[original]["successor_id"], continuation)
 
     # propose_v2 refuses to fork a lineage.
 
