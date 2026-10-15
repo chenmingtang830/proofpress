@@ -495,6 +495,54 @@ class ContextLineageTests(unittest.TestCase):
         self.assertEqual((entry["reason"], entry["required_action"]),
                          ("needs_revision", "propose_revision"))
 
+    # Concurrent writers: each check holds against the ledger head it read.
+
+    def test_concurrent_revisions_cannot_both_pass_the_fork_guard(self):
+        original = self.propose("Original claim")
+        self.send_back(original)
+        competitor = {}
+        resolve = kernel_ops.lineage_successor
+
+        def interleaved(*args, **kwargs):
+            result = resolve(*args, **kwargs)
+            if not competitor:
+                competitor["id"] = "pending"
+                competitor["id"] = self.revise(original, "Competing revision")
+            return result
+
+        kernel_ops.lineage_successor = interleaved
+        try:
+            with self.assertRaisesRegex(ValueError, "awaiting review"):
+                self.revise(original, "Revision that lost the race")
+        finally:
+            kernel_ops.lineage_successor = resolve
+        revisions = [cid for cid, row in kernel_ops.v2_projection()["claims"].items()
+                     if row.get("qualifiers", {}).get("revision_of") == original]
+        self.assertEqual(revisions, [competitor["id"]])
+
+    def test_concurrent_change_request_is_not_shadowed_by_an_admission(self):
+        claim = self.propose("Claim under review")
+        outcome = kernel_ops._review_outcome
+        calls = []
+
+        def interleaved(*args, **kwargs):
+            result = outcome(*args, **kwargs)
+            calls.append(args[2])
+            if len(calls) == 2:
+                self.send_back(claim)
+            return result
+
+        kernel_ops._review_outcome = interleaved
+        try:
+            with self.assertRaisesRegex(ValueError,
+                                        "admit would have no effect on a needs_revision claim"):
+                self.admit(claim)
+        finally:
+            kernel_ops._review_outcome = outcome
+        admissions = [event for event in kernel_ops.v2_events()
+                      if event.get("type") == "claim_admitted" and event.get("subject_ref") == claim]
+        self.assertEqual(admissions, [])
+
     # Owner surfaces: graph claim nodes carry the same lineage.
 
     def test_graph_nodes_carry_the_same_lineage(self):

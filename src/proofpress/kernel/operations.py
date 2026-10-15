@@ -1676,13 +1676,38 @@ def _applicability(value):
     return card
 
 
+class _StaleLineageCheck(Exception):
+    """The ledger moved between a lineage check and the append it guarded."""
+
+
 def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
                artifact_refs=None, applicability=None, qualifiers=None,
                profile=None, reproposal_of=None, title=None):
+    """Propose a claim (see ``_propose_v2_once``).
+
+    A revision or re-proposal is appended only against the ledger head its
+    lineage check read, so two concurrent proposals cannot both pass the fork
+    guard; when the head moved, the whole validation runs again, up to three
+    times, then fails with a retryable ``STALE_LEDGER_HEAD``.
+    """
+    for _ in range(3):
+        try:
+            return _propose_v2_once(statement, evidence_refs, scope, proposer, expires_at,
+                                    artifact_refs, applicability, qualifiers, profile,
+                                    reproposal_of, title)
+        except _StaleLineageCheck:
+            continue
+    raise ValueError("STALE_LEDGER_HEAD")
+
+
+def _propose_v2_once(statement, evidence_refs, scope=None, proposer=None, expires_at=None,
+                     artifact_refs=None, applicability=None, qualifiers=None,
+                     profile=None, reproposal_of=None, title=None):
     if title is not None:
         if not isinstance(title, str) or not title.strip() or len(title.strip()) > 120:
             raise ValueError("title must be a non-empty string of at most 120 characters")
         title = title.strip()
+    head = v2_head()
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
@@ -1778,8 +1803,13 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
             raise ValueError("immutable claim conflict for " + row["id"])
         row = prior
     row["digest"] = _claim_digest(row)
-    event = append_v2({"type": "claim_proposed", "subject_ref": row["id"],
-                       "claim": row})
+    try:
+        event = append_v2({"type": "claim_proposed", "subject_ref": row["id"],
+                           "claim": row}, expected_head=head if parent_id else None)
+    except ValueError as exc:
+        if parent_id and str(exc) == "STALE_EVENT_STORE_HEAD":
+            raise _StaleLineageCheck from exc
+        raise
     return {"ok": True, "claim": row, "event_id": event["event_id"]}
 
 
@@ -2396,6 +2426,34 @@ def _review_outcome(projection, row, decision, policy):
     return _base_v2_state(projection, row, policy), _base_v2_state(simulated, row, policy)
 
 
+def _require_effective_review(projection, row, decision, policy):
+    """Raise unless ``decision`` would change the claim's state in ``projection``."""
+    current, after = _review_outcome(projection, row, decision, policy)
+    if after != _REVIEW_OUTCOMES[decision][1]:
+        raise ValueError(f"review decision {decision} would have no effect on a {current} claim"
+                         + _REVIEW_REMEDIES.get(current, ""))
+
+
+def _append_effective_review_event(event, row, decision, policy, attempts=3):
+    """Append one event of a review decision while the decision still takes effect.
+
+    Side effect: appends to the event store. Each attempt re-reads the ledger,
+    re-checks the decision, and appends against the head it checked, so a
+    decision another writer recorded in between is never silently shadowed.
+    A moved head retries; after ``attempts`` it fails with a retryable
+    ``STALE_LEDGER_HEAD``.
+    """
+    for _ in range(attempts):
+        head = v2_head()
+        _require_effective_review(v2_projection(), row, decision, policy)
+        try:
+            return append_v2(event, expected_head=head)
+        except ValueError as exc:
+            if str(exc) != "STALE_EVENT_STORE_HEAD":
+                raise
+    raise ValueError("STALE_LEDGER_HEAD")
+
+
 def review_v2(cid, decision, reviewer, note=None, request_id=None,
               expected_head=None):
     if decision not in {"admit", "reject", "request_changes"}:
@@ -2420,10 +2478,7 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
         conflicts = _active_contradictions(projection, policy)
         if cid in conflicts:
             raise ValueError("active contradiction endpoint may only transition through relation resolve")
-    current, after = _review_outcome(projection, row, decision, load_v2_policy())
-    if after != _REVIEW_OUTCOMES[decision][1]:
-        raise ValueError(f"review decision {decision} would have no effect on a {current} claim"
-                         + _REVIEW_REMEDIES.get(current, ""))
+    _require_effective_review(projection, row, decision, load_v2_policy())
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a claim")
     evaluation = evaluate_v2(cid)
@@ -2435,20 +2490,22 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     if decision == "admit" and policy["require_judge"]:
         if not recommendation or recommendation.get("policy_digest") != policy["digest"] or recommendation.get("recommendation") != "accept":
             raise ValueError("current policy requires an accepting judge recommendation")
-    review_event = append_v2({"type": "human_reviewed", "subject_ref": cid,
-                              "decision": decision, "reviewer": reviewer,
-                              "identity_basis": "self_asserted", "note": note,
-                              "request_id": request_id,
-                              "claim_digest": row["digest"],
-                              "policy_digest": policy["digest"]})
+    review_event = _append_effective_review_event(
+        {"type": "human_reviewed", "subject_ref": cid,
+         "decision": decision, "reviewer": reviewer,
+         "identity_basis": "self_asserted", "note": note,
+         "request_id": request_id,
+         "claim_digest": row["digest"],
+         "policy_digest": policy["digest"]}, row, decision, policy)
     final_type = ("claim_admitted" if decision == "admit" else
                   "claim_revision_requested" if decision == "request_changes" else
                   "claim_rejected")
-    final = append_v2({"type": final_type, "subject_ref": cid,
-                       "review_ref": review_event["event_id"],
-                       "reviewer": reviewer, "claim_digest": row["digest"],
-                       "evidence_digests": {ref: projection["evidence"][ref]["digest"] for ref in row["evidence_refs"]},
-                       "policy_digest": policy["digest"]})
+    final = _append_effective_review_event(
+        {"type": final_type, "subject_ref": cid,
+         "review_ref": review_event["event_id"],
+         "reviewer": reviewer, "claim_digest": row["digest"],
+         "evidence_digests": {ref: projection["evidence"][ref]["digest"] for ref in row["evidence_refs"]},
+         "policy_digest": policy["digest"]}, row, decision, policy)
     return {"ok": True, "review": review_event, "result": final}
 
 

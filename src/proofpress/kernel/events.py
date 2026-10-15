@@ -138,7 +138,13 @@ class GitEventStore:
         tree = self._git("mktree", input=f"100644 blob {blob}\tevent.json\n").strip()
         parent = ["-p", expected_head] if expected_head else []
         commit = self._git("commit-tree", tree, *parent, "-m", message).strip()
-        self._git("update-ref", self.ref, commit, expected_head or "0" * 40)
+        try:
+            self._git("update-ref", self.ref, commit, expected_head or "0" * 40)
+        except ValueError:
+            # Same signal as the other stores, so callers can retry a moved head.
+            if self.head() != expected_head:
+                raise ValueError("STALE_EVENT_STORE_HEAD") from None
+            raise
         return {**event, "commit": commit}
 
 

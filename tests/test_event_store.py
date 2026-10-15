@@ -117,6 +117,12 @@ class EventStoreTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertEqual(result["error"], "invalid_payload_digest")
 
+    def test_git_store_reports_a_stale_append_like_the_other_stores(self):
+        git = self.store.GitEventStore()
+        git.append({"event_id": "one"}, message="one", expected_head=None)
+        with self.assertRaisesRegex(ValueError, "^STALE_EVENT_STORE_HEAD$"):
+            git.append({"event_id": "two"}, message="two", expected_head=None)
+
     def test_memory_store_rejects_a_stale_append(self):
         memory = self.store.MemoryEventStore()
         memory.append({"event_id": "one"}, message="one", expected_head=None)
