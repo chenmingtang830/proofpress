@@ -11,7 +11,7 @@ from pathlib import Path
 import sqlite3
 import subprocess
 import threading
-from typing import Any, Iterator, Mapping, Protocol
+from typing import Any, Iterator, Mapping, Protocol, Sequence
 from urllib.parse import quote
 
 
@@ -36,7 +36,7 @@ def content_digest(value: Any) -> str:
     return "sha256:" + hashlib.sha256(canonical_json(value)).hexdigest()
 
 
-def history_envelopes(events: list[Mapping[str, Any]]) -> list[JsonObject]:
+def history_envelopes(events: Sequence[Mapping[str, Any]]) -> list[JsonObject]:
     """Build backend-independent, hash-linked envelopes from ordered events."""
     rows: list[JsonObject] = []
     prior_digest = None
@@ -55,7 +55,7 @@ def history_envelopes(events: list[Mapping[str, Any]]) -> list[JsonObject]:
     return rows
 
 
-def verify_history_envelopes(envelopes: list[Mapping[str, Any]]) -> JsonObject:
+def verify_history_envelopes(envelopes: Sequence[Mapping[str, Any]]) -> JsonObject:
     prior_digest = None
     for sequence, envelope in enumerate(envelopes, start=1):
         if envelope.get("schema_version") != "proofpress/history-envelope/v1alpha1":

@@ -175,7 +175,7 @@ def trace_decision_confidence(decision, trace_version=None):
         method_name = _trace_text(method.get("name"), "method.name")
     except ValueError:
         raise ValueError("TRACE decision confidence method.name must be a non-empty string")
-    projected_method = {"name": method_name}
+    projected_method: dict[str, object] = {"name": method_name}
     if method.get("algorithm") is not None:
         projected_method["algorithm"] = _trace_text(method["algorithm"], "method.algorithm")
     if method.get("resamples") is not None:
@@ -706,7 +706,8 @@ def _require_expected_head(expected_head, *, required=False):
 
 
 _policy_override = ContextVar("proofpress_policy_override", default=None)
-_judge_environment = ContextVar("proofpress_judge_environment", default=None)
+_judge_environment: ContextVar[dict[str, str] | None] = ContextVar(
+    "proofpress_judge_environment", default=None)
 
 
 @contextmanager
@@ -1165,7 +1166,8 @@ def normalize_retrieval_evidence_v1(payload):
     if not isinstance(payload, dict) or payload.get("schema_version") != RETRIEVAL_EVIDENCE_SCHEMA:
         raise ValueError(f"retrieval evidence schema_version must be {RETRIEVAL_EVIDENCE_SCHEMA}")
     source_row, evidence_row, retrieval_row = payload.get("source"), payload.get("evidence"), payload.get("retrieval")
-    if not all(isinstance(row, dict) for row in (source_row, evidence_row, retrieval_row)):
+    if not (isinstance(source_row, dict) and isinstance(evidence_row, dict)
+            and isinstance(retrieval_row, dict)):
         raise ValueError("retrieval evidence source, evidence, and retrieval must be objects")
     quote = _required_string(evidence_row.get("quote"), "evidence.quote")
     source = {"uri": _required_string(source_row.get("uri"), "source.uri"),
@@ -1931,7 +1933,7 @@ def propose_relation_v2(source, target, relation_type, proposer,
         raise ValueError("relation confidence must be between 0 and 1")
     citation = _relation_citation_v1(projection, source, target, qualifiers)
     if citation is not None:
-        qualifiers = {**qualifiers, "citation": citation}
+        qualifiers = {**(qualifiers or {}), "citation": citation}
     left, right = (sorted((source, target)) if relation_type in SYMMETRIC_RELATIONS
                    else (source, target))
     row = {"id": ident({"from": left, "to": right, "type": relation_type}, "rel_"),
@@ -2131,6 +2133,7 @@ def resolve_contradiction_v2(rid, disposition, reviewer, winner=None, note=None,
     if "*" not in allowed and reviewer not in allowed:
         raise ValueError("reviewer is not allowed to resolve contradictions by policy")
     endpoints = {relation["from"], relation["to"]}
+    loser = None
     if disposition == "supersede":
         if winner not in endpoints:
             raise ValueError("supersede resolution requires --winner to be a relation endpoint")
@@ -4123,11 +4126,11 @@ def _ui_asset():
 
 
 class _UIHandler(BaseHTTPRequestHandler):
-    token = None
-    scope = None
-    asset = None
+    token: str | None = None
+    scope: str | None = None
+    asset: Path | None = None
 
-    def log_message(self, fmt, *args): pass
+    def log_message(self, format, *args): pass
     def _authorized(self):
         parsed = urlparse(self.path)
         query_token = parse_qs(parsed.query).get("token", [None])[0]
@@ -4142,6 +4145,8 @@ class _UIHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/":
             if not self._authorized(): return self._json(HTTPStatus.FORBIDDEN, {"error": "invalid session token"})
+            if self.asset is None or self.token is None:
+                return self._json(HTTPStatus.INTERNAL_SERVER_ERROR, {"error": "local UI is not configured"})
             html = self.asset.read_text(encoding="utf-8").replace("__PROOFPRESS_TOKEN__", self.token)
             body = html.encode(); self.send_response(200); self.send_header("Content-Type", "text/html; charset=utf-8"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
         if not self._authorized(): return self._json(HTTPStatus.FORBIDDEN, {"error": "invalid session token"})
@@ -4425,9 +4430,9 @@ def _local_operation_error(code, message, operation=None, request_id=None,
 
 
 def _local_idempotency_records():
-    store = current_event_store()
-    if hasattr(store, "idempotency_records"):
-        return store.idempotency_records()
+    records = getattr(current_event_store(), "idempotency_records", None)
+    if records is not None:
+        return records()
     path = Path(LOCAL_IDEMPOTENCY_PATH)
     if not path.exists():
         return {}
@@ -4441,9 +4446,9 @@ def _local_idempotency_records():
 
 
 def _store_local_idempotency(key, fingerprint, operation, result):
-    store = current_event_store()
-    if hasattr(store, "store_idempotency"):
-        store.store_idempotency(key, fingerprint, operation, result, now())
+    store_idempotency = getattr(current_event_store(), "store_idempotency", None)
+    if store_idempotency is not None:
+        store_idempotency(key, fingerprint, operation, result, now())
         return
     path = Path(LOCAL_IDEMPOTENCY_PATH)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -4714,11 +4719,11 @@ class _RollbackOperation(Exception):
 
 def execute_local_operation(request):
     """Execute atomically when the selected backend provides transactions."""
-    store = current_event_store()
-    if not hasattr(store, "transaction"):
+    transaction = getattr(current_event_store(), "transaction", None)
+    if transaction is None:
         return _execute_local_operation(request)
     try:
-        with store.transaction():
+        with transaction():
             envelope = _execute_local_operation(request)
             if not envelope["ok"]:
                 raise _RollbackOperation(envelope)

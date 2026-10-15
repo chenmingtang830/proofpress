@@ -274,7 +274,7 @@ class HostedControlPlane:
         ).fetchall()
         for row in rows:
             perms = set(json.loads(row["permissions_json"]))
-            new_perms = {legacy_map.get(p, p) for p in perms}
+            new_perms = {legacy_map[p] if p in legacy_map else p for p in perms}
             if new_perms != perms:
                 connection.execute(
                     "UPDATE hosted_credentials SET permissions_json = ? "
@@ -1156,7 +1156,7 @@ class HostedControlPlane:
         with self._judge_worker_lock:
             self._drain_judge_jobs(workspace_id=workspace_id)
 
-    def _single_workspace_id(self):
+    def _single_workspace_id(self) -> str:
         with self._db() as connection:
             rows = connection.execute("SELECT workspace_id FROM hosted_workspaces").fetchall()
         if len(rows) != 1:
