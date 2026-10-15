@@ -1698,7 +1698,7 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
             raise ValueError("reproposal_of must be a non-empty claim ID")
         reproposal_of = reproposal_of.strip()
         predecessor = projection["claims"].get(reproposal_of)
-        if not predecessor:
+        if not predecessor or not _actor_can_read(predecessor, load_v2_policy(), proposer):
             raise ValueError("re-proposal requires an existing rejected claim")
         if v2_state(projection, predecessor) != "rejected":
             raise ValueError("re-proposal predecessor must be rejected")
@@ -1717,7 +1717,8 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
     if revision_of:
         parent = projection["claims"].get(revision_of)
         request = projection["revision_requests"].get(revision_of)
-        if not parent or not request:
+        if (not parent or not request
+                or not _actor_can_read(parent, load_v2_policy(), proposer)):
             raise ValueError("revision requires an existing request for changes")
         if (qualifiers or {}).get("revision_request_ref") != request["event_id"]:
             raise ValueError("revision must reference the current revision request")
@@ -1748,7 +1749,11 @@ def propose_v2(statement, evidence_refs, scope=None, proposer=None, expires_at=N
     if parent_id and not prior:
         # One live successor per line: a second revision or re-proposal would
         # fork a lineage that an approved, pending, or later claim answers.
-        settled = lineage_successor(projection, parent_id, load_v2_policy())
+        # The proposer is the reader here: a successor they may not read is
+        # not named, and the refusal says no more than their context does.
+        settled = lineage_successor(projection, parent_id, load_v2_policy(), proposer)
+        if settled and settled.get("redacted"):
+            raise ValueError("this lineage is already answered; ask an owner how to proceed")
         if settled and settled["rank"] == "usable":
             raise ValueError("lineage already has an approved claim; rely on it instead of proposing another")
         if settled and settled["rank"] == "pending":

@@ -76,6 +76,12 @@ class DisclosureGuardTests(unittest.TestCase):
         kernel_ops.review_relation_v2(rid, "admit", "human:owner")
         return rid
 
+    def restrict_secrets(self):
+        for cid in self.secret:
+            event = next(row for row in self.store.events
+                         if row.get("type") == "claim_proposed" and row.get("subject_ref") == cid)
+            event["claim"]["allowed_actors"] = [OWNER]
+
     def build(self):
         """Link restricted and readable claims through every edge; return a run ID."""
         public_parent = self.claim("Public parent sent back")
@@ -112,10 +118,7 @@ class DisclosureGuardTests(unittest.TestCase):
         self.relate(self.admitted("SECRET claim that depends on a public one"),
                     self.admitted("Public upstream claim"), "depends_on")
 
-        for cid in self.secret:
-            event = next(row for row in self.store.events
-                         if row.get("type") == "claim_proposed" and row.get("subject_ref") == cid)
-            event["claim"]["allowed_actors"] = [OWNER]
+        self.restrict_secrets()
         run = kernel_ops.start_run_v1("Disclosure run", OWNER)
         receipt = kernel_ops.capture_context_v1(run["id"], OWNER, SCOPE)
         relied = next(row for row in receipt["claims"] if row["claim_id"] in self.secret)
@@ -173,6 +176,31 @@ class DisclosureGuardTests(unittest.TestCase):
                                            "required_action": "human_review"})
         with self.assertRaisesRegex(ValueError, "claim not found"):
             kernel_ops.receipt_v2(hidden, OUTSIDER)
+
+    def test_proposer_learns_nothing_about_claims_they_may_not_read(self):
+        parent = self.claim("Public parent sent back")
+        self.send_back(parent)
+        kernel_ops.review_v2(self.revise(parent, "SECRET approved revision"), "admit", "human:owner")
+        secret_parent = self.claim("SECRET parent sent back")
+        self.send_back(secret_parent)
+        secret_rejected = self.claim("SECRET rejected claim")
+        self.reject(secret_rejected)
+        self.restrict_secrets()
+        requests = kernel_ops.v2_projection()["revision_requests"]
+
+        def propose_as_outsider(statement, **kwargs):
+            return kernel_ops.propose_v2(statement, self.evidence, SCOPE, OUTSIDER, **kwargs)
+
+        with self.assertRaisesRegex(ValueError, "^this lineage is already answered; ask an owner how to proceed$"):
+            propose_as_outsider("Another revision", qualifiers={
+                "revision_of": parent, "revision_request_ref": requests[parent]["event_id"]})
+        with self.assertRaisesRegex(ValueError, "^revision requires an existing request for changes$"):
+            propose_as_outsider("Revision of a hidden claim", qualifiers={
+                "revision_of": secret_parent,
+                "revision_request_ref": requests[secret_parent]["event_id"]})
+        with self.assertRaisesRegex(ValueError, "^re-proposal requires an existing rejected claim$"):
+            propose_as_outsider("Re-proposal of a hidden claim", reproposal_of=secret_rejected,
+                                qualifiers={"reproposal_response": "Adds the second receipt."})
 
     def test_every_read_operation_with_a_reader_is_covered(self):
         reads = {name for name, spec in kernel_ops.LOCAL_OPERATION_SPECS.items()
