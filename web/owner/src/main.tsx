@@ -35,10 +35,11 @@ import { ModalSurface } from "@/components/ui/modal-surface";
 import { ReassessmentPanel, type DependencyImpact, type DependencyRelation } from "@/components/reassessment-panel";
 import { RelationAdvicePanel } from "@/components/relation-advice";
 import "./index.css";
-import "./review-local.css";
 import "./components/governance.css";
 import "./components/workspace-home.css";
 import "./components/ui/component-theme.css";
+import "./workspace-polish.css";
+import "./review.css";
 
 type NodeRow = {
   id: string;
@@ -114,7 +115,7 @@ async function api(path: string, options: RequestInit = {}) {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
     ...options,
   });
-  if (response.status === 401) throw new Error("Your owner session has expired. Sign in again to continue.");
+  if (response.status === 401) throw new Error("Your session has expired. Sign in again to continue.");
   let body: any;
   try { body = await response.json(); }
   catch { throw new Error(`The service returned an unreadable response (${response.status}). Reload the workspace to retry.`); }
@@ -944,6 +945,7 @@ function App() {
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
+      <a className="skipLink" href="#workspace-content">Skip to content</a>
       <Dialog open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
           <ModalSurface onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
             <DialogTitle>{decisionConfirmation?.decision === "admit" ? "Approve this claim?" : "Reject this claim?"}</DialogTitle>
@@ -1006,6 +1008,7 @@ function App() {
               <Button variant="ghost" size="content"
                 key={id}
                 aria-label={labels[id]}
+                title={labels[id]}
                 aria-current={page === id ? "page" : undefined}
                 className={page === id ? "active" : ""}
                 onClick={() => navigate(id)}
@@ -1018,7 +1021,7 @@ function App() {
           })}
         </nav>
         <div className="workspace">
-          <span>WORKSPACE</span>
+          <span>Workspace</span>
           <b>{workspaceLabel}</b>
           <small>{currentPrincipal ? `Signed in: ${currentPrincipal}` : "Human-governed workspace"}</small>
         </div>
@@ -1029,7 +1032,7 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <span className="workspaceLabel" title={currentPrincipal ? `Signed in: ${currentPrincipal}` : undefined}><span className="workspaceContext">{workspaceLabel} · </span>{labels[page]}</span>
+          <span className="workspaceLabel" title={currentPrincipal ? `Signed in: ${currentPrincipal}` : undefined}><span className="workspaceContext">{workspaceLabel}</span><strong>{labels[page]}</strong></span>
           {!localOwnerPreview && <Button variant="outline" onClick={() => {
             const body = new URLSearchParams({ csrf });
             void fetch("/owner/logout", {
@@ -1065,7 +1068,7 @@ function App() {
           </Alert>
         )}
         {governanceMessage && <Alert className="decisionNotice" role="status"><span>{governanceMessage}</span><Button variant="ghost" size="content" aria-label="Dismiss governance status" onClick={() => setGovernanceMessage("")}><X /></Button></Alert>}
-        <section className="stage">
+        <section className="stage" id="workspace-content" tabIndex={-1}>
           {page === "home" && (
             <HomePage
               pending={reviewAttentionCount}
@@ -1379,7 +1382,7 @@ function ReviewPage({
   );
 }
 function ReviewFact({label,value,detail,tone="",className=""}:any){
-  return <Card className={`reviewFact ${className}`}><CardContent className="reviewFactContent"><span>{label}</span><strong className={tone}>{value}</strong>{detail && <small className="modelAttribution">{detail}</small>}</CardContent></Card>;
+  return <div className={`reviewFact ${className}`}><dt>{label}{detail && <small className="modelAttribution">{detail}</small>}</dt><dd className={tone}>{value}</dd></div>;
 }
 
 function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
@@ -1502,40 +1505,28 @@ function Inspector({
   const claimDescription = r.claim.applicability?.description || "";
   const hasConciseHeading = hasDistinctClaimHeading(r.claim);
   const InspectorHeader: any = fullReview ? Card : "div";
-  return (
-    <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
-      {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
-      {fullReview && <Button className="fullReviewBack" variant="ghost" onClick={onBack}>Back to review</Button>}
-      {!fullReview && onClose && <Button variant="ghost" size="content" className="mobileBack" onClick={onClose}>
-        Close details
-      </Button>}
+  const reviewFacts = <dl className="reviewFactsGrid" aria-label="Review summary">
+    <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
+    <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
+    {can && <><div className="reviewFact deterministicSummary"><dt className="sr-only">Deterministic checks</dt><dd><DeterministicCheckDisclosure evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : failedChecks.length ? "fail" : ""} /></dd></div><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Requirements pending" : "Awaiting your decision"} /></>}
+  </dl>;
+  const reviewHeader = (
       <InspectorHeader className="inspectorTop">
-        {(can || readOnly || !fullReview) && <Badge state={r.state} />}
+        {fullReview ? <div className="reviewRecordHeader"><span><ShieldCheck />Claim details</span><Badge state={r.state} /></div> : (can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <><h1 className="fullStatement">{claimTitle}</h1>{hasConciseHeading && <p className="claimFullStatement primaryClaimStatement">{r.claim.statement}</p>}</> : <h2>{claimTitle}</h2>}
         {claimDescription && <p className="claimDescription">{claimDescription}</p>}
-        {hasConciseHeading && <Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>}
+        {hasConciseHeading && !fullReview && (<Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>
         </p>
         {onOpenFull && !fullReview && (can ? <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>Open full review</Button> : <Button className="reviewEntry" variant="accent" onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : r.state === "blocked" ? "Review blocked candidate" : "View decision"}</Button>)}
       </InspectorHeader>
-      {r.state === "blocked" && !readOnly && <section className="blockedReviewPanel" aria-labelledby="blocked-review-title">
-        <h2 id="blocked-review-title">Not ready for owner review</h2>
-        <p>The deterministic checks did not pass, so this candidate cannot be approved or sent to LM review. The proposer needs to correct it and submit a new candidate.</p>
-        <BlockedCorrectionHandoff receipt={r} />
-        <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="failed-checks"><AccordionTrigger>Inspect check receipts</AccordionTrigger><AccordionContent><CheckReceiptRows evaluation={r.evaluation} /></AccordionContent></AccordionItem></Accordion>
-      </section>}
-      <RelationAdvicePanel items={r.relation_advice} />
-      {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
-      {needsReassessment && <ReassessmentPanel claimId={r.claim.id} impacts={r.dependency_impact?.items || []} dependencies={r.dependencies || []} redacted={r.dependency_impact?.redacted || 0} note={note} setNote={setNote} busy={busy} showDecision={!onOpenFull || fullReview} onReassess={onReassess} />}
+  );
+  const reviewSnapshot = (
       <div className="quickSnapshot">
-        {fullReview ? <div className="reviewFactsGrid">
-          <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
-          <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
-          {can && <><DeterministicCheckDisclosure card evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : failedChecks.length ? "fail" : ""} /><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"} /></>}
-        </div> : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
+        {fullReview ? (!can && reviewFacts) : <dl><div><dt>Applies to</dt><dd>{reuseBoundary(r.claim)}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         {!fullReview && !can && <><div><dt>Automated checks</dt><dd className={r.evaluation ? (failedChecks.length ? "checkSummary fail" : "checkSummary pass") : ""}>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : r.judge_job?.state === "skipped" ? "Review skipped" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
@@ -1581,6 +1572,25 @@ function Inspector({
         {!can && !onOpenFull && <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {readOnly && onViewLineage && <Button className="viewLineageAction" variant="outline" onClick={onViewLineage}>View lineage</Button>}
       </div>
+  );
+  return (
+    <aside className={`inspector${fullReview ? " fullReview" : ""}${fullReview && !can ? " reviewedRecord" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
+      {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
+      {fullReview && <Button className="fullReviewBack" variant="ghost" onClick={onBack}>Back to review</Button>}
+      {!fullReview && onClose && <Button variant="ghost" size="content" className="mobileBack" onClick={onClose}>
+        Close details
+      </Button>}
+      {reviewHeader}
+      {r.state === "blocked" && !readOnly && <section className="blockedReviewPanel" aria-labelledby="blocked-review-title">
+        <h2 id="blocked-review-title">Not ready for owner review</h2>
+        <p>The deterministic checks did not pass, so this candidate cannot be approved or sent to LM review. The proposer needs to correct it and submit a new candidate.</p>
+        <BlockedCorrectionHandoff receipt={r} />
+        <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="failed-checks"><AccordionTrigger>Inspect check receipts</AccordionTrigger><AccordionContent><CheckReceiptRows evaluation={r.evaluation} /></AccordionContent></AccordionItem></Accordion>
+      </section>}
+      <RelationAdvicePanel items={r.relation_advice} />
+      {needsReassessment && <ReassessmentPanel claimId={r.claim.id} impacts={r.dependency_impact?.items || []} dependencies={r.dependencies || []} redacted={r.dependency_impact?.redacted || 0} note={note} setNote={setNote} busy={busy} showDecision={!onOpenFull || fullReview} onReassess={onReassess} />}
+      {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
+      {!fullReview && reviewSnapshot}
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.claim.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
       {r.reproposal_parent && <Disclosure className="revisionDisclosure"><DisclosureTrigger><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></DisclosureTrigger><DisclosureContent><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></DisclosureContent></Disclosure>}
@@ -1630,10 +1640,12 @@ function Inspector({
         </TabsContent>
       </Tabs>
       </>}
+      {fullReview && reviewSnapshot}
       {can && (!onOpenFull || fullReview) ? (
         <Card className="decision">
+          {fullReview && <section className="decisionSummary"><h2>Review summary</h2>{reviewFacts}</section>}
           <div className="decisionHeading">
-            <span>Owner decision</span>
+            <h2>Your decision</h2>
             <p>Approve for eligible reuse, reject the claim, or request a bounded revision.</p>
           </div>
           <Label htmlFor={`decision-note-${r.claim.id}`}>Decision note <small>Required for reject or request changes</small></Label>
@@ -1662,6 +1674,7 @@ function Inspector({
             </Button>
             <Button
               variant="approve"
+              data-decision="admit"
               disabled={busy || !!approvalBlock}
               onClick={() => onDecide("admit")}
             >
@@ -1727,7 +1740,7 @@ function ActivityPage({ rows, canViewLogs = true }: any) {
     <div className="pageBody">
       <PageHead
         title="Activity"
-        description="Who contributed claims, reviewed it, and retrieved context. Technical requests are kept separately."
+        description="Follow claims, review decisions, and context retrievals across your workspace."
       />
       <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
         {[["activity","Claims activity"],["retrievals","Context retrievals"],...(canViewLogs ? [["logs","Technical logs"]] : [])].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");history.replaceState(null,"",key === "activity" ? "/activity" : `/activity?view=${key}`);}}>{label}</Button>)}

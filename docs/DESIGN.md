@@ -18,7 +18,7 @@ read-only calls and untrusted ledger content. Credentials and provider secrets
 never appear in tool results.
 
 [//]: # (ob:4565936e)
-**Status (2026-09-07):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. Product UI uses the shared shadcn component layer and must pass the localhost interaction review defined below before release. Local browser validation is implementation evidence, not deployment or partner-outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
+**Status (2026-10-13):** Canonical design guidance. Boardroom Clarity is the accepted visual system for Proofpress product UI, presentations, public editorial material, diagrams, and infographics. Richard accepted the polished local owner workspace on this date and requested Knowledge to open in Map view. The operating UI rules below incorporate that review. Product UI uses the shared shadcn component layer and must pass the localhost interaction review defined below before release. Local acceptance and browser validation do not establish deployment or partner outcomes. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
 
 [//]: # (ob:678e1b70)
 [//]: # (ob:hosted-workspace-v2)
@@ -27,13 +27,25 @@ never appear in tool results.
 ## Hosted Workspace V2 direction
 
 [//]: # (ob:efc880ec)
-Home combines compact neutral metrics with a non-list claim graph. The graph connects recorded sources to pending claim nodes; approved knowledge stays in Knowledge. Clicking a claim opens full review directly. Follow the supplied MSA ledger reference: warm off-white canvas, fine neutral connections, white nodes, restrained teal for processing and muted red for blocked work. No decorative multicolor metric lines or saturated node fills. Pending work is not duplicated in a list. Narrow screens retain a horizontally scrollable graph. Empty states never fabricate tasks; agent reads do not prove use.
+The owner workspace uses a 228px navigation rail and flexible primary work surface. Review pairs its queue with a contextual inspector; full review pairs a reading column with a decision summary. Knowledge opens in Map view, showing the current eligible claims and their recorded connections; List remains one click away for search, filtering, and sorting. Home leads with recorded pending-work connections and compact neutral metrics. At widths below 1100px, opening a Knowledge record replaces the browsing surface until the reader closes it; focus returns to its opening control.
 
 [//]: # (ob:cfee6f69)
-Hosted Workspace V2 adopts the original dashboard reference's **information architecture only**. Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, and IBM Plex Mono for proof metadata. Home draws actual source bindings into claim nodes, and separates approved reuse from draft-only or unavailable agent context. It draws no unrecorded claim relationships and never implies that failed checks grant context access. Knowledge starts with current eligible claims and opens their evidence, use conditions, and recorded approval authority. Local lineage is a secondary inspection path. Legal-specific vocabulary and demonstration claims are not copied into the product. The current owner extension remains a local implementation awaiting human visual review; its surface brief is `.impeccable/surfaces/web-owner-index-html.md`.
+Boardroom Clarity is the accepted visual baseline: a white institutional canvas, near-black ink, fine rules, restrained Proofpress teal, DM Sans display and task typography, and IBM Plex Mono for proof metadata. The United Airlines reference informed the readable type hierarchy, quiet gray section headers, comfortable controls, bordered groups, and content-plus-summary layout. Keep Proofpress's palette and governance semantics. Knowledge starts with current eligible claims and opens their evidence, use conditions, and recorded human authority. A claim's local lineage remains a secondary inspection path within the record. Legal-specific vocabulary and demonstration claims are not copied into the product. The accepted local owner surface brief is `.impeccable/surfaces/web-owner-index-html.md`.
+
+Home combines compact neutral metrics with a non-list claim graph. The graph connects recorded sources to pending claim nodes; approved knowledge stays in Knowledge. Clicking a claim opens full review directly. Follow the supplied MSA ledger reference: warm off-white canvas, fine neutral connections, white nodes, restrained teal for processing and muted red for blocked work. No decorative multicolor metric lines or saturated node fills. Pending work is not duplicated in a list. Narrow screens retain a horizontally scrollable graph. Empty states never fabricate tasks; agent reads do not prove use.
 
 [//]: # (ob:06711fc4)
-Use shadcn primitives as the required accessible construction layer for every interactive product surface. Buttons, inputs, textareas, selects, cards, tabs, accordions, dialogs, radio groups, checkboxes, tables, badges, pagination, tooltips, and loading or empty-state containers must come from, or extend, the shared `web/owner/src/components/ui/` layer. Do not create page-local imitations or place legacy form and disclosure markup inside a shadcn shell. Reduce the default radius and shadow, keep one consistent control height, and build hierarchy primarily with type, alignment, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
+Use shadcn primitives as the required accessible construction layer for every interactive product surface. Buttons, inputs, textareas, selects, cards, tabs, accordions, dialogs, radio groups, checkboxes, tables, badges, pagination, tooltips, and loading or empty-state containers must come from, or extend, the shared `web/owner/src/components/ui/` layer. Do not create page-local imitations or place legacy form and disclosure markup inside a shadcn shell. Use the control sizes and shape roles below; build hierarchy primarily with type, alignment, spacing, and rules. A component that looks recognizable as an unmodified starter-kit component is unfinished.
+
+### Accepted operating UI recipe
+
+1. **Readable hierarchy:** 38px page titles, 20–22px section headings, 15–16px task prose, and 12–13px supporting metadata. State and statement precede implementation details. Use weight and spacing before adding more color.
+2. **Quiet grouping:** white content, a pale gray header or toolbar, one thin border, and 24–28px panel padding. Use rows for related facts; reserve separate panels for separate tasks. Keep ordinary surfaces flat.
+3. **Obvious action:** one solid teal primary action per decision group; outlined secondary actions and a restrained red destructive action. Buttons and inputs have comfortable targets and explicit labels. A disabled decision explains its unmet requirement.
+4. **A readable decision:** full Review presents the complete claim and bound evidence beside a 360px decision summary on wide screens. The summary separates deterministic checks, model advice, and the human decision. On narrow screens, preserve that reading and keyboard order in one column.
+5. **Consistent details:** shared tokens, self-hosted fonts, consistent icons, visible focus, purposeful disclosures, honest empty/error states, and reduced-motion support apply across Home, Review, Knowledge, Runs, Activity, and Admin.
+
+Implementation sources: `web/owner/src/workspace-polish.css` owns the operating palette, type roles, controls, and shared responsive rules; `web/owner/src/review.css` owns full Review composition; `web/owner/src/fonts.css` owns bundled font faces. Extend these and the shared `components/ui/` primitives instead of adding another competing theme sheet. Update this document and the surface brief together when an accepted rule changes.
 
 ### Product UI release workflow
 
@@ -43,18 +55,18 @@ Every frontend change follows this sequence:
 2. Work on an isolated local branch or worktree. Keep the change unpushed, unmerged, and undeployed while visual review is pending.
 3. Build with shared shadcn components and design tokens. DM Sans is the default for navigation, headings, prose, labels, and controls. IBM Plex Mono is limited to raw IDs, hashes, versions, code, receipts, and sparse proof indexes.
 4. Run unit tests, type checking, the production build, and the Impeccable detector.
-5. Exercise the complete product workflow in a real browser. Visit Home, Review, Knowledge, Runs, Activity, and Admin; open every tab, accordion, disclosure, dialog, record, filter, pagination control, empty/loading/error state, and available decision path. Verify at 1536×1024, 1024px-wide, and 390×844.
+5. Exercise the complete product workflow in a real browser. Visit Home, Review, Knowledge, Runs, Activity, and Admin; open every tab, accordion, disclosure, dialog, record, filter, pagination control, empty/loading/error state, and available decision path. Verify at approximately 1512–1536px desktop width, 1024px, 768px, and 390×844. Verify Knowledge opens in Map, List search remains usable, and opening/closing a record preserves orientation.
 6. Review screenshot evidence for typography, spacing, overflow, hierarchy, keyboard focus, mobile safe areas, and the authority boundary. A shadcn outer component containing visually inconsistent legacy content fails review.
-7. Start a stable localhost preview using the persistent synthetic dataset and owner credential. Richard reviews the actual workflow there.
+7. Start the credential-free synthetic visual preview with `cd web/owner && npm run preview:ui` at `http://127.0.0.1:7335`. Richard reviews the actual components there. The preview must visibly identify synthetic data and reject mutations; it does not verify backend authorization or persist decisions. Use `npm run test:preview` for its browser checks. Validate backend mutations separately through the authorized test workflow.
 8. Push, open or update the PR, bypass required checks, merge, and deploy only after Richard explicitly approves the localhost result. A backend bypass or approval from an earlier frontend change does not carry forward.
 
 The agent completing the change reports the routes and states inspected, defects fixed, test and browser results, remaining limitations, and whether any push or deployment occurred.
 
 [//]: # (ob:bd3d4bba)
-The desktop reference viewport is 1536×1024. The primary table begins on the same vertical axis as its title and filter row; the contextual inspector begins at the application header and owns its own scroll. Selection is expressed through the canonical accent-soft wash and a one-pixel cyan marker, never a glow. The mobile reference viewport is 390×844, where tables become structured records and the decision controls form a safe-area-aware bottom bar.
+The desktop reference viewport is approximately 1536×1024. The primary table aligns with its title and filter row; the contextual inspector owns its own scroll. Selection uses the canonical accent-soft wash and explicit selected state. The mobile reference viewport is 390×844, where tables become structured records, bottom navigation respects the safe area, and decision controls remain in the reading flow without covering content.
 
 [//]: # (ob:c3130a45)
-Hosted Workspace V2 does not define a second palette. It uses the canonical tokens below: paper/card `#FFFFFF`, ink `#181A20`, secondary ink `#555B66`, readable metadata ink `#686F78`, line `#D7DCD9`, accent `#0E6675`, and accent-soft `#F4F8F8`. Needs revision uses revision `#665A8A` on revision-bg `#EFEDF5`. Red means rejected/blocked or destructive access operations. Green means admitted, active access, or a specifically confirmed operation such as clipboard copy; each must have an explicit label. Needs review uses the labeled cyan review treatment; labels and structure must preserve its distinction from selection or admission.
+Hosted Workspace V2 uses the canonical operating tokens below: paper/surface `#FFFFFF`, ink `#171B21`, secondary ink `#4E5864`, readable metadata ink `#606B77`, line `#DCE1E4`, accent `#006B7B`, and accent-soft `#EDF6F7`. Needs revision uses revision `#665A8A` on revision-bg `#EFEDF5`. Red means rejected/blocked or destructive access operations. Green means admitted, active access, or a specifically confirmed operation such as clipboard copy; each must have an explicit label. Needs review uses the labeled cyan review treatment; labels and structure must preserve its distinction from selection or admission.
 
 [//]: # (ob:9787677e)
 ## Overview
@@ -104,7 +116,7 @@ The current owner MVP navigation is:
 [//]: # (ob:4ffeef89)
 - **Home** — next candidate decision and available knowledge; no assistant or chat entry
 - **Review** — governance inbox
-- **Knowledge** — searchable current eligible claims; the stable route remains `/ledger`
+- **Knowledge** — Map by default, with List for search/filter/sort of current eligible claims; the stable route remains `/ledger`
 - **Runs** — task, retrieved context, declared reliance, outputs, and later observations
 - **Activity** — consumption receipts
 - **Admin** — principals, credentials, policy
@@ -160,10 +172,12 @@ The human, not the critic, decides when to stop. A critic that is also asked "ar
 | Token | Light | Dark | Use |
 |---|---|---|---|
 | paper | #FFFFFF | #15171C | Default institutional canvas |
-| ink / ink-2 / ink-3 | #181A20 / #555B66 / #686F78 | #E9E7E0 / #A6A9B4 / #8F939D | Primary / secondary / readable indexed metadata |
-| line | #D7DCD9 | #2C2F38 | Rules, connectors, and inactive boundaries |
-| card / wash | #FFFFFF / #F5F6F5 | #1D2027 / #22252D | Working surfaces / quiet hover wash |
-| accent / accent-soft | #0E6675 / #F4F8F8 | #5FB3C4 / #173741 | Proofpress brand, action, selection, and labeled needs-review state |
+| ink / ink-2 / ink-3 | #171B21 / #4E5864 / #606B77 | #E9E7E0 / #A6A9B4 / #8F939D | Primary / secondary / readable indexed metadata |
+| line | #DCE1E4 | #2C2F38 | Rules, connectors, and inactive boundaries |
+| card / wash | #FFFFFF / #F3F5F6 | #1D2027 / #22252D | Working surfaces / quiet section headers and hover wash |
+| accent / accent-soft | #006B7B / #EDF6F7 | #5FB3C4 / #173741 | Proofpress brand, action, and selection |
+| control-border | #87919A | — | Visible input and outlined-button boundary in operating UI |
+| accent-strong / panel-soft | #005361 / #F8F9FA | — | Primary hover / quiet supporting surface in operating UI |
 | add / add-bg | #2F6B54 / #EDF5F0 | #6FBF8E / #1B3226 | Verified checks, admitted claims, active governed context |
 | del / del-bg | #963F38 / #F8EEEC | #C87E82 / #3A2320 | Rejected, invalid, blocked, removed |
 | review / review-bg | #0E6675 / #F4F8F8 | #5FB3C4 / #173741 | Candidate and needs review, always paired with an explicit status label |
@@ -183,20 +197,23 @@ The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `�
 
 
 [//]: # (ob:53b8c3a4)
-- **Owner page title:** `--font-ui` (DM Sans / system sans), fluid 2.25–4.75rem where space permits, weight 600, tight line-height and tracking. The title carries hierarchy without a decorative kicker.
-- **Section, dialog, inspector, and scope headings:** `--font-ui`, `--type-section` 1rem, weight 600, line-height 1.5.
-- **Claims, evidence excerpts, controls, and prose:** `--font-ui`, `--type-body` .875rem, weights 400–500, line-height 1.5–1.6. Dense operating text uses this role; sustained editorial documents may retain their separate reading typography.
-- **Metadata and labels:** `--font-ui`, `--type-meta` .75rem, weight 400, line-height 1.5. Compact badges are an explicit 11px dense-label exception.
+- **Owner page title:** `--font-ui` (DM Sans / system sans), 38px desktop and 32–34px at narrower widths, weight 700, line-height 1.14, tracking -0.03em. The title carries hierarchy without a decorative kicker.
+- **Record and claim headings:** 28–32px, reducing to 26–28px on mobile; preserve the complete statement below a short title when they differ.
+- **Section, dialog, inspector, and scope headings:** `--font-ui`, `--type-section` 20px, with a 22px larger-section role, weight 600–700. Smaller nested headings remain visually subordinate.
+- **Claims, evidence excerpts, controls, and prose:** `--font-ui`, `--type-body` 15px; introductory and sustained reading text may use 16px, weights 400–500, line-height 1.6–1.7. Mobile form text is at least 16px to avoid input zoom.
+- **Metadata and labels:** `--type-label` 14px; `--type-meta` 12px, with 13px supporting text where needed, line-height 1.5. Compact badges are an explicit 11px dense-label exception.
 - **Indexed labels and proof values:** `--font-mono` (IBM Plex Mono / system monospace) is reserved for raw IDs, hashes, versions, code, receipts, and sparse institutional index labels such as `AVAILABLE NOW`, `NEEDS REVIEW`, `SOURCE 01`, and `PROPOSED REUSE BOUNDARY`. Indexed labels may use 10px uppercase with restrained tracking; ordinary navigation, status chips, paragraphs, and metadata remain UI sans. Browser zoom and text scaling must remain usable; prose should stay within approximately 45–75 characters per line.
 
 [//]: # (ob:877970b3)
 **The Role, Not Component Rule.** Components consume shared font and size tokens; they do not invent local type ramps. IBM Plex Mono indexes the institutional record but never becomes a technical costume for ordinary copy. Slides and editorial documents may use a compatible serif for a bounded quotation or long-form reading passage. Proofpress titles, propositions, controls, and diagrams use the canonical DM Sans hierarchy.
 
+Bundle fonts locally through `web/owner/src/fonts.css`: DM Sans variable 400–700 and IBM Plex Mono 500/600, `font-display: swap`, with system fallbacks. Keep the OFL license files with the public assets. Vite must emit fonts under `/assets/` so the hosted asset route serves them; operating UI must not depend on a runtime font CDN.
+
 ## Cross-medium application
 
 Boardroom Clarity is one system with four expression modes, not one app stylesheet stretched across every artifact:
 
-- **Operate UI:** dense, task-first, rectilinear, accessible, and state-explicit. Color primarily carries action and governance status.
+- **Operate UI:** readable, task-first, accessible, and state-explicit, with comfortable controls and restrained rounded panels. Color primarily carries action and governance status.
 - **Presentation:** one proposition per slide, large DM Sans hierarchy, generous white space, fine black rules, and one purposeful cyan diagram or emphasis. Avoid ornamental dashboards and card grids.
 - **Public editorial:** strong thesis-led typography, real product or evidence imagery, restrained cyan indexing, and prose designed for reading rather than feature marketing.
 - **Data and infographic:** begin with the claim, bind every visual claim to a source, use direct labels, and reserve green/red for admitted or rejected/blocked states. Cyan may show Proofpress flow or review, but never imply admission by itself.
@@ -211,12 +228,14 @@ Boardroom Clarity is one system with four expression modes, not one app styleshe
 ## Layout
 
 [//]: # (ob:8aa0ba5a)
-- **Focused review:** single reading column with a maximum width of 760px and body lines no wider than 70 characters. Use the order navigation → metadata → claim → recommendation and checks → evidence → decision.
-- **Review with a human gate:** a flexible reading column may pair with a fixed 320–344px decision or receipt panel. Keep the claim and its evidence visually dominant.
-- **Knowledge library and record:** browse readable statement rows with search, applicability filtering, and proposal-date or alphabetical sorting. At desktop widths, the library and record share the work surface; at 1099px and below, the record becomes the sole reading surface. Keep proposer, admitting reviewer, permitted uses, and validity conditions visible before the evidence and history disclosures. Missing fields are explicitly unrecorded, never inferred as unrestricted permission.
+- **Focused review:** a readable claim and evidence column, with prose around 45–75 characters per line. Introduce the claim before supporting checks and advice; keep the human decision visibly separate.
+- **Review with a human gate:** at 1200px and above, a flexible reading column pairs with a fixed 360px summary/decision panel, 28px column gap, and 1320px overall maximum. Keep the claim and its evidence visually dominant. Sticky decisions require enough viewport height; short or narrow viewports use normal flow. Reviewed records can use a single column up to 960px.
+- **Knowledge map, list, and record:** Map is the initial view of the server's current eligible owner projection, organized as evidence → current claims → owner-view eligibility. List retains readable statement rows with search, applicability filtering, and proposal-date or alphabetical sorting. At 1100px and above, browsing and the record share the work surface; at 1099px and below, the record becomes the sole reading surface. Keep proposer, admitting reviewer, permitted uses, and validity conditions visible before the evidence and history disclosures. Missing fields are explicitly unrecorded, never inferred as unrestricted permission.
 - **Local lineage:** a bounded canvas may pair with a 300–320px inspector. Read left to right as Bound Evidence → Candidate Claim → Governed Context. Use a subtle 21px dot grid only when it materially improves spatial orientation.
 - **Responsive:** stack reading and decision surfaces on narrow screens. In Knowledge at 820px and below, local lineage becomes a vertical evidence → claim → context sequence with readable nodes and a visible admission boundary; preserve state and keyboard order.
 - **Rendered artifacts:** Markdown tables, lists, bold text, code, and citations must render as content. Exposed raw markup is a defect.
+
+Use a spacing rhythm of 8 / 12 / 16 / 20 / 24 / 28 / 32 / 40px. General desktop content uses approximately 36–44px horizontal padding, panels 24–28px, and mobile content 18–22px. Home retains its bounded graph and compact responsive metrics. Navigation uses a 228px rail, 192px at medium desktop widths, an 80px icon rail from 900–1050px, and bottom navigation below 900px. Reserve space for the bottom navigation and device safe area.
 
 [//]: # (ob:0855c398)
 **The Reading Order Rule.** Orientation → proposition → support → decision → receipt. Progressive disclosure may reveal more detail, but it must not reorder the trust argument.
@@ -225,7 +244,7 @@ Boardroom Clarity is one system with four expression modes, not one app styleshe
 ## Elevation & Depth
 
 [//]: # (ob:6a736e61)
-Proofpress is flat by default. Hairline rules, paper/card contrast, and quiet washes establish hierarchy. Reserve small shadows for sticky decision surfaces, selected-node emphasis, floating contextual assistance supplied by a host, and literal source-document paper. Do not give every evidence block or graph node its own floating card shadow.
+Proofpress is flat by default. Hairline rules, paper/card contrast, and quiet washes establish hierarchy. Ordinary panels, the sticky decision surface, and selected nodes remain flat. Reserve a soft shadow for an actual modal or floating overlay; use borders and focus outlines for selection. Do not give every evidence block or graph node its own floating card shadow.
 
 [//]: # (ob:bf7362b0)
 Node selection may use a two-ring cyan focus halo without changing node dimensions. Hover may translate an interactive lineage node by at most 2px and must be disabled under reduced-motion preferences.
@@ -237,7 +256,7 @@ Node selection may use a two-ring cyan focus halo without changing node dimensio
 ## Shapes
 
 [//]: # (ob:5eb7133d)
-Records, tables, evidence rows, and source material remain rectilinear. Use 7–8px radii for controls and compact graph nodes, 10px for bounded recommendation surfaces, 12px for a decision panel or the outer lineage workspace, and full pills only for status chips or a host-supplied floating assistant.
+Use shape by role: 10px (`--radius-control`) for inputs, selects, and navigation items; 14px (`--radius-panel`) for primary content panels; 16px for dialogs; and full pills for standard action buttons and status chips. Compact graph nodes and dense technical surfaces may use 8–12px. Table and list rows retain aligned, flat edges. Do not turn an entire row into a pill. Inputs and selects are 48px high; standard actions are 44–48px, with the main Review approval action at 50px. Compact utility buttons may be 36px where space requires.
 
 [//]: # (ob:6bb05de6)
 Connectors are two-pixel paths with no arrowheads unless direction would otherwise be ambiguous. Evidence-to-claim connectors are quiet solid rules. Candidate-to-context connectors encode the admission boundary: gray dashed while pending, muted blue dashed while revision is requested, red dashed while blocked or rejected, and solid green only after admission. Back to overview uses a leading left arrow and text, not an ambiguous icon alone.
@@ -258,7 +277,11 @@ The owner workspace uses `web/owner/src/components/ui/icon.tsx` as the only appl
 Shared owners: `ui/button.tsx` and `ui/badge.tsx` consume palette tokens; `ui/modal-surface.tsx` owns dialog geometry/accessibility; `review-feedback.tsx` owns DecisionNotice, RevisionPanel, clipboard handoff, and history identity; `ledger-overview.tsx` owns the bounded workspace support graph; `lineage-graph.tsx` owns focused nodes, curves, and source expansion; `governance.css` owns their visual rules and typography roles. Reuse or extend these components rather than copying page-specific markup and hardcoded tokens.
 
 [//]: # (ob:8bd7754c)
-Knowledge starts with the server's current eligible owner projection, rendered by `knowledge-library.tsx` with search, applicability filtering, and sorting from `knowledge-model.ts`. A selected claim opens a readable record; evidence and history remain inspectable through disclosures. View lineage opens focused provenance with at most three initial sources, then incremental expansion. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Rejected or revision history never enters this current-knowledge projection merely because it is recorded. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
+Knowledge starts with the server's current eligible owner projection, rendered by `knowledge-library.tsx`. Its default Map uses `claim-graph.tsx`; List offers search, applicability filtering, and sorting from `knowledge-model.ts`. Keep the List/Map switch explicit and keyboard-operable. A selected claim opens a readable record; evidence and history remain inspectable through disclosures. View lineage opens focused provenance with at most three initial sources, then incremental expansion. A reuse-boundary node must add recorded scope, authorizer, or exclusion reasons rather than repeat a status badge. Rejected or revision history never enters this current-knowledge projection merely because it is recorded. The signed-in owner's eligibility is not a claim about every agent's eligibility. Local fixtures are visibly synthetic. Validate desktop/mobile, keyboard access, long content, clipboard denial, and real receipt states before promoting the build; record implementation, internal dogfood, and partner evidence separately.
+
+- **Action buttons:** primary teal fill with white text, secondary outline with a visible neutral border, tertiary text/ghost, and destructive red outline. State the verb and its consequence; keep one primary decision per group.
+- **Form controls:** visible labels, a consistent 48px height, clear neutral borders, and inline recovery text. Focus uses a 2px teal outline with 3px offset. Disabled, pending, empty, and error states must remain distinguishable.
+- **Grouped panels:** a pale gray section header may sit above white content within one 14px bordered panel. Use shared Card, Disclosure, and Tabs primitives; disclosures defer supporting detail while the statement, boundary, and next action stay visible.
 
 [//]: # (ob:0287d639)
 - **Status chip:** compact sans-serif label using the shared Badge. Admitted/current is green; needs review uses labeled cyan on accent-soft; needs revision is muted violet; blocked/rejected is red. Decision history tables display status explicitly, without requiring selection. Pending and recommendation surfaces must not use yellow/orange. Never express authority through confidence percentages.
@@ -348,7 +371,7 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Do** make selected graph nodes keyboard-operable and expose the same receipt information without relying on color alone.
 - **Do** project a recorded admission consistently across review, ledger, lineage, history, and governed context.
 - **Do** let a host product apply its own brand shell while retaining Proofpress trust-state semantics.
-- **Do** keep current owner navigation as Home, Review, Knowledge, Activity, and Admin, retaining `/ledger` as Knowledge's stable route; do not restore assistant/chat entry points as a design cleanup.
+- **Do** keep current owner navigation as Home, Review, Knowledge, Runs, Activity, and Admin, retaining `/ledger` as Knowledge's stable route and Map as its default view; do not restore assistant/chat entry points as a design cleanup.
 - **Do** fail closed: unavailable data or invalid lineage must render as blocked or not ready, never as a plausible placeholder.
 
 [//]: # (ob:70e00445)

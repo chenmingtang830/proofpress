@@ -1,0 +1,289 @@
+/* Shared operating UI: one type scale, control language, and spacing rhythm. */
+:root {
+  --surface: #fff;
+  --panel-soft: #f8f9fa;
+  --wash: #f3f5f6;
+  --line: #dce1e4;
+  --control-border: #87919a;
+  --accent: #006b7b;
+  --accent-strong: #005361;
+  --accent-soft: #edf6f7;
+  --ink: #171b21;
+  --ink-2: #4e5864;
+  --ink-3: #606b77;
+  --radius-control: 10px;
+  --radius-panel: 14px;
+  --type-body: 15px;
+  --type-label: 14px;
+  --type-meta: 12px;
+  --type-section: 20px;
+}
+
+body { font-size: var(--type-body); -webkit-font-smoothing: antialiased; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+input, textarea { caret-color: var(--accent); }
+::selection { background: #cce8eb; color: var(--ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+a { text-underline-offset: 3px; }
+.skipLink { position: fixed; z-index: 100; top: -80px; left: 20px; padding: 12px 20px; border-radius: 8px; color: white; background: var(--accent); }
+.skipLink:focus { top: 12px; }
+[data-slot="button"] { line-height: 1.4; }
+[data-slot="button"][data-size="default"] { border-radius: 999px; }
+[data-slot="button"][data-variant="outline"] { border-color: var(--control-border); }
+[data-slot="button"] svg { flex-shrink: 0; width: 18px; height: 18px; }
+[data-slot="button"]:disabled { opacity: .5; }
+[data-slot="input"], [data-slot="native-select"] {
+  min-height: 48px; border-color: var(--control-border); border-radius: var(--radius-control);
+  padding-inline: 14px; font: 400 15px/1.5 var(--font-ui);
+}
+[data-slot="textarea"] { resize: vertical; line-height: 1.6; }
+[data-slot="card"] { box-shadow: none; }
+
+.shell { grid-template-columns: 228px minmax(0, 1fr); }
+.sidebar { padding: 26px 16px 22px; }
+.brand { padding: 0 12px 36px; gap: 12px; font-size: 19px; letter-spacing: -.025em; }
+.brandMark, .brandMark img { width: 32px; height: 32px; }
+.sidebar nav { gap: 7px; }
+.sidebar nav button { min-height: 48px; padding: 0 14px; border: 0; border-radius: 10px; font-size: 15px; }
+.sidebar nav button.active { background: var(--accent-soft); color: var(--accent); box-shadow: none; border: 0; }
+.sidebar nav button svg { width: 21px; height: 21px; }
+.sidebar nav em { min-width: 23px; height: 23px; padding: 2px 7px; font: 600 12px/19px var(--font-ui); }
+.workspace { padding: 20px 12px 0; }
+.workspace > span { font: 500 12px/1.5 var(--font-ui); letter-spacing: 0; text-transform: none; }
+.workspace b { font-size: 13px; font-weight: 600; line-height: 1.6; }
+.workspace small { font-size: 12px; margin-top: 7px; }
+.topbar { padding: 0 36px; gap: 24px; }
+.workspaceLabel { display: flex; align-items: center; gap: 16px; margin: 0 auto 0 0; max-width: none; color: var(--ink-2); font-size: 13px; }
+.workspaceLabel strong { padding-left: 16px; border-left: 1px solid var(--line); color: var(--ink); font-weight: 600; }
+.topbar > button { min-height: 36px; padding: 7px 16px; font-size: 13px; }
+.pageBody { max-width: 1320px; padding: 42px 44px 72px; }
+.pageHead, .knowledgeHead { margin-bottom: 32px; }
+.pageHead h1, .knowledgeHead h1 { margin: 0 0 14px; font: 700 38px/1.14 var(--font-ui); letter-spacing: -.03em; }
+.pageHead p, .knowledgeHead p { font-size: 16px; line-height: 1.6; max-width: 68ch; }
+.stage { scroll-padding: 24px; }
+
+/* Home: two distinct tasks with quiet section headers. */
+.workspaceHome .pageHead { margin-bottom: 36px; }
+.homeWorkGrid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.homeWorkGrid > section { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-panel); }
+.homeWorkGrid .sectionTitle { margin: -28px -28px 26px; padding: 20px 28px; border-radius: 14px 14px 0 0; background: var(--wash); align-items: center; gap: 14px; }
+.homeWorkGrid .sectionTitle h2 { font-size: 20px; letter-spacing: -.02em; }
+.homeWorkGrid .sectionTitle > span { font-size: 13px; color: var(--ink-2); }
+.nextClaim h3 { margin: 16px 0; font-size: 26px; line-height: 1.3; letter-spacing: -.025em; }
+.nextClaim .claimBodyPreview { display: block; font-size: 15px; line-height: 1.65; }
+.nextClaim dl { border-top: 0; padding: 0 0 20px; }
+.nextClaim dt { font-size: 13px; }
+.nextClaim dd { font-size: 15px; font-weight: 500; }
+.nextClaim > p, .homeKnowledge > p { font-size: 15px; line-height: 1.6; }
+.nextClaim > button { min-height: 48px; padding-inline: 24px; }
+.homeQueue > button { font-size: 15px; gap: 16px; border-radius: 0; }
+.homeKnowledgeList { margin: 20px 0 26px; }
+.homeKnowledgeList > button { padding: 20px 28px 20px 0; border-radius: 0; gap: 8px; }
+.homeKnowledgeList strong { font-size: 17px; font-weight: 600; line-height: 1.45; }
+.homeKnowledgeList .claimBodyPreview { font-size: 14px; margin: 0; -webkit-line-clamp: 2; }
+.homeKnowledgeList span { font-size: 13px; }
+.revisionQueueLink { margin-top: 16px; font-size: 13px; }
+.homeLifecycle { margin-top: 32px; }
+.homeLifecycle > [data-slot="collapsible-trigger"] { font-size: 15px; color: var(--accent); }
+
+/* Queue and contextual record share the same reading scale. */
+.work { padding: 36px 30px 60px; }
+.filterbar { gap: 8px; margin-bottom: 24px; }
+.filterbar button { min-height: 42px; padding: 8px 16px; font: 600 14px/1.4 var(--font-ui); }
+.filterbar > span { font: 400 13px/1.5 var(--font-ui); color: var(--ink-2); }
+.tableWrap { border-radius: 12px; overflow: auto; }
+.reviewTable th { background: var(--wash); font: 600 12px/1.5 var(--font-ui); letter-spacing: 0; text-transform: none; padding: 14px 16px; }
+.reviewTable td { padding: 22px 16px; }
+.reviewTable .claimSelect { font: 600 16px/1.5 var(--font-ui); }
+.reviewTable td > small { font-size: 11px; line-height: 1.6; margin-top: 8px; }
+.reviewTable td.reviewScopeCell { font: 400 14px/1.5 var(--font-ui); }
+.reviewTable tr.selected { background: var(--accent-soft); box-shadow: none; }
+.reviewPagination { gap: 12px; }
+.reviewPagination span { font: 400 12px/1.5 var(--font-ui); }
+.inspector:not(.fullReview) { background: var(--panel-soft); }
+.inspector:not(.fullReview) .inspectorTop { padding: 28px; background: white; }
+.inspector:not(.fullReview) .inspectorTop h2 { font: 650 26px/1.3 var(--font-ui); letter-spacing: -.02em; }
+.inspector:not(.fullReview) .claimDescription { font-size: 15px; line-height: 1.6; }
+.inspector:not(.fullReview) .quickSnapshot { padding: 24px 28px; }
+.inspector:not(.fullReview) .quickSnapshot dt { font-size: 13px; }
+.inspector:not(.fullReview) .quickSnapshot dd { font-size: 14px; }
+.inspector:not(.fullReview) .reviewEntry { min-height: 46px; border-radius: 999px; }
+.inspector .evidenceArgument { border-radius: 12px; overflow: hidden; }
+.inspector .evidenceArgument article { background: white; }
+.inspector .evidenceArgument article strong { color: var(--accent); font-size: 13px; }
+.inspector .quickSnapshot .applicabilityPanel [data-slot="card"] { border: 0; border-radius: 0; }
+.inspector .quickSnapshot .applicabilityPanel [data-slot="card-content"] { padding: 12px 0; }
+
+/* Knowledge: spacious list rows, consistent form controls and record headings. */
+.knowledgeLibrary { padding: 42px 40px 64px; }
+.knowledgeWorkspace:not(.hasRecord) .knowledgeLibrary { width: 100%; max-width: 1320px; margin-inline: auto; }
+.knowledgeToolbar { background: var(--wash); padding: 20px; border-radius: 12px; gap: 20px; margin: 28px 0; }
+.knowledgeSearch label, .knowledgeFilters label { color: var(--ink); font-size: 13px; gap: 8px; }
+.knowledgeFilters select { font-size: 14px; }
+.knowledgeCount { font-size: 13px; padding-bottom: 16px; }
+.knowledgeList > li > button { padding: 26px 18px; gap: 10px; align-items: flex-start; }
+.knowledgeList strong { font-size: 20px; font-weight: 600; line-height: 1.4; }
+.knowledgeListMeta { font-size: 13px; }
+.knowledgeDescription { font-size: 15px; }
+.knowledgeRead { font-size: 14px; margin-top: 3px; }
+.knowledgeViewToggle { border-radius: 999px; background: var(--wash); }
+.knowledgeViewToggle button { min-height: 36px; border-radius: 999px; padding: 6px 16px; }
+.knowledgeViewToggle button[aria-pressed="true"] { background: var(--accent); color: white; box-shadow: none; }
+.knowledgeRecordBar { background: var(--wash); padding: 18px 28px; font-size: 14px; }
+.knowledgeRecordBody { padding: 32px; }
+.knowledgeRecord h2 { margin: 22px 0 18px; font-size: 28px; font-weight: 650; line-height: 1.3; }
+.knowledgeScope h3 { font-size: 18px; }
+.knowledgeScope p, .knowledgeScope li, .knowledgeEvidence p { font-size: 15px; }
+.knowledgeEvidence > [data-slot="collapsible-trigger"] { min-height: 64px; font-size: 16px; font-weight: 600; }
+.knowledgeAttribution { gap: 18px; }
+.knowledgeEligibility { font-size: 13px; }
+.claimMapHead h2 { font-size: 22px; }
+.claimMapNode strong { flex-shrink: 0; }
+.claimMapNode.evidenceNode { padding-block: 8px; gap: 3px; }
+
+/* Run records and activity remain readable with long identifiers and small screens. */
+.runsWorkspace { gap: 24px; grid-template-columns: minmax(260px, .85fr) minmax(0, 1.55fr); }
+.runsWorkspace:not(.hasRun) { grid-template-columns: minmax(0, 1fr); }
+.runList > button { padding: 24px; gap: 12px; border-radius: 0; }
+.runList > button:hover, .runList > button.active { background: var(--accent-soft); }
+.runList strong { font-size: 18px; line-height: 1.4; }
+.runList small, .runList time { color: var(--ink-2); font-size: 12px; }
+.runDetail { padding: 28px; gap: 28px; }
+.runDetail header h2 { font-size: 26px; font-weight: 600; line-height: 1.3; letter-spacing: -.02em; }
+.runDetail header p { color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.runDetail section h3 { font: 600 18px/1.4 var(--font-ui); letter-spacing: 0; text-transform: none; }
+.runRecord { border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 18px 0 0; box-shadow: none; }
+.runSummary { margin: 0; border: 0; border-radius: 10px; padding: 18px; background: var(--wash); font-size: 15px; line-height: 1.65; }
+.activityFilters { gap: 8px; flex-wrap: wrap; }
+.activityFilters button { min-height: 42px; padding: 8px 18px; border-radius: 999px; font-size: 14px; }
+.activityFilters button[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
+.activityFilters button[aria-pressed="false"] { background: white; color: var(--ink-2); border: 1px solid var(--control-border); }
+.activityTable [data-slot="table"] :is(th, td) { padding: 18px 20px; font-size: 14px; vertical-align: top; }
+.activityTable [data-slot="table"] th { font-size: 13px; }
+.activitySubject { margin-top: 7px; font-size: 14px; line-height: 1.5; }
+.activityTable small { font: 400 12px/1.5 var(--font-ui); }
+.activityTable time { font-size: 12px; white-space: nowrap; }
+
+/* Settings and dialogs use the same surfaces, labels and action hierarchy. */
+.reviewPolicy { border-radius: var(--radius-panel); }
+.reviewPolicy .policyHeading { flex-direction: row; margin: 0 0 28px; padding: 24px 28px; background: var(--wash); border-bottom: 1px solid var(--line); }
+.policyHeading h3 { margin: 0 0 6px; font-size: 22px; }
+.reviewPolicy > [data-slot="card-content"] { padding: 0 28px 28px; }
+.reviewPolicy fieldset { padding: 28px 0; }
+.reviewPolicy legend { font-size: 18px; }
+.reviewPolicy p { font-size: 15px; line-height: 1.6; }
+.approvalChoices label { padding: 20px; border-radius: 12px; }
+.approvalChoices label.selected { background: var(--accent-soft); border-color: var(--accent); }
+.approvalChoices b { font-size: 15px; }
+.approvalChoices small { font-size: 14px; line-height: 1.5; }
+.policyFields label, .providerCredential > label { font-size: 14px; }
+.policyFields input, .policyFields select, .providerCredential input { min-height: 48px; border-color: var(--control-border); border-radius: 10px; font-size: 15px; }
+.issueForm { padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-panel); background: white; }
+.issueFormHeader b { font-size: 20px; }
+.issueFormHeader small, .issueFormFields label { font-size: 14px; line-height: 1.5; }
+.issueFormFields input { min-height: 48px; border-radius: 10px; border-color: var(--control-border); font-size: 15px; }
+.credentialList > div { padding: 22px 0; gap: 18px; }
+.credentialList b { font-size: 15px; }
+.credentialList small { font-size: 13px; }
+.confirmationDialog { padding: 32px; border: 0; border-radius: 16px; box-shadow: 0 20px 70px rgb(23 27 33 / .18); }
+.confirmationDialog h2 { font-size: 28px; letter-spacing: -.025em; }
+.confirmationDialog p { font-size: 15px; }
+.confirmationStatement { padding: 18px; border: 0; border-radius: 10px; background: var(--wash); font-size: 15px; }
+.emptyState { padding: 28px 0; }
+.emptyState strong { font-size: 20px; }
+.emptyState p { max-width: 54ch; font-size: 15px; line-height: 1.65; }
+
+@media (min-width: 1100px) {
+  .hasRecord .knowledgeLibrary { padding-inline: 28px; }
+  .hasRecord .knowledgeHead { flex-wrap: wrap; }
+  .hasRecord .knowledgeList strong { font-size: 18px; }
+}
+@media (max-width: 1199px) and (min-width: 900px) {
+  .shell { grid-template-columns: 192px minmax(0, 1fr); }
+  .sidebar { padding-inline: 12px; }
+  .brand { font-size: 17px; padding-inline: 8px; gap: 8px; }
+  .pageBody, .knowledgeLibrary { padding: 32px 28px 64px; }
+  .homeWorkGrid { grid-template-columns: 1fr; }
+  .work { padding-inline: 24px; }
+  .pageHead h1, .knowledgeHead h1 { font-size: 34px; }
+  .runsWorkspace { grid-template-columns: 1fr; }
+}
+@media (max-width: 899px) {
+  .shell { display: block; height: auto; overflow: auto; }
+  .sidebar { position: fixed; inset: auto 0 0; z-index: 30; height: calc(72px + env(safe-area-inset-bottom)); border-right: 0; border-top: 1px solid var(--line); padding: 6px 8px calc(8px + env(safe-area-inset-bottom)); }
+  .sidebar .brand, .sidebar .workspace { display: none; }
+  .sidebar nav { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 2px; }
+  .sidebar nav span { display: block; }
+  .sidebar nav button { min-height: 54px; min-width: 0; flex-direction: column; justify-content: center; padding: 6px 0; border-radius: 8px; gap: 5px; font-size: 11px; }
+  .sidebar nav button svg { width: 20px; height: 20px; }
+  .sidebar nav em { min-width: 16px; height: 16px; padding: 0 4px; font-size: 10px; line-height: 16px; }
+  .topbar { height: 58px; padding-inline: 20px; gap: 12px; }
+  .stage { height: auto; min-height: calc(100dvh - 58px); padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .mobileBrand { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+  .workspaceLabel { margin-left: auto; max-width: 26vw; font-size: 12px; }
+  .workspaceLabel .workspaceContext { display: none; }
+  .workspaceLabel strong { border: 0; padding: 0; }
+  .topbar > button { min-height: 36px; padding: 6px 12px; font-size: 12px; }
+  .pageBody, .knowledgeLibrary, .work { padding: 30px 22px 48px; }
+  .pageHead h1, .knowledgeHead h1 { font-size: 32px; }
+  .pageHead p, .knowledgeHead p { font-size: 15px; }
+  .homeWorkGrid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .homeWorkGrid > section { padding: 24px; }
+  .homeWorkGrid .sectionTitle { margin: -24px -24px 24px; padding: 18px 24px; }
+  .homeWorkGrid .sectionTitle h2 { font-size: 18px; }
+  .nextClaim h3 { font-size: 24px; }
+  .runsWorkspace { grid-template-columns: 1fr; }
+  .knowledgeToolbar { padding: 18px; gap: 16px; }
+  .knowledgeList > li > button { padding-inline: 4px; }
+  .knowledgeRecord h2 { font-size: 26px; }
+  .runDetail { padding: 24px; }
+  .filterbar { display: flex; flex-wrap: wrap; }
+  .filterbar > button { width: auto; min-width: 0; font-size: 13px; padding: 8px 14px; }
+  .filterbar > span { width: 100%; text-align: right; }
+  .activityTable [data-slot="table"] { min-width: 680px; }
+  .confirmationDialog { padding: 26px; }
+}
+@media (min-width: 900px) and (max-width: 1050px) {
+  .shell { grid-template-columns: 80px minmax(0, 1fr); }
+  .sidebar { padding-inline: 12px; }
+  .sidebar nav button { padding: 0; }
+  .brand { padding-inline: 10px; }
+}
+@media (max-width: 680px) {
+  .activityTable [data-slot="table"] { display: block; min-width: 0; }
+  .activityTable [data-slot="table"] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .activityTable [data-slot="table"] tbody { display: block; }
+  .activityTable [data-slot="table"] tr { display: block; padding: 20px; border-bottom: 1px solid var(--line); }
+  .activityTable [data-slot="table"] td { display: block; position: static; width: 100%; padding: 5px 0; border: 0; margin: 0; }
+  .activityTable [data-slot="table"] td::before { display: block; margin-bottom: 4px; content: attr(data-label); color: var(--ink-2); font: 500 12px/1.5 var(--font-ui); letter-spacing: 0; text-transform: none; }
+  .activityTable [data-slot="table"] td[data-label="Time"]::before { display: none; }
+  .activityTable .activitySubject { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (max-width: 599px) {
+  .pageBody, .knowledgeLibrary, .work { padding-inline: 18px; }
+  .homeWorkGrid > section { padding: 22px; }
+  .homeWorkGrid .sectionTitle { margin: -22px -22px 22px; padding: 18px 22px; flex-wrap: wrap; gap: 6px; }
+  .homeWorkGrid .sectionTitle > span { font-size: 12px; }
+  .pageHead h1 { max-width: 16ch; }
+  .knowledgeHeadActions { flex-wrap: wrap; gap: 10px; }
+  .knowledgeList strong { font-size: 19px; }
+  .knowledgeRecordBody { padding-inline: 22px; }
+  .knowledgeRecordBar { padding-inline: 22px; }
+  .knowledgeFilters { flex-wrap: wrap; }
+  .knowledgeFilters > label { flex-basis: 100%; }
+  .reviewPolicy .policyHeading { padding: 22px; gap: 12px; }
+  .reviewPolicy > [data-slot="card-content"] { padding-inline: 22px; }
+  .policyFields.three { grid-template-columns: minmax(0, 1fr); }
+  .approvalChoices { grid-template-columns: minmax(0, 1fr); }
+  .issueForm { padding: 22px; }
+  .policyFooter { align-items: flex-start; flex-direction: column; }
+  .policyFooter > button { width: 100%; }
+  .runList > button > span { flex-wrap: wrap; }
+  .runDetail header { flex-direction: column; }
+  [data-slot="input"], [data-slot="native-select"], [data-slot="textarea"] { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

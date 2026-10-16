@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<"textarea">>(
   ({ className, ...props }, ref) => (
-    <textarea ref={ref} className={cn(
-      "flex min-h-[60px] w-full rounded-md border border-[#E3E1D9] bg-transparent px-3 py-2 text-sm placeholder:text-[#5A5D6B] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0E5E6F] disabled:cursor-not-allowed disabled:opacity-50",
+    <textarea ref={ref} data-slot="textarea" className={cn(
+      "flex min-h-[100px] w-full rounded-xl border border-[var(--control-border)] bg-[var(--paper)] px-4 py-3 text-sm text-[var(--ink)] placeholder:text-[var(--ink-3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] disabled:cursor-not-allowed disabled:opacity-50",
       className,
     )} {...props} />
   ),
