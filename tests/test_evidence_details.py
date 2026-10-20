@@ -1,5 +1,6 @@
 """Readable source labels never replace bound evidence or admission authority."""
 import copy
+import hashlib
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tempfile
@@ -29,14 +30,16 @@ class EvidenceDetailsTests(unittest.TestCase):
             self.owner, "agent:research", "Research",
             permissions={"evidence.submit", "claim.propose", "review.receipt"})["token"]
         quote = "Flat week: -2.4bn. Short-term pivot: 5200."
+        quote_digest = "sha256:" + hashlib.sha256(quote.encode()).hexdigest()
         payload = {"schema_version": "proofpress/retrieval-evidence/v1",
-                   "source": {"uri": "urn:source:opaque-id", "content_digest": "sha256:" + "a" * 64},
-                   "evidence": {"quote": quote, "locator": {"kind": "text_span", "start": 0, "end": len(quote), "text_digest": "sha256:" + "a" * 64}},
+                   "source": {"uri": "urn:source:opaque-id", "content_digest": quote_digest},
+                   "evidence": {"quote": quote, "locator": {"kind": "text_span", "start": 0, "end": len(quote), "text_digest": quote_digest}},
                    "retrieval": {"adapter": "test", "version": "1", "query": "flows", "config_digest": "sha256:" + "b" * 64}}
         imported = self.execute("evidence.submit", {"payload": payload})["result"]
         self.evidence_id = imported["imported_evidence"][0]
         proposed = self.execute("claim.propose", {"title": "Reported scenario", "statement": quote,
-                                "evidence_refs": [self.evidence_id], "proposer": "spoofed"})["result"]
+                                "evidence_refs": [self.evidence_id], "scope": "test",
+                                "proposer": "spoofed"})["result"]
         self.claim_id = proposed["claim"]["id"]
         self.before = self.receipt()
         self.params = {"claim_id": self.claim_id, "evidence_id": self.evidence_id,
