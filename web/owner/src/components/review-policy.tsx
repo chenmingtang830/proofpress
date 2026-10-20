@@ -1,15 +1,16 @@
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { DisclosureContent, Disclosure, DisclosureTrigger } from "@/components/ui/disclosure";
 import { Checkbox } from "./ui/checkbox";
+import { Switch } from "./ui/switch";
+import { MarkdownEditor } from "./ui/markdown-editor";
 import React from "react";
-import { CheckmarkCircle02Icon, Copy01Icon } from "@hugeicons/core-free-icons";
+import { CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Check } from "./ui/icon";
+import { Card, CardContent, CardDescription, CardHeader } from "./ui/card";
 
 const AGENT_POLICY_FIELDS = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent","auto_admit_new_claims"];
 
@@ -45,7 +46,12 @@ export function humanReviewSettings(settings: any) {
   return {...settings, mode:"off", require_judge:false, external_consent:false, auto_admit_new_claims:false};
 }
 
-export function ReviewPolicy({csrf, api, onSaved, section = "all", onModels}: any) {
+// Called only by the Owner form submission, after the provider disclosure is shown.
+export function settingsForOwnerSave(settings: any) {
+  return {...settings, external_consent:settings.mode !== "off"};
+}
+
+export function ReviewPolicy({csrf, api, onSaved, localPreview = false}: any) {
   const [record, setRecord] = React.useState<any>(null);
   const [settings, setSettings] = React.useState<any>(null);
   const [apiKey, setApiKey] = React.useState("");
@@ -53,23 +59,20 @@ export function ReviewPolicy({csrf, api, onSaved, section = "all", onModels}: an
   const [busy, setBusy] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [error, setError] = React.useState("");
-  const [draft, setDraft] = React.useState("");
   const [copied, setCopied] = React.useState(false);
-  const [advanced, setAdvanced] = React.useState(false);
-  const [preparedDraft, setPreparedDraft] = React.useState(false);
+  const [showAuthoringPrompt, setShowAuthoringPrompt] = React.useState(false);
   const load = React.useCallback(async () => {
     try {
       const row = await api("/owner/api/review-policy");
       setRecord(row);
       const initial = row.version === 0 ? humanReviewSettings(row.settings) : row.settings;
-      const base = ensureProviderDefault(initial, row.providers);
+      const base = ensureProviderDefault({...initial, mode:initial.mode === "off" ? "off" : "automatic"}, row.providers);
       const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
       if (prepared) {
         const parsed = JSON.parse(prepared);
         try {
-          setSettings(mergeAgentPolicyDraft(base, parsed));
-          setAdvanced(true);
-          setPreparedDraft(true);
+          const next = mergeAgentPolicyDraft(base, parsed);
+          setSettings({...next,mode:next.mode === "off" ? "off" : "automatic"});
           setMessage("Agent-prepared policy loaded. Review every field before activating it.");
           sessionStorage.removeItem("proofpress:review-policy-draft");
         } catch { setSettings(base); }
@@ -85,87 +88,83 @@ export function ReviewPolicy({csrf, api, onSaved, section = "all", onModels}: an
     try {
       const row = await api("/owner/api/review-policy", {method:"POST", body:JSON.stringify({csrf, expected_version:record.version, settings:nextSettings, api_key:useProviderInput ? apiKey || undefined : undefined, delete_key:useProviderInput && removeKey})});
       setRecord(row); setSettings(row.settings); setApiKey(""); setRemoveKey(false);
-      setMessage(`Policy v${row.version} is active`); onSaved();
+      setMessage("Settings saved."); onSaved();
     } catch (e:any) { setError(e.message); }
     finally { setBusy(false); }
   }
   async function save(e:React.FormEvent) {
     e.preventDefault();
-    await activate(settings);
+    await activate(settingsForOwnerSave(settings));
   }
+  const criteriaPrompt = `Help me write criteria for reviewing findings in Proofpress.
+
+Use what you know about my workflow. Ask up to three short questions if needed.
+Describe:
+- What evidence a finding needs
+- When evidence is insufficient or contradictory
+- When to flag uncertainty for human review
+
+Return readable text or bullets, without JSON or a code block.
+I will review and save it. Do not include secrets or change approval permissions.`;
   async function copyPrompt() {
-    try { await navigator.clipboard.writeText(record.authoring_prompt); setCopied(true); }
-    catch { setError("Your browser blocked copying. Select the prompt and copy it manually."); }
-  }
-  function applyDraft() {
-    try {
-      const parsed = JSON.parse(draft);
-      setSettings(mergeAgentPolicyDraft(settings, parsed));
-      setDraft(""); setError(""); setMessage("Agent-authored policy loaded for review. Save to activate it.");
-    } catch { setError("Paste JSON containing criteria or another supported policy field."); }
+    try { await navigator.clipboard.writeText(criteriaPrompt); setCopied(true); setShowAuthoringPrompt(false); }
+    catch { setCopied(false); setShowAuthoringPrompt(true); }
   }
   const changed = record && settings && (record.version === 0 || JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
   const hasProviderCredential = Boolean(record?.credential?.configured && !removeKey) || Boolean(apiKey.trim());
-  const showReview = section !== "models" || preparedDraft || settings?.auto_admit_new_claims;
-  const showModels = section !== "review" || preparedDraft;
   const selectedProvider = record?.providers?.[settings?.provider];
   const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
-  return <Card id="review-policy-setup" className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
-    <CardHeader className="policyHeading"><div><CardTitle id="reviewPolicyTitle">{section === "models" ? "Model review" : "Review policy"}</CardTitle><CardDescription>Choose who reviews findings. Model review is optional.</CardDescription></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</CardHeader>
-    {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload</Button></div>}
-    {!settings ? <CardContent><p role="status">Loading policy…</p></CardContent> : <CardContent>
-      {record.version === 0 && section !== "models" && <section className="policyQuickStart" aria-labelledby="human-review-title">
-        <h2 id="human-review-title">Start with human review</h2>
-        <p>You review each finding before it can be reused. Evidence checks still apply. You can add model advice later.</p>
-        <Button disabled={busy || !csrf} onClick={() => void activate(humanReviewSettings(record.settings), false)}>{busy ? "Activating…" : "Use human review"}</Button>
-      </section>}
-      {record.version === 0 && section !== "models" && <Button variant="ghost" aria-expanded={advanced} onClick={() => onModels ? onModels() : setAdvanced(!advanced)}>{advanced ? "Hide model and advanced settings" : "Configure model and advanced settings"}</Button>}
-      <form onSubmit={save} hidden={record.version === 0 && !advanced && section !== "models"}>
-      {showReview && <><fieldset className="approvalRequirement"><legend>Approval gate</legend>
-        <RadioGroup className="approvalChoices" value={settings.require_judge ? "required" : "advisory"} onValueChange={value=>setSettings({...settings,require_judge:value==="required",auto_admit_new_claims:value==="required"?settings.auto_admit_new_claims:false})}>
-          <Label className={!settings.require_judge ? "selected" : ""}><RadioGroupItem value="advisory"/><span><b>Human decision anytime</b><small>Model advice informs the review but does not block Approve.</small></span></Label>
-          <Label className={settings.require_judge ? "selected" : ""}><RadioGroupItem value="required" disabled={settings.mode==="off"}/><span><b>Require supporting model advice</b><small>Approve unlocks only when current model advice supports the evidence.</small></span></Label>
-        </RadioGroup>
-      </fieldset>
-      </>}
-      {showModels && <><fieldset><legend>Model provider</legend>
+  const missingProviderKey = settings?.mode !== "off" && !hasProviderCredential;
+  return <Card id="review-policy-setup" className={`reviewPolicy verificationSettings${settings?.mode === "off" && !changed && !message && !error ? " aiChecksCompact" : ""}`} aria-labelledby="reviewPolicyTitle">
+    <CardHeader className="policyHeading aiChecksHeading"><div><h2 id="reviewPolicyTitle">AI-assisted checks</h2><CardDescription id="llm-checks-help">{!settings ? "Choose whether AI helps review findings." : settings.mode === "off" ? "You review findings yourself. Turn this on to get an AI assessment before you decide." : settings.auto_admit_new_claims ? "AI checks new findings after evidence checks pass. Your approval rules below determine which findings can be reused." : "AI checks new findings after evidence checks pass. You still decide what agents can reuse."}</CardDescription></div>
+      {settings && <div className="aiChecksControl"><span>{settings.mode === "off" ? "Off" : "On"}</span><Switch aria-labelledby="reviewPolicyTitle" aria-describedby="llm-checks-help" checked={settings.mode !== "off"} disabled={busy} onCheckedChange={enabled=>{setSettings({...settings,mode:enabled ? "automatic" : "off",require_judge:enabled ? settings.require_judge : false,auto_admit_new_claims:enabled ? settings.auto_admit_new_claims : false});setMessage("");}} /></div>}
+    </CardHeader>
+    {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload settings</Button></div>}
+    {!settings ? <CardContent><p role="status">Loading verification settings…</p></CardContent> : <CardContent>
+      <form onSubmit={save}>
+        {settings.mode !== "off" && <div className="modelAdviceConfiguration">
+<Disclosure className="modelConnection" defaultOpen={!record.credential.configured}><DisclosureTrigger>Model connection</DisclosureTrigger><DisclosureContent>
+<fieldset aria-label="Model connection">
         <div className="policyFields three">
-          <Label>Provider<NativeSelect aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{value.label}</option>)}</NativeSelect></Label>
+          <Label>Provider<NativeSelect aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{key === "typesafe" ? "TypeSafe" : key === "vercel_jev" ? "Vercel AI Gateway · Jev" : value.label}</option>)}</NativeSelect></Label>
           <Label>Model{modelOptions.length>0 && <NativeSelect aria-label="Model" value={selectedProvider.models.includes(settings.model)?settings.model:"__custom__"} onChange={e=>change("model",e.target.value==="__custom__"?"":e.target.value)}>
             {modelOptions.filter((model:string)=>selectedProvider.models.includes(model)).map((model:string)=><option key={model} value={model}>{model}</option>)}
             <option value="__custom__">Enter another model ID…</option>
           </NativeSelect>}
             {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <Input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
             <small>Choose a provider model or enter another supported model ID.</small></Label>
-          <Label>Model review<NativeSelect aria-label="Model review" value={settings.mode} onChange={e=>{const mode=e.target.value;setSettings({...settings,mode,require_judge:mode==="off"?false:settings.require_judge,auto_admit_new_claims:mode==="automatic"?settings.auto_admit_new_claims:false});setMessage("");}}><option value="off">Off</option><option value="manual">Run when requested</option><option value="automatic">After checks pass</option></NativeSelect></Label>
+
           {(selectedProvider?.endpoint_required || selectedProvider?.endpoint_editable) && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off" && selectedProvider.endpoint_required} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} />{selectedProvider.endpoint_editable && <small>Leave blank to use the provider's hosted endpoint.</small>}</Label>}
         </div>
-        <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey} placeholder={record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
-          <p>{record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
+        <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey || !record.credential.storage_ready} placeholder={!record.credential.storage_ready ? "Key storage is not configured" : record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
+          <p>{!record.credential.storage_ready ? "Provider API keys cannot be saved until encrypted storage is configured." : record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
           {record.credential.configured && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{setRemoveKey(checked === true);setApiKey("");}} />Remove stored key when saving</Label>}
-          {!record.credential.storage_ready && <p className="policyWarning">Secure credential storage is unavailable on this deployment.</p>}
+          {!record.credential.storage_ready && <p className={localPreview ? "policyHint" : "policyWarning"} role="note">{localPreview ? "This local preview has no encrypted key storage. Human review and agent connections are available." : "Ask your hosting operator to configure encrypted credential storage before adding a provider key. Human review and agent connections are available."}</p>}
         </div>
       </fieldset>
-      {["typesafe", "vercel_jev"].includes(settings.provider) && <p className="policyWarning">Jev is experimental. It returns typed decisions and a template summary, not a generated explanation. Test with your own labeled evidence before relying on its advice.</p>}
-      <fieldset><legend>Evaluation</legend>
-        <Label className="criteriaLabel">Criteria<Textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a claim? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></Label>
-        <Disclosure className="agentPolicyDraft"><DisclosureTrigger>Draft criteria with your agent</DisclosureTrigger><DisclosureContent><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
-          <div className="policyPrompt"><Textarea readOnly value={record.authoring_prompt} aria-label="Policy authoring prompt" /><Button type="button" variant="outline" onClick={copyPrompt}>{copied?<><HugeiconsIcon icon={CheckmarkCircle02Icon}/>Copied</>:<><HugeiconsIcon icon={Copy01Icon}/>Copy prompt</>}</Button></div>
-          <Label className="criteriaLabel">Agent response<Textarea value={draft} placeholder={'Paste JSON such as {"criteria":"…"}'} onChange={e=>setDraft(e.target.value)} /></Label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
-        </DisclosureContent></Disclosure>
+      </DisclosureContent></Disclosure>
+      <fieldset className="simpleCriteria"><legend>Review criteria</legend>
+        <div className="simplePromptRow capturePromptRow"><h3>Draft review criteria with your agent</h3><pre className="agentPrompt" aria-label="Policy authoring prompt"><code>{criteriaPrompt}</code></pre><Button type="button" onClick={copyPrompt}>{copied ? <><Check />Copied</> : "Copy prompt"}</Button></div>
+        <div className="simpleCopyStatus" role="status" aria-live="polite">{copied ? "Copied — paste into your agent’s chat." : showAuthoringPrompt ? "Copy failed. Select and copy the prompt above." : ""}</div>
+        <p className="draftPasteHelp">Paste your agent’s draft below, then review and save.</p>
+        <MarkdownEditor label="Review criteria" value={settings.criteria} maxLength={8000} placeholder="Paste your agent's criteria, or write your own." onChange={value=>change("criteria",value)} />
       </fieldset>
-      <fieldset><legend>Data & approval</legend>
-        <p>Model review sends the claim and bounded evidence to the selected provider. The recommendation is advisory.</p>
-        <Label className="policyCheck"><Checkbox checked={settings.external_consent} onCheckedChange={checked=>change("external_consent",checked === true)} />Allow external model processing for this workspace</Label>
-        {["openrouter", "vercel_jev"].includes(settings.provider) && <Label className="policyCheck"><Checkbox checked={settings.zdr} onCheckedChange={checked=>change("zdr",checked === true)} />Require {settings.provider === "vercel_jev" ? "Vercel Gateway" : "OpenRouter"} Zero Data Retention routing</Label>}
+      <Disclosure className="providerPrivacy"><DisclosureTrigger>Advanced settings</DisclosureTrigger><DisclosureContent>
+        {["openrouter", "vercel_jev"].includes(settings.provider) ? <Label className="policyCheck"><Checkbox checked={settings.zdr} onCheckedChange={checked=>change("zdr",checked === true)} />Require {settings.provider === "vercel_jev" ? "Vercel Gateway" : "OpenRouter"} Zero Data Retention routing</Label> : <p>Proofpress cannot enforce Zero Data Retention routing for this provider. Its data retention terms apply.</p>}
+      </DisclosureContent></Disclosure>
+
+        </div>}
+        {settings.mode !== "off" && !(settings.require_judge || settings.auto_admit_new_claims || record.settings.require_judge || record.settings.auto_admit_new_claims) && <p className="policyHint">AI provides an assessment. You make the final approval.</p>}
+        {settings.mode !== "off" && Boolean(settings.require_judge || settings.auto_admit_new_claims || record.settings.require_judge || record.settings.auto_admit_new_claims) && <Disclosure className="verificationAutomatic" defaultOpen={Boolean(settings.require_judge || settings.auto_admit_new_claims)}><DisclosureTrigger>Approval options</DisclosureTrigger><DisclosureContent>
+        <Label className="policyCheck"><Checkbox checked={settings.require_judge} onCheckedChange={checked=>setSettings({...settings,require_judge:checked === true,auto_admit_new_claims:checked === true ? settings.auto_admit_new_claims : false})} />Require supporting model advice before human approval</Label>
+<fieldset className="autoAdmissionFieldset">
+        <Label className="policyCheck autoAdmissionToggle"><Checkbox checked={settings.auto_admit_new_claims === true} disabled={!settings.auto_admit_new_claims && (settings.mode !== "automatic" || !settings.require_judge || !settings.criteria.trim() || !hasProviderCredential)} onCheckedChange={checked=>change("auto_admit_new_claims",checked === true)} /><span><b>Approve qualifying new claims automatically</b><small>Applies to every new claim in this workspace, including high-risk claims.</small></span></Label>
+        {settings.auto_admit_new_claims ? <div className="policyWarning autoAdmissionWarning" role="note"><strong>Automatic approval will take effect when you save.</strong><p>Scope: every new claim in this workspace, including high-risk claims. New claims enter approved knowledge when current checks pass, there is no unresolved conflict or invalid dependency, and the configured model recommends “Evidence supported.” Claims the model rejects, escalates, or cannot review stay for your decision. Qualifying claims will not receive per-claim human approval. Model recommendations are not calibrated probabilities.</p></div> : <p className="policyHint">Off by default. Requires supporting model advice, review criteria, a valid API key, and permission to process evidence.</p>}
       </fieldset>
-      </>}
-      {showReview && <fieldset className="autoAdmissionFieldset"><legend>Automatic approval</legend>
-        <Label className="policyCheck autoAdmissionToggle"><Checkbox checked={settings.auto_admit_new_claims === true} disabled={!settings.auto_admit_new_claims && (settings.mode !== "automatic" || !settings.require_judge || !settings.criteria.trim() || !settings.external_consent || !hasProviderCredential)} onCheckedChange={checked=>change("auto_admit_new_claims",checked === true)} /><span><b>Approve qualifying new claims automatically</b><small>Applies to every new claim in this workspace, including high-risk claims.</small></span></Label>
-        {settings.auto_admit_new_claims ? <div className="policyWarning autoAdmissionWarning" role="note"><strong>Automatic approval will take effect when you save.</strong><p>Scope: every new claim in this workspace, including high-risk claims. New claims enter approved knowledge when current checks pass, there is no unresolved conflict or invalid dependency, and the configured model recommends “Evidence supported.” Claims the model rejects, escalates, or cannot review stay for your decision. Qualifying claims will not receive per-claim human approval. Model recommendations are not calibrated probabilities.</p></div> : <p className="policyHint">Off by default. To enable it, run model review automatically, require supporting advice, add criteria, provide a valid API key, and allow provider processing.</p>}
-      </fieldset>
-      }
-      <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":settings.auto_admit_new_claims?"Save & enable automatic approval":"Save & activate"}</Button></div>
+        </DisclosureContent></Disclosure>}
+        {(changed || busy) && settings.mode !== "off" && <p className="providerConsentNotice" role="note">Findings and their supporting evidence will be sent to <strong>{selectedProvider?.label || settings.provider}</strong>{settings.endpoint ? <> at <strong>{settings.endpoint}</strong></> : null} for AI review. By saving, you authorize this processing for this workspace.</p>}
+        {(changed || busy) && <div className="policyFooter"><small>{record.version ? "Unsaved changes" : "Evidence checks are included in either option."}</small><Button disabled={busy || !changed || !csrf || missingProviderKey}>{busy ? "Saving…" : settings.auto_admit_new_claims ? "Save & enable automatic approval" : settings.mode !== "off" && (record.settings.mode === "off" || !record.settings.external_consent || record.settings.provider !== settings.provider || record.settings.endpoint !== settings.endpoint) ? "Enable AI checks" : record.version ? "Save changes" : "Use manual review"}</Button></div>}
+        {missingProviderKey && <p role="note" className="policyHint">Add a provider API key to enable AI checks, or turn them off to use manual review.</p>}
       </form>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}
     </CardContent>}

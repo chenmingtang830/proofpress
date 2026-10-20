@@ -1,48 +1,114 @@
 import React from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "./ui/card";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+import { Card, CardHeader, CardDescription, CardContent } from "./ui/card";
+import { MarkdownEditor } from "./ui/markdown-editor";
 import { Button } from "./ui/button";
+import { Check } from "./ui/icon";
+
+export function captureDraftPrompt(_record: any) {
+  return `Help me decide what my agent should submit to Proofpress.
+
+Use what you know about my workflow. Ask up to three focused questions if needed.
+Draft short rules with these headings:
+## Purpose
+## Capture
+## Leave out
+Explain the purpose in one short paragraph. List information to submit under Capture and information to skip under Leave out, as bullets.
+
+Return readable text, without JSON or a code block. I will review and save it.
+Keep the purpose under 1,000 characters and each list to 30 rules of at most 500 characters. Include at least one capture rule.
+Do not include secrets or change approval permissions.`;
+}
+
+export function parseCaptureDraft(text: string) {
+  const clean = text.trim().replace(/^\x60\x60\x60(?:json)?\s*([\s\S]*?)\s*\x60\x60\x60$/i, "$1");
+  const value = JSON.parse(clean);
+  if (!value || typeof value !== "object" || Array.isArray(value) ||
+      Object.keys(value).sort().join(",") !== "capture,exclude,purpose") throw new Error("Use only purpose, capture and exclude fields.");
+  if (typeof value.purpose !== "string" || !value.purpose.trim() || value.purpose.length > 1000) throw new Error("Purpose must be 1–1,000 characters.");
+  for (const key of ["capture", "exclude"]) {
+    if (!Array.isArray(value[key]) || value[key].length > 30 || (key === "capture" && !value[key].length) ||
+        value[key].some((item: any) => typeof item !== "string" || !item.trim() || item.length > 500)) throw new Error("Use up to 30 rules in each list, with at least one capture rule. Each rule must be 1–500 characters.");
+  }
+  return {purpose:value.purpose.trim(),capture:value.capture.map((line:string)=>line.trim()),exclude:value.exclude.map((line:string)=>line.trim())};
+}
+
+export function formatCaptureRules(settings: {purpose:string; capture:string[]; exclude:string[]}) {
+  const bullets = (items:string[]) => items.map(item=>`- ${item.replace(/\n/g, "\n  ")}`).join("\n");
+  return `## Purpose\n${settings.purpose}\n\n## Capture\n${bullets(settings.capture)}\n\n## Leave out\n${bullets(settings.exclude)}`;
+}
+
+export function parseCaptureText(text:string) {
+  if (/^\s*(?:\{|`{3}json)/.test(text)) return parseCaptureDraft(text);
+  const sections:Record<string,string[]> = {};
+  let current = "";
+  for (const line of text.split(/\r?\n/)) {
+    const heading = line.match(/^##\s+(Purpose|Capture|Leave out)\s*$/i);
+    if (heading) {
+      current = heading[1].toLowerCase();
+      if (sections[current]) throw new Error("Use each heading once: ## Purpose, ## Capture, ## Leave out.");
+      sections[current] = [];
+    } else if (current) sections[current].push(line);
+    else if (line.trim()) throw new Error("Keep the three headings: ## Purpose, ## Capture, ## Leave out.");
+  }
+  if (Object.keys(sections).length !== 3) throw new Error("Keep the three headings: ## Purpose, ## Capture, ## Leave out.");
+  const items = (lines:string[]) => {
+    const result:string[] = [];
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      const bullet = line.match(/^[-*+]\s+(.*)$/);
+      if (bullet) result.push(bullet[1]);
+      else if (/^\s+/.test(line) && result.length) result[result.length-1] += "\n" + line.trim();
+      else throw new Error("Write each capture or exclusion rule as a bullet starting with -.");
+    }
+    return result;
+  };
+  return parseCaptureDraft(JSON.stringify({purpose:sections.purpose.join("\n").trim(),capture:items(sections.capture),exclude:items(sections["leave out"])}));
+}
 
 export function CaptureRules({api, csrf}: any) {
   const [record, setRecord] = React.useState<any>(null);
-  const [purpose, setPurpose] = React.useState("");
-  const [capture, setCapture] = React.useState("");
-  const [exclude, setExclude] = React.useState("");
+  const [text, setText] = React.useState("");
   const [error, setError] = React.useState("");
   const [message, setMessage] = React.useState("");
   const [busy, setBusy] = React.useState(false);
+  const [copyStatus, setCopyStatus] = React.useState("");
   const load = React.useCallback(async () => {
     try {
       const row = await api("/owner/api/capture-policy");
-      setRecord(row); setPurpose(row.settings.purpose);
-      setCapture(row.settings.capture.join("\n")); setExclude(row.settings.exclude.join("\n")); setError("");
-    } catch (e: any) { setError(e.message); }
+      setRecord(row); setText(formatCaptureRules(row.settings)); setError("");
+    } catch (e:any) { setError(e.message); }
   }, [api]);
-  React.useEffect(() => { void load(); }, [load]);
-  const rules = (value: string) => value.split("\n").map(line => line.trim()).filter(Boolean);
-  const settings = {purpose, capture:rules(capture), exclude:rules(exclude)};
-  const changed = record && JSON.stringify(settings) !== JSON.stringify(record.settings);
-  async function save(event: React.FormEvent) {
-    event.preventDefault(); setBusy(true); setError(""); setMessage("");
+  React.useEffect(()=>{void load();},[load]);
+  const changed = record && text !== formatCaptureRules(record.settings);
+  async function copyPrompt() {
+    try { await navigator.clipboard.writeText(captureDraftPrompt(record)); setCopyStatus("copied"); }
+    catch { setCopyStatus("failed"); }
+  }
+  async function save(event:React.FormEvent) {
+    event.preventDefault(); setError(""); setMessage("");
+    let settings;
+    try { settings = parseCaptureText(text); }
+    catch (e:any) { setError(e.message); return; }
+    setBusy(true);
     try {
-      const row = await api("/owner/api/capture-policy", {method:"POST", body:JSON.stringify({csrf,expected_version:record.version,settings})});
-      setRecord(row); setPurpose(row.settings.purpose); setCapture(row.settings.capture.join("\n")); setExclude(row.settings.exclude.join("\n"));
-      setMessage(`Capture rules v${row.version} saved. Connected agents read them at the start of their next run.`);
-    } catch (e: any) { setError(e.message); }
+      const row = await api("/owner/api/capture-policy", {method:"POST",body:JSON.stringify({csrf,expected_version:record.version,settings})});
+      setRecord(row); setText(formatCaptureRules(row.settings)); setCopyStatus("");
+      setMessage(`Capture rules v${row.version} saved. Agents will use them on their next run.`);
+    } catch (e:any) { setError(e.message); }
     finally { setBusy(false); }
   }
-  return <Card className="captureRules"><CardHeader><CardTitle>What agents should capture</CardTitle>
-    <CardDescription>Workspace defaults work immediately. Customize them here; no local policy file is required.</CardDescription></CardHeader>
+  return <Card className="captureRules captureRulesSimple">
+    <CardHeader className="adminPanelHeading"><h2>What should the agent capture?</h2><CardDescription>Tell the agent which information to submit to Proofpress for review and which to skip.</CardDescription></CardHeader>
     <CardContent>
-      {error && <p role="alert">{error} <Button variant="outline" onClick={load}>Reload capture rules</Button></p>}
-      {!record ? <p role="status">Loading capture rules…</p> : <form onSubmit={save}>
-        <Label>Research purpose<Textarea aria-label="Research purpose" value={purpose} maxLength={1000} onChange={e=>setPurpose(e.target.value)} required /></Label>
-        <Label>Capture these findings<Textarea aria-label="Capture these findings" value={capture} onChange={e=>setCapture(e.target.value)} required /><small>One rule per line. Up to 30 rules.</small></Label>
-        <Label>Leave these out<Textarea aria-label="Leave these out" value={exclude} onChange={e=>setExclude(e.target.value)} /><small>One exclusion per line. Local project restrictions may further narrow these rules.</small></Label>
-        <p>Capture rules guide what agents propose. Evidence checks and owner approval still control reuse. Secrets and raw private traces remain excluded.</p>
-        <div className="policyFooter"><small>{record.version ? `Version ${record.version} · ${record.actor}` : "Built-in defaults active"}</small><Button disabled={busy || !changed || !csrf}>{busy ? "Saving…" : "Save capture rules"}</Button></div>
+      {error && <p role="alert">{error} {!record && <Button variant="outline" onClick={load}>Try again</Button>}</p>}
+      {!record ? <p role="status">Loading rules…</p> : <form onSubmit={save}>
+        <div className="simplePromptRow capturePromptRow"><h3>Draft capture rules with your agent</h3><pre className="agentPrompt" aria-label="Capture rules authoring prompt"><code>{captureDraftPrompt(record)}</code></pre><Button type="button" onClick={copyPrompt}>{copyStatus === "copied" ? <><Check />Copied</> : "Copy prompt"}</Button></div>
+        <div className="simpleCopyStatus" role="status" aria-live="polite">{copyStatus === "copied" ? "Copied — paste into your agent’s chat." : copyStatus === "failed" ? "Copy failed. Select and copy the prompt above." : ""}</div>
+        <p className="draftPasteHelp">Paste your agent’s draft below, then review and save.</p>
+        <MarkdownEditor className="captureRulesEditor" label="Capture rules" value={text} maxLength={40000} onChange={value=>{setText(value);setMessage("");setError("");}} />
+        <div className="policyFooter"><small>{changed ? "Unsaved changes" : record.version ? `Saved · version ${record.version}` : "Defaults are ready to use"}</small><Button disabled={busy || !changed || !csrf}>{busy ? "Saving…" : "Save capture rules"}</Button></div>
       </form>}
       {message && <p role="status">{message}</p>}
-    </CardContent></Card>;
+    </CardContent>
+  </Card>;
 }

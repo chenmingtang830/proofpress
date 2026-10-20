@@ -8,7 +8,7 @@ import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
-import { applyProviderPreset, ensureProviderDefault, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
+import { settingsForOwnerSave, applyProviderPreset, ensureProviderDefault, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
 
 describe("governance components", () => {
   it("keeps advisory support visually separate from admission", () => {
@@ -206,5 +206,14 @@ describe("governance components", () => {
     const providers = {openrouter:{default_model:"deepseek/deepseek-v4-flash"}};
     expect(ensureProviderDefault(settings, providers).model).toBe("deepseek/deepseek-v4-flash");
     expect(ensureProviderDefault({...settings, model:"saved-model"}, providers).model).toBe("saved-model");
+  });
+});
+
+describe("Owner save processing consent", () => {
+  it("binds consent to the submitted destination only on save without changing approval authority", () => {
+    const draft = {mode:"automatic",provider:"custom",endpoint:"https://example.com/review",external_consent:false,require_judge:false,auto_admit_new_claims:false};
+    expect(settingsForOwnerSave(draft)).toEqual({...draft,external_consent:true});
+    expect(draft.external_consent).toBe(false);
+    expect(settingsForOwnerSave({...draft,mode:"off",external_consent:true}).external_consent).toBe(false);
   });
 });

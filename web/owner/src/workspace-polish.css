@@ -184,7 +184,10 @@ a { text-underline-offset: 3px; }
 .issueFormHeader b { font-size: 20px; }
 .issueFormHeader small, .issueFormFields label { font-size: 14px; line-height: 1.5; }
 .issueFormFields input { min-height: 48px; border-radius: 10px; border-color: var(--control-border); font-size: 15px; }
-.credentialList > div { padding: 22px 0; gap: 18px; }
+.credentialList > div { padding: 22px 28px; gap: 16px; }
+.credentialList > div > div:nth-child(2) { min-width: 0; overflow-wrap: anywhere; }
+.credentialList > div > span:empty { display: none; }
+.credentialList > div:not(:has(.credentialActions)) { grid-template-columns: 38px minmax(0, 1fr) auto; }
 .credentialList b { font-size: 15px; }
 .credentialList small { font-size: 13px; }
 .confirmationDialog { padding: 32px; border: 0; border-radius: 16px; box-shadow: 0 20px 70px rgb(23 27 33 / .18); }
@@ -278,6 +281,7 @@ a { text-underline-offset: 3px; }
   .policyFields.three { grid-template-columns: minmax(0, 1fr); }
   .approvalChoices { grid-template-columns: minmax(0, 1fr); }
   .issueForm { padding: 22px; }
+  .credentialList > div { padding: 20px 22px; gap: 14px; }
   .policyFooter { align-items: flex-start; flex-direction: column; }
   .policyFooter > button { width: 100%; }
   .runList > button > span { flex-wrap: wrap; }
@@ -287,3 +291,208 @@ a { text-underline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Admin: shared hierarchy and layout across all three settings tasks. */
+.adminSections{min-width:0}
+.adminSectionTabs{display:flex;flex-wrap:wrap;width:100%;height:auto;gap:4px;margin-bottom:24px;justify-content:flex-start;background:var(--wash,#f3f5f6);padding:6px}
+.adminSectionTabs [role=tab]{min-height:44px;white-space:normal;flex:1 1 auto}
+.adminSections [role=tabpanel]{min-width:0}
+.captureRules{margin-bottom:24px}
+.captureRules form{display:grid;gap:24px}
+.captureRules label{display:grid;gap:10px}
+.captureRules p{max-width:70ch;line-height:1.6;color:var(--muted,#4e5864)}
+.adminConnectionHelp{margin-bottom:24px}
+@media(max-width:600px){.adminSectionTabs [role=tab]{flex-basis:100%}.captureRules .policyFooter{flex-wrap:wrap;gap:12px}}
+
+.autoAdmissionToggle>span:last-child{display:grid;gap:6px}
+
+/* Agent drafting keeps instructions, clipboard feedback and draft input in distinct groups. */
+.captureDraftFlow{display:grid;gap:24px;padding-bottom:32px;margin-bottom:32px;border-bottom:1px solid var(--line,#dce1e4)}
+.draftFlowIntro{display:grid;gap:10px}
+.draftFlowIntro h3,.captureRulesPreview h3{margin:0;font-size:20px;line-height:1.4}
+.draftFlowIntro p{margin:0;max-width:70ch;line-height:1.6;color:var(--muted,#4e5864)}
+.promptCopyRow{display:flex;align-items:center;gap:20px;min-height:48px}
+.promptCopyRow>button{flex-shrink:0;min-width:142px}
+.promptCopyFeedback{display:grid;gap:4px;min-height:44px;align-content:center;font-size:14px;line-height:1.45}
+.promptCopyFeedback strong{font-weight:600;color:var(--teal,#006b7b)}
+.promptCopyFeedback span{color:var(--muted,#4e5864)}
+.captureDraftFlow>label{margin:4px 0 0;gap:12px}
+.captureDraftFlow textarea{min-height:140px}
+.captureRulesPreview h4{margin:20px 0 8px;font-size:15px}
+.captureRulesPreview ul{padding-left:22px;max-width:70ch;line-height:1.7}
+.captureRulesPreview p{margin:0}
+.criteriaDraftFlow{display:grid;gap:24px;padding-top:24px;margin-top:24px;border-top:1px solid var(--line,#dce1e4)}
+.criteriaDraftFlow .criteriaLabel{margin:0}
+@media(max-width:600px){.promptCopyRow{align-items:flex-start;flex-direction:column;gap:12px}.promptCopyFeedback{min-height:44px}.captureDraftFlow,.criteriaDraftFlow{gap:24px}}
+
+.captureRulesPreview .capturePreviewDescription{margin:12px 0 28px;max-width:70ch;line-height:1.6}
+
+.verificationSettings .verificationEvidence p,.verificationModelMode>p{max-width:70ch;margin:0 0 16px;line-height:1.6;color:var(--muted,#4e5864)}
+.verificationModelMode>label{display:grid;gap:10px;max-width:360px}
+.verificationModelMode .policyHint{margin:16px 0 0}
+.verificationAutomatic{margin-top:16px}
+.modelAdviceConfiguration{padding:0 0 12px}
+.verificationSettings .criteriaDraftFlow{padding-top:0;margin-top:0;border-top:0;margin-bottom:24px}
+
+.verificationSettings .approvalRequirement>p{margin:0;max-width:70ch;color:var(--muted,#4e5864);line-height:1.6}
+
+.adminPage { --admin-inset: 28px; --type-subsection: 17px; --type-help: 13px; max-width: 1120px; }
+.adminPage .pageHead p { max-width: 70ch; }
+.adminPage .adminSectionTabs { margin-bottom: 24px; }
+.adminPage .adminSectionTabs [role="tab"] { font: 500 var(--type-label)/1.5 var(--font-ui); }
+.adminPage h2 { margin: 0; font: 600 var(--type-section)/1.4 var(--font-ui); letter-spacing: -.015em; }
+.adminPage h3, .adminPage legend { font: 600 var(--type-subsection)/1.45 var(--font-ui); letter-spacing: -.01em; }
+.adminPage h4 { font: 600 var(--type-label)/1.5 var(--font-ui); letter-spacing: 0; }
+.adminPage p { font: 400 var(--type-body)/1.6 var(--font-ui); max-width: 70ch; }
+.adminPage small { font: 400 var(--type-help)/1.5 var(--font-ui); color: var(--ink-2); }
+.adminPage label { font: 500 var(--type-label)/1.5 var(--font-ui); color: var(--ink); }
+.adminPage label small { font-weight: 400; }
+.adminPage [data-slot="button"] { font: 500 var(--type-label)/1.4 var(--font-ui); }
+.adminPage [data-slot="input"], .adminPage [data-slot="native-select"], .adminPage [data-slot="textarea"] {
+  font: 400 var(--type-body)/1.6 var(--font-ui); border-color: var(--control-border); border-radius: var(--radius-control);
+}
+.adminPage [data-slot="textarea"] { padding: 12px 14px; min-height: 140px; }
+.adminPage input::placeholder, .adminPage textarea::placeholder { color: var(--ink-3); opacity: 1; }
+.adminPage .adminPanelHeading, .adminPage .policyHeading {
+  display: flex; flex-direction: row; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: var(--admin-inset); margin: 0; background: transparent; border-bottom: 1px solid var(--line);
+}
+.adminPage .adminPanelHeading { flex-direction: column; gap: 8px; }
+.adminPage .adminPanelHeading p, .adminPage .policyHeading p { margin: 8px 0 0; font-size: var(--type-body); }
+.adminPage .adminPanelHeading p { margin: 0; }
+.adminPage .policyHeading > span { font: 400 var(--type-help)/1.5 var(--font-ui); white-space: nowrap; padding-top: 4px; }
+.adminPage .captureRules > [data-slot="card-content"], .adminPage .reviewPolicy > [data-slot="card-content"] { padding: var(--admin-inset); }
+.adminPage .draftFlowIntro h3, .adminPage .captureRulesPreview h3 { font-size: var(--type-subsection); font-weight: 600; }
+.adminPage .draftFlowIntro { gap: 8px; }
+.adminPage .captureDraftFlow { gap: 20px; margin-bottom: 28px; padding-bottom: 28px; }
+.adminPage .promptCopyFeedback { font-size: var(--type-help); }
+.adminPage .capturePreviewDescription { margin: 8px 0 24px; }
+.adminPage .captureRulesPreview h4 { margin: 24px 0 8px; }
+.adminPage .captureRulesPreview ul { margin: 0; padding-left: 20px; font-size: var(--type-body); line-height: 1.6; }
+.adminPage .captureRulesPreview li + li { margin-top: 4px; }
+.adminPage [data-slot="collapsible-trigger"] { padding-inline: 0; font-size: var(--type-label); font-weight: 500; color: var(--accent); }
+.adminPage [data-slot="collapsible-content"] > label + label { margin-top: 20px; }
+.adminPage .policyFooter { margin-top: 4px; padding-top: 24px; border-top: 1px solid var(--line); gap: 24px; }
+.adminPage .policyFooter small { max-width: 55ch; overflow-wrap: anywhere; }
+.adminPage .policyFooter > button { flex-shrink: 0; min-height: 44px; }
+.adminPage .reviewPolicy fieldset { min-width: 0; border: 0; padding: 0 0 28px; margin: 0; display: flow-root; }
+.adminPage .reviewPolicy legend { float: left; width: 100%; padding: 0; margin: 0 0 12px; }
+.adminPage .reviewPolicy legend + * { clear: both; }
+.adminPage .reviewPolicy fieldset + fieldset, .adminPage .modelAdviceConfiguration { padding-top: 28px; border-top: 1px solid var(--line); }
+.adminPage .reviewPolicy .approvalRequirement { padding-top: 28px !important; border-top: 1px solid var(--line) !important; }
+.adminPage .verificationModelMode > label { margin-top: 20px; }
+.adminPage .verificationEvidence p { margin-bottom: 8px; }
+.adminPage .setupStatus { font: 500 var(--type-help)/1.5 var(--font-ui); color: var(--ink-2); }
+.adminPage .policyFields.three { grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0 0 24px; }
+.adminPage .providerCredential { grid-template-columns: repeat(2,minmax(0,1fr)); padding: 0; border: 0; gap: 16px 24px; align-items: start; }
+.adminPage .providerCredential > p:first-of-type { padding-top: 29px; }
+.adminPage .providerCredential > p[role="note"] { grid-column: 1 / -1; }
+.adminPage .providerCredential p, .adminPage .policyHint { font-size: var(--type-help); }
+.adminPage .policyCheck { align-items: flex-start; font-size: var(--type-label); font-weight: 400; line-height: 1.6; }
+.adminPage .policyCheck [role="checkbox"] { flex-shrink: 0; margin-top: 2px; }
+.adminPage .criteriaDraftFlow { gap: 20px; }
+.adminPage .criteriaDraftFlow h3 { font-size: var(--type-body); }
+.adminPage .approvalChoices label { padding: 16px; align-items: flex-start; }
+.adminPage .approvalChoices b { font-size: var(--type-label); font-weight: 600; }
+.adminPage .approvalChoices small { font-size: var(--type-help); }
+.adminPage .issueForm { padding: var(--admin-inset); gap: 24px; }
+.adminPage .issueFormHeader small { margin-top: 8px; font-size: var(--type-body); max-width: 70ch; line-height: 1.6; }
+.adminPage .issueFormFields { grid-template-columns: repeat(2,minmax(0,1fr)) auto; align-items: start; }
+.adminPage .issueFormFields label { grid-template-rows: 21px 48px auto; gap: 8px; }
+.adminPage .issueFormFields > button { margin-top: 29px; min-height: 48px; }
+.adminPage .issueReviewerButton { background: var(--accent); }
+.adminPage .issueReviewerButton:hover:not(:disabled) { background: var(--accent-strong); }
+.adminPage .credentialList { border-radius: var(--radius-panel); }
+.adminPage .credentialList > div { padding: 22px var(--admin-inset); }
+.adminPage .policyError { padding: 24px var(--admin-inset) 0; }
+@media (max-width: 1100px) {
+ .adminPage .issueFormFields { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .adminPage .issueFormFields > button { grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
+}
+@media (max-width: 700px) {
+ .adminPage { --admin-inset: 20px; }
+ .adminPage .policyHeading { flex-wrap: wrap; gap: 8px; }
+ .adminPage .policyHeading > span { padding: 0; }
+ .adminPage .policyFields.three, .adminPage .providerCredential, .adminPage .issueFormFields { grid-template-columns: minmax(0,1fr); }
+ .adminPage .providerCredential > p:first-of-type { padding-top: 0; }
+ .adminPage .issueFormFields > button { width: 100%; }
+ .adminPage .issueFormFields label { grid-template-rows: auto 48px auto; }
+ .adminPage [data-slot="input"], .adminPage [data-slot="native-select"], .adminPage [data-slot="textarea"] { font-size: 16px; }
+ .adminPage .credentialList > div, .adminPage .credentialList > div:not(:has(.credentialActions)) { grid-template-columns: 32px minmax(0,1fr) auto; gap: 12px; }
+ .adminPage .credentialActions { grid-column: 2 / -1; justify-content: flex-start; }
+ .adminPage .credentialIcon { width: 32px; height: 32px; }
+}
+
+/* Simple settings: edit the actual content, then save once. */
+.adminPage .simplePromptRow { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.adminPage .simplePromptRow p { margin: 0; color: var(--ink-2); }
+.adminPage .simplePromptRow > button { flex-shrink: 0; min-width: 130px; }
+.adminPage .simpleCopyStatus { min-height: 20px; color: var(--accent); font: 400 var(--type-help)/1.5 var(--font-ui); }
+.adminPage .captureRulesSimple form { gap: 20px; }
+.adminPage .captureRulesSimple .simpleCopyStatus { margin-top: -12px; margin-bottom: -8px; }
+.adminPage .captureRulesSimple .captureRulesEditor { min-height: 330px; line-height: 1.7; }
+.adminPage .simpleCriteria .simpleCopyStatus { margin: 8px 0 12px; }
+.adminPage .simpleCriteria > textarea { min-height: 180px; }
+.adminPage .verificationModelMode > label { margin-top: 0; }
+.adminPage .optionalLabel { margin-left: 8px; color: var(--ink-2); font: 400 var(--type-help)/1.5 var(--font-ui); }
+.adminPage .verificationAutomatic { margin: 0 0 24px; border-top: 1px solid var(--line); }
+.adminPage .autoAdmissionFieldset { padding-top: 12px; }
+@media(max-width:700px) {
+ .adminPage .simplePromptRow { flex-direction: column; align-items: flex-start; gap: 12px; }
+ .adminPage .captureRulesSimple .captureRulesEditor { min-height: 400px; }
+}
+
+.adminPage .modelConnection { margin-bottom: 28px; }
+.adminPage .modelConnection > [data-slot="collapsible-trigger"] { font-size: var(--type-subsection); color: var(--ink); font-weight: 600; padding-top: 0; }
+.adminPage .modelConnection fieldset { padding: 12px 0 0; }
+.adminPage .accessPermissions { margin-top: 16px; }
+.adminPage .accessPermissions p { color: var(--ink-2); }
+
+.uiSwitch { display: inline-flex; align-items: center; width: 44px; height: 26px; flex-shrink: 0; padding: 3px; border: 1px solid var(--control-border); border-radius: 999px; background: var(--ink-3); cursor: pointer; }
+.uiSwitch > span { width: 18px; height: 18px; border-radius: 50%; background: white; transition: transform 120ms ease; }
+.uiSwitch[aria-checked="true"] { background: var(--accent); border-color: var(--accent); }
+.uiSwitch[aria-checked="true"] > span { transform: translateX(18px); }
+.uiSwitch:disabled { opacity: .5; cursor: not-allowed; }
+.adminPage .llmCheckToggle { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 0 0 28px; }
+.adminPage .llmCheckToggle h3 { margin: 0 0 6px; }
+.adminPage .llmCheckToggle p { margin: 0; color: var(--ink-2); font-size: var(--type-label); }
+.markdownEditor { border: 1px solid var(--control-border); border-radius: var(--radius-control); overflow: hidden; min-width: 0; }
+.markdownEditorBar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.markdownEditorBar > div { display: flex; gap: 16px; }
+.adminPage .markdownEditorBar [data-slot="button"] { min-height: 32px; border-radius: 4px; background: transparent; padding: 4px 0; font-size: 13px; }
+.markdownEditorBar [aria-pressed="true"] { color: var(--accent); text-decoration: underline; text-underline-offset: 6px; }
+.adminPage .markdownEditor [data-slot="textarea"] { display: block; border: 0; border-radius: 0; min-height: 180px; box-shadow: none; }
+.adminPage .markdownEditor [data-slot="textarea"]:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.adminPage .captureRulesSimple .captureRulesEditor { min-height: 0; }
+.adminPage .captureRulesEditor [data-slot="textarea"], .captureRulesEditor .markdownPreview { min-height: 330px; }
+.markdownPreview { min-height: 180px; padding: 16px; overflow-wrap: anywhere; }
+.adminPage .markdownPreview h1, .adminPage .markdownPreview h2, .adminPage .markdownPreview h3 { font: 600 17px/1.5 var(--font-ui); margin: 24px 0 8px; }
+.adminPage .markdownPreview > :first-child { margin-top: 0; }
+.adminPage .markdownPreview p { margin: 8px 0 16px; }
+.markdownPreview ul, .markdownPreview ol { padding-left: 24px; list-style: revert; margin: 8px 0 16px; }
+.markdownPreview li { line-height: 1.7; }
+.markdownPreview pre { white-space: pre-wrap; }
+.markdownEmpty { color: var(--ink-2); }
+@media(prefers-reduced-motion:reduce) { .uiSwitch > span { transition: none; } }
+
+/* One issuance form; recipient determines permissions, not a separate workflow. */
+.adminPage .keyRecipientRow { display: grid; grid-template-columns: minmax(180px,260px) minmax(0,1fr); align-items: end; gap: 24px; }
+.adminPage .keyRecipientRow label { display: grid; gap: 8px; }
+.adminPage .keyRecipientRow p { margin: 0; padding-bottom: 4px; font-size: var(--type-label); color: var(--ink-2); }
+.adminPage .issuedKeysTitle { margin: 32px 0 16px; font-size: var(--type-subsection); }
+.adminPage .credentialList + .adminConnectionHelp { margin: 20px 0 0; }
+.adminPage .accessPermissions { margin-top: 0; }
+@media(max-width:700px) { .adminPage .keyRecipientRow { grid-template-columns: minmax(0,1fr); gap: 12px; } }
+
+.adminPage .aiChecksHeading { align-items: center; gap: 24px; }
+.adminPage .aiChecksHeading > div:first-child { max-width: 65ch; }
+.adminPage .aiChecksControl { display: flex; align-items: center; gap: 12px; flex-shrink: 0; font-size: var(--type-label); color: var(--ink-2); }
+.adminPage .aiChecksCompact .policyHeading { margin-bottom: 0; border-bottom: 0; }
+.adminPage .aiChecksCompact > [data-slot="card-content"] { display: none; }
+
+.adminPage .capturePromptRow { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+.adminPage .agentPrompt { width: 100%; margin: 0; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--wash); white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.7 var(--font-mono, monospace); }
+.adminPage .simplePromptRow h3 { margin: 0; }
+.adminPage .draftPasteHelp { margin: 0 0 16px; color: var(--ink-2); }
+.adminPage .providerConsentNotice { margin: 24px 0; color: var(--ink-2); line-height: 1.6; overflow-wrap: anywhere; }

@@ -319,6 +319,7 @@ function App() {
   const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [issuedCredential, setIssuedCredential] = React.useState<{token: string; kind: "agent" | "reviewer"; principal: string; label: string; rotated: boolean} | null>(null);
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  const [credentialsLoaded, setCredentialsLoaded] = React.useState(false);
   const [adminSection, setAdminSection] = React.useState(new URLSearchParams(location.search).get("section") || "access");
   const [credentialsError, setCredentialsError] = React.useState("");
   const [policyConfigured, setPolicyConfigured] = React.useState<boolean | null>(null);
@@ -337,16 +338,17 @@ function App() {
     return ()=>{ active=false;window.clearInterval(timer); };
   }, [receipt?.claim.id,receipt?.judge_job?.state]);
   React.useEffect(() => {
-    if (!canManageWorkspace || (page !== "admin" && policyConfigured !== false)) return;
+    if (!canManageWorkspace || (page !== "admin" && policyConfigured !== false && !(page === "home" && policyConfigured === true && !rows.length))) return;
     let active = true;
     setCredentialsError("");
     setCredentialsLoading(true);
+    setCredentialsLoaded(false);
     api("/v1/owner/credentials").then(body => {
-      if (active) setCredentials(body.credentials || []);
+      if (active) { setCredentials(body.credentials || []); setCredentialsLoaded(true); }
     }).catch(e => { if (active) setCredentialsError(e.message); })
       .finally(() => { if (active) setCredentialsLoading(false); });
     return () => { active = false; };
-  }, [page, reloadVersion, canManageWorkspace, policyConfigured]);
+  }, [page, reloadVersion, canManageWorkspace, policyConfigured, rows.length]);
   React.useEffect(() => {
     if (page !== "runs" || policyConfigured !== true) return;
     let active = true;
@@ -931,9 +933,9 @@ function App() {
     navigate("admin");
     try {
       const body = await api("/v1/owner/credentials");
-      setCredentials(body.credentials || []);
+      setCredentials(body.credentials || []); setCredentialsLoaded(true);
     } catch (e: any) {
-      setCredentialsError(e.message);
+      setCredentialsLoaded(false); setCredentialsError(e.message);
     }
   }
   async function credentialAction(
@@ -1031,7 +1033,7 @@ function App() {
           <strong>Proofpress</strong>
         </div>
         <nav aria-label="Workspace navigation">
-          {(Object.keys(labels) as Page[]).map((id) => {
+          {(["home", "review", "ledger", "activity", "admin"] as Page[]).map((id) => {
             if (id === "admin" && !canManageWorkspace) return null;
             const Icon = icons[id];
             return (
@@ -1099,17 +1101,19 @@ function App() {
         )}
         {governanceMessage && <Alert className="decisionNotice" role="status"><span>{governanceMessage}</span><Button variant="ghost" size="content" aria-label="Dismiss governance status" onClick={() => setGovernanceMessage("")}><X /></Button></Alert>}
         <section className="stage" id="workspace-content" tabIndex={-1}>
-          {policyConfigured === false && <WorkspaceSetup compact={page === "admin"}
+          {policyConfigured === false && page !== "admin" && <WorkspaceSetup
             canManage={canManageWorkspace}
             hasAgent={credentials.some(c => c.role === "agent" && !c.revoked_at)}
+            agentAccessReady={credentialsLoaded && !credentialsLoading && !credentialsError}
             onConnect={() => { openAdminSection("access"); }}
-            onPolicy={() => { openAdminSection("rules"); }}
+            onPolicy={() => { openAdminSection("models"); }}
           />}
           {page === "home" && policyConfigured === true && !loading && !error && !contextError && !rows.length && <WorkspaceSetup
             canManage={canManageWorkspace} policyConfigured
             hasAgent={credentials.some(c => c.role === "agent" && !c.revoked_at)}
+            agentAccessReady={credentialsLoaded && !credentialsLoading && !credentialsError}
             onConnect={() => openAdminSection("access")}
-            onPolicy={() => openAdminSection("rules")}
+            onPolicy={() => openAdminSection("models")}
             onRefresh={() => { void load(); }}
           />}
           {page === "home" && policyConfigured === true && (loading || rows.length > 0 || Boolean(error || contextError)) && (
@@ -1160,7 +1164,7 @@ function App() {
               judgeRunning={judgeRunning}
               onJudge={judgeConfigured ? () => void runJudge() : undefined}
               onEvaluate={runChecks}
-              onConfigurePolicy={canManageWorkspace ? () => openAdminSection("rules") : undefined}
+              onConfigurePolicy={canManageWorkspace ? () => openAdminSection("models") : undefined}
               onLedger={() => navigate("ledger")}
             />
           )}
@@ -1195,8 +1199,7 @@ function App() {
             <AdminPage
               section={adminSection}
               onSectionChange={openAdminSection}
-              policy={<ReviewPolicy section="review" csrf={csrf} api={api} onModels={() => openAdminSection("models")} onSaved={() => { void load(); }} />}
-              models={<ReviewPolicy section="models" csrf={csrf} api={api} onSaved={() => { void load(); }} />}
+              models={<ReviewPolicy localPreview={localOwnerPreview} csrf={csrf} api={api} onSaved={() => { void load(); }} />}
               capture={<CaptureRules csrf={csrf} api={api} />}
               credentials={credentials}
               loading={credentialsLoading}
@@ -1821,7 +1824,6 @@ function AdminPage({
   onSectionChange,
   models,
   capture,
-  policy,
   error,
   onReload,
   credentials,
@@ -1831,6 +1833,7 @@ function AdminPage({
   onAction,
   onDismissSecret,
 }: any) {
+  const [recipient, setRecipient] = React.useState<"agent" | "reviewer">("agent");
   const [principal, setPrincipal] = React.useState("");
   const [label, setLabel] = React.useState("");
   const [humanPrincipal, setHumanPrincipal] = React.useState("");
@@ -1849,45 +1852,36 @@ function AdminPage({
       const draft = JSON.parse(raw);
       setPrincipal(String(draft.principal_id || ""));
       setLabel(String(draft.label || ""));
+      setRecipient("agent");
       setAgentDraftLoaded(true);
     } finally {
       sessionStorage.removeItem("proofpress:agent-credential-draft");
     }
   }, []);
   return (
-    <div className="pageBody">
+    <div className="pageBody adminPage">
       <PageHead
         title="Admin"
-        description="Connect agents, choose knowledge rules, and manage your workspace."
+        description="Connect agents, define which findings they submit, and choose how findings are verified."
         action={null}
       />
-      <Tabs value={["access","rules","models","hosting"].includes(section) ? section : "access"} onValueChange={onSectionChange} className="adminSections">
+      <Tabs value={["access","rules","models"].includes(section) ? section : "access"} onValueChange={onSectionChange} className="adminSections">
         <TabsList aria-label="Admin sections" className="adminSectionTabs">
-          <TabsTrigger value="access">Connections & access</TabsTrigger>
+          <TabsTrigger value="access">API keys &amp; credentials</TabsTrigger>
           <TabsTrigger value="rules">Knowledge rules</TabsTrigger>
-          <TabsTrigger value="models">Model review</TabsTrigger>
-          <TabsTrigger value="hosting">Hosting & recovery</TabsTrigger>
+          <TabsTrigger value="models">Verification settings</TabsTrigger>
         </TabsList>
-        <TabsContent value="rules">{policy}{capture}</TabsContent>
+        <TabsContent value="rules">{capture}</TabsContent>
         <TabsContent value="models">{models}</TabsContent>
-        <TabsContent value="hosting"><Card><CardContent className="hostingGuidance">
-          <h2>Hosting & recovery</h2>
-          <p>Your workspace stores knowledge and settings on the server. Agents still need access to their source files and an execution schedule in their own environment.</p>
-          <a href="/readyz" target="_blank" rel="noreferrer">Check service readiness</a>
-          <h3>Backups and recovery</h3>
-          <p>Your hosting operator manages encrypted off-disk backups, restore tests and recovery-secret custody. A healthy service does not confirm backup or recovery readiness.</p>
-          <p>Keep encryption and recovery secrets in the operator’s secret store. These values are never shown here.</p>
-        </CardContent></Card></TabsContent>
         <TabsContent value="access" forceMount className="data-[state=inactive]:hidden">
-      <Disclosure className="adminConnectionHelp"><DisclosureTrigger>Connect an agent</DisclosureTrigger><DisclosureContent><AgentConnectionInstructions /></DisclosureContent></Disclosure>
       {error && <Alert role="alert"><span>{error}</span><Button variant="outline" onClick={onReload}>Reload credentials</Button></Alert>}
-      {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared credential" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
+      {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared API key" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
       {issuedCredential && (
         <div className={`secretReveal secretReveal--${issuedCredential.kind}`} ref={secretRef} tabIndex={-1} role="region" aria-label="New credential">
           <div>
-            <b>{issuedCredential.rotated ? "Agent credential rotated" : issuedCredential.kind === "reviewer" ? "Human Reviewer credential issued" : "Agent credential issued"}</b>
+            <b>{issuedCredential.rotated ? "Agent API key rotated" : issuedCredential.kind === "reviewer" ? "Reviewer API key issued" : "Agent API key issued"}</b>
             <p><strong>{issuedCredential.label}</strong> · {issuedCredential.principal}</p>
-            <p>Copy this credential now. It is shown once. {issuedCredential.kind === "reviewer"
+            <p>Copy this key now. It is shown once. {issuedCredential.kind === "reviewer"
               ? "Give it to this person through a secure channel."
               : "Keep it in this agent client's secure configuration."}</p>
             <code className="issuedCredentialToken">{issuedCredential.token}</code>
@@ -1895,78 +1889,53 @@ function AdminPage({
           <div>
             <Button variant="outline" onClick={async () => {
               try { await navigator.clipboard.writeText(issuedCredential.token); setCopyStatus("Copied"); }
-              catch { setCopyStatus("Copy failed. Select the credential and copy it manually."); }
+              catch { setCopyStatus("Copy failed. Select the key and copy it manually."); }
             }}>Copy</Button>
             <Button variant="ghost" onClick={onDismissSecret}>Done</Button>
           </div>
           {copyStatus && <p role="status">{copyStatus}</p>}
-          {issuedCredential.kind === "agent" && <AgentConnectionInstructions />}
+          {issuedCredential.kind === "agent" ? <AgentConnectionInstructions /> : <p>This person signs in to this workspace with the key. It grants Reviewer access, not Owner access.</p>}
         </div>
       )}
-      <form
-        id="agent-access" className="issueForm issueForm--agent"
-        onSubmit={async (event) => {
-          event.preventDefault();
-          if (await onAction("issue", { principal_id: principal, label })) {
-            setPrincipal("");
-            setLabel("");
-            setAgentDraftLoaded(false);
-          }
-        }}
-      >
-        <div className="issueFormHeader">
-          <span className="issueFormKind">Agent / device</span>
-          <b>Issue agent credential</b>
-          <small>
-            Create a key for an agent or device. You can revoke its access later.
-          </small>
-        </div>
-        <div className="issueFormFields">
-          <Label>Agent identity<Input
-            aria-label="Agent identity"
-            aria-describedby="agentIdentityHelp"
-            value={principal}
-            onChange={(e) => setPrincipal(e.target.value)}
-            disabled={busy || Boolean(issuedCredential)}
-            placeholder="agent:claude-code"
-            required
-          /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></Label>
-          <Label>Key name<Input
-            aria-label="Key name"
-            aria-describedby="keyNameHelp"
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
-            disabled={busy || Boolean(issuedCredential)}
-            placeholder="Claude Code · company laptop"
-            required
-          /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></Label>
-          <Button disabled={busy || Boolean(issuedCredential)}>Issue agent credential</Button>
-        </div>
-      </form>
-      <form className="issueForm issueForm--reviewer" onSubmit={async (event) => {
+      <form id="agent-access" className="issueForm issueKeyForm" onSubmit={async event=>{
         event.preventDefault();
-        if (await onAction("issue_reviewer", { principal_id: humanPrincipal, label: humanLabel })) {
-          setHumanPrincipal("");
-          setHumanLabel("");
+        const isAgent = recipient === "agent";
+        if (await onAction(isAgent ? "issue" : "issue_reviewer", {
+          principal_id:isAgent ? principal : humanPrincipal,
+          label:isAgent ? label : humanLabel,
+        })) {
+          if (isAgent) { setPrincipal(""); setLabel(""); setAgentDraftLoaded(false); }
+          else { setHumanPrincipal(""); setHumanLabel(""); }
         }
       }}>
-        <div className="issueFormHeader">
-          <span className="issueFormKind">Human access</span>
-          <b>Issue human Reviewer credential</b>
-          <small>This person can view and review findings. Policy and credential management stay with the workspace Owner.</small>
+        <div className="issueFormHeader"><h2>Issue an API key</h2><small>Give an agent or a person access to this workspace.</small></div>
+        <div className="keyRecipientRow">
+          <Label>Key for<NativeSelect aria-label="Key for" value={recipient} disabled={busy || Boolean(issuedCredential)} onChange={e=>setRecipient(e.target.value as "agent" | "reviewer")}>
+            <option value="agent">Agent</option><option value="reviewer">Person · Reviewer</option>
+          </NativeSelect></Label>
+          <p role="status">{recipient === "agent" ? "Can submit findings and read approved knowledge. Cannot approve findings or change settings." : "Can view and review findings. Cannot manage settings or other keys."}</p>
         </div>
         <div className="issueFormFields">
-          <Label>Human identity<Input aria-label="Human identity" value={humanPrincipal}
+          <Label>{recipient === "agent" ? "Agent identity" : "Person identity"}<Input
+            aria-label={recipient === "agent" ? "Agent identity" : "Person identity"}
+            aria-describedby="keyIdentityHelp"
+            value={recipient === "agent" ? principal : humanPrincipal}
+            onChange={e=>recipient === "agent" ? setPrincipal(e.target.value) : setHumanPrincipal(e.target.value)}
             disabled={busy || Boolean(issuedCredential)}
-            onChange={(e) => setHumanPrincipal(e.target.value)} placeholder="human:oliver" required /></Label>
-          <Label>Key name<Input aria-label="Human key name" value={humanLabel}
+            placeholder={recipient === "agent" ? "agent:codex" : "human:oliver"} required
+          /><small id="keyIdentityHelp">Recorded in the history of their actions.</small></Label>
+          <Label>Key name<Input aria-label="Key name" aria-describedby="keyNameHelp"
+            value={recipient === "agent" ? label : humanLabel}
+            onChange={e=>recipient === "agent" ? setLabel(e.target.value) : setHumanLabel(e.target.value)}
             disabled={busy || Boolean(issuedCredential)}
-            onChange={(e) => setHumanLabel(e.target.value)} placeholder="Oliver · personal laptop" required /></Label>
-          <Button className="issueReviewerButton" disabled={busy || Boolean(issuedCredential)}>Issue Reviewer credential</Button>
+            placeholder={recipient === "agent" ? "Codex · work laptop" : "Oliver · work laptop"} required
+          /><small id="keyNameHelp">A name that helps you recognize this key.</small></Label>
+          <Button disabled={busy || Boolean(issuedCredential)}>{busy ? "Working…" : "Issue API key"}</Button>
         </div>
       </form>
+      <h2 className="issuedKeysTitle">Issued keys</h2>
       <div className="credentialList" aria-busy={loading}>
-        {loading && !credentials.length && <p className="empty" role="status">Loading credentials…</p>}
+        {loading && !credentials.length && <p className="empty" role="status">Loading keys…</p>}
         {credentials.map((c: any) => (
           <div key={c.credential_id}>
             <div className="credentialIcon">
@@ -1974,7 +1943,7 @@ function AdminPage({
             </div>
             <div>
               <b>{c.label || c.principal_id}</b>
-              <small>{c.principal_id} · {c.role === "owner" ? "Human Owner" : c.role === "reviewer" ? "Human Reviewer" : "Agent"}</small>
+              <small>{c.principal_id} · {c.role === "owner" ? "Owner" : c.role === "reviewer" ? "Reviewer" : "Agent"}</small>
             </div>
             <Badge state={c.revoked_at ? "revoked" : "active"} />
             {!c.revoked_at && c.role === "agent" ? (
@@ -2009,17 +1978,14 @@ function AdminPage({
           </div>
         ))}
       </div>
-      <div className="boundary">
-        <ShieldCheck />
-        <div>
-          <b>Authority boundary</b>
+      <Disclosure className="adminConnectionHelp"><DisclosureTrigger>Connect an agent</DisclosureTrigger><DisclosureContent><AgentConnectionInstructions /></DisclosureContent></Disclosure>
+      <Disclosure className="accessPermissions"><DisclosureTrigger>Who can do what?</DisclosureTrigger><DisclosureContent>
           <p>
             Human Reviewers can review findings under their own identities.
             Workspace Owners administer policy and credentials. Agent credentials can submit evidence, propose
             claims, and read admitted context; they cannot approve claims or change policy.
           </p>
-        </div>
-      </div>
+      </DisclosureContent></Disclosure>
       </TabsContent></Tabs>
     </div>
   );

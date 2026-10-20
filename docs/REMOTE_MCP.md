@@ -37,9 +37,9 @@ the workspace's versioned guidance through `proofpress_get_capture_policy` at
 run start. Existing clients need the updated skill to pick up this behavior;
 an MCP connection alone does not make an older skill read new configuration.
 
-Admin separates **Connections & access**, **Knowledge rules**, **Model review**
-and **Hosting & recovery**. Knowledge rules cover both what agents should
-capture and the separate owner-controlled review gate. Capture rules guide
+Admin separates **API keys & credentials**, **Knowledge rules** and **Verification settings**. Knowledge rules only guide what agents should capture. Verification settings
+contain required evidence checks, optional model advice, and the separate
+owner-controlled approval gate. Capture rules guide
 proposal selection; they do not authorize admission. The review gate still
 requires an explicit owner choice before governed work begins. Model advice
 and external processing are optional.
