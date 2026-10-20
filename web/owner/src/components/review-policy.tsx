@@ -41,6 +41,10 @@ export function ensureProviderDefault(settings: any, providers: any) {
   return {...settings, model:defaultModel};
 }
 
+export function humanReviewSettings(settings: any) {
+  return {...settings, mode:"off", require_judge:false, external_consent:false, auto_admit_new_claims:false};
+}
+
 export function ReviewPolicy({csrf, api, onSaved}: any) {
   const [record, setRecord] = React.useState<any>(null);
   const [settings, setSettings] = React.useState<any>(null);
@@ -51,17 +55,19 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
   const [error, setError] = React.useState("");
   const [draft, setDraft] = React.useState("");
   const [copied, setCopied] = React.useState(false);
+  const [advanced, setAdvanced] = React.useState(false);
   const load = React.useCallback(async () => {
     try {
       const row = await api("/owner/api/review-policy");
       setRecord(row);
-      const initial = row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true, auto_admit_new_claims:false} : row.settings;
+      const initial = row.version === 0 ? humanReviewSettings(row.settings) : row.settings;
       const base = ensureProviderDefault(initial, row.providers);
       const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
       if (prepared) {
         const parsed = JSON.parse(prepared);
         try {
           setSettings(mergeAgentPolicyDraft(base, parsed));
+          setAdvanced(true);
           setMessage("Agent-prepared policy loaded. Review every field before activating it.");
           sessionStorage.removeItem("proofpress:review-policy-draft");
         } catch { setSettings(base); }
@@ -72,14 +78,18 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
   }, [api]);
   React.useEffect(() => { void load(); }, [load]);
   const change = (key:string, value:any) => { setSettings({...settings, [key]:value}); setMessage(""); };
-  async function save(e:React.FormEvent) {
-    e.preventDefault(); setBusy(true); setError(""); setMessage("");
+  async function activate(nextSettings: any, useProviderInput = true) {
+    setBusy(true); setError(""); setMessage("");
     try {
-      const row = await api("/owner/api/review-policy", {method:"POST", body:JSON.stringify({csrf, expected_version:record.version, settings, api_key:apiKey || undefined, delete_key:removeKey})});
+      const row = await api("/owner/api/review-policy", {method:"POST", body:JSON.stringify({csrf, expected_version:record.version, settings:nextSettings, api_key:useProviderInput ? apiKey || undefined : undefined, delete_key:useProviderInput && removeKey})});
       setRecord(row); setSettings(row.settings); setApiKey(""); setRemoveKey(false);
       setMessage(`Policy v${row.version} is active`); onSaved();
     } catch (e:any) { setError(e.message); }
     finally { setBusy(false); }
+  }
+  async function save(e:React.FormEvent) {
+    e.preventDefault();
+    await activate(settings);
   }
   async function copyPrompt() {
     try { await navigator.clipboard.writeText(record.authoring_prompt); setCopied(true); }
@@ -92,14 +102,21 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       setDraft(""); setError(""); setMessage("Agent-authored policy loaded for review. Save to activate it.");
     } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
-  const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
+  const changed = record && settings && (record.version === 0 || JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
   const hasProviderCredential = Boolean(record?.credential?.configured && !removeKey) || Boolean(apiKey.trim());
   const selectedProvider = record?.providers?.[settings?.provider];
   const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
-  return <Card className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
-    <CardHeader className="policyHeading"><div><CardTitle id="reviewPolicyTitle">Review policy</CardTitle><CardDescription>Set the approval gate first. Provider and evaluation details follow.</CardDescription></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</CardHeader>
+  return <Card id="review-policy-setup" className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
+    <CardHeader className="policyHeading"><div><CardTitle id="reviewPolicyTitle">Review policy</CardTitle><CardDescription>Choose who reviews findings. Model review is optional.</CardDescription></div>{record?.version > 0 && <span>Policy v{record.version}</span>}</CardHeader>
     {error && <div className="policyError" role="alert">{error} <Button variant="outline" onClick={load}>Reload</Button></div>}
-    {!settings ? <CardContent><p role="status">Loading policy…</p></CardContent> : <CardContent><form onSubmit={save}>
+    {!settings ? <CardContent><p role="status">Loading policy…</p></CardContent> : <CardContent>
+      {record.version === 0 && <section className="policyQuickStart" aria-labelledby="human-review-title">
+        <h2 id="human-review-title">Start with human review</h2>
+        <p>You review each finding before it can be reused. Evidence checks still apply. You can add model advice later.</p>
+        <Button disabled={busy || !csrf} onClick={() => void activate(humanReviewSettings(record.settings), false)}>{busy ? "Activating…" : "Use human review"}</Button>
+      </section>}
+      {record.version === 0 && <Button variant="ghost" aria-expanded={advanced} onClick={() => setAdvanced(!advanced)}>{advanced ? "Hide model and advanced settings" : "Configure model and advanced settings"}</Button>}
+      <form onSubmit={save} hidden={record.version === 0 && !advanced}>
       <fieldset className="approvalRequirement"><legend>Approval gate</legend>
         <RadioGroup className="approvalChoices" value={settings.require_judge ? "required" : "advisory"} onValueChange={value=>setSettings({...settings,require_judge:value==="required",auto_admit_new_claims:value==="required"?settings.auto_admit_new_claims:false})}>
           <Label className={!settings.require_judge ? "selected" : ""}><RadioGroupItem value="advisory"/><span><b>Human decision anytime</b><small>Model advice informs the review but does not block Approve.</small></span></Label>
@@ -142,7 +159,8 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
         {settings.auto_admit_new_claims ? <div className="policyWarning autoAdmissionWarning" role="note"><strong>Automatic approval will take effect when you save.</strong><p>Scope: every new claim in this workspace, including high-risk claims. New claims enter approved knowledge when current checks pass, there is no unresolved conflict or invalid dependency, and the configured model recommends “Evidence supported.” Claims the model rejects, escalates, or cannot review stay for your decision. Qualifying claims will not receive per-claim human approval. Model recommendations are not calibrated probabilities.</p></div> : <p className="policyHint">Off by default. To enable it, run model review automatically, require supporting advice, add criteria, provide a valid API key, and allow provider processing.</p>}
       </fieldset>
       <div className="policyFooter"><small>{record.version ? `Changed by ${record.actor} · ${record.policy_digest.slice(0,18)}…` : "Using deployment defaults"}</small><Button disabled={busy || !changed}>{busy?"Saving…":settings.auto_admit_new_claims?"Save & enable automatic approval":"Save & activate"}</Button></div>
+      </form>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}
-    </form></CardContent>}
+    </CardContent>}
   </Card>;
 }

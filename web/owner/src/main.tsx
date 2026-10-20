@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { ActivityResult } from "@/components/activity-result";
+import { WorkspaceSetup, AgentConnectionInstructions } from "@/components/workspace-setup";
+import "./components/workspace-setup.css";
 import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -316,6 +318,8 @@ function App() {
   const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [issuedCredential, setIssuedCredential] = React.useState<{token: string; kind: "agent" | "reviewer"; principal: string; label: string; rotated: boolean} | null>(null);
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  const [credentialsError, setCredentialsError] = React.useState("");
+  const [policyConfigured, setPolicyConfigured] = React.useState<boolean | null>(null);
   React.useEffect(() => () => {
     if (rejectTimeout.current !== null) window.clearTimeout(rejectTimeout.current);
     if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
@@ -331,30 +335,32 @@ function App() {
     return ()=>{ active=false;window.clearInterval(timer); };
   }, [receipt?.claim.id,receipt?.judge_job?.state]);
   React.useEffect(() => {
-    if (page !== "admin") return;
+    if (!canManageWorkspace || (page !== "admin" && policyConfigured !== false)) return;
     let active = true;
+    setCredentialsError("");
     setCredentialsLoading(true);
     api("/v1/owner/credentials").then(body => {
       if (active) setCredentials(body.credentials || []);
-    }).catch(e => { if (active) setError(e.message); })
+    }).catch(e => { if (active) setCredentialsError(e.message); })
       .finally(() => { if (active) setCredentialsLoading(false); });
     return () => { active = false; };
-  }, [page, reloadVersion]);
+  }, [page, reloadVersion, canManageWorkspace, policyConfigured]);
   React.useEffect(() => {
-    if (page !== "runs") return;
+    if (page !== "runs" || policyConfigured !== true) return;
     let active = true;
     setRunsLoading(true);
     api("/owner/api/runs").then(body => { if (active) setRuns(body.runs || []); })
       .catch(e => { if (active) setError(`Runs could not load: ${e.message}`); })
       .finally(() => { if (active) setRunsLoading(false); });
     return () => { active = false; };
-  }, [page, reloadVersion]);
+  }, [page, reloadVersion, policyConfigured]);
   React.useEffect(() => {
+    if (policyConfigured !== true) return;
     let active = true;
     api("/owner/api/activity").then(audit => { if (active) setActivity(audit); })
       .catch(e => { if (active) setError(`Activity could not load: ${e.message}`); });
     return () => { active = false; };
-  }, [page, reloadVersion]);
+  }, [page, reloadVersion, policyConfigured]);
   const load = React.useCallback(async (selectionOverride?: string | null) => {
     const targetSelection = selectionOverride === undefined ? selected : selectionOverride;
     const request = ++selectionRequest.current;
@@ -363,16 +369,8 @@ function App() {
     setDetailError("");
     setReceipt(null);
     try {
-      const [graph, session] = await Promise.all([
-        api("/owner/api/graph"),
-        api("/owner/api/session"),
-      ]);
-      const next = (graph.nodes || []).filter(
-        (n: NodeRow) => n.type === "claim",
-      );
-      setRows(next);
-      setGraphNodes(graph.nodes || []);
-      setEdges(graph.edges || []);
+      const session = await api("/owner/api/session");
+      if (request !== selectionRequest.current) return;
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setCanManageWorkspace(Boolean(session.capabilities?.credential_admin));
       setCurrentPrincipal(session.principal || "");
@@ -380,6 +378,16 @@ function App() {
       setWorkspaceLabel(session.workspace || "Owner workspace");
       setLocalOwnerPreview(Boolean(session.local_owner_preview));
       setCsrf(session.csrf);
+      const configured = session.review_policy_configured !== false;
+      setPolicyConfigured(configured);
+      if (!configured) {
+        setRows([]); setGraphNodes([]); setEdges([]); setSelected(null);
+        return;
+      }
+      const graph = await api("/owner/api/graph");
+      if (request !== selectionRequest.current) return;
+      const next = (graph.nodes || []).filter((n: NodeRow) => n.type === "claim");
+      setRows(next); setGraphNodes(graph.nodes || []); setEdges(graph.edges || []);
       const selectedExists = Boolean(targetSelection && next.some((n: NodeRow) => n.id === targetSelection));
       const desired = targetSelection
         ? selectedExists ? targetSelection : null
@@ -397,10 +405,15 @@ function App() {
         }
       }
     } catch (e: any) {
+      if (request !== selectionRequest.current) return;
+      if (e.code === "workspace_policy_missing") {
+        setPolicyConfigured(false); setRows([]); setGraphNodes([]); setEdges([]);
+        return;
+      }
       if (targetSelection) setDetailError(e.message);
       else setError(e.message);
     } finally {
-      setLoading(false);
+      if (request === selectionRequest.current) setLoading(false);
     }
   }, [selected]);
   const refreshHome = React.useCallback(async () => {
@@ -418,14 +431,21 @@ function App() {
     setStagedContext([]);
     setContextLoading(true);
     setContextError("");
+    if (policyConfigured !== true) {
+      setContextRelations([]); setContextBlocked([]); setContextLoading(false);
+      return;
+    }
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
       if (active) { setContextRelations(context.relations || []); setContextBlocked(context.blocked || []); setStagedContext(context.staged_context || []); setEligible((context.governed_context || []).map((row: any) => ({
         ...row, label: row.statement, type: "claim", state: "admitted",
       }))); }
-    }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
+    }).catch(e => { if (active) {
+      if (e.code === "workspace_policy_missing") setPolicyConfigured(false);
+      else { setContextError(e.message); setError(e.message); }
+    } })
       .finally(() => { if (active) setContextLoading(false); });
     return () => { active = false; };
-  }, [scope, rows, reloadVersion]);
+  }, [scope, rows, reloadVersion, policyConfigured]);
   React.useEffect(() => {
     const ctx =
       (document as any).modelContext || (navigator as any).modelContext;
@@ -903,8 +923,7 @@ function App() {
       const body = await api("/v1/owner/credentials");
       setCredentials(body.credentials || []);
     } catch (e: any) {
-      setCredentials([]);
-      setError(e.message);
+      setCredentialsError(e.message);
     }
   }
   async function credentialAction(
@@ -915,14 +934,13 @@ function App() {
       action === "revoke" ? "Revoke this credential? Its access and active browser sessions will stop immediately." : "Rotate this agent credential? The old credential will stop working."
     )) return false;
     setBusy(true);
-    setError("");
+    setCredentialsError("");
     try {
       const result = await api("/v1/owner/credentials", {
         method: "POST",
         body: JSON.stringify({ action, csrf, ...values }),
       });
       if (action !== "revoke" && !result.token) throw new Error("The credential was changed, but its one-time secret was not returned. Revoke it before issuing another.");
-      await showAdmin();
       if (result.token) {
         const existing = action === "rotate" ? credentials.find(c => c.credential_id === values.credential_id) : null;
         setIssuedCredential({
@@ -933,9 +951,11 @@ function App() {
           rotated: action === "rotate",
         });
       }
+      // Preserve the one-time result before any independent list refresh.
+      void showAdmin();
       return true;
     } catch (e: any) {
-      setError(e.message);
+      setCredentialsError(e.message);
       return false;
     } finally {
       setBusy(false);
@@ -1069,7 +1089,20 @@ function App() {
         )}
         {governanceMessage && <Alert className="decisionNotice" role="status"><span>{governanceMessage}</span><Button variant="ghost" size="content" aria-label="Dismiss governance status" onClick={() => setGovernanceMessage("")}><X /></Button></Alert>}
         <section className="stage" id="workspace-content" tabIndex={-1}>
-          {page === "home" && (
+          {policyConfigured === false && <WorkspaceSetup compact={page === "admin"}
+            canManage={canManageWorkspace}
+            hasAgent={credentials.some(c => c.role === "agent" && !c.revoked_at)}
+            onConnect={() => { navigate("admin"); requestAnimationFrame(() => document.getElementById("agent-access")?.scrollIntoView({block:"start"})); }}
+            onPolicy={() => { navigate("admin"); requestAnimationFrame(() => document.getElementById("review-policy-setup")?.scrollIntoView({block:"start"})); }}
+          />}
+          {page === "home" && policyConfigured === true && !loading && !error && !contextError && !rows.length && <WorkspaceSetup
+            canManage={canManageWorkspace} policyConfigured
+            hasAgent={credentials.some(c => c.role === "agent" && !c.revoked_at)}
+            onConnect={() => navigate("admin")}
+            onPolicy={() => navigate("admin")}
+            onRefresh={() => { void load(); }}
+          />}
+          {page === "home" && policyConfigured === true && (loading || rows.length > 0 || Boolean(error || contextError)) && (
             <HomePage
               pending={reviewAttentionCount}
               admitted={admitted}
@@ -1092,7 +1125,7 @@ function App() {
               onRefresh={refreshHome}
             />
           )}
-          {page === "review" && (
+          {page === "review" && policyConfigured === true && (
             <ReviewPage
               rows={rows}
               fullReview={fullReview}
@@ -1121,7 +1154,7 @@ function App() {
               onLedger={() => navigate("ledger")}
             />
           )}
-          {page === "ledger" && (
+          {page === "ledger" && policyConfigured === true && (
             <LedgerPage
               rows={eligible}
               allRows={rows}
@@ -1140,19 +1173,21 @@ function App() {
               busy={busy}
             />
           )}
-          {page === "runs" && <RunsPage rows={runs} selected={selectedRun} loading={runsLoading}
+          {page === "runs" && policyConfigured === true && <RunsPage rows={runs} selected={selectedRun} loading={runsLoading}
             onChoose={async (id: string) => {
               setRunsLoading(true);
               try { setSelectedRun(await api(`/owner/api/runs/${encodeURIComponent(id)}`)); }
               catch (e: any) { setError(`Run could not load: ${e.message}`); }
               finally { setRunsLoading(false); }
             }} onClose={() => setSelectedRun(null)} />}
-          {page === "activity" && <ActivityPage rows={activity} canViewLogs={canManageWorkspace} />}
+          {page === "activity" && policyConfigured === true && <ActivityPage rows={activity} canViewLogs={canManageWorkspace} />}
           {page === "admin" && canManageWorkspace && (
             <AdminPage
               policy={<ReviewPolicy csrf={csrf} api={api} onSaved={() => { void load(); }} />}
               credentials={credentials}
               loading={credentialsLoading}
+              error={credentialsError}
+              onReload={() => { setCredentialsError(""); void showAdmin(); }}
               issuedCredential={issuedCredential}
               busy={busy}
               onAction={credentialAction}
@@ -1769,6 +1804,8 @@ function ActivityPage({ rows, canViewLogs = true }: any) {
 }
 function AdminPage({
   policy,
+  error,
+  onReload,
   credentials,
   loading,
   issuedCredential,
@@ -1807,6 +1844,7 @@ function AdminPage({
         action={null}
       />
       {policy}
+      {error && <Alert role="alert"><span>{error}</span><Button variant="outline" onClick={onReload}>Reload credentials</Button></Alert>}
       {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared credential" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
       {issuedCredential && (
         <div className={`secretReveal secretReveal--${issuedCredential.kind}`} ref={secretRef} tabIndex={-1} role="region" aria-label="New credential">
@@ -1816,7 +1854,7 @@ function AdminPage({
             <p>Copy this credential now. It is shown once. {issuedCredential.kind === "reviewer"
               ? "Give it to this person through a secure channel."
               : "Keep it in this agent client's secure configuration."}</p>
-            <code>{issuedCredential.token}</code>
+            <code className="issuedCredentialToken">{issuedCredential.token}</code>
           </div>
           <div>
             <Button variant="outline" onClick={async () => {
@@ -1826,10 +1864,11 @@ function AdminPage({
             <Button variant="ghost" onClick={onDismissSecret}>Done</Button>
           </div>
           {copyStatus && <p role="status">{copyStatus}</p>}
+          {issuedCredential.kind === "agent" && <AgentConnectionInstructions />}
         </div>
       )}
       <form
-        className="issueForm issueForm--agent"
+        id="agent-access" className="issueForm issueForm--agent"
         onSubmit={async (event) => {
           event.preventDefault();
           if (await onAction("issue", { principal_id: principal, label })) {

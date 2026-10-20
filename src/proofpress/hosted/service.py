@@ -431,7 +431,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "workspace": (os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal")
                               if workspace_id == legacy_workspace else workspace_id),
                 "principal": session["context"].principal_id,
-                "role": session["context"].role, "capabilities": {
+                "role": session["context"].role,
+                "review_policy_configured": (configuration.get("error") or {}).get(
+                    "code") != "workspace_policy_missing", "capabilities": {
                     "review": True, "credential_admin": session["context"].role == "owner",
                     "withdraw": True, "reassess": True,
                     "assistant": (workspace_id == legacy_workspace and

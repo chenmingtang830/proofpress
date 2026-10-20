@@ -346,6 +346,33 @@ class HostedServiceTests(unittest.TestCase):
         context = successor.context(scope="web-review-test", actor="spoofed")
         self.assertEqual([row["id"] for row in context["governed_context"]], [claim_id])
 
+    def test_fresh_session_keeps_admin_access_before_policy_activation(self):
+        # A service restart cannot inherit the bootstrap process's legacy policy.
+        self.server.proofpress_control.legacy_default_workspace_id = None
+        self.service.enable_local_owner_preview(self.server, self.owner["token"])
+        with urlopen(self.base_url + "/admin") as response:
+            cookie = response.headers["Set-Cookie"].split(";", 1)[0]
+        status, session = self.owner_json("/owner/api/session", cookie)
+        self.assertEqual(status, 200)
+        self.assertFalse(session["result"]["review_policy_configured"])
+        self.assertTrue(session["result"]["capabilities"]["credential_admin"])
+        csrf = session["result"]["csrf"]
+        status, denied = self.owner_json("/owner/api/graph", cookie)
+        self.assertEqual(denied["error"]["code"], "workspace_policy_missing")
+        status, issued = self.owner_json("/v1/owner/credentials", cookie, {
+            "csrf": csrf, "action": "issue", "principal_id": "agent:fresh", "label": "Fresh client"})
+        self.assertEqual(status, 200)
+        self.assertTrue(issued["result"]["token"])
+        _, draft = self.owner_json("/owner/api/review-policy", cookie)
+        settings = {**draft["result"]["settings"], "mode": "off", "require_judge": False,
+                    "external_consent": False, "auto_admit_new_claims": False}
+        status, saved = self.owner_json("/owner/api/review-policy", cookie, {
+            "csrf": csrf, "expected_version": 0, "settings": settings})
+        self.assertEqual(status, 200)
+        self.assertEqual(saved["result"]["version"], 1)
+        _, active = self.owner_json("/owner/api/session", cookie)
+        self.assertTrue(active["result"]["review_policy_configured"])
+
     def test_local_owner_preview_skips_login_only_for_loopback_ui(self):
         self.service.enable_local_owner_preview(self.server, self.owner["token"])
         request = Request(self.base_url + "/home")
