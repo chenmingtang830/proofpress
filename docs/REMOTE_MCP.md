@@ -157,6 +157,17 @@ old browser page cannot repair a stopped callback listener. After the MCP client
 reports that it is connected, start a fresh agent conversation if the existing
 conversation still has a stale tool registry.
 
+### Automatic deterministic checks
+
+Hosted claim submission records deterministic checks before returning, even
+when LM review is manual or off. The proposal result includes `evaluation`;
+an execution failure is reported separately as `evaluation_error` without
+discarding the submitted candidate. Retries reuse current checks and recover
+a missing evaluation after an interrupted submission. These checks cover
+evidence integrity, source receipts and reuse boundaries; they do not establish
+that a prediction is correct. They neither call a model nor grant approval.
+Older candidates can still be checked or rechecked from Review.
+
 ### Readable source details
 
 After binding evidence to a claim, use the hosted

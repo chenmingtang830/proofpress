@@ -1529,6 +1529,28 @@ class HostedControlPlane:
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
         with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
             envelope = kernel_ops.execute_local_operation(normalized)
+            if envelope.get("ok") and operation == "claim.propose":
+                # Basic checks are local and independent of LM advice or admission.
+                # Reconcile on replay too: a process may have stopped after the
+                # proposal committed but before recording its first evaluation.
+                claim = envelope["result"]["claim"]
+                with store.transaction():
+                    evaluation = kernel_ops.v2_projection()["evaluations"].get(claim["id"])
+                    if not (evaluation and evaluation.get("claim_digest") == claim["digest"]
+                            and evaluation.get("policy_digest") == record["policy"]["digest"]):
+                        checked = kernel_ops.execute_local_operation({
+                            "schema_version": kernel_ops.LOCAL_OPERATION_SCHEMA,
+                            "operation": "claim.evaluate",
+                            "parameters": {"claim_id": claim["id"],
+                                           "actor": context.principal_id},
+                        })
+                        if checked["ok"]:
+                            evaluation = checked["result"]
+                        else:
+                            # The candidate already exists. Report a check failure
+                            # honestly without turning submission into a false failure.
+                            envelope["result"]["evaluation_error"] = checked["error"]
+                    envelope["result"]["evaluation"] = evaluation
             head = store.head()
             if (operation == "claim.judge" and not envelope.get("ok")
                     and envelope.get("error", {}).get("code") == "operation_rejected"):

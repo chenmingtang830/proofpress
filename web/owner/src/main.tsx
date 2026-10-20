@@ -1574,7 +1574,7 @@ function Inspector({
         {fullReview ? <div className="reviewRecordHeader"><span><ShieldCheck />Claim details</span><Badge state={r.state} /></div> : (can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <><h1 className="fullStatement">{claimTitle}</h1>{hasConciseHeading && <p className="claimFullStatement primaryClaimStatement">{r.claim.statement}</p>}</> : <h2>{claimTitle}</h2>}
-        {claimDescription && <p className="claimDescription">{claimDescription}</p>}
+        {claimDescription && claimDescription.trim() !== r.claim.statement.trim() && <p className="claimDescription">{claimDescription}</p>}
         {hasConciseHeading && !fullReview && (<Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
