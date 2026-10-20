@@ -1146,17 +1146,13 @@ td:last-child svg {
 .secretReveal--agent { border-color: #bfd5d8; background: var(--accent-soft); }
 .secretReveal--reviewer { border-color: #c6dfc9; background: var(--add-bg); }
 .secretReveal--reviewer:focus { outline-color: var(--add); }
-.secretReveal b {
-  font-size: var(--type-body);
-  font-weight: 600;
-}
 .secretReveal p {
   margin: 6px 0 14px;
   color: var(--ink-2);
   font-size: var(--type-meta);
   line-height: 1.5;
 }
-.secretReveal code {
+.secretReveal .issuedCredentialToken {
   display: block;
   max-width: 720px;
   overflow-wrap: anywhere;
@@ -1167,7 +1163,7 @@ td:last-child svg {
   color: var(--ink);
   font: 500 12px/1.5 var(--font-mono);
 }
-.secretReveal > div:last-child {
+.issuedCredentialCopyRow {
   display: flex;
   gap: 10px;
 }
@@ -1773,12 +1769,6 @@ td:last-child svg {
   }
   .issueForm > div:first-child { padding-top:0; }
   .issueForm > button { margin-top:0; }
-  .secretReveal {
-    display: block;
-  }
-  .secretReveal > div:last-child {
-    margin-top: 12px;
-  }
   .credentialActions {
     grid-column: 2 / -1;
     justify-content: flex-start;

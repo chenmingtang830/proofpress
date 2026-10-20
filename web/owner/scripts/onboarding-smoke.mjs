@@ -25,6 +25,36 @@ try {
   const page = await browser.newPage({viewport:{width:1440,height:1000}});
   page.setDefaultTimeout(12000);
   const errors=[]; page.on('pageerror', error => errors.push(error.message));
+  // Public setup must work before sign-in and must not initialize owner APIs.
+  const guide = await browser.newPage({viewport:{width:1440,height:1000}});
+  const ownerRequests=[];
+  guide.on('request', request=>{if(request.url().includes('/owner/api/')) ownerRequests.push(request.url());});
+  await guide.goto(`${base}/connect`);
+  await guide.getByRole('heading',{name:'Connect your agent',exact:true}).waitFor();
+  await guide.context().grantPermissions(['clipboard-read','clipboard-write']);
+  // Clipboard permission is granted explicitly before checking the copy result.
+  await guide.getByRole('button',{name:'Copy installation commands',exact:true}).click();
+  const install = await guide.evaluate(()=>navigator.clipboard.readText());
+  assert.match(install,/skill_root=\.agents\/skills\/proofpress-governed-context/);
+  for (const file of ['SKILL.md','assets/context-policy.yaml','assets/judge-criteria.md','scripts/initialize_policy.py']) assert.ok(install.includes(file));
+  for (const [client,directory] of [['claude','.claude'],['cursor','.cursor'],['codex','.agents']]) {
+    await guide.getByLabel('Your agent client',{exact:true}).selectOption(client);
+    assert.ok((await guide.locator('pre').first().textContent()).includes(`skill_root=${directory}/skills/`));
+    if (client==='cursor') {
+      const config=JSON.parse(await guide.locator('pre').nth(1).textContent());
+      assert.equal(config.mcpServers.proofpress.url,`${base}/mcp`);
+    }
+  }
+  for (const width of [1440,390]) {
+    await guide.setViewportSize({width,height:width===390?844:1000});
+    assert.equal(await guide.evaluate(()=>document.documentElement.scrollWidth),width,`Public setup has no overflow at ${width}`);
+    if (process.env.QA_SCREENSHOTS) {
+      await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+      await guide.screenshot({path:`${process.env.QA_SCREENSHOTS}/connect-guide-${width}.png`,fullPage:true});
+    }
+  }
+  assert.deepEqual(ownerRequests,[],'Public instructions never load private owner data');
+  await guide.close();
   await page.goto(`${base}/home`);
   await page.getByRole('heading',{name:'Bring your first finding into Proofpress'}).waitFor();
   assert.equal(await page.getByRole('alert').count(),0,'Fresh workspace is a setup state, not a failure');
@@ -50,9 +80,37 @@ try {
   assert.ok(await page.locator('.secretReveal .issuedCredentialToken').first().textContent(),'One-time token survives list refresh failure');
   await page.getByText('Synthetic credential list unavailable',{exact:true}).waitFor();
   assert.equal(await page.locator('.secretReveal .agentConnectionInstructions').count(),1);
+  // Inspect the issued state itself: the old last-child rule squeezed all
+  // connection content into adjacent columns, which disappeared after Done.
+  await page.context().grantPermissions(['clipboard-read','clipboard-write']);
+  await page.getByRole('button',{name:'Copy key',exact:true}).click();
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),await page.locator('.issuedCredentialToken').textContent());
+  await page.getByRole('region',{name:'New credential'}).getByRole('button',{name:'Skill installation commands',exact:true}).click();
+  await page.getByRole('region',{name:'New credential'}).getByRole('button',{name:'Copy installation commands',exact:true}).click();
+  assert.match(await page.evaluate(()=>navigator.clipboard.readText()),/skill_root=\.agents\/skills\/proofpress-governed-context/);
+  await page.getByRole('region',{name:'New credential'}).getByRole('button',{name:'Skill installation commands',exact:true}).click();
+  await page.getByRole('button',{name:'Copy commands',exact:true}).first().click();
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),`codex mcp add proofpress --url ${base}/mcp\ncodex mcp login proofpress`);
+  for (const width of [1440,1024,768,390]) {
+    await page.setViewportSize({width,height:width===390?844:1000});
+    const reveal = page.getByRole('region',{name:'New credential'});
+    const steps = reveal.locator('.connectionSteps > li');
+    assert.equal(await steps.first().evaluate(node=>getComputedStyle(node).listStyleType),'decimal','Connection order remains visible despite CSS resets');
+    const boxes = await Promise.all([0,1,2].map(index=>steps.nth(index).boundingBox()));
+    assert.ok(boxes[1].y>=boxes[0].y+boxes[0].height && boxes[2].y>=boxes[1].y+boxes[1].height,`Connection steps read vertically at ${width}`);
+    const code = reveal.locator('pre code:visible');
+    assert.equal(await code.evaluate(node=>getComputedStyle(node).whiteSpace),'pre','Commands preserve terminal lines');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,`Issued key has no page overflow at ${width}`);
+    if (process.env.QA_SCREENSHOTS) {
+      await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+      await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/issued-key-${width}.png`,fullPage:true});
+    }
+  }
+  await page.setViewportSize({width:1440,height:1000});
   await page.unroute('**/v1/owner/credentials');
   await page.unroute('**/owner/api/graph');
   await page.getByRole('button',{name:'Done',exact:true}).click();
+  assert.equal(await page.locator('.issuedCredentialToken').count(),0,'Done removes the one-time key from the DOM');
   await page.getByRole('button',{name:'Reload credentials',exact:true}).click();
   assert.equal(await page.getByRole('alert').count(),0);
   for (const width of [1440,390]) {

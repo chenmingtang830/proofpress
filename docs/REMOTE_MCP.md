@@ -112,9 +112,11 @@ criteria assess evidence support and never admit a claim by themselves. Owners
 may separately enable workspace-wide automatic admission for qualifying new
 claims; resulting system decisions remain distinct from human approval.
 
-Open `/connect` on the deployed Proofpress origin and copy the displayed MCP
-URL into a client that supports remote Streamable HTTP servers. The client
-discovers the authorization server and opens `/authorize` in a browser.
+Open `/connect` on the deployed Proofpress origin for the complete setup guide.
+Select Codex, Claude Code, or Cursor; install the project-level skill with the
+displayed commands, then add that workspace's MCP server. Admin also exposes
+the Codex skill installation commands inline after issuing an agent key.
+The client discovers the authorization server and opens `/authorize` in a browser.
 
 Paste the credential issued for that specific agent or device. Owner and
 recovery credentials are rejected. After authorization, the client receives a

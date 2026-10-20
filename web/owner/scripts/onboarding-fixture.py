@@ -1,6 +1,7 @@
 """Fresh, synthetic localhost workspace; no authority secrets leave this process."""
 import hashlib
 import json
+import os
 import tempfile
 import sys
 import threading
@@ -11,7 +12,8 @@ from proofpress.hosted import mcp_http
 from proofpress.hosted.service import create_hosted_server, enable_local_owner_preview
 
 with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
-    server = create_hosted_server(Path(directory) / "hosted.db", port=0)
+    server = create_hosted_server(Path(directory) / "hosted.db",
+                                  port=int(os.environ.get("PROOFPRESS_FIXTURE_PORT", "0")))
     control = server.proofpress_control
     owner = control.bootstrap("workspace:onboarding-test", "human:test-owner")
     # Match a restarted hosted process: no ambient legacy deployment policy.
