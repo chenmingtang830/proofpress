@@ -50,9 +50,33 @@ try {
   assert.ok(await page.locator('.secretReveal .issuedCredentialToken').first().textContent(),'One-time token survives list refresh failure');
   await page.getByText('Synthetic credential list unavailable',{exact:true}).waitFor();
   assert.equal(await page.locator('.secretReveal .agentConnectionInstructions').count(),1);
+  // Inspect the issued state itself: the old last-child rule squeezed all
+  // connection content into adjacent columns, which disappeared after Done.
+  await page.context().grantPermissions(['clipboard-read','clipboard-write']);
+  await page.getByRole('button',{name:'Copy key',exact:true}).click();
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),await page.locator('.issuedCredentialToken').textContent());
+  await page.getByRole('button',{name:'Copy commands',exact:true}).first().click();
+  assert.equal(await page.evaluate(()=>navigator.clipboard.readText()),`codex mcp add proofpress --url ${base}/mcp\ncodex mcp login proofpress`);
+  for (const width of [1440,1024,768,390]) {
+    await page.setViewportSize({width,height:width===390?844:1000});
+    const reveal = page.getByRole('region',{name:'New credential'});
+    const steps = reveal.locator('.connectionSteps > li');
+    assert.equal(await steps.first().evaluate(node=>getComputedStyle(node).listStyleType),'decimal','Connection order remains visible despite CSS resets');
+    const boxes = await Promise.all([0,1,2].map(index=>steps.nth(index).boundingBox()));
+    assert.ok(boxes[1].y>=boxes[0].y+boxes[0].height && boxes[2].y>=boxes[1].y+boxes[1].height,`Connection steps read vertically at ${width}`);
+    const code = reveal.locator('pre code');
+    assert.equal(await code.evaluate(node=>getComputedStyle(node).whiteSpace),'pre','Commands preserve terminal lines');
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,`Issued key has no page overflow at ${width}`);
+    if (process.env.QA_SCREENSHOTS) {
+      await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+      await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/issued-key-${width}.png`,fullPage:true});
+    }
+  }
+  await page.setViewportSize({width:1440,height:1000});
   await page.unroute('**/v1/owner/credentials');
   await page.unroute('**/owner/api/graph');
   await page.getByRole('button',{name:'Done',exact:true}).click();
+  assert.equal(await page.locator('.issuedCredentialToken').count(),0,'Done removes the one-time key from the DOM');
   await page.getByRole('button',{name:'Reload credentials',exact:true}).click();
   assert.equal(await page.getByRole('alert').count(),0);
   for (const width of [1440,390]) {

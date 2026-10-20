@@ -1878,23 +1878,26 @@ function AdminPage({
       {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared API key" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
       {issuedCredential && (
         <div className={`secretReveal secretReveal--${issuedCredential.kind}`} ref={secretRef} tabIndex={-1} role="region" aria-label="New credential">
-          <div>
-            <b>{issuedCredential.rotated ? "Agent API key rotated" : issuedCredential.kind === "reviewer" ? "Reviewer API key issued" : "Agent API key issued"}</b>
-            <p><strong>{issuedCredential.label}</strong> · {issuedCredential.principal}</p>
-            <p>Copy this key now. It is shown once. {issuedCredential.kind === "reviewer"
+          <header className="secretRevealHeader">
+            <h2>{issuedCredential.rotated ? "Agent API key rotated" : issuedCredential.kind === "reviewer" ? "Reviewer API key issued" : "Agent API key issued"}</h2>
+            <p className="issuedCredentialIdentity"><strong>{issuedCredential.label}</strong><span>{issuedCredential.principal}</span></p>
+          </header>
+          <div className="issuedCredentialSave">
+            <h3>Save your API key</h3>
+            <p>This key is shown only once. {issuedCredential.kind === "reviewer"
               ? "Give it to this person through a secure channel."
               : "Keep it in this agent client's secure configuration."}</p>
+            <div className="issuedCredentialCopyRow">
             <code className="issuedCredentialToken">{issuedCredential.token}</code>
-          </div>
-          <div>
-            <Button variant="outline" onClick={async () => {
+            <Button onClick={async () => {
               try { await navigator.clipboard.writeText(issuedCredential.token); setCopyStatus("Copied"); }
               catch { setCopyStatus("Copy failed. Select the key and copy it manually."); }
-            }}>Copy</Button>
-            <Button variant="ghost" onClick={onDismissSecret}>Done</Button>
+            }}>{copyStatus === "Copied" ? <><Check />Copied</> : "Copy key"}</Button>
+            </div>
+            {copyStatus && <p role="status">{copyStatus === "Copied" ? "API key copied. Store it securely before closing." : copyStatus}</p>}
           </div>
-          {copyStatus && <p role="status">{copyStatus}</p>}
           {issuedCredential.kind === "agent" ? <AgentConnectionInstructions /> : <p>This person signs in to this workspace with the key. It grants Reviewer access, not Owner access.</p>}
+          <footer className="secretRevealFooter"><p>Closing this panel hides the key permanently.</p><Button variant="outline" onClick={onDismissSecret}>Done</Button></footer>
         </div>
       )}
       <form id="agent-access" className="issueForm issueKeyForm" onSubmit={async event=>{

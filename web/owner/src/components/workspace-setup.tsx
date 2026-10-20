@@ -4,13 +4,23 @@ import { Disclosure, DisclosureContent, DisclosureTrigger } from "./ui/disclosur
 
 export function AgentConnectionInstructions() {
   const origin = typeof location === "undefined" ? "https://your-workspace.example" : location.origin;
-  return <div className="agentConnectionInstructions">
+  const commands = `codex mcp add proofpress --url ${origin}/mcp\ncodex mcp login proofpress`;
+  const [copyStatus, setCopyStatus] = React.useState("");
+  return <section className="agentConnectionInstructions" aria-label="Connect Codex">
     <h3>Connect Codex</h3>
-    <p>Install the Proofpress governed-context skill in your project, then run:</p>
-    <pre><code>{`codex mcp add proofpress --url ${origin}/mcp\ncodex mcp login proofpress`}</code></pre>
-    <p>Keep the terminal open. In the browser, authorize with this agent’s credential.</p>
-    <a href="/connect" target="_blank" rel="noreferrer">Skill installation and other clients</a>
-  </div>;
+    <ol className="connectionSteps">
+      <li><h4>Install the skill</h4><p>Install the Proofpress governed-context skill in your project.</p>
+        <a href="/connect" target="_blank" rel="noreferrer">Skill installation and other clients</a></li>
+      <li><div className="connectionCommandHeader"><h4>Run in your terminal</h4>
+        <Button variant="outline" size="sm" onClick={async () => {
+          try { await navigator.clipboard.writeText(commands); setCopyStatus("Commands copied"); }
+          catch { setCopyStatus("Copy failed. Select the commands and copy them manually."); }
+        }}>Copy commands</Button></div>
+        <pre><code>{commands}</code></pre>
+        {copyStatus && <p role="status">{copyStatus}</p>}</li>
+      <li><h4>Authorize in the browser</h4><p>Keep the terminal open. Use this agent’s API key when the authorization page opens.</p></li>
+    </ol>
+  </section>;
 }
 
 export function WorkspaceSetup({canManage, compact = false, policyConfigured = false, hasAgent, agentAccessReady = true, onConnect, onPolicy, onRefresh}: {

@@ -7,12 +7,39 @@
 .setupSteps h2{margin:0 0 8px;font-size:20px}
 .setupSteps p{max-width:70ch;margin:0 0 14px;color:var(--muted,#4e5864);line-height:1.6}
 .setupStatus{font-weight:600;color:var(--teal,#006b7b)}
-.agentConnectionInstructions{min-width:0;width:100%;max-width:70ch}
-.agentConnectionInstructions h3{margin:12px 0;font-size:18px}
-.agentConnectionInstructions p{line-height:1.6}
-.agentConnectionInstructions pre{overflow-x:auto;padding:16px;background:var(--wash,#f3f5f6);border-radius:10px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.agentConnectionInstructions{display:block;min-width:0;width:100%}
+.agentConnectionInstructions h3{margin:0 0 20px;font-size:20px;line-height:1.4}
+.connectionSteps{display:grid;gap:24px;margin:0;padding-left:24px;list-style:decimal}
+.connectionSteps>li{min-width:0;padding-left:8px}
+.connectionSteps>li::marker{font-weight:600;color:var(--ink,#171b21)}
+.connectionSteps h4{margin:0;font-size:16px;font-weight:600;line-height:1.5}
+.agentConnectionInstructions .connectionSteps p{max-width:70ch;margin:6px 0 0;color:var(--ink-2,#4e5864);font-size:15px;line-height:1.6}
+.connectionSteps a{display:inline-block;margin-top:8px;font-size:15px}
+.connectionCommandHeader{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.agentConnectionInstructions pre{max-width:100%;margin:12px 0 0;overflow-x:auto;padding:16px;background:var(--wash,#f3f5f6);border:1px solid var(--line,#dce1e4);border-radius:10px;color:var(--ink,#171b21);font:500 13px/1.8 var(--font-mono);white-space:pre}
+.agentConnectionInstructions pre code{padding:0;border:0;background:transparent;font:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal}
 .agentConnectionInstructions a{color:var(--teal,#006b7b);text-decoration:underline;text-underline-offset:3px}
-.secretReveal .agentConnectionInstructions{flex-basis:100%}
+.adminPage .secretReveal{gap:24px;padding:28px;border:1px solid var(--line);border-radius:14px;background:var(--panel,#fff)}
+.secretReveal .secretRevealHeader h2{margin:0;font-size:22px;line-height:1.35;letter-spacing:-.02em}
+.secretReveal .issuedCredentialIdentity{display:flex;flex-wrap:wrap;gap:4px 12px;margin:8px 0 0;font-size:15px;overflow-wrap:anywhere}
+.secretReveal .issuedCredentialSave h3{margin:0;font-size:16px;line-height:1.5}
+.secretReveal .issuedCredentialSave>p{max-width:70ch;margin:8px 0 16px;font-size:15px;line-height:1.6}
+.issuedCredentialCopyRow{align-items:stretch;gap:12px;min-width:0}
+.secretReveal .issuedCredentialToken{flex:1;min-width:0;max-width:none;padding:14px 16px;background:var(--accent-soft);font-size:13px;border-radius:10px;user-select:all;align-content:center}
+.issuedCredentialCopyRow>button{flex-shrink:0;align-self:flex-start;min-height:48px}
+.secretReveal .agentConnectionInstructions{padding-top:24px;border-top:1px solid var(--line)}
+.secretRevealFooter{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:20px;border-top:1px solid var(--line)}
+.secretReveal .secretRevealFooter p{margin:0;font-size:14px}
+@media(max-width:600px){
+  .adminPage .secretReveal{padding:20px;gap:20px}
+  .issuedCredentialCopyRow{flex-direction:column}
+  .issuedCredentialCopyRow>button{align-self:stretch}
+  .connectionCommandHeader{align-items:flex-start;flex-direction:column;gap:8px}
+  .connectionSteps{padding-left:20px;gap:20px}
+  .connectionSteps>li{padding-left:4px}
+  .secretRevealFooter{align-items:flex-start;flex-direction:column}
+  .secretRevealFooter>button{align-self:stretch}
+}
 .policyQuickStart p{max-width:70ch;line-height:1.6;margin:0 0 16px}
 .policyQuickStart{padding-bottom:24px}
 #agent-access,#review-policy-setup{scroll-margin-top:24px}
