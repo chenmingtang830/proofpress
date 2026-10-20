@@ -13,7 +13,8 @@
     "test:jev": "node scripts/jev-smoke.mjs",
     "test:review-scroll": "node scripts/review-scroll-smoke.mjs",
     "test:e2e": "npm run build && node scripts/owner-smoke.mjs",
-    "check:components": "node scripts/check-components.mjs"
+    "check:components": "node scripts/check-components.mjs",
+    "test:onboarding": "node scripts/onboarding-smoke.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.3",

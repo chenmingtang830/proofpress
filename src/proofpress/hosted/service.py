@@ -431,7 +431,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "workspace": (os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal")
                               if workspace_id == legacy_workspace else workspace_id),
                 "principal": session["context"].principal_id,
-                "role": session["context"].role, "capabilities": {
+                "role": session["context"].role,
+                "review_policy_configured": (configuration.get("error") or {}).get(
+                    "code") != "workspace_policy_missing", "capabilities": {
                     "review": True, "credential_admin": session["context"].role == "owner",
                     "withdraw": True, "reassess": True,
                     "assistant": (workspace_id == legacy_workspace and
@@ -439,6 +441,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     "judge": bool((configuration.get("result") or {}).get("judge", {}).get("configured")),
                 }, "local_owner_preview": bool(
                     self.server.proofpress_local_owner_context)}})
+        if path == "/owner/api/capture-policy":
+            return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_capture_policy(session["context"])})
         if path == "/owner/api/review-policy":
             return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["context"])})
         if path == "/owner/api/summary":
@@ -825,7 +829,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
                     "error": {"code": "invalid_candidate_proposal", "message": str(exc)}})
             return self._json(_status_for(envelope), envelope)
-        if path in {"/owner/api/review-policy", "/owner/api/evaluate"}:
+        if path in {"/owner/api/review-policy", "/owner/api/capture-policy", "/owner/api/evaluate"}:
             session = self._owner_session()
             if not session:
                 return self._json(HTTPStatus.UNAUTHORIZED, {"error": "owner_session_required"})
@@ -836,6 +840,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 if path.endswith("/evaluate"):
                     envelope = self._owner_operation(session, "claim.evaluate", {"claim_id": request.get("claim_id", "")})
                     return self._json(_status_for(envelope), envelope)
+                if path.endswith("/capture-policy"):
+                    result = self.server.proofpress_control.save_capture_policy(
+                        session["context"], request.get("settings"), request.get("expected_version"))
+                    return self._json(HTTPStatus.OK, {"ok": True, "result": result})
                 result = self.server.proofpress_control.save_review_policy(
                     session["context"], request.get("settings"), request.get("expected_version"),
                     request.get("api_key"), request.get("delete_key") is True)

@@ -356,13 +356,13 @@ try {
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/admin-aligned.png`});
   await page.locator('.issueForm input').nth(0).fill('agent:temporary-browser');
   await page.locator('.issueForm input').nth(1).fill('Temporary browser credential');
-  await page.getByRole('button',{name:'Issue agent credential',exact:true}).click();
-  await page.locator('.secretReveal code').waitFor();
+  await page.getByRole('button',{name:'Issue API key',exact:true}).click();
+  await page.locator('.secretReveal .issuedCredentialToken').waitFor();
   assert.equal(await page.getByRole('textbox',{name:'Agent identity',exact:true}).inputValue(),'');
   assert.equal(await page.getByRole('textbox',{name:'Key name',exact:true}).inputValue(),'');
-  assert.equal(await page.getByRole('button',{name:'Issue agent credential',exact:true}).isDisabled(),true);
-  await page.getByText('Agent credential issued',{exact:true}).waitFor();
-  const token=await page.locator('.secretReveal code').textContent();
+  assert.equal(await page.getByRole('button',{name:'Issue API key',exact:true}).isDisabled(),true);
+  await page.getByText('Agent API key issued',{exact:true}).waitFor();
+  const token=await page.locator('.secretReveal .issuedCredentialToken').textContent();
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${token}`}})).status(),200);
   await page.getByRole('button',{name:'Done',exact:true}).click();
   const credential=page.locator('.credentialList > div').filter({hasText:'Temporary browser credential'});
@@ -375,8 +375,8 @@ try {
   assert.notEqual(await page.getByRole('textbox',{name:'Agent identity',exact:true}).evaluate(el=>getComputedStyle(el).outlineStyle),'none');
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/admin-mobile.png`});
   await credential.getByRole('button',{name:'Rotate',exact:true}).click();
-  await page.locator('.secretReveal code').waitFor();
-  const rotated=await page.locator('.secretReveal code').textContent();
+  await page.locator('.secretReveal .issuedCredentialToken').waitFor();
+  const rotated=await page.locator('.secretReveal .issuedCredentialToken').textContent();
   assert.notEqual(rotated,token);
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${token}`}})).status(),401);
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${rotated}`}})).status(),200);
@@ -388,15 +388,16 @@ try {
   ]);
   await page.waitForLoadState('networkidle');
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${rotated}`}})).status(),401);
-  await page.getByRole('textbox',{name:'Human identity',exact:true}).fill('human:temporary-browser');
-  await page.getByRole('textbox',{name:'Human key name',exact:true}).fill('Temporary human Reviewer');
-  await page.getByRole('button',{name:'Issue Reviewer credential',exact:true}).click();
-  await page.locator('.secretReveal code').waitFor();
-  assert.equal(await page.getByRole('textbox',{name:'Human identity',exact:true}).inputValue(),'');
-  assert.equal(await page.getByRole('textbox',{name:'Human key name',exact:true}).inputValue(),'');
-  assert.equal(await page.getByRole('button',{name:'Issue Reviewer credential',exact:true}).isDisabled(),true);
-  await page.getByText('Human Reviewer credential issued',{exact:true}).waitFor();
-  const humanToken=await page.locator('.secretReveal code').textContent();
+  await page.getByRole('combobox',{name:'Key for',exact:true}).selectOption('reviewer');
+  await page.getByRole('textbox',{name:'Person identity',exact:true}).fill('human:temporary-browser');
+  await page.getByRole('textbox',{name:'Key name',exact:true}).fill('Temporary human Reviewer');
+  await page.getByRole('button',{name:'Issue API key',exact:true}).click();
+  await page.locator('.secretReveal .issuedCredentialToken').waitFor();
+  assert.equal(await page.getByRole('textbox',{name:'Person identity',exact:true}).inputValue(),'');
+  assert.equal(await page.getByRole('textbox',{name:'Key name',exact:true}).inputValue(),'');
+  assert.equal(await page.getByRole('button',{name:'Issue API key',exact:true}).isDisabled(),true);
+  await page.getByText('Reviewer API key issued',{exact:true}).waitFor();
+  const humanToken=await page.locator('.secretReveal .issuedCredentialToken').textContent();
   const humanPage=await browser.newPage();
   await humanPage.goto(data.base);
   await humanPage.locator('input[name=token]').fill(humanToken);
@@ -421,7 +422,7 @@ try {
   assert.equal(await page.getByRole('textbox',{name:'Search claims'}).count(),0);
   for (const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:1024});
-    for (const name of ['Home','Review','Knowledge','Runs','Activity','Admin']) {
+    for (const name of ['Home','Review','Knowledge','Activity','Admin']) {
       await page.getByRole('button',{name,exact:true}).click();
       await page.locator('h1').waitFor();
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,`${name} overflow at ${width}`);
@@ -472,7 +473,8 @@ try {
   const trackedOutput = await operation('output.record',{run_id:trackedRun.id,reference:'repo://browser-fixture/result.json',content_digest:`sha256:${'a'.repeat(64)}`,actor:'spoofed',summary:'Browser fixture output',reliance_ids:[trackedReliance.id],media_type:'application/json'});
   await operation('run.finish',{run_id:trackedRun.id,status:'completed',actor:'spoofed',summary:'Browser path complete'});
   await operation('observation.record',{run_id:trackedRun.id,kind:'test',source:'owner-smoke.mjs',meaning:'Owner Runs page rendered the complete tracked chain.',actor:'spoofed',evidence_refs:[],output_ids:[trackedOutput.id]});
-  await page.getByRole('button',{name:'Runs',exact:true}).click();
+  assert.equal(await page.getByRole('button',{name:'Runs',exact:true}).count(),0,'Runs is hidden from primary navigation');
+  await page.goto(`${data.base}/runs`);
   await page.getByRole('button',{name:/Browser fixture tracked task/}).click();
   await page.getByRole('heading',{name:'Retrieved context',exact:true}).waitFor();
   await page.getByText('Browser fixture output',{exact:true}).waitFor();

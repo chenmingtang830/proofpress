@@ -28,6 +28,26 @@ create a workspace or connection. A provisioned Hosted customer must configure
 its assigned `/mcp` URL and agent authorization; a self-hosted operator uses
 the same plugin with its own `/mcp` URL.
 
+## Hosted workspace setup
+
+After installing the skill and connecting once, manage capture guidance in
+**Admin -> Knowledge rules**. Built-in capture defaults are usable immediately;
+a local `.proofpress/context-policy.yaml` is optional. The current skill reads
+the workspace's versioned guidance through `proofpress_get_capture_policy` at
+run start. Existing clients need the updated skill to pick up this behavior;
+an MCP connection alone does not make an older skill read new configuration.
+
+Admin separates **API keys & credentials**, **Knowledge rules** and **Verification settings**. Knowledge rules only guide what agents should capture. Verification settings
+contain required evidence checks, optional model advice, and the separate
+owner-controlled approval gate. Capture rules guide
+proposal selection; they do not authorize admission. The review gate still
+requires an explicit owner choice before governed work begins. Model advice
+and external processing are optional.
+
+Local source paths and agent scheduling remain in the execution environment.
+A local context policy can add stricter project restrictions. Conflicts must
+be reported, never silently resolved by weakening hosted rules.
+
 ## Manual connection or self-hosting
 
 Install the `proofpress-governed-context` skill in the target project before
@@ -70,8 +90,8 @@ These are project-level installations, so the skill travels with the
 repository. Review the downloaded `SKILL.md` before committing it. Then add the
 remote MCP server for the same client.
 
-To initialize a customer policy, the user must explicitly ask an agent to do
-so. The installed Skill previews its bundled template first and uses its helper
+For optional repository-specific restrictions, the user must explicitly ask an
+agent to initialize a local policy. The installed Skill previews its bundled template first and uses its helper
 to create `.proofpress/context-policy.yaml` only with `--apply`; it refuses
 symbolic links, partial targets, replacements, and unknown policy versions.
 Do not substitute a path-based shell script for that helper. Commit and

@@ -36,6 +36,7 @@ APPLICABILITY_SCHEMA = {
 
 
 TOOLS = [
+    {"name": "proofpress_get_capture_policy", "description": "Read this workspace's versioned capture guidance before selecting findings to propose. Available before review-policy activation. This is guidance, not admission authority; local restrictions may only narrow it.", "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False}},
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
     {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
     {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"title": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Short claim heading. Statement remains the complete claim reviewed for admission."}, "statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": APPLICABILITY_SCHEMA, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["title", "statement", "evidence_refs"]}},
@@ -96,6 +97,8 @@ def _lineage(control, context, claim_id: str):
 
 
 def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
+    if name == "proofpress_get_capture_policy":
+        return control.get_capture_policy(context)
     if name == "proofpress_capabilities":
         return _execute(control, context, "capabilities.get", {})
     if name == "proofpress_submit_evidence":
