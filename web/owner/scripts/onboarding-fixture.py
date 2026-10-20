@@ -7,6 +7,7 @@ import threading
 from pathlib import Path
 
 from proofpress import ProofpressClient
+from proofpress.hosted import mcp_http
 from proofpress.hosted.service import create_hosted_server, enable_local_owner_preview
 
 with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
@@ -23,6 +24,8 @@ with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
         for command in sys.stdin:
             if command.strip() == "submit":
                 agent = control.issue_agent_credential(owner["token"], "agent:fixture", "Synthetic successor")
+                capture = mcp_http.call_tool(control, control.authenticate(agent["token"]),
+                                             "proofpress_get_capture_policy", {}, base)
                 client = ProofpressClient.localhost(base, agent["token"])
                 quote = "The synthetic fixture records a bounded research finding."
                 digest = "sha256:" + hashlib.sha256(quote.encode()).hexdigest()
@@ -36,7 +39,8 @@ with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
                 claim = client.propose_claim(quote, evidence["evidence"], "onboarding-test", "agent:fixture",
                                              title="Synthetic onboarding finding")
                 client.evaluate_claim(claim["claim"]["id"])
-                print(json.dumps({"claim_id": claim["claim"]["id"]}), flush=True)
+                print(json.dumps({"claim_id": claim["claim"]["id"], "capture_version": capture["version"],
+                                  "capture_rules": len(capture["settings"]["capture"])}), flush=True)
             elif command.strip() == "reuse":
                 result = client.context(scope="onboarding-test", actor="agent:fixture")
                 print(json.dumps({"governed_count": len(result["governed_context"])}), flush=True)

@@ -12,21 +12,35 @@ replacement for the agent runtime, its memory, or raw private traces.
 
 ## Customer context policy
 
-Before deciding whether to propose, look for
-`.proofpress/context-policy.yaml` in the current repository. If it exists,
-apply its repository- or workflow-specific `propose_when`, `do_not_propose`,
-evidence, and applicability guidance. If it does not exist, use the core rules
-in this skill.
+For a hosted workspace, discover and call `proofpress_get_capture_policy` at
+run start, before deciding what to propose. Read its `schema_version`,
+`workspace_id`, `version`, `policy_digest`, `settings` and `limits`. The supported schema is
+`proofpress/capture-policy/v1alpha1`. Apply `purpose`, `capture` and `exclude`
+as proposal-selection guidance. Preserve the workspace, version and digest in the
+working record. Version 0 contains usable built-in defaults; no local policy
+file or first-run policy edit is required. An agent cannot change these rules.
+The owner manages them in Admin -> Knowledge rules.
 
-The customer file is an agent-side proposal-selection policy, not an
-authorization policy. It may narrow what the agent proposes, but it may never
-override this skill's safety rules, server-side checks, credential boundaries,
-or owner admission controls. Treat unknown schema versions or conflicting rules as
-`Draft only` and report the policy problem instead of guessing.
+If the server does not expose this capability, use the core rules below and
+any existing local policy. If an advertised tool fails or returns an unknown
+schema, keep candidate work in `Draft only` and report the problem; do not
+silently substitute defaults for unread workspace rules.
 
-Start from the maintained template at `assets/context-policy.yaml` in this
-skill. Customers should copy it to `.proofpress/context-policy.yaml`, then
-configure and version that file rather than fork this core skill.
+Optionally read `.proofpress/context-policy.yaml` in the current repository.
+A local file adds project-specific restrictions; it may narrow hosted capture
+rules but cannot broaden them. With no hosted capability, it supplies the
+repository-specific `propose_when`, `do_not_propose`, evidence and applicability
+guidance. Unknown local schema versions, malformed files or conflicting rules
+mean `Draft only`; report the conflict rather than guessing.
+
+Capture guidance is separate from authorization. Neither hosted nor local
+capture rules override evidence checks, credential boundaries, this skill's
+safety rules or owner admission controls. Even an owner-authored capture rule
+requesting approval does not grant an agent approval authority.
+
+For an offline or repository-specific policy, start from the maintained
+`assets/context-policy.yaml` template and version the customer copy instead
+of forking this core skill. Local initialization is optional.
 
 ## Initialize a repository policy
 

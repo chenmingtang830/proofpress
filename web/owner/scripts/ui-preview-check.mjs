@@ -17,7 +17,7 @@ const routes = [
   ['knowledge','/ledger','.claimMap'],
   ['runs','/runs','.runList button'],
   ['activity','/activity','.activityTable'],
-  ['admin','/admin','.approvalChoices'],
+  ['admin','/admin?section=rules','.approvalChoices'],
 ];
 async function capture(name){
   await page.evaluate(()=>document.fonts.ready);

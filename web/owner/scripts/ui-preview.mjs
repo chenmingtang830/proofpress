@@ -27,6 +27,7 @@ const server = await createServer({
         '/owner/api/technical-logs':[],
         '/owner/api/runs':{runs:empty?[]:runs},
         '/owner/api/review-policy':policy,
+        '/owner/api/capture-policy':{version:0,settings:{purpose:'Preserve bounded findings that future work can reuse.',capture:['Evidence-backed conclusions','Durable decisions','Reproducible results'],exclude:['Unvalidated hypotheses','Duplicate findings','Routine progress updates']}},
         '/v1/owner/credentials':{credentials:[{credential_id:'preview-agent',principal_id:'agent:research',label:'Research agent · example',role:'agent',created_at:'2026-10-13T15:30:00Z'}]},
       };
       const claim = receipts[decodeURIComponent(url.pathname.replace('/owner/api/claims/',''))];

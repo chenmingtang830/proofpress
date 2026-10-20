@@ -22,3 +22,20 @@
 .workspaceSetup--compact h2{margin:0 0 8px;font-size:20px}
 .workspaceSetup--compact p{margin:0;color:var(--muted,#4e5864);line-height:1.6;max-width:65ch}
 @media(max-width:600px){.workspaceSetup--compact{align-items:flex-start;flex-direction:column;gap:16px}}
+
+.adminSections{min-width:0}
+.adminSectionTabs{display:flex;flex-wrap:wrap;width:100%;height:auto;gap:4px;margin-bottom:24px;justify-content:flex-start;background:var(--wash,#f3f5f6);padding:6px}
+.adminSectionTabs [role=tab]{min-height:44px;white-space:normal;flex:1 1 auto}
+.adminSections [role=tabpanel]{min-width:0}
+.captureRules{margin-top:24px}
+.captureRules form{display:grid;gap:24px}
+.captureRules label{display:grid;gap:10px}
+.captureRules p,.hostingGuidance p{max-width:70ch;line-height:1.6;color:var(--muted,#4e5864)}
+.hostingGuidance{padding:28px}
+.hostingGuidance h2{font-size:22px;margin:0 0 12px}
+.hostingGuidance h3{font-size:18px;margin:28px 0 12px}
+.hostingGuidance a{color:var(--teal,#006b7b);text-decoration:underline;text-underline-offset:3px}
+.adminConnectionHelp{margin-bottom:24px}
+@media(max-width:600px){.adminSectionTabs [role=tab]{flex-basis:calc(50% - 4px)}.captureRules .policyFooter{flex-wrap:wrap;gap:12px}}
+
+.autoAdmissionToggle>span:last-child{display:grid;gap:6px}

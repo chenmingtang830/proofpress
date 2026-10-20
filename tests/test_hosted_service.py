@@ -357,6 +357,12 @@ class HostedServiceTests(unittest.TestCase):
         self.assertFalse(session["result"]["review_policy_configured"])
         self.assertTrue(session["result"]["capabilities"]["credential_admin"])
         csrf = session["result"]["csrf"]
+        _, capture = self.owner_json("/owner/api/capture-policy", cookie)
+        self.assertEqual(capture["result"]["version"], 0)
+        status, denied_capture = self.owner_json("/owner/api/capture-policy", cookie, {
+            "csrf": "wrong", "expected_version": 0, "settings": capture["result"]["settings"]})
+        self.assertEqual(status, 403)
+        self.assertEqual(denied_capture["error"], "csrf_failed")
         status, denied = self.owner_json("/owner/api/graph", cookie)
         self.assertEqual(denied["error"]["code"], "workspace_policy_missing")
         status, issued = self.owner_json("/v1/owner/credentials", cookie, {

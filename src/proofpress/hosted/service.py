@@ -441,6 +441,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     "judge": bool((configuration.get("result") or {}).get("judge", {}).get("configured")),
                 }, "local_owner_preview": bool(
                     self.server.proofpress_local_owner_context)}})
+        if path == "/owner/api/capture-policy":
+            return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_capture_policy(session["context"])})
         if path == "/owner/api/review-policy":
             return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["context"])})
         if path == "/owner/api/summary":
@@ -827,7 +829,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
                     "error": {"code": "invalid_candidate_proposal", "message": str(exc)}})
             return self._json(_status_for(envelope), envelope)
-        if path in {"/owner/api/review-policy", "/owner/api/evaluate"}:
+        if path in {"/owner/api/review-policy", "/owner/api/capture-policy", "/owner/api/evaluate"}:
             session = self._owner_session()
             if not session:
                 return self._json(HTTPStatus.UNAUTHORIZED, {"error": "owner_session_required"})
@@ -838,6 +840,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 if path.endswith("/evaluate"):
                     envelope = self._owner_operation(session, "claim.evaluate", {"claim_id": request.get("claim_id", "")})
                     return self._json(_status_for(envelope), envelope)
+                if path.endswith("/capture-policy"):
+                    result = self.server.proofpress_control.save_capture_policy(
+                        session["context"], request.get("settings"), request.get("expected_version"))
+                    return self._json(HTTPStatus.OK, {"ok": True, "result": result})
                 result = self.server.proofpress_control.save_review_policy(
                     session["context"], request.get("settings"), request.get("expected_version"),
                     request.get("api_key"), request.get("delete_key") is True)

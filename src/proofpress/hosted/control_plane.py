@@ -20,7 +20,7 @@ from proofpress.kernel.contracts import (
     AGENT_OPERATIONS, operation_authority, validate_operation_contracts,
 )
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
-from proofpress.hosted import execution, review_policy
+from proofpress.hosted import capture_policy, execution, review_policy
 
 validate_operation_contracts(kernel_ops.LOCAL_OPERATION_SPECS)
 IDENTITY_PARAMETERS = {
@@ -248,6 +248,7 @@ class HostedControlPlane:
                 "WHERE p.workspace_id = hosted_recovery.workspace_id AND p.role = 'owner' "
                 "ORDER BY p.created_at, p.rowid LIMIT 1) "
                 "WHERE bootstrap_principal_id IS NULL")
+            capture_policy.migrate(connection)
             review_policy.migrate(connection)
             execution.migrate(connection)
             self._migrate_legacy_permissions(connection)
@@ -869,6 +870,30 @@ class HostedControlPlane:
     def _credential_status(self, connection, workspace_id, provider):
         return review_policy.credential_status(connection, workspace_id, provider,
             legacy_default_workspace_id=self.legacy_default_workspace_id)
+
+    def get_capture_policy(self, token):
+        context = (self.refresh_context(token) if isinstance(token, PrincipalContext)
+                   else self.authenticate(token))
+        if context.role not in {"owner", "reviewer"} and "configuration.get" not in context.permissions:
+            raise HostedAuthError("operation_forbidden", "configuration read is not permitted")
+        with self._db() as connection:
+            return capture_policy.current(connection, context.workspace_id)
+
+    def save_capture_policy(self, token, settings, expected_version):
+        owner = self._admin(token)
+        settings = capture_policy.validate(settings)
+        with self._db() as connection:
+            connection.execute("BEGIN IMMEDIATE")
+            prior = capture_policy.current(connection, owner.workspace_id)
+            if type(expected_version) is not int or expected_version != prior["version"]:
+                raise HostedAuthError("stale_policy", "Capture rules changed. Reload before saving.")
+            if prior["version"] and prior["settings"] == settings:
+                return prior
+            connection.execute("INSERT INTO hosted_capture_policies VALUES (?, ?, ?, ?, ?)",
+                               (owner.workspace_id, prior["version"] + 1,
+                                json.dumps(settings), owner.principal_id, _now()))
+            connection.commit()
+            return capture_policy.current(connection, owner.workspace_id)
 
     def get_review_policy(self, token):
         owner = self._owner(token)

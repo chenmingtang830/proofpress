@@ -63,6 +63,7 @@ try {
       await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/onboarding-admin-${width}.png`,fullPage:true});
     }
   }
+  await page.getByRole('tab',{name:'Knowledge rules',exact:true}).click();
   // Activating this policy is a deliberate human action; no API key or provider consent is needed.
   const policyRequest = page.waitForRequest(request=>request.url().endsWith('/owner/api/review-policy') && request.method()==='POST');
   await page.getByRole('button',{name:'Use human review',exact:true}).click();
@@ -73,13 +74,34 @@ try {
   assert.equal(submitted.settings.auto_admit_new_claims,false);
   await page.getByText('Policy v1 is active',{exact:true}).waitFor();
   await page.reload();
+  await page.getByRole('tab',{name:'Knowledge rules',exact:true}).click();
   await page.getByText('Policy v1',{exact:true}).waitFor();
+  if (process.env.QA_SCREENSHOTS) {
+    for (const width of [1440,390]) {
+      await page.setViewportSize({width,height:width===390?844:1000});
+      await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/knowledge-rules-${width}.png`,fullPage:true});
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+    }
+  }
   assert.equal(await page.getByRole('alert').count(),0);
   assert.equal(await page.getByRole('heading',{name:'Bring your first finding into Proofpress'}).count(),0,'Configured Admin does not repeat setup');
+  await page.getByLabel('Research purpose',{exact:true}).fill('Track evidence-backed market findings.');
+  await page.getByLabel('Capture these findings',{exact:true}).fill('Dated market observations\nExplicit conditional forecasts');
+  await page.getByRole('button',{name:'Save capture rules',exact:true}).click();
+  await page.getByText('Capture rules v1 saved.',{exact:false}).waitFor();
+  await page.reload();
+  await page.getByRole('tab',{name:'Knowledge rules',exact:true}).click();
+  assert.equal(await page.getByLabel('Research purpose',{exact:true}).inputValue(),'Track evidence-backed market findings.');
+  await page.getByRole('tab',{name:'Model review',exact:true}).click();
+  await page.getByLabel('API key',{exact:true}).waitFor();
+  await page.getByRole('tab',{name:'Hosting & recovery',exact:true}).click();
+  assert.equal(await page.getByText('Backups and recovery',{exact:true}).isVisible(),true);
   const activeSession=(await (await page.request.get(`${base}/owner/api/session`)).json()).result;
   assert.equal(activeSession.review_policy_configured,true);
   const submittedFinding=nextLine(); fixture.stdin.write('submit\n');
-  const {claim_id}=await submittedFinding;
+  const {claim_id,capture_version,capture_rules}=await submittedFinding;
+  assert.equal(capture_version,1);
+  assert.equal(capture_rules,2,'Agent reads both saved capture rules through MCP');
   await page.goto(`${base}/review?claim_id=${claim_id}&view=full`);
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByRole('dialog').getByRole('button',{name:'Confirm approval',exact:true}).click();

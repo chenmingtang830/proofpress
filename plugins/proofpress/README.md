@@ -19,10 +19,14 @@ silently targeting another customer's workspace.
 
 ## First use
 
-Ask the agent to **Initialize a Proofpress policy for this repository**. The
-skill creates `.proofpress/context-policy.yaml` only when that file is absent;
-it never overwrites or repairs an existing policy. Review, narrow, and commit
-the generated copy before relying on it for proposal selection.
+For hosted workspaces, capture defaults work immediately. Customize them in
+**Admin → Knowledge rules**; the skill reads the current workspace version at
+run start. No local policy file is required. Install the updated skill once
+when upgrading an existing client.
+
+For additional repository restrictions, optionally ask the agent to
+**Initialize a Proofpress policy for this repository**. Review and version the
+local restrictions; they may narrow hosted guidance but cannot broaden it.
 
 Before connecting, choose a workspace: use the Hosted endpoint that Proofpress
 provisioned for your team, or your own self-hosted `/mcp` endpoint. Installing

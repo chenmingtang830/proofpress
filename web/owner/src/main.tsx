@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { ActivityResult } from "@/components/activity-result";
+import { CaptureRules } from "@/components/capture-rules";
 import { WorkspaceSetup, AgentConnectionInstructions } from "@/components/workspace-setup";
 import "./components/workspace-setup.css";
 import { ReviewPolicy } from "@/components/review-policy";
@@ -318,6 +319,7 @@ function App() {
   const [judgeRunning, setJudgeRunning] = React.useState(false);
   const [issuedCredential, setIssuedCredential] = React.useState<{token: string; kind: "agent" | "reviewer"; principal: string; label: string; rotated: boolean} | null>(null);
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  const [adminSection, setAdminSection] = React.useState(new URLSearchParams(location.search).get("section") || "access");
   const [credentialsError, setCredentialsError] = React.useState("");
   const [policyConfigured, setPolicyConfigured] = React.useState<boolean | null>(null);
   React.useEffect(() => () => {
@@ -675,7 +677,8 @@ function App() {
         },
         execute: async (settings: any) => {
           sessionStorage.setItem("proofpress:review-policy-draft", JSON.stringify(settings));
-          navigate("admin");
+          setAdminSection("models");
+          navigate("admin", "?section=models");
           return toolText({
             prepared: true,
             activated: false,
@@ -702,7 +705,8 @@ function App() {
         inputSchema: { type: "object", properties: { principal_id: { type: "string" }, label: { type: "string" } }, required: ["principal_id", "label"] },
         execute: async ({ principal_id, label }: any) => {
           sessionStorage.setItem("proofpress:agent-credential-draft", JSON.stringify({ principal_id, label }));
-          navigate("admin");
+          setAdminSection("access");
+          navigate("admin", "?section=access");
           return toolText({ prepared: true, issued: false, requires_human_owner: true, secret_exposed_to_agent: false, url: `${location.origin}/admin` });
         },
       },
@@ -718,9 +722,9 @@ function App() {
     history.replaceState(
       history.state,
       "",
-      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : activityQuery}`,
+      `/${page}${preserveClaim ? `?claim_id=${encodeURIComponent(selected)}${page === "review" && fullReview ? "&view=full" : ""}` : page === "admin" ? `?section=${adminSection}` : activityQuery}`,
     );
-  }, [page, selected, fullReview]);
+  }, [page, selected, fullReview, adminSection]);
   function openFullReview() {
     if (fullReview) { document.querySelector(".stage")?.scrollTo({top: 0}); return; }
     reviewScroll.current = document.querySelector(".stage")?.scrollTop || 0;
@@ -745,6 +749,7 @@ function App() {
       const next = location.pathname.split("/")[1] as Page;
       setPage(labels[next] ? next : "review");
       setFullReview(new URLSearchParams(location.search).get("view") === "full");
+      setAdminSection(new URLSearchParams(location.search).get("section") || "access");
       const id = new URLSearchParams(location.search).get("claim_id");
       if (id) void choose(id);
       else { ++selectionRequest.current; setSelected(null); setReceipt(null); setDetailError(""); }
@@ -915,6 +920,11 @@ function App() {
       await load();
     } catch (e:any) { setError(e.message); }
     finally { decisionPending.current=false; setBusy(false); }
+  }
+  function openAdminSection(section: string) {
+    setAdminSection(section);
+    if (page === "admin") history.replaceState(null, "", `/admin?section=${section}`);
+    else navigate("admin", `?section=${section}`);
   }
   async function showAdmin() {
     if (!canManageWorkspace) return;
@@ -1092,14 +1102,14 @@ function App() {
           {policyConfigured === false && <WorkspaceSetup compact={page === "admin"}
             canManage={canManageWorkspace}
             hasAgent={credentials.some(c => c.role === "agent" && !c.revoked_at)}
-            onConnect={() => { navigate("admin"); requestAnimationFrame(() => document.getElementById("agent-access")?.scrollIntoView({block:"start"})); }}
-            onPolicy={() => { navigate("admin"); requestAnimationFrame(() => document.getElementById("review-policy-setup")?.scrollIntoView({block:"start"})); }}
+            onConnect={() => { openAdminSection("access"); }}
+            onPolicy={() => { openAdminSection("rules"); }}
           />}
           {page === "home" && policyConfigured === true && !loading && !error && !contextError && !rows.length && <WorkspaceSetup
             canManage={canManageWorkspace} policyConfigured
             hasAgent={credentials.some(c => c.role === "agent" && !c.revoked_at)}
-            onConnect={() => navigate("admin")}
-            onPolicy={() => navigate("admin")}
+            onConnect={() => openAdminSection("access")}
+            onPolicy={() => openAdminSection("rules")}
             onRefresh={() => { void load(); }}
           />}
           {page === "home" && policyConfigured === true && (loading || rows.length > 0 || Boolean(error || contextError)) && (
@@ -1150,7 +1160,7 @@ function App() {
               judgeRunning={judgeRunning}
               onJudge={judgeConfigured ? () => void runJudge() : undefined}
               onEvaluate={runChecks}
-              onConfigurePolicy={canManageWorkspace ? showAdmin : undefined}
+              onConfigurePolicy={canManageWorkspace ? () => openAdminSection("rules") : undefined}
               onLedger={() => navigate("ledger")}
             />
           )}
@@ -1183,7 +1193,11 @@ function App() {
           {page === "activity" && policyConfigured === true && <ActivityPage rows={activity} canViewLogs={canManageWorkspace} />}
           {page === "admin" && canManageWorkspace && (
             <AdminPage
-              policy={<ReviewPolicy csrf={csrf} api={api} onSaved={() => { void load(); }} />}
+              section={adminSection}
+              onSectionChange={openAdminSection}
+              policy={<ReviewPolicy section="review" csrf={csrf} api={api} onModels={() => openAdminSection("models")} onSaved={() => { void load(); }} />}
+              models={<ReviewPolicy section="models" csrf={csrf} api={api} onSaved={() => { void load(); }} />}
+              capture={<CaptureRules csrf={csrf} api={api} />}
               credentials={credentials}
               loading={credentialsLoading}
               error={credentialsError}
@@ -1803,6 +1817,10 @@ function ActivityPage({ rows, canViewLogs = true }: any) {
   );
 }
 function AdminPage({
+  section,
+  onSectionChange,
+  models,
+  capture,
   policy,
   error,
   onReload,
@@ -1822,7 +1840,7 @@ function AdminPage({
   const secretRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     setCopyStatus("");
-    if (issuedCredential) secretRef.current?.focus();
+    if (issuedCredential) { onSectionChange("access"); secretRef.current?.focus(); }
   }, [issuedCredential]);
   React.useEffect(() => {
     const raw = sessionStorage.getItem("proofpress:agent-credential-draft");
@@ -1840,10 +1858,28 @@ function AdminPage({
     <div className="pageBody">
       <PageHead
         title="Admin"
-        description="Configure review policy and manage reviewer and agent access."
+        description="Connect agents, choose knowledge rules, and manage your workspace."
         action={null}
       />
-      {policy}
+      <Tabs value={["access","rules","models","hosting"].includes(section) ? section : "access"} onValueChange={onSectionChange} className="adminSections">
+        <TabsList aria-label="Admin sections" className="adminSectionTabs">
+          <TabsTrigger value="access">Connections & access</TabsTrigger>
+          <TabsTrigger value="rules">Knowledge rules</TabsTrigger>
+          <TabsTrigger value="models">Model review</TabsTrigger>
+          <TabsTrigger value="hosting">Hosting & recovery</TabsTrigger>
+        </TabsList>
+        <TabsContent value="rules">{policy}{capture}</TabsContent>
+        <TabsContent value="models">{models}</TabsContent>
+        <TabsContent value="hosting"><Card><CardContent className="hostingGuidance">
+          <h2>Hosting & recovery</h2>
+          <p>Your workspace stores knowledge and settings on the server. Agents still need access to their source files and an execution schedule in their own environment.</p>
+          <a href="/readyz" target="_blank" rel="noreferrer">Check service readiness</a>
+          <h3>Backups and recovery</h3>
+          <p>Your hosting operator manages encrypted off-disk backups, restore tests and recovery-secret custody. A healthy service does not confirm backup or recovery readiness.</p>
+          <p>Keep encryption and recovery secrets in the operator’s secret store. These values are never shown here.</p>
+        </CardContent></Card></TabsContent>
+        <TabsContent value="access" forceMount className="data-[state=inactive]:hidden">
+      <Disclosure className="adminConnectionHelp"><DisclosureTrigger>Connect an agent</DisclosureTrigger><DisclosureContent><AgentConnectionInstructions /></DisclosureContent></Disclosure>
       {error && <Alert role="alert"><span>{error}</span><Button variant="outline" onClick={onReload}>Reload credentials</Button></Alert>}
       {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared credential" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
       {issuedCredential && (
@@ -1984,6 +2020,7 @@ function AdminPage({
           </p>
         </div>
       </div>
+      </TabsContent></Tabs>
     </div>
   );
 }
