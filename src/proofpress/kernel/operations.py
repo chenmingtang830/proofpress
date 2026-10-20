@@ -3959,7 +3959,9 @@ def describe_evidence_v1(claim_id, evidence_id, evidence_digest, details, actor)
     Labels are attributed presentation metadata, not new supporting evidence or
     verification. They cannot change a claim, its checks or its authorization.
     """
-    projection, policy = v2_projection(), load_v2_policy()
+    events = v2_events()
+    projection, policy = v2_projection(events), load_v2_policy()
+    validated_head = events[-1]["commit"] if events else None
     claim = projection["claims"].get(claim_id)
     if not claim or not _actor_can_read(claim, policy, actor):
         raise ValueError("claim not found: " + claim_id)
@@ -4000,7 +4002,8 @@ def describe_evidence_v1(claim_id, evidence_id, evidence_digest, details, actor)
     event = append_v2({"type": "evidence_described", "subject_ref": claim_id,
                        "evidence_ref": evidence_id, "evidence_digest": evidence_digest,
                        "details": normalized, "actor": actor,
-                       "authority": "presentation_only"})
+                       "authority": "presentation_only"},
+                      existing_rows=events, expected_head=validated_head)
     return {"claim_id": claim_id, "evidence_id": evidence_id, "description": event}
 
 

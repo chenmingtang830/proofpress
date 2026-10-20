@@ -16,9 +16,16 @@ export function sourceFilename(row: any, description?: EvidenceDescription): str
   if (description?.details?.filename) return description.details.filename;
   const uri = row?.retrieval_receipt?.source?.uri || row?.source?.uri || row?.path;
   if (typeof uri !== "string" || uri.startsWith("urn:")) return null;
-  const tail = uri.split(/[?#]/)[0].split(/[\\/]/).pop();
+  let path = uri;
+  if (/^[a-z][a-z\d+.-]*:/i.test(uri) || uri.startsWith("//")) {
+    try { path = new URL(uri, "https://source.invalid").pathname; } catch { return null; }
+  }
+  const tail = path.split(/[?#]/)[0].split(/[\\/]/).pop();
   if (!tail || !/\.[a-z\d]{1,8}$/i.test(tail)) return null;
-  try { return decodeURIComponent(tail); } catch { return tail; }
+  try {
+    const name = decodeURIComponent(tail);
+    return /[\\/]/.test(name) ? null : name;
+  } catch { return tail; }
 }
 
 function recordedLocation(locator: any): string {

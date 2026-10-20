@@ -1,11 +1,16 @@
 """Readable source labels never replace bound evidence or admission authority."""
 import copy
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tempfile
+import threading
 import unittest
+from unittest.mock import patch
 
 from proofpress.hosted import mcp_http
 from proofpress.hosted.control_plane import HostedControlPlane
+from proofpress.kernel import operations
+from proofpress.kernel.events import MemoryEventStore, SQLiteEventStore, using_event_store
 
 
 def request(operation, parameters):
@@ -90,6 +95,45 @@ class EvidenceDetailsTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertIn("claim proposer", result["error"]["message"])
         self.assertEqual(self.receipt()["evidence_details"], {})
+
+    def test_competing_descriptions_cannot_both_append_after_the_same_read(self):
+        store = MemoryEventStore()
+        store.events = SQLiteEventStore(self.control.database, "workspace:labels").list_events()
+        policy = self.control._policy("workspace:labels")["policy"]
+        rendezvous, first_done = threading.Barrier(2), threading.Event()
+        original_append = operations.append_v2
+
+        def ordered_append(event, **kwargs):
+            rendezvous.wait(timeout=5)  # Both callers already validated the old projection.
+            first = event["details"]["filename"] == "daily-research-example.md"
+            if not first:
+                self.assertTrue(first_done.wait(timeout=5))
+            try:
+                return original_append(event, **kwargs)
+            finally:
+                if first:
+                    first_done.set()
+
+        def describe(filename):
+            details = {**self.params["details"], "filename": filename}
+            with using_event_store(store), operations.using_policy(policy):
+                try:
+                    operations.describe_evidence_v1(
+                        self.claim_id, self.evidence_id, self.params["evidence_digest"],
+                        details, "agent:research")
+                    return "recorded"
+                except ValueError as error:
+                    return str(error)
+
+        with patch.object(operations, "append_v2", side_effect=ordered_append):
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                first = pool.submit(describe, "daily-research-example.md")
+                second = pool.submit(describe, "other.md")
+                self.assertEqual(first.result(), "recorded")
+                self.assertIn("STALE_EVENT_STORE_HEAD", second.result())
+        events = [event for event in store.list_events() if event["type"] == "evidence_described"]
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["details"]["filename"], "daily-research-example.md")
 
     def test_descriptions_are_bounded_and_paths_are_not_filenames(self):
         for details in [
