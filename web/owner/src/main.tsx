@@ -21,7 +21,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ActivityResult } from "@/components/activity-result";
 import { CaptureRules } from "@/components/capture-rules";
-import { WorkspaceSetup, AgentConnectionInstructions } from "@/components/workspace-setup";
+import { WorkspaceSetup, AgentConnectionInstructions, ConnectionGuidePage } from "@/components/workspace-setup";
 import "./components/workspace-setup.css";
 import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
@@ -1995,6 +1995,6 @@ function AdminPage({
 }
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    {location.pathname === "/connect" ? <ConnectionGuidePage /> : <App />}
   </React.StrictMode>,
 );

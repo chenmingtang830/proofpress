@@ -15,7 +15,21 @@
 .connectionSteps h4{margin:0;font-size:16px;font-weight:600;line-height:1.5}
 .agentConnectionInstructions .connectionSteps p{max-width:70ch;margin:6px 0 0;color:var(--ink-2,#4e5864);font-size:15px;line-height:1.6}
 .connectionSteps a{display:inline-block;margin-top:8px;font-size:15px}
-.connectionCommandHeader{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.connectionCommand{min-width:0;margin-top:12px}
+.connectionCommand>button{display:flex;margin-left:auto}
+.connectionSteps p code{overflow-wrap:anywhere}
+.skillInstallDisclosure{margin-top:12px}
+.skillInstallDisclosure>[data-slot=collapsible-trigger]{min-height:44px;color:var(--accent);font-size:15px}
+.otherClientsLink{display:inline-block;margin-top:24px;font-size:15px}
+.connectionGuidePage{max-width:880px;margin:0 auto;padding:36px 32px 64px;color:var(--ink)}
+.connectionGuideBrand{display:flex;align-items:center;gap:12px;padding-bottom:28px;margin-bottom:32px;border-bottom:1px solid var(--line);font-size:22px}
+.connectionGuideBrand img{width:32px;height:32px}
+.connectionGuidePage h1{margin:0 0 12px;font-size:36px;line-height:1.2;letter-spacing:-.025em}
+.connectionGuideIntro{max-width:65ch;margin:0 0 28px;color:var(--ink-2);font-size:16px;line-height:1.6}
+.connectionClientChoice{display:grid;gap:8px;max-width:320px;margin-bottom:32px;font-size:15px}
+.connectionClientChoice select{height:48px;border-color:var(--control-border);border-radius:10px}
+.connectionGuidePage>footer{margin-top:32px;padding-top:24px;border-top:1px solid var(--line);color:var(--ink-2);font-size:15px;line-height:1.6}
+.connectionGuidePage>footer a{display:inline-block;margin-top:12px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
 .agentConnectionInstructions pre{max-width:100%;margin:12px 0 0;overflow-x:auto;padding:16px;background:var(--wash,#f3f5f6);border:1px solid var(--line,#dce1e4);border-radius:10px;color:var(--ink,#171b21);font:500 13px/1.8 var(--font-mono);white-space:pre}
 .agentConnectionInstructions pre code{padding:0;border:0;background:transparent;font:inherit;white-space:inherit;overflow-wrap:normal;word-break:normal}
 .agentConnectionInstructions a{color:var(--teal,#006b7b);text-decoration:underline;text-underline-offset:3px}
@@ -34,7 +48,9 @@
   .adminPage .secretReveal{padding:20px;gap:20px}
   .issuedCredentialCopyRow{flex-direction:column}
   .issuedCredentialCopyRow>button{align-self:stretch}
-  .connectionCommandHeader{align-items:flex-start;flex-direction:column;gap:8px}
+  .connectionCommand>button{margin-left:0}
+  .connectionGuidePage{padding:24px 20px 40px}
+  .connectionGuidePage h1{font-size:30px}
   .connectionSteps{padding-left:20px;gap:20px}
   .connectionSteps>li{padding-left:4px}
   .secretRevealFooter{align-items:flex-start;flex-direction:column}

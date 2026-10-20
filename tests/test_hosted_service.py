@@ -151,6 +151,14 @@ class HostedServiceTests(unittest.TestCase):
         self.assertFalse(hosted["owner_approval_available"])
         self.assertEqual(envelope["result"]["transport"], "hosted_https")
 
+    def test_connection_guide_is_public_without_creating_owner_session(self):
+        with urlopen(self.base_url + "/connect") as response:
+            self.assertEqual(response.status, 200)
+            self.assertIsNone(response.headers.get("Set-Cookie"))
+            self.assertIn("script-src 'self'", response.headers["Content-Security-Policy"])
+            self.assertEqual(response.read(), self.service.HostedOperationHandler._ui_asset().read_bytes())
+        self.assertEqual(self.get("/owner/api/session")[0], 401)
+
     def test_judge_demo_seed_is_synthetic_and_one_time(self):
         database = Path(self.tmp.name) / "judge-demo.db"
         control = self.service.HostedControlPlane(database)

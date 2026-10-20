@@ -608,12 +608,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                   self._authorize_page(query, str(exc)))
             return self._html(HTTPStatus.OK, self._authorize_page(query))
         if path == "/connect":
-            endpoint = escape(self._mcp_resource())
-            return self._html(HTTPStatus.OK, self._page(
-                "Connect Proofpress", "<main class=auth><h1>Connect an agent</h1>"
-                "<p class=muted>Add this remote Streamable HTTP MCP URL to your client. "
-                "The client will open a browser to authorize the agent.</p>"
-                f"<pre>{endpoint}</pre><p>No local server or repository checkout is required.</p></main>"))
+            # Public instructions share the same components as Admin; this route
+            # neither creates an owner session nor loads owner APIs.
+            return self._owner_ui(None)
         if path == "/mcp":
             return self._json(HTTPStatus.METHOD_NOT_ALLOWED, {
                 "error": "streamable_http_get_not_supported",
