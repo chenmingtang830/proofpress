@@ -77,12 +77,12 @@ export function RetrievalEvidence({ row, description, collapsible = false }: { r
     {!sourceFilename(row, description) && <p className="evidenceSourceMissing">The filename was not recorded with this evidence.</p>}
     <div className={`evidenceSourceExcerpt${canExpand && !expanded ? " isCollapsed" : ""}`}>
       {priceRows ? <PriceRows records={structured.records} /> : structured !== undefined ? <StructuredExcerpt value={structured} /> :
-        <React.Suspense fallback={<p>Loading excerpt…</p>}><Markdown skipHtml allowedElements={["p", "strong", "em", "ul", "ol", "li", "a", "code", "blockquote", "br"]}
+        <React.Suspense fallback={<p>Loading excerpt…</p>}><Markdown skipHtml unwrapDisallowed allowedElements={["p", "strong", "em", "ul", "ol", "li", "a", "code", "blockquote", "br"]}
           components={{a: ({href, children}) => /^https?:\/\//i.test(href || "") ? <a href={href} target="_blank" rel="noreferrer" tabIndex={canExpand && !expanded ? -1 : undefined}>{children}</a> : <span>{children}</span>}}>
           {quote}
         </Markdown></React.Suspense>}
     </div>
-    {canExpand && <Button type="button" variant="ghost" size="content" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Show less" : priceRows ? "Show all source rows" : "Show full excerpt"}</Button>}
+    {canExpand && <Button type="button" variant="ghost" size="content" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Show less" : priceRows ? (structured.records.length > 100 ? "Show first 100 source rows" : "Show source rows") : "Show full excerpt"}</Button>}
     <Disclosure className="technicalDetails">
       <DisclosureTrigger>Technical receipt</DisclosureTrigger>
       <DisclosureContent>

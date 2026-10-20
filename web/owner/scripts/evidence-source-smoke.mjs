@@ -14,7 +14,7 @@ const evidence = fixture.evidence[0];
 fixture.evidence = [evidence];
 fixture.claim.evidence_refs = [evidence.id];
 evidence.retrieval_receipt.source = {uri: "urn:synthetic:report:" + "a".repeat(64), media_type: "text/markdown"};
-evidence.retrieval_receipt.quote = "**Scenario table**\n\n- **Flat week:** -$2.4bn\n- **Short-term pivot:** 5,200\n\n[Original source](https://example.test/source)\n\n<script>alert('untrusted source')</script>";
+evidence.retrieval_receipt.quote = "# Executive summary\n\n**Scenario table**\n\n- **Flat week:** -$2.4bn\n- **Short-term pivot:** 5,200\n\n[Original source](https://example.test/source)\n\n<script>alert('untrusted source')</script>";
 fixture.evidence_details = {[evidence.id]: {details: {filename: "daily-research-example.md",
   location: "Appendix · scenario table", fields: [{name: "US · flat week", value: "-$2.4bn"}, {name: "Short-term pivot", value: "5,200"}]},
   actor: "agent:synthetic-preview", authority: "presentation_only"}};
@@ -40,6 +40,7 @@ try {
     assert.equal(await row.locator(".evidenceSourceFields dt").first().textContent(), "US · flat week");
     assert.equal(await row.locator(".technicalDetails pre").isVisible(), false, "Technical JSON must be collapsed initially");
     assert.equal(await row.locator(".evidenceSourceExcerpt script").count(), 0);
+    assert.match(await row.locator(".evidenceSourceExcerpt").textContent(), /Executive summary/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, "No horizontal page overflow");
     await row.scrollIntoViewIfNeeded();
     await page.screenshot({path: `${out}/report-${name}.png`});
@@ -48,6 +49,15 @@ try {
     await row.getByRole("button", {name: "Technical receipt", exact: true}).click();
     assert.equal(await row.locator(".technicalDetails pre").isVisible(), false);
   }
+  evidence.external_experiment = {source: {system: "Synthetic experiment", run_id: "run:example", coverage: "example only"}};
+  await page.reload();
+  let evidenceRow = page.locator(".fullReview .evidenceRow");
+  await evidenceRow.locator(".evidenceSourceFields").getByText("US · flat week", {exact: true}).waitFor();
+  await evidenceRow.getByText("Synthetic experiment", {exact: true}).waitFor();
+  await evidenceRow.getByRole("button", {name: "Technical receipt", exact: true}).click();
+  await evidenceRow.getByText(/Source labels were supplied by agent:synthetic-preview/).waitFor();
+  assert.match(await evidenceRow.locator(".technicalDetails pre").textContent(), /source_description/);
+  delete evidence.external_experiment;
   evidence.retrieval_receipt.source.media_type = "application/json";
   evidence.retrieval_receipt.quote = JSON.stringify({records: [
     {date: "2026-10-15", symbol: "SPX", close: 5200, daily_return: null, source_locator: {sheet: "Data", close_cell: "F3"}},
@@ -60,7 +70,7 @@ try {
     await page.reload();
     const row = page.locator(".fullReview .evidenceRow");
     await row.locator("b").filter({hasText: "market-prices-example.xlsx"}).waitFor();
-    await row.getByRole("button", {name: "Show all source rows"}).click();
+    await row.getByRole("button", {name: "Show source rows", exact: true}).click();
     assert.equal(await row.getByRole("columnheader", {name: "Source cell"}).count(), 1);
     assert.equal(await row.getByRole("cell", {name: "Data!F4", exact: true}).count(), 1);
     assert.equal(await row.locator(".technicalDetails pre").isVisible(), false);
@@ -68,6 +78,16 @@ try {
     await row.scrollIntoViewIfNeeded();
     await page.screenshot({path: `${out}/prices-${name}.png`});
   }
+  evidence.retrieval_receipt.quote = JSON.stringify({records: Array.from({length: 101}, (_, index) => ({
+    date: "2026-10-16", symbol: "EXAMPLE" + index, close: 100 + index, daily_return: 0,
+  }))});
+  await page.reload();
+  evidenceRow = page.locator(".fullReview .evidenceRow");
+  await evidenceRow.getByRole("button", {name: "Show first 100 source rows", exact: true}).click();
+  assert.equal(await evidenceRow.locator(".evidenceSourceTable tbody tr").count(), 100);
+  assert.match(await evidenceRow.locator("caption").textContent(), /showing 100 of 101/);
+  await evidenceRow.getByRole("button", {name: "Technical receipt", exact: true}).click();
+  assert.match(await evidenceRow.locator(".technicalDetails pre").textContent(), /EXAMPLE100/);
   console.log("PASS report and spreadsheet sources: filename, fields, safe Markdown, source cells, collapsed receipts, desktop/mobile.");
 } finally {
   await browser.close();

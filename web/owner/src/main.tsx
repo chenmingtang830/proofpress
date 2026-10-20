@@ -181,6 +181,7 @@ function EvidenceContent({ row, description, collapsible = false }: { row: any; 
     const source = external.source || {};
     const omissions = source.known_omissions || [];
     return <>
+      {description && receipt && <RetrievalEvidence row={row} description={description} collapsible={collapsible} />}
       <dl className="evidenceFields">
         <div><dt>External system</dt><dd>{source.system || "Not recorded"}</dd></div>
         <div><dt>External run</dt><dd>{source.run_id || "Not recorded"}</dd></div>
@@ -191,9 +192,9 @@ function EvidenceContent({ row, description, collapsible = false }: { row: any; 
         <div><dt>Bound Proofpress run</dt><dd>{row.run_id || "Not recorded"}</dd></div>
         <div><dt>Source</dt><dd>{receipt?.source?.uri || source.uri || "Source not recorded"}</dd></div>
       </dl>
-      <p>{text}</p>
+      {!description && <p>{text}</p>}
       <small>External evidence supports a claim. Owner review or a matching owner policy is required before it becomes reusable.</small>
-      <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>
+      {!description && <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>}
     </>;
   }
   if (locator?.kind === "spreadsheet_cell") {
