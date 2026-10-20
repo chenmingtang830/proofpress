@@ -3,19 +3,9 @@ import { Button } from "./ui/button";
 import { Disclosure, DisclosureContent, DisclosureTrigger } from "./ui/disclosure";
 import { Label } from "./ui/label";
 import { NativeSelect } from "./ui/native-select";
+import { skillInstallation, type AgentClient } from "./skill-installation";
 
-type AgentClient = "codex" | "claude" | "cursor";
 const clientNames = { codex: "Codex", claude: "Claude Code", cursor: "Cursor" };
-
-function skillInstallation(client: AgentClient) {
-  const directory = { codex: ".agents", claude: ".claude", cursor: ".cursor" }[client];
-  return `skill_root=${directory}/skills/proofpress-governed-context
-skill_source=https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context
-mkdir -p "$skill_root/assets" "$skill_root/scripts"
-for file in SKILL.md assets/context-policy.yaml assets/judge-criteria.md scripts/initialize_policy.py; do
-  curl -fsSL "$skill_source/$file" -o "$skill_root/$file" || break
-done`;
-}
 
 function ConnectionCommand({commands, label}: {commands: string; label: string}) {
   const [status, setStatus] = React.useState("");
