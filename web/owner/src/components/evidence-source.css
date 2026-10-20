@@ -1,0 +1,54 @@
+.evidenceRow > .evidenceSourceHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.evidenceSourceHeader > svg { flex: none; margin-top: 4px; }
+.evidenceSourceHeader > b { min-width: 0; overflow-wrap: anywhere; }
+.evidenceRow > .evidenceSource,
+.evidenceRow > .technicalDetails {
+  display: block;
+  min-width: 0;
+}
+.evidenceSourceLocation {
+  margin: 6px 0 20px;
+  color: var(--ink-2);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.evidenceSource .evidenceSourceLocation { font-size: 13px; color: var(--ink-2); }
+.evidenceSourceFields { margin: 16px 0 24px; }
+.evidenceSourceFields > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 42%) minmax(0, 1fr);
+  gap: 12px 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.evidenceSourceFields dt { color: var(--ink-2); font-size: 13px; }
+.evidenceSourceFields dd { margin: 0; color: var(--ink); font-size: 15px; overflow-wrap: anywhere; }
+.evidenceSourceFields dd ul { margin: 0; padding-left: 18px; }
+.evidenceSourceExcerpt { max-width: 72ch; min-width: 0; }
+.evidenceSourceExcerpt.isCollapsed { max-height: 210px; overflow: hidden; }
+.evidenceSourceExcerpt p:first-child { margin-top: 0; }
+.evidenceSourceExcerpt p,
+.evidenceSourceExcerpt li { font-size: 15px; line-height: 1.65; }
+.evidenceSourceExcerpt ul,
+.evidenceSourceExcerpt ol { padding-left: 22px; margin: 12px 0; }
+.evidenceSourceExcerpt a { color: var(--accent); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.evidenceSourceMissing { color: var(--ink-2); font-size: 13px; }
+.evidenceSource > button { margin-top: 8px; min-height: 44px; }
+.evidenceSourceTable { max-width: 100%; overflow-x: auto; }
+.evidenceSourceTable table { min-width: 480px; }
+.evidenceSourceTable td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.evidenceSourceTable caption { margin-top: 12px; text-align: left; color: var(--ink-2); }
+.evidenceSource .technicalDetails { display: block; margin-top: 24px; border-top: 1px solid var(--line); }
+.technicalDetails > [data-slot="collapsible-trigger"] { white-space: normal; }
+.technicalDetails > [data-slot="collapsible-trigger"] > span { min-width: 0; }
+.technicalDetails > [data-slot="collapsible-content"][data-state="closed"] { display: none; }
+.technicalDetails > [data-slot="collapsible-content"][data-state="open"] { display: block; }
+.technicalDetails pre { max-width: 100%; font-size: 12px; line-height: 1.6; }
+@media (max-width: 600px) {
+  .evidenceSourceFields > div { grid-template-columns: 1fr; gap: 4px; padding: 12px 0; }
+}

@@ -24,6 +24,7 @@ from proofpress.hosted import capture_policy, execution, review_policy
 
 validate_operation_contracts(kernel_ops.LOCAL_OPERATION_SPECS)
 IDENTITY_PARAMETERS = {
+    "evidence.describe": "actor",
     "claim.propose": "proposer",
     "claim.evaluate": "actor",
     "claim.judge": "actor",
@@ -1471,7 +1472,8 @@ class HostedControlPlane:
                    (authority == "agent" and
                     (context.role == "owner" or
                      (context.role == "reviewer" and operation in REVIEWER_AGENT_OPERATIONS) or
-                     operation in context.permissions)))
+                     operation in context.permissions or
+                     (operation == "evidence.describe" and "evidence.submit" in context.permissions))))
         if not allowed:
             envelope = self._error_envelope(
                 request, "operation_forbidden", "operation is not permitted for this principal")

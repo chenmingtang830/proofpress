@@ -157,6 +157,24 @@ old browser page cannot repair a stopped callback listener. After the MCP client
 reports that it is connected, start a fresh agent conversation if the existing
 conversation still has a stale tool registry.
 
+### Readable source details
+
+After binding evidence to a claim, use the hosted
+`proofpress_describe_evidence` tool to record the original filename, the source
+section or spreadsheet cells, and the relevant named values. Pass the actual
+claim/evidence IDs and the evidence digest from `proofpress_get_review_receipt`.
+Use `details: {filename, location, fields: [{name, value}]}`; never substitute a
+local path for the filename or invent a source field. For a derived projection,
+name the original file and identify the derivation in its location.
+
+Descriptions are attributed, append-only presentation metadata. They do not
+replace the source URI, quote, locator, evidence digest, checks or Owner
+authorization. The original evidence and claim remain immutable. Identical
+retries reuse the description; different replacements are refused. The
+`evidence.describe` operation requires a readable claim proposed by the caller and evidence-submission
+permission (existing submission credentials do not need rotation). Review
+receipts return labels separately in `evidence_details`.
+
 In Cursor, create a remote MCP server named `proofpress` with the same `/mcp`
 URL and complete the OAuth prompt. Each client should receive its own revocable
 agent credential.

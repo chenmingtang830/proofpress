@@ -36,6 +36,23 @@ APPLICABILITY_SCHEMA = {
 
 
 TOOLS = [
+    {"name": "proofpress_describe_evidence",
+     "description": "Record the original filename, source location and relevant named values for evidence already bound to a claim you proposed. Presentation metadata only: it does not change evidence, checks or approval. Use the exact evidence digest from its review receipt. An existing description is immutable.",
+     "inputSchema": {"type": "object", "properties": {
+         "claim_id": _NON_EMPTY_TEXT, "evidence_id": {"type": "string", "pattern": EVIDENCE_ID_PATTERN},
+         "evidence_digest": {"type": "string", "pattern": SHA256_PATTERN},
+         "details": {"type": "object", "properties": {
+             "filename": {"type": "string", "minLength": 1, "maxLength": 240},
+             "location": {"type": "string", "minLength": 1, "maxLength": 600},
+             "fields": {"type": "array", "minItems": 1, "maxItems": 16, "items": {
+                 "type": "object", "properties": {
+                     "name": {"type": "string", "minLength": 1, "maxLength": 120},
+                     "value": {"type": "string", "minLength": 1, "maxLength": 600}},
+                 "required": ["name", "value"], "additionalProperties": False}}},
+             "required": ["filename", "location", "fields"], "additionalProperties": False},
+         "idempotency_key": {"type": "string"}},
+         "required": ["claim_id", "evidence_id", "evidence_digest", "details"],
+         "additionalProperties": False}},
     {"name": "proofpress_get_capture_policy", "description": "Read this workspace's versioned capture guidance before selecting findings to propose. Available before review-policy activation. This is guidance, not admission authority; local restrictions may only narrow it.", "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False}},
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
     {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
@@ -97,6 +114,10 @@ def _lineage(control, context, claim_id: str):
 
 
 def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
+    if name == "proofpress_describe_evidence":
+        return _execute(control, context, "evidence.describe", {
+            **{key: args[key] for key in ("claim_id", "evidence_id", "evidence_digest", "details")},
+            "actor": "server-derived"}, args)
     if name == "proofpress_get_capture_policy":
         return control.get_capture_policy(context)
     if name == "proofpress_capabilities":

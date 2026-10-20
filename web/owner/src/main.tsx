@@ -34,6 +34,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor, reviewQueue } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
+import { RetrievalEvidence, sourceFilename, type EvidenceDescription } from "./components/evidence-source";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import { ReassessmentPanel, type DependencyImpact, type DependencyRelation } from "@/components/reassessment-panel";
 import { RelationAdvicePanel } from "@/components/relation-advice";
@@ -79,6 +80,7 @@ type Receipt = {
     } | null;
   };
   evidence?: any[];
+  evidence_details?: Record<string, EvidenceDescription>;
   evaluation?: { checks?: Record<string, boolean>; check_receipts?: Record<string, {rule?: string; inputs?: Record<string, unknown>}> };
   recommendation?: { recommendation?: string; rationale?: string; decision_audit?: DecisionAudit };
   review?: {reviewer?: string; created_at?: string; note?: string};
@@ -133,7 +135,9 @@ async function api(path: string, options: RequestInit = {}) {
   }
   return body.result ?? body;
 }
-function evidenceName(row: any) {
+function evidenceName(row: any, description?: EvidenceDescription) {
+  const filename = sourceFilename(row, description);
+  if (filename) return filename;
   const locator = row?.retrieval_receipt?.locator;
   if (locator?.kind === "spreadsheet_cell") return `${locator.sheet}!${locator.cell}`;
   const external = row?.external_experiment;
@@ -142,7 +146,8 @@ function evidenceName(row: any) {
   if (p.cell) return p.cell.table?.identity || "Table cell";
   if (p.observation) return p.observation.metric?.name || "Metric observation";
   if (p.derivation) return p.derivation.formula?.name || "Derivation";
-  return row?.retrieval_receipt?.source?.uri || row?.source?.uri || row?.path || row?.kind || "Evidence reference";
+  if (row?.retrieval_receipt) return row.retrieval_receipt.source?.media_type === "text/markdown" ? "Report excerpt" : "Source excerpt";
+  return row?.path || row?.kind || "Evidence reference";
 }
 function evidenceText(row: any) {
   const p = row?.experiment_profile || {};
@@ -166,11 +171,12 @@ function ExpandableText({ text, label = "Show full text" }: { text: string; labe
   </div>;
 }
 
-function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?: boolean }) {
+function EvidenceContent({ row, description, collapsible = false }: { row: any; description?: EvidenceDescription; collapsible?: boolean }) {
   const text = evidenceText(row);
   const receipt = row?.retrieval_receipt;
   const locator = receipt?.locator;
   const external = row?.external_experiment;
+  if (receipt && !external) return <RetrievalEvidence row={row} description={description} collapsible={collapsible} />;
   if (external) {
     const source = external.source || {};
     const omissions = source.known_omissions || [];
@@ -1614,7 +1620,7 @@ function Inspector({
             <span>{previewEvidence.length < evidenceRows.length ? `${previewEvidence.length} of ${evidenceRows.length} sources` : `${evidenceRows.length} ${evidenceRows.length === 1 ? "source" : "sources"}`}</span>
           </div>
           {evidenceRows.length ? <div className="evidenceArgumentList">{previewEvidence.map((e: any, i: number) => <article key={e.id || i}>
-            <strong title={evidenceName(e)}>{evidenceName(e)}</strong>
+            <strong title={evidenceName(e, r.evidence_details?.[e.id])}>{evidenceName(e, r.evidence_details?.[e.id])}</strong>
             <EvidencePreview row={e} />
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
@@ -1656,11 +1662,11 @@ function Inspector({
         <TabsContent value="evidence" className="tabContent">
           {(r.evidence || []).map((e: any, i: number) => (
             <article className="evidenceRow" key={i}>
-              <div>
+              <div className="evidenceSourceHeader">
                 <ShieldCheck />
-                <b>{evidenceName(e)}</b>
+                <b>{evidenceName(e, r.evidence_details?.[e.id])}</b>
               </div>
-              <EvidenceContent row={e} collapsible={fullReview} />
+              <EvidenceContent row={e} description={r.evidence_details?.[e.id]} collapsible={fullReview} />
               <small>Bound to this claim</small>
             </article>
           ))}
@@ -1739,7 +1745,7 @@ function Inspector({
   );
 }
 function LedgerPage(props: any) {
-  return <KnowledgeLibrary {...props} evidenceName={evidenceName} renderEvidence={(row: any) => <EvidenceContent row={row} />} />;
+  return <KnowledgeLibrary {...props} evidenceName={(row: any) => evidenceName(row, props.receipt?.evidence_details?.[row.id])} renderEvidence={(row: any) => <EvidenceContent row={row} description={props.receipt?.evidence_details?.[row.id]} />} />;
 }
 function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
   const when = (value?: string) => value ? new Date(value).toLocaleString() : "—";
