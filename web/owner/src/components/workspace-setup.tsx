@@ -30,7 +30,7 @@ export function AgentConnectionInstructions({client = "codex", installationOpen 
       <li><h4>Install the skill in your project</h4><p>The skill tells your agent how to use Proofpress. Open a terminal in your project’s root folder, then run the installation commands.</p>
         <Disclosure defaultOpen={installationOpen} className="skillInstallDisclosure"><DisclosureTrigger>Skill installation commands</DisclosureTrigger><DisclosureContent>
           <ConnectionCommand key={client} commands={skillInstallation(client)} label="Copy installation commands" />
-          <p>These commands download the skill and its supporting files into <code>{client === "codex" ? ".agents" : client === "claude" ? ".claude" : ".cursor"}/skills/proofpress-governed-context</code>. If you already have this skill installed, skip this step.</p>
+          <p>These commands install or update the skill and its supporting files in <code>{client === "codex" ? ".agents" : client === "claude" ? ".claude" : ".cursor"}/skills/proofpress-governed-context</code>. Run them even if the skill is already installed to get the current workflow. Reconnecting MCP does not update the skill.</p>
         </DisclosureContent></Disclosure></li>
       <li><h4>{client === "cursor" ? "Add the MCP server" : "Connect this workspace"}</h4>
         <p>{client === "cursor" ? "Add this configuration to .cursor/mcp.json in your project. Merge it with any existing servers." : "Run these commands in the same terminal after installing the skill."}</p>
