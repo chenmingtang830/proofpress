@@ -4,6 +4,24 @@ import { MarkdownEditor } from "./ui/markdown-editor";
 import { Button } from "./ui/button";
 import { Check } from "./ui/icon";
 
+export const RESEARCH_OVER_TIME_RULES = {
+  purpose: "Accumulate evidence-backed observations, changing views and later outcomes across recurring research. Use the past 30 days to inform the next brief; keep older history for audit.",
+  capture: [
+    "One verifiable observation, change or outcome per finding. Add stable topic tags, the instrument or population, effective date, report date and known availability time.",
+    "Compare a new report with earlier findings on the same topic. Submit a material change or independent corroboration with references to both sources; preserve differences in sample, units and horizon.",
+    "Attach bounded evidence with the source filename and section, or sheet, date, instrument, field and cell. Keep reported facts separate from the agent's interpretation.",
+    "When later data answers an earlier question, link to the original finding and its recorded horizon, target and conditions. Label the outcome supported, contradicted or still unresolved, with evidence.",
+    "Extract a reusable lesson only from comparable cases, with counterevidence and limits. Distinguish historical reconstruction from information demonstrably available at the time.",
+    "Before writing, retrieve relevant, eligible findings from the past 30 days using the writing cutoff. Keep approved context, staged drafts and open watches separate. The time window is not a deletion rule."
+  ],
+  exclude: [
+    "Repeated report text or the same chart counted as independent corroboration; unchanged daily snapshots with no research question.",
+    "Predictions, targets or evaluation deadlines invented after observing outcomes; unknown timestamps treated as known.",
+    "Price moves presented as proof of flows, causality or a different basket's performance; missing observations treated as zero.",
+    "Raw source dumps, credentials, routine progress updates or unvalidated hypotheses presented as established findings."
+  ]
+};
+
 export function captureDraftPrompt(_record: any) {
   return `Help me decide what my agent should submit to Proofpress.
 
@@ -98,10 +116,11 @@ export function CaptureRules({api, csrf}: any) {
     finally { setBusy(false); }
   }
   return <Card className="captureRules captureRulesSimple">
-    <CardHeader className="adminPanelHeading"><h2>What should the agent capture?</h2><CardDescription>Tell the agent which information to submit to Proofpress for review and which to skip.</CardDescription></CardHeader>
+    <CardHeader className="adminPanelHeading"><h2>What should the agent capture?</h2><CardDescription>Tell the agent which information to submit to Proofpress for review and which to skip. Your agent runs these rules; saving them does not schedule research or scan old reports.</CardDescription></CardHeader>
     <CardContent>
       {error && <p role="alert">{error} {!record && <Button variant="outline" onClick={load}>Try again</Button>}</p>}
       {!record ? <p role="status">Loading rules…</p> : <form onSubmit={save}>
+        <div className="simplePromptRow"><p>Build on recurring topics, track changes and check later outcomes.</p><Button type="button" variant="outline" onClick={()=>{setText(formatCaptureRules(RESEARCH_OVER_TIME_RULES));setMessage("Research template loaded. Adjust the topics and review before saving.");setError("");}}>Load research over time template</Button></div>
         <div className="simplePromptRow capturePromptRow"><h3>Draft capture rules with your agent</h3><pre className="agentPrompt" aria-label="Capture rules authoring prompt"><code>{captureDraftPrompt(record)}</code></pre><Button type="button" onClick={copyPrompt}>{copyStatus === "copied" ? <><Check />Copied</> : "Copy prompt"}</Button></div>
         <div className="simpleCopyStatus" role="status" aria-live="polite">{copyStatus === "copied" ? "Copied — paste into your agent’s chat." : copyStatus === "failed" ? "Copy failed. Select and copy the prompt above." : ""}</div>
         <p className="draftPasteHelp">Paste your agent’s draft below, then review and save.</p>

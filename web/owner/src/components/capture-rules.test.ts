@@ -1,5 +1,5 @@
 import {describe, expect, it} from "vitest";
-import {captureDraftPrompt, parseCaptureDraft, formatCaptureRules, parseCaptureText} from "./capture-rules";
+import {captureDraftPrompt, parseCaptureDraft, formatCaptureRules, parseCaptureText, RESEARCH_OVER_TIME_RULES} from "./capture-rules";
 
 const settings={purpose:"Market research",capture:["Dated observations"],exclude:["Duplicate findings"]};
 describe("agent-drafted capture rules",()=>{
@@ -27,6 +27,11 @@ describe("agent-drafted capture rules",()=>{
 });
 
 describe("readable capture rules",()=>{
+  it("provides a bounded temporal research template for Owner review",()=>{
+    expect(parseCaptureText(formatCaptureRules(RESEARCH_OVER_TIME_RULES))).toEqual(RESEARCH_OVER_TIME_RULES);
+    expect(RESEARCH_OVER_TIME_RULES.capture.join(" ")).toContain("not a deletion rule");
+    expect(RESEARCH_OVER_TIME_RULES.exclude.join(" ")).toContain("invented after observing outcomes");
+  });
   it("round trips readable rules, including multiline rules and empty exclusions",()=>{
     for(const value of [settings,{...settings,capture:["A conditional observation\nwith its limits"],exclude:[]}]){
       expect(parseCaptureText(formatCaptureRules(value))).toEqual(value);

@@ -23,6 +23,7 @@ evidence address the predecessor's recorded rejection reason; lineage alone is
 not evidence and must not bias the recommendation toward acceptance."""
 
 PROVIDERS = {
+    "managed_gmi": "https://api.gmi-serving.com/v1/chat/completions",
     "openrouter": "https://openrouter.ai/api/v1/chat/completions",
     "openai": "https://api.openai.com/v1/chat/completions",
     "anthropic": "https://api.anthropic.com/v1/messages",
@@ -60,7 +61,16 @@ def _provider_failure(exc):
 
 
 def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
-    model = model or ({"typesafe": "jev-latest", "vercel_jev": "typesafe-ai/jev"}.get(provider, DEFAULT_MODEL))
+    if provider == "openai_decisions":
+        from .decisions import judge as decisions_judge
+        return decisions_judge(packet, model or "gpt-6-luna", endpoint, criteria, opener=opener)
+    model = model or ({"typesafe": "jev-latest", "vercel_jev": "typesafe-ai/jev",
+                       "managed_gmi": "openai/gpt-6-luna"}.get(provider, DEFAULT_MODEL))
+    if provider == "managed_gmi":
+        if endpoint and endpoint != PROVIDERS[provider]:
+            raise JudgeFailure("configuration", "Hosted GMI uses its fixed endpoint")
+        if model != "openai/gpt-6-luna":
+            raise JudgeFailure("configuration", "Hosted GMI requires model openai/gpt-6-luna")
     if provider == "vercel_jev":
         from . import jev
         if endpoint and endpoint != "https://ai-gateway.vercel.sh/v4/ai":
@@ -98,8 +108,12 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
             payload[token_limit] = 1800
         if provider == "openrouter" and zdr:
             payload["provider"] = {"zdr": True, "data_collection": "deny"}
+        if provider == "managed_gmi":
+            payload["context_length_exceeded_behavior"] = "error"
         body = json.dumps(payload).encode()
         headers = {"Content-Type": "application/json"}
+        if provider == "managed_gmi":
+            headers["User-Agent"] = "Proofpress/1.0"
         if provider == "azure_openai":
             headers["api-key"] = key
         elif (provider == "baseten"

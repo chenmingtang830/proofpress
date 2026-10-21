@@ -42,6 +42,21 @@ export function ensureProviderDefault(settings: any, providers: any) {
   return {...settings, model:defaultModel};
 }
 
+export function initialProviderSettings(record: any) {
+  const settings = record.settings;
+  // Only an untouched workspace without a saved key gets the hosted preset.
+  // Existing provider choices and consent are never migrated or activated.
+  if (record.version === 0 && settings.mode === "off" && !record.credential.configured && record.providers?.managed_gmi) {
+    return applyProviderPreset(settings, "managed_gmi", record.providers);
+  }
+  return ensureProviderDefault(settings, record.providers);
+}
+
+export function providerCredentialReady(record: any, settings: any, apiKey: string, removeKey: boolean) {
+  if (record?.providers?.[settings?.provider]?.managed) return Boolean(record.providers[settings.provider].available);
+  return Boolean(apiKey.trim()) || Boolean(record?.settings?.provider === settings?.provider && record?.credential?.configured && !record?.credential?.managed && !removeKey);
+}
+
 export function humanReviewSettings(settings: any) {
   return {...settings, mode:"off", require_judge:false, external_consent:false, auto_admit_new_claims:false};
 }
@@ -66,7 +81,7 @@ export function ReviewPolicy({csrf, api, onSaved, localPreview = false}: any) {
       const row = await api("/owner/api/review-policy");
       setRecord(row);
       const initial = row.version === 0 ? humanReviewSettings(row.settings) : row.settings;
-      const base = ensureProviderDefault({...initial, mode:initial.mode === "off" ? "off" : "automatic"}, row.providers);
+      const base = initialProviderSettings({...row, settings:{...initial, mode:initial.mode === "off" ? "off" : "automatic"}});
       const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
       if (prepared) {
         const parsed = JSON.parse(prepared);
@@ -111,8 +126,9 @@ I will review and save it. Do not include secrets or change approval permissions
     catch { setCopied(false); setShowAuthoringPrompt(true); }
   }
   const changed = record && settings && (record.version === 0 || JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
-  const hasProviderCredential = Boolean(record?.credential?.configured && !removeKey) || Boolean(apiKey.trim());
+  const hasProviderCredential = providerCredentialReady(record, settings, apiKey, removeKey);
   const selectedProvider = record?.providers?.[settings?.provider];
+  const savedByok = Boolean(record?.settings?.provider === settings?.provider && record?.credential?.configured && !record?.credential?.managed);
   const modelOptions = providerModelOptions(selectedProvider, settings?.model || "");
   const missingProviderKey = settings?.mode !== "off" && !hasProviderCredential;
   return <Card id="review-policy-setup" className={`reviewPolicy verificationSettings${settings?.mode === "off" && !changed && !message && !error ? " aiChecksCompact" : ""}`} aria-labelledby="reviewPolicyTitle">
@@ -126,21 +142,21 @@ I will review and save it. Do not include secrets or change approval permissions
 <Disclosure className="modelConnection" defaultOpen={!record.credential.configured}><DisclosureTrigger>Model connection</DisclosureTrigger><DisclosureContent>
 <fieldset aria-label="Model connection">
         <div className="policyFields three">
-          <Label>Provider<NativeSelect aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{key === "typesafe" ? "TypeSafe" : key === "vercel_jev" ? "Vercel AI Gateway · Jev" : value.label}</option>)}</NativeSelect></Label>
+          <Label>Provider<NativeSelect aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setApiKey("");setRemoveKey(false);setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{key === "typesafe" ? "TypeSafe" : key === "vercel_jev" ? "Vercel AI Gateway · Jev" : value.label}</option>)}</NativeSelect></Label>
           <Label>Model{modelOptions.length>0 && <NativeSelect aria-label="Model" value={selectedProvider.models.includes(settings.model)?settings.model:"__custom__"} onChange={e=>change("model",e.target.value==="__custom__"?"":e.target.value)}>
             {modelOptions.filter((model:string)=>selectedProvider.models.includes(model)).map((model:string)=><option key={model} value={model}>{model}</option>)}
-            <option value="__custom__">Enter another model ID…</option>
+            {!["managed_gmi", "openai_decisions"].includes(settings.provider) && <option value="__custom__">Enter another model ID…</option>}
           </NativeSelect>}
             {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <Input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
-            <small>Choose a provider model or enter another supported model ID.</small></Label>
+            <small>{settings.provider === "managed_gmi" ? "GPT-6 Luna via GMI Cloud. LLM advice; human approval required." : settings.provider === "openai_decisions" ? "Uses the dedicated OpenAI Decisions API." : "Choose a provider model or enter another supported model ID."}</small></Label>
 
           {(selectedProvider?.endpoint_required || selectedProvider?.endpoint_editable) && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off" && selectedProvider.endpoint_required} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} />{selectedProvider.endpoint_editable && <small>Leave blank to use the provider's hosted endpoint.</small>}</Label>}
         </div>
-        <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey || !record.credential.storage_ready} placeholder={!record.credential.storage_ready ? "Key storage is not configured" : record.credential.configured ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
-          <p>{!record.credential.storage_ready ? "Provider API keys cannot be saved until encrypted storage is configured." : record.credential.configured ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
-          {record.credential.configured && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{setRemoveKey(checked === true);setApiKey("");}} />Remove stored key when saving</Label>}
+        {selectedProvider?.managed ? <p className="policyHint">{selectedProvider.available ? "Hosted verification uses an operator-managed key. No API key needed. Choose another provider to use your own key." : "Hosted verification is awaiting operator setup. You can keep human review or choose a provider with your own key."}</p> : <div className="providerCredential"><Label>API key<Input type="password" autoComplete="new-password" value={apiKey} disabled={removeKey || !record.credential.storage_ready} placeholder={!record.credential.storage_ready ? "Key storage is not configured" : savedByok ? `Saved key ending in ${record.credential.last_four || "••••"}` : "Paste a provider key"} onChange={e=>setApiKey(e.target.value)} /></Label>
+          <p>{!record.credential.storage_ready ? "Provider API keys cannot be saved until encrypted storage is configured." : savedByok ? "A write-only credential is stored for this workspace." : "The key is encrypted for this workspace and never returned to the browser."}</p>
+          {savedByok && <Label className="policyCheck"><Checkbox checked={removeKey} onCheckedChange={checked=>{setRemoveKey(checked === true);setApiKey("");}} />Remove stored key when saving</Label>}
           {!record.credential.storage_ready && <p className={localPreview ? "policyHint" : "policyWarning"} role="note">{localPreview ? "This local preview has no encrypted key storage. Human review and agent connections are available." : "Ask your hosting operator to configure encrypted credential storage before adding a provider key. Human review and agent connections are available."}</p>}
-        </div>
+        </div>}
       </fieldset>
       </DisclosureContent></Disclosure>
       <fieldset className="simpleCriteria"><legend>Review criteria</legend>
@@ -162,9 +178,9 @@ I will review and save it. Do not include secrets or change approval permissions
         {settings.auto_admit_new_claims ? <div className="policyWarning autoAdmissionWarning" role="note"><strong>Automatic approval will take effect when you save.</strong><p>Scope: every new claim in this workspace, including high-risk claims. New claims enter approved knowledge when current checks pass, there is no unresolved conflict or invalid dependency, and the configured model recommends “Evidence supported.” Claims the model rejects, escalates, or cannot review stay for your decision. Qualifying claims will not receive per-claim human approval. Model recommendations are not calibrated probabilities.</p></div> : <p className="policyHint">Off by default. Requires supporting model advice, review criteria, a valid API key, and permission to process evidence.</p>}
       </fieldset>
         </DisclosureContent></Disclosure>}
-        {(changed || busy) && settings.mode !== "off" && <p className="providerConsentNotice" role="note">Findings and their supporting evidence will be sent to <strong>{selectedProvider?.label || settings.provider}</strong>{settings.endpoint ? <> at <strong>{settings.endpoint}</strong></> : null} for AI review. By saving, you authorize this processing for this workspace.</p>}
+        {(changed || busy) && settings.mode !== "off" && <p className="providerConsentNotice" role="note">Findings and their supporting evidence will be sent to <strong>{selectedProvider?.label || settings.provider}</strong>{settings.endpoint ? <> at <strong>{settings.endpoint}</strong></> : null} for AI review. By saving, you authorize this processing for this workspace. Automatic review also checks existing pending findings and may incur provider usage charges. Approval remains separate.</p>}
         {(changed || busy) && <div className="policyFooter"><small>{record.version ? "Unsaved changes" : "Evidence checks are included in either option."}</small><Button disabled={busy || !changed || !csrf || missingProviderKey}>{busy ? "Saving…" : settings.auto_admit_new_claims ? "Save & enable automatic approval" : settings.mode !== "off" && (record.settings.mode === "off" || !record.settings.external_consent || record.settings.provider !== settings.provider || record.settings.endpoint !== settings.endpoint) ? "Enable AI checks" : record.version ? "Save changes" : "Use manual review"}</Button></div>}
-        {missingProviderKey && <p role="note" className="policyHint">Add a provider API key to enable AI checks, or turn them off to use manual review.</p>}
+        {missingProviderKey && <p role="note" className="policyHint">{selectedProvider?.managed ? "Hosted verification is not ready. Human review remains available." : "Add a provider API key to enable AI checks, or turn them off to use manual review."}</p>}
       </form>
       {message && <p className="copySuccess" role="status"><HugeiconsIcon icon={CheckmarkCircle02Icon}/>{message}</p>}
     </CardContent>}

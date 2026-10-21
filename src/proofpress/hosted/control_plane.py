@@ -927,9 +927,15 @@ class HostedControlPlane:
             settings = review_policy.normalize(settings)
             changed_at = _now()
             provider_changed = settings["provider"] != prior["settings"].get("provider")
+            managed = settings["provider"] == "managed_gmi"
             if api_key and delete_key:
                 raise ValueError("Add or remove the provider API key, not both.")
-            if provider_changed and not api_key:
+            if managed and api_key:
+                raise ValueError("Hosted verification uses the operator's key. Select a BYOK provider to save your own key.")
+            stored_byok = connection.execute(
+                "SELECT 1 FROM hosted_provider_secrets WHERE workspace_id=?",
+                (owner.workspace_id,)).fetchone()
+            if provider_changed and not api_key and not managed and (settings["mode"] != "off" or stored_byok):
                 raise ValueError("Add the API key for the selected provider.")
             if delete_key:
                 review_policy.delete_credential(connection, owner.workspace_id)
@@ -937,6 +943,8 @@ class HostedControlPlane:
                 review_policy.save_credential(connection, owner.workspace_id, api_key, changed_at)
             if settings["mode"] != "off" and not self._provider_credential(
                     connection, owner.workspace_id, settings["provider"]):
+                if managed:
+                    raise ValueError("Hosted verification is not configured yet. Ask your operator or choose your own provider key.")
                 raise ValueError("Add a provider API key before enabling LM review.")
             if prior_saved and settings == prior["settings"] and not api_key and not delete_key:
                 return review_policy.public(prior, self._credential_status(
