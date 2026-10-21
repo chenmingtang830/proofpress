@@ -136,8 +136,11 @@ def drain(control, workspace_id):
                     # Re-check policy and lineage in the same transaction as proposal creation.
                     with store.transaction():
                         latest = control._current_policy(store._connection.get(), workspace_id)
-                        if not available(latest) or latest["policy"]["digest"] != record["policy"]["digest"] or not current(ops.receipt_v2(job["claim_id"])):
+                        latest_receipt = ops.receipt_v2(job["claim_id"])
+                        if not available(latest) or latest["policy"]["digest"] != record["policy"]["digest"] or not current(latest_receipt):
                             state, detail = "skipped", "The request or AI settings changed. No revision generated."
+                        elif latest_receipt.get("evidence_details", {}) != receipt.get("evidence_details", {}):
+                            state, detail = "skipped", "Source descriptions changed during generation. Your request is saved; no stale revision was submitted."
                         elif result["status"] == "needs_evidence":
                             state, detail = "needs_evidence", result["reason"]
                         elif result["statement"].strip() == parent["statement"].strip():

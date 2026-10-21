@@ -232,6 +232,25 @@ class RevisionJourneyTests(unittest.TestCase):
         with using_event_store(store):
             self.assertEqual(len(ops.v2_projection()['claims']), 1)
 
+    def test_source_description_added_during_generation_discards_stale_revision(self):
+        self.parent = self.control.execute(self.agent, operation('claim.propose', {
+            'statement':'An observation awaiting source labels.', 'title':'Unlabeled source',
+            'scope':'test', 'evidence_refs':self.parent['evidence_refs'], 'proposer':'agent:codex'}))['result']['claim']
+        self.request()
+        def generate(*args):
+            store = SQLiteEventStore(self.control.database, 'workspace:test', 'agent:codex')
+            with using_event_store(store), ops.using_policy(self.record['policy']):
+                eid = self.parent['evidence_refs'][0]
+                evidence = ops.v2_projection()['evidence'][eid]
+                ops.describe_evidence_v1(self.parent['id'], eid, evidence['digest'],
+                    {'filename':'newly-labeled-report.md', 'location':'Summary',
+                     'fields':[{'name':'Section', 'value':'Summary'}]}, 'agent:codex')
+            return self.result
+        job, _ = self.run_job(generate)
+        self.assertEqual(job['state'], 'skipped', job)
+        self.assertIsNone(job['successor_id'])
+        self.assertIn('Source descriptions changed', job['detail'])
+
 
 if __name__ == '__main__':
     unittest.main()
