@@ -67,7 +67,7 @@ retention, recovery, and admission mutations become reviewable change requests.
 
 `prepare_review_policy_change` and `prepare_capture_policy_change` write no server state and receive no provider
 secret. It opens Admin with a clearly labeled draft. The signed-in human owner
-must inspect it and select `Use manual review`, `Enable AI checks`, or `Save changes`; Human Approval remains available
+must inspect it and save criteria with `Save review criteria`, separately from `Enable AI checks` or `Save AI settings`; Human Approval remains available
 only in the owner UI.
 
 ## Keeping feature coverage current
@@ -92,9 +92,7 @@ The provider schema accepts live IDs from `get_review_policy().providers`
 instead of a duplicated enum. Preparation validates that the provider exists;
 new hosted providers do not silently become unselectable. Optional roundtrip
 `rubric` must match the current version. Drafts are validated and visible even
-when Admin is already open and remain intact when switching Admin tabs. Saving
-manual review preserves authored criteria with AI, provider consent and automatic
-admission off. Preparation never saves processing consent or admission settings. Capture limits match the server: 1,000-character purpose, up to 30
+when Admin is already open and remain intact when switching Admin tabs. Criteria can be saved independently while AI is off, without a provider key or changes to provider consent or automatic admission. Preparation never saves processing consent or admission settings. Capture limits match the server: 1,000-character purpose, up to 30
 rules per list, 500 characters per rule, and at least one capture rule.
 
 `web/owner/webmcp-coverage.json` maps current capabilities to tools and records

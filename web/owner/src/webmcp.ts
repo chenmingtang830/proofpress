@@ -365,8 +365,8 @@ export function createOwnerTools({api, csrfRef, selectionRequest, setSelected, s
             activated: false,
             requires_human_owner: true,
             next: settings.mode === "off"
-              ? "Review the prepared manual-review settings and criteria in Admin, then choose Use manual review or Save changes. No provider key or external processing consent is needed while AI is off."
-              : "Review the provider, criteria and processing disclosure in Admin, then choose Enable AI checks or Save changes yourself. Hosted verification must be available; enter a key privately only if you choose your own provider.",
+              ? "Save review criteria separately with Save review criteria. Review AI settings separately if needed. No provider key or external processing consent is needed while AI is off."
+              : "Save review criteria separately. Review the provider and processing disclosure before selecting Enable AI checks or Save AI settings yourself. Hosted verification must be available; enter a key privately only if you choose your own provider.",
             url: `${location.origin}/admin?section=models`,
           });
         },

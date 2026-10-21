@@ -78,8 +78,8 @@ try {
     ...policy.settings,provider:'managed_gmi',endpoint:'',model:policy.providers.managed_gmi.default_model,
     criteria:manualCriteria,mode:'off',require_judge:false,external_consent:false,auto_admit_new_claims:false,
   });
-  await page.getByRole('button',{name:'Use manual review',exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Use manual review',exact:true}).isEnabled(),true,
+  await page.getByRole('button',{name:'Save review criteria',exact:true}).waitFor();
+  assert.equal(await page.getByRole('button',{name:'Save review criteria',exact:true}).isEnabled(),true,
     'Manual-first policy remains usable without any provider credential');
   await call('prepare_agent_credential_issue',{principal_id:'agent:synthetic-first',label:'First draft'});
   await page.getByLabel('Agent identity',{exact:true}).waitFor();
@@ -105,8 +105,8 @@ try {
   // Only synthetic human interactions may save. Off mode must retain authored
   // review criteria without granting provider consent or enabling AI.
   await page.getByRole('tab',{name:'Verification settings',exact:true}).click();
-  await page.getByRole('button',{name:'Use manual review',exact:true}).click();
-  await page.getByText('Settings saved.',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Save review criteria',exact:true}).click();
+  await page.getByText('Review criteria saved.',{exact:true}).waitFor();
   const manual=await call('get_review_policy');
   assert.equal(manual.version,1);
   assert.equal(manual.settings.criteria,manualCriteria);
@@ -119,7 +119,7 @@ try {
   await page.getByText('Capture rules v1 saved. Agents will use them on their next run.',{exact:true}).waitFor();
   assert.equal((await call('get_capture_policy')).version,1);
   assert.equal(writes.length,2);
-  assert.ok(writes[0].url.endsWith('/owner/api/review-policy'));
+  assert.ok(writes[0].url.endsWith('/owner/api/review-criteria'));
   assert.ok(writes[1].url.endsWith('/owner/api/capture-policy'));
   // Seed two distinct candidates through the synthetic fixture's agent path.
   // Navigation below never clicks a decision or issues a credential.

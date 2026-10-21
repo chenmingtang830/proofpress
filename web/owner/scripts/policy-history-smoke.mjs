@@ -31,7 +31,7 @@ try {
   page.on('pageerror',error=>errors.push(error.message));
   await page.goto(`${base}/admin?section=rules`);
   await page.getByRole('button',{name:'Version history',exact:true}).click();
-  await page.getByText('No saved versions yet. Defaults and unsaved drafts are not part of version history.',{exact:true}).waitFor();
+  await page.getByRole('region',{name:'Capture rules version history',exact:true}).getByText('No saved versions yet. Defaults and unsaved drafts are not part of version history.',{exact:true}).waitFor();
   const seeded=nextLine();fixture.stdin.write('history\n');await seeded;
   await page.reload();
   const captureDraft=(await page.getByRole('textbox',{name:'Capture rules',exact:true}).inputValue()).replace('Capture purpose version 12','Unsaved capture draft');

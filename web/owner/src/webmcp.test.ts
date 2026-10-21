@@ -109,9 +109,10 @@ describe("owner WebMCP behavior", () => {
   it("keeps every read tool on GET and every prepare tool free of server mutations", async ()=>{
     const f=fixture(vi.fn(async path=>path.includes("claims/")?{state:"admitted"}:path.endsWith("review-policy")?{providers:{managed_gmi:{}}}:{}));
     for(const tool of f.tools.filter(tool=>tool.annotations?.readOnlyHint)) {
-      const result=await tool.execute({claim_id:"claim:test",run_id:"run:test",scope:"project:test",action:"withdraw"});
+      const result=await tool.execute({claim_id:"claim:test",run_id:"run:test",scope:"project:test",action:"withdraw",kind:"capture"});
       expect(result.isError,tool.name).not.toBe(true);
     }
+    await f.call("prepare_review_criteria",{criteria:"Bounded evidence only"});
     await f.call("prepare_review_response",{claim_id:"claim:test",response:"Need bounded evidence"});
     await f.call("prepare_review_policy_change",policy);
     await f.call("prepare_capture_policy_change",capture);
