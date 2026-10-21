@@ -1598,7 +1598,7 @@ function Inspector({
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <><h1 className="fullStatement">{claimTitle}</h1>{hasConciseHeading && <p className="claimFullStatement primaryClaimStatement">{r.claim.statement}</p>}</> : <h2>{claimTitle}</h2>}
         {claimDescription && claimDescription.trim() !== r.claim.statement.trim() && <p className="claimDescription">{claimDescription}</p>}
-        {hasConciseHeading && !fullReview && (<Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
+        {hasConciseHeading && !fullReview && (<Disclosure key={r.claim.id} defaultOpen className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>
