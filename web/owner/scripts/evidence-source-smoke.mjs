@@ -34,6 +34,27 @@ try {
   for (const [name, width, height] of [["desktop", 1440, 1050], ["mobile", 390, 900]]) {
     await page.setViewportSize({width, height});
     await page.goto(`${base}/review?claim_id=${id}&view=full`);
+    const tabs = page.getByRole("tablist", {name: "Claim evidence, checks and history"});
+    const evidenceTab = tabs.getByRole("tab", {name: "Evidence", exact: true});
+    await evidenceTab.waitFor();
+    assert.equal(await evidenceTab.getAttribute("aria-selected"), "true");
+    await tabs.getByRole("tab", {name: "Checks", exact: true}).click();
+    assert.equal(await page.getByRole("tabpanel", {name: "Checks", exact: true}).isVisible(), true);
+    assert.equal(await page.getByRole("tabpanel", {name: "Evidence", exact: true}).count(), 0);
+    await page.keyboard.press("ArrowRight");
+    await tabs.getByRole("tab", {name: "History", exact: true, selected: true}).waitFor();
+    assert.equal(await tabs.getByRole("tab", {name: "History", exact: true}).getAttribute("aria-selected"), "true");
+    assert.equal(await page.getByRole("tabpanel", {name: "History", exact: true}).isVisible(), true);
+    await page.keyboard.press("Home");
+    await tabs.getByRole("tab", {name: "Evidence", exact: true, selected: true}).waitFor();
+    assert.equal(await evidenceTab.getAttribute("aria-selected"), "true");
+    const tabLayout = await tabs.getByRole("tab").evaluateAll(elements => elements.map(element => {
+      const box = element.getBoundingClientRect(), style = getComputedStyle(element);
+      return {height: box.height, top: box.top, shadow: style.boxShadow, radius: style.borderRadius};
+    }));
+    assert.equal(tabLayout.length, 3);
+    assert.ok(tabLayout.every(tab => tab.height >= 44 && tab.top === tabLayout[0].top));
+    assert.ok(tabLayout.every(tab => tab.shadow === "none" && tab.radius === "0px"), "Review tabs must not inherit raised button styling");
     const row = page.locator(".fullReview .evidenceRow");
     await row.locator("b").filter({hasText: "daily-research-example.md"}).waitFor();
     await row.locator(".evidenceSourceExcerpt strong").first().waitFor();
@@ -88,7 +109,7 @@ try {
   assert.match(await evidenceRow.locator("caption").textContent(), /showing 100 of 101/);
   await evidenceRow.getByRole("button", {name: "Technical receipt", exact: true}).click();
   assert.match(await evidenceRow.locator(".technicalDetails pre").textContent(), /EXAMPLE100/);
-  console.log("PASS report and spreadsheet sources: filename, fields, safe Markdown, source cells, collapsed receipts, desktop/mobile.");
+  console.log("PASS review tab mouse/keyboard switching and flat hit targets; report/spreadsheet sources, collapsed receipts and desktop/mobile layout.");
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");
