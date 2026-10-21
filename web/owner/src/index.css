@@ -189,7 +189,7 @@ textarea {
 }
 .workspace span,
 .pageHead span,
-.inspectorTop > span:not(.inline-flex),
+.inspectorTop > span:not(.inline-flex):not(.claimTemporal),
 .decision span,
 .recommendation span {
   display: block;
@@ -1893,7 +1893,7 @@ td:last-child svg {
 
 .workspace span,
 .pageHead span,
-.inspectorTop > span:not(.inline-flex),
+.inspectorTop > span:not(.inline-flex):not(.claimTemporal),
 .decision span,
 .recommendation span,
 .workspaceLabel,

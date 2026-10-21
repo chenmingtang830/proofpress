@@ -33,6 +33,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor, reviewQueue } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
+import { ClaimTemporal } from "@/components/claim-temporal";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
 import { RetrievalEvidence, sourceFilename, type EvidenceDescription } from "./components/evidence-source";
 import { ModalSurface } from "@/components/ui/modal-surface";
@@ -1306,8 +1307,8 @@ function HomeClaimGraph({ claims, graphNodes, graphEdges, waiting, reason, onCho
   });
   const selectedSourceCount = selected ? bindings[visible.findIndex((claim: NodeRow) => claim.id === selected.id)]?.length ?? 0 : 0;
   const sourceIds = [...new Set<string>(bindings.flat())];
-  const height = Math.max(430, visible.length * 140 + 70, sourceIds.length * 88 + 90);
-  const claimY = (index: number) => 70 + index * (height - 160) / Math.max(1, visible.length - 1);
+  const height = Math.max(430, visible.length * 180 + 100, sourceIds.length * 88 + 90);
+  const claimY = (index: number) => 70 + index * (height - 220) / Math.max(1, visible.length - 1);
   const sourceY = (index: number) => 85 + index * (height - 190) / Math.max(1, sourceIds.length - 1);
   return <><div className={`homeGraphSplit ${selected ? "hasSelection" : ""}`}>
     <div className="homeNetworkViewport" tabIndex={0} role="region" aria-label="Sources connected to pending claims; scroll horizontally on small screens">
@@ -1317,11 +1318,11 @@ function HomeClaimGraph({ claims, graphNodes, graphEdges, waiting, reason, onCho
         {sourceIds.map((id, index) => <div className="homeSourceNode" key={id} style={{top: sourceY(index)}}><BookOpen /><span>{graphNodes.find((node: any) => node.id === id)?.label || id}</span></div>)}
         {visible.map((claim: NodeRow, index: number) => {
           const tone = waiting(claim) ? "processing" : ["blocked", "dependency_invalidated"].includes(claim.state) ? "blocked" : "attention";
-          return <Button variant="ghost" size="content" key={claim.id} className={`homeClaimNode ${tone} ${selectedId === claim.id ? "selected" : ""}`} style={{top: claimY(index), left: "45%"}} aria-pressed={selectedId === claim.id} onClick={() => setSelectedId(claim.id)} aria-label={`${claimDisplayTitle(claim)} — ${waiting(claim) ? "In progress" : reason(claim)}. Preview claim`}><span>{waiting(claim) ? "In progress" : reason(claim)}<ChevronRight /></span><strong>{claimDisplayTitle(claim)}</strong><small>{claim.scope || "Workspace"}{bindings[index].length === 0 ? " · No linked source" : ` · ${bindings[index].length} ${bindings[index].length === 1 ? "source" : "sources"}`}</small></Button>;
+          return <Button variant="ghost" size="content" key={claim.id} className={`homeClaimNode ${tone} ${selectedId === claim.id ? "selected" : ""}`} style={{top: claimY(index), left: "45%"}} aria-pressed={selectedId === claim.id} onClick={() => setSelectedId(claim.id)} aria-label={`${claimDisplayTitle(claim)} — ${waiting(claim) ? "In progress" : reason(claim)}. Preview claim`}><span>{waiting(claim) ? "In progress" : reason(claim)}<ChevronRight /></span><strong>{claimDisplayTitle(claim)}</strong><ClaimTemporal claim={claim} compact /><small>{claim.scope || "Workspace"}{bindings[index].length === 0 ? " · No linked source" : ` · ${bindings[index].length} ${bindings[index].length === 1 ? "source" : "sources"}`}</small></Button>;
         })}
       </div>
     </div>
-    {selected && <aside className="homeClaimDetail" aria-label="Claim preview"><header><span>Candidate claim</span><Button variant="ghost" size="sm" aria-label="Close claim preview" onClick={() => setSelectedId(null)}><X /></Button></header><h2>{claimDisplayTitle(selected)}</h2><p>{selected.label}</p><dl><div><dt>Status</dt><dd>{reason(selected)}</dd></div><div><dt>Scope</dt><dd>{selected.scope || "Workspace"}</dd></div><div><dt>Sources</dt><dd>{selectedSourceCount}</dd></div><div><dt>Deterministic checks</dt><dd>{detail ? detail.evaluation?.checks ? Object.values(detail.evaluation.checks).every(Boolean) ? "Passed" : "Needs attention" : "Not recorded" : "…"}</dd></div></dl>{detailError && <p role="alert">{detailError}</p>}<Button onClick={() => onChoose(selected.id)}>Review <ChevronRight /></Button></aside>}
+    {selected && <aside className="homeClaimDetail" aria-label="Claim preview"><header><span>Candidate claim</span><Button variant="ghost" size="sm" aria-label="Close claim preview" onClick={() => setSelectedId(null)}><X /></Button></header><h2>{claimDisplayTitle(selected)}</h2><ClaimTemporal claim={selected} /><p>{selected.label}</p><dl><div><dt>Status</dt><dd>{reason(selected)}</dd></div><div><dt>Scope</dt><dd>{selected.scope || "Workspace"}</dd></div><div><dt>Sources</dt><dd>{selectedSourceCount}</dd></div><div><dt>Deterministic checks</dt><dd>{detail ? detail.evaluation?.checks ? Object.values(detail.evaluation.checks).every(Boolean) ? "Passed" : "Needs attention" : "Not recorded" : "…"}</dd></div></dl>{detailError && <p role="alert">{detailError}</p>}<Button onClick={() => onChoose(selected.id)}>Review <ChevronRight /></Button></aside>}
     </div>
     {claims.length > 6 && <nav className="homeNetworkPages" aria-label="Claim graph pages"><Button variant="outline" disabled={page === 0} onClick={() => {setOffset(page - 1);setSelectedId(null);}}>Previous</Button><span>{page * 6 + 1}–{Math.min(claims.length, page * 6 + 6)} of {claims.length}</span><Button variant="outline" disabled={(page + 1) * 6 >= claims.length} onClick={() => {setOffset(page + 1);setSelectedId(null);}}>Next</Button></nav>}
   </>;
@@ -1391,7 +1392,7 @@ function ReviewPage({
                   onClick={() => onChoose(row.id)}
                 >
                   <TableCell data-label="Claim">
-                    <Button variant="ghost" size="content" className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{claimDisplayTitle(row)}</Button>
+                    <Button variant="ghost" size="content" className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{claimDisplayTitle(row)}</Button><ClaimTemporal claim={row} compact />
                     <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
                   </TableCell>
                   <TableCell data-label="Status"><Badge state={row.state} /></TableCell>
@@ -1597,6 +1598,7 @@ function Inspector({
         {fullReview ? <div className="reviewRecordHeader"><span><ShieldCheck />Claim details</span><Badge state={r.state} /></div> : (can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <><h1 className="fullStatement">{claimTitle}</h1>{hasConciseHeading && <p className="claimFullStatement primaryClaimStatement">{r.claim.statement}</p>}</> : <h2>{claimTitle}</h2>}
+        <ClaimTemporal claim={r.claim} />
         {claimDescription && claimDescription.trim() !== r.claim.statement.trim() && <p className="claimDescription">{claimDescription}</p>}
         {hasConciseHeading && !fullReview && (<Disclosure key={r.claim.id} defaultOpen className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
         <p>

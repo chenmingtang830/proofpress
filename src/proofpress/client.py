@@ -272,13 +272,13 @@ class ProofpressClient:
             "task": task, "max_depth": max_depth,
             "max_claims": max_claims, "state": state})
     def context(self, *, scope=None, actor=None, task=None,
-                include_blocked_statements=False):
+                include_blocked_statements=False, temporal_window=None):
         return self.execute("context.get", {
             "scope": scope, "actor": actor, "task": task,
-            "include_blocked_statements": include_blocked_statements})
-    def discover_context(self, *, actor=None, task=None, limit=24):
+            "include_blocked_statements": include_blocked_statements, "temporal_window": temporal_window})
+    def discover_context(self, *, actor=None, task=None, limit=24, temporal_window=None):
         return self.execute("context.discover", {
-            "actor": actor, "task": task, "limit": limit})
+            "actor": actor, "task": task, "limit": limit, "temporal_window": temporal_window})
     def start_run(self, purpose, *, actor=None, metadata=None, **meta):
         return self.execute("run.start", {
             "purpose": purpose, "actor": actor, "metadata": metadata}, **meta)

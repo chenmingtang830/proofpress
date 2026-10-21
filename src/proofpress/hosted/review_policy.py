@@ -294,7 +294,7 @@ def validate(settings, prior):
                "--endpoint", endpoint, "--model", model, "--criteria", criteria]
     if settings["provider"] in {"openrouter", "vercel_jev"} and settings["zdr"]:
         command.append("--zdr")
-    policy["judge"] = {"identity": f"judge:{settings['provider']}-advisory", "timeout_seconds": 60,
+    policy["judge"] = {"identity": f"judge:{settings['provider']}-advisory", "timeout_seconds": 150 if settings["provider"] == "managed_gmi" else 60,
                        "command": command if enabled else []}
     if settings["provider"] in {"typesafe", "vercel_jev"}:
         policy["judge"]["decision_contract"] = "proofpress-jev-judge/v1"

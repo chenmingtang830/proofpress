@@ -1,6 +1,8 @@
 """Readable source labels never replace bound evidence or admission authority."""
 import copy
 import hashlib
+import json
+from types import SimpleNamespace
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tempfile
@@ -71,7 +73,35 @@ class EvidenceDetailsTests(unittest.TestCase):
         self.assertEqual(replay["description"]["event_id"], result["description"]["event_id"])
         self.assertEqual(self.receipt()["ledger_head"], after["ledger_head"])
 
-    def test_no_rebinding_hidden_claim_or_overwriting_original_description(self):
+    def test_judge_description_projection_is_bound_and_not_new_evidence(self):
+        self.execute("evidence.describe", self.params)
+        store = SQLiteEventStore(self.control.database, "workspace:labels", "agent:research")
+        with using_event_store(store):
+            projection = operations.v2_projection()
+            row = projection["claims"][self.claim_id]
+            labels = operations._judge_source_descriptions(projection, row)
+            self.assertEqual(labels[0]["details"], self.params["details"])
+            self.assertEqual(labels[0]["authority"], "presentation_only")
+            projection["evidence_details"][self.claim_id][self.evidence_id]["evidence_digest"] = "sha256:" + "f" * 64
+            self.assertEqual(operations._judge_source_descriptions(projection, row), [])
+        self.assertEqual(self.receipt()["evidence"], self.before["evidence"])
+
+    def test_judge_packet_includes_exact_source_descriptions(self):
+        self.execute("evidence.describe", self.params)
+        store = SQLiteEventStore(self.control.database, "workspace:labels", "agent:research")
+        policy = copy.deepcopy(self.control._policy("workspace:labels")["policy"])
+        policy["judge"] = {"identity": "judge:test", "command": ["fixture-judge"], "timeout_seconds": 1}
+        packet_list = []
+        def capture(*args, **kwargs):
+            packet = json.loads(kwargs["input"])
+            packet_list.append(packet)
+            return SimpleNamespace(returncode=0, stderr="", stdout=json.dumps({"recommendation": "escalate", "rationale": "Synthetic test advice."}))
+        with using_event_store(store), operations.using_policy(policy), patch.object(operations.subprocess, "run", side_effect=capture):
+            operations.judge_v2(self.claim_id)
+        self.assertEqual(packet_list[0]["source_descriptions"][0]["details"], self.params["details"])
+        self.assertEqual(packet_list[0]["source_descriptions"][0]["actor"], "agent:research")
+        self.assertEqual(packet_list[0]["evidence"], self.before["evidence"])
+
         for key, value in [("evidence_id", "evd_" + "f" * 16),
                            ("evidence_digest", "sha256:" + "f" * 64)]:
             with self.subTest(key=key):

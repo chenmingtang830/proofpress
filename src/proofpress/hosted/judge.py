@@ -20,7 +20,17 @@ escalate. You are an advisory judge, never an authorizer; accept does not admit
 claims. Do not claim scientific validity from structural checks alone. When
 reproposal_parent is present, explicitly assess whether the new statement and
 evidence address the predecessor's recorded rejection reason; lineage alone is
-not evidence and must not bias the recommendation toward acceptance."""
+not evidence and must not bias the recommendation toward acceptance.
+source_descriptions are proposer-attributed presentation metadata attached to exact
+bound evidence versions. Use them to locate a filename, section or field, never as
+independent corroboration or to override conflicting bound evidence. Temporal
+qualifiers describe the claim's observation and first-known time, not proof.
+Evaluate the claim at its stated attribution level: a report-sourced observation
+need not independently establish the underlying event. A limitation such as
+"this evidence does not establish causality" bounds an inference; it is not an
+assertion that causality is false. Do not demand proof of a universal negative
+for an appropriately scoped limitation. Missing support for material positive
+assertions still requires escalation. Keep the rationale under 200 words."""
 
 PROVIDERS = {
     "managed_gmi": "https://api.gmi-serving.com/v1/chat/completions",
@@ -45,6 +55,8 @@ class JudgeFailure(ValueError):
 
 def _provider_failure(exc):
     """Project an upstream failure without retaining its body or credentials."""
+    if isinstance(exc, JudgeFailure):
+        return exc
     if isinstance(exc, HTTPError):
         if exc.code in {401, 403}:
             return JudgeFailure("authentication", "Judge provider authentication failed; update the API key.")
@@ -110,6 +122,7 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
             payload["provider"] = {"zdr": True, "data_collection": "deny"}
         if provider == "managed_gmi":
             payload["context_length_exceeded_behavior"] = "error"
+            payload["max_completion_tokens"] = 4096
         body = json.dumps(payload).encode()
         headers = {"Content-Type": "application/json"}
         if provider == "managed_gmi":
@@ -123,11 +136,13 @@ def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", z
             headers["Authorization"] = "Bearer " + key
     request = Request(target, data=body, headers=headers)
     try:
-        with opener(request, timeout=45) as response:
+        with opener(request, timeout=120 if provider == "managed_gmi" else 45) as response:
             raw = response.read(128_001)
         if len(raw) > 128_000:
             raise ValueError("oversized response")
         payload = json.loads(raw)
+        if provider != "anthropic" and payload.get("choices", [{}])[0].get("finish_reason") == "length":
+            raise JudgeFailure("output_limit", "Judge reached its output limit; no verdict recorded")
         content = payload["content"][0]["text"] if provider == "anthropic" else payload["choices"][0]["message"]["content"]
         verdict = json.loads(content)
         if not isinstance(verdict, dict):
