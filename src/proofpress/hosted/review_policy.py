@@ -12,8 +12,8 @@ from proofpress.kernel import operations as kernel
 
 RUBRICS = {"evidence-support/v1": "Evidence support, source binding, missing evidence and limitations"}
 PROVIDERS = {
-    "managed_openai_decisions": {"label": "Proofpress hosted · OpenAI Decisions", "endpoint": "https://api.openai.com/v1/decisions",
-                                 "default_model": "gpt-6-luna", "models": ["gpt-6-luna"], "zdr": False, "managed": True},
+    "managed_gmi": {"label": "Proofpress hosted · GMI Cloud", "endpoint": "https://api.gmi-serving.com/v1/chat/completions",
+                    "default_model": "openai/gpt-6-luna", "models": ["openai/gpt-6-luna"], "zdr": False, "managed": True},
     "openai_decisions": {"label": "OpenAI Decisions · your key", "endpoint": "https://api.openai.com/v1/decisions",
                          "default_model": "gpt-6-luna", "models": ["gpt-6-luna"], "zdr": False},
     "vercel_jev": {"label": "Vercel AI Gateway · Jev (experimental)", "endpoint": "https://ai-gateway.vercel.sh/v4/ai",
@@ -139,7 +139,7 @@ def initial_workspace_policy():
     """Safe version-zero seed used only while saving a new workspace policy."""
     policy = json.loads(json.dumps(kernel.DEFAULT_POLICY_V2))
     policy["digest"] = kernel.digest(policy)
-    return {"version": 0, "settings": normalize({"provider": "managed_openai_decisions"}), "policy": policy,
+    return {"version": 0, "settings": normalize({"provider": "managed_gmi"}), "policy": policy,
             "actor": "unconfigured workspace", "updated_at": None}
 
 
@@ -156,7 +156,7 @@ def _cipher():
 
 def credential_status(connection, workspace_id, provider="openrouter", *,
                       legacy_default_workspace_id=None):
-    if provider == "managed_openai_decisions":
+    if provider == "managed_gmi":
         return {"configured": bool(managed_credential()), "last_four": None,
                 "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY")), "managed": True}
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
@@ -181,7 +181,7 @@ def delete_credential(connection, workspace_id):
 
 def credential(connection, workspace_id, provider="openrouter", *,
                legacy_default_workspace_id=None):
-    if provider == "managed_openai_decisions":
+    if provider == "managed_gmi":
         return managed_credential()
     row = connection.execute("SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     if not row:
@@ -196,8 +196,8 @@ def credential(connection, workspace_id, provider="openrouter", *,
 
 
 def managed_credential():
-    # Dedicated operator secret: never borrow a tenant BYOK, GMI, or generic key.
-    return os.environ.get("PROOFPRESS_MANAGED_OPENAI_API_KEY", "").strip() or None
+    # Dedicated operator secret: never borrow a tenant BYOK or another provider key.
+    return os.environ.get("PROOFPRESS_MANAGED_GMI_API_KEY", "").strip() or None
 
 
 def public(record, credential=None):
@@ -260,7 +260,14 @@ def validate(settings, prior):
         raise ValueError("Use a provider/model identifier.")
     if settings["provider"] == "vercel_jev" and settings["mode"] != "off" and model != "typesafe-ai/jev":
         raise ValueError("Vercel Jev requires model typesafe-ai/jev.")
-    if settings["provider"] in {"managed_openai_decisions", "openai_decisions"}:
+    if settings["provider"] == "managed_gmi":
+        if not isinstance(settings["endpoint"], str) or settings["endpoint"] not in {"", PROVIDERS["managed_gmi"]["endpoint"]}:
+            raise ValueError("Hosted GMI uses its fixed endpoint.")
+        if settings["mode"] != "off" and model != "openai/gpt-6-luna":
+            raise ValueError("Hosted GMI requires model openai/gpt-6-luna.")
+        if settings["auto_admit_new_claims"]:
+            raise ValueError("Hosted GMI review is advisory; human approval is required.")
+    if settings["provider"] == "openai_decisions":
         if not isinstance(settings["endpoint"], str) or settings["endpoint"] not in {"", "https://api.openai.com/v1/decisions"}:
             raise ValueError("OpenAI Decisions uses its fixed endpoint.")
         if settings["mode"] != "off" and model != "gpt-6-luna":

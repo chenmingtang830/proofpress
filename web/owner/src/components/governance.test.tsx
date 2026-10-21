@@ -12,15 +12,15 @@ import { settingsForOwnerSave, applyProviderPreset, ensureProviderDefault, merge
 
 describe("governance components", () => {
   it("defaults only untouched workspaces to hosted verification without opting in", () => {
-    const record = {version:0, settings:{provider:"openrouter", model:"", mode:"off", external_consent:false}, credential:{configured:false}, providers:{managed_openai_decisions:{managed:true, available:false, default_model:"gpt-6-luna"}}};
+    const record = {version:0, settings:{provider:"openrouter", model:"", mode:"off", external_consent:false}, credential:{configured:false}, providers:{managed_gmi:{managed:true, available:false, default_model:"openai/gpt-6-luna"}}};
     const selected = initialProviderSettings(record);
-    expect(selected.provider).toBe("managed_openai_decisions");
+    expect(selected.provider).toBe("managed_gmi");
     expect(selected.external_consent).toBe(false);
     expect(selected.mode).toBe("off");
     expect(initialProviderSettings({...record, version:1}).provider).toBe("openrouter");
     expect(initialProviderSettings({...record, credential:{configured:true}}).provider).toBe("openrouter");
     expect(providerCredentialReady(record, selected, "", false)).toBe(false);
-    record.providers.managed_openai_decisions.available = true;
+    record.providers.managed_gmi.available = true;
     expect(providerCredentialReady(record, selected, "", false)).toBe(true);
     expect(providerCredentialReady({...record, credential:{configured:true, managed:true}}, {provider:"openai_decisions"}, "", false)).toBe(false);
   });

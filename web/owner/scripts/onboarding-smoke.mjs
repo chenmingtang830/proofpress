@@ -124,7 +124,7 @@ try {
   await page.getByRole('tab',{name:'Verification settings',exact:true}).click();
   const aiToggle = page.getByRole('switch',{name:'AI-assisted checks',exact:true});
   await aiToggle.click();
-  assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'managed_openai_decisions');
+  assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'managed_gmi');
   assert.equal(await page.getByLabel('API key',{exact:true}).count(),0,'Hosted option never asks the customer for a key');
   assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false,'Missing operator key blocks activation');
   for (const width of [1440,390]) {
@@ -135,7 +135,7 @@ try {
   await page.getByLabel('Model provider',{exact:true}).selectOption('openai_decisions');
   assert.equal(await page.getByLabel('API key',{exact:true}).count(),1,'BYOK remains available explicitly');
   assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false);
-  await page.getByLabel('Model provider',{exact:true}).selectOption('managed_openai_decisions');
+  await page.getByLabel('Model provider',{exact:true}).selectOption('managed_gmi');
   await aiToggle.click();
   await page.setViewportSize({width:1440,height:1000});
   // Activating this policy is a deliberate human action; no API key or provider consent is needed.

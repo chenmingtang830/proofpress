@@ -46,8 +46,8 @@ export function initialProviderSettings(record: any) {
   const settings = record.settings;
   // Only an untouched workspace without a saved key gets the hosted preset.
   // Existing provider choices and consent are never migrated or activated.
-  if (record.version === 0 && settings.mode === "off" && !record.credential.configured && record.providers?.managed_openai_decisions) {
-    return applyProviderPreset(settings, "managed_openai_decisions", record.providers);
+  if (record.version === 0 && settings.mode === "off" && !record.credential.configured && record.providers?.managed_gmi) {
+    return applyProviderPreset(settings, "managed_gmi", record.providers);
   }
   return ensureProviderDefault(settings, record.providers);
 }
@@ -145,10 +145,10 @@ I will review and save it. Do not include secrets or change approval permissions
           <Label>Provider<NativeSelect aria-label="Model provider" value={settings.provider} onChange={e=>{setSettings(applyProviderPreset(settings,e.target.value,record.providers));setApiKey("");setRemoveKey(false);setMessage("");}}>{Object.entries(record.providers).map(([key,value]:any)=><option key={key} value={key}>{key === "typesafe" ? "TypeSafe" : key === "vercel_jev" ? "Vercel AI Gateway · Jev" : value.label}</option>)}</NativeSelect></Label>
           <Label>Model{modelOptions.length>0 && <NativeSelect aria-label="Model" value={selectedProvider.models.includes(settings.model)?settings.model:"__custom__"} onChange={e=>change("model",e.target.value==="__custom__"?"":e.target.value)}>
             {modelOptions.filter((model:string)=>selectedProvider.models.includes(model)).map((model:string)=><option key={model} value={model}>{model}</option>)}
-            {!["managed_openai_decisions", "openai_decisions"].includes(settings.provider) && <option value="__custom__">Enter another model ID…</option>}
+            {!["managed_gmi", "openai_decisions"].includes(settings.provider) && <option value="__custom__">Enter another model ID…</option>}
           </NativeSelect>}
             {(modelOptions.length===0 || !selectedProvider.models.includes(settings.model)) && <Input aria-label="Custom model ID" value={settings.model} placeholder={selectedProvider?.editable_model?"deployment-or-model-name":"provider/model-name"} onChange={e=>change("model",e.target.value)} />}
-            <small>{["managed_openai_decisions", "openai_decisions"].includes(settings.provider) ? "Uses the dedicated OpenAI Decisions API." : "Choose a provider model or enter another supported model ID."}</small></Label>
+            <small>{settings.provider === "managed_gmi" ? "GPT-6 Luna via GMI Cloud. LLM advice; human approval required." : settings.provider === "openai_decisions" ? "Uses the dedicated OpenAI Decisions API." : "Choose a provider model or enter another supported model ID."}</small></Label>
 
           {(selectedProvider?.endpoint_required || selectedProvider?.endpoint_editable) && <Label className="wide">HTTPS endpoint<Input type="url" required={settings.mode!=="off" && selectedProvider.endpoint_required} value={settings.endpoint} placeholder={selectedProvider.endpoint_placeholder} onChange={e=>change("endpoint",e.target.value)} />{selectedProvider.endpoint_editable && <small>Leave blank to use the provider's hosted endpoint.</small>}</Label>}
         </div>

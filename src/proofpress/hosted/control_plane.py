@@ -927,7 +927,7 @@ class HostedControlPlane:
             settings = review_policy.normalize(settings)
             changed_at = _now()
             provider_changed = settings["provider"] != prior["settings"].get("provider")
-            managed = settings["provider"] == "managed_openai_decisions"
+            managed = settings["provider"] == "managed_gmi"
             if api_key and delete_key:
                 raise ValueError("Add or remove the provider API key, not both.")
             if managed and api_key:

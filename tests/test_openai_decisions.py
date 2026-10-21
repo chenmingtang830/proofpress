@@ -64,13 +64,13 @@ class ManagedPolicyTests(unittest.TestCase):
     setUp = policy_tests.ReviewPolicyTests.setUp
 
     def managed(self, **overrides):
-        return {**self.settings, "provider": "managed_openai_decisions", "model": "gpt-6-luna", "require_judge": False, **overrides}
+        return {**self.settings, "provider": "managed_gmi", "model": "openai/gpt-6-luna", "require_judge": False, **overrides}
 
     def test_hosted_opt_in_requires_separate_operator_key(self):
-        with patch.dict(os.environ, {"PROOFPRESS_MANAGED_OPENAI_API_KEY": "", "GMI_API_KEY": "not-openai"}):
+        with patch.dict(os.environ, {"PROOFPRESS_MANAGED_GMI_API_KEY": "", "OPENAI_API_KEY": "not-gmi"}):
             with self.assertRaisesRegex(ValueError, "not configured yet"):
                 self.control.save_review_policy(self.owner, self.managed(), 0)
-        with patch.dict(os.environ, {"PROOFPRESS_MANAGED_OPENAI_API_KEY": "synthetic-platform-key"}):
+        with patch.dict(os.environ, {"PROOFPRESS_MANAGED_GMI_API_KEY": "synthetic-platform-key"}):
             with self.assertRaisesRegex(ValueError, "consent"):
                 self.control.save_review_policy(self.owner, self.managed(external_consent=False), 0)
             saved = self.control.save_review_policy(self.owner, self.managed(), 0)
@@ -82,7 +82,7 @@ class ManagedPolicyTests(unittest.TestCase):
                 self.control.save_review_policy(self.owner, {**self.settings, "provider": "openai_decisions", "model": "gpt-6-luna"}, 1)
 
     def test_managed_is_not_a_byok_fallback_and_cannot_auto_approve(self):
-        with patch.dict(os.environ, {"PROOFPRESS_MANAGED_OPENAI_API_KEY": "synthetic-platform-key"}):
+        with patch.dict(os.environ, {"PROOFPRESS_MANAGED_GMI_API_KEY": "synthetic-platform-key"}):
             with self.control._db() as connection:
                 self.assertIsNone(review_policy.credential(connection, "workspace:test", "openai_decisions"))
             with self.assertRaisesRegex(ValueError, "human approval"):
@@ -92,7 +92,7 @@ class ManagedPolicyTests(unittest.TestCase):
 
     def test_default_does_not_enable_processing(self):
         settings = review_policy.initial_workspace_policy()["settings"]
-        self.assertEqual(settings["provider"], "managed_openai_decisions")
+        self.assertEqual(settings["provider"], "managed_gmi")
         self.assertEqual(settings["mode"], "off")
         self.assertFalse(settings["external_consent"])
 
