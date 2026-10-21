@@ -44,9 +44,9 @@ try {
   const approve = page.getByRole('button',{name:'Approve',exact:true});
   assert.ok(await approve.count() === 0 || !(await approve.isEnabled()), 'Failed checks must prevent approval');
   assert.equal(await page.getByRole('button',{name:'Run optional model review',exact:true}).count(),0);
-  await page.getByRole('heading',{name:'Not ready for owner review'}).waitFor();
+  await page.getByRole('heading',{name:'Approval blocked by failed checks'}).waitFor();
   await page.getByRole('button',{name:'Copy instructions for proposer'}).waitFor();
-  await screen('blocked-before-model-or-human-review');
+  await screen('blocked-approval-with-correction-decisions');
   await page.goto(`${data.base}/review?claim_id=${data.ids[3]}&view=full`);
   await page.getByRole('button',{name:'Run optional model review',exact:true}).click();
   await page.getByText('No approval was recorded.',{exact:false}).waitFor();

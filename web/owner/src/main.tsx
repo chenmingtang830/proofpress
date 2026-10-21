@@ -1573,7 +1573,7 @@ function Inspector({
     return pending ? <aside className={`inspector${fullReview ? " fullReview" : ""}`} aria-label="Claim details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
   }
   const modelAttribution = r.recommendation?.decision_audit?.backend === "jev" ? "Powered by Jev · Advisory" : "Advisory";
-  const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
+  const can = ["needs_review", "unresolved", "blocked"].includes(r.state) && !readOnly;
   const needsReassessment = r.state === "dependency_invalidated" && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
   const checkReason = (name:string) => ({"evidence present":"Required evidence missing","evidence integrity":"Evidence integrity unverified","experiment evidence present":"Typed experiment evidence missing","experiment evidence valid":"Experiment evidence invalid","experiment identity bound":"Experiment identity unbound","not expired":"Claim expired","not superseded":"Claim superseded","reuse boundary present":"Reuse boundary missing"} as Record<string,string>)[name] || `${name} failed`;
@@ -1583,7 +1583,7 @@ function Inspector({
   const judgeInProgress = judgeRunning || ["queued", "running"].includes(r.judge_job?.state);
   const judgeAttemptFailed = ["failed", "interrupted", "skipped"].includes(r.judge_job?.state) || (judgeMessage?.claimId === r.claim.id && judgeMessage?.tone === "error");
   const judgeFailed = !r.recommendation && judgeAttemptFailed;
-  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting model advice. Refresh the model review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The model marked this claim Needs Attention. This workspace requires supporting model advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The model found that the evidence does not support this claim. This workspace requires supporting model advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting model advice before approval." : "";
+  const approvalBlock = !Object.keys(r.evaluation?.checks || {}).length ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(" · ") : r.state === "blocked" ? "Resolve the deterministic checks before approval." : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && !r.review_policy.advice_current ? "The workspace requires current, supporting model advice. Refresh the model review before approval." : r.review_policy?.require_judge && r.recommendation?.recommendation === "escalate" ? "The model marked this claim Needs Attention. This workspace requires supporting model advice before you can approve; review the rationale, then request a bounded revision if the evidence is incomplete." : r.review_policy?.require_judge && r.recommendation?.recommendation === "reject" ? "The model found that the evidence does not support this claim. This workspace requires supporting model advice before you can approve; review the rationale, then reject or request a bounded revision." : r.review_policy?.require_judge && r.recommendation?.recommendation !== "accept" ? "This workspace requires supporting model advice before approval." : "";
   const evidenceRows = r.evidence || [];
   const previewEvidence = evidenceRows.slice(0, 2);
   const claimTitle = claimDisplayTitle(r.claim);
@@ -1668,8 +1668,8 @@ function Inspector({
       </Button>}
       {reviewHeader}
       {r.state === "blocked" && !readOnly && <section className="blockedReviewPanel" aria-labelledby="blocked-review-title">
-        <h2 id="blocked-review-title">Not ready for owner review</h2>
-        <p>The deterministic checks did not pass, so this candidate cannot be approved or sent to LM review. The proposer needs to correct it and submit a new candidate.</p>
+        <h2 id="blocked-review-title">Approval blocked by failed checks</h2>
+        <p>The deterministic checks did not pass, so this candidate cannot be approved or sent to LM review. You can reject it or request changes below. The proposer must correct the failed checks before approval.</p>
         <BlockedCorrectionHandoff receipt={r} />
         <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="failed-checks"><AccordionTrigger>Inspect check receipts</AccordionTrigger><AccordionContent><CheckReceiptRows evaluation={r.evaluation} finding={r} /></AccordionContent></AccordionItem></Accordion>
       </section>}

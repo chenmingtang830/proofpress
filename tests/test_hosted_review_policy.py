@@ -532,6 +532,25 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertEqual(receipt["state"], "blocked")
         self.assertEqual(next(row for row in graph["nodes"] if row["id"] == cid)["state"], "blocked")
 
+    def test_blocked_candidates_allow_correction_decisions_but_not_approval(self):
+        for decision, state in (("reject", "rejected"), ("request_changes", "needs_revision")):
+            with self.subTest(decision=decision):
+                proposal = self.control.execute(self.agent, operation("claim.propose", {
+                    "title": decision, "statement": decision, "evidence_refs": [],
+                    "scope": "test", "proposer": "agent:codex"}, "blocked-" + decision))
+                cid = proposal["result"]["claim"]["id"]
+                self.control.execute(self.agent, operation("claim.evaluate", {"claim_id": cid}))
+                denied = self.control.execute(self.owner, operation("claim.review", {
+                    "claim_id": cid, "decision": "admit", "reviewer": "human:owner"}))
+                self.assertFalse(denied["ok"])
+                result = self.control.execute(self.owner, operation("claim.review", {
+                    "claim_id": cid, "decision": decision, "reviewer": "human:owner",
+                    "note": "The evidence must be corrected."}))
+                self.assertTrue(result["ok"], result)
+                receipt = self.control.execute(self.owner, operation("review.receipt", {
+                    "claim_id": cid}))["result"]
+                self.assertEqual(receipt["state"], state)
+
     def test_failed_checks_skip_provider_and_restart_does_not_retry_running_job(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
             self.control.save_review_policy(self.owner, {**self.settings, "mode":"automatic"}, 0)
