@@ -144,20 +144,21 @@ def drain(control, workspace_id):
                             qualifiers = {**parent.get("qualifiers", {}), "revision_of": parent["id"],
                                 "revision_request_ref": job["request_ref"], "revision_response": result["reason"],
                                 "revision_generator": "hosted-gmi/v1"}
-                            proposed = ops.propose_v2(result["statement"].strip(), parent["evidence_refs"],
-                                scope=parent.get("scope"), proposer=ACTOR, expires_at=parent.get("expires_at"),
-                                artifact_refs=parent.get("artifact_refs"), applicability=parent.get("applicability"),
-                                qualifiers=qualifiers, title=result["title"].strip())
-                            successor = proposed["claim"]["id"]
-                            for eid, description in receipt.get("evidence_details", {}).items():
-                                ops.describe_evidence_v1(successor, eid, description["evidence_digest"],
-                                    description["details"], ACTOR)
-                            ops.evaluate_v2(successor)
+                            with ops.using_requested_revision_authority(parent["id"], job["request_ref"]):
+                                proposed = ops.propose_v2(result["statement"].strip(), parent["evidence_refs"],
+                                    scope=parent.get("scope"), proposer=ACTOR, expires_at=parent.get("expires_at"),
+                                    artifact_refs=parent.get("artifact_refs"), applicability=parent.get("applicability"),
+                                    qualifiers=qualifiers, title=result["title"].strip())
+                                successor = proposed["claim"]["id"]
+                                for eid, description in receipt.get("evidence_details", {}).items():
+                                    ops.describe_evidence_v1(successor, eid, description["evidence_digest"],
+                                        description["details"], ACTOR)
+                                ops.evaluate_v2(successor)
                             state, detail = "completed", "Revised claim created. Review its changes and checks before approving."
                     if successor:
                         # Independent advisory review; revision candidates always require human approval.
                         from .control_plane import PrincipalContext
-                        control._schedule_judge(PrincipalContext(workspace_id, ACTOR, "agent", "system", frozenset()), proposed["claim"], record)
+                        control._schedule_judge(PrincipalContext(workspace_id, ACTOR, "agent", "system", frozenset()), proposed["claim"], latest)
         except Exception:
             # Never persist provider bodies, credentials, raw exceptions, or private traces.
             pass

@@ -711,6 +711,29 @@ def _require_expected_head(expected_head, *, required=False):
         raise ValueError("STALE_LEDGER_HEAD")
 
 
+_requested_revision_authority = ContextVar("proofpress_requested_revision_authority", default=None)
+
+
+@contextmanager
+def using_requested_revision_authority(parent_id, request_ref):
+    """Internal worker grant for one recorded human request; never transport input.
+
+    This does not change workspace policy or authorize approval, other claims,
+    another event store, or another actor. The hosted caller authenticates the
+    reviewer and creates the job before entering this narrowly bounded grant.
+    """
+    projection = v2_projection()
+    parent = projection["claims"].get(parent_id)
+    request = projection["revision_requests"].get(parent_id)
+    if not parent or not request or request["event_id"] != request_ref:
+        raise ValueError("current revision request required")
+    token = _requested_revision_authority.set((current_event_store(), parent, request_ref))
+    try:
+        yield
+    finally:
+        _requested_revision_authority.reset(token)
+
+
 _policy_override = ContextVar("proofpress_policy_override", default=None)
 _judge_environment: ContextVar[dict[str, str] | None] = ContextVar(
     "proofpress_judge_environment", default=None)
@@ -2299,8 +2322,17 @@ def judge_v2(cid, actor=None):
         packet["reproposal_parent"] = reproposal_parent
     revision_parent = projection["claims"].get(row.get("qualifiers", {}).get("revision_of"))
     if revision_parent:
+        # Resolve the immutable request referenced by this candidate, not the
+        # parent's latest review (which may have changed while the job waited).
+        request = next((event for event in events
+            if event.get("event_id") == row.get("qualifiers", {}).get("revision_request_ref")
+            and event.get("subject_ref") == revision_parent["id"]
+            and event.get("type") in {"claim_revision_requested", "conclusion_revision_requested"}), {})
+        requested_review = next((event for event in events
+            if event.get("event_id") == request.get("review_ref")), {})
         packet["revision_parent"] = {"statement": revision_parent["statement"],
-            "requested_change": (projection["reviews"].get(revision_parent["id"]) or {}).get("note"),
+            "requested_change": requested_review.get("note"),
+            "revision_request_ref": request.get("event_id"),
             "revision_response": row.get("qualifiers", {}).get("revision_response")}
     try:
         environment = os.environ.copy()
@@ -2781,6 +2813,16 @@ def reassess_v2(cid, decision, reviewer, note, request_id, expected_head,
 
 
 def _actor_can_read(row, policy, actor):
+    grant = _requested_revision_authority.get()
+    if actor == "system:requested-revision" and grant and grant[0] is current_event_store():
+        parent, request_ref = grant[1:]
+        qualifiers = row.get("qualifiers", {})
+        if row.get("id") == parent["id"] or (
+                qualifiers.get("revision_of") == parent["id"]
+                and qualifiers.get("revision_request_ref") == request_ref
+                and row.get("scope") == parent.get("scope")
+                and row.get("evidence_refs") == parent.get("evidence_refs")):
+            return True
     return (not actor or "*" in row.get("allowed_actors", ["*"])
             or actor in row.get("allowed_actors", [])) and (
                 not actor or "*" in policy["allowed_actors"]

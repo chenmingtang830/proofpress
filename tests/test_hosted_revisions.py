@@ -44,10 +44,11 @@ class RevisionJourneyTests(unittest.TestCase):
         return response
 
     def run_job(self, generator=None):
-        with patch.object(self.control, '_policy', return_value=self.record), patch.object(self.control, '_current_policy', return_value=self.record), patch.object(self.control, '_provider_credential', return_value='test-only'), patch.object(self.control, '_schedule_judge'), patch('proofpress.hosted.revisions.generate', side_effect=generator or (lambda *a: self.result)) as generate:
+        with patch.object(self.control, '_policy', return_value=self.record), patch.object(self.control, '_current_policy', side_effect=lambda *a: self.record), patch.object(self.control, '_provider_credential', return_value='test-only'), patch.object(self.control, '_schedule_judge') as schedule, patch('proofpress.hosted.revisions.generate', side_effect=generator or (lambda *a: self.result)) as generate:
             revisions.drain(self.control, 'workspace:test')
         with self.control._db() as connection:
             job = dict(connection.execute('SELECT * FROM hosted_revision_jobs').fetchone())
+        self.scheduled = schedule
         return job, generate
 
     def test_request_generates_linked_candidate_and_never_approves(self):
@@ -151,6 +152,53 @@ class RevisionJourneyTests(unittest.TestCase):
         invalid = {'choices': [{'finish_reason': 'stop', 'message': {'content': json.dumps({**self.result, 'title': 'x' * 121})}}]}
         with self.assertRaisesRegex(ValueError, 'invalid revision field'):
             revisions.generate({}, 'test-only', opener=opener(invalid))
+
+    def test_manual_to_automatic_during_generation_schedules_current_policy(self):
+        import copy
+        self.record['settings']['mode'] = 'manual'
+        self.request()
+        def generate(*args):
+            latest = copy.deepcopy(self.record)
+            latest['settings']['mode'] = 'automatic'
+            self.record = latest
+            return self.result
+        job, _ = self.run_job(generate)
+        self.assertEqual(job['state'], 'completed', job)
+        self.assertEqual(self.scheduled.call_args.args[2]['settings']['mode'], 'automatic')
+
+    def test_restricted_policy_allows_only_scoped_internal_revision(self):
+        self.record['policy']['allowed_actors'] = ['human:owner', 'agent:codex']
+        self.request()
+        job, _ = self.run_job()
+        self.assertEqual(job['state'], 'completed', job)
+        store = SQLiteEventStore(self.control.database, 'workspace:test', 'system:test')
+        with using_event_store(store), ops.using_policy(self.record['policy']):
+            self.assertFalse(ops._actor_can_read(self.parent, self.record['policy'], revisions.ACTOR))
+            request_ref = ops.v2_projection()['revision_requests'][self.parent['id']]['event_id']
+            with ops.using_requested_revision_authority(self.parent['id'], request_ref):
+                self.assertTrue(ops._actor_can_read(self.parent, self.record['policy'], revisions.ACTOR))
+                unrelated = {**self.parent, 'id': 'clm_unrelated'}
+                self.assertFalse(ops._actor_can_read(unrelated, self.record['policy'], revisions.ACTOR))
+                self.assertFalse(ops._actor_can_read(self.parent, self.record['policy'], 'agent:other'))
+                from proofpress.kernel.events import MemoryEventStore
+                with using_event_store(MemoryEventStore()):
+                    self.assertFalse(ops._actor_can_read(self.parent, self.record['policy'], revisions.ACTOR))
+            self.assertFalse(ops._actor_can_read(self.parent, self.record['policy'], revisions.ACTOR))
+
+    def test_judge_uses_the_referenced_request_even_after_later_parent_review(self):
+        from types import SimpleNamespace
+        self.request()
+        job, _ = self.run_job()
+        self.control.execute(self.owner, operation('claim.review', {
+            'claim_id': self.parent['id'], 'decision': 'request_changes',
+            'reviewer': 'human:owner', 'note': 'A later unrelated request.'}))
+        self.record['policy']['judge']['command'] = ['synthetic-judge']
+        store = SQLiteEventStore(self.control.database, 'workspace:test', 'system:test')
+        with using_event_store(store), ops.using_policy(self.record['policy']), patch('proofpress.kernel.operations.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps({'recommendation':'accept', 'rationale':'Bounded test.'}))) as run:
+            ops.judge_v2(job['successor_id'])
+        packet = json.loads(run.call_args.kwargs['input'])
+        self.assertEqual(packet['revision_parent']['requested_change'], 'Narrow this to what the report actually says.')
+        self.assertEqual(packet['revision_parent']['revision_request_ref'], job['request_ref'])
 
 
 if __name__ == '__main__':
