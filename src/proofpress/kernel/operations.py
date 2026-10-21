@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
+from .temporal import temporal_metadata, temporal_window as parse_temporal_window, in_temporal_window
 
 import hashlib, json, math, os, re, secrets, subprocess, sys, tempfile, threading, webbrowser
 from http import HTTPStatus
@@ -528,11 +529,11 @@ LOCAL_OPERATION_SPECS = {
     },
     "context.get": {
         "required": (),
-        "optional": ("scope", "actor", "task", "include_blocked_statements"),
+        "optional": ("scope", "actor", "task", "include_blocked_statements", "temporal_window"),
         "mutates": False, "replay_semantics": "read_only",
     },
     "context.discover": {
-        "required": (), "optional": ("actor", "task", "limit"),
+        "required": (), "optional": ("actor", "task", "limit", "temporal_window"),
         "mutates": False, "replay_semantics": "read_only",
     },
     "review.summary": {
@@ -2266,6 +2267,17 @@ def evaluate_v2(cid, projection=None, events=None, policy=None, actor=None):
     return event
 
 
+def _judge_source_descriptions(projection, claim):
+    """Only descriptions attached to the exact bound evidence version."""
+    descriptions = projection.get("evidence_details", {}).get(claim["id"], {})
+    return [{"evidence_ref": ref, "evidence_digest": event["evidence_digest"],
+             "actor": event.get("actor"), "authority": "presentation_only",
+             "details": event["details"]}
+            for ref, event in descriptions.items()
+            if ref in claim["evidence_refs"]
+            and event.get("evidence_digest") == projection["evidence"].get(ref, {}).get("digest")]
+
+
 def judge_v2(cid, actor=None):
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
     row = projection["claims"].get(cid)
@@ -2279,6 +2291,7 @@ def judge_v2(cid, actor=None):
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     reproposal_parent = _reproposal_parent(projection, row)
     packet = {"schema_version": "proofpress/judge-request/v1", "claim": row,
+              "source_descriptions": _judge_source_descriptions(projection, row),
               "evidence": [projection["evidence"][x] for x in row["evidence_refs"]],
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
               "policy": _judge_policy_payload(policy)}
@@ -2346,7 +2359,7 @@ def judge_batch_v2(scope, actor=None):
     packet = {
         "schema_version": "proofpress/judge-batch-request/v1",
         "transaction": {"scope": scope, "claim_ids": [row["id"] for row in rows]},
-        "claims": [{"claim": row,
+        "claims": [{"claim": row, "source_descriptions": _judge_source_descriptions(projection, row),
                          "evidence_refs": row["evidence_refs"],
                          "evaluation": {k: v for k, v in evaluations[row["id"]].items() if k != "commit"},
                          **({"reproposal_parent": _reproposal_parent(projection, row)}
@@ -3004,6 +3017,7 @@ def _context_card(row, task=None):
     matches = sorted(token for token in tokens if len(token) > 2 and token in haystack)
     return {
         "id": row["id"],
+        "temporal": temporal_metadata(row),
         "title": applicability.get("title") or row["statement"],
         "description": applicability.get("description"),
         "when_relevant": applicability.get("when_relevant", []),
@@ -3014,7 +3028,7 @@ def _context_card(row, task=None):
     }
 
 
-def discover_context_v2(actor=None, task=None, limit=24):
+def discover_context_v2(actor=None, task=None, limit=24, temporal_window=None):
     """List governed cards and clearly separate claims suitable for drafts.
 
     This is discovery, not semantic authorization: access filtering happens
@@ -3025,28 +3039,31 @@ def discover_context_v2(actor=None, task=None, limit=24):
         raise ValueError("task must be a non-empty string when provided")
     if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 100:
         raise ValueError("limit must be an integer from 1 to 100")
+    window = parse_temporal_window(temporal_window)
     projection, policy = v2_projection(), load_v2_policy()
     impacts = dependency_impacts(projection, policy)
     conflicts = _active_contradictions(projection, policy)
     cards = [_context_card(row, task) for cid, row in projection["claims"].items()
              if v2_state(projection, row, policy, impacts) == "admitted"
-             and _actor_can_read(row, policy, actor) and cid not in conflicts]
+             and _actor_can_read(row, policy, actor) and cid not in conflicts
+             and in_temporal_window(row, window)]
     staged = []
     for row in projection["claims"].values():
         status = _staged_claim_status(projection, row, policy, actor,
                                       conflicts=conflicts, impacts=impacts)
-        if status:
+        if status and in_temporal_window(row, window):
             staged.append({**_context_card(row, task), "statement": row["statement"],
                            "claim_digest": row["digest"], "staging": status})
     cards.sort(key=lambda card: (-card["match"]["score"], card["title"], card["id"]))
     staged.sort(key=lambda card: (-card["match"]["score"], card["title"], card["id"]))
     return {"schema_version": "proofpress/context-discovery/v1",
-            "actor": actor, "task": task, "cards": cards[:limit],
+            "actor": actor, "task": task, "temporal_window": temporal_window, "cards": cards[:limit],
             "staged_context": staged[:limit],
             "next_action": "Use cards as approved context; use staged_context only to draft and verify, never as admitted knowledge."}
 
 
-def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False):
+def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False, temporal_window=None):
+    window = parse_temporal_window(temporal_window)
     projection, policy = v2_projection(), load_v2_policy()
     impacts = dependency_impacts(projection, policy)
     governed, blocked, eligible, staged_context = [], [], {}, []
@@ -3054,6 +3071,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
     edges, order = _lineage_successors(projection), _proposal_order(projection)
     for cid, row in projection["claims"].items():
         if scope and row["scope"] != scope: continue
+        if not in_temporal_window(row, window): continue
         current = v2_state(projection, row, policy, impacts)
         actor_ok = _actor_can_read(row, policy, actor)
         if current == "admitted" and actor_ok and cid not in conflicts:
@@ -3113,6 +3131,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                  and row["from"] in admitted_ids and row["to"] in admitted_ids]
     return {"schema_version": CONTEXT_SCHEMA, "ledger_head": head, "scope": scope,
             "actor": actor, "task": task, "policy_digest": policy["digest"],
+            "temporal_window": temporal_window,
             "governed_context": governed, "staged_context": staged_context,
             "relations": relations, "blocked": blocked,
             "next_action": "Use governed_context as approved context; use staged_context only for drafts and verification."}
@@ -3385,7 +3404,7 @@ def graph_v2(scope=None, actor=None):
         nodes.append({"id": cid, "type": "claim", "state": review_state_v2(projection, row, policy, impacts),
                       "scope": row["scope"],
                       "applicability": row.get("applicability"), "label": row["statement"], "title": row.get("title"),
-                      "created_at": row.get("created_at"),
+                      "created_at": row.get("created_at"), "temporal": temporal_metadata(row),
                       "decision_at": review.get("created_at") if review else None,
                       **_successor_fields(lineage_successor(projection, cid, policy, actor, impacts,
                                                             conflicts, lineage_edges, order))})
@@ -4727,11 +4746,11 @@ def _execute_local_operation(request):
             result = context_v2(
                 parameters.get("scope"), parameters.get("actor"),
                 parameters.get("task"),
-                bool(parameters.get("include_blocked_statements", False)))
+                bool(parameters.get("include_blocked_statements", False)), parameters.get("temporal_window"))
         elif operation == "context.discover":
             result = discover_context_v2(
                 parameters.get("actor"), parameters.get("task"),
-                parameters.get("limit", 24))
+                parameters.get("limit", 24), parameters.get("temporal_window"))
         elif operation == "run.start":
             result = start_run_v1(parameters["purpose"], parameters["actor"],
                                   parameters.get("metadata"))

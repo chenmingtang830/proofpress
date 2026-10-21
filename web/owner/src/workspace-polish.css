@@ -496,3 +496,6 @@ a { text-underline-offset: 3px; }
 .adminPage .simplePromptRow h3 { margin: 0; }
 .adminPage .draftPasteHelp { margin: 0 0 16px; color: var(--ink-2); }
 .adminPage .providerConsentNotice { margin: 24px 0; color: var(--ink-2); line-height: 1.6; overflow-wrap: anywhere; }
+
+.claimTemporal { display:flex; flex-wrap:wrap; gap: .3rem .9rem; margin: .5rem 0; color:#46525e; font-size:.84rem; line-height:1.5; font-weight:500; }
+.claimTemporal time { color:#26333f; font-weight:600; }

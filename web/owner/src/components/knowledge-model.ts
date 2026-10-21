@@ -1,4 +1,5 @@
 export type KnowledgeRow = {
+  temporal?: Record<string, unknown>; qualifiers?: Record<string, unknown>;
   id: string; title?: string; label: string; state?: string; scope?: string; created_at?: string;
   applicability?: { title?: string; description?: string; when_relevant?: string[]; keywords?: string[]; validity_conditions?: string[] } | null;
 };

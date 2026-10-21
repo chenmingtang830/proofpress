@@ -93,8 +93,10 @@ _JUDGE_FAILURE_DETAILS = {
     "rate_limited": "LM provider rate limited the review. Retry later.",
     "provider_unavailable": "LM provider is temporarily unavailable. Retry later.",
     "provider_rejected": "LM provider rejected the review request.",
+    "command_timeout": "LM review exceeded its execution deadline. No advice recorded; retry later.",
     "connection": "LM provider connection failed or timed out. Retry later.",
     "input_limit": "LM review packet exceeded the configured input limit.",
+    "output_limit": "LM reached its output limit. No advice was recorded; retry the review.",
     "invalid_verdict": "LM provider returned an invalid advisory verdict.",
     "gateway_transport": "Vercel Gateway transport failed. Retry later.",
     "gateway_evaluation": "Vercel Gateway evaluation failed after transport; check model support or response contract.",
@@ -103,6 +105,8 @@ _JUDGE_FAILURE_DETAILS = {
 
 def _judge_failure_code(exc: Exception) -> str | None:
     """Interpret only known bounded judge markers, never upstream response text."""
+    if str(exc) == "judge command timed out":
+        return "command_timeout"
     match = re.match(r"judge command failed: judge_failure:([a-z_]+)(?:\s|;|$)", str(exc))
     code = match.group(1) if match else None
     return code if code in _JUDGE_FAILURE_DETAILS else None

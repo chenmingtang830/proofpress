@@ -137,15 +137,15 @@ class ProofpressMcpGateway:
             profile=profile, idempotency_key=idempotency_key, title=title)
 
     def discover_context(self, task: str | None = None,
-                         limit: int = 24) -> dict[str, Any]:
+                         limit: int = 24, temporal_window: dict[str, Any] | None = None) -> dict[str, Any]:
         return self.client.discover_context(
-            actor=self.principal, task=task, limit=limit)
+            actor=self.principal, task=task, limit=limit, temporal_window=temporal_window)
 
     def get_context(self, scope: str | None = None,
-                    task: str | None = None) -> dict[str, Any]:
+                    task: str | None = None, temporal_window: dict[str, Any] | None = None) -> dict[str, Any]:
         return self.client.context(
             scope=scope, actor=self.principal, task=task,
-            include_blocked_statements=False)
+            include_blocked_statements=False, temporal_window=temporal_window)
 
     def start_run(self, purpose: str, metadata: dict[str, Any] | None = None,
                   idempotency_key: str | None = None) -> dict[str, Any]:
@@ -428,24 +428,33 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
 
     @tool(name="proofpress_discover_context")
     def proofpress_discover_context(
-            task: str | None = None, limit: int = 24) -> dict[str, Any]:
+            task: str | None = None, limit: int = 24, temporal_window: dict[str, Any] | None = None) -> dict[str, Any]:
         """Discover only admitted, current context visible to this agent.
 
         Task words rank the frontmatter-style applicability cards. This does
-        not weaken credential or actor visibility checks.
+        not weaken credential or actor visibility checks. Optional temporal_window
+        accepts since (inclusive), until (exclusive), known_before (exclusive),
+        and timezone (IANA, default UTC). Dates use effective_date, then report_date;
+        never import time. Missing time is excluded when filtering. known_before
+        requires original_first_seen_at; unknown first-known remains excluded.
         """
-        return gateway.discover_context(task, limit)
+        return gateway.discover_context(task, limit, temporal_window)
 
     @tool(name="proofpress_get_context")
     def proofpress_get_context(
             scope: str | None = None,
-            task: str | None = None) -> dict[str, Any]:
+            task: str | None = None, temporal_window: dict[str, Any] | None = None) -> dict[str, Any]:
         """Return admitted, current context eligible for this agent.
 
         Scope remains an optional legacy exact filter; discover_context is the
         normal starting point when an agent does not know a scope name.
+        temporal_window accepts since/until ISO dates or aware timestamps,
+        timezone (IANA, default UTC), and optional known_before for strict
+        first-known cutoff. since is inclusive; until/known_before exclusive.
+        Filters use effective_date then report_date, never created_at; unknown
+        dates are excluded. This filters current authority, not historical approvals.
         """
-        return gateway.get_context(scope, task)
+        return gateway.get_context(scope, task, temporal_window)
 
     @tool(name="proofpress_get_graph")
     def proofpress_get_graph(scope: str | None = None) -> dict[str, Any]:

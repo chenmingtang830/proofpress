@@ -298,3 +298,30 @@ locator than before; what the kernel accepts is unchanged.
 On the stdio server the payload may instead be an experiment-profile payload
 (`schema_version` `proofpress/profile/experiment/v1`, with `profile=experiment`).
 
+
+### Time-bounded research context
+
+`proofpress_get_context` and `proofpress_discover_context` accept an optional
+`temporal_window` object. For example, the 30 New York calendar dates before
+October 20, 2026 are:
+
+```json
+{"temporal_window":{"since":"2026-09-20","until":"2026-10-20","timezone":"America/New_York"}}
+```
+
+`since` is inclusive and `until` exclusive. Filtering uses a finding's
+`qualifiers.effective_date`, falling back to `qualifiers.report_date` only when
+no effective date was provided. It never uses proposal/import time to make old
+observations appear recent. Missing or invalid dates are excluded from a dated
+query; omit the window to inspect undated findings or older open questions.
+Discovery cards include a descriptive `temporal` object; full claims retain
+original qualifiers and evidence.
+
+For a strict information-availability cutoff, add `known_before` as an ISO date
+or timezone-aware timestamp. This requires `qualifiers.original_first_seen_at`;
+unknown first-known time is excluded, not inferred from the report or import.
+Date-only first-known values are conservatively available after that calendar
+day ends. This does not replay past approval state or establish a point-in-time
+backtest: authority eligibility is always evaluated now. Windows never delete
+history or approve findings. Use short finding titles and structured dates;
+retain dates in statements when they define a comparison or forecast horizon.

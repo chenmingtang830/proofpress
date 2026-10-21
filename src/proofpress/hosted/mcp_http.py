@@ -9,6 +9,12 @@ from proofpress.kernel import operations as kernel_ops
 from proofpress.mcp_schemas import SHA256_PATTERN as SHA256_PATTERN, retrieval_evidence_schema  # SHA256_PATTERN: re-exported for importers
 
 
+TEMPORAL_WINDOW_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "description": "Read-time filter: since inclusive, until exclusive on effective_date (report_date fallback), never import time. Optional known_before requires recorded first-known time; unknown dates are excluded. Does not replay historical authority.",
+    "properties": {key: {"type": "string"} for key in ("since", "until", "known_before", "timezone")},
+}
+
 PROTOCOL_VERSION = "2025-06-18"
 SERVER_INFO = {"name": "Proofpress", "version": "0.6.0a1"}
 EVIDENCE_ID_PATTERN = r"^evd_[0-9a-f]{16}$"
@@ -57,8 +63,8 @@ TOOLS = [
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
     {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
     {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"title": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Short claim heading. Statement remains the complete claim reviewed for admission."}, "statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": APPLICABILITY_SCHEMA, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["title", "statement", "evidence_refs"]}},
-    {"name": "proofpress_discover_context", "description": "Return separate lists of approved context cards and reviewed candidate claims. Use approved cards as governed knowledge; staged_context is only for clearly labeled drafts and verification.", "inputSchema": {"type": "object", "properties": {"task": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 100}}}},
-    {"name": "proofpress_get_context", "description": "Return approved context and a separate staged_context list for eligible candidates. Candidates may inform drafts only and must not be represented as approved facts or recorded as governed reliance.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}, "task": {"type": "string"}}}},
+    {"name": "proofpress_discover_context", "description": "Return separate lists of approved context cards and reviewed candidate claims. Use approved cards as governed knowledge; staged_context is only for clearly labeled drafts and verification.", "inputSchema": {"type": "object", "properties": {"temporal_window": TEMPORAL_WINDOW_SCHEMA, "task": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 100}}}},
+    {"name": "proofpress_get_context", "description": "Return approved context and a separate staged_context list for eligible candidates. Candidates may inform drafts only and must not be represented as approved facts or recorded as governed reliance.", "inputSchema": {"type": "object", "properties": {"temporal_window": TEMPORAL_WINDOW_SCHEMA, "scope": {"type": "string"}, "task": {"type": "string"}}}},
     {"name": "proofpress_get_graph", "description": "Return the bounded evidence, claim, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
     {"name": "proofpress_traverse_graph", "description": "Traverse admitted claim relations from seed claims with server-enforced eligibility limits.", "inputSchema": {"type": "object", "properties": {"seed_ids": {"type": "array", "items": {"type": "string"}}, "scope": {"type": "string"}, "task": {"type": "string"}, "max_depth": {"type": "integer", "minimum": 0}, "max_claims": {"type": "integer", "minimum": 1}}, "required": ["seed_ids"]}},
     {"name": "proofpress_get_lineage", "description": "Trace one claim back through all bound and derived evidence to its source records.", "inputSchema": {"type": "object", "properties": {"claim_id": {"type": "string"}}, "required": ["claim_id"]}},
@@ -147,11 +153,11 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
     if name == "proofpress_discover_context":
         return _execute(control, context, "context.discover", {
             "actor": "server-derived", "task": args.get("task"),
-            "limit": args.get("limit", 24)})
+            "limit": args.get("limit", 24), "temporal_window": args.get("temporal_window")})
     if name == "proofpress_get_context":
         return _execute(control, context, "context.get", {
             "scope": args.get("scope"), "task": args.get("task"),
-            "actor": "server-derived", "include_blocked_statements": False})
+            "actor": "server-derived", "include_blocked_statements": False, "temporal_window": args.get("temporal_window")})
     if name == "proofpress_get_graph":
         return _execute(control, context, "graph.get", {
             "scope": args.get("scope"), "actor": "server-derived"})

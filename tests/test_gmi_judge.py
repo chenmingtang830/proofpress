@@ -17,7 +17,8 @@ class GmiJudgeTests(unittest.TestCase):
             self.assertEqual(body["model"], "openai/gpt-6-luna")
             self.assertEqual(body["context_length_exceeded_behavior"], "error")
             self.assertEqual(body["response_format"], {"type": "json_object"})
-            self.assertEqual(body["max_completion_tokens"], 1800)
+            self.assertEqual(body["max_completion_tokens"], 4096)
+            self.assertEqual(timeout, 120)
             self.assertNotIn("questions", body)
             return io.BytesIO(json.dumps({"choices": [{"message": {"content": json.dumps({
                 "recommendation": "escalate", "rationale": "Synthetic sample lacks evidence."})}}]}).encode())
@@ -41,3 +42,10 @@ class GmiJudgeTests(unittest.TestCase):
         with patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "synthetic-gmi-key"}):
             with self.assertRaises(JudgeFailure):
                 judge({}, provider="managed_gmi", opener=lambda *a, **kw: io.BytesIO(b'{"choices": []}'))
+
+    def test_truncated_response_is_not_an_advisory_verdict(self):
+        payload = {"choices": [{"finish_reason": "length", "message": {"content": ""}}]}
+        with patch.dict(os.environ, {"PROOFPRESS_JUDGE_API_KEY": "synthetic-gmi-key"}):
+            with self.assertRaises(JudgeFailure) as failure:
+                judge({}, provider="managed_gmi", opener=lambda *a, **kw: io.BytesIO(json.dumps(payload).encode()))
+        self.assertEqual(failure.exception.code, "output_limit")
