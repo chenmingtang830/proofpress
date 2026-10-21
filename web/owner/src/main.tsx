@@ -34,6 +34,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor, reviewQueue } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
+import { RetrievalEvidence, sourceFilename, type EvidenceDescription } from "./components/evidence-source";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import { ReassessmentPanel, type DependencyImpact, type DependencyRelation } from "@/components/reassessment-panel";
 import { RelationAdvicePanel } from "@/components/relation-advice";
@@ -79,6 +80,7 @@ type Receipt = {
     } | null;
   };
   evidence?: any[];
+  evidence_details?: Record<string, EvidenceDescription>;
   evaluation?: { checks?: Record<string, boolean>; check_receipts?: Record<string, {rule?: string; inputs?: Record<string, unknown>}> };
   recommendation?: { recommendation?: string; rationale?: string; decision_audit?: DecisionAudit };
   review?: {reviewer?: string; created_at?: string; note?: string};
@@ -133,7 +135,9 @@ async function api(path: string, options: RequestInit = {}) {
   }
   return body.result ?? body;
 }
-function evidenceName(row: any) {
+function evidenceName(row: any, description?: EvidenceDescription) {
+  const filename = sourceFilename(row, description);
+  if (filename) return filename;
   const locator = row?.retrieval_receipt?.locator;
   if (locator?.kind === "spreadsheet_cell") return `${locator.sheet}!${locator.cell}`;
   const external = row?.external_experiment;
@@ -142,7 +146,8 @@ function evidenceName(row: any) {
   if (p.cell) return p.cell.table?.identity || "Table cell";
   if (p.observation) return p.observation.metric?.name || "Metric observation";
   if (p.derivation) return p.derivation.formula?.name || "Derivation";
-  return row?.retrieval_receipt?.source?.uri || row?.source?.uri || row?.path || row?.kind || "Evidence reference";
+  if (row?.retrieval_receipt) return row.retrieval_receipt.source?.media_type === "text/markdown" ? "Report excerpt" : "Source excerpt";
+  return row?.path || row?.kind || "Evidence reference";
 }
 function evidenceText(row: any) {
   const p = row?.experiment_profile || {};
@@ -166,15 +171,17 @@ function ExpandableText({ text, label = "Show full text" }: { text: string; labe
   </div>;
 }
 
-function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?: boolean }) {
+function EvidenceContent({ row, description, collapsible = false }: { row: any; description?: EvidenceDescription; collapsible?: boolean }) {
   const text = evidenceText(row);
   const receipt = row?.retrieval_receipt;
   const locator = receipt?.locator;
   const external = row?.external_experiment;
+  if (receipt && !external) return <RetrievalEvidence row={row} description={description} collapsible={collapsible} />;
   if (external) {
     const source = external.source || {};
     const omissions = source.known_omissions || [];
     return <>
+      {description && receipt && <RetrievalEvidence row={row} description={description} collapsible={collapsible} />}
       <dl className="evidenceFields">
         <div><dt>External system</dt><dd>{source.system || "Not recorded"}</dd></div>
         <div><dt>External run</dt><dd>{source.run_id || "Not recorded"}</dd></div>
@@ -185,9 +192,9 @@ function EvidenceContent({ row, collapsible = false }: { row: any; collapsible?:
         <div><dt>Bound Proofpress run</dt><dd>{row.run_id || "Not recorded"}</dd></div>
         <div><dt>Source</dt><dd>{receipt?.source?.uri || source.uri || "Source not recorded"}</dd></div>
       </dl>
-      <p>{text}</p>
+      {!description && <p>{text}</p>}
       <small>External evidence supports a claim. Owner review or a matching owner policy is required before it becomes reusable.</small>
-      <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>
+      {!description && <Disclosure className="technicalDetails"><DisclosureTrigger>Technical receipt</DisclosureTrigger><DisclosureContent><pre>{JSON.stringify(row, null, 2)}</pre></DisclosureContent></Disclosure>}
     </>;
   }
   if (locator?.kind === "spreadsheet_cell") {
@@ -1437,55 +1444,78 @@ function ReviewFact({label,value,detail,tone="",className=""}:any){
   return <div className={`reviewFact ${className}`}><dt>{label}{detail && <small className="modelAttribution">{detail}</small>}</dt><dd className={tone}>{value}</dd></div>;
 }
 
-function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
+function CheckSourceBasis({inputs, finding}: {inputs?: Record<string, unknown>; finding?: Receipt}) {
+  if (!inputs) return null;
+  const bound = Array.isArray(inputs.bound_evidence) ? inputs.bound_evidence : null;
+  const available = Array.isArray(inputs.available_evidence) ? inputs.available_evidence : null;
+  return <dl className="checkSourceBasis">
+    <div><dt>Finding</dt><dd>{finding && inputs.candidate === finding.claim.id ? claimDisplayTitle(finding.claim) : "Finding not available in this view"}</dd></div>
+    {bound && <div><dt>Sources</dt><dd>{bound.length ? <ul>{bound.map((ref, index) => {
+      const row = finding?.evidence?.find(item => item.id === ref);
+      return <li key={index}>{row ? sourceFilename(row, finding?.evidence_details?.[row.id]) || `Source ${index + 1} · filename not recorded` : "Source unavailable"}</li>;
+    })}</ul> : "None attached"}</dd></div>}
+    {bound && available && <div><dt>Available</dt><dd>{bound.filter(ref => available.includes(ref)).length} of {bound.length} attached sources</dd></div>}
+  </dl>;
+}
+
+function CheckReceiptRows({evaluation, finding}: {evaluation?: Receipt["evaluation"]; finding?: Receipt}) {
+  const checks = Object.entries(evaluation?.checks || {});
+  const labels: Record<string, string> = {
+    evidence_integrity: "Evidence integrity", evidence_present: "Evidence attached",
+    retrieval_receipts: "Source receipts", not_expired: "Not expired",
+    not_superseded: "Not superseded", reuse_boundary_present: "Reuse scope",
+  };
+  const explanations: Record<string, string> = {
+    evidence_integrity: "Checks the saved evidence for changes.",
+    evidence_present: "Checks that enough supporting evidence is attached.",
+    retrieval_receipts: "Checks that source excerpts and locations match their saved records.",
+    not_expired: "Checks that the finding has not expired.",
+    not_superseded: "Checks that a newer finding has not replaced this one.",
+    reuse_boundary_present: "Checks that the finding states where it can be reused.",
+  };
+  const basis = Object.values(evaluation?.check_receipts || {})[0]?.inputs;
   return <div className="checkList">
-    {!Object.keys(evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
-    {Object.entries(evaluation?.checks || {}).map(([key, value]: any) => {
+    {!checks.length ? <p className="empty">No deterministic checks recorded.</p> : <>
+    <p className="checkResultsSummary">{checks.filter(([, passed]) => passed).length} of {checks.length} checks passed</p>
+    <ul className="checkResults" aria-label="Deterministic check results">{checks.map(([key, passed]) => <li key={key}>
+      <span className="checkResultLabel">{labels[key] || key.replaceAll("_", " ")}</span>
+      <span className={`checkResultStatus ${passed ? "pass" : "fail"}`}>{passed ? <Check aria-hidden="true" /> : <X aria-hidden="true" />}{passed ? "Passed" : "Failed"}</span>
+    </li>)}</ul>
+    <Disclosure className="checkTechnicalDetails">
+      <DisclosureTrigger>View check details</DisclosureTrigger>
+      <DisclosureContent>
+      <CheckSourceBasis inputs={basis} finding={finding} />
+      {checks.map(([key, value]) => {
       const receipt = evaluation?.check_receipts?.[key];
       return <section key={key} className="checkReceipt">
         <div className="checkReceiptResult">
-          <span>{key.replaceAll("_", " ")}</span>
+          <span>{labels[key] || key.replaceAll("_", " ")}</span>
           <b className={value ? "pass" : "fail"}>{value ? <><Check />Passed</> : "Failed"}</b>
         </div>
         {receipt ? <div className="checkReceiptDetail">
-          <p>{receipt.rule || "Recorded deterministic policy requirement."}</p>
-          <dl>{Object.entries(receipt.inputs || {}).map(([label, input]) => <div key={label}>
-            <dt>{label.replaceAll("_", " ")}</dt>
-            <dd>{Array.isArray(input) ? (input.length ? input.join(", ") : "None") : String(input)}</dd>
-          </div>)}</dl>
+          <p>{explanations[key] || receipt.rule || "Recorded deterministic policy requirement."}</p>
         </div> : <p className="checkReceiptLegacy">This earlier receipt records the result but not the checked inputs.</p>}
       </section>;
-    })}
+      })}
+      <Disclosure className="checkRawRecord">
+        <DisclosureTrigger>Technical record</DisclosureTrigger>
+        <DisclosureContent><pre>{JSON.stringify(evaluation, null, 2)}</pre></DisclosureContent>
+      </Disclosure>
+      </DisclosureContent>
+    </Disclosure>
+    </>}
   </div>;
 }
 
-function DeterministicCheckDisclosure({evaluation, status, tone = "", card = false}: {evaluation?: Receipt["evaluation"]; status: string; tone?: string; card?: boolean}) {
+function DeterministicCheckDisclosure({evaluation, finding, status, tone = "", card = false}: {evaluation?: Receipt["evaluation"]; finding?: Receipt; status: string; tone?: string; card?: boolean}) {
   const checks = Object.entries(evaluation?.checks || {});
-  const receipts = evaluation?.check_receipts || {};
-  const sharedInputs = Object.values(receipts)[0]?.inputs;
-  const boundEvidence = Array.isArray(sharedInputs?.bound_evidence) ? sharedInputs.bound_evidence : null;
-  const availableEvidence = Array.isArray(sharedInputs?.available_evidence) ? sharedInputs.available_evidence : null;
   const disclosure = <Collapsible className={`deterministicCheckDisclosure${card ? " cardVariant" : ""}`}>
     <CollapsibleTrigger asChild><Button type="button" variant="ghost" size="content" className="deterministicCheckTrigger" disabled={!checks.length}>
       <span className="deterministicCheckLabel">Deterministic checks{checks.length > 0 && <ChevronRight aria-hidden="true" />}</span>
       <strong className={`deterministicCheckStatus ${tone}`}>{status}</strong>
     </Button></CollapsibleTrigger>
     {checks.length > 0 && <CollapsibleContent className="deterministicCheckContent">
-        {sharedInputs && <div className="checkInputBasis">
-          <span>Input basis</span>
-          <p>Candidate <code>{String(sharedInputs.candidate || "Not recorded")}</code></p>
-          <p>Bound evidence ({boundEvidence?.length ?? 0})</p>
-          {boundEvidence?.length ? <ul>{boundEvidence.map((id, i) => <li key={`${String(id)}-${i}`}><code>{String(id)}</code></li>)}</ul> : <p>None</p>}
-          {availableEvidence && <p>{availableEvidence.length} of {boundEvidence?.length ?? 0} evidence envelopes available at evaluation.</p>}
-        </div>}
-        <ul className="checkSummaryList">{checks.map(([key, passed]) => {
-          const receipt = receipts[key];
-          const specificInputs = Object.entries(receipt?.inputs || {}).filter(([label]) => !["candidate", "bound_evidence", "available_evidence"].includes(label));
-          return <li key={key}>
-            <div className="checkSummaryResult"><span>{key.replaceAll("_", " ")}</span><strong className={passed ? "pass" : "fail"}>{passed ? "Passed" : "Failed"}</strong></div>
-            {receipt ? <><p>{receipt.rule || "Recorded deterministic policy requirement."}</p>{specificInputs.length > 0 && <p className="checkSpecificInputs">{specificInputs.map(([label, input]) => `${label.replaceAll("_", " ")}: ${String(input)}`).join(" · ")}</p>}</> : <p>Result recorded; checked inputs unavailable for this earlier receipt.</p>}
-          </li>;
-        })}</ul>
+        <CheckReceiptRows evaluation={evaluation} finding={finding} />
     </CollapsibleContent>}
   </Collapsible>;
   return card ? <Card className="reviewFact deterministicFact"><CardContent className="reviewFactContent">{disclosure}</CardContent></Card> : disclosure;
@@ -1560,15 +1590,15 @@ function Inspector({
   const reviewFacts = <dl className="reviewFactsGrid" aria-label="Review summary">
     <ReviewFact label="Applies to" value={reuseBoundary(r.claim)} />
     <ReviewFact label="Supporting evidence" value={`${evidenceRows.length} bound ${evidenceRows.length === 1 ? "source" : "sources"}`} />
-    {can && <><div className="reviewFact deterministicSummary"><dt className="sr-only">Deterministic checks</dt><dd><DeterministicCheckDisclosure evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : failedChecks.length ? "fail" : ""} /></dd></div><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Requirements pending" : "Awaiting your decision"} /></>}
+    {can && <><div className="reviewFact deterministicSummary"><dt className="sr-only">Deterministic checks</dt><dd><DeterministicCheckDisclosure evaluation={r.evaluation} finding={r} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `${failedChecks.length} requirements failed` : "Passed"} tone={!checksMissing && !failedChecks.length ? "pass" : failedChecks.length ? "fail" : ""} /></dd></div><ReviewFact label="Model review" detail={modelAttribution} value={r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"} /><ReviewFact className="authorityFact" label="Owner authorization" value={approvalBlock ? "Requirements pending" : "Awaiting your decision"} /></>}
   </dl>;
   const reviewHeader = (
       <InspectorHeader className="inspectorTop">
         {fullReview ? <div className="reviewRecordHeader"><span><ShieldCheck />Claim details</span><Badge state={r.state} /></div> : (can || readOnly || !fullReview) && <Badge state={r.state} />}
         {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         {fullReview ? <><h1 className="fullStatement">{claimTitle}</h1>{hasConciseHeading && <p className="claimFullStatement primaryClaimStatement">{r.claim.statement}</p>}</> : <h2>{claimTitle}</h2>}
-        {claimDescription && <p className="claimDescription">{claimDescription}</p>}
-        {hasConciseHeading && !fullReview && (<Disclosure className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
+        {claimDescription && claimDescription.trim() !== r.claim.statement.trim() && <p className="claimDescription">{claimDescription}</p>}
+        {hasConciseHeading && !fullReview && (<Disclosure key={r.claim.id} defaultOpen className="claimStatementDetails"><DisclosureTrigger>Exact claim statement</DisclosureTrigger><DisclosureContent><p className="claimFullStatement">{r.claim.statement}</p></DisclosureContent></Disclosure>)}
         <p>
           Proposed by {r.claim.proposer || "Not recorded"} ·{" "}
           <span className="mono">{r.claim.id}</span>
@@ -1584,7 +1614,7 @@ function Inspector({
         <div><dt>Model review</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : judgeInProgress ? "Review in progress" : r.judge_job?.state === "skipped" ? "Review skipped" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></>}</dl>}
         {judgeInProgress && <div className="lmReviewProgress" role="status" aria-live="polite"><span className="lmSpinner" aria-hidden="true" /><div><strong>{r.recommendation ? "Refreshing model advice" : "LM is reviewing the bound evidence"}</strong><p>{r.recommendation ? "The previous advice remains recorded while this attempt runs." : "Checking whether each source supports the exact claim and reuse boundary."}</p></div></div>}
         {can && !fullReview && <div className="decisionStack" role="group" aria-label="Review steps">
-          <DeterministicCheckDisclosure evaluation={r.evaluation} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"} tone={checksMissing ? "" : failedChecks.length ? "fail" : "pass"} />
+          <DeterministicCheckDisclosure evaluation={r.evaluation} finding={r} status={checksMissing ? (r.evaluation ? "Recheck required" : "Not run") : failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : "Passed"} tone={checksMissing ? "" : failedChecks.length ? "fail" : "pass"} />
           <div><span className="reviewStepLabel">Model review <small className="modelAttribution">{modelAttribution}</small></span><span className="reviewStepValue">{r.recommendation ? (r.review_policy && !r.review_policy.advice_current ? "Refresh required · previous advice recorded" : r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation) : "Not recorded"}</span></div>
           <div className="authorityStep"><span className="reviewStepLabel">Owner authorization</span><span className="reviewStepValue">{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div>
         </div>}
@@ -1614,7 +1644,7 @@ function Inspector({
             <span>{previewEvidence.length < evidenceRows.length ? `${previewEvidence.length} of ${evidenceRows.length} sources` : `${evidenceRows.length} ${evidenceRows.length === 1 ? "source" : "sources"}`}</span>
           </div>
           {evidenceRows.length ? <div className="evidenceArgumentList">{previewEvidence.map((e: any, i: number) => <article key={e.id || i}>
-            <strong title={evidenceName(e)}>{evidenceName(e)}</strong>
+            <strong title={evidenceName(e, r.evidence_details?.[e.id])}>{evidenceName(e, r.evidence_details?.[e.id])}</strong>
             <EvidencePreview row={e} />
           </article>)}</div> : <p className="evidenceArgumentEmpty">No evidence is bound. This claim cannot be approved.</p>}
         </section>}
@@ -1637,7 +1667,7 @@ function Inspector({
         <h2 id="blocked-review-title">Not ready for owner review</h2>
         <p>The deterministic checks did not pass, so this candidate cannot be approved or sent to LM review. The proposer needs to correct it and submit a new candidate.</p>
         <BlockedCorrectionHandoff receipt={r} />
-        <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="failed-checks"><AccordionTrigger>Inspect check receipts</AccordionTrigger><AccordionContent><CheckReceiptRows evaluation={r.evaluation} /></AccordionContent></AccordionItem></Accordion>
+        <Accordion type="single" collapsible className="reviewDisclosure"><AccordionItem value="failed-checks"><AccordionTrigger>Inspect check receipts</AccordionTrigger><AccordionContent><CheckReceiptRows evaluation={r.evaluation} finding={r} /></AccordionContent></AccordionItem></Accordion>
       </section>}
       <RelationAdvicePanel items={r.relation_advice} />
       {needsReassessment && <ReassessmentPanel claimId={r.claim.id} impacts={r.dependency_impact?.items || []} dependencies={r.dependencies || []} redacted={r.dependency_impact?.redacted || 0} note={note} setNote={setNote} busy={busy} showDecision={!onOpenFull || fullReview} onReassess={onReassess} />}
@@ -1647,8 +1677,8 @@ function Inspector({
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.claim.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
       {r.reproposal_parent && <Disclosure className="revisionDisclosure"><DisclosureTrigger><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></DisclosureTrigger><DisclosureContent><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></DisclosureContent></Disclosure>}
       {!!r.reproposals?.length && <section className="revisionSection"><h3>Re-proposals after this rejection</h3><p>These are separate candidates. The rejection above remains part of the append-only history.</p>{r.reproposals.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose?.(candidate.id)}>{candidate.statement} · {candidate.state.replaceAll("_", " ")}</Button>)}</section>}
-      <Tabs defaultValue="evidence">
-        <TabsList className="tabs">
+      <Tabs key={r.claim.id} defaultValue="evidence" className="reviewEvidenceTabs">
+        <TabsList className="tabs" aria-label="Claim evidence, checks and history">
           <TabsTrigger value="evidence">Evidence</TabsTrigger>
           <TabsTrigger value="checks">Checks</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
@@ -1656,11 +1686,11 @@ function Inspector({
         <TabsContent value="evidence" className="tabContent">
           {(r.evidence || []).map((e: any, i: number) => (
             <article className="evidenceRow" key={i}>
-              <div>
+              <div className="evidenceSourceHeader">
                 <ShieldCheck />
-                <b>{evidenceName(e)}</b>
+                <b>{evidenceName(e, r.evidence_details?.[e.id])}</b>
               </div>
-              <EvidenceContent row={e} collapsible={fullReview} />
+              <EvidenceContent row={e} description={r.evidence_details?.[e.id]} collapsible={fullReview} />
               <small>Bound to this claim</small>
             </article>
           ))}
@@ -1669,7 +1699,7 @@ function Inspector({
           )}
         </TabsContent>
         <TabsContent value="checks" className="tabContent">
-          <CheckReceiptRows evaluation={r.evaluation} />
+          <CheckReceiptRows evaluation={r.evaluation} finding={r} />
           <div className="recommendation">
             <span>Model review</span>
             {r.recommendation ? <Badge state={r.recommendation.recommendation} /> : <b>No recommendation recorded</b>}
@@ -1739,7 +1769,7 @@ function Inspector({
   );
 }
 function LedgerPage(props: any) {
-  return <KnowledgeLibrary {...props} evidenceName={evidenceName} renderEvidence={(row: any) => <EvidenceContent row={row} />} />;
+  return <KnowledgeLibrary {...props} evidenceName={(row: any) => evidenceName(row, props.receipt?.evidence_details?.[row.id])} renderEvidence={(row: any) => <EvidenceContent row={row} description={props.receipt?.evidence_details?.[row.id]} />} />;
 }
 function RunsPage({ rows, selected, loading, onChoose, onClose }: any) {
   const when = (value?: string) => value ? new Date(value).toLocaleString() : "—";

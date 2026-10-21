@@ -446,6 +446,11 @@ LOCAL_OPERATION_SPECS = {
         "required": ("payload",), "optional": ("profile",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
+    "evidence.describe": {
+        "required": ("claim_id", "evidence_id", "evidence_digest", "details", "actor"),
+        "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
     "experiment.ingest": {
         "required": ("payload", "actor"), "optional": (), "mutates": True,
         "replay_semantics": "request_idempotency_key",
@@ -829,7 +834,7 @@ def _require_configured_role_separation(row, policy, role):
 def v2_projection(events=None):
     events = v2_events() if events is None else events
     result = {
-        "sources": {}, "evidence": {}, "claims": {}, "evaluations": {},
+        "sources": {}, "evidence": {}, "evidence_details": {}, "claims": {}, "evaluations": {},
         "recommendations": {}, "reviews": {}, "admissions": {},
         "rejections": {}, "revision_requests": {}, "supersessions": {}, "withdrawals": {}, "relations": {},
         "relation_evaluations": {}, "relation_reviews": {},
@@ -844,6 +849,8 @@ def v2_projection(events=None):
         subject = event.get("subject_ref")
         if kind == "source_recorded": result["sources"][subject] = event["record"]
         elif kind == "evidence_bound": result["evidence"][subject] = event["evidence"]
+        elif kind == "evidence_described":
+            result["evidence_details"].setdefault(subject, {})[event["evidence_ref"]] = event
         elif kind in {"claim_proposed", "conclusion_proposed"}: result["claims"][subject] = event.get("claim") or event.get("conclusion")
         elif kind == "policy_evaluated": result["evaluations"][subject] = event
         elif kind == "judge_recommended": result["recommendations"][subject] = event
@@ -3946,6 +3953,60 @@ def _reproposal_parent(projection, row):
             "rejection_reason": (projection["reviews"].get(parent_id) or {}).get("note")}
 
 
+def describe_evidence_v1(claim_id, evidence_id, evidence_digest, details, actor):
+    """Append human-readable source labels without changing bound evidence.
+
+    Labels are attributed presentation metadata, not new supporting evidence or
+    verification. They cannot change a claim, its checks or its authorization.
+    """
+    events = v2_events()
+    projection, policy = v2_projection(events), load_v2_policy()
+    validated_head = events[-1]["commit"] if events else None
+    claim = projection["claims"].get(claim_id)
+    if not claim or not _actor_can_read(claim, policy, actor):
+        raise ValueError("claim not found: " + claim_id)
+    if actor and actor != claim.get("proposer"):
+        raise ValueError("source details must be recorded by the claim proposer")
+    if evidence_id not in claim["evidence_refs"]:
+        raise ValueError("evidence is not bound to this claim")
+    evidence = projection["evidence"].get(evidence_id)
+    if not evidence or evidence.get("digest") != evidence_digest:
+        raise ValueError("evidence digest does not match the bound evidence")
+    if not isinstance(details, dict) or set(details) != {"filename", "location", "fields"}:
+        raise ValueError("source details require filename, location and fields only")
+    def text(value, field, maximum):
+        if (not isinstance(value, str) or not value.strip() or len(value) > maximum
+                or any(ord(char) < 32 for char in value)):
+            raise ValueError("invalid source details " + field)
+        return value.strip()
+    filename = text(details["filename"], "filename", 240)
+    if "/" in filename or "\\" in filename or filename in {".", ".."}:
+        raise ValueError("source filename must be a filename, not a path")
+    fields = details["fields"]
+    if not isinstance(fields, list) or not 1 <= len(fields) <= 16:
+        raise ValueError("source details require 1 to 16 fields")
+    normalized_fields = []
+    for field in fields:
+        if not isinstance(field, dict) or set(field) != {"name", "value"}:
+            raise ValueError("source detail field requires name and value only")
+        normalized_fields.append({"name": text(field["name"], "field name", 120),
+                                  "value": text(field["value"], "field value", 600)})
+    normalized = {"filename": filename,
+                  "location": text(details["location"], "location", 600),
+                  "fields": normalized_fields}
+    prior = projection["evidence_details"].get(claim_id, {}).get(evidence_id)
+    if prior:
+        if prior["details"] != normalized:
+            raise ValueError("source details already recorded; original description is immutable")
+        return {"claim_id": claim_id, "evidence_id": evidence_id, "description": prior}
+    event = append_v2({"type": "evidence_described", "subject_ref": claim_id,
+                       "evidence_ref": evidence_id, "evidence_digest": evidence_digest,
+                       "details": normalized, "actor": actor,
+                       "authority": "presentation_only"},
+                      existing_rows=events, expected_head=validated_head)
+    return {"claim_id": claim_id, "evidence_id": evidence_id, "description": event}
+
+
 def receipt_v2(cid, actor=None):
     projection, policy = v2_projection(), load_v2_policy(); row = projection["claims"].get(cid)
     if not row or not _actor_can_read(row, policy, actor):
@@ -3996,6 +4057,7 @@ def receipt_v2(cid, actor=None):
                              if candidate.get("reproposal_of") == cid
                              and _actor_can_read(candidate, policy, actor)],
             "evidence": [projection["evidence"].get(x) for x in row["evidence_refs"]],
+            "evidence_details": projection.get("evidence_details", {}).get(cid, {}),
             "evaluation": projection["evaluations"].get(cid),
             "recommendation": projection["recommendations"].get(cid),
             "review": projection["reviews"].get(cid),
@@ -4031,7 +4093,7 @@ def receipt_v2(cid, actor=None):
             } for relation in visible_relations
               if projection["relation_recommendations"].get(relation["id"], {}).get("decision_audit")],
             "history": [{"event_id": e["event_id"], "type": e["type"],
-                         "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer"),
+                         "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("claim", {}).get("proposer") or e.get("actor"),
                          "authority": e.get("authority"),
                          "authorized_by": e.get("authorized_by"),
                          "auto_policy_version": e.get("auto_policy_version"),
@@ -4585,6 +4647,10 @@ def _execute_local_operation(request):
         elif operation == "evidence.submit":
             result = submit_evidence_v2(
                 parameters["payload"], parameters.get("profile"))
+        elif operation == "evidence.describe":
+            result = describe_evidence_v1(
+                parameters["claim_id"], parameters["evidence_id"],
+                parameters["evidence_digest"], parameters["details"], parameters["actor"])
         elif operation == "experiment.ingest":
             result = ingest_external_experiment_v0(
                 parameters["payload"], parameters["actor"])

@@ -14,7 +14,7 @@ OWNER_ONLY_OPERATIONS = frozenset({
 })
 
 AGENT_OPERATIONS = frozenset({
-    "capabilities.get", "configuration.get", "evidence.submit", "experiment.ingest",
+    "capabilities.get", "configuration.get", "evidence.submit", "evidence.describe", "experiment.ingest",
     "claim.propose", "claim.evaluate", "claim.judge",
     "claim.judge_batch", "relation.propose", "relation.evaluate",
     "relation.judge", "graph.get", "graph.traverse", "context.get", "context.discover",

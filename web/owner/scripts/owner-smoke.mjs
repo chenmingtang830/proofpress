@@ -162,7 +162,7 @@ try {
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
   assert.match(page.url(), /view=full/);
   await page.reload();
-  await page.locator('.evidenceRow .expandableText > p').filter({hasText:'Browser fixture approve:'}).waitFor();
+  await page.locator('.evidenceRow .evidenceSourceExcerpt').filter({hasText:'Browser fixture approve:'}).waitFor();
   const seededReceipt = await (await page.request.get(`${data.base}/owner/api/claims/${data.ids[0]}`)).json();
   await page.route(`**/owner/api/claims/${data.ids[0]}`,route=>route.fulfill({json:{...seededReceipt,result:{...seededReceipt.result,
     claim:{...seededReceipt.result.claim,applicability:{title:'Synthetic browser evaluation',description:'Bounded browser fixture only.',when_relevant:['Reviewing the synthetic owner workflow.'],validity_conditions:['Do not extrapolate to partner outcomes.']}},
