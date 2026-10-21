@@ -122,6 +122,22 @@ try {
     }
   }
   await page.getByRole('tab',{name:'Verification settings',exact:true}).click();
+  const aiToggle = page.getByRole('switch',{name:'AI-assisted checks',exact:true});
+  await aiToggle.click();
+  assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'managed_openai_decisions');
+  assert.equal(await page.getByLabel('API key',{exact:true}).count(),0,'Hosted option never asks the customer for a key');
+  assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false,'Missing operator key blocks activation');
+  for (const width of [1440,390]) {
+    await page.setViewportSize({width,height:1000});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+    if (process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/hosted-verification-${width}.png`,fullPage:true});
+  }
+  await page.getByLabel('Model provider',{exact:true}).selectOption('openai_decisions');
+  assert.equal(await page.getByLabel('API key',{exact:true}).count(),1,'BYOK remains available explicitly');
+  assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false);
+  await page.getByLabel('Model provider',{exact:true}).selectOption('managed_openai_decisions');
+  await aiToggle.click();
+  await page.setViewportSize({width:1440,height:1000});
   // Activating this policy is a deliberate human action; no API key or provider consent is needed.
   const policyRequest = page.waitForRequest(request=>request.url().endsWith('/owner/api/review-policy') && request.method()==='POST');
   await page.getByRole('button',{name:'Use manual review',exact:true}).click();
@@ -137,6 +153,10 @@ try {
   assert.equal(await page.getByRole('button',{name:'Save changes',exact:true}).count(),0,'Unchanged settings need no save action');
   assert.equal(await page.getByRole('button',{name:'Use manual review',exact:true}).count(),0,'Saved manual review needs no activation');
   await page.getByRole('tab',{name:'Knowledge rules',exact:true}).click();
+  await page.getByRole('button',{name:'Load research over time template',exact:true}).click();
+  const captureDraft = (await (await page.request.get(`${base}/owner/api/capture-policy`)).json()).result;
+  assert.equal(captureDraft.version,0,'Loading a template must not save Owner policy');
+  assert.equal(await page.getByRole('button',{name:'Save capture rules',exact:true}).isEnabled(),true);
   assert.equal(await page.getByRole('button',{name:'Use manual review',exact:true}).count(),0,'Capture settings have no duplicate verification controls');
   if (process.env.QA_SCREENSHOTS) {
     for (const width of [1440,390]) {
@@ -172,6 +192,7 @@ try {
   assert.equal(await page.getByRole('checkbox',{name:'Allow external model processing for this workspace',exact:true}).count(),0);
   await page.getByText('By saving, you authorize this processing for this workspace.',{exact:false}).waitFor();
   assert.equal((await (await page.request.get(`${base}/owner/api/review-policy`)).json()).result.settings.external_consent,false,'Opening AI setup does not grant provider consent');
+  await page.getByLabel('Model provider',{exact:true}).selectOption('openai_decisions');
   await page.getByLabel('API key',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Copy prompt',exact:true}).click();
   assert.match(await page.evaluate(()=>navigator.clipboard.readText()),/without JSON/);

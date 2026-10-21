@@ -8,9 +8,22 @@ import { KnowledgeLibrary, KnowledgeRecord } from "./knowledge-library";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
-import { settingsForOwnerSave, applyProviderPreset, ensureProviderDefault, mergeAgentPolicyDraft, providerModelOptions } from "./review-policy";
+import { settingsForOwnerSave, applyProviderPreset, ensureProviderDefault, mergeAgentPolicyDraft, providerModelOptions, initialProviderSettings, providerCredentialReady } from "./review-policy";
 
 describe("governance components", () => {
+  it("defaults only untouched workspaces to hosted verification without opting in", () => {
+    const record = {version:0, settings:{provider:"openrouter", model:"", mode:"off", external_consent:false}, credential:{configured:false}, providers:{managed_openai_decisions:{managed:true, available:false, default_model:"gpt-6-luna"}}};
+    const selected = initialProviderSettings(record);
+    expect(selected.provider).toBe("managed_openai_decisions");
+    expect(selected.external_consent).toBe(false);
+    expect(selected.mode).toBe("off");
+    expect(initialProviderSettings({...record, version:1}).provider).toBe("openrouter");
+    expect(initialProviderSettings({...record, credential:{configured:true}}).provider).toBe("openrouter");
+    expect(providerCredentialReady(record, selected, "", false)).toBe(false);
+    record.providers.managed_openai_decisions.available = true;
+    expect(providerCredentialReady(record, selected, "", false)).toBe(true);
+    expect(providerCredentialReady({...record, credential:{configured:true, managed:true}}, {provider:"openai_decisions"}, "", false)).toBe(false);
+  });
   it("keeps advisory support visually separate from admission", () => {
     const support=renderToStaticMarkup(<Badge state="accept" />);
     expect(support).toContain("Evidence supported");

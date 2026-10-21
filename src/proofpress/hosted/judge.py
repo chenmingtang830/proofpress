@@ -60,6 +60,9 @@ def _provider_failure(exc):
 
 
 def judge(packet, model=None, provider="openrouter", endpoint="", criteria="", zdr=False, *, opener=urlopen):
+    if provider in {"managed_openai_decisions", "openai_decisions"}:
+        from .decisions import judge as decisions_judge
+        return decisions_judge(packet, model or "gpt-6-luna", endpoint, criteria, opener=opener)
     model = model or ({"typesafe": "jev-latest", "vercel_jev": "typesafe-ai/jev"}.get(provider, DEFAULT_MODEL))
     if provider == "vercel_jev":
         from . import jev

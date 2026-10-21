@@ -192,7 +192,7 @@ class ReviewPolicyTests(unittest.TestCase):
         for key, provider in PROVIDERS.items():
             if provider["models"]:
                 self.assertIn(provider["default_model"], provider["models"])
-                expected_count = 1 if key in {"typesafe", "vercel_jev", "baseten"} else 10
+                expected_count = 1 if key in {"typesafe", "vercel_jev", "baseten", "managed_openai_decisions", "openai_decisions"} else 10
                 self.assertEqual(len(provider["models"]), expected_count)
                 self.assertEqual(provider["default_model"], provider["models"][0])
 

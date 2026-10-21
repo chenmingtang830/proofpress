@@ -12,6 +12,10 @@ from proofpress.kernel import operations as kernel
 
 RUBRICS = {"evidence-support/v1": "Evidence support, source binding, missing evidence and limitations"}
 PROVIDERS = {
+    "managed_openai_decisions": {"label": "Proofpress hosted · OpenAI Decisions", "endpoint": "https://api.openai.com/v1/decisions",
+                                 "default_model": "gpt-6-luna", "models": ["gpt-6-luna"], "zdr": False, "managed": True},
+    "openai_decisions": {"label": "OpenAI Decisions · your key", "endpoint": "https://api.openai.com/v1/decisions",
+                         "default_model": "gpt-6-luna", "models": ["gpt-6-luna"], "zdr": False},
     "vercel_jev": {"label": "Vercel AI Gateway · Jev (experimental)", "endpoint": "https://ai-gateway.vercel.sh/v4/ai",
                    "default_model": "typesafe-ai/jev", "models": ["typesafe-ai/jev"], "zdr": True},
     "typesafe": {"label": "TypeSafe · Jev (experimental)", "endpoint": "https://api.typesafe.ai/v1/systemone",
@@ -135,7 +139,7 @@ def initial_workspace_policy():
     """Safe version-zero seed used only while saving a new workspace policy."""
     policy = json.loads(json.dumps(kernel.DEFAULT_POLICY_V2))
     policy["digest"] = kernel.digest(policy)
-    return {"version": 0, "settings": normalize({}), "policy": policy,
+    return {"version": 0, "settings": normalize({"provider": "managed_openai_decisions"}), "policy": policy,
             "actor": "unconfigured workspace", "updated_at": None}
 
 
@@ -152,6 +156,9 @@ def _cipher():
 
 def credential_status(connection, workspace_id, provider="openrouter", *,
                       legacy_default_workspace_id=None):
+    if provider == "managed_openai_decisions":
+        return {"configured": bool(managed_credential()), "last_four": None,
+                "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY")), "managed": True}
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     configured = bool(row) or (workspace_id == legacy_default_workspace_id and
                                provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
@@ -174,6 +181,8 @@ def delete_credential(connection, workspace_id):
 
 def credential(connection, workspace_id, provider="openrouter", *,
                legacy_default_workspace_id=None):
+    if provider == "managed_openai_decisions":
+        return managed_credential()
     row = connection.execute("SELECT ciphertext FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     if not row:
         legacy = (os.environ.get("OPENROUTER_API_KEY", "").strip()
@@ -186,10 +195,15 @@ def credential(connection, workspace_id, provider="openrouter", *,
         raise ValueError("Stored provider credential cannot be decrypted.") from exc
 
 
+def managed_credential():
+    # Dedicated operator secret: never borrow a tenant BYOK, GMI, or generic key.
+    return os.environ.get("PROOFPRESS_MANAGED_OPENAI_API_KEY", "").strip() or None
+
+
 def public(record, credential=None):
     return {key: record[key] for key in ("version", "settings", "actor", "updated_at")} | {
         "policy_digest": record["policy"]["digest"], "rubrics": RUBRICS,
-        "providers": PROVIDERS, "credential": credential if credential is not None else {"configured": False, "last_four": None, "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))},
+        "providers": {key: {**value, **({"available": bool(managed_credential())} if value.get("managed") else {})} for key, value in PROVIDERS.items()}, "credential": credential if credential is not None else {"configured": False, "last_four": None, "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))},
         "authoring_prompt": POLICY_AUTHORING_PROMPT}
 
 
@@ -246,6 +260,13 @@ def validate(settings, prior):
         raise ValueError("Use a provider/model identifier.")
     if settings["provider"] == "vercel_jev" and settings["mode"] != "off" and model != "typesafe-ai/jev":
         raise ValueError("Vercel Jev requires model typesafe-ai/jev.")
+    if settings["provider"] in {"managed_openai_decisions", "openai_decisions"}:
+        if not isinstance(settings["endpoint"], str) or settings["endpoint"] not in {"", "https://api.openai.com/v1/decisions"}:
+            raise ValueError("OpenAI Decisions uses its fixed endpoint.")
+        if settings["mode"] != "off" and model != "gpt-6-luna":
+            raise ValueError("OpenAI Decisions requires model gpt-6-luna.")
+        if settings["auto_admit_new_claims"]:
+            raise ValueError("OpenAI Decisions is advisory; human approval is required.")
     criteria = settings["criteria"]
     if not isinstance(criteria, str) or len(criteria) > 8000:
         raise ValueError("Evaluation criteria must be 8,000 characters or fewer.")
