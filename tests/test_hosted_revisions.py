@@ -222,6 +222,16 @@ class RevisionJourneyTests(unittest.TestCase):
         self.assertEqual(packet['revision_parent']['requested_change'], 'Correct the reassessed dependency.')
         self.assertEqual(packet['revision_parent']['revision_request_ref'], request['event_id'])
 
+    def test_rolled_back_candidate_never_exposes_a_successor_link(self):
+        self.request()
+        with patch('proofpress.hosted.revisions.ops.evaluate_v2', side_effect=ValueError('verification identity conflicts')):
+            job, _ = self.run_job()
+        self.assertEqual(job['state'], 'failed', job)
+        self.assertIsNone(job['successor_id'])
+        store = SQLiteEventStore(self.control.database, 'workspace:test', 'system:test')
+        with using_event_store(store):
+            self.assertEqual(len(ops.v2_projection()['claims']), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

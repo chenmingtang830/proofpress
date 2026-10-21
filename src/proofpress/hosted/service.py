@@ -984,6 +984,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = control.issue_agent_credential(
                         owner_token, request.get("principal_id", ""),
                         request.get("label", ""), request.get("display_name"))
+                elif action == "issue_owner":
+                    result = control.issue_owner_credential(
+                        owner_token, request.get("principal_id", ""),
+                        request.get("label", ""), request.get("display_name"))
                 elif action == "issue_reviewer":
                     result = control.issue_reviewer_credential(
                         owner_token, request.get("principal_id", ""),
@@ -998,7 +1002,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                     result = {"revoked": request.get("credential_id")}
                 else:
                     raise HostedAuthError(
-                        "invalid_request", "action must be issue, issue_reviewer, rotate, or revoke")
+                        "invalid_request", "action must be issue, issue_owner, issue_reviewer, rotate, or revoke")
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             except ValueError as exc:

@@ -24,6 +24,16 @@ for any other workspace fails closed for governed operations. Its Owner may
 save an explicit first policy from a safe, disabled version-zero seed; no
 policy or provider key is copied from another workspace.
 
+An existing Owner can add a human co-owner from Admin by choosing **Person ·
+Owner (co-owner)** and a distinct `human:` identity. Each Owner has an independent
+credential and can review claims, manage settings, and administer keys. Adding
+one preserves existing Owner access and the original bootstrap recovery target;
+no shared Owner key, recovery handoff, or new workspace is needed. Only a full
+Owner may issue this access; agents and Reviewers cannot promote themselves.
+Owner credentials remain forbidden for MCP authorization. Another Owner can
+revoke a co-owner's credential and its browser session, while bootstrap recovery
+protection remains in force.
+
 Human Reviewers have separate credentials and server-derived identities. The
 Owner may issue a `human:` Reviewer credential from Admin; that person can
 inspect and decide claims, but cannot administer credentials or review policy.

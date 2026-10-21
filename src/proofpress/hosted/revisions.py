@@ -131,6 +131,8 @@ def drain(control, workspace_id):
                         "source_descriptions": ops._judge_source_descriptions(ops.v2_projection(), parent),
                         "criteria": record["settings"].get("criteria", "")}
                     result = generate(packet, key)
+                    # Publish a successor only after its transaction has committed.
+                    candidate_id = None
                     # Re-check policy and lineage in the same transaction as proposal creation.
                     with store.transaction():
                         latest = control._current_policy(store._connection.get(), workspace_id)
@@ -149,12 +151,14 @@ def drain(control, workspace_id):
                                     scope=parent.get("scope"), proposer=ACTOR, expires_at=parent.get("expires_at"),
                                     artifact_refs=parent.get("artifact_refs"), applicability=parent.get("applicability"),
                                     qualifiers=qualifiers, title=result["title"].strip())
-                                successor = proposed["claim"]["id"]
+                                candidate_id = proposed["claim"]["id"]
                                 for eid, description in receipt.get("evidence_details", {}).items():
-                                    ops.describe_evidence_v1(successor, eid, description["evidence_digest"],
+                                    ops.describe_evidence_v1(candidate_id, eid, description["evidence_digest"],
                                         description["details"], ACTOR)
-                                ops.evaluate_v2(successor)
-                            state, detail = "completed", "Revised claim created. Review its changes and checks before approving."
+                                ops.evaluate_v2(candidate_id)
+                    if candidate_id:
+                        successor = candidate_id
+                        state, detail = "completed", "Revised claim created. Review its changes and checks before approving."
                     if successor:
                         # Independent advisory review; revision candidates always require human approval.
                         from .control_plane import PrincipalContext

@@ -577,6 +577,18 @@ class HostedControlPlane:
                                   principal_id: str, label: str,
                                   display_name: str | None = None) -> dict[str, str]:
         """Issue a human reviewer identity without credential or policy authority."""
+        return self._issue_human_credential(owner_token, principal_id, label,
+            display_name, permissions=["review"], action="credential.issue.reviewer")
+
+    def issue_owner_credential(self, owner_token: str | PrincipalContext,
+                               principal_id: str, label: str,
+                               display_name: str | None = None) -> dict[str, str]:
+        """Add a co-owner without transferring bootstrap recovery or sharing keys."""
+        return self._issue_human_credential(owner_token, principal_id, label,
+            display_name, permissions=["*"], action="credential.issue.owner")
+
+    def _issue_human_credential(self, owner_token, principal_id, label, display_name,
+                                *, permissions, action):
         owner = self._admin(owner_token)
         if not isinstance(principal_id, str) or not re.fullmatch(
                 r"human:[A-Za-z0-9][A-Za-z0-9._-]{0,127}", principal_id):
@@ -599,12 +611,12 @@ class HostedControlPlane:
             connection.execute(
                 "INSERT INTO hosted_credentials VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
                 (credential_id, owner.workspace_id, principal_id, label.strip(), salt,
-                 secret_hash, json.dumps(["review"]), created_at))
+                 secret_hash, json.dumps(permissions), created_at))
             connection.execute(
                 "INSERT INTO hosted_audit(occurred_at, workspace_id, principal_id, "
                 "credential_id, operation, request_id, outcome) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 (created_at, owner.workspace_id, owner.principal_id, owner.credential_id,
-                 "credential.issue.reviewer", credential_id, "recorded"))
+                 action, credential_id, "recorded"))
             connection.commit()
         except BaseException:
             connection.rollback()

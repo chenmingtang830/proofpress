@@ -435,6 +435,19 @@ class HostedServiceTests(unittest.TestCase):
                     self.assertEqual(receipt["result"]["revision_job"]["state"], "failed")
                     self.assertIn("Changes saved", receipt["result"]["revision_job"]["detail"])
 
+    def test_issue_coowner_requires_owner_authority_and_csrf(self):
+        self.service.enable_local_owner_preview(self.server, self.owner["token"])
+        with urlopen(self.base_url + "/admin") as response:
+            cookie = response.headers["Set-Cookie"].split(";",1)[0]
+        _, session = self.owner_json("/owner/api/session", cookie)
+        data = {"action":"issue_owner", "principal_id":"human:cury", "label":"Cury Owner", "csrf":"wrong"}
+        self.assertEqual(self.owner_json("/v1/owner/credentials", cookie, data)[0], 403)
+        status, issued = self.owner_json("/v1/owner/credentials", cookie, {**data, "csrf":session["result"]["csrf"]})
+        self.assertEqual(status, 200, issued)
+        self.assertEqual(self.get("/v1/owner/credentials", issued["result"]["token"])[0], 200)
+        status, denied = self.owner_admin(self.agent["token"], {"action":"issue_owner", "principal_id":"human:bad", "label":"Forbidden"})
+        self.assertNotEqual(status, 200)
+
     def test_local_owner_preview_skips_login_only_for_loopback_ui(self):
         self.service.enable_local_owner_preview(self.server, self.owner["token"])
         request = Request(self.base_url + "/home")

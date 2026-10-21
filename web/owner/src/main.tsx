@@ -327,7 +327,7 @@ function App() {
   const [admissionReceipt, setAdmissionReceipt] = React.useState<{receipt:Receipt; nextId:string|null}|null>(null);
   const [governanceMessage, setGovernanceMessage] = React.useState("");
   const [judgeRunning, setJudgeRunning] = React.useState(false);
-  const [issuedCredential, setIssuedCredential] = React.useState<{token: string; kind: "agent" | "reviewer"; principal: string; label: string; rotated: boolean} | null>(null);
+  const [issuedCredential, setIssuedCredential] = React.useState<{token: string; kind: "agent" | "reviewer" | "owner"; principal: string; label: string; rotated: boolean} | null>(null);
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
   const [credentialsLoaded, setCredentialsLoaded] = React.useState(false);
   const [adminSection, setAdminSection] = React.useState(new URLSearchParams(location.search).get("section") || "access");
@@ -967,7 +967,7 @@ function App() {
         const existing = action === "rotate" ? credentials.find(c => c.credential_id === values.credential_id) : null;
         setIssuedCredential({
           token: result.token,
-          kind: action === "issue_reviewer" ? "reviewer" : "agent",
+          kind: action === "issue_owner" ? "owner" : action === "issue_reviewer" ? "reviewer" : "agent",
           principal: values.principal_id || existing?.principal_id || "",
           label: values.label || existing?.label || "",
           rotated: action === "rotate",
@@ -1867,7 +1867,7 @@ function AdminPage({
   onAction,
   onDismissSecret,
 }: any) {
-  const [recipient, setRecipient] = React.useState<"agent" | "reviewer">("agent");
+  const [recipient, setRecipient] = React.useState<"agent" | "reviewer" | "owner">("agent");
   const [principal, setPrincipal] = React.useState("");
   const [label, setLabel] = React.useState("");
   const [humanPrincipal, setHumanPrincipal] = React.useState("");
@@ -1913,12 +1913,12 @@ function AdminPage({
       {issuedCredential && (
         <div className={`secretReveal secretReveal--${issuedCredential.kind}`} ref={secretRef} tabIndex={-1} role="region" aria-label="New credential">
           <header className="secretRevealHeader">
-            <h2>{issuedCredential.rotated ? "Agent API key rotated" : issuedCredential.kind === "reviewer" ? "Reviewer API key issued" : "Agent API key issued"}</h2>
+            <h2>{issuedCredential.rotated ? "Agent API key rotated" : issuedCredential.kind === "owner" ? "Owner access issued" : issuedCredential.kind === "reviewer" ? "Reviewer API key issued" : "Agent API key issued"}</h2>
             <p className="issuedCredentialIdentity"><strong>{issuedCredential.label}</strong><span>{issuedCredential.principal}</span></p>
           </header>
           <div className="issuedCredentialSave">
             <h3>Save your API key</h3>
-            <p>This key is shown only once. {issuedCredential.kind === "reviewer"
+            <p>This key is shown only once. {issuedCredential.kind !== "agent"
               ? "Give it to this person through a secure channel."
               : "Keep it in this agent client's secure configuration."}</p>
             <div className="issuedCredentialCopyRow">
@@ -1930,14 +1930,14 @@ function AdminPage({
             </div>
             {copyStatus && <p role="status">{copyStatus === "Copied" ? "API key copied. Store it securely before closing." : copyStatus}</p>}
           </div>
-          {issuedCredential.kind === "agent" ? <AgentConnectionInstructions /> : <p>This person signs in to this workspace with the key. It grants Reviewer access, not Owner access.</p>}
+          {issuedCredential.kind === "agent" ? <AgentConnectionInstructions /> : <p>{issuedCredential.kind === "owner" ? "This person signs in to the website as a co-owner. Both Owners can manage this workspace using separate keys. Keep this key out of agents and MCP. Existing Owner access and recovery remain unchanged." : "This person signs in to this workspace with the key. It grants Reviewer access, not Owner access."}</p>}
           <footer className="secretRevealFooter"><p>Closing this panel hides the key permanently.</p><Button variant="outline" onClick={onDismissSecret}>Done</Button></footer>
         </div>
       )}
       <form id="agent-access" className="issueForm issueKeyForm" onSubmit={async event=>{
         event.preventDefault();
         const isAgent = recipient === "agent";
-        if (await onAction(isAgent ? "issue" : "issue_reviewer", {
+        if (await onAction(isAgent ? "issue" : recipient === "owner" ? "issue_owner" : "issue_reviewer", {
           principal_id:isAgent ? principal : humanPrincipal,
           label:isAgent ? label : humanLabel,
         })) {
@@ -1947,10 +1947,10 @@ function AdminPage({
       }}>
         <div className="issueFormHeader"><h2>Issue an API key</h2><small>Give an agent or a person access to this workspace.</small></div>
         <div className="keyRecipientRow">
-          <Label>Key for<NativeSelect aria-label="Key for" value={recipient} disabled={busy || Boolean(issuedCredential)} onChange={e=>setRecipient(e.target.value as "agent" | "reviewer")}>
-            <option value="agent">Agent</option><option value="reviewer">Person · Reviewer</option>
+          <Label>Key for<NativeSelect aria-label="Key for" value={recipient} disabled={busy || Boolean(issuedCredential)} onChange={e=>setRecipient(e.target.value as "agent" | "reviewer" | "owner")}>
+            <option value="agent">Agent</option><option value="reviewer">Person · Reviewer</option><option value="owner">Person · Owner (co-owner)</option>
           </NativeSelect></Label>
-          <p role="status">{recipient === "agent" ? "Can submit findings and read approved knowledge. Cannot approve findings or change settings." : "Can view and review findings. Cannot manage settings or other keys."}</p>
+          <p role="status">{recipient === "agent" ? "Can submit findings and read approved knowledge. Cannot approve findings or change settings." : recipient === "owner" ? "Full workspace access: review findings, change knowledge and verification settings, and manage other keys. Existing Owners keep their access." : "Can view and review findings. Cannot manage settings or other keys."}</p>
         </div>
         <div className="issueFormFields">
           <Label>{recipient === "agent" ? "Agent identity" : "Person identity"}<Input
@@ -2006,7 +2006,7 @@ function AdminPage({
                   Revoke
                 </Button>
               </div>
-            ) : !c.revoked_at && c.role === "reviewer" ? (
+            ) : !c.revoked_at && (c.role === "reviewer" || (c.role === "owner" && !c.bootstrap_owner)) ? (
               <div className="credentialActions"><Button variant="danger" size="sm" disabled={busy || Boolean(issuedCredential)}
                 onClick={() => onAction("revoke", { credential_id: c.credential_id })}>Revoke</Button></div>
             ) : (
