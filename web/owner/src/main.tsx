@@ -1,3 +1,4 @@
+import { createOwnerTools } from "./webmcp";
 import { Empty } from "@/components/ui/empty";
 import { Alert } from "@/components/ui/alert";
 import { DisclosureContent, Disclosure, DisclosureTrigger } from "@/components/ui/disclosure";
@@ -464,292 +465,7 @@ function App() {
     const ctx =
       (document as any).modelContext || (navigator as any).modelContext;
     if (!ctx?.registerTool) return;
-    const toolText = (value: unknown) => ({
-      content: [{ type: "text", text: JSON.stringify(value, null, 2) }],
-    });
-    const tools = [
-      {
-        name: "get_workspace_summary",
-        description: "Summarize the signed-in workspace, review queue, and current governed context without changing state.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: { type: "object", properties: {} },
-        execute: async () => {
-          const [graph, context, summary] = await Promise.all([api("/owner/api/graph"), api("/owner/api/context"), api("/owner/api/summary")]);
-          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim");
-          return toolText({
-            review: summary,
-            current_governed_context_count: (context.governed_context || []).length,
-            staged_draft_candidate_count: (context.staged_context || []).length,
-            claim_states: claims.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
-            needs_reassessment_count: claims.filter((row: any) => row.state === "dependency_invalidated").length,
-            authority: "Agents may inspect and prepare work. Agent approval is never available.",
-          });
-        },
-      },
-      {
-        name: "get_claim_graph",
-        description: "Read the bounded evidence, claim, lifecycle, and relation graph for the owner workspace. This does not change state.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: { type: "object", properties: { scope: { type: "string" } } },
-        execute: async ({ scope = "" }: any) =>
-          toolText(await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`)),
-      },
-      {
-        name: "list_review_queue",
-        description: "List candidate claims by review state and optional scope. This is a read-only queue view.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: { type: "object", properties: { state: { type: "string", enum: ["needs_review", "needs_revision", "admitted", "rejected", "all"] }, scope: { type: "string" }, limit: { type: "integer", minimum: 1, maximum: 100 } } },
-        execute: async ({ state = "needs_review", scope = "", limit = 25 }: any) => {
-          const graph = await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`);
-          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim" && (state === "all" || node.state === state)).slice(0, limit).map((node: any) => ({ id: node.id, title: claimDisplayTitle(node), claim_title: node.title || null, statement: node.label, applicability: node.applicability || null, state: node.state, scope: node.scope, created_at: node.created_at, proposer: node.proposer }));
-          return toolText({ claims, count: claims.length, open_in_review: `${location.origin}/review` });
-        },
-      },
-      {
-        name: "get_current_context",
-        description:
-          "Retrieve approved claims and a separate staged_context list. Staged candidates are for clearly marked drafts only, never approved reliance. Does not approve claims.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: {
-          type: "object",
-          properties: { scope: { type: "string" }, task: { type: "string" } },
-          required: ["scope"],
-        },
-        execute: async ({ scope, task }: any) =>
-          toolText(
-            await api(
-              `/owner/api/context?scope=${encodeURIComponent(scope)}&task=${encodeURIComponent(task || "")}`,
-            ),
-          ),
-      },
-      {
-        name: "get_review_state",
-        description:
-          "Inspect checks, advisory recommendation, and human-decision state. Does not approve.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: {
-          type: "object",
-          properties: { claim_id: { type: "string" } },
-          required: ["claim_id"],
-        },
-        execute: async ({ claim_id }: any) =>
-          toolText(
-            await api(
-              `/owner/api/claims/${encodeURIComponent(claim_id)}`,
-            ),
-          ),
-      },
-      {
-        name: "get_lineage",
-        description:
-          "Inspect the evidence and decision history bound to a claim.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: {
-          type: "object",
-          properties: { claim_id: { type: "string" } },
-          required: ["claim_id"],
-        },
-        execute: async ({ claim_id }: any) => {
-          const r = await api(
-            `/owner/api/claims/${encodeURIComponent(claim_id)}`,
-          );
-          return toolText({
-            claim: r.claim,
-            state: r.state,
-            evidence: r.evidence,
-            withdrawal: r.withdrawal,
-            dependency_impact: r.dependency_impact,
-            dependent_impact: r.dependent_impact,
-            dependencies: r.dependencies,
-            relations: r.relations,
-            relation_advice: r.relation_advice,
-            history: r.history,
-          });
-        },
-      },
-      {
-        name: "open_claim_lifecycle",
-        description: "Open an owner-only withdrawal or dependency-reassessment surface for one claim. Navigation does not record a decision.",
-        annotations: { readOnlyHint: true, untrustedContentHint: false },
-        inputSchema: {
-          type: "object",
-          properties: {
-            claim_id: { type: "string" },
-            action: { type: "string", enum: ["withdraw", "reassess"] },
-          },
-          required: ["claim_id", "action"],
-        },
-        execute: async ({ claim_id, action }: any) => {
-          const request = ++selectionRequest.current;
-          const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
-          if (request !== selectionRequest.current) throw new Error("The selected claim changed before the lifecycle surface opened");
-          const actionAllowed = action === "reassess"
-            ? result.state === "dependency_invalidated"
-            : ["admitted", "dependency_invalidated"].includes(result.state);
-          if (!actionAllowed) throw new Error(`${action} is not available for a claim in state ${result.state}`);
-          setNote("");
-          setSelected(claim_id);
-          setReceipt(result);
-          setPage(action === "reassess" ? "review" : "ledger");
-          setFullReview(action === "reassess");
-          return toolText({
-            opened: true,
-            action,
-            claim_id,
-            state: result.state,
-            decision_recorded: false,
-            requires_human_owner: true,
-            url: `${location.origin}/${action === "reassess" ? "review" : "ledger"}?claim_id=${encodeURIComponent(claim_id)}${action === "reassess" ? "&view=full" : ""}`,
-          });
-        },
-      },
-      {
-        name: "run_deterministic_checks",
-        description: "Run deterministic integrity and policy-prerequisite checks for one candidate. This appends evaluation receipts but cannot approve claims.",
-        annotations: { readOnlyHint: false, untrustedContentHint: true },
-        inputSchema: { type: "object", properties: { claim_id: { type: "string" } }, required: ["claim_id"] },
-        execute: async ({ claim_id }: any) => {
-          await api("/owner/api/evaluate", { method: "POST", body: JSON.stringify({ csrf: csrfRef.current, claim_id }) });
-          const result = await api(`/owner/api/claims/${encodeURIComponent(claim_id)}`);
-          setReloadVersion(version => version + 1);
-          return toolText({ claim_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "Model advice is required by policy. Admission still requires an owner decision or a separately enabled Owner policy." : "Open the review surface or check whether the Owner policy is configured to admit qualifying new claims." });
-        },
-      },
-      {
-        name: "open_review",
-        description: "Open a claim in the owner review surface. Navigation does not make a decision.",
-        annotations: { readOnlyHint: true, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: { claim_id: { type: "string" }, full: { type: "boolean" } }, required: ["claim_id"] },
-        execute: async ({ claim_id, full = true }: any) => {
-          setSelected(claim_id); setPage("review"); setFullReview(Boolean(full));
-          return toolText({ opened: true, decision_recorded: false, url: `${location.origin}/review?claim_id=${encodeURIComponent(claim_id)}${full ? "&view=full" : ""}` });
-        },
-      },
-      {
-        name: "prepare_review_response",
-        description:
-          "Prepare instructions for an agent to answer a clarification request through its agent credential. This owner-page tool does not submit or approve.",
-        inputSchema: {
-          type: "object",
-          properties: {
-            claim_id: { type: "string" },
-            response: { type: "string" },
-          },
-          required: ["claim_id", "response"],
-        },
-        execute: async ({ claim_id, response }: any) =>
-          toolText({
-            claim_id,
-            response,
-            prepared: true,
-            recorded: false,
-            admitted: false,
-            next: "Use the connected agent MCP or CLI to submit supporting evidence and a revision proposal; only an owner decision or explicitly enabled owner policy can approve it.",
-          }),
-      },
-      {
-        name: "get_activity",
-        description:
-          "Read semantic workspace activity and claim-consumption receipts. Does not return provider secrets or owner credentials.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: {
-          type: "object",
-          properties: { limit: { type: "integer", minimum: 1, maximum: 100 } },
-        },
-        execute: async ({ limit = 50 }: any) =>
-          toolText(await api(`/owner/api/activity?limit=${encodeURIComponent(String(limit))}`)),
-      },
-      {
-        name: "get_review_policy",
-        description:
-          "Read the active workspace review policy and safe provider-configuration status. Secret values are never returned.",
-        annotations: { readOnlyHint: true, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: {} },
-        execute: async () => toolText(await api("/owner/api/review-policy")),
-      },
-      {
-        name: "get_policy_history",
-        description: "Read saved capture-rule or review-criteria versions with author and timestamp. Read-only, scoped to the signed-in workspace; no provider secrets or historical executable configuration are returned. Does not restore, save or approve anything.",
-        annotations: { readOnlyHint: true, untrustedContentHint: true },
-        inputSchema: { type:"object", properties:{kind:{type:"string",enum:["capture","criteria"]},limit:{type:"integer",minimum:1,maximum:50},before_version:{type:"integer",minimum:1}}, required:["kind"], additionalProperties:false },
-        execute: async ({kind,limit=10,before_version}:any)=>{
-          if (!["capture","criteria"].includes(kind) || !Number.isInteger(limit) || limit < 1 || limit > 50 || (before_version !== undefined && (!Number.isInteger(before_version) || before_version < 1))) throw new Error("Use a valid policy kind, limit and version cursor.");
-          const endpoint = kind === "capture" ? "/owner/api/capture-policy/history" : "/owner/api/review-criteria/history";
-          return toolText(await api(`${endpoint}?limit=${limit}${before_version === undefined ? "" : `&before_version=${before_version}`}`));
-        },
-      },
-      {
-        name: "prepare_review_criteria",
-        description: "Stage review criteria in Admin without changing AI, credentials, processing consent or approval settings. A human Owner must save; this tool never saves or authorizes.",
-        annotations: { readOnlyHint: false, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: { criteria: { type: "string", maxLength: 8000 } }, required: ["criteria"], additionalProperties: false },
-        execute: async ({ criteria }: any) => {
-          if (typeof criteria !== "string" || criteria.length > 8000) throw new Error("Provide review criteria of at most 8,000 characters.");
-          sessionStorage.setItem("proofpress:review-policy-draft", JSON.stringify({ criteria }));
-          setAdminSection("models");
-          navigate("admin", "?section=models");
-          window.dispatchEvent(new Event("proofpress:review-criteria-draft"));
-          return toolText({ prepared:true, activated:false, requires_human_owner:true,
-            next:"Review the criteria in Admin and select Save review criteria. AI settings remain separate.",
-            url:`${location.origin}/admin?section=models` });
-        },
-      },
-      {
-        name: "prepare_review_policy_change",
-        description:
-          "Prepare a review-policy change in Admin for the human owner to inspect and activate. This never saves or authorizes the change.",
-        annotations: { readOnlyHint: false, untrustedContentHint: false },
-        inputSchema: {
-          type: "object",
-          properties: {
-            provider: { type: "string", enum: ["openrouter", "openai", "azure_openai", "anthropic", "amazon_bedrock", "google_gemini", "xai", "groq", "mistral", "typesafe", "vercel_jev", "baseten", "custom"] },
-            endpoint: { type: "string" },
-            model: { type: "string" },
-            criteria: { type: "string", maxLength: 8000 },
-            zdr: { type: "boolean" },
-            mode: { type: "string", enum: ["off", "manual", "automatic"] },
-            require_judge: { type: "boolean" },
-            external_consent: { type: "boolean" },
-            auto_admit_new_claims: { type: "boolean", description: "Propose whether a saved Owner policy should automatically approve qualifying new claims workspace-wide. Off by default; the owner must review and save this setting." },
-          },
-          required: ["provider", "endpoint", "model", "criteria", "zdr", "mode", "require_judge", "external_consent"],
-        },
-        execute: async (settings: any) => {
-          sessionStorage.setItem("proofpress:review-policy-draft", JSON.stringify(settings));
-          setAdminSection("models");
-          navigate("admin", "?section=models");
-          return toolText({
-            prepared: true,
-            activated: false,
-            requires_human_owner: true,
-            next: "Save review criteria separately. Review AI settings and provider disclosure before enabling or saving AI checks.",
-            url: `${location.origin}/admin`,
-          });
-        },
-      },
-      {
-        name: "get_agent_access",
-        description: "List agent identities and credential lifecycle metadata. Credential secrets are never returned.",
-        annotations: { readOnlyHint: true, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: {} },
-        execute: async () => {
-          const result = await api("/v1/owner/credentials");
-          return toolText({ credentials: (result.credentials || []).map(({ credential_id, principal_id, label, role, created_at, revoked_at }: any) => ({ credential_id, principal_id, label, role, created_at, revoked_at })) });
-        },
-      },
-      {
-        name: "prepare_agent_credential_issue",
-        description: "Prepare an agent identity and key label in Admin. The human owner must issue the credential; no secret is exposed to the agent.",
-        annotations: { readOnlyHint: false, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: { principal_id: { type: "string" }, label: { type: "string" } }, required: ["principal_id", "label"] },
-        execute: async ({ principal_id, label }: any) => {
-          sessionStorage.setItem("proofpress:agent-credential-draft", JSON.stringify({ principal_id, label }));
-          setAdminSection("access");
-          navigate("admin", "?section=access");
-          return toolText({ prepared: true, issued: false, requires_human_owner: true, secret_exposed_to_agent: false, url: `${location.origin}/admin` });
-        },
-      },
-    ];
+    const tools = createOwnerTools({api, csrfRef, selectionRequest, setSelected, setNote, setReceipt, setPage, setFullReview, setReloadVersion, setAdminSection, navigate});
     Promise.all(tools.map((tool) => ctx.registerTool(tool))).catch(
       () => undefined,
     );
@@ -1907,6 +1623,7 @@ function AdminPage({
     if (issuedCredential) { onSectionChange("access"); secretRef.current?.focus(); }
   }, [issuedCredential]);
   React.useEffect(() => {
+    const loadDraft = () => {
     const raw = sessionStorage.getItem("proofpress:agent-credential-draft");
     if (!raw) return;
     try {
@@ -1918,6 +1635,10 @@ function AdminPage({
     } finally {
       sessionStorage.removeItem("proofpress:agent-credential-draft");
     }
+    };
+    loadDraft();
+    window.addEventListener("proofpress:agent-credential-draft", loadDraft);
+    return () => window.removeEventListener("proofpress:agent-credential-draft", loadDraft);
   }, []);
   return (
     <div className="pageBody adminPage">
@@ -1932,8 +1653,8 @@ function AdminPage({
           <TabsTrigger value="rules">Knowledge rules</TabsTrigger>
           <TabsTrigger value="models">Verification settings</TabsTrigger>
         </TabsList>
-        <TabsContent value="rules">{capture}</TabsContent>
-        <TabsContent value="models">{models}</TabsContent>
+        <TabsContent value="rules" forceMount className="data-[state=inactive]:hidden">{capture}</TabsContent>
+        <TabsContent value="models" forceMount className="data-[state=inactive]:hidden">{models}</TabsContent>
         <TabsContent value="access" forceMount className="data-[state=inactive]:hidden">
       {error && <Alert role="alert"><span>{error}</span><Button variant="outline" onClick={onReload}>Reload credentials</Button></Alert>}
       {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared API key" detail="Review the agent identity and key name below. Nothing has been issued yet." />}

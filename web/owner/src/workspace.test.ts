@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const source = readFileSync(
   fileURLToPath(new URL("./main.tsx", import.meta.url)),
   "utf8",
-);
+) + readFileSync(fileURLToPath(new URL("./webmcp.ts", import.meta.url)), "utf8");
 const css = readFileSync(
   fileURLToPath(new URL("./index.css", import.meta.url)),
   "utf8",

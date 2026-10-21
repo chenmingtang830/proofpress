@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "audit_note": "Audited Owner UI and hosted APIs: added safe capture, identity/dashboard, runs and Activity tools; validated live provider/rubric parity and typed drafts; preserved drafts across Admin tabs and manual-first criteria without AI, consent or a provider-key requirement.",
+  "capabilities": [
+    {
+      "capability": "Workspace identity and Home",
+      "tools": [
+        "get_workspace_identity",
+        "get_workspace_summary",
+        "get_workspace_dashboard"
+      ],
+      "authority": "Read safe metadata only; unavailable data is unknown."
+    },
+    {
+      "capability": "Knowledge and review",
+      "tools": [
+        "get_claim_graph",
+        "list_review_queue",
+        "get_current_context",
+        "get_review_state",
+        "get_lineage",
+        "open_claim_lifecycle",
+        "run_deterministic_checks",
+        "open_review",
+        "prepare_review_response"
+      ],
+      "authority": "Read or prepare; deterministic checks append receipts, never human decisions."
+    },
+    {
+      "capability": "Runs and Activity",
+      "tools": [
+        "list_runs",
+        "get_run",
+        "get_activity",
+        "get_technical_logs",
+        "get_executions"
+      ],
+      "authority": "Read bounded server projections; no scheduling or raw traces."
+    },
+    {
+      "capability": "Knowledge capture rules",
+      "tools": [
+        "get_capture_policy",
+        "prepare_capture_policy_change",
+        "get_policy_history"
+      ],
+      "authority": "Read or stage a local draft; Owner saves."
+    },
+    {
+      "capability": "Verification settings",
+      "tools": [
+        "get_review_policy",
+        "prepare_review_policy_change",
+        "prepare_review_criteria"
+      ],
+      "authority": "Live provider IDs; no keys, consent or policy saved by tools."
+    },
+    {
+      "capability": "Agent access",
+      "tools": [
+        "get_agent_access",
+        "prepare_agent_credential_issue"
+      ],
+      "authority": "Safe metadata and local draft; human issues or changes credentials."
+    }
+  ],
+  "human_only": [
+    {
+      "surface": "Sign in, OAuth, bootstrap and one-time credential reveal",
+      "reason": "Human privately handles authority credentials; no WebMCP secret access."
+    },
+    {
+      "surface": "Review decisions, withdrawal, reassessment and policy activation",
+      "reason": "Agent may inspect or prepare; human authority and explicit save remain required."
+    },
+    {
+      "surface": "Credential issue, rotate, revoke and provider secret input",
+      "reason": "Human-only mutations and one-time secrets; agents can inspect safe metadata."
+    },
+    {
+      "surface": "External AI advice confirmation, recovery and retention",
+      "reason": "No tool may grant processing consent, use recovery secrets or silently delete data."
+    },
+    {
+      "surface": "Connect instructions and copy buttons",
+      "reason": "Public /connect supplies client setup commands; copying is a human convenience, no new authority."
+    }
+  ],
+  "sources": {
+    "src/proofpress/hosted/__init__.py": "405cac9034cdfe2527408758591836a116ce181989dfc14c0d9a88d4d75859de",
+    "src/proofpress/hosted/assistant.py": "6bfd65ac2e5a8e752a4c14afd8f7c6b31d109867c0c79a8ffac0822eb634d8a2",
+    "src/proofpress/hosted/capture_policy.py": "6f90906fe0df83c4c4a90baadbf7ec331818f57f8095eec423c68f4327747915",
+    "src/proofpress/hosted/control_plane.py": "4403e3a000f5e1a2241da264bf98b4d3249eebd82be408f618441fdc52f7eba5",
+    "src/proofpress/hosted/decisions.py": "7d460e5ff5631e3de3d9d4c11bbfdf3937a8e296a8fe483128b2fbbe55632250",
+    "src/proofpress/hosted/execution.py": "41fbb96b110c4b628bfce20d5a047db353f9a846d490b227a2e5c02a42095d54",
+    "src/proofpress/hosted/jev.py": "69eea2c01ad9ce43b10cf976105d6385104d7c6dbe45ab9516d75fb896ae3372",
+    "src/proofpress/hosted/judge.py": "e969ff68e3caed32c0a301278ca616fc4cf8c42e03fe2910b796e5c0d20d9791",
+    "src/proofpress/hosted/mcp_http.py": "7616fbb41af8d6b74333249059530ffdcd65bd04e1dc68628e7b3aec97127715",
+    "src/proofpress/hosted/remote.py": "c03cdea57a11e52a4cded5ecf8e9ffc0e798ed971dfa8d8cca43e4f9f86d5279",
+    "src/proofpress/hosted/review_policy.py": "4aa7eaea4a23b13b2eeeff9c5bea88c6526eedd76841a8a630615019e4a156d5",
+    "src/proofpress/hosted/revisions.py": "7921aa2b291c8b367779d4d6a730b6b059f867e663f87f76805a56a91d17f551",
+    "src/proofpress/hosted/service.py": "c3f2992788bcd2ee5eaf810463f63fed1c21d290aadadb21c9a596f4df45d96c",
+    "web/owner/src/claim-network-preview.css": "b1acf79e6d51ae9c3df05b1e61717730d15a954ff8343807f27a342c5d1308f8",
+    "web/owner/src/claim-network-preview.tsx": "eb8f62fe9d49da3ffa57d3dea09b3773034d97ea0ff77e5aae011f097ebe94e1",
+    "web/owner/src/components/activity-result.tsx": "537f470e2eb3261329dea7dd1bae92e65bb1acef61eeebc4b152ce2ba0a790c4",
+    "web/owner/src/components/assistant-conversation.tsx": "9bec506ebcdd0b10d74ecd1acd1bf758b176def259c4e44ebc4918c9a818f113",
+    "web/owner/src/components/capture-rules.tsx": "a936fc08cb7e98464e669feb7eab254058c078b3222ccf78912778420633476b",
+    "web/owner/src/components/claim-display.ts": "70b5c3c6b358f5b486c71bd3de679b010e2a7fae2a3aa15d09381292c6bbfa54",
+    "web/owner/src/components/claim-graph.css": "df2751f8e6da91aa534fdc28c83fe7e52f3aca26ffd87b3e798cf28da8e103d1",
+    "web/owner/src/components/claim-graph.tsx": "3a80b4f2f4b6b671c415bb2436ea30230e934429e484cc6266f5213716d1d2b4",
+    "web/owner/src/components/claim-temporal.tsx": "e024501b32475d2c9ad854fa879e32d385f4eea199a9228f82fe2f0f198e6f48",
+    "web/owner/src/components/evidence-source.css": "32af50997e4bbad909f3d7be9b8912839c2d90d63d73a5ce2b0cd20686bf1fe6",
+    "web/owner/src/components/evidence-source.tsx": "1aa0f25efcf30b6cb83c1ad91c06aaffb6d7e43b12928fd83700ed753cfd2412",
+    "web/owner/src/components/governance.css": "f0db9c2a9528c2ff9122a9e6fbfc4e6eb1368b5ab56358857f3621deed96e288",
+    "web/owner/src/components/knowledge-library.css": "8910699c55da12bae3acef9e0145f28027db66b4083a100b097a03e2c59a5d72",
+    "web/owner/src/components/knowledge-library.tsx": "1518502b3495eca9ec88752a47fbebe8c517b49c6cf62fe5911555be5be8bcbb",
+    "web/owner/src/components/knowledge-model.ts": "0788c7d2cd8193d6acf8109a7c6d65a9da2ced180158b62bb5bbf4ce8e7c6e00",
+    "web/owner/src/components/ledger-overview.tsx": "7fdba2506e7fc5982a0ac8c651e1d35ab6aab9d8844060a9da43682b1d73067a",
+    "web/owner/src/components/lineage-graph.tsx": "154508d63add5c399aef61c3c4a0f438e1b69dd73ea9ad35df8f59edf315d17b",
+    "web/owner/src/components/reassessment-panel.tsx": "67da7465e6e0dcb987e5a20825cfe3df0613cb87cd14ace1fb6dc1e3a8faff58",
+    "web/owner/src/components/relation-advice.tsx": "82767983d62f1701c75eddb93981c7c66b87d3638c6cc80ee7cf8f710794a2dc",
+    "web/owner/src/components/review-feedback.tsx": "18cc1a17e1198ffdb2a1c23c0a1243f8a3f4674c4882a5beba4e5160c8f610d0",
+    "web/owner/src/components/review-policy.tsx": "fd997ef1608a5b82e383a015b1953e776e8cc12e4fd87835c8780c27b29b2a32",
+    "web/owner/src/components/skill-installation.ts": "f5dbcbb46c122386e8fae169b12885e0a41f794439766fa3488aed56e146f0c2",
+    "web/owner/src/components/typed-judge-advice.tsx": "4e60993db245ae4f9252432fee521a37d2c187565f4190931be24a06097bf0cc",
+    "web/owner/src/components/ui/accordion.tsx": "096c13c623d0465b9ec64966ca7313d6c6ce745828518eab5fa4fe50cb941970",
+    "web/owner/src/components/ui/alert.tsx": "5950ac01377e7eedc94b00eb3fee678745e4cc1a72b5343867f0733d07db6660",
+    "web/owner/src/components/ui/badge.tsx": "cba7c57b3e3f3d407d849e001f445199d05b63861a2ca4526ca402b40bf5601f",
+    "web/owner/src/components/ui/button.tsx": "caefad8309e48d054396a61b524a0d8ace715e65f43318fb37dad45ca9b0dbc8",
+    "web/owner/src/components/ui/card.tsx": "bd56f11294309e80c6ba64ed934117640fc6e1d3a1b54b3a44ffdff4869ba4bf",
+    "web/owner/src/components/ui/checkbox.tsx": "84435689a863ce56065a49fd16192f84c0745110dcf718382085aa052ef3df1d",
+    "web/owner/src/components/ui/collapsible.tsx": "6f5be8ba164c177759bf63cc25ad4d49391f162f6784ba624d72e5d5c0c0dde2",
+    "web/owner/src/components/ui/component-theme.css": "0dd20436ffe0d982f4a8d1e0e683142f468639938f7d7cc0894e269c55bd4a02",
+    "web/owner/src/components/ui/dialog.tsx": "75023ff24727e302f63427fb135925623060dce5a369912989ae1ce22c5662d0",
+    "web/owner/src/components/ui/disclosure.tsx": "b23015561a61801d710f9703717f9e3a06cd4fa12d1113ea806ba0e98c4c7e74",
+    "web/owner/src/components/ui/empty.tsx": "9f975582a0290dbc7ce6efa3b36b376a4c3f07863026c3b74c1e73cb0023acb8",
+    "web/owner/src/components/ui/icon.tsx": "06f90fa08e15aa96f23855f2bcee5acf64ba7d69dd72ca01cc2b12c59b217bb3",
+    "web/owner/src/components/ui/input.tsx": "aeaa4dd4cd260b67c77538c7373d7aecb51f518ff277398cd89b247d2a39872a",
+    "web/owner/src/components/ui/label.tsx": "e69cfc27d78c9ef31b248ab8ea4fa54327c1038843f70efb5cd85d54c0bf1e0e",
+    "web/owner/src/components/ui/markdown-editor.tsx": "68baa897057d84aac52a1ed3730963558d0ffaf19b56e891235cf95fa5a2fd36",
+    "web/owner/src/components/ui/modal-surface.tsx": "b51afcacff4f06b448687612efcac91e4b899a8f2227fccc571aef6ba51c8ba9",
+    "web/owner/src/components/ui/native-select.tsx": "a4f357cb7da4ac345e63237ab4ca7d0264cbc4fbf7528bb8f7eb0fc30f99da8b",
+    "web/owner/src/components/ui/radio-group.tsx": "7dc0617e26b068349253feb553de21ba9702ed6aac2f7208228d8e0a3e08298c",
+    "web/owner/src/components/ui/separator.tsx": "995c54f1c5c688f712a675fe35d55bcada2b31dba561dcc71553a1ad601e59ec",
+    "web/owner/src/components/ui/skeleton.tsx": "87608e7cc815ad3d88e0b9de6c402bb37b58ea1b38636cf69709da1baff6e334",
+    "web/owner/src/components/ui/switch.tsx": "cfee775724b2f0ba97e90bfb06bfc5fbb57e0abba636b29fc7d8fa759e010411",
+    "web/owner/src/components/ui/table.tsx": "71c56a3d819a4ceab9631610d0627ad0d5461be765b12268107085230a4eba49",
+    "web/owner/src/components/ui/tabs.tsx": "5904d707dd0a1ee384faa5fd63ebf8d94c9b97a088e1697bf301093ff8ad11d7",
+    "web/owner/src/components/ui/textarea.tsx": "2347e03b366c384e8552c8e64c44ffb683676f80af2a3fc4672b42ce664f32ff",
+    "web/owner/src/components/workspace-home.css": "5bcde38c079de5e9bee1eaa3cd908d3eed1678ec5847c6b3a3597c8d8cabdb49",
+    "web/owner/src/components/workspace-setup.css": "ff8ab1cbd40e5b1c0d116bac321f3b5d1c539d81c9d31fa3c9f32f798ac369e9",
+    "web/owner/src/components/workspace-setup.tsx": "6a750e26aa47dac1d26b36eaf12c6135c3a9a2ddbf32dd205fa87a70e06d3cfa",
+    "web/owner/src/fonts.css": "0abea04e1325dcd110cb2caf81ef3319e584ecf0cf6c223f8bb87908edff90d9",
+    "web/owner/src/graph-preview.tsx": "aeacf55537dd3d51e92b247c856d331513ecd043cf421197117f4c8f332f33d5",
+    "web/owner/src/index.css": "2477eaf0fe52c1f6031791ae2ca657762fd15c6f4c3dd5e71a5bfa865d2262cb",
+    "web/owner/src/lib/utils.ts": "c4afe23db29651dec75ca5a3098a8bafe35f78cd45d4773d1db1c8001e640623",
+    "web/owner/src/main.tsx": "1f47cd51ab652848a825c33fb6ad056f7b2ca073af5e63af33cc1c073463c123",
+    "web/owner/src/review.css": "5caad5cf6496f0ec676960d52fd2576d62863448d526e2b223051a84900de582",
+    "web/owner/src/webmcp.ts": "7bd14003e1bf14acf1494ab09cd1e74d77bbfd4b662bd3790a87ff8eae223278",
+    "web/owner/src/workspace-polish.css": "7026307ff04cdf2912f35bffc998e572364758faa47e4b72951db88216cd08a3"
+  }
+}

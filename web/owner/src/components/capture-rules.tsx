@@ -95,9 +95,21 @@ export function CaptureRules({api, csrf}: any) {
     try {
       const row = await api("/owner/api/capture-policy");
       setRecord(row); setText(formatCaptureRules(row.settings)); setError("");
+      const prepared = sessionStorage.getItem("proofpress:capture-policy-draft");
+      if (prepared) {
+        const draft = parseCaptureDraft(prepared);
+        setText(formatCaptureRules(draft));
+        setMessage("Agent-prepared capture rules loaded. Review every rule before saving.");
+        sessionStorage.removeItem("proofpress:capture-policy-draft");
+      }
     } catch (e:any) { setError(e.message); }
   }, [api]);
-  React.useEffect(()=>{void load();},[load]);
+  React.useEffect(()=>{
+    void load();
+    const reloadDraft = () => { void load(); };
+    window.addEventListener("proofpress:capture-policy-draft", reloadDraft);
+    return () => window.removeEventListener("proofpress:capture-policy-draft", reloadDraft);
+  },[load]);
   const changed = record && text !== formatCaptureRules(record.settings);
   async function copyPrompt() {
     try { await navigator.clipboard.writeText(captureDraftPrompt(record)); setCopyStatus("copied"); }

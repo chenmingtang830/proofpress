@@ -9,7 +9,7 @@ OWNER_UI = ROOT / "web" / "owner" / "src" / "main.tsx"
 
 class WebmcpOwnerSurfaceTests(unittest.TestCase):
     def setUp(self):
-        self.page = OWNER_UI.read_text(encoding="utf-8")
+        self.page = OWNER_UI.read_text(encoding="utf-8") + (OWNER_UI.parent / "webmcp.ts").read_text(encoding="utf-8")
 
     def test_registers_document_or_navigator_model_context(self):
         self.assertIn("document as any).modelContext", self.page)
