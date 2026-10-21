@@ -64,6 +64,6 @@ def in_temporal_window(row, window):
             known = _instant(q.get("original_first_seen_at"), zone, date_end=True)
             if known > b["known_before"] or (len(q["original_first_seen_at"]) != 10 and known == b["known_before"]):
                 return False
-    except (ValueError, TypeError):
+    except (ValueError, TypeError, OverflowError):
         return False
     return True

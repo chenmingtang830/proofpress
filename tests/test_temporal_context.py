@@ -56,6 +56,10 @@ class TemporalBoundaryTests(unittest.TestCase):
         self.assertFalse(in_temporal_window(r, temporal_window({"known_before": "2026-10-15T12:00:00Z"})))
         self.assertTrue(in_temporal_window(r, temporal_window({"known_before": "2026-10-16"})))
 
+    def test_overflowing_first_known_date_is_excluded(self):
+        row = {"qualifiers": {"original_first_seen_at": "9999-12-31"}}
+        self.assertFalse(in_temporal_window(row, temporal_window({"known_before": "2026-10-20"})))
+
     def test_hosted_mcp_publishes_window(self):
         for name in ("proofpress_get_context", "proofpress_discover_context"):
             tool = next(t for t in mcp_http.TOOLS if t["name"] == name)

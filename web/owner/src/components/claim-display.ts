@@ -35,7 +35,11 @@ export function hasDistinctClaimHeading(claim: ClaimDisplayRecord) {
 
 export function claimTime(claim: ClaimDisplayRecord) {
   const q = claim.temporal || claim.qualifiers || {};
-  const date = (v: unknown) => typeof v === "string" && /^\d{4}-\d{2}-\d{2}(?:T.*)?$/.test(v) && Number.isFinite(Date.parse(v)) ? v : "";
+  const date = (v: unknown) => {
+    if (typeof v !== "string" || !/^\d{4}-\d{2}-\d{2}(?:T.*)?$/.test(v) || !Number.isFinite(Date.parse(v))) return "";
+    const day = new Date(v.slice(0, 10) + "T00:00:00Z");
+    return Number.isFinite(day.getTime()) && day.toISOString().slice(0, 10) === v.slice(0, 10) ? v : "";
+  };
   return {effective: date(q.effective_date), report: date(q.report_date), known: date(q.original_first_seen_at), reconstruction: q.historical_reconstruction === true};
 }
 

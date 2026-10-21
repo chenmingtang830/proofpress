@@ -19,6 +19,9 @@ describe('finding time presentation', () => {
     expect(claimDisplayTitle({title:'October 15 leverage snapshot'})).toBe('October 15 leverage snapshot');
     expect(claimDisplayTitle({statement:'October 15 prices fell', qualifiers})).toBe('October 15 prices fell');
   });
+  it('does not present invalid calendar dates', () => {
+    expect(renderToStaticMarkup(<ClaimTemporal claim={{qualifiers:{effective_date:'2026-02-30'}}}/>)).toBe('');
+  });
   it('supports graph temporal projection and never labels created_at as observation time', () => {
     expect(renderToStaticMarkup(<ClaimTemporal claim={{temporal:{effective_date:'2026-10-15', recorded_at:'2026-10-20'}}}/>)).not.toContain('2026-10-20');
   });
