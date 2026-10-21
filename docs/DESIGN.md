@@ -68,6 +68,8 @@ The desktop reference viewport is approximately 1536×1024. The primary table al
 [//]: # (ob:c3130a45)
 Hosted Workspace V2 uses the canonical operating tokens below: paper/surface `#FFFFFF`, ink `#171B21`, secondary ink `#4E5864`, readable metadata ink `#606B77`, line `#DCE1E4`, accent `#006B7B`, and accent-soft `#EDF6F7`. Needs revision uses revision `#665A8A` on revision-bg `#EFEDF5`. Red means rejected/blocked or destructive access operations. Green means admitted, active access, or a specifically confirmed operation such as clipboard copy; each must have an explicit label. Needs review uses the labeled cyan review treatment; labels and structure must preserve its distinction from selection or admission.
 
+Model advice uses teal for evidence supported (`accept`), yellow for needs attention (`escalate`), and red for evidence not supported (`reject`). Keep the explicit text labels. These advisory colors do not indicate admission; admitted knowledge retains its separate green treatment.
+
 [//]: # (ob:9787677e)
 ## Overview
 
