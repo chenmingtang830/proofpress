@@ -8,6 +8,7 @@
     "preview:ui": "node scripts/ui-preview.mjs",
     "test:preview": "node scripts/ui-preview-check.mjs",
     "test:evidence": "node scripts/evidence-source-smoke.mjs",
+    "test:blocked-review": "node scripts/blocked-review-smoke.mjs",
     "preview:local": "npm run build && PYTHONPATH=../../src python3 scripts/owner-local.py",
     "build": "npm run check:components && tsc --noEmit && vite build && node scripts/clean-dist.mjs",
     "test": "vitest run",

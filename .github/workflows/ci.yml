@@ -62,6 +62,7 @@ jobs:
       - run: npm run test:e2e
       - run: npm run test:onboarding
       - run: npm run test:evidence
+      - run: npm run test:blocked-review
 
   landing:
     name: Landing
