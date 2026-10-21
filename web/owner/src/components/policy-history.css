@@ -1,0 +1,9 @@
+.policyHistory { border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 24px; }
+.policyHistoryChoice { display: grid; gap: 8px; margin: 16px 0 12px; }
+.policyHistoryHint, .policyHistoryMetadata { color: var(--ink-2); }
+.policyHistoryContents { display: grid; gap: 24px; margin-top: 20px; }
+.policyHistoryContents.isComparing { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.policyHistoryContents > section { min-width: 0; }
+.policyHistoryContents h4 { margin: 0 0 12px; }
+.policyHistoryContents pre { margin: 0; padding: 16px; max-height: 32rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; line-height: 1.6; background: var(--wash); border: 1px solid var(--line); border-radius: var(--radius-control); }
+@media (max-width: 760px) { .policyHistoryContents.isComparing { grid-template-columns: 1fr; } }

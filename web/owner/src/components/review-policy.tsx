@@ -6,6 +6,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Switch } from "./ui/switch";
 import { MarkdownEditor } from "./ui/markdown-editor";
 import React from "react";
+import { PolicyHistory } from "./policy-history";
 import { CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Button } from "./ui/button";
@@ -168,6 +169,7 @@ I will review and save it. Do not include secrets or change approval permissions
     <Card className="reviewPolicy reviewCriteria">
       <CardHeader className="policyHeading"><div><h2 id="reviewCriteriaTitle">Review criteria</h2><CardDescription>Define the evidence and limits you check before approving a finding. Save these independently of AI-assisted checks.</CardDescription></div></CardHeader>
       <CardContent>
+        {record && <PolicyHistory api={api} kind="criteria" currentVersion={record.version} currentContent={record.settings.criteria} contentOf={row=>row.criteria || ""} />}
         {!settings ? <p role="status">Loading review criteria…</p> : <form onSubmit={saveCriteria}>
           <fieldset disabled={busy}>
       <div className="simpleCriteria">

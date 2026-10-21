@@ -445,6 +445,20 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_capture_policy(session["context"])})
         if path == "/owner/api/review-policy":
             return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["context"])})
+        if path in {"/owner/api/capture-policy/history", "/owner/api/review-criteria/history"}:
+            query = parse_qs(parsed.query, keep_blank_values=True)
+            try:
+                limit = int(query.get("limit", ["10"])[-1])
+                before = int(query["before_version"][-1]) if "before_version" in query else None
+                result = self.server.proofpress_control.get_policy_history(
+                    session["context"], "capture" if path.endswith("capture-policy/history") else "criteria",
+                    limit=limit, before_version=before)
+            except ValueError:
+                return self._owner_error(HostedAuthError(
+                    "invalid_request", "Use integer history limits and version cursors."))
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            return self._json(HTTPStatus.OK, {"ok": True, "result": result})
         if path == "/owner/api/summary":
             envelope = self._owner_operation(
                 session, "review.summary",
