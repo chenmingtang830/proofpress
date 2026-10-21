@@ -826,7 +826,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
                     "error": {"code": "invalid_candidate_proposal", "message": str(exc)}})
             return self._json(_status_for(envelope), envelope)
-        if path in {"/owner/api/review-policy", "/owner/api/capture-policy", "/owner/api/evaluate"}:
+        if path in {"/owner/api/review-policy", "/owner/api/review-criteria",
+                    "/owner/api/capture-policy", "/owner/api/evaluate"}:
             session = self._owner_session()
             if not session:
                 return self._json(HTTPStatus.UNAUTHORIZED, {"error": "owner_session_required"})
@@ -840,6 +841,12 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 if path.endswith("/capture-policy"):
                     result = self.server.proofpress_control.save_capture_policy(
                         session["context"], request.get("settings"), request.get("expected_version"))
+                    return self._json(HTTPStatus.OK, {"ok": True, "result": result})
+                if path.endswith("/review-criteria"):
+                    if set(request) != {"csrf", "criteria", "expected_version"}:
+                        raise ValueError("Provide only review criteria and its version.")
+                    result = self.server.proofpress_control.save_review_criteria(
+                        session["context"], request.get("criteria"), request.get("expected_version"))
                     return self._json(HTTPStatus.OK, {"ok": True, "result": result})
                 result = self.server.proofpress_control.save_review_policy(
                     session["context"], request.get("settings"), request.get("expected_version"),

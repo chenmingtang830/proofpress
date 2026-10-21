@@ -668,6 +668,22 @@ function App() {
         execute: async () => toolText(await api("/owner/api/review-policy")),
       },
       {
+        name: "prepare_review_criteria",
+        description: "Stage review criteria in Admin without changing AI, credentials, processing consent or approval settings. A human Owner must save; this tool never saves or authorizes.",
+        annotations: { readOnlyHint: false, untrustedContentHint: false },
+        inputSchema: { type: "object", properties: { criteria: { type: "string", maxLength: 8000 } }, required: ["criteria"], additionalProperties: false },
+        execute: async ({ criteria }: any) => {
+          if (typeof criteria !== "string" || criteria.length > 8000) throw new Error("Provide review criteria of at most 8,000 characters.");
+          sessionStorage.setItem("proofpress:review-policy-draft", JSON.stringify({ criteria }));
+          setAdminSection("models");
+          navigate("admin", "?section=models");
+          window.dispatchEvent(new Event("proofpress:review-criteria-draft"));
+          return toolText({ prepared:true, activated:false, requires_human_owner:true,
+            next:"Review the criteria in Admin and select Save review criteria. AI settings remain separate.",
+            url:`${location.origin}/admin?section=models` });
+        },
+      },
+      {
         name: "prepare_review_policy_change",
         description:
           "Prepare a review-policy change in Admin for the human owner to inspect and activate. This never saves or authorizes the change.",
@@ -695,7 +711,7 @@ function App() {
             prepared: true,
             activated: false,
             requires_human_owner: true,
-            next: "Review the prepared settings in Admin, add a provider key if needed, then select Save & activate.",
+            next: "Save review criteria separately. Review AI settings and provider disclosure before enabling or saving AI checks.",
             url: `${location.origin}/admin`,
           });
         },

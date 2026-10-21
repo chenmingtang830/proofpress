@@ -30,6 +30,7 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
             "run_deterministic_checks",
             "open_review",
             "get_review_policy",
+            "prepare_review_criteria",
             "prepare_review_policy_change",
             "get_agent_access",
             "prepare_agent_credential_issue",
