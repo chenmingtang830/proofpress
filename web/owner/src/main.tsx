@@ -31,7 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { BlockedCorrectionHandoff, DecisionNotice, RevisionInstructions, RevisionPanel, historyActor, reviewQueue } from "@/components/review-feedback";
+import { BlockedCorrectionHandoff, DecisionNotice, RevisionProgress, RevisionPanel, historyActor, reviewQueue } from "@/components/review-feedback";
 import { KnowledgeLibrary } from "@/components/knowledge-library";
 import { ClaimTemporal } from "@/components/claim-temporal";
 import { claimDisplayTitle, hasDistinctClaimHeading } from "@/components/claim-display";
@@ -95,6 +95,8 @@ type Receipt = {
   dependencies?: DependencyRelation[];
   relations?: any[];
   judge_job?: {state:string;detail:string};
+  revision_job?: {state:string;detail:string;successor_id?:string|null};
+  revision_automation?: {available:boolean};
   review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
 type Page = "home" | "review" | "ledger" | "runs" | "activity" | "admin";
@@ -336,7 +338,7 @@ function App() {
     if (rejectCountdown.current !== null) window.clearInterval(rejectCountdown.current);
   }, []);
   React.useEffect(() => {
-    if (!receipt || !["queued", "running"].includes(receipt.judge_job?.state || "")) return;
+    if (!receipt || ![receipt.judge_job?.state, receipt.revision_job?.state].some(state => ["queued", "running"].includes(state || ""))) return;
     const id = receipt.claim.id;
     let active = true;
     const timer = window.setInterval(async () => {
@@ -344,7 +346,7 @@ function App() {
       catch (e:any) { if(active) setError(`LM status could not refresh: ${e.message}`); }
     }, 2500);
     return ()=>{ active=false;window.clearInterval(timer); };
-  }, [receipt?.claim.id,receipt?.judge_job?.state]);
+  }, [receipt?.claim.id,receipt?.judge_job?.state,receipt?.revision_job?.state]);
   React.useEffect(() => {
     if (!canManageWorkspace || (page !== "admin" && policyConfigured !== false && !(page === "home" && policyConfigured === true && !rows.length))) return;
     let active = true;
@@ -852,7 +854,7 @@ function App() {
         : null;
       const next = await api("/owner/api/reviews", {
         method: "POST",
-        body: JSON.stringify({ csrf, claim_id: selected, decision, note }),
+        body: JSON.stringify({ csrf, claim_id: selected, decision, note, automatic_revision: decision === "request_changes" && receipt?.revision_automation?.available === true }),
       });
       setDecisionConfirmation(null);
       setNote("");
@@ -1007,8 +1009,8 @@ function App() {
       <Dialog open={Boolean(revisionHandoff)} onOpenChange={open => { if (!open) setRevisionHandoff(null); }}>
           <ModalSurface>
             <DialogTitle>Changes requested</DialogTitle>
-            <DialogDescription>Send the recorded change request to your agent.</DialogDescription>
-            {revisionHandoff && <RevisionInstructions receipt={revisionHandoff} autoCopy />}
+            <DialogDescription>Your change request is saved. The original claim stays unchanged.</DialogDescription>
+            {revisionHandoff && <RevisionProgress receipt={receipt?.claim.id === revisionHandoff.claim.id ? receipt : revisionHandoff} onChoose={(id:string) => { setRevisionHandoff(null); openFullReview(); void choose(id, true); }} />}
             <div className="confirmationActions"><Button variant="outline" onClick={() => setRevisionHandoff(null)}>Close</Button><Button onClick={() => { setRevisionHandoff(null); openFullReview(); }}>View revision request</Button></div>
           </ModalSurface>
       </Dialog>
@@ -1407,7 +1409,7 @@ function ReviewPage({
           {!loading && visibleRows.length === 0 && (
             <Empty className="emptyState reviewEmpty">
               <strong>{queue === "needs_review" ? "You are caught up" : queue === "needs_correction" ? "No blocked candidates" : queue === "needs_revision" ? "No revision requests" : queue === "needs_reassessment" ? "No dependency changes need review" : "No decisions yet"}</strong>
-              <p>{queue === "needs_review" ? "New candidates appear here until an Owner decision or an enabled auto-approval policy resolves them." : queue === "needs_correction" ? "Candidates with failed deterministic checks appear here for correction." : queue === "needs_revision" ? "Requests you send to agents remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Owner and policy decisions appear here."}</p>
+              <p>{queue === "needs_review" ? "New candidates appear here until an Owner decision or an enabled auto-approval policy resolves them." : queue === "needs_correction" ? "Candidates with failed deterministic checks appear here for correction." : queue === "needs_revision" ? "Change requests remain here until a revised claim is submitted." : queue === "needs_reassessment" ? "Claims appear here when an approved dependency becomes unavailable or changes after approval." : "Owner and policy decisions appear here."}</p>
               {queue === "needs_review" && <Button variant="outline" onClick={onLedger}>Browse current claims</Button>}
             </Empty>
           )}
@@ -1676,7 +1678,7 @@ function Inspector({
       {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       {!fullReview && reviewSnapshot}
       {(fullReview || expanded) && <>
-      {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.claim.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
+      {r.revision_parent && <section className="revisionSection"><h3>Revision of previous claim</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>{r.claim.qualifiers?.revision_response || "Review the revised statement against its evidence below."}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
       {r.reproposal_parent && <Disclosure className="revisionDisclosure"><DisclosureTrigger><span>Re-proposal context</span><small>Previous rejection, response, and evidence changes</small></DisclosureTrigger><DisclosureContent><div className="revisionSection"><h3>Previous rejection</h3><p>{r.reproposal_parent.rejection_reason || r.reproposal_parent.review?.note || "No rejection reason was recorded."}</p><h3>Response to the rejection</h3><p>{r.reproposal_parent.reproposal_response || "No response was recorded for this legacy re-proposal."}</p><dl><div><dt>New evidence</dt><dd>{r.reproposal_parent.new_evidence_refs?.length ? r.reproposal_parent.new_evidence_refs.join(", ") : "None"}</dd></div><div><dt>Reused evidence</dt><dd>{r.reproposal_parent.reused_evidence_refs?.length ? r.reproposal_parent.reused_evidence_refs.join(", ") : "None"}</dd></div></dl><small>The earlier rejection remains in the append-only history. This candidate requires a new human decision.</small></div></DisclosureContent></Disclosure>}
       {!!r.reproposals?.length && <section className="revisionSection"><h3>Re-proposals after this rejection</h3><p>These are separate candidates. The rejection above remains part of the append-only history.</p>{r.reproposals.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose?.(candidate.id)}>{candidate.statement} · {candidate.state.replaceAll("_", " ")}</Button>)}</section>}
       <Tabs key={r.claim.id} defaultValue="evidence" className="reviewEvidenceTabs">
@@ -1740,7 +1742,7 @@ function Inspector({
             onChange={(e) => setNote(e.target.value)}
             placeholder="Explain why the evidence does not support this claim, or describe a bounded change."
           />
-          <small className="decisionHint">A reason is required for Reject and Request changes, so a future re-proposal can address it.</small>
+          <small className="decisionHint">{r.revision_automation?.available ? "Request changes sends your note and bound evidence to the configured GMI model to draft a revised claim. You review and approve it. Missing evidence is flagged; your Codex agent is not contacted." : "A reason is required. Request changes saves your note and provides an agent handoff; automatic revision is available with hosted GMI AI checks."}</small>
           <div>
             <Button
               variant="danger"

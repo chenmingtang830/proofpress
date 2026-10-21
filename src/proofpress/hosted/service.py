@@ -924,6 +924,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             })
             if not envelope.get("ok"):
                 return self._json(_status_for(envelope), envelope)
+            if decision == "request_changes" and request.get("automatic_revision") is True:
+                from . import revisions
+                revisions.enqueue(self.server.proofpress_control, session["context"], request.get("claim_id", ""))
             receipt = self._owner_operation(session, "review.receipt", {
                 "claim_id": request.get("claim_id", "")})
             return self._json(_status_for(receipt), receipt)
@@ -1155,6 +1158,8 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
             "SELECT workspace_id FROM hosted_workspaces")]
     for workspace_id in workspace_ids:
         control.resume_judge_jobs(workspace_id=workspace_id)
+        from . import revisions
+        revisions.resume(control, workspace_id)
     with control._db() as connection:
         for workspace_id in workspace_ids:
             execution.resume(connection, workspace_id=workspace_id)

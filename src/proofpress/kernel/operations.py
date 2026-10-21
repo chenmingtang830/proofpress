@@ -2297,6 +2297,11 @@ def judge_v2(cid, actor=None):
               "policy": _judge_policy_payload(policy)}
     if reproposal_parent:
         packet["reproposal_parent"] = reproposal_parent
+    revision_parent = projection["claims"].get(row.get("qualifiers", {}).get("revision_of"))
+    if revision_parent:
+        packet["revision_parent"] = {"statement": revision_parent["statement"],
+            "requested_change": (projection["reviews"].get(revision_parent["id"]) or {}).get("note"),
+            "revision_response": row.get("qualifiers", {}).get("revision_response")}
     try:
         environment = os.environ.copy()
         environment.update(_judge_environment.get() or {})
@@ -2557,6 +2562,8 @@ def auto_admit_v2(cid, authorized_by, policy_version, auto_policy_digest,
     row = projection["claims"].get(cid)
     if not row:
         raise ValueError("claim not found: " + cid)
+    if row.get("qualifiers", {}).get("revision_of"):
+        return {"ok": True, "skipped": "requested revisions require human approval"}
     if row.get("created_at", "") < enabled_at:
         raise ValueError("claim predates automatic approval policy")
     if cid in projection["admissions"] or cid in projection["rejections"] or cid in projection["revision_requests"]:

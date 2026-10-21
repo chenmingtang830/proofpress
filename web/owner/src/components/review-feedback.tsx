@@ -72,8 +72,21 @@ export function LineageNotice({lineage, onChoose}: any) {
   return <div className="lineageNotice" role="status"><strong>{title}</strong><p>{detail}</p><Button variant="outline" onClick={() => onChoose(lineage.successor_id)}>Open {lineage.successor_id}</Button></div>;
 }
 
+export function RevisionProgress({receipt, onChoose}: any) {
+  const job = receipt?.revision_job;
+  if (!job) return <RevisionInstructions receipt={receipt} />;
+  const pending = ["queued", "running"].includes(job.state);
+  const title = pending ? "Preparing revised claim…" : job.state === "completed" ? "Revision ready for review" : job.state === "needs_evidence" ? "More evidence needed" : "Revision needs attention";
+  return <div className="revisionProgress" role="status" aria-live="polite">
+    <strong>{title}</strong><p>{job.detail}</p>
+    {job.successor_id && <Button onClick={() => onChoose(job.successor_id)}>Review revised claim</Button>}
+    {!pending && !job.successor_id && <RevisionInstructions receipt={receipt} />}
+    <small>The original is preserved. A revised claim needs your approval before reuse.</small>
+  </div>;
+}
+
 export function RevisionPanel({receipt, onChoose}: any) {
-  return <section className="revisionPanel"><h3>Requested change</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote>{receipt.lineage ? <LineageNotice lineage={receipt.lineage} onChoose={onChoose} /> : <RevisionInstructions key={receipt.revision_request.event_id} receipt={receipt} />}{receipt.revisions?.length > 0 && <div className="revisionSubmissions"><h4>Revised proposals</h4>{receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>)}</div>}</section>;
+  return <section className="revisionPanel"><h3>Requested change</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote>{receipt.lineage ? <LineageNotice lineage={receipt.lineage} onChoose={onChoose} /> : <RevisionProgress key={receipt.revision_request.event_id} receipt={receipt} onChoose={onChoose} />}{receipt.revisions?.length > 0 && <div className="revisionSubmissions"><h4>Revised proposals</h4>{receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>)}</div>}</section>;
 }
 
 export function historyActor(event: any): string {
