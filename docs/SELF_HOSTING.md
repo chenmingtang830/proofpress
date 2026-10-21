@@ -48,15 +48,6 @@ both outside the repository and deployment manifest. Before relying on the
 instance, configure backup/export, test recovery, restrict administrative shell
 access, and verify that the public endpoint is protected by platform TLS.
 
-### Add a co-owner
-
-In **Admin → API keys & credentials**, choose **Person · Owner (co-owner)**.
-Use a separate human identity and give the one-time key privately to that person
-for website sign-in. Both Owners can review claims and manage the workspace.
-The existing Owner keeps access; bootstrap recovery custody is unchanged.
-Keep each Owner key separate from the agent key used for MCP. Agents and
-Reviewers cannot issue Owner credentials.
-
 ### Add a human Reviewer
 
 Sign in with the bootstrap Owner credential, open **Admin**, and issue a

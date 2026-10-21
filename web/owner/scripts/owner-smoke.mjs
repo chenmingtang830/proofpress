@@ -419,30 +419,6 @@ try {
   await page.waitForLoadState('networkidle');
   assert.equal((await humanPage.request.get(`${data.base}/owner/api/session`)).status(),401);
   await humanPage.close();
-  await page.getByRole('combobox',{name:'Key for',exact:true}).selectOption('owner');
-  await page.getByRole('textbox',{name:'Person identity',exact:true}).fill('human:coowner-browser');
-  await page.getByRole('textbox',{name:'Key name',exact:true}).fill('Temporary co-owner');
-  await page.getByText('Full workspace access:',{exact:false}).waitFor();
-  await page.getByRole('button',{name:'Issue API key',exact:true}).click();
-  await page.getByText('Owner access issued',{exact:true}).waitFor();
-  const coownerToken = await page.locator('.secretReveal .issuedCredentialToken').textContent();
-  const coownerPage = await browser.newPage();
-  await coownerPage.goto(data.base);
-  await coownerPage.locator('input[name=token]').fill(coownerToken);
-  await coownerPage.getByRole('button',{name:'Continue',exact:true}).click();
-  await coownerPage.getByRole('button',{name:'Admin',exact:true}).waitFor();
-  await coownerPage.getByRole('button',{name:'Admin',exact:true}).click();
-  await coownerPage.getByRole('tab',{name:'Verification settings',exact:true}).waitFor();
-  await page.getByRole('button',{name:'Done',exact:true}).click();
-  const [coownerRevocation] = await Promise.all([
-    page.waitForResponse(r=>r.url().endsWith('/v1/owner/credentials') && r.request().method()==='POST'),
-    page.locator('.credentialList > div').filter({hasText:'Temporary co-owner'}).getByRole('button',{name:'Revoke',exact:true}).click(),
-  ]);
-  assert.equal(coownerRevocation.status(),200);
-  await page.waitForLoadState('networkidle');
-  assert.equal((await coownerPage.request.get(`${data.base}/owner/api/session`)).status(),401);
-  assert.equal((await page.request.get(`${data.base}/owner/api/session`)).status(),200);
-  await coownerPage.close();
   await page.getByRole('button',{name:'Home',exact:true}).click();
   assert.equal(await page.getByText('Ask Proofpress',{exact:true}).count(),0);
   assert.equal(await page.getByRole('textbox',{name:'Search claims'}).count(),0);
