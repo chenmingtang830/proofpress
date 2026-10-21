@@ -101,3 +101,24 @@
 .fullReview > .blockedReviewPanel, .fullReview > .relationAdvicePanel, .fullReview > .reassessmentPanel { grid-column: 1; min-width: 0; }
 
 .fullReview .deterministicSummary .deterministicCheckLabel { display: inline-flex; align-items: center; font: 400 13px/1.5 var(--font-ui); letter-spacing: 0; text-transform: none; }
+
+/* Results first; keep the original rules and technical inputs on demand. */
+.checkList .checkResultsSummary { margin: 10px 0 12px; color: var(--ink); font: 600 16px/1.5 var(--font-ui); }
+.checkList .checkResults { list-style: none; margin: 0; padding: 0; }
+.checkList .checkResults > li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; min-height: 54px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.checkResultLabel { color: var(--ink); font: 600 16px/1.5 var(--font-ui); overflow-wrap: anywhere; }
+.checkResultStatus { display: inline-flex; align-items: center; gap: 6px; font: 650 14px/1.5 var(--font-ui); white-space: nowrap; }
+.checkResultStatus.pass { color: var(--add); }
+.checkResultStatus.fail { color: var(--del); }
+.checkResultStatus svg { width: 17px; height: 17px; flex: none; }
+.checkTechnicalDetails { margin-top: 8px; }
+.checkTechnicalDetails > [data-slot="collapsible-trigger"] { min-height: 48px; color: var(--accent); font: 600 14px/1.5 var(--font-ui); }
+.checkTechnicalDetails > [data-state="closed"][data-slot="collapsible-content"] { display: none; }
+.checkTechnicalDetails .checkReceiptResult { color: var(--ink); font: 600 14px/1.5 var(--font-ui); }
+.checkTechnicalDetails .checkReceiptDetail > p, .checkTechnicalDetails .checkReceiptLegacy { color: var(--ink-2); font: 400 14px/1.6 var(--font-ui); }
+.checkTechnicalDetails .checkReceiptDetail dl { display: block; font-size: 13px; }
+.checkTechnicalDetails .checkReceiptDetail dl > div { display: grid; grid-template-columns: minmax(110px, 30%) minmax(0, 1fr); gap: 8px 16px; margin-top: 10px; }
+.checkTechnicalDetails .checkReceiptDetail dt { color: var(--ink-2); font-weight: 500; }
+@media (max-width: 599px) {
+  .checkTechnicalDetails .checkReceiptDetail dl > div { grid-template-columns: 1fr; gap: 4px; }
+}

@@ -1445,9 +1445,22 @@ function ReviewFact({label,value,detail,tone="",className=""}:any){
 }
 
 function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
+  const checks = Object.entries(evaluation?.checks || {});
+  const labels: Record<string, string> = {
+    evidence_integrity: "Evidence integrity", evidence_present: "Evidence attached",
+    retrieval_receipts: "Source receipts", not_expired: "Not expired",
+    not_superseded: "Not superseded", reuse_boundary_present: "Reuse scope",
+  };
   return <div className="checkList">
-    {!Object.keys(evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
-    {Object.entries(evaluation?.checks || {}).map(([key, value]: any) => {
+    {!checks.length ? <p className="empty">No deterministic checks recorded.</p> : <>
+    <p className="checkResultsSummary">{checks.filter(([, passed]) => passed).length} of {checks.length} checks passed</p>
+    <ul className="checkResults" aria-label="Deterministic check results">{checks.map(([key, passed]) => <li key={key}>
+      <span className="checkResultLabel">{labels[key] || key.replaceAll("_", " ")}</span>
+      <span className={`checkResultStatus ${passed ? "pass" : "fail"}`}>{passed ? <Check aria-hidden="true" /> : <X aria-hidden="true" />}{passed ? "Passed" : "Failed"}</span>
+    </li>)}</ul>
+    <Disclosure className="checkTechnicalDetails">
+      <DisclosureTrigger>View check details</DisclosureTrigger>
+      <DisclosureContent>{checks.map(([key, value]) => {
       const receipt = evaluation?.check_receipts?.[key];
       return <section key={key} className="checkReceipt">
         <div className="checkReceiptResult">
@@ -1462,7 +1475,9 @@ function CheckReceiptRows({evaluation}: {evaluation?: Receipt["evaluation"]}) {
           </div>)}</dl>
         </div> : <p className="checkReceiptLegacy">This earlier receipt records the result but not the checked inputs.</p>}
       </section>;
-    })}
+      })}</DisclosureContent>
+    </Disclosure>
+    </>}
   </div>;
 }
 

@@ -11,6 +11,10 @@ await mkdir(out, {recursive: true});
 const id = Object.keys(receipts)[0];
 const fixture = structuredClone(receipts[id]);
 const evidence = fixture.evidence[0];
+fixture.evaluation.check_receipts = Object.fromEntries(Object.keys(fixture.evaluation.checks).map(key => [key, {
+  rule: "Recorded rule: source inputs remain bound to this candidate.",
+  inputs: {candidate: id, bound_evidence: [evidence.id], available_evidence: [evidence.id]},
+}]));
 fixture.evidence = [evidence];
 fixture.claim.evidence_refs = [evidence.id];
 evidence.retrieval_receipt.source = {uri: "urn:synthetic:report:" + "a".repeat(64), media_type: "text/markdown"};
@@ -39,8 +43,30 @@ try {
     await evidenceTab.waitFor();
     assert.equal(await evidenceTab.getAttribute("aria-selected"), "true");
     await tabs.getByRole("tab", {name: "Checks", exact: true}).click();
-    assert.equal(await page.getByRole("tabpanel", {name: "Checks", exact: true}).isVisible(), true);
+    const checksPanel = page.getByRole("tabpanel", {name: "Checks", exact: true});
+    assert.equal(await checksPanel.isVisible(), true);
     assert.equal(await page.getByRole("tabpanel", {name: "Evidence", exact: true}).count(), 0);
+    assert.equal(await checksPanel.locator(".checkResults > li").count(), 4);
+    assert.equal(await checksPanel.locator(".checkTechnicalDetails [data-slot=collapsible-content]").isVisible(), false);
+    assert.equal((await checksPanel.innerText()).includes(evidence.id), false, "Technical IDs must not dominate the initial checks view");
+    const typography = await checksPanel.locator(".checkResultLabel, .checkResultStatus").evaluateAll(elements => elements.map(element => {
+      const style = getComputedStyle(element);
+      return {size: parseFloat(style.fontSize), weight: Number(style.fontWeight), color: style.color};
+    }));
+    for (const type of typography) {
+      assert.ok(type.size >= 14 && type.weight >= 600, "Check labels and results must remain readable");
+      const channels = type.color.match(/[\d.]+/g).slice(0, 3).map(Number).map(value => value / 255).map(value => value <= .04045 ? value / 12.92 : ((value + .055) / 1.055) ** 2.4);
+      const luminance = channels[0] * .2126 + channels[1] * .7152 + channels[2] * .0722;
+      assert.ok(1.05 / (luminance + .05) >= 4.5, "Check text must meet contrast on the white panel");
+    }
+    await checksPanel.scrollIntoViewIfNeeded();
+    await page.screenshot({path: `${out}/checks-${name}.png`});
+    await checksPanel.getByRole("button", {name: "View check details", exact: true}).click();
+    assert.equal(await checksPanel.locator(".checkTechnicalDetails [data-slot=collapsible-content]").isVisible(), true);
+    assert.match(await checksPanel.locator(".checkTechnicalDetails").innerText(), /Recorded rule:/);
+    assert.ok((await checksPanel.locator(".checkTechnicalDetails").innerText()).includes(evidence.id));
+    await checksPanel.getByRole("button", {name: "View check details", exact: true}).click();
+    await tabs.getByRole("tab", {name: "Checks", exact: true}).click();
     await page.keyboard.press("ArrowRight");
     await tabs.getByRole("tab", {name: "History", exact: true, selected: true}).waitFor();
     assert.equal(await tabs.getByRole("tab", {name: "History", exact: true}).getAttribute("aria-selected"), "true");
@@ -70,6 +96,12 @@ try {
     await row.getByRole("button", {name: "Technical receipt", exact: true}).click();
     assert.equal(await row.locator(".technicalDetails pre").isVisible(), false);
   }
+  fixture.evaluation.checks.evidence_integrity = false;
+  await page.reload();
+  await page.getByRole("tab", {name: "Checks", exact: true}).click();
+  await page.getByText("3 of 4 checks passed", {exact: true}).waitFor();
+  await page.locator(".checkResultStatus.fail").getByText("Failed", {exact: true}).waitFor();
+  fixture.evaluation.checks.evidence_integrity = true;
   evidence.external_experiment = {source: {system: "Synthetic experiment", run_id: "run:example", coverage: "example only"}};
   await page.reload();
   let evidenceRow = page.locator(".fullReview .evidenceRow");
@@ -109,7 +141,7 @@ try {
   assert.match(await evidenceRow.locator("caption").textContent(), /showing 100 of 101/);
   await evidenceRow.getByRole("button", {name: "Technical receipt", exact: true}).click();
   assert.match(await evidenceRow.locator(".technicalDetails pre").textContent(), /EXAMPLE100/);
-  console.log("PASS review tab mouse/keyboard switching and flat hit targets; report/spreadsheet sources, collapsed receipts and desktop/mobile layout.");
+  console.log("PASS readable compact checks, contrast and preserved details/failures; tab mouse/keyboard switching; source receipts and desktop/mobile layout.");
 } finally {
   await browser.close();
   preview?.kill("SIGTERM");
