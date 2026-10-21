@@ -32,12 +32,16 @@ with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
                 policy = control.get_review_policy(owner["token"])
                 control.save_review_policy(owner["token"], {**policy["settings"], "zdr": False}, policy["version"])
                 print(json.dumps({"capture_version": 12, "review_version": 13}), flush=True)
-            elif command.strip() == "submit":
+            elif command.strip() in {"submit", "submit_other"}:
                 agent = control.issue_agent_credential(owner["token"], "agent:fixture", "Synthetic successor")
                 capture = mcp_http.call_tool(control, control.authenticate(agent["token"]),
                                              "proofpress_get_capture_policy", {}, base)
                 client = ProofpressClient.localhost(base, agent["token"])
                 quote = "The synthetic fixture records a bounded research finding."
+                title = "Synthetic onboarding finding"
+                if command.strip() == "submit_other":
+                    quote = "A separate synthetic finding needs its own review receipt."
+                    title = "Second synthetic onboarding finding"
                 digest = "sha256:" + hashlib.sha256(quote.encode()).hexdigest()
                 evidence = client.submit_evidence({
                     "schema_version": "proofpress/retrieval-evidence/v1",
@@ -47,10 +51,10 @@ with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
                     "retrieval": {"adapter": "fixture", "version": "1", "query": "test",
                                   "config_digest": "sha256:" + "b" * 64}})
                 claim = client.propose_claim(quote, evidence["evidence"], "onboarding-test", "agent:fixture",
-                                             title="Synthetic onboarding finding")
+                                             title=title)
                 client.evaluate_claim(claim["claim"]["id"])
                 print(json.dumps({"claim_id": claim["claim"]["id"], "capture_version": capture["version"],
-                                  "capture_rules": len(capture["settings"]["capture"])}), flush=True)
+                                  "capture_rules": len(capture["settings"]["capture"]), "title": title}), flush=True)
             elif command.strip() == "reuse":
                 result = client.context(scope="onboarding-test", actor="agent:fixture")
                 print(json.dumps({"governed_count": len(result["governed_context"])}), flush=True)

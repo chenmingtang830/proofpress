@@ -1,0 +1,183 @@
+name: WebMCP maintenance
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/owner/src/**'
+      - 'src/proofpress/hosted/**/*.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: webmcp-maintenance
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      vars.WEBMCP_AUTOFIX_ENABLED == 'true' &&
+      github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    outputs:
+      has_patch: ${{ steps.patch.outputs.has_patch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check model configuration
+        env:
+          HAS_API_KEY: ${{ secrets.OPENAI_API_KEY != '' }}
+        run: |
+          if [ "$HAS_API_KEY" != true ]; then
+            echo 'Set repository secret OPENAI_API_KEY before enabling WEBMCP_AUTOFIX_ENABLED.' >&2
+            exit 1
+          fi
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Install test dependencies before providing the model key
+        run: |
+          python -m pip install -e '.[mcp]'
+          npm --prefix web/owner ci
+          cd web/owner
+          npx playwright install --with-deps chromium
+      - name: Audit and repair changed semantic surfaces
+        uses: openai/codex-action@bdf19a4a223ec2549a3e2274a0cf61556bc07675 # v1.13
+        env:
+          WEBMCP_BASE_SHA: ${{ github.event.before || '' }}
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          permission-profile: ':workspace'
+          safety-strategy: drop-sudo
+          prompt: >-
+            Use $proofpress-webmcp-maintenance at
+            .agents/skills/proofpress-webmcp-maintenance/SKILL.md.
+            Audit changed Owner UI/API capabilities and repair missing WebMCP paths.
+            Use WEBMCP_BASE_SHA..GITHUB_SHA when the base commit exists, otherwise
+            audit the current capability map and fingerprint drift. Follow the
+            workflow scope and authority boundaries in the skill. Run the listed
+            behavioral and browser tests, build assets, and refresh fingerprints
+            only after semantic review. Do not access external services, customer
+            data or secrets. Do not commit, push, open a PR or alter workflow,
+            guard scripts, package files or authorization backend. Return local
+            changes only; leave no changes when there is nothing to repair.
+      # No write credentials are present in this job. Everything produced by the
+      # model is treated as untrusted until checked on a fresh runner.
+      - name: Serialize candidate patch
+        id: patch
+        run: |
+          git add -N .
+          git diff --binary --no-renames "$GITHUB_SHA" > "$RUNNER_TEMP/webmcp.patch"
+          if [ -s "$RUNNER_TEMP/webmcp.patch" ]; then
+            echo 'has_patch=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'has_patch=false' >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: steps.patch.outputs.has_patch == 'true'
+        with:
+          name: webmcp-patch
+          path: ${{ runner.temp }}/webmcp.patch
+          retention-days: 3
+          if-no-files-found: error
+
+  validate:
+    needs: generate
+    if: needs.generate.outputs.has_patch == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: webmcp-patch
+          path: ${{ runner.temp }}/webmcp-candidate
+      - name: Validate allowed files and apply patch without executing it
+        run: python3 scripts/validate_webmcp_patch.py "$RUNNER_TEMP/webmcp-candidate/webmcp.patch"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.13'
+      - name: Verify candidate on a runner with no model key or write token
+        run: |
+          python -m pip install -e '.[mcp]'
+          python3 scripts/check_webmcp_coverage.py
+          PYTHONPATH=src python3 -m unittest discover -s tests -p 'test_webmcp*.py'
+          npm --prefix web/owner ci
+          npm --prefix web/owner test
+          npm --prefix web/owner run build
+          cd web/owner
+          npx playwright install --with-deps chromium
+          npm run test:webmcp
+          git diff --exit-code
+
+  open-pr:
+    needs: [generate, validate]
+    if: needs.generate.outputs.has_patch == 'true' && needs.validate.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: webmcp-patch
+          path: ${{ runner.temp }}/webmcp-candidate
+      # This runner executes only trusted-main guard code and Git/GitHub CLI.
+      # It never installs dependencies or executes source from the patch.
+      - name: Publish one reviewable draft PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config core.hooksPath /dev/null
+          git config core.fsmonitor false
+          git fetch origin main codex/webmcp-maintenance || git fetch origin main
+          if [ "$(git rev-parse origin/main)" != "$GITHUB_SHA" ]; then
+            echo 'Main changed during validation; a newer run must audit it.' >&2
+            exit 1
+          fi
+          python3 scripts/validate_webmcp_patch.py "$RUNNER_TEMP/webmcp-candidate/webmcp.patch"
+          git switch -C codex/webmcp-maintenance
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Maintain WebMCP coverage for changed Owner workflows'
+          existing="$(gh pr list --head codex/webmcp-maintenance --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ] && [ "$(gh pr view "$existing" --json isDraft --jq '.isDraft')" = false ]; then
+            gh pr ready "$existing" --undo
+          fi
+          git push --force-with-lease origin codex/webmcp-maintenance
+          cat > "$RUNNER_TEMP/webmcp-pr.md" <<'BODY'
+          Audited changed Owner workflows and prepared WebMCP coverage repairs.
+
+          Validation ran in a separate read-only job: capability inventory, surface fingerprints, WebMCP unit tests, Owner UI tests/build and the synthetic localhost browser smoke. Read/prepare tools must preserve human policy, credential and admission authority.
+
+          This is an AI-generated draft. Review semantics, schemas and authority boundaries before merging. It is never merged or deployed by this workflow. GITHUB_TOKEN-created PRs may need a maintainer to start required CI checks.
+          BODY
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --title 'Maintain WebMCP coverage for changed Owner workflows' --body-file "$RUNNER_TEMP/webmcp-pr.md"
+          else
+            gh pr create --draft --base main --head codex/webmcp-maintenance --title 'Maintain WebMCP coverage for changed Owner workflows' --body-file "$RUNNER_TEMP/webmcp-pr.md"
+          fi

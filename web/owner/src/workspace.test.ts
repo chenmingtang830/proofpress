@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const source = readFileSync(
   fileURLToPath(new URL("./main.tsx", import.meta.url)),
   "utf8",
-);
+) + readFileSync(fileURLToPath(new URL("./webmcp.ts", import.meta.url)), "utf8");
 const css = readFileSync(
   fileURLToPath(new URL("./index.css", import.meta.url)),
   "utf8",
@@ -178,7 +178,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain("@media (max-width: 680px)");
     expect(source).toContain("Close details");
     expect(source).toContain('aria-busy="true"');
-    expect(source).toContain('pending={!!selected && !receipt}');
+    expect(source).toContain('pending={!!selected && receipt?.claim.id !== selected}');
   });
   it("keeps review claims readable at compact desktop widths", () => {
     expect(source).toContain('className="tableWrap reviewTableWrap"');

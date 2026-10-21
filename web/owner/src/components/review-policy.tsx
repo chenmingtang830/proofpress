@@ -99,7 +99,12 @@ export function ReviewPolicy({csrf, api, onSaved, localPreview = false}: any) {
     }
     catch (e:any) { setError(e.message); }
   }, [api]);
-  React.useEffect(() => { void load(); }, [load]);
+  React.useEffect(() => {
+    void load();
+    const reloadDraft = () => { void load(); };
+    window.addEventListener("proofpress:review-policy-draft", reloadDraft);
+    return () => window.removeEventListener("proofpress:review-policy-draft", reloadDraft);
+  }, [load]);
   const settingsReady = Boolean(settings);
   React.useEffect(() => {
     if (!settingsReady) return;
@@ -117,6 +122,7 @@ export function ReviewPolicy({csrf, api, onSaved, localPreview = false}: any) {
     window.addEventListener("proofpress:review-criteria-draft", loadCriteriaDraft);
     return () => window.removeEventListener("proofpress:review-criteria-draft", loadCriteriaDraft);
   }, [settingsReady]);
+
   const change = (key:string, value:any) => { setSettings({...settings, [key]:value}); setMessage(""); };
   async function activate(nextSettings: any, useProviderInput = true) {
     setBusy(true); setError(""); setMessage("");

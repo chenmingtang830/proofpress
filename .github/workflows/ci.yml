@@ -55,6 +55,7 @@ jobs:
           node-version: "24"
           cache: npm
           cache-dependency-path: web/owner/package-lock.json
+      - run: python3 ../../scripts/check_webmcp_coverage.py --allow-stale-sources
       - run: npm ci
       - run: npm test
       - run: npm run build
@@ -64,6 +65,7 @@ jobs:
       - run: npm run test:policy-history
       - run: npm run test:evidence
       - run: npm run test:blocked-review
+      - run: npm run test:webmcp
 
   landing:
     name: Landing
