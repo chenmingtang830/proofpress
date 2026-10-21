@@ -434,7 +434,11 @@ try {
   await coownerPage.getByRole('button',{name:'Admin',exact:true}).click();
   await coownerPage.getByRole('tab',{name:'Verification settings',exact:true}).waitFor();
   await page.getByRole('button',{name:'Done',exact:true}).click();
-  await page.locator('.credentialList > div').filter({hasText:'Temporary co-owner'}).getByRole('button',{name:'Revoke',exact:true}).click();
+  const [coownerRevocation] = await Promise.all([
+    page.waitForResponse(r=>r.url().endsWith('/v1/owner/credentials') && r.request().method()==='POST'),
+    page.locator('.credentialList > div').filter({hasText:'Temporary co-owner'}).getByRole('button',{name:'Revoke',exact:true}).click(),
+  ]);
+  assert.equal(coownerRevocation.status(),200);
   await page.waitForLoadState('networkidle');
   assert.equal((await coownerPage.request.get(`${data.base}/owner/api/session`)).status(),401);
   assert.equal((await page.request.get(`${data.base}/owner/api/session`)).status(),200);
