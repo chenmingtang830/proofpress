@@ -1,8 +1,9 @@
+import { flushSync } from "react-dom";
 import { claimDisplayTitle } from "./components/claim-display";
 import { parseCaptureDraft } from "./components/capture-rules";
 
 // Same-origin tools share the visible workflow; privileged mutations remain in human forms.
-export function createOwnerTools({api, csrfRef, selectionRequest, setSelected, setNote, setReceipt, setPage, setFullReview, setReloadVersion, setAdminSection, navigate}: any) {
+export function createOwnerTools({api, csrfRef, selectionRequest, setSelected, setNote, setReceipt, setPage, setFullReview, setReloadVersion, setAdminSection, navigate, openReview}: any) {
     const toolText = (value: unknown): {content: {type: string; text: string}[]; isError?: boolean} => ({
       content: [{ type: "text", text: JSON.stringify(value, null, 2) }],
     });
@@ -213,8 +214,10 @@ export function createOwnerTools({api, csrfRef, selectionRequest, setSelected, s
         annotations: { readOnlyHint: true, untrustedContentHint: false },
         inputSchema: { type: "object", properties: { claim_id: { type: "string" }, full: { type: "boolean" } }, required: ["claim_id"] },
         execute: async ({ claim_id, full = true }: any) => {
-          setSelected(claim_id); setPage("review"); setFullReview(Boolean(full));
-          return toolText({ opened: true, decision_recorded: false, url: `${location.origin}/review?claim_id=${encodeURIComponent(claim_id)}${full ? "&view=full" : ""}` });
+          if (typeof claim_id !== "string" || !claim_id.trim() || typeof full !== "boolean") throw new Error("Provide a claim ID and a boolean full-view setting.");
+          const receipt = await openReview(claim_id, full);
+          if (receipt?.claim?.id !== claim_id) throw new Error("The requested claim receipt did not open.");
+          return toolText({ opened: true, receipt_claim_id: receipt.claim.id, decision_recorded: false, url: `${location.origin}/review?claim_id=${encodeURIComponent(claim_id)}${full ? "&view=full" : ""}` });
         },
       },
       {
@@ -382,13 +385,21 @@ export function createOwnerTools({api, csrfRef, selectionRequest, setSelected, s
         name: "prepare_agent_credential_issue",
         description: "Prepare an agent identity and key label in Admin. The human owner must issue the credential; no secret is exposed to the agent.",
         annotations: { readOnlyHint: false, untrustedContentHint: false },
-        inputSchema: { type: "object", properties: { principal_id: { type: "string" }, label: { type: "string" } }, required: ["principal_id", "label"] },
-        execute: async ({ principal_id, label }: any) => {
-          sessionStorage.setItem("proofpress:agent-credential-draft", JSON.stringify({ principal_id, label }));
-          window.dispatchEvent(new Event("proofpress:agent-credential-draft"));
-          setAdminSection("access");
-          navigate("admin", "?section=access");
-          return toolText({ prepared: true, issued: false, requires_human_owner: true, secret_exposed_to_agent: false, url: `${location.origin}/admin` });
+        inputSchema: { type: "object", additionalProperties: false, properties: { principal_id: { type: "string", minLength: 1 }, label: { type: "string", minLength: 1 } }, required: ["principal_id", "label"] },
+        execute: async (settings: any) => {
+          if (!settings || Object.keys(settings).some(key => !["principal_id", "label"].includes(key)) ||
+              typeof settings.principal_id !== "string" || !settings.principal_id.trim() ||
+              typeof settings.label !== "string" || !settings.label.trim()) throw new Error("Provide only a non-empty agent identity and key label; never provide credentials.");
+          const draft = {principal_id: settings.principal_id.trim(), label: settings.label.trim()};
+          sessionStorage.setItem("proofpress:agent-credential-draft", JSON.stringify(draft));
+          // Complete this external browser-tool call after mounted form state is
+          // committed, including a recipient switch from Reviewer back to Agent.
+          flushSync(() => {
+            window.dispatchEvent(new Event("proofpress:agent-credential-draft"));
+            setAdminSection("access");
+            navigate("admin", "?section=access");
+          });
+          return toolText({ prepared: true, ...draft, issued: false, requires_human_owner: true, secret_exposed_to_agent: false, url: `${location.origin}/admin?section=access` });
         },
       },
     ];

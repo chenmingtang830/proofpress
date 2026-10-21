@@ -26,7 +26,14 @@ keep untrusted evidence labeled and authority separate from content.
 
 Add behavioral tests for real response/schema parity, partial failures and the
 absence of server writes from reads/preparations. Add a synthetic localhost
-browser check for changes involving form state or navigation. Run:
+browser check for changes involving form state or navigation. Inspect the actual
+UI immediately when the tool Promise completes, rather than trusting `opened`
+or `prepared`. For review navigation, assert the requested URL, rendered receipt
+claim ID, displayed title and decision-note ID all agree. Exercise a different
+current/default claim, missing/mismatched receipts and overlapping requests.
+For credential preparation, check the mounted form's identity, label and Agent
+recipient without issuing a key, including repeat preparation and a form that
+was previously set to Reviewer. Run:
 
 ```sh
 npm --prefix web/owner ci

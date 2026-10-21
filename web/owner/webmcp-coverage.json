@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "audit_note": "Audited Owner UI and hosted APIs: added safe capture, identity/dashboard, runs and Activity tools; validated live provider/rubric parity and typed drafts; preserved drafts across Admin tabs and manual-first criteria without AI, consent or a provider-key requirement.",
+  "audit_note": "WebMCP completion audit: exact mounted/fresh agent identity and label; strict requested-review loading waits for committed URL, rendered receipt and title/action-note binding. Missing, mismatched and superseded requests cannot report success or show substitute decision controls.",
   "capabilities": [
     {
       "capability": "Workspace identity and Home",
@@ -154,9 +154,9 @@
     "web/owner/src/graph-preview.tsx": "aeacf55537dd3d51e92b247c856d331513ecd043cf421197117f4c8f332f33d5",
     "web/owner/src/index.css": "2477eaf0fe52c1f6031791ae2ca657762fd15c6f4c3dd5e71a5bfa865d2262cb",
     "web/owner/src/lib/utils.ts": "c4afe23db29651dec75ca5a3098a8bafe35f78cd45d4773d1db1c8001e640623",
-    "web/owner/src/main.tsx": "1f47cd51ab652848a825c33fb6ad056f7b2ca073af5e63af33cc1c073463c123",
+    "web/owner/src/main.tsx": "5d1023cba500e3b9df7a936c15fef4a26ef374e285806ca1e68b14b73df1935c",
     "web/owner/src/review.css": "5caad5cf6496f0ec676960d52fd2576d62863448d526e2b223051a84900de582",
-    "web/owner/src/webmcp.ts": "7bd14003e1bf14acf1494ab09cd1e74d77bbfd4b662bd3790a87ff8eae223278",
+    "web/owner/src/webmcp.ts": "75b55420e4fa55b046a9ea7a4bdcf271f83efb105ab1ea21ddaf875445ff4a7d",
     "web/owner/src/workspace-polish.css": "7026307ff04cdf2912f35bffc998e572364758faa47e4b72951db88216cd08a3"
   }
 }

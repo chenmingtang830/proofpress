@@ -9,12 +9,13 @@ function fixture(api = vi.fn(async (_path: string, _options?: any): Promise<any>
   vi.stubGlobal("location", {origin:"https://example.invalid"});
   vi.stubGlobal("window", {dispatchEvent:vi.fn()});
   const effects = Object.fromEntries(["setSelected","setNote","setReceipt","setPage","setFullReview","setReloadVersion","setAdminSection","navigate"].map(key=>[key,vi.fn()]));
-  const tools = createOwnerTools({api,csrfRef:{current:"synthetic-csrf"},selectionRequest:{current:0},...effects});
+  const openReview = vi.fn(async (claimId:string, _full:boolean) => ({claim:{id:claimId}}));
+  const tools = createOwnerTools({openReview,api,csrfRef:{current:"synthetic-csrf"},selectionRequest:{current:0},...effects});
   const call = async (name:string, input:any = {}) => {
     const response = await tools.find(tool=>tool.name===name)!.execute(input);
     return {response, value:JSON.parse(response.content[0].text)};
   };
-  return {api,tools,storage,effects,call};
+  return {api,tools,storage,effects,call,openReview};
 }
 afterEach(()=>vi.unstubAllGlobals());
 
@@ -79,6 +80,31 @@ describe("owner WebMCP behavior", () => {
     const f=fixture(vi.fn(async path=>path.endsWith("session")?{workspace_id:"workspace:test",principal:"human:test",role:"owner",csrf:"do-not-return"}:{credentials:[{credential_id:"credential:test",principal_id:"agent:test",role:"agent",token:"do-not-return"}]}));
     expect((await f.call("get_workspace_identity")).value).toEqual({workspace_id:"workspace:test",principal:"human:test",role:"owner"});
     expect((await f.call("get_agent_access")).value.credentials[0]).toEqual({credential_id:"credential:test",principal_id:"agent:test",role:"agent"});
+  });
+  it("waits for the shared review loader and verifies its exact receipt", async ()=>{
+    const f=fixture();
+    let finish!: (value:any)=>void;
+    f.openReview.mockImplementationOnce(()=>new Promise(resolve=>{finish=resolve;}));
+    let completed=false;
+    const result=f.call("open_review",{claim_id:"claim:requested",full:true}).then(value=>{completed=true;return value;});
+    await Promise.resolve();
+    expect(completed).toBe(false);
+    finish({claim:{id:"claim:requested"}});
+    expect((await result).value).toMatchObject({opened:true,receipt_claim_id:"claim:requested",decision_recorded:false});
+    expect(f.openReview).toHaveBeenCalledWith("claim:requested",true);
+  });
+  it("does not report a different or missing review receipt as opened",async ()=>{
+    const f=fixture();
+    f.openReview.mockResolvedValueOnce({claim:{id:"claim:different"}});
+    expect((await f.call("open_review",{claim_id:"claim:requested"})).response.isError).toBe(true);
+    f.openReview.mockRejectedValueOnce(new Error("No substitute receipt has been shown"));
+    expect((await f.call("open_review",{claim_id:"claim:missing"})).response.isError).toBe(true);
+  });
+  it.each([{principal_id:"",label:"Draft"},{principal_id:"agent:test",label:" "},{principal_id:"agent:test",label:"Draft",token:"never-store"}])("rejects invalid credential preparation without saving it",async settings=>{
+    const f=fixture();
+    expect((await f.call("prepare_agent_credential_issue",settings)).response.isError).toBe(true);
+    expect(f.storage.size).toBe(0);
+    expect(f.effects.navigate).not.toHaveBeenCalled();
   });
   it("keeps every read tool on GET and every prepare tool free of server mutations", async ()=>{
     const f=fixture(vi.fn(async path=>path.includes("claims/")?{state:"admitted"}:path.endsWith("review-policy")?{providers:{managed_gmi:{}}}:{}));

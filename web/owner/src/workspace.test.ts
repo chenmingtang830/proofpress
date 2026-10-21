@@ -178,7 +178,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain("@media (max-width: 680px)");
     expect(source).toContain("Close details");
     expect(source).toContain('aria-busy="true"');
-    expect(source).toContain('pending={!!selected && !receipt}');
+    expect(source).toContain('pending={!!selected && receipt?.claim.id !== selected}');
   });
   it("keeps review claims readable at compact desktop widths", () => {
     expect(source).toContain('className="tableWrap reviewTableWrap"');

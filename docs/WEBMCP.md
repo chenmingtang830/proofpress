@@ -26,7 +26,7 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 - `open_claim_lifecycle(claim_id, action)` — navigate the owner to withdrawal or reassessment without recording a decision
 - `prepare_review_response(claim_id, response)` — prepare a bounded revision handoff for the connected agent MCP/CLI
 - `run_deterministic_checks(claim_id)` — execute non-authorizing integrity and prerequisite checks
-- `open_review(claim_id, full?)` — route the owner to the right decision surface
+- `open_review(claim_id, full?)` — load and display the exact requested receipt before returning `opened: true` and `receipt_claim_id`; missing, mismatched or superseded requests return errors
 - `get_activity(limit?)` — inspect semantic proposal, review, policy, and context-retrieval activity
 - `get_technical_logs(limit?)` — content-minimized technical operation metadata
 - `get_executions(limit?)` — recorded execution receipts
@@ -35,7 +35,7 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 - `get_review_policy()` — read the active safe policy projection and provider configuration status
 - `prepare_review_policy_change(...)` — load a complete policy draft into Admin for explicit human review
 - `get_agent_access()` — inspect agent identities and credential lifecycle metadata without secrets
-- `prepare_agent_credential_issue(principal_id, label)` — fill an owner-reviewed credential request without issuing or exposing a key
+- `prepare_agent_credential_issue(principal_id, label)` — commit the identity, key label and Agent recipient into the actual Admin form before returning, without issuing or exposing a key
 
 [//]: # (ob:0d65efbf)
 ## What agents may not do
@@ -76,6 +76,14 @@ The registry is in `web/owner/src/webmcp.ts`; its semantic behavior is tested by
 `webmcp.test.ts` and `npm --prefix web/owner run test:webmcp`. The browser smoke
 uses an isolated synthetic localhost workspace and asserts that every exercised
 read/preparation makes zero server writes until a synthetic human clicks Save.
+Navigation tests inspect the actual URL, rendered receipt claim ID, title and
+decision-note ID in the same browser evaluation that awaits tool completion.
+They cover an already-selected different claim, compact/full views, absent or
+mismatched receipts and overlapping requests. Credential tests check the actual
+mounted identity, label and Agent recipient at completion, including a form
+previously set to Reviewer and a fresh Admin mount. These completion boundaries
+use React's [synchronous integration commit](https://react.dev/reference/react-dom/flushSync)
+only for the external tool calls; ordinary workspace refreshes remain batched.
 Tool failures return structured text with `isError: true` instead of opaque
 browser exceptions. A summary can return useful sections while another section
 is unavailable, including an unconfigured workspace.

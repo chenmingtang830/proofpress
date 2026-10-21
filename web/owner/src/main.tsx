@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { TypedJudgeAdvice, type DecisionAudit } from "./components/typed-judge-advice";
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { flushSync } from "react-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/ui/tabs";
 import { Dialog, DialogTitle, DialogDescription } from "./components/ui/dialog";
 import {
@@ -376,13 +377,14 @@ function App() {
       .catch(e => { if (active) setError(`Activity could not load: ${e.message}`); });
     return () => { active = false; };
   }, [page, reloadVersion, policyConfigured]);
-  const load = React.useCallback(async (selectionOverride?: string | null) => {
+  const load = React.useCallback(async (selectionOverride?: string | null, requireRequestedReceipt = false) => {
     const targetSelection = selectionOverride === undefined ? selected : selectionOverride;
     const request = ++selectionRequest.current;
     setLoading(true);
     setError("");
     setDetailError("");
     setReceipt(null);
+    if (requireRequestedReceipt) setSelected(targetSelection);
     try {
       const session = await api("/owner/api/session");
       if (request !== selectionRequest.current) return;
@@ -397,6 +399,7 @@ function App() {
       setPolicyConfigured(configured);
       if (!configured) {
         setRows([]); setGraphNodes([]); setEdges([]); setSelected(null);
+        if (requireRequestedReceipt) throw new Error("Confirm the workspace review policy before opening a claim.");
         return;
       }
       const graph = await api("/owner/api/graph");
@@ -411,24 +414,35 @@ function App() {
         setReceipt(null);
         if (targetSelection && !selectedExists) {
           setDetailError("This claim was not found. No substitute receipt has been shown.");
+          if (requireRequestedReceipt) throw new Error("This claim was not found. No substitute receipt has been shown.");
           return;
         }
         setSelected(desired);
         if (desired) {
           const detail = await api(`/owner/api/claims/${encodeURIComponent(desired)}`);
-          if (request === selectionRequest.current) setReceipt(detail);
+          if (request !== selectionRequest.current) return;
+          if (detail.claim?.id !== desired) throw new Error("The service returned a different claim. No substitute receipt has been shown.");
+          setReceipt(detail);
+          return detail as Receipt;
         }
       }
     } catch (e: any) {
       if (request !== selectionRequest.current) return;
       if (e.code === "workspace_policy_missing") {
         setPolicyConfigured(false); setRows([]); setGraphNodes([]); setEdges([]);
+        if (requireRequestedReceipt) throw e;
         return;
       }
       if (targetSelection) setDetailError(e.message);
       else setError(e.message);
+      if (requireRequestedReceipt) throw e;
     } finally {
-      if (request === selectionRequest.current) setLoading(false);
+      if (request === selectionRequest.current) {
+        // Browser tools return only after the requested receipt is committed to
+        // the same actionable UI the human sees. Ordinary refreshes stay batched.
+        if (requireRequestedReceipt) flushSync(() => setLoading(false));
+        else setLoading(false);
+      }
     }
   }, [selected]);
   const refreshHome = React.useCallback(async () => {
@@ -465,7 +479,19 @@ function App() {
     const ctx =
       (document as any).modelContext || (navigator as any).modelContext;
     if (!ctx?.registerTool) return;
-    const tools = createOwnerTools({api, csrfRef, selectionRequest, setSelected, setNote, setReceipt, setPage, setFullReview, setReloadVersion, setAdminSection, navigate});
+    const tools = createOwnerTools({api, csrfRef, selectionRequest, setSelected, setNote, setReceipt, setPage, setFullReview, setReloadVersion, setAdminSection, navigate,
+      openReview: async (claimId: string, full: boolean) => {
+        if (decisionPending.current) throw new Error("A human decision is being submitted. Wait before opening another claim.");
+        setNote(""); setJudgeMessage(null); setPage("review"); setFullReview(full);
+        const result = await load(claimId, true);
+        const query = new URLSearchParams(location.search);
+        const renderedId = document.querySelector('[aria-label="Claim details"][data-claim-id]')?.getAttribute("data-claim-id");
+        if (!result || renderedId !== claimId || location.pathname !== "/review" || query.get("claim_id") !== claimId || query.get("view") !== (full ? "full" : null)) {
+          throw new Error("The selected claim or page changed before the requested review opened.");
+        }
+        return result;
+      },
+    });
     Promise.all(tools.map((tool) => ctx.registerTool(tool))).catch(
       () => undefined,
     );
@@ -1164,9 +1190,9 @@ function ReviewPage({
         </nav>}
       </div>
       <Inspector
-        pending={!!selected && !receipt}
+        pending={!!selected && receipt?.claim.id !== selected}
         detailError={detailError}
-        receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
+        receipt={receipt?.claim.id === selected && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
         judgeMessage={judgeMessage}
         onClose={onClose}
         note={note}
@@ -1403,7 +1429,7 @@ function Inspector({
       </div>
   );
   return (
-    <aside className={`inspector${fullReview ? " fullReview" : ""}${fullReview && !can ? " reviewedRecord" : ""}`} ref={panel} aria-label="Claim details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
+    <aside className={`inspector${fullReview ? " fullReview" : ""}${fullReview && !can ? " reviewedRecord" : ""}`} ref={panel} aria-label="Claim details" data-claim-id={r.claim.id} onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
       {fullReview && <Button className="fullReviewBack" variant="ghost" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <Button variant="ghost" size="content" className="mobileBack" onClick={onClose}>
