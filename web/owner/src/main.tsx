@@ -668,6 +668,17 @@ function App() {
         execute: async () => toolText(await api("/owner/api/review-policy")),
       },
       {
+        name: "get_policy_history",
+        description: "Read saved capture-rule or review-criteria versions with author and timestamp. Read-only, scoped to the signed-in workspace; no provider secrets or historical executable configuration are returned. Does not restore, save or approve anything.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        inputSchema: { type:"object", properties:{kind:{type:"string",enum:["capture","criteria"]},limit:{type:"integer",minimum:1,maximum:50},before_version:{type:"integer",minimum:1}}, required:["kind"], additionalProperties:false },
+        execute: async ({kind,limit=10,before_version}:any)=>{
+          if (!["capture","criteria"].includes(kind) || !Number.isInteger(limit) || limit < 1 || limit > 50 || (before_version !== undefined && (!Number.isInteger(before_version) || before_version < 1))) throw new Error("Use a valid policy kind, limit and version cursor.");
+          const endpoint = kind === "capture" ? "/owner/api/capture-policy/history" : "/owner/api/review-criteria/history";
+          return toolText(await api(`${endpoint}?limit=${limit}${before_version === undefined ? "" : `&before_version=${before_version}`}`));
+        },
+      },
+      {
         name: "prepare_review_criteria",
         description: "Stage review criteria in Admin without changing AI, credentials, processing consent or approval settings. A human Owner must save; this tool never saves or authorizes.",
         annotations: { readOnlyHint: false, untrustedContentHint: false },

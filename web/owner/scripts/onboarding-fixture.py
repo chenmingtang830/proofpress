@@ -8,7 +8,7 @@ import threading
 from pathlib import Path
 
 from proofpress import ProofpressClient
-from proofpress.hosted import mcp_http
+from proofpress.hosted import capture_policy, mcp_http
 from proofpress.hosted.service import create_hosted_server, enable_local_owner_preview
 
 with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
@@ -24,7 +24,15 @@ with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
     print(json.dumps({"base": base}), flush=True)
     try:
         for command in sys.stdin:
-            if command.strip() == "submit":
+            if command.strip() == "history":
+                for version in range(1, 13):
+                    control.save_capture_policy(owner["token"], {
+                        **capture_policy.DEFAULT_SETTINGS, "purpose": f"Capture purpose version {version}"}, version - 1)
+                    control.save_review_criteria(owner["token"], f"Require evidence version {version}.", version - 1)
+                policy = control.get_review_policy(owner["token"])
+                control.save_review_policy(owner["token"], {**policy["settings"], "zdr": False}, policy["version"])
+                print(json.dumps({"capture_version": 12, "review_version": 13}), flush=True)
+            elif command.strip() == "submit":
                 agent = control.issue_agent_credential(owner["token"], "agent:fixture", "Synthetic successor")
                 capture = mcp_http.call_tool(control, control.authenticate(agent["token"]),
                                              "proofpress_get_capture_policy", {}, base)

@@ -3,6 +3,7 @@ import { Card, CardHeader, CardDescription, CardContent } from "./ui/card";
 import { MarkdownEditor } from "./ui/markdown-editor";
 import { Button } from "./ui/button";
 import { Check } from "./ui/icon";
+import { PolicyHistory } from "./policy-history";
 
 export const RESEARCH_OVER_TIME_RULES = {
   purpose: "Accumulate evidence-backed observations, changing views and later outcomes across recurring research. Use the past 30 days to inform the next brief; keep older history for audit.",
@@ -118,6 +119,7 @@ export function CaptureRules({api, csrf}: any) {
   return <Card className="captureRules captureRulesSimple">
     <CardHeader className="adminPanelHeading"><h2>What should the agent capture?</h2><CardDescription>Tell the agent which information to submit to Proofpress for review and which to skip. Your agent runs these rules; saving them does not schedule research or scan old reports.</CardDescription></CardHeader>
     <CardContent>
+      {record && <PolicyHistory api={api} kind="capture" currentVersion={record.version} currentContent={formatCaptureRules(record.settings)} contentOf={row=>formatCaptureRules(row.settings)} />}
       {error && <p role="alert">{error} {!record && <Button variant="outline" onClick={load}>Try again</Button>}</p>}
       {!record ? <p role="status">Loading rules…</p> : <form onSubmit={save}>
         <div className="simplePromptRow"><p>Build on recurring topics, track changes and check later outcomes.</p><Button type="button" variant="outline" onClick={()=>{setText(formatCaptureRules(RESEARCH_OVER_TIME_RULES));setMessage("Research template loaded. Adjust the topics and review before saving.");setError("");}}>Load research over time template</Button></div>

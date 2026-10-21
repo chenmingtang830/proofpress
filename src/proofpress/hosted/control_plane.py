@@ -913,6 +913,33 @@ class HostedControlPlane:
             return review_policy.public(record, self._credential_status(
                 connection, owner.workspace_id, record["settings"]["provider"]))
 
+    def get_policy_history(self, token, kind, *, limit=10, before_version=None):
+        owner = self._owner(token)
+        tables = {"capture": "hosted_capture_policies", "criteria": "hosted_review_policies"}
+        if (not isinstance(kind, str) or kind not in tables or type(limit) is not int or not 1 <= limit <= 50
+                or (before_version is not None and
+                    (type(before_version) is not int or before_version < 1))):
+            raise HostedAuthError("invalid_request", "Use a valid policy kind, limit (1–50) and version cursor.")
+        table = tables[kind]
+        with self._db() as connection:
+            connection.execute("BEGIN")
+            current_version = connection.execute(
+                f"SELECT COALESCE(MAX(version), 0) FROM {table} WHERE workspace_id=?",
+                (owner.workspace_id,)).fetchone()[0]
+            rows = connection.execute(
+                f"SELECT version, settings_json, actor, created_at FROM {table} "
+                "WHERE workspace_id=? AND (? IS NULL OR version < ?) ORDER BY version DESC LIMIT ?",
+                (owner.workspace_id, before_version, before_version, limit + 1)).fetchall()
+            versions = []
+            for row in rows[:limit]:
+                settings = json.loads(row["settings_json"])
+                content = ({"settings": settings} if kind == "capture" else
+                           {"criteria": settings.get("criteria", "")})
+                versions.append({"version": row["version"], "actor": row["actor"],
+                                 "updated_at": row["created_at"], **content})
+            return {"kind": kind, "current_version": current_version, "versions": versions,
+                    "next_before_version": versions[-1]["version"] if len(rows) > limit else None}
+
     def save_review_criteria(self, token, criteria, expected_version):
         return self.save_review_policy(token, {"criteria": criteria}, expected_version,
                                        criteria_only=True)
