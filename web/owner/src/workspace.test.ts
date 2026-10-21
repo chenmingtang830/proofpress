@@ -195,7 +195,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain('<EvidencePreview row={e} />');
     expect(source).not.toContain('className="blockedAction"');
     expect(source).not.toContain('<span>Source {String(i + 1).padStart(2, "0")}</span>');
-    expect(css).toMatch(/\.lmRationale > \.lmRationaleHeader > span\s*\{[^}]*var\(--font-ui\)/s);
+    expect(css).toMatch(/\.lmRationale > \.lmRationaleHeader > span:not\(\[data-slot="badge"\]\)\s*\{[^}]*var\(--font-ui\)/s);
     expect(css).toMatch(/\.compactEvidenceExcerpt p\s*\{[^}]*-webkit-line-clamp:\s*3;/s);
     expect(css).toMatch(/\.evidenceArgument\s*\{[^}]*margin:\s*28px 0 22px;[^}]*border:\s*1px solid var\(--line\);/s);
     expect(source).toContain('function ApplicabilityPanel');
