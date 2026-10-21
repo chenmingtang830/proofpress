@@ -573,6 +573,58 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertEqual(receipt["state"], "blocked")
         self.assertEqual(next(row for row in graph["nodes"] if row["id"] == cid)["state"], "blocked")
 
+    def test_graph_projects_current_model_advice_without_granting_admission(self):
+        store = SQLiteEventStore(self.control.database, "workspace:test", "judge:test")
+        record = self.control._policy("workspace:test")
+        ids = []
+        for verdict in ("accept", "escalate", "reject"):
+            claim = self.proposal(verdict)["result"]["claim"]
+            ids.append(claim["id"])
+            with using_event_store(store), kernel.using_policy(record["policy"]):
+                kernel.append_v2({
+                    "type": "judge_recommended", "subject_ref": claim["id"],
+                    "claim_digest": claim["digest"], "policy_digest": record["policy"]["digest"],
+                    "recommendation": verdict, "rationale": "Private rationale omitted from graph.",
+                    "judge": "judge:test", "model": "test-model",
+                    "judge_config_digest": "sha256:" + "a" * 64,
+                    "adapter": "proofpress-test-judge/v1",
+                })
+        with patch.object(self.control, "_provider_credential", side_effect=AssertionError("Read needs no provider secret")):
+            graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
+        nodes = {node["id"]: node for node in graph["nodes"] if node["type"] == "claim"}
+        for cid, verdict in zip(ids, ("accept", "escalate", "reject")):
+            self.assertEqual(nodes[cid]["model_review"], {
+                "state": "current", "recommendation": verdict, "model": "test-model"})
+            self.assertEqual(nodes[cid]["state"], "needs_review")
+        self.assertNotIn("Private rationale", json.dumps(graph))
+        self.assertFalse(any(node["type"] == "governed" for node in graph["nodes"]))
+
+        with self.control._db() as connection:
+            connection.execute("INSERT INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'completed', ?, ?, '')",
+                ("job:completed", "workspace:test", ids[0], record["policy"]["digest"],
+                 "agent:codex", "2026-01-01T00:00:00Z", "2026-01-01T00:00:00Z"))
+        self.control.save_review_criteria(self.owner, "Changed evidence requirements.", 0)
+        graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
+        self.assertTrue(all(node["model_review"]["state"] == "stale"
+                            for node in graph["nodes"] if node["type"] == "claim"))
+
+    def test_graph_projects_job_states_and_isolates_instances(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}), \
+             patch("proofpress.hosted.control_plane.threading.Thread"):
+            self.control.save_review_policy(self.owner, {**self.settings, "mode": "automatic"}, 0)
+            claim = self.proposal("in progress")["result"]["claim"]
+        for state in ("queued", "running", "failed", "interrupted", "skipped", "blocked"):
+            with self.control._db() as connection:
+                connection.execute("UPDATE hosted_judge_jobs SET state=? WHERE claim_id=?", (state, claim["id"]))
+            graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
+            node = next(node for node in graph["nodes"] if node["id"] == claim["id"])
+            self.assertEqual(node["model_review"], {"state": state, "recommendation": None, "model": None})
+        other_control = HostedControlPlane(Path(self.tmp.name) / "other.db")
+        other = other_control.bootstrap("workspace:other", "human:other")["token"]
+        other_control.save_review_criteria(other, "Other workspace.", 0)
+        other_graph = other_control.execute(other, operation("graph.get", {}))["result"]
+        self.assertNotIn(claim["id"], json.dumps(other_graph))
+
     def test_blocked_candidates_allow_correction_decisions_but_not_approval(self):
         for decision, state in (("reject", "rejected"), ("request_changes", "needs_revision")):
             with self.subTest(decision=decision):

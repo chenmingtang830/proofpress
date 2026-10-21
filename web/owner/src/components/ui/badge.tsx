@@ -1,10 +1,13 @@
 import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 export function Badge({
   state,
   className,
+  children,
 }: {
   state: string;
   className?: string;
+  children?: ReactNode;
 }) {
   const value = ({accept: "Evidence supported", reject: "Evidence not supported", escalate: "Needs attention", unresolved: "Needs revalidation", dependency_invalidated: "Dependency changed", withdrawn: "Withdrawn", retired: "Retired"} as Record<string,string>)[state] || state.replaceAll("_", " ");
   return (
@@ -26,7 +29,7 @@ export function Badge({
         className,
       )}
     >
-      {value}
+      {children ?? value}
     </span>
   );
 }

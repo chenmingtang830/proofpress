@@ -17,7 +17,8 @@
     "test:e2e": "npm run build && node scripts/owner-smoke.mjs",
     "check:components": "node scripts/check-components.mjs",
     "test:onboarding": "node scripts/onboarding-smoke.mjs",
-    "test:policy-history": "node scripts/policy-history-smoke.mjs"
+    "test:policy-history": "node scripts/policy-history-smoke.mjs",
+    "test:review-queue": "node scripts/review-queue-smoke.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.3",

@@ -64,6 +64,7 @@ jobs:
       - run: npm run test:policy-history
       - run: npm run test:evidence
       - run: npm run test:blocked-review
+      - run: npm run test:review-queue
 
   landing:
     name: Landing

@@ -1579,6 +1579,37 @@ class HostedControlPlane:
             judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
         with using_event_store(store), kernel_ops.using_policy(record["policy"]), kernel_ops.using_judge_environment(judge_environment):
             envelope = kernel_ops.execute_local_operation(normalized)
+            if envelope.get("ok") and operation == "graph.get":
+                # Enrich only already-authorized graph nodes. One projection and
+                # one workspace-scoped job query avoid a receipt request per row.
+                projection = kernel_ops.v2_projection()
+                with self._db() as connection:
+                    jobs = connection.execute(
+                        "SELECT claim_id, state FROM hosted_judge_jobs "
+                        "WHERE workspace_id=? ORDER BY created_at DESC, job_id DESC",
+                        (context.workspace_id,)).fetchall()
+                latest_jobs = {}
+                for job in jobs:
+                    latest_jobs.setdefault(job["claim_id"], job["state"])
+                for node in envelope["result"].get("nodes", []):
+                    if node.get("type") != "claim":
+                        continue
+                    claim = projection["claims"][node["id"]]
+                    advice = projection["recommendations"].get(node["id"]) or {}
+                    verdict = advice.get("recommendation")
+                    if verdict not in {"accept", "escalate", "reject"}:
+                        verdict = None
+                    current = bool(verdict and
+                        advice.get("claim_digest") == claim["digest"] and
+                        advice.get("policy_digest") == record["policy"]["digest"])
+                    job_state = latest_jobs.get(node["id"])
+                    state = ("current" if current else
+                             job_state if job_state in {"queued", "running", "failed", "interrupted", "skipped", "blocked"} else
+                             "stale" if verdict else
+                             "completed" if job_state == "completed" else
+                             "off" if record["settings"]["mode"] == "off" else "not_run")
+                    node["model_review"] = {"state": state, "recommendation": verdict,
+                                            "model": advice.get("model") if verdict else None}
             if envelope.get("ok") and operation == "claim.propose":
                 # Basic checks are local and independent of LM advice or admission.
                 # Reconcile on replay too: a process may have stopped after the
