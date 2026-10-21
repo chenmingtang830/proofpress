@@ -20,7 +20,7 @@ from proofpress.kernel.contracts import (
     AGENT_OPERATIONS, operation_authority, validate_operation_contracts,
 )
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
-from proofpress.hosted import capture_policy, execution, review_policy
+from proofpress.hosted import capture_policy, execution, review_policy, revisions
 
 validate_operation_contracts(kernel_ops.LOCAL_OPERATION_SPECS)
 IDENTITY_PARAMETERS = {
@@ -255,6 +255,7 @@ class HostedControlPlane:
                 "WHERE bootstrap_principal_id IS NULL")
             capture_policy.migrate(connection)
             review_policy.migrate(connection)
+            revisions.migrate(connection)
             execution.migrate(connection)
             self._migrate_legacy_permissions(connection)
             connection.commit()
@@ -1578,6 +1579,10 @@ class HostedControlPlane:
                     )
             if envelope.get("ok") and operation == "review.receipt":
                 result = envelope["result"]
+                result["revision_automation"] = {"available": revisions.available(record)}
+                with self._db() as connection:
+                    result["revision_job"] = revisions.status(connection, context.workspace_id,
+                        result["claim"]["id"], (result.get("revision_request") or {}).get("event_id", ""))
                 evaluation = result.get("evaluation") or {}
                 advice = result.get("recommendation") or {}
                 result["review_policy"] = {

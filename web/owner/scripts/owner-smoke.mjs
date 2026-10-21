@@ -275,8 +275,10 @@ try {
   await page.getByRole('button',{name:'Request changes',exact:true}).click();
   const handoffDialog = page.getByRole('dialog');
   await handoffDialog.getByRole('heading',{name:'Changes requested',exact:true}).waitFor();
-  await handoffDialog.getByText('Copied to clipboard. Paste into your agent.',{exact:true}).waitFor();
-  assert.equal(await handoffDialog.getByRole('button',{name:'Copy instructions for agent'}).count(),0);
+  // This fixture uses manual non-GMI review: the explicit fallback remains,
+  // while the normal hosted revision journey no longer auto-copies a prompt.
+  await handoffDialog.getByRole('button',{name:'Copy instructions for agent',exact:true}).click();
+  await handoffDialog.getByText('Copied to clipboard',{exact:true}).waitFor();
   assert.match(await page.evaluate(() => navigator.clipboard.readText()),/revision_request_ref/);
   if(process.env.QA_SCREENSHOTS) {
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/revision-handoff.png`});
@@ -285,7 +287,7 @@ try {
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),false);
     await page.setViewportSize({width:1440,height:1000});
   }
-  await handoffDialog.getByRole('status').waitFor();
+  await handoffDialog.getByRole('status').filter({hasText:'Copied to clipboard'}).waitFor();
   await handoffDialog.getByRole('button',{name:'View revision request'}).click();
   await page.locator('.inspector > .decisionNotice').getByText('Changes requested',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Back to review',exact:true}).click();

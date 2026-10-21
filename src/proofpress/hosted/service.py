@@ -924,8 +924,22 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             })
             if not envelope.get("ok"):
                 return self._json(_status_for(envelope), envelope)
+            revision_enqueue_failed = False
+            if decision == "request_changes" and request.get("automatic_revision") is True:
+                from . import revisions
+                try:
+                    revisions.enqueue(self.server.proofpress_control, session["context"], request.get("claim_id", ""))
+                except ValueError:
+                    # The decision has committed. A concurrent decision, successor
+                    # or credential change must not turn it into a false failure.
+                    revision_enqueue_failed = True
             receipt = self._owner_operation(session, "review.receipt", {
                 "claim_id": request.get("claim_id", "")})
+            if revision_enqueue_failed and receipt.get("ok"):
+                current = receipt["result"]
+                if current.get("state") == "needs_revision" and not current.get("lineage") and not current.get("revision_job"):
+                    current["revision_job"] = {"state": "failed", "successor_id": None,
+                        "detail": "Changes saved. Automatic revision could not be queued; use the agent handoff below."}
             return self._json(_status_for(receipt), receipt)
         if path in {"/owner/api/withdraw", "/owner/api/reassess"}:
             session = self._owner_session()
@@ -1155,6 +1169,8 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
             "SELECT workspace_id FROM hosted_workspaces")]
     for workspace_id in workspace_ids:
         control.resume_judge_jobs(workspace_id=workspace_id)
+        from . import revisions
+        revisions.resume(control, workspace_id)
     with control._db() as connection:
         for workspace_id in workspace_ids:
             execution.resume(connection, workspace_id=workspace_id)
