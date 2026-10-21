@@ -19,6 +19,7 @@ import {
   X,
 } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
+import { QueueModelAdvice, type QueueModelReview } from "@/components/queue-model-advice";
 import { ActivityResult } from "@/components/activity-result";
 import { CaptureRules } from "@/components/capture-rules";
 import { WorkspaceSetup, AgentConnectionInstructions, ConnectionGuidePage } from "@/components/workspace-setup";
@@ -58,6 +59,7 @@ type NodeRow = {
   applicability?: Receipt["claim"]["applicability"];
   created_at?: string;
   decision_at?: string;
+  model_review?: QueueModelReview;
 };
 type Receipt = {
   state: string;
@@ -436,6 +438,25 @@ function App() {
     setGraphNodes(graph.nodes || []);
     setEdges(graph.edges || []);
   }, []);
+  const reviewJobsActive = page === "review" && rows.some(row => reviewQueue(row.state, row.successor_id) === "needs_review" && ["queued", "running"].includes(row.model_review?.state || ""));
+  React.useEffect(() => {
+    if (!reviewJobsActive) return;
+    let active = true, inFlight = false;
+    const timer = window.setInterval(async () => {
+      if (inFlight) return;
+      inFlight = true;
+      try {
+        const graph = await api("/owner/api/graph");
+        if (active) {
+          setRows((graph.nodes || []).filter((node: NodeRow) => node.type === "claim"));
+          setGraphNodes(graph.nodes || []); setEdges(graph.edges || []);
+        }
+      } catch (e: any) {
+        if (active) { setError(`Review recommendations could not refresh: ${e.message}`); window.clearInterval(timer); }
+      } finally { inFlight = false; }
+    }, 5000);
+    return () => { active = false; window.clearInterval(timer); };
+  }, [reviewJobsActive]);
   React.useEffect(() => {
     load();
   }, []);
@@ -496,12 +517,12 @@ function App() {
       },
       {
         name: "list_review_queue",
-        description: "List candidate claims by review state and optional scope. This is a read-only queue view.",
+        description: "List candidate claims by review state and optional scope, including LLM recommendation freshness and job status. Advice is separate from approval. This is a read-only queue view.",
         annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: { type: "object", properties: { state: { type: "string", enum: ["needs_review", "needs_revision", "admitted", "rejected", "all"] }, scope: { type: "string" }, limit: { type: "integer", minimum: 1, maximum: 100 } } },
         execute: async ({ state = "needs_review", scope = "", limit = 25 }: any) => {
           const graph = await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`);
-          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim" && (state === "all" || node.state === state)).slice(0, limit).map((node: any) => ({ id: node.id, title: claimDisplayTitle(node), claim_title: node.title || null, statement: node.label, applicability: node.applicability || null, state: node.state, scope: node.scope, created_at: node.created_at, proposer: node.proposer }));
+          const claims = (graph.nodes || []).filter((node: any) => node.type === "claim" && (state === "all" || node.state === state)).slice(0, limit).map((node: any) => ({ id: node.id, title: claimDisplayTitle(node), claim_title: node.title || null, statement: node.label, applicability: node.applicability || null, state: node.state, model_review: node.model_review || null, scope: node.scope, created_at: node.created_at, proposer: node.proposer }));
           return toolText({ claims, count: claims.length, open_in_review: `${location.origin}/review` });
         },
       },
@@ -1408,7 +1429,7 @@ function ReviewPage({
             <TableHeader>
               <TableRow>
                 <TableHead>Claim</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>{queue === "needs_review" ? "LLM recommendation" : "Status"}</TableHead>
                 <TableHead>Applicability</TableHead>
                 <TableHead></TableHead>
               </TableRow>
@@ -1424,7 +1445,7 @@ function ReviewPage({
                     <Button variant="ghost" size="content" className="claimSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{claimDisplayTitle(row)}</Button><ClaimTemporal claim={row} compact />
                     <small>{row.id}<span className="claimScopeInline"><b>Applies to</b>{row.applicability?.title || row.scope || "No reuse boundary"}</span></small>
                   </TableCell>
-                  <TableCell data-label="Status"><Badge state={row.state} /></TableCell>
+                  <TableCell data-label={queue === "needs_review" ? "LLM recommendation" : "Status"}>{queue === "needs_review" ? <QueueModelAdvice review={row.model_review} /> : <Badge state={row.state} />}</TableCell>
                   <TableCell className="reviewScopeCell" data-label="Applicability">{row.applicability?.title || row.applicability?.description || row.scope || "—"}</TableCell>
                   <TableCell aria-label="Open claim">
                     <ChevronRight />
