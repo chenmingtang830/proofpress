@@ -19,6 +19,13 @@ describe('finding time presentation', () => {
     expect(claimDisplayTitle({title:'October 15 leverage snapshot'})).toBe('October 15 leverage snapshot');
     expect(claimDisplayTitle({statement:'October 15 prices fell', qualifiers})).toBe('October 15 prices fell');
   });
+  it('shows reconstruction and unknown availability even without dates', () => {
+    const claim = {qualifiers:{historical_reconstruction:true}};
+    const html = renderToStaticMarkup(<ClaimTemporal claim={claim}/>);
+    expect(html).toContain('Historical reconstruction');
+    expect(html).toContain('first-known time unverified');
+    expect(renderToStaticMarkup(<ClaimTemporal claim={claim} compact/>)).toBe('');
+  });
   it('does not present invalid calendar dates', () => {
     expect(renderToStaticMarkup(<ClaimTemporal claim={{qualifiers:{effective_date:'2026-02-30'}}}/>)).toBe('');
   });
