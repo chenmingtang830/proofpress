@@ -23,6 +23,11 @@ try {
   const {base} = await nextLine();
   browser = await chromium.launch();
   const page = await browser.newPage({viewport:{width:1440,height:1000}});
+  await page.addInitScript(() => {
+    window.__proofpressWebMcpTools = [];
+    Object.defineProperty(document, 'modelContext', {configurable:true,
+      value:{registerTool:async tool=>{window.__proofpressWebMcpTools.push(tool);}}});
+  });
   page.setDefaultTimeout(12000);
   const errors=[]; page.on('pageerror', error => errors.push(error.message));
   // Public setup must work before sign-in and must not initialize owner APIs.
@@ -136,22 +141,56 @@ try {
   assert.equal(await page.getByLabel('API key',{exact:true}).count(),1,'BYOK remains available explicitly');
   assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false);
   await page.getByLabel('Model provider',{exact:true}).selectOption('managed_gmi');
-  await aiToggle.click();
-  await page.setViewportSize({width:1440,height:1000});
-  // Activating this policy is a deliberate human action; no API key or provider consent is needed.
-  const policyRequest = page.waitForRequest(request=>request.url().endsWith('/owner/api/review-policy') && request.method()==='POST');
-  await page.getByRole('button',{name:'Use manual review',exact:true}).click();
+  // Criteria save works with an unavailable provider and an unsaved AI-on draft.
+  const criteria = 'Require a dated source, material assumptions and limits.';
+  await page.waitForFunction(()=>window.__proofpressWebMcpTools.some(tool=>tool.name==='prepare_review_criteria'));
+  const staged = await page.evaluate(async criteria=>{
+    const tool=window.__proofpressWebMcpTools.find(tool=>tool.name==='prepare_review_criteria');
+    return JSON.parse((await tool.execute({criteria})).content[0].text);
+  },criteria);
+  assert.equal(staged.activated,false);
+  assert.equal(staged.requires_human_owner,true);
+  assert.equal(await page.getByLabel('Review criteria',{exact:true}).inputValue(),criteria);
+  const beforeSave = (await (await page.request.get(`${base}/owner/api/review-policy`)).json()).result;
+  assert.equal(beforeSave.version,0,'WebMCP prepares criteria without saving');
+  await page.route('**/owner/api/review-criteria',route=>route.fulfill({status:503,json:{ok:false,error:{message:'Synthetic save failure'}}}));
+  await page.getByRole('button',{name:'Save review criteria',exact:true}).click();
+  await page.getByRole('alert').getByText('Synthetic save failure',{exact:false}).waitFor();
+  assert.equal(await page.getByLabel('Review criteria',{exact:true}).inputValue(),criteria,'A failed save retains the draft');
+  await page.unroute('**/owner/api/review-criteria');
+  assert.equal(await page.getByRole('button',{name:'Save review criteria',exact:true}).isEnabled(),true);
+  const policyRequest = page.waitForRequest(request=>request.url().endsWith('/owner/api/review-criteria') && request.method()==='POST');
+  await page.getByRole('button',{name:'Save review criteria',exact:true}).click();
   const submitted=(await policyRequest).postDataJSON();
-  assert.equal(submitted.settings.mode,'off');
-  assert.equal(submitted.settings.require_judge,false);
-  assert.equal(submitted.settings.external_consent,false);
-  assert.equal(submitted.settings.auto_admit_new_claims,false);
-  await page.getByText('Settings saved.',{exact:true}).waitFor();
+  assert.deepEqual(Object.keys(submitted).sort(),['criteria','csrf','expected_version']);
+  assert.equal(submitted.criteria,criteria);
+  await page.getByText('Review criteria saved.',{exact:true}).waitFor();
+  assert.equal(await aiToggle.isChecked(),true,'Saving criteria retains the separate unsaved AI draft');
+  assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false);
+  const savedPolicy = (await (await page.request.get(`${base}/owner/api/review-policy`)).json()).result;
+  assert.equal(savedPolicy.version,1);
+  assert.equal(savedPolicy.settings.criteria,criteria);
+  assert.equal(savedPolicy.settings.mode,'off');
+  assert.equal(savedPolicy.settings.require_judge,false);
+  assert.equal(savedPolicy.settings.external_consent,false);
+  assert.equal(savedPolicy.settings.auto_admit_new_claims,false);
+  const badCsrf = await page.request.post(`${base}/owner/api/review-criteria`,{data:{csrf:'wrong',expected_version:1,criteria:'No'}});
+  assert.equal(badCsrf.status(),403);
+  const extraSetting = await page.request.post(`${base}/owner/api/review-criteria`,{data:{csrf:session.csrf,expected_version:1,criteria:'No',mode:'automatic'}});
+  assert.equal(extraSetting.status(),400,'Criteria route refuses configuration fields');
+  const stale = await page.request.post(`${base}/owner/api/review-criteria`,{data:{csrf:session.csrf,expected_version:0,criteria:'No'}});
+  assert.equal((await stale.json()).error.code,'stale_policy');
   await page.reload();
   await page.getByRole('tab',{name:'Verification settings',exact:true}).click();
   await page.getByRole('switch',{name:'AI-assisted checks',exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Save changes',exact:true}).count(),0,'Unchanged settings need no save action');
-  assert.equal(await page.getByRole('button',{name:'Use manual review',exact:true}).count(),0,'Saved manual review needs no activation');
+  assert.equal(await aiToggle.isChecked(),false,'Criteria save did not enable AI');
+  assert.equal(await page.getByLabel('Review criteria',{exact:true}).inputValue(),criteria,'Criteria remain editable with AI off');
+  assert.equal(await page.getByRole('button',{name:'Save review criteria',exact:true}).isEnabled(),false);
+  for (const width of [1440,390]) {
+    await page.setViewportSize({width,height:1000});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+    if (process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/saved-review-criteria-${width}.png`,fullPage:true});
+  }
   await page.getByRole('tab',{name:'Knowledge rules',exact:true}).click();
   await page.getByRole('button',{name:'Load research over time template',exact:true}).click();
   const captureDraft = (await (await page.request.get(`${base}/owner/api/capture-policy`)).json()).result;
@@ -190,7 +229,7 @@ try {
   await page.getByText('AI provides an assessment. You make the final approval.',{exact:true}).waitFor();
   assert.equal(await page.getByRole('combobox',{name:'Model advice',exact:true}).count(),0);
   assert.equal(await page.getByRole('checkbox',{name:'Allow external model processing for this workspace',exact:true}).count(),0);
-  await page.getByText('By saving, you authorize this processing for this workspace.',{exact:false}).waitFor();
+  await page.getByText('By saving AI settings, you authorize this processing for this workspace.',{exact:false}).waitFor();
   assert.equal((await (await page.request.get(`${base}/owner/api/review-policy`)).json()).result.settings.external_consent,false,'Opening AI setup does not grant provider consent');
   await page.getByLabel('Model provider',{exact:true}).selectOption('openai_decisions');
   await page.getByLabel('API key',{exact:true}).waitFor();

@@ -54,6 +54,47 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertIn("Do not choose a model or provider", POLICY_AUTHORING_PROMPT)
         self.assertNotIn("return only JSON with these fields: provider", POLICY_AUTHORING_PROMPT)
 
+    def test_criteria_save_initializes_human_review_without_provider_or_consent(self):
+        self.control.legacy_default_workspace_id = None
+        prior = self.control.get_review_policy(self.owner)
+        with patch.object(self.control, "_provider_credential", side_effect=AssertionError("No secret needed")):
+            saved = self.control.save_review_criteria(self.owner, "Require a dated source.", 0)
+        self.assertEqual(saved["version"], 1)
+        self.assertEqual(saved["settings"], {**prior["settings"], "criteria": "Require a dated source."})
+        self.assertEqual(saved["settings"]["mode"], "off")
+        self.assertFalse(saved["settings"]["external_consent"])
+        self.assertFalse(saved["settings"]["auto_admit_new_claims"])
+        self.assertEqual(self.control.save_review_criteria(self.owner, "Require a dated source.", 1)["version"], 1)
+        restarted = HostedControlPlane(self.control.database)
+        self.assertEqual(restarted.get_review_policy(self.owner)["settings"], saved["settings"])
+
+    def test_criteria_save_preserves_active_settings_without_inference_or_secret_access(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            prior = self.control.save_review_policy(self.owner, {
+                **self.settings, "mode": "automatic", "auto_admit_new_claims": True}, 0)
+        with patch.object(self.control, "_provider_credential", side_effect=AssertionError("No secret needed")), \
+             patch.object(self.control, "_schedule_judge") as schedule, \
+             patch("proofpress.hosted.control_plane.threading.Thread") as thread:
+            saved = self.control.save_review_criteria(self.owner, "New evidence criteria.", prior["version"])
+        schedule.assert_not_called()
+        thread.assert_not_called()
+        self.assertEqual(saved["settings"], {**prior["settings"], "criteria": "New evidence criteria."})
+        self.assertNotEqual(saved["policy_digest"], prior["policy_digest"])
+
+    def test_criteria_save_enforces_owner_version_and_validation(self):
+        reviewer = self.control.issue_reviewer_credential(self.owner, "human:reviewer", "Reviewer")["token"]
+        for token in (self.agent, reviewer):
+            with self.assertRaises(HostedAuthError):
+                self.control.save_review_criteria(token, "Rule", 0)
+        saved = self.control.save_review_criteria(self.owner, "Rule", 0)
+        for stale in (0, True, "1"):
+            with self.assertRaises(HostedAuthError):
+                self.control.save_review_criteria(self.owner, "New rule", stale)
+        for invalid in (None, 1, "x" * 8001):
+            with self.assertRaises(ValueError):
+                self.control.save_review_criteria(self.owner, invalid, saved["version"])
+        self.assertEqual(self.control.get_review_policy(self.owner)["version"], saved["version"])
+
     def test_automatic_approval_is_off_by_default_and_requires_explicit_gate(self):
         record = self.control.get_review_policy(self.owner)
         self.assertFalse(record["settings"]["auto_admit_new_claims"])

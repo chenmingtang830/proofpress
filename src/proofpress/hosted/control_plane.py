@@ -913,7 +913,12 @@ class HostedControlPlane:
             return review_policy.public(record, self._credential_status(
                 connection, owner.workspace_id, record["settings"]["provider"]))
 
-    def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False):
+    def save_review_criteria(self, token, criteria, expected_version):
+        return self.save_review_policy(token, {"criteria": criteria}, expected_version,
+                                       criteria_only=True)
+
+    def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False,
+                           *, criteria_only=False):
         owner = self._admin(token)
         connection = self._connect()
         try:
@@ -928,6 +933,11 @@ class HostedControlPlane:
                 prior_saved = False
             if type(expected_version) is not int or expected_version != prior["version"]:
                 raise HostedAuthError("stale_policy", "Review policy changed. Reload before saving.")
+            if criteria_only:
+                if (not isinstance(settings, dict) or set(settings) != {"criteria"}
+                        or api_key or delete_key):
+                    raise ValueError("Provide only review criteria.")
+                settings = {**prior["settings"], "criteria": settings["criteria"]}
             policy = review_policy.validate(settings, prior["policy"])
             settings = review_policy.normalize(settings)
             changed_at = _now()
@@ -946,7 +956,7 @@ class HostedControlPlane:
                 review_policy.delete_credential(connection, owner.workspace_id)
             elif api_key:
                 review_policy.save_credential(connection, owner.workspace_id, api_key, changed_at)
-            if settings["mode"] != "off" and not self._provider_credential(
+            if not criteria_only and settings["mode"] != "off" and not self._provider_credential(
                     connection, owner.workspace_id, settings["provider"]):
                 if managed:
                     raise ValueError("Hosted verification is not configured yet. Ask your operator or choose your own provider key.")
@@ -960,7 +970,7 @@ class HostedControlPlane:
                                (owner.workspace_id, record["version"], json.dumps(settings),
                                 json.dumps(policy), owner.principal_id, record["updated_at"]))
             connection.commit()
-            if settings["mode"] == "automatic":
+            if not criteria_only and settings["mode"] == "automatic":
                 store = SQLiteEventStore(self.database, owner.workspace_id, owner.principal_id)
                 with using_event_store(store), kernel_ops.using_policy(policy):
                     projection = kernel_ops.v2_projection()
