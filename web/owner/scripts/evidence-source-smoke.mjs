@@ -47,7 +47,7 @@ try {
     assert.equal(await checksPanel.isVisible(), true);
     assert.equal(await page.getByRole("tabpanel", {name: "Evidence", exact: true}).count(), 0);
     assert.equal(await checksPanel.locator(".checkResults > li").count(), 4);
-    assert.equal(await checksPanel.locator(".checkTechnicalDetails [data-slot=collapsible-content]").isVisible(), false);
+    assert.equal(await checksPanel.locator(".checkTechnicalDetails > [data-slot=collapsible-content]").isVisible(), false);
     assert.equal((await checksPanel.innerText()).includes(evidence.id), false, "Technical IDs must not dominate the initial checks view");
     const typography = await checksPanel.locator(".checkResultLabel, .checkResultStatus").evaluateAll(elements => elements.map(element => {
       const style = getComputedStyle(element);
@@ -62,9 +62,18 @@ try {
     await checksPanel.scrollIntoViewIfNeeded();
     await page.screenshot({path: `${out}/checks-${name}.png`});
     await checksPanel.getByRole("button", {name: "View check details", exact: true}).click();
-    assert.equal(await checksPanel.locator(".checkTechnicalDetails [data-slot=collapsible-content]").isVisible(), true);
-    assert.match(await checksPanel.locator(".checkTechnicalDetails").innerText(), /Recorded rule:/);
-    assert.ok((await checksPanel.locator(".checkTechnicalDetails").innerText()).includes(evidence.id));
+    assert.equal(await checksPanel.locator(".checkTechnicalDetails > [data-slot=collapsible-content]").isVisible(), true);
+    const details = checksPanel.locator(".checkTechnicalDetails");
+    assert.ok((await details.innerText()).includes("daily-research-example.md"));
+    assert.ok((await details.innerText()).includes(fixture.claim.title));
+    assert.ok((await details.innerText()).includes("Checks the saved evidence for changes."));
+    assert.equal((await details.innerText()).includes(evidence.id), false, "Readable check details must show filenames, not evidence IDs");
+    assert.equal((await details.innerText()).includes(id), false, "Readable check details must show the finding title, not a claim ID");
+    await details.getByRole("button", {name: "Technical record", exact: true}).click();
+    assert.ok((await details.innerText()).includes(evidence.id));
+    assert.match(await details.locator("pre").innerText(), /Recorded rule:/);
+    await details.getByRole("button", {name: "Technical record", exact: true}).click();
+    assert.equal((await details.innerText()).includes(evidence.id), false);
     await checksPanel.getByRole("button", {name: "View check details", exact: true}).click();
     await tabs.getByRole("tab", {name: "Checks", exact: true}).click();
     await page.keyboard.press("ArrowRight");
