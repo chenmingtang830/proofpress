@@ -1603,11 +1603,11 @@ class HostedControlPlane:
                         advice.get("claim_digest") == claim["digest"] and
                         advice.get("policy_digest") == record["policy"]["digest"])
                     job_state = latest_jobs.get(node["id"])
-                    state = ("current" if current else
+                    state = ("off" if record["settings"]["mode"] == "off" else
+                             "current" if current else
                              job_state if job_state in {"queued", "running", "failed", "interrupted", "skipped", "blocked"} else
                              "stale" if verdict else
-                             "completed" if job_state == "completed" else
-                             "off" if record["settings"]["mode"] == "off" else "not_run")
+                             "completed" if job_state == "completed" else "not_run")
                     node["model_review"] = {"state": state, "recommendation": verdict,
                                             "model": advice.get("model") if verdict else None}
             if envelope.get("ok") and operation == "claim.propose":

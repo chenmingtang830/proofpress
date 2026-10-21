@@ -574,6 +574,8 @@ class ReviewPolicyTests(unittest.TestCase):
         self.assertEqual(next(row for row in graph["nodes"] if row["id"] == cid)["state"], "blocked")
 
     def test_graph_projects_current_model_advice_without_granting_admission(self):
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
+            self.control.save_review_policy(self.owner, self.settings, 0)
         store = SQLiteEventStore(self.control.database, "workspace:test", "judge:test")
         record = self.control._policy("workspace:test")
         ids = []
@@ -603,10 +605,16 @@ class ReviewPolicyTests(unittest.TestCase):
             connection.execute("INSERT INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'completed', ?, ?, '')",
                 ("job:completed", "workspace:test", ids[0], record["policy"]["digest"],
                  "agent:codex", "2026-01-01T00:00:00Z", "2026-01-01T00:00:00Z"))
-        self.control.save_review_criteria(self.owner, "Changed evidence requirements.", 0)
+        saved = self.control.save_review_criteria(self.owner, "Changed evidence requirements.", 1)
         graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
         self.assertTrue(all(node["model_review"]["state"] == "stale"
                             for node in graph["nodes"] if node["type"] == "claim"))
+        self.control.save_review_policy(self.owner, {
+            **saved["settings"], "mode": "off", "require_judge": False}, saved["version"])
+        graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
+        nodes = [node for node in graph["nodes"] if node["type"] == "claim"]
+        self.assertTrue(all(node["model_review"]["state"] == "off" for node in nodes))
+        self.assertTrue(all(node["model_review"]["recommendation"] for node in nodes))
 
     def test_graph_projects_job_states_and_isolates_instances(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}), \
