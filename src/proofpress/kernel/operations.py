@@ -2324,11 +2324,12 @@ def judge_v2(cid, actor=None):
     if revision_parent:
         # Resolve the immutable request referenced by this candidate, not the
         # parent's latest review (which may have changed while the job waited).
-        request = next((event for event in events
+        history = list(logical_events(events))
+        request = next((event for event in history
             if event.get("event_id") == row.get("qualifiers", {}).get("revision_request_ref")
             and event.get("subject_ref") == revision_parent["id"]
             and event.get("type") in {"claim_revision_requested", "conclusion_revision_requested"}), {})
-        requested_review = next((event for event in events
+        requested_review = next((event for event in history
             if event.get("event_id") == request.get("review_ref")), {})
         packet["revision_parent"] = {"statement": revision_parent["statement"],
             "requested_change": requested_review.get("note"),

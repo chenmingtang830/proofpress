@@ -200,6 +200,28 @@ class RevisionJourneyTests(unittest.TestCase):
         self.assertEqual(packet['revision_parent']['requested_change'], 'Narrow this to what the report actually says.')
         self.assertEqual(packet['revision_parent']['revision_request_ref'], job['request_ref'])
 
+    def test_judge_resolves_transaction_wrapped_request_and_review(self):
+        from types import SimpleNamespace
+        store = SQLiteEventStore(self.control.database, 'workspace:test', 'human:owner')
+        with using_event_store(store), ops.using_policy(self.record['policy']):
+            at = ops.now()
+            review = ops._transaction_child({'type':'human_reviewed', 'subject_ref':self.parent['id'],
+                'decision':'request_changes', 'reviewer':'human:owner', 'note':'Correct the reassessed dependency.'}, at)
+            request = ops._transaction_child({'type':'claim_revision_requested', 'subject_ref':self.parent['id'],
+                'review_ref':review['event_id'], 'reviewer':'human:owner', 'reassessment':True}, at)
+            ops.append_v2({'type':'governance_transaction', 'subject_ref':self.parent['id'],
+                'operation':'claim.reassess', 'events':[review, request]})
+        with patch.object(self.control, '_policy', return_value=self.record), patch('proofpress.hosted.revisions.threading.Thread'):
+            revisions.enqueue(self.control, self.context, self.parent['id'])
+        job, _ = self.run_job()
+        self.assertEqual(job['state'], 'completed', job)
+        self.record['policy']['judge']['command'] = ['synthetic-judge']
+        with using_event_store(store), ops.using_policy(self.record['policy']), patch('proofpress.kernel.operations.subprocess.run', return_value=SimpleNamespace(returncode=0, stdout=json.dumps({'recommendation':'accept', 'rationale':'Bounded test.'}))) as run:
+            ops.judge_v2(job['successor_id'])
+        packet = json.loads(run.call_args.kwargs['input'])
+        self.assertEqual(packet['revision_parent']['requested_change'], 'Correct the reassessed dependency.')
+        self.assertEqual(packet['revision_parent']['revision_request_ref'], request['event_id'])
+
 
 if __name__ == '__main__':
     unittest.main()

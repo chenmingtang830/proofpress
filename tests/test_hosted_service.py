@@ -405,6 +405,36 @@ class HostedServiceTests(unittest.TestCase):
         # This fixture has no hosted GMI consent. Request survives without a provider call.
         self.assertEqual(receipt["result"]["revision_job"]["state"], "blocked")
 
+    def test_request_changes_enqueue_race_returns_current_receipt(self):
+        from unittest.mock import patch
+        self.service.enable_local_owner_preview(self.server, self.owner["token"])
+        with urlopen(self.base_url + "/review") as response:
+            cookie = response.headers["Set-Cookie"].split(";", 1)[0]
+        _, session = self.owner_json("/owner/api/session", cookie)
+        agent = self.sdk.ProofpressClient.localhost(self.base_url, self.agent["token"])
+        evidence = agent.submit_evidence(evidence_payload())
+        for concurrent_reject in (False, True):
+            with self.subTest(concurrent_reject=concurrent_reject):
+                claim = agent.propose_claim(f"Reported cap; race {concurrent_reject}.", evidence["evidence"], "test", "agent:codex", title="Cap correction")["claim"]
+                def enqueue(*args):
+                    if concurrent_reject:
+                        self.server.proofpress_control.execute(self.owner["token"], {
+                            "schema_version":"proofpress/local-operation/v1alpha1", "operation":"claim.review",
+                            "parameters":{"claim_id":claim["id"], "decision":"reject", "reviewer":"server-derived", "note":"Later decision."}})
+                    raise ValueError("request no longer current")
+                with patch("proofpress.hosted.revisions.enqueue", side_effect=enqueue):
+                    status, receipt = self.owner_json("/owner/api/reviews", cookie, {
+                        "csrf":session["result"]["csrf"], "claim_id":claim["id"],
+                        "decision":"request_changes", "note":"Narrow attribution.", "automatic_revision":True})
+                self.assertEqual(status, 200, receipt)
+                self.assertIsNotNone(receipt["result"]["revision_request"])
+                if concurrent_reject:
+                    self.assertEqual(receipt["result"]["state"], "rejected")
+                else:
+                    self.assertEqual(receipt["result"]["state"], "needs_revision")
+                    self.assertEqual(receipt["result"]["revision_job"]["state"], "failed")
+                    self.assertIn("Changes saved", receipt["result"]["revision_job"]["detail"])
+
     def test_local_owner_preview_skips_login_only_for_loopback_ui(self):
         self.service.enable_local_owner_preview(self.server, self.owner["token"])
         request = Request(self.base_url + "/home")
