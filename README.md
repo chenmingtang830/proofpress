@@ -24,7 +24,132 @@ evaluation, scope, Human Approval, declared use, and outcomes.
 **Own your intelligence. Verified. Governed. Cumulative.**
 
 [Website](https://proofpress.dev) · [Quick start](#quick-start) ·
+[Localhost guide](docs/LOCALHOST_QUICKSTART.md) ·
 [Product thesis](docs/THESIS.md) · [Remote MCP](docs/REMOTE_MCP.md)
+
+[//]: # (ob:8db33fda)
+[//]: # (ob:quickstart)
+
+[//]: # (ob:4ccd51b9)
+## Quick start
+
+**New here? Choose a path, then complete one finding → human review → reuse loop.**
+
+| What you want | Start here |
+|---|---|
+| Try the product with synthetic data | [Local demo](#try-the-local-demo) — no account or credential. |
+| Use your own files with Claude Code on localhost | [Your own local workspace](#use-your-own-files-on-localhost) — an empty database, full review UI, file-to-finding instructions and agent setup. |
+| Join an existing team workspace | [Connect to Hosted](#connect-an-agent-to-a-hosted-workspace) — use your team's assigned URL and Agent credential. |
+| Deploy on your own server | [Self-hosting](docs/SELF_HOSTING.md) — persistent storage, credentials and backups. |
+| Develop Proofpress | [Contributing](CONTRIBUTING.md). |
+
+### Try the local demo
+
+You need [Python 3.11+](https://www.python.org/downloads/),
+[Git](https://git-scm.com/downloads), and
+[uv](https://docs.astral.sh/uv/getting-started/installation/).
+Use a macOS/Linux terminal, or Windows WSL2:
+
+```sh
+uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
+uv tool update-shell
+```
+
+Open a new terminal if `proofpress` is not found, then run:
+
+```sh
+proofpress quickstart --ui
+```
+
+This creates `./proofpress-demo` with **synthetic** evidence and candidates,
+starts the local review UI and opens your browser. Inspect a candidate and make
+a human review decision. Stop with `Ctrl-C`; the workspace remains on disk.
+Choose another empty destination with `--workspace PATH`; use `--no-browser`
+for a headless demo. The generated `proofpress-mcp.json` targets this demo's
+Git-backed ledger, not the SQLite workspace below.
+
+<p align="center">
+  <img src="assets/quickstart/local-ui-review-queue.png" alt="Synthetic local demo review queue; separate from a real research workspace" width="100%">
+</p>
+
+### Use your own files on localhost
+
+For real work, start an **empty** workspace. After installing above, run the
+bootstrap command yourself in a private terminal:
+
+```sh
+umask 077
+mkdir -p "$HOME/.local/share/proofpress"
+proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
+  bootstrap --workspace-id workspace:research --owner-principal human:owner
+```
+
+Save the returned Owner `token` and `recovery_secret` in your password manager;
+keep them out of agents, chat and Git. Bootstrap runs once. Then start the server:
+
+```sh
+proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
+  serve --host 127.0.0.1 --port 7334
+```
+
+Open **[http://127.0.0.1:7334](http://127.0.0.1:7334)** and sign in with the
+Owner token. Despite the command name `hosted`, this server stays on your
+machine. Keep the terminal running; restart with the same database to keep your
+history. You do not need Docker or a frontend build.
+
+Continue in **[Localhost: files → Claude Code → review → reuse](docs/LOCALHOST_QUICKSTART.md)**:
+
+1. Save review criteria in **Admin → Verification settings**. Human review
+   works without a model key.
+2. Issue a separate Agent key and connect Claude Code to this workspace's
+   `http://127.0.0.1:7334/mcp` endpoint with the maintained plugin/skill.
+3. Let Claude read selected local files and submit bounded evidence plus
+   candidate findings. There is no generic bulk-upload or folder-crawling UI.
+4. Review a finding yourself, then retrieve it in a fresh Claude conversation.
+
+Proofpress stores submitted excerpts and governance records locally. Claude
+Code still processes the material it reads under your Claude configuration;
+localhost does not make the model offline. Optional Proofpress AI checks have
+a separate provider/processing opt-in.
+
+### Connect an agent to a Hosted workspace
+
+From the repository whose agent work you want Proofpress to govern:
+
+1. Install the [`proofpress` Agent Plugin](plugins/proofpress/README.md) for
+   Codex, Claude Code, or Cursor. It bundles the governed-context skill and
+   policy assets; a separate skill download is unnecessary on the normal path.
+2. Add the `/mcp` URL assigned to your team. The generic plugin intentionally
+   contains no customer endpoint, so it cannot silently connect to another
+   workspace.
+3. Complete OAuth with the separate agent credential issued for that client.
+   Never use an owner or recovery credential in an agent client.
+4. Start a fresh agent session. If you want repository-specific proposal
+   selection, ask: **“Initialize a Proofpress policy for this repository.”**
+   Review and commit the generated `.proofpress/context-policy.yaml`.
+5. Give the agent a real task. It will retrieve eligible context when available,
+   submit bounded proposals when warranted, and stop for Human Approval.
+
+For example, Codex users can install from this repository and connect an
+assigned Hosted workspace as follows:
+
+```sh
+codex plugin marketplace add chenmingtang830/proofpress --ref main
+codex plugin add proofpress@proofpress-plugins
+codex mcp add proofpress --url https://YOUR-PROOFPRESS-HOST/mcp
+codex mcp login proofpress
+```
+
+Installing the plugin does not create a Hosted workspace, MCP connection, or
+ledger. Each team needs a separately provisioned Hosted workspace or a
+self-hosted deployment. See [Remote MCP](docs/REMOTE_MCP.md) for Claude Code,
+Cursor, manual fallback, and the full authorization boundary.
+
+Want a managed Hosted Proofpress session and to work with us as a design
+partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).
+
+Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
+
 
 [//]: # (ob:62009490)
 [//]: # (ob:thesis-summary)
@@ -119,88 +244,6 @@ support, inspect lineage, then admit, reject, or request revision.
 [Task run tracking](docs/TASK_RUNS.md) documents the append-only Run,
 ContextReceipt, Reliance, Output, and Observation contracts.
 
-[//]: # (ob:8db33fda)
-[//]: # (ob:quickstart)
-
-[//]: # (ob:4ccd51b9)
-## Quick start
-
-Choose the path that matches what you want to do:
-
-| Goal | Start here |
-|---|---|
-| See Proofpress work on your machine | Run the two-minute local demo below. No account or token is required. |
-| Connect an agent to an existing Hosted workspace | [Install the agent plugin](plugins/proofpress/README.md), then use the workspace's assigned MCP URL. |
-| Run your own server | Follow the [self-hosting guide](docs/SELF_HOSTING.md). |
-
-### Try the local demo in two minutes
-
-[//]: # (ob:70af4929)
-You need [Python 3.11+](https://www.python.org/downloads/),
-[Git](https://git-scm.com/downloads), and
-[`uv`](https://docs.astral.sh/uv/getting-started/installation/). Run these
-commands from any directory where you want the demo folder to be created:
-
-[//]: # (ob:1522656b)
-
-```sh
-uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
-proofpress quickstart --ui
-```
-
-The second command creates a new `./proofpress-demo` Git repository, loads
-synthetic evidence and claims, and opens the local review UI. You can inspect a
-candidate, make the Human Approval decision, and see which admitted claims are
-available as governed context. Stop the UI with `Ctrl-C`; the demo stays in
-`./proofpress-demo`.
-
-<p align="center">
-  <img src="assets/quickstart/local-ui-review-queue.png" alt="Proofpress local demo review queue with synthetic claims ready for human review" width="100%">
-</p>
-
-The command also writes `proofpress-demo/proofpress-mcp.json`, a ready-to-copy
-local MCP configuration with absolute paths filled in. To create the demo
-without opening a browser, run `proofpress quickstart --no-browser` instead.
-Choose another empty destination with `--workspace PATH`.
-
-### Connect an agent to a Hosted workspace
-
-From the repository whose agent work you want Proofpress to govern:
-
-1. Install the [`proofpress` Agent Plugin](plugins/proofpress/README.md) for
-   Codex, Claude Code, or Cursor. It bundles the governed-context skill and
-   policy assets; a separate skill download is unnecessary on the normal path.
-2. Add the `/mcp` URL assigned to your team. The generic plugin intentionally
-   contains no customer endpoint, so it cannot silently connect to another
-   workspace.
-3. Complete OAuth with the separate agent credential issued for that client.
-   Never use an owner or recovery credential in an agent client.
-4. Start a fresh agent session. If you want repository-specific proposal
-   selection, ask: **“Initialize a Proofpress policy for this repository.”**
-   Review and commit the generated `.proofpress/context-policy.yaml`.
-5. Give the agent a real task. It will retrieve eligible context when available,
-   submit bounded proposals when warranted, and stop for Human Approval.
-
-For example, Codex users can install from this repository and connect an
-assigned Hosted workspace as follows:
-
-```sh
-codex plugin marketplace add chenmingtang830/proofpress --ref main
-codex plugin add proofpress@proofpress-plugins
-codex mcp add proofpress --url https://YOUR-PROOFPRESS-HOST/mcp
-codex mcp login proofpress
-```
-
-Installing the plugin does not create a Hosted workspace, MCP connection, or
-ledger. Each team needs a separately provisioned Hosted workspace or a
-self-hosted deployment. See [Remote MCP](docs/REMOTE_MCP.md) for Claude Code,
-Cursor, manual fallback, and the full authorization boundary.
-
-Want a managed Hosted Proofpress session and to work with us as a design
-partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).
-
-Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
-
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)
 ### Use the Python client
@@ -225,26 +268,12 @@ candidate = client.propose_claim(
 context = client.context(scope="experiment:demo", actor="agent:successor")
 ```
 
-### Connect an MCP client
+### Other MCP clients and advanced local use
 
-- The quickstart prints this local stdio configuration with absolute paths filled in.
-- For another workspace, point `--workspace` at the Git repository Proofpress should govern.
-
-```json
-{
-  "mcpServers": {
-    "proofpress": {
-      "command": "/absolute/path/to/proofpress/.venv/bin/proofpress",
-      "args": ["mcp", "--transport", "stdio", "--workspace", "/absolute/path/to/workspace"],
-      "env": {"PROOFPRESS_MCP_PRINCIPAL": "agent:your-client"}
-    }
-  }
-}
-```
-
-- **Hosted:** open `/connect` and use its secret-free remote MCP URL.
-- **Authentication:** OAuth with PKCE binds each client to a separate agent credential.
-- **Details:** [Remote MCP](docs/REMOTE_MCP.md).
+Use [Remote MCP](docs/REMOTE_MCP.md) for client-specific plugin/skill installation
+and OAuth. For a real localhost workspace, follow the
+[local guide](docs/LOCALHOST_QUICKSTART.md); for the synthetic Git-backed demo,
+use its generated `proofpress-mcp.json`. These are separate storage backends.
 
 [//]: # (ob:ea362434)
 [//]: # (ob:choose-deployment)

@@ -21,6 +21,8 @@ matches what you need to do:
   and governed context](VERIFIED_KNOWLEDGE_LEDGER.md).
 - **Connect an agent or workflow:** [trace integration](TRACE_ADAPTER.md),
   [MCP and WebMCP](WEBMCP.md), or [repository dogfood](REPOSITORY_DOGFOOD.md).
+- **Start on your laptop with your own files and Claude Code:**
+  [localhost quick start](LOCALHOST_QUICKSTART.md).
 - **Run a private hosted workspace:** [single-owner self-hosting](SELF_HOSTING.md).
 - **Understand prior experiments:** [study catalog](../studies/README.md).
 

@@ -1,6 +1,10 @@
 [//]: # (ob:26309ab6)
 # Self-hosting Proofpress
 
+**Running on your laptop?** Start with [Localhost: files → Claude Code → review → reuse](LOCALHOST_QUICKSTART.md).
+It covers installation, an empty SQLite workspace, Owner sign-in, file ingestion,
+MCP authorization and the first human-review loop without a cloud deployment.
+
 The hosted ownership contract and legacy default binding are described in
 `docs/WORKSPACE_OWNERSHIP.md`. This reference deployment still bootstraps one
 workspace; shared hosting and customer provisioning are not enabled.
