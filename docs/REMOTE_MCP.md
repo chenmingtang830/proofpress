@@ -5,6 +5,15 @@ endpoint at `/mcp`. The endpoint uses OAuth 2.1 authorization-code flow with
 PKCE and is backed by the same hosted operation contract as the Python SDK,
 CLI, and local stdio bridge.
 
+## Localhost first use
+
+For an empty workspace on your own machine, follow the
+[localhost quick start](LOCALHOST_QUICKSTART.md). It uses the full Owner UI and
+SQLite server on `127.0.0.1:7334`, with the same OAuth agent boundary at `/mcp`.
+Install the skill/plugin in your research project and connect to that server;
+the synthetic quickstart's generated stdio configuration targets a separate
+Git-backed demo ledger.
+
 ## Recommended plugin installation
 
 The public [`proofpress` Agent Plugin](../plugins/proofpress/README.md) bundles
