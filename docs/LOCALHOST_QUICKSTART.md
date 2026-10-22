@@ -222,10 +222,71 @@ say so; do not reconstruct approval from the previous conversation.
 review decision → retrieval and appropriate use in a fresh conversation. A
 successful connection or a synthetic demo alone does not establish this loop.
 
+## Optional: use your own AI review provider
+
+If the API key field is disabled or says **Key storage is not configured**, the
+server was started without `PROOFPRESS_SECRET_ENCRYPTION_KEY`. This is the
+server's encryption key for stored provider credentials, **not** your model
+provider API key or your Owner/Agent credential. The server refuses to save
+provider keys without it.
+
+For a local instance that has **never saved a provider key**, stop its server
+with `Ctrl-C`, then run this in your private Terminal. It creates a persistent
+Fernet key only if the file does not already exist; it prints no secret:
+
+```sh
+umask 077
+mkdir -p "$HOME/.local/share/proofpress"
+python3 - <<'PY'
+import base64
+import os
+from pathlib import Path
+
+key_file = Path.home() / ".local/share/proofpress/provider-key-encryption.key"
+try:
+    with key_file.open("x", encoding="ascii") as output:
+        output.write(base64.urlsafe_b64encode(os.urandom(32)).decode("ascii") + "\n")
+except FileExistsError:
+    pass
+PY
+```
+
+If this instance has saved a provider key before, reuse its **original**
+encryption key instead of generating a different one. If the original key is
+missing, restore its backup before proceeding. Never replace an existing
+working key as a troubleshooting step.
+
+Load the persistent key and restart the **same** database. Run this entire block
+in one Terminal tab; use it for subsequent starts as well:
+
+```sh
+export PROOFPRESS_SECRET_ENCRYPTION_KEY="$(cat "$HOME/.local/share/proofpress/provider-key-encryption.key")"
+proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
+  serve --host 127.0.0.1 --port 7334
+```
+
+The export takes effect in the server process started from this tab. Exporting
+in another tab does not update an already-running server. Do not print the
+variable or paste its value into chat. Keep this key outside Git and retain a
+protected backup separately from the database.
+
+Reload **Admin → Verification settings**. Select your intended provider and
+model, enter that provider's API key privately, and review the processing notice
+before enabling AI-assisted checks. Keep automatic approval off unless you
+separately choose it. Saving AI settings may process pending findings and incur
+provider charges.
+
+**Checkpoint:** the key input is enabled and, after saving, the UI reports a
+stored credential with only its last four characters. Restart using the same
+key and confirm it remains configured. A saved credential does not prove a
+successful provider call; check a real review receipt separately. Never share
+an API key to diagnose a failure.
+
 ## Keep using it
 
 Stop the server with `Ctrl-C`. Restart with the step 2 command and **the same
-database path**. Files and approved findings survive the server restart.
+database path**. Files and approved findings survive the server restart. If you
+enabled provider-key storage, use the key-loading restart block above.
 
 | Setting | Where to change it |
 |---|---|
@@ -268,6 +329,8 @@ relying on recovery.
 | Policy not configured / submissions blocked | Have the Owner save review criteria in Verification settings, then retry. |
 | No relevant tools in a conversation | Check `/mcp`, plugin installation and project folder; start a fresh conversation and explicitly invoke the skill. |
 | No governed context | Normal before an eligible finding has been approved; inspect the candidate receipt and review decision. |
+| Provider API key field disabled / key storage not configured | Follow the optional AI review section: initialize persistent encryption storage once, load the key in the server process and restart. |
+| Saved key cannot be decrypted | Restore the original server encryption key; do not generate a replacement or overwrite the database. |
 | PDF/Excel cannot be read | Use an approved local extraction tool or an inspected text/CSV projection; preserve original provenance and disclose the gap. |
 
 For support, share the command, sanitized error, OS, package revision and claim

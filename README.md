@@ -110,7 +110,8 @@ Continue in **[Localhost: files → Claude Code → review → reuse](docs/LOCAL
 Proofpress stores submitted excerpts and governance records locally. Claude
 Code still processes the material it reads under your Claude configuration;
 localhost does not make the model offline. Optional Proofpress AI checks have
-a separate provider/processing opt-in.
+a separate provider/processing opt-in. To save your own provider API key, first
+configure [persistent local encryption storage](docs/LOCALHOST_QUICKSTART.md#optional-use-your-own-ai-review-provider).
 
 ### Connect an agent to a Hosted workspace
 
