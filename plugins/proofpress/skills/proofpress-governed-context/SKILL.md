@@ -132,6 +132,14 @@ metadata, summaries, output records, or observations.
 
 ## Submit a bounded proposal
 
+Before the first evidence write, read `proofpress_get_capture_schema` and
+follow [capture input preparation](references/capture-input.md). Use the bundled
+`scripts/prepare_evidence.py` for selected text, PDF pages or slides so source,
+projection and extraction-config digests come from real inputs. Do not learn
+fields by repeated writes. Ordinary source-backed findings omit `profile`;
+experiment claims require recorded run identity and `qualifiers.experiment`.
+Never remove a required profile just to bypass validation.
+
 1. State one precise candidate conclusion or relation. Include its intended
    reuse scope, not an open-ended generalization.
 2. Submit only the minimum evidence projection needed to support it: stable

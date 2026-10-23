@@ -107,6 +107,11 @@ Continue in **[Localhost: files → Claude Code → review → reuse](docs/LOCAL
    candidate findings. There is no generic bulk-upload or folder-crawling UI.
 4. Review a finding yourself, then retrieve it in a fresh Claude conversation.
 
+For capture format errors, update the plugin/skill and follow the
+[capture input guide](.agents/skills/proofpress-governed-context/references/capture-input.md):
+read `proofpress_get_capture_schema` before writing and use the bundled helper
+to prepare exact excerpts and real hashes for selected files or slides.
+
 Proofpress stores submitted excerpts and governance records locally. Claude
 Code still processes the material it reads under your Claude configuration;
 localhost does not make the model offline. Optional Proofpress AI checks have

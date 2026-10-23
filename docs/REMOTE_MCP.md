@@ -66,33 +66,39 @@ adding the MCP server. Run the matching setup from the root of that project.
 
 ```sh
 skill_root=.agents/skills/proofpress-governed-context
-mkdir -p "$skill_root/assets" "$skill_root/scripts"
+mkdir -p "$skill_root/assets" "$skill_root/scripts" "$skill_root/references"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/prepare_evidence.py -o "$skill_root/scripts/prepare_evidence.py"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/references/capture-input.md -o "$skill_root/references/capture-input.md"
 ```
 
 ### Claude Code
 
 ```sh
 skill_root=.claude/skills/proofpress-governed-context
-mkdir -p "$skill_root/assets" "$skill_root/scripts"
+mkdir -p "$skill_root/assets" "$skill_root/scripts" "$skill_root/references"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/prepare_evidence.py -o "$skill_root/scripts/prepare_evidence.py"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/references/capture-input.md -o "$skill_root/references/capture-input.md"
 ```
 
 ### Cursor
 
 ```sh
 skill_root=.cursor/skills/proofpress-governed-context
-mkdir -p "$skill_root/assets" "$skill_root/scripts"
+mkdir -p "$skill_root/assets" "$skill_root/scripts" "$skill_root/references"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/SKILL.md -o "$skill_root/SKILL.md"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/context-policy.yaml -o "$skill_root/assets/context-policy.yaml"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/assets/judge-criteria.md -o "$skill_root/assets/judge-criteria.md"
 curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/initialize_policy.py -o "$skill_root/scripts/initialize_policy.py"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/scripts/prepare_evidence.py -o "$skill_root/scripts/prepare_evidence.py"
+curl -fsSL https://raw.githubusercontent.com/chenmingtang830/proofpress/main/.agents/skills/proofpress-governed-context/references/capture-input.md -o "$skill_root/references/capture-input.md"
 ```
 
 These are project-level installations, so the skill travels with the

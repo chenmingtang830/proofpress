@@ -273,3 +273,22 @@ relying on recovery.
 For support, share the command, sanitized error, OS, package revision and claim
 ID if relevant. Keep credentials and private research material out of screenshots
 and logs.
+
+### Capture format troubleshooting
+
+Before submitting a selected file excerpt, ask the connected agent to read
+`proofpress_get_capture_schema` and follow the installed governed-context skill's
+[capture input guide](../.agents/skills/proofpress-governed-context/references/capture-input.md).
+The bundled `prepare_evidence.py` builds the envelope and real hashes locally
+from selected source, extracted text, quote and extraction configuration files.
+For a slide, use `page_span` with 1-based slide bounds and that slide's text
+hash. Input `quote` and `locator` both go inside `payload.evidence`.
+
+Ordinary paper/slide findings omit `profile`. `profile=experiment` is for
+recorded reproducible runs and requires `qualifiers.experiment`, including run
+identity. Missing run metadata means draft work, not an excuse to fabricate
+fields or bypass a required profile. MCP rejects retrieval format and experiment
+claim qualifier errors before submission, without consuming a key. Read back
+uncertain or executed attempts before retrying; do not keep changing keys to
+learn the format. Reconnect MCP after upgrading the server and update the
+installed plugin/skill so both sides expose the current contract.
