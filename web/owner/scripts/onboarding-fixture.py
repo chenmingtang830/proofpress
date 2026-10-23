@@ -24,7 +24,14 @@ with tempfile.TemporaryDirectory(prefix="proofpress-onboarding-") as directory:
     print(json.dumps({"base": base}), flush=True)
     try:
         for command in sys.stdin:
-            if command.strip() == "history":
+            if command.strip() == "storage-ready":
+                from cryptography.fernet import Fernet
+                os.environ["PROOFPRESS_SECRET_ENCRYPTION_KEY"] = Fernet.generate_key().decode()
+                print(json.dumps({"storage_ready": True}), flush=True)
+            elif command.strip() == "storage-missing":
+                os.environ.pop("PROOFPRESS_SECRET_ENCRYPTION_KEY", None)
+                print(json.dumps({"storage_ready": False}), flush=True)
+            elif command.strip() == "history":
                 for version in range(1, 13):
                     control.save_capture_policy(owner["token"], {
                         **capture_policy.DEFAULT_SETTINGS, "purpose": f"Capture purpose version {version}"}, version - 1)

@@ -138,6 +138,23 @@ class HostedServiceTests(unittest.TestCase):
             finally:
                 exc.close()
 
+    def test_local_storage_setup_reports_instance_paths_only_to_signed_in_local_browser(self):
+        status, _ = self.get("/owner/api/review-policy")
+        self.assertEqual(status, 401)
+        self.service.enable_local_owner_preview(self.server, self.owner["token"])
+        with urlopen(self.base_url + "/admin") as response:
+            cookie = response.headers["Set-Cookie"].split(";", 1)[0]
+        status, result = self.owner_json("/owner/api/review-policy", cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(result["result"]["local_setup"], {
+            "database": str(Path(self.tmp.name, "hosted.db").resolve()),
+            "port": self.server.server_port,
+        })
+        self.assertNotIn(self.owner["token"], json.dumps(result))
+        self.server.proofpress_public_base_url = "https://proofpress.example.com"
+        _, remote = self.owner_json("/owner/api/review-policy", cookie)
+        self.assertNotIn("local_setup", remote["result"])
+
     def test_health_readiness_auth_and_capability_boundary(self):
         self.assertEqual(self.get("/healthz")[0], 200)
         status, ready = self.get("/readyz")
