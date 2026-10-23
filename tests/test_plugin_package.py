@@ -24,7 +24,7 @@ class ProofpressPluginPackageTests(unittest.TestCase):
         claude = load_json(PLUGIN / ".claude-plugin" / "plugin.json")
 
         self.assertEqual(portable["name"], "proofpress")
-        self.assertEqual(portable["version"], "0.2.0")
+        self.assertEqual(portable["version"], "0.2.1")
         self.assertEqual(codex["name"], portable["name"])
         self.assertEqual(codex["version"], portable["version"])
         self.assertEqual(claude["name"], portable["name"])
@@ -74,6 +74,8 @@ class ProofpressPluginPackageTests(unittest.TestCase):
             Path("assets/context-policy.yaml"),
             Path("assets/judge-criteria.md"),
             Path("scripts/initialize_policy.py"),
+            Path("scripts/prepare_evidence.py"),
+            Path("references/capture-input.md"),
         ):
             self.assertEqual(
                 (PACKAGED_SKILL / relative).read_bytes(),

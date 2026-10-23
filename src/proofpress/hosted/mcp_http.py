@@ -5,8 +5,13 @@ import json
 import re
 from typing import Any
 
+from proofpress.capture_input import validate_evidence_input, validate_claim_input, format_error
 from proofpress.kernel import operations as kernel_ops
-from proofpress.mcp_schemas import SHA256_PATTERN as SHA256_PATTERN, retrieval_evidence_schema  # SHA256_PATTERN: re-exported for importers
+from proofpress.mcp_schemas import (
+    SHA256_PATTERN as SHA256_PATTERN,  # re-exported for importers
+    retrieval_evidence_schema, stdio_evidence_payload_schema,
+    claim_qualifiers_schema, capture_schema,
+)
 
 
 TEMPORAL_WINDOW_SCHEMA = {
@@ -59,10 +64,11 @@ TOOLS = [
          "idempotency_key": {"type": "string"}},
          "required": ["claim_id", "evidence_id", "evidence_digest", "details"],
          "additionalProperties": False}},
+    {"name": "proofpress_get_capture_schema", "description": "Read the complete capture input schemas and format guidance before submitting evidence or experiment claims. Read-only; consumes no idempotency key.", "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False}},
     {"name": "proofpress_get_capture_policy", "description": "Read this workspace's versioned capture guidance before selecting findings to propose. Available before review-policy activation. This is guidance, not admission authority; local restrictions may only narrow it.", "inputSchema": {"type": "object", "properties": {}, "additionalProperties": False}},
     {"name": "proofpress_capabilities", "description": "Describe the safe agent surface and authenticated principal.", "inputSchema": {"type": "object", "properties": {}}},
-    {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. With no profile, payload must use proofpress/retrieval-evidence/v1. The only supported evidence profile is experiment.", "inputSchema": {"type": "object", "properties": {"payload": {"type": "object"}, "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
-    {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"title": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Short claim heading. Statement remains the complete claim reviewed for admission."}, "statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": APPLICABILITY_SCHEMA, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": {"type": "object"}, "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["title", "statement", "evidence_refs"]}},
+    {"name": "proofpress_submit_evidence", "description": "Submit one bounded retrieval or experiment evidence envelope. Read proofpress_get_capture_schema first. quote and locator belong inside payload.evidence. With no profile, use proofpress/retrieval-evidence/v1; experiment requires its own payload.", "inputSchema": {"type": "object", "properties": {"payload": stdio_evidence_payload_schema(), "profile": {"type": "string", "enum": ["experiment"], "description": "Omit for retrieval evidence; use experiment only for a valid experiment-profile payload."}, "idempotency_key": {"type": "string"}}, "required": ["payload"], "allOf": [{"if": {"not": {"required": ["profile"]}}, "then": {"properties": {"payload": RETRIEVAL_EVIDENCE_SCHEMA}}}]}},
+    {"name": "proofpress_propose_claim", "description": "Propose an evidence-bound claim; this never approves it. evidence_refs must be evd_ IDs returned by proofpress_submit_evidence. Scope is an optional legacy exact filter; use applicability for a discoverable reuse card. Set reproposal_of only when correcting a rejected claim; the rejection remains immutable and the new candidate needs review.", "inputSchema": {"type": "object", "properties": {"title": {"type": "string", "minLength": 1, "maxLength": 120, "description": "Short claim heading. Statement remains the complete claim reviewed for admission."}, "statement": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": EVIDENCE_ID_PATTERN, "description": "An evd_ ID returned by proofpress_submit_evidence."}}, "scope": {"type": "string", "minLength": 1}, "applicability": APPLICABILITY_SCHEMA, "reproposal_of": {"type": "string", "pattern": "^knw_[A-Za-z0-9]+$", "description": "Rejected claim this new candidate corrects."}, "expires_at": {"type": "string"}, "artifact_refs": {"type": "array", "items": {"type": "string"}}, "qualifiers": claim_qualifiers_schema(), "profile": {"type": "string", "enum": ["legal", "repo", "experiment"]}, "idempotency_key": {"type": "string"}}, "required": ["title", "statement", "evidence_refs"]}},
     {"name": "proofpress_discover_context", "description": "Return separate lists of approved context cards and reviewed candidate claims. Use approved cards as governed knowledge; staged_context is only for clearly labeled drafts and verification.", "inputSchema": {"type": "object", "properties": {"temporal_window": TEMPORAL_WINDOW_SCHEMA, "task": {"type": "string"}, "limit": {"type": "integer", "minimum": 1, "maximum": 100}}}},
     {"name": "proofpress_get_context", "description": "Return approved context and a separate staged_context list for eligible candidates. Candidates may inform drafts only and must not be represented as approved facts or recorded as governed reliance.", "inputSchema": {"type": "object", "properties": {"temporal_window": TEMPORAL_WINDOW_SCHEMA, "scope": {"type": "string"}, "task": {"type": "string"}}}},
     {"name": "proofpress_get_graph", "description": "Return the bounded evidence, claim, review, and governance graph for a scope.", "inputSchema": {"type": "object", "properties": {"scope": {"type": "string"}}}},
@@ -124,16 +130,18 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
         return _execute(control, context, "evidence.describe", {
             **{key: args[key] for key in ("claim_id", "evidence_id", "evidence_digest", "details")},
             "actor": "server-derived"}, args)
+    if name == "proofpress_get_capture_schema":
+        return capture_schema()
     if name == "proofpress_get_capture_policy":
         return control.get_capture_policy(context)
     if name == "proofpress_capabilities":
         return _execute(control, context, "capabilities.get", {})
     if name == "proofpress_submit_evidence":
         profile = args.get("profile")
-        if profile not in {None, "experiment"}:
-            raise ValueError(
-                "unsupported evidence profile: " + str(profile) +
-                "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
+        try:
+            validate_evidence_input(args["payload"], profile)
+        except ValueError as exc:
+            raise ValueError(format_error(exc)) from exc
         return _execute(control, context, "evidence.submit", {
             "payload": args["payload"], "profile": profile}, args)
     if name == "proofpress_propose_claim":
@@ -148,6 +156,10 @@ def call_tool(control, context, name: str, args: dict[str, Any], base_url: str):
         parameters = {key: args.get(key) for key in (
             "statement", "title", "evidence_refs", "scope", "expires_at",
             "artifact_refs", "applicability", "reproposal_of", "qualifiers", "profile")}
+        try:
+            validate_claim_input(args.get("qualifiers"), args.get("profile"))
+        except ValueError as exc:
+            raise ValueError(format_error(exc)) from exc
         parameters["proposer"] = "server-derived"
         return _execute(control, context, "claim.propose", parameters, args)
     if name == "proofpress_discover_context":

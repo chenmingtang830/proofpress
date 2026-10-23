@@ -128,7 +128,7 @@ class EvidenceSchemaAgainstKernel(unittest.TestCase):
         self.assertEqual(EXPERIMENT_PROFILE, PROFILE)
         self.assertTrue(self.stdio.is_valid(envelope(LOCATORS["page_span"])))
         self.assertFalse(self.stdio.is_valid(envelope({"kind": "line_span"})))  # a retrieval envelope must be one
-        self.assertTrue(self.stdio.is_valid({"schema_version": PROFILE, "kind": "observation"}))
+        self.assertFalse(self.stdio.is_valid({"schema_version": PROFILE, "kind": "observation"}))
         self.assertFalse(self.stdio.is_valid({}))
         self.assertFalse(self.stdio.is_valid({"schema_version": "something/else"}))
 

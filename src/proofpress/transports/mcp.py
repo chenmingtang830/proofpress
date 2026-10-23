@@ -21,7 +21,8 @@ except ImportError:  # pragma: no cover - only without the mcp extra
     from typing import TypedDict
 
 from proofpress.client import ProofpressClient, ProofpressError, ProofpressTransportError
-from proofpress.mcp_schemas import stdio_evidence_payload_schema
+from proofpress.mcp_schemas import stdio_evidence_payload_schema, claim_qualifiers_schema, capture_schema
+from proofpress.capture_input import validate_evidence_input, validate_claim_input, format_error
 
 # The kernel's non-empty rule, published and enforced at argument validation.
 if TYPE_CHECKING:
@@ -47,6 +48,7 @@ MCP_INSTRUCTIONS = (
 )
 MCP_SAFE_TOOLS = (
     "proofpress_capabilities",
+    "proofpress_get_capture_schema",
     "proofpress_submit_evidence",
     "proofpress_propose_claim",
     "proofpress_discover_context",
@@ -103,13 +105,16 @@ class ProofpressMcpGateway:
         }
         return result
 
+    def get_capture_schema(self) -> dict[str, Any]:
+        return capture_schema()
+
     def submit_evidence(self, payload: dict[str, Any],
                         idempotency_key: str | None = None, *,
                         profile: str | None = None) -> dict[str, Any]:
-        if profile not in {None, "experiment"}:
-            raise McpRequestError(
-                "unsupported evidence profile: " + str(profile) +
-                "; omit profile for proofpress/retrieval-evidence/v1 or use experiment")
+        try:
+            validate_evidence_input(payload, profile)
+        except ValueError as exc:
+            raise McpRequestError(format_error(exc)) from exc
         return self.client.submit_evidence(
             payload, profile=profile, idempotency_key=idempotency_key)
 
@@ -128,6 +133,10 @@ class ProofpressMcpGateway:
             raise McpRequestError(
                 "evidence_refs must contain evd_ IDs returned by "
                 "proofpress_submit_evidence; source and artifact URLs are not evidence IDs")
+        try:
+            validate_claim_input(qualifiers, profile)
+        except ValueError as exc:
+            raise McpRequestError(format_error(exc)) from exc
         return self.client.propose_claim(
             statement, evidence_refs, scope, self.principal,
             expires_at=expires_at, artifact_refs=artifact_refs,
@@ -262,8 +271,10 @@ class ProofpressMcpGateway:
 EVIDENCE_PAYLOAD_SCHEMA = stdio_evidence_payload_schema()
 if TYPE_CHECKING or WithJsonSchema is None:
     EvidencePayload: TypeAlias = dict[str, Any]
+    ClaimQualifiers: TypeAlias = dict[str, Any]
 else:
     EvidencePayload = Annotated[dict[str, Any], WithJsonSchema(EVIDENCE_PAYLOAD_SCHEMA)]
+    ClaimQualifiers = Annotated[dict[str, Any], WithJsonSchema(claim_qualifiers_schema())]
 
 
 class ApplicabilityCard(TypedDict, total=False):
@@ -370,13 +381,19 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
         """Describe the safe MCP surface and underlying Proofpress contract."""
         return gateway.capabilities()
 
+    @tool(name="proofpress_get_capture_schema")
+    def proofpress_get_capture_schema() -> dict[str, Any]:
+        """Read capture schemas and format guidance before submitting. Read-only, no idempotency key."""
+        return gateway.get_capture_schema()
+
     @tool(name="proofpress_submit_evidence")
     def proofpress_submit_evidence(
             payload: EvidencePayload,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
-        """Submit bounded evidence.
+        """Submit bounded evidence. Read proofpress_get_capture_schema first.
 
+        quote and locator belong inside payload.evidence, not at the top level.
         Omit profile for a proofpress/retrieval-evidence/v1 envelope. The only
         supported evidence profile is experiment.
         """
@@ -390,7 +407,7 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             artifact_refs: list[str] | None = None,
             applicability: ApplicabilityCard | None = None,
             reproposal_of: str | None = None,
-            qualifiers: dict[str, Any] | None = None,
+            qualifiers: ClaimQualifiers | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None, *, title: str) -> dict[str, Any]:
         """Propose an evidence-bound claim as the configured agent principal.

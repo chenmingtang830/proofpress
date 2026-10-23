@@ -93,11 +93,52 @@ RETRIEVAL_EVIDENCE_INPUT_SCHEMA = {
 }
 
 
+def _closed(properties: dict, required: list[str] | None = None, **extra) -> dict:
+    return {"type": "object", "properties": properties,
+            "required": list(properties) if required is None else required,
+            "additionalProperties": False, **extra}
+
+
+EXPERIMENT_IDENTITY_SCHEMA = _closed({
+    **{key: _TEXT for key in ("experiment_id", "run_id", "model_revision", "dataset_revision")},
+    "environment_digest": _DIGEST, "config_digest": _DIGEST,
+})
+_REFS = {"type": "array", "items": _TEXT, "minItems": 1, "uniqueItems": True}
+_NUMBER = {"type": ["number", "string"], "description": "A finite decimal value; the kernel checks numeric strings."}
+_FAILURE = _closed({
+    **{key: _TEXT for key in ("intervention", "expected_outcome", "observed_outcome", "next_action")},
+    "feedback_evidence_refs": _REFS, "invalidated_hypotheses": _REFS,
+    "repeat_policy": {"enum": ["do-not-repeat", "retry-if-changed", "informational"]},
+    "changed_dimension_required": _TEXT,
+}, required=["intervention", "expected_outcome", "observed_outcome", "next_action",
+             "feedback_evidence_refs", "invalidated_hypotheses", "repeat_policy"],
+    description="retry-if-changed requires changed_dimension_required; other repeat policies forbid it.")
+EXPERIMENT_CLAIM_SCHEMA = _closed({
+    "schema_version": {"const": EXPERIMENT_PROFILE},
+    "claim_kind": {"enum": ["finding", "regression", "no-change", "failed-attempt", "decision"]},
+    "experiment": EXPERIMENT_IDENTITY_SCHEMA, "failure": _FAILURE,
+}, required=["schema_version", "claim_kind", "experiment"],
+    description="Value of qualifiers.experiment (not the whole qualifiers object). failed-attempt requires failure; other kinds forbid it.")
+CLAIM_QUALIFIERS_SCHEMA = {"type": "object", "properties": {"experiment": EXPERIMENT_CLAIM_SCHEMA},
+                           "description": "profile=experiment requires qualifiers.experiment. Omit profile for ordinary source-backed findings."}
+_OBSERVATION = _closed({
+    **{key: _TEXT for key in ("name", "version", "unit", "population", "slice", "source_evidence_ref")},
+    "value": _NUMBER,
+}, required=["name", "version", "unit", "source_evidence_ref", "value"],
+    oneOf=[{"required": ["population"], "not": {"required": ["slice"]}},
+           {"required": ["slice"], "not": {"required": ["population"]}}])
+_CELL = _closed({**{key: _TEXT for key in ("table_id", "row", "column", "unit", "source_evidence_ref")}, "value": _NUMBER})
+_DERIVATION = _closed({
+    "formula": _closed({"name": _TEXT, "version": _TEXT, "operation": {"enum": ["sum", "difference", "product", "ratio"]}}),
+    "input_evidence_refs": _REFS, "output": _closed({"value": _NUMBER, "unit": _TEXT}),
+    "recomputation_digest": _DIGEST,
+}, description="The kernel checks existing metric/table inputs, arithmetic, units and the recomputation digest.")
 EXPERIMENT_PAYLOAD_SCHEMA = {
-    "type": "object",
-    "description": "An experiment-profile payload; pass profile=experiment with it.",
-    "properties": {"schema_version": {"const": EXPERIMENT_PROFILE}},
-    "required": ["schema_version"],
+    "description": "Experiment evidence; pass profile=experiment. Submit the original retrieval evidence first and bind its returned evd_ ID. Do not invent run identity for literature or slide findings.",
+    "oneOf": [_closed({"schema_version": {"const": EXPERIMENT_PROFILE}, "kind": {"const": kind},
+                       "experiment": EXPERIMENT_IDENTITY_SCHEMA, field: schema})
+              for kind, field, schema in (("metric_observation", "observation", _OBSERVATION),
+                                          ("table_cell", "cell", _CELL), ("derivation", "derivation", _DERIVATION))],
 }
 
 
@@ -110,4 +151,24 @@ def stdio_evidence_payload_schema() -> dict:
     """The stdio tool's payload schema: a retrieval envelope or an experiment-profile payload, told apart by their
     schema_version, so a payload naming the retrieval version must satisfy the envelope. A copy."""
     return copy.deepcopy({"anyOf": [RETRIEVAL_EVIDENCE_INPUT_SCHEMA, EXPERIMENT_PAYLOAD_SCHEMA]})
+
+
+def claim_qualifiers_schema() -> dict:
+    return copy.deepcopy(CLAIM_QUALIFIERS_SCHEMA)
+
+
+def capture_schema() -> dict:
+    """Read-only, transport-independent contract discovery; no workspace data."""
+    return {"schema_version": "proofpress/capture-schema/v1",
+            "retrieval_evidence": retrieval_evidence_schema(),
+            "experiment_evidence": copy.deepcopy(EXPERIMENT_PAYLOAD_SCHEMA),
+            "claim_qualifiers": claim_qualifiers_schema(),
+            "guidance": [
+                "Input quote and locator belong under payload.evidence; flattened quote/locator in a receipt are output only.",
+                "quote is one exact string. Hash actual source bytes, extracted page/text, and extraction configuration separately; never invent digests.",
+                "For a slide use page_span with 1-based slide bounds and that slide text digest. section_span also requires page bounds.",
+                "Ordinary literature or slide findings omit profile. experiment requires recorded run identity and qualifiers.experiment; do not downgrade a required profile to bypass validation.",
+                "MCP checks retrieval envelope format and experiment claim qualifiers before submission. Other kernel checks still run at submission; format success is not evidence verification or approval.",
+                "After uncertain transport failure, read back before retrying with the same key and identical request. Never change keys repeatedly to guess a format.",
+            ]}
 

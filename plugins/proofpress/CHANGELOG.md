@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1
+
+- Prepare selected-file evidence with real source, projection and config digests.
+- Read capture schemas before writing; document locator, experiment profile and retry rules.
+
 ## 0.2.0 — 2026-09-15
 
 - Removes the maintainer's personal MCP endpoint from the generic package.
