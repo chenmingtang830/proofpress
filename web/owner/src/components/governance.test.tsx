@@ -15,6 +15,9 @@ describe("governance components", () => {
     const record = {version:0, settings:{provider:"openrouter", model:"", mode:"off", external_consent:false}, credential:{configured:false}, providers:{managed_gmi:{managed:true, available:false, default_model:"openai/gpt-6-luna"}}};
     const selected = initialProviderSettings(record);
     expect(selected.provider).toBe("managed_gmi");
+    const local = {...record, local_setup:{database:"/tmp/workspace.db",port:7334}, providers:{...record.providers,openrouter:{default_model:"example/model"}}};
+    expect(initialProviderSettings(local).provider).toBe("openrouter");
+    expect(initialProviderSettings({...local, version:1, settings:{...record.settings, provider:"openai"}}).provider).toBe("openai");
     expect(selected.external_consent).toBe(false);
     expect(selected.mode).toBe("off");
     expect(initialProviderSettings({...record, version:1}).provider).toBe("openrouter");

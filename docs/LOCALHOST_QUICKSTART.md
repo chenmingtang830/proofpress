@@ -230,6 +230,13 @@ server's encryption key for stored provider credentials, **not** your model
 provider API key or your Owner/Agent credential. The server refuses to save
 provider keys without it.
 
+The localhost UI provides **Copy setup commands** for the current database and
+port. After restarting, click **Check storage again** to unlock API key entry
+without discarding your unsaved model, provider or review-criteria draft. If a
+provider key is already stored, the UI gives original-key recovery instructions
+instead of generating a replacement. The manual commands below use the default
+database path; substitute your existing path if different.
+
 For a local instance that has **never saved a provider key**, stop its server
 with `Ctrl-C`, then run this in your private Terminal. It creates a persistent
 Fernet key only if the file does not already exist; it prints no secret:

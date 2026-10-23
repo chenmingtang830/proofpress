@@ -1,0 +1,9 @@
+.adminPage .providerStorageSetup { grid-column: 1 / -1; min-width: 0; padding-top: 20px; border-top: 1px solid var(--line); }
+.adminPage .providerStorageSetup h3 { margin: 0 0 8px; font-size: var(--type-subsection); font-weight: 600; color: var(--ink); }
+.adminPage .providerStorageSetup p { max-width: 72ch; margin: 0 0 12px; font-size: var(--type-help); line-height: 1.6; color: var(--muted); }
+.adminPage .providerStorageSteps { display: grid; gap: 10px; margin: 16px 0; padding-left: 24px; list-style: decimal; font-size: var(--type-help); line-height: 1.6; }
+.adminPage .providerStorageSteps code { overflow-wrap: anywhere; }
+.adminPage .providerStorageCommands { min-width: 0; max-width: 100%; margin: 0 0 16px; padding: 16px; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--wash); color: var(--ink); font: 13px/1.7 var(--font-mono, monospace); white-space: pre; }
+.adminPage .providerStorageActions { display: flex; flex-wrap: wrap; gap: 12px; margin: 12px 0 16px; }
+.adminPage .providerStorageSetup .providerStorageStatus { margin-bottom: 0; color: var(--ink); }
+@media (max-width: 700px) { .adminPage .providerStorageActions { flex-direction: column; align-items: stretch; } }

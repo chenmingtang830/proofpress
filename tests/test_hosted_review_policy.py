@@ -390,6 +390,15 @@ class ReviewPolicyTests(unittest.TestCase):
         owner = other.bootstrap("workspace:other", "human:other")["token"]
         self.assertEqual(other.get_review_policy(owner)["version"], 0)
 
+    def test_storage_ready_requires_a_valid_encryption_key_without_exposing_it(self):
+        for value, expected in (("", False), ("not-a-fernet-key", False),
+                                ("x" * 44, False), (Fernet.generate_key().decode(), True)):
+            with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": value}):
+                result = self.control.get_review_policy(self.owner)
+                self.assertEqual(result["credential"]["storage_ready"], expected)
+                if value:
+                    self.assertNotIn(value, json.dumps(result))
+
     def test_workspace_api_key_is_encrypted_write_only_and_provider_bound(self):
         master = Fernet.generate_key().decode()
         provider_key = "sk-customer-private-1234"

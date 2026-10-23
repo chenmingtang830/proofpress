@@ -117,7 +117,9 @@ a separate provider/processing opt-in.
 Provider API keys are encrypted before being stored in SQLite. To enable the
 API key input, configure the server's `PROOFPRESS_SECRET_ENCRYPTION_KEY` first.
 This encryption key is separate from your provider API key and Owner/Agent
-credentials.
+credentials. The localhost UI offers **Copy setup commands** using the current
+database and port, then **Check storage again** after restarting. Existing saved
+credentials get original-key recovery instructions. Manual commands follow.
 
 For an instance that has **never saved a provider key**, stop the server with
 `Ctrl-C`, then initialize a persistent encryption key in your private Terminal:

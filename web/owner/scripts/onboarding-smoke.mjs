@@ -129,6 +129,8 @@ try {
   await page.getByRole('tab',{name:'Verification settings',exact:true}).click();
   const aiToggle = page.getByRole('switch',{name:'AI-assisted checks',exact:true});
   await aiToggle.click();
+  assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'openrouter','A fresh localhost workspace starts with BYOK');
+  await page.getByLabel('Model provider',{exact:true}).selectOption('managed_gmi');
   assert.equal(await page.getByLabel('Model provider',{exact:true}).inputValue(),'managed_gmi');
   assert.equal(await page.getByLabel('API key',{exact:true}).count(),0,'Hosted option never asks the customer for a key');
   assert.equal(await page.getByRole('button',{name:'Enable AI checks',exact:true}).isEnabled(),false,'Missing operator key blocks activation');

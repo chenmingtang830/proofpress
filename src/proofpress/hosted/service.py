@@ -444,7 +444,14 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         if path == "/owner/api/capture-policy":
             return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_capture_policy(session["context"])})
         if path == "/owner/api/review-policy":
-            return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["context"])})
+            result = self.server.proofpress_control.get_review_policy(session["context"])
+            if (urlparse(self._base_url()).hostname in LOOPBACK_HOSTS
+                    and ipaddress.ip_address(self.server.server_address[0]).is_loopback):
+                result["local_setup"] = {
+                    "database": str(self.server.proofpress_control.database.resolve()),
+                    "port": self.server.server_port,
+                }
+            return self._json(HTTPStatus.OK, {"ok": True, "result": result})
         if path in {"/owner/api/capture-policy/history", "/owner/api/review-criteria/history"}:
             query = parse_qs(parsed.query, keep_blank_values=True)
             try:

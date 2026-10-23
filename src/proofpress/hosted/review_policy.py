@@ -154,17 +154,25 @@ def _cipher():
         raise ValueError("Secure credential storage is misconfigured.") from exc
 
 
+def storage_ready():
+    try:
+        _cipher()
+    except ValueError:
+        return False
+    return True
+
+
 def credential_status(connection, workspace_id, provider="openrouter", *,
                       legacy_default_workspace_id=None):
     if provider == "managed_gmi":
         return {"configured": bool(managed_credential()), "last_four": None,
-                "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY")), "managed": True}
+                "updated_at": None, "storage_ready": storage_ready(), "managed": True}
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
     configured = bool(row) or (workspace_id == legacy_default_workspace_id and
                                provider == "openrouter" and bool(os.environ.get("OPENROUTER_API_KEY", "").strip()))
     return {"configured": configured, "last_four": row["last_four"] if row else None,
             "updated_at": row["updated_at"] if row else None,
-            "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))}
+            "storage_ready": storage_ready()}
 
 
 def save_credential(connection, workspace_id, secret, updated_at):
@@ -203,7 +211,7 @@ def managed_credential():
 def public(record, credential=None):
     return {key: record[key] for key in ("version", "settings", "actor", "updated_at")} | {
         "policy_digest": record["policy"]["digest"], "rubrics": RUBRICS,
-        "providers": {key: {**value, **({"available": bool(managed_credential())} if value.get("managed") else {})} for key, value in PROVIDERS.items()}, "credential": credential if credential is not None else {"configured": False, "last_four": None, "updated_at": None, "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))},
+        "providers": {key: {**value, **({"available": bool(managed_credential())} if value.get("managed") else {})} for key, value in PROVIDERS.items()}, "credential": credential if credential is not None else {"configured": False, "last_four": None, "updated_at": None, "storage_ready": storage_ready()},
         "authoring_prompt": POLICY_AUTHORING_PROMPT}
 
 
