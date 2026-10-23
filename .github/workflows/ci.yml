@@ -61,6 +61,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - run: npm run test:onboarding
+      - run: npm run test:home-layout
       - run: npm run test:policy-history
       - run: npm run test:evidence
       - run: npm run test:blocked-review
