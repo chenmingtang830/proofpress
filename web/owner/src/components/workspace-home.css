@@ -1,12 +1,15 @@
 .workspaceLabel { font-family:var(--font-ui); font-size:13px; }
-.homeGraphSplit { position:relative; }
+.pageBody.workspaceHome { max-width:none; width:100%; }
+.homeGraphSplit { display:grid; grid-template-columns:minmax(0,1fr); }
+.homeGraphSplit.hasSelection { grid-template-columns:minmax(0,1fr) clamp(320px,28%,520px); }
+.homeGraphSplit > .homeNetworkViewport { min-width:0; }
 .homeGraphSplit .homeNetworkCanvas { min-width:600px; }
 .homeGraphSplit .homeSourceNode { background:var(--wash); }
 .homeClaimNetwork .homeGraphSplit .homeClaimNode { background:color-mix(in srgb,var(--accent) 12%,var(--paper)); }
 .homeGraphSplit .homeClaimNode.selected { border:2px solid var(--accent); }
 .homeNetworkCanvas path.selected { stroke:var(--accent); stroke-width:3; }
 .homeNetworkCanvas path.dimmed { opacity:.3; }
-.homeClaimDetail { position:absolute; inset:0 0 0 auto; width:28%; min-width:280px; overflow:auto; border-left:1px solid var(--line); padding:20px; background:var(--paper); }
+.homeClaimDetail { min-width:0; overflow-wrap:anywhere; border-left:1px solid var(--line); padding:20px; background:var(--paper); }
 .homeClaimDetail header { display:flex; align-items:center; justify-content:space-between; color:var(--ink-2); font-size:12px; }
 .homeClaimDetail h2 { margin:18px 0 12px; font-size:20px; overflow-wrap:anywhere; }
 .homeClaimDetail p { font-size:13px; line-height:1.6; overflow-wrap:anywhere; }
@@ -14,7 +17,7 @@
 .homeClaimDetail dl > div { display:flex; justify-content:space-between; gap:12px; margin:14px 0; }
 .homeClaimDetail dt { color:var(--ink-2); }
 .homeClaimDetail dd { margin:0; text-align:right; overflow-wrap:anywhere; }
-@media(max-width:1000px) { .homeClaimDetail { position:static; width:100%; min-width:0; border-left:0; border-top:1px solid var(--line); } }
+@media(max-width:1200px) { .homeGraphSplit.hasSelection { grid-template-columns:minmax(0,1fr); } .homeClaimDetail { border-left:0; border-top:1px solid var(--line); } }
 .fullReview .reviewFactsGrid > .reviewFact { border:0; box-shadow:none; background:transparent; }
 .fullReview .reviewFactsGrid .authorityFact { border:0; background:var(--accent-soft); }
 .fullReview .quickSnapshot .reviewActions { margin:18px 0 24px; }
@@ -38,11 +41,11 @@
 .homeNetworkCanvas path { fill:none; stroke:var(--line); stroke-width:1.5; }
 .homeLaneLabel { position:absolute; top:22px; color:var(--ink-2); font:600 12px/1.4 var(--font-ui); }
 .homeLaneLabel.source { left:5%; }
-.homeLaneLabel.claim { left:45%; }
-.homeSourceNode { position:absolute; left:5%; width:25%; min-height:60px; padding:12px; display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:8px; background:var(--wash); font:500 12px/1.5 var(--font-ui); }
+.homeLaneLabel.claim { left:52%; }
+.homeSourceNode { position:absolute; left:5%; width:28%; min-height:60px; padding:12px; display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:8px; background:var(--wash); font:500 12px/1.5 var(--font-ui); }
 .homeSourceNode svg { width:16px; flex-shrink:0; }
 .homeSourceNode span { overflow-wrap:anywhere; }
-.homeClaimNode { position:absolute; width:27%; min-height:105px; padding:15px 17px; display:flex; flex-direction:column; align-items:stretch; gap:9px; white-space:normal; text-align:left; border:1px solid; border-radius:12px; }
+.homeClaimNode { position:absolute; width:42%; min-height:105px; padding:15px 17px; display:flex; flex-direction:column; align-items:stretch; gap:9px; white-space:normal; text-align:left; border:1px solid; border-radius:12px; }
 .homeClaimNode.attention { background:var(--accent-soft); border-color:var(--line); color:var(--ink); }
 .homeClaimNode.blocked { background:var(--accent-soft); border-color:var(--line); color:var(--ink); }
 .homeClaimNode.processing { background:var(--accent-soft); border-color:var(--line); color:var(--ink); }

@@ -19,7 +19,8 @@
     "test:byok": "node scripts/byok-storage-smoke.mjs",
     "test:onboarding": "node scripts/onboarding-smoke.mjs",
     "test:policy-history": "node scripts/policy-history-smoke.mjs",
-    "test:review-queue": "node scripts/review-queue-smoke.mjs"
+    "test:review-queue": "node scripts/review-queue-smoke.mjs",
+    "test:home-layout": "node scripts/home-layout-smoke.mjs"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.3.3",
