@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "proofpress-local"
 version = "0.6.0a1"
-description = "Local governance control plane, Python SDK, and self-hosting reference for agent-produced knowledge"
+description = "Typed knowledge system for agent-produced findings, evidence, and governed reuse"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "Apache-2.0"

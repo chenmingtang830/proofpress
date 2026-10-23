@@ -1,0 +1,139 @@
+/* Stateful product chapters inside the accepted paper, ink, and teal world. */
+.threadHome .journeyHero { background:var(--story-paper) url("/hero-editorial-v1.webp") center / cover no-repeat; }
+.journeyHero .journeyLead { max-width:35ch; font-size:clamp(1.65rem,2.15vw,2.2rem); line-height:1.4; color:#303b43; }
+.threadHome .journeyHero .heroActions { gap:28px; margin-top:32px; }
+.threadHome .journeyHero .heroActions .button,.threadHome .journeyHero .journeyTextLink { min-height:60px; padding-inline:26px; font-size:18px; }
+.threadHome .threadSpine { stroke:#a5c3c0; stroke-width:1.2; }
+.threadHome .threadSpineActive { stroke:var(--accent); stroke-width:1.8; }
+.threadHome .networkEdge,.threadHome .networkMesh { stroke:#c0d4ce; stroke-width:1; }
+.threadHome .journeyProduct { display:block; position:relative; min-height:0; padding-block:0 56px; }
+.journeyProduct::before { content:""; position:absolute; inset:0; z-index:1; background:var(--story-paper); pointer-events:none; }
+.productThreadAnchor { position:absolute; left:25px; top:0; width:1px; height:1px; }
+.researchStoryStage { background:var(--story-paper); }
+.threadHome .journeyForward { display:block; min-height:0; padding-block:80px 48px; }
+.journeyForward .researchWorkflows { margin-top:44px; }
+.outcomeMaterials .workflowMaterial { min-height:190px; margin-bottom:24px; }
+.researchWorkflows .workflowMaterial > p { font-size:23px; color:#304b44; line-height:1.35; }
+.outcomeMaterials h3 { font-size:21px; font-weight:500; line-height:1.3; margin:0; }
+.outcomeMaterials .evidenceMaterial { background:#f0f3ed; }
+.outcomeMaterials .handoffMaterial { transform:rotate(2deg); background:#f6f2e9; }
+.outcomeMaterials .materialFile { font-size:13px; }
+.outcomeMaterials .materialAnnotation { font-size:14px; }
+.journeyForward .threadScene { position:relative; top:auto; right:auto; left:auto; bottom:auto; width:100%; height:240px; min-height:0; margin-top:36px; }
+.network-forward text { display:block; font-size:13px; }
+.threadHome .journeyResearch { display:block; min-height:0; padding-block:72px; }
+.journeyResearch .journeyCopy { width:100%; max-width:none; }
+.journeyResearch .journeyCopy h2 { margin-bottom:40px; font-size:clamp(2.3rem,3.6vw,3.6rem); }
+.evidenceOverview { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,2.3fr) minmax(240px,.85fr); gap:48px; }
+.evidenceChart { min-width:0; }
+.studyHeadline { margin-bottom:24px; }
+.studyHeadline > strong { font-size:clamp(2.7rem,4vw,4rem); font-weight:500; line-height:1; letter-spacing:-.03em; color:var(--accent); font-variant-numeric:tabular-nums; }
+.studyHeadline > strong > span { font-weight:400; }
+.studyHeadline > p { margin:12px 0 0; color:#526258; font-size:18px; }
+.evidenceChart .modelChart { margin:0; padding:0; border:0; background:transparent; }
+.evidenceChart .modelChartHead { margin-bottom:18px; }
+.evidenceChart .modelChart h3 { display:none; }
+.evidenceChart .modelLegend { gap:24px; font-size:13px; }
+.evidenceChart .ordinarySwatch { background:#a8bac0; }
+.evidenceChart .modelRows { gap:12px; }
+.evidenceChart .modelResult { grid-template-columns:150px minmax(0,1fr); gap:18px; }
+.evidenceChart .modelResultLabel { font-size:14px; }
+.evidenceChart .modelResultLabel span { font-size:14px; font-weight:400; }
+.evidenceChart .modelResultLabel strong { display:none; }
+.evidenceChart .modelScale { margin-left:168px; margin-bottom:12px; font:400 12px var(--font-ui); }
+.evidenceChart .modelBarPair { gap:2px; }
+.evidenceChart .modelTrack { height:14px; }
+.evidenceChart .ordinaryBar { background:#a8bac0; }
+.evidenceChart .ordinaryBar span { color:#1e393b; }
+.evidenceChart .modelBar span { font-size:11px; }
+.evidenceChart .modelChart figcaption { margin-top:14px; padding-top:12px; color:#526258; font-size:12px; }
+.evidenceChart .studyScope { margin:14px 0 0; font-size:12px; line-height:1.5; color:#526258; }
+.evidenceChart a,.evidenceSide a { display:inline-flex; gap:10px; align-items:center; min-height:44px; color:var(--accent); font-size:13px; }
+.evidenceSide { border-left:1px solid #d7dfda; padding-left:40px; display:flex; flex-direction:column; justify-content:center; gap:28px; }
+.evidenceSide > div + div { padding-top:24px; border-top:1px solid #d7dfda; }
+.evidenceSide strong { font-size:clamp(2.5rem,4.2vw,4.25rem); font-weight:500; letter-spacing:-.03em; color:var(--accent); line-height:1; font-variant-numeric:tabular-nums; }
+.evidenceSide h3 { margin:14px 0 18px; font-size:21px; font-weight:500; line-height:1.2; }
+.evidenceSide p { font-size:18px; color:#526258; margin:0 0 12px; }
+.evidenceSide small { display:block; font-size:13px; line-height:1.5; color:#526258; }
+.evidencePublication { position:relative; z-index:2; margin:18px 0 0; font-size:14px; color:var(--accent); }
+.journeyResearch .quietThreadScene { right:0; width:25px; }
+.threadHome .journeyMission { display:block; }
+.missionClosing { position:relative; z-index:2; display:grid; grid-template-columns:1fr 1.05fr; gap:56px; align-items:center; margin-top:40px; }
+.knowledgeJourney:has(.researchStoryStage[data-in-view="true"]) > .knowledgeThread .threadCursor, .knowledgeJourney:has(.knowledgeConfluence[data-visible="true"]) > .knowledgeThread .threadCursor { opacity:0; }
+.missionOpening .journeyCopy h2 { max-width:none; }
+.missionOpening .journeyCopy > p { font-size:18px; }
+.researchFragments .looseReference .fileName { font-size:12px; }
+@media(min-width:761px) and (max-width:1000px) {
+ .evidenceOverview { grid-template-columns:minmax(0,1.8fr) minmax(210px,.85fr); gap:28px; }
+ .evidenceSide { padding-left:26px; }
+ .evidenceChart .modelResult { grid-template-columns:120px minmax(0,1fr); gap:12px; }
+ .evidenceChart .modelScale { margin-left:132px; }
+ .evidenceChart .modelResultLabel span { font-size:12px; }
+}
+@media(min-width:761px) and (max-width:900px) {
+ .threadHome .siteHeader { min-height:72px; }
+ .threadHome .siteHeader > nav { gap:14px; font-size:13px; }
+}
+@media(min-width:761px) and (max-height:850px) {
+ .threadHome .journeyResearch { padding-block:44px; }
+ .journeyResearch .journeyCopy h2 { margin-bottom:28px; }
+ .studyHeadline { margin-bottom:18px; }
+ .evidenceChart .modelRows { gap:8px; }
+ .evidenceChart .modelChartHead { margin-bottom:12px; }
+}
+@media(max-width:760px) {
+ .threadHome .journeyHero { background-position:32% center; }
+ .journeyHero .journeyLead { font-size:24px; max-width:26ch; }
+ .threadHome .journeyHero .heroActions { gap:8px; }
+ .threadHome .journeyHero .heroActions .button,.threadHome .journeyHero .journeyTextLink { min-height:56px; font-size:16px; padding-inline:16px; }
+ .threadHome .journeySection.journeyProduct { padding:0 24px 40px 40px; }
+ .threadHome .journeyForward { padding-bottom:50px; }
+ .outcomeMaterials.researchWorkflows > div { padding:22px 0 22px 132px; min-height:155px; }
+ .outcomeMaterials h3 { font-size:21px; padding-top:20px; }
+ .outcomeMaterials .workflowMaterial { width:112px; min-height:120px; margin:0; padding:12px; }
+ .outcomeMaterials .materialFile { font-size:11px; }
+ .researchWorkflows .workflowMaterial > p { font-size:16px; }
+ .outcomeMaterials .materialAnnotation { font-size:11px; display:block; }
+ .outcomeMaterials .evalMaterial p { font-size:12px; }
+ .journeyForward .threadScene { height:180px; margin-top:30px; }
+ .network-forward text { font-size:11px; }
+ .journeyResearch .journeyCopy h2 { font-size:34px; margin-bottom:32px; }
+ .evidenceOverview { display:block; }
+ .studyHeadline > strong { font-size:39px; }
+ .studyHeadline > p { font-size:16px; line-height:1.4; }
+ .evidenceChart .modelChartHead { margin-bottom:16px; }
+ .evidenceChart .modelLegend { margin:0; gap:18px; font-size:12px; }
+ .evidenceChart .modelResult { grid-template-columns:95px minmax(0,1fr); gap:10px; }
+ .evidenceChart .modelResultLabel span { font-size:11px; }
+ .evidenceChart .modelScale { margin-left:105px; font-size:10px; }
+ .evidenceChart .modelBar span { font-size:10px; }
+ .evidenceChart .modelTrack { height:13px; }
+ .evidenceChart .modelRows { gap:13px; }
+ .evidenceSide { display:grid; grid-template-columns:1fr 1fr; gap:22px; border-left:0; border-top:1px solid #d7dfda; padding:26px 0 0; margin-top:22px; align-items:start; }
+ .evidenceSide > div + div { border:0; padding:0; }
+ .evidenceSide strong { font-size:36px; }
+ .evidenceSide h3 { font-size:16px; margin:12px 0; }
+ .evidenceSide p { font-size:14px; }
+ .evidenceSide small { font-size:11px; }
+ .evidencePublication { font-size:12px; line-height:1.5; }
+ .missionOpening .journeyCopy > p { font-size:17px; }
+ .missionClosing { display:block; margin-top:30px; }
+ .researchFragments .looseReference .fileName { font-size:11px; }
+}
+
+.reuseComparison { width:100%; border-collapse:separate; border-spacing:0; table-layout:fixed; margin-top:44px; text-align:left; }
+.reuseComparison th { padding:22px 28px; font-size:18px; font-weight:500; border-bottom:1px solid #d6ddd6; }
+.reuseComparison th:first-child { color:#68716b; background:#f4f2ed; }
+.reuseComparison th:last-child { color:var(--accent); background:#eaf2ee; }
+.reuseComparison td { padding:28px; font-size:clamp(1.15rem,1.6vw,1.55rem); line-height:1.35; vertical-align:middle; border-bottom:1px solid #d6ddd6; }
+.reuseComparison td:first-child { color:#6b706a; background:#faf9f5; }
+.reuseComparison td:last-child { color:#174c4d; background:#f2f7f3; }
+.reuseComparison td svg { width:22px; height:22px; margin-right:18px; vertical-align:middle; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.reuseComparison td span { display:inline-block; width:calc(100% - 45px); vertical-align:middle; }
+@media(max-width:760px) {
+ .reuseComparison { margin-top:28px; }
+ .reuseComparison th { padding:16px 12px; font-size:14px; }
+ .reuseComparison td { padding:20px 12px; font-size:16px; }
+ .reuseComparison td svg { display:block; margin:0 0 12px; width:19px; height:19px; }
+ .reuseComparison td span { display:block; width:100%; }
+}

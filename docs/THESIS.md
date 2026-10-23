@@ -1,9 +1,14 @@
 [//]: # (ob:5ec41bcf)
-# Proofpress: The Governance Layer for Agent-Produced Knowledge
+# Proofpress: The Typed Knowledge System for RSI
 
 [//]: # (ob:8fa0fe98)
-Agents do not just consume enterprise knowledge. They create a new knowledge
-layer. Proofpress governs it.
+**Build on every discovery.**
+
+Proofpress is the typed knowledge system for recursive self-improvement (RSI).
+Agent-produced findings become reusable objects with evidence, scope, validity,
+authority, relationships, and lifecycle. The current product governs what can
+be reused; continuous organizational learning and autonomous research are the
+long-term direction.
 
 [//]: # (ob:1ad0eb7b)
 The defining question is not only what an agent can retrieve. It is: **What may
@@ -100,6 +105,28 @@ Proofpress makes this transition explicit: agent output becomes future input
 only through governed admission and scoped projection.
 
 [//]: # (ob:4e2b8803)
+## Learning from reuse: the next product direction
+
+**Claim → reuse → outcome → contextual weight update → better claim selection.**
+
+A typed record makes a finding inspectable and maintainable. The next thesis is
+an outcome-learning engine: attribute a reuse result to its claim and context,
+then learn which findings are useful for similar tasks and conditions.
+
+The technical core is **outcome attribution**, **contextual claim weighting**,
+and **feedback-driven retrieval**. Successful reuse can increase retrieval
+weight; contradictions and failed reuse can reduce it and prompt review.
+
+Keep **evidence confidence** separate from **reuse utility**. A useful finding
+is not automatically true, and a failed task does not automatically disprove
+it. Weight updates guide selection and never grant approval. The website
+illustrates this direction; it does not establish an implemented or validated
+automatic weighting engine.
+
+The defensibility thesis is the claim–context–outcome record accumulated through
+real use, together with lifecycle and policy enforcement. A scaled data asset,
+network effect, customer ROI, and performance advantage still require evidence.
+
 ## The Governed Claim Graph
 
 [//]: # (ob:ecbaa093)
@@ -147,15 +174,26 @@ inspectable decision about reliance.
 ## What exists today
 
 [//]: # (ob:6d56c962)
-Proofpress currently provides a local ledger and CLI, local review and context
-UI, supported agent adapters, artifact provenance, and portable Markdown and
-static-HTML carriers. The `context` projection returns admitted, current
-claims that match the requested scope and actor.
+Proofpress provides a CLI, Python client, HTTP and MCP interfaces, and a
+self-hosted workspace with Owner Review and a claim graph. Findings bind to
+evidence, review and authority, scope, relationships, lifecycle, and recorded
+use. Governed retrieval excludes claims that are unavailable, out of scope,
+unauthorized, or blocked by their dependencies.
+
+The default repository workflow uses hosted governed context. Portable
+artifact history and carriers remain available when explicitly selected;
+they are not the lead product category or the default capture path for source
+code and routine documents.
 
 [//]: # (ob:903521b2)
-A supported public API/SDK, MCP server, hosted service, and production
-connectors are planned, not shipped. The local UI's endpoints are implementation
-details rather than a public integration contract.
+Use the maintained [remote MCP guide](REMOTE_MCP.md),
+[localhost guide](LOCALHOST_QUICKSTART.md), and
+[task-run contracts](TASK_RUNS.md) for exact supported setup and boundaries.
+The workspace can record runs, presented context, declared reliance, outputs,
+and observations. These records do not themselves implement outcome-calibrated
+retrieval weighting. A managed multi-tenant service, universal integrations,
+validated workflow ROI, and an autonomous RSI engine are not established by
+the existence of these interfaces.
 
 [//]: # (ob:2a7dbed1)
 ## Evidence, not definition

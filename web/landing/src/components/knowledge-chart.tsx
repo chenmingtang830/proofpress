@@ -7,11 +7,10 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-title knowledge-chart-description"
       >
-        <title id="knowledge-chart-title">Agent output outgrows human curation capacity</title>
+        <title id="knowledge-chart-title">Agent-produced findings outpace verified organizational knowledge</title>
         <desc id="knowledge-chart-description">
-          An illustrative curve shows agent-produced knowledge growing faster than human-curated
-          knowledge as agent autonomy increases. A marked point shows where output exceeds the
-          research team’s existing verification capacity.
+          Conceptual curves compare accumulated agent-produced findings with verified organizational
+          knowledge over time. The widening gap represents unverified findings, not measured growth rates.
         </desc>
         <defs>
           <marker id="axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -27,23 +26,21 @@ export function KnowledgeChart() {
           <path d="M120 548H1110" markerEnd="url(#axis-arrow)" />
         </g>
 
-        <path className="enterpriseCurve" d="M122 516C330 455 620 390 1054 346" markerEnd="url(#axis-arrow)" />
-        <path className="agentCurve" d="M122 516C420 451 700 397 820 284C905 204 952 123 984 62" markerEnd="url(#teal-arrow)" />
+        <path className="enterpriseCurve" d="M122 516L760 420" />
+        <path className="agentCurve" d="M122 516C450 480 725 455 760 96" />
 
         <g className="threshold">
-          <path d="M744 548V348" />
-          <circle cx="744" cy="348" r="5" />
-          <path className="thresholdLeader" d="M584 260L730 337" markerEnd="url(#teal-arrow)" />
-          <text x="426" y="242" className="chartLabel chartLabelStrong">OUTPUT EXCEEDS VERIFICATION CAPACITY</text>
+          <path d="M800 112V420M788 112H812M788 420H812" />
+          <text x="842" y="276" className="curveLabel agentLabel">Unverified findings</text>
         </g>
 
-        <text x="1000" y="94" className="curveLabel agentLabel">
-          <tspan x="1000" dy="0">Agent-produced</tspan>
-          <tspan x="1000" dy="31">knowledge</tspan>
+        <text x="842" y="106" className="curveLabel agentLabel">
+          <tspan x="842" dy="0">Agent-produced</tspan>
+          <tspan x="842" dy="31">findings</tspan>
         </text>
-        <text x="850" y="326" className="curveLabel enterpriseLabel">Human-curated knowledge</text>
-        <text x="610" y="620" textAnchor="middle" className="axisLabel">Agent adoption and autonomy over time</text>
-        <text x="42" y="310" textAnchor="middle" transform="rotate(-90 42 310)" className="axisLabel">Reusable claims and work</text>
+        <text x="842" y="420" className="curveLabel enterpriseLabel"><tspan x="842">Verified organizational</tspan><tspan x="842" dy="31">knowledge</tspan></text>
+        <text x="1058" y="604" className="axisLabel">Time</text>
+        <text x="120" y="36" className="axisLabel">Accumulated findings</text>
       </svg>
       <svg
         className="knowledgeChart knowledgeChartMobile"
@@ -51,10 +48,10 @@ export function KnowledgeChart() {
         role="img"
         aria-labelledby="knowledge-chart-mobile-title knowledge-chart-mobile-description"
       >
-        <title id="knowledge-chart-mobile-title">Agent output outgrows human curation capacity</title>
+        <title id="knowledge-chart-mobile-title">Agent findings outpace verified organizational knowledge</title>
         <desc id="knowledge-chart-mobile-description">
-          An illustrative mobile chart shows agent-produced knowledge rising faster than human-curated
-          knowledge, with a marked point where output exceeds verification capacity.
+          Conceptual curves show agent findings rising faster than verified organizational knowledge.
+          The bracket marks the widening gap of unverified findings. These are not measured growth rates.
         </desc>
         <defs>
           <marker id="mobile-axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -68,21 +65,21 @@ export function KnowledgeChart() {
           <path d="M42 430V44" markerEnd="url(#mobile-axis-arrow)" />
           <path d="M42 430H330" markerEnd="url(#mobile-axis-arrow)" />
         </g>
-        <path className="enterpriseCurve" d="M44 402C132 356 224 322 310 300" markerEnd="url(#mobile-axis-arrow)" />
-        <path className="agentCurve" d="M44 402C148 354 212 315 246 249C275 192 292 126 301 65" markerEnd="url(#mobile-teal-arrow)" />
+        <path className="enterpriseCurve" d="M44 402L270 340" />
+        <path className="agentCurve" d="M44 402C210 372 260 345 270 72" />
         <g className="threshold">
-          <path d="M220 430V291" />
-          <circle cx="220" cy="291" r="4" />
-          <text x="128" y="246" className="chartLabel chartLabelStrong">
-            <tspan x="128" dy="0">OUTPUT EXCEEDS</tspan>
-            <tspan x="128" dy="18">VERIFICATION CAPACITY</tspan>
+          <path d="M300 88V340M292 88H308M292 340H308" />
+          <text x="68" y="170" className="chartLabel chartLabelStrong">
+            <tspan x="68" dy="0">Unverified</tspan>
+            <tspan x="68" dy="23">findings</tspan>
           </text>
         </g>
-        <text x="186" y="470" textAnchor="middle" className="axisLabel">More agent autonomy →</text>
+        <text x="42" y="24" className="axisLabel">Accumulated findings</text>
+        <text x="300" y="470" className="axisLabel">Time</text>
       </svg>
       <div className="mobileChartLegend" aria-hidden="true">
-        <span><i className="agentSwatch" />Agent-produced knowledge</span>
-        <span><i className="enterpriseSwatch" />Human-curated knowledge</span>
+        <span><i className="agentSwatch" />Agent-produced findings</span>
+        <span><i className="enterpriseSwatch" />Verified organizational knowledge</span>
       </div>
       <figcaption id="knowledge-chart-note">
         Illustrative model
