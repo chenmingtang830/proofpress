@@ -1,0 +1,14 @@
+{
+  "asset": "og-proofpress-20261023.png",
+  "dimensions": "1200x630",
+  "updated": "2026-10-23",
+  "source": "hero-editorial-v1.webp",
+  "method": "Deterministic browser composition using the landing page's DM Sans, IBM Plex Mono, official logo, and Boardroom Clarity tokens.",
+  "copy": {
+    "headline": "Build on every discovery.",
+    "support": "The typed knowledge system for RSI.",
+    "positioning": "proofpress.dev"
+  },
+  "usage": "Open Graph and Twitter large-image preview for https://proofpress.dev/",
+  "composition_source": "scripts/og-card.html"
+}

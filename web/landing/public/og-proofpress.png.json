@@ -1,13 +1,13 @@
 {
   "asset": "og-proofpress.png",
   "dimensions": "1200x630",
-  "updated": "2026-09-15",
+  "updated": "2026-10-23",
   "source": "hero-editorial-v1.webp",
   "method": "Deterministic browser composition using the landing page's DM Sans, IBM Plex Mono, official logo, and Boardroom Clarity tokens.",
   "copy": {
-    "headline": "Verified knowledge infra for AI research teams.",
-    "support": "Reuse trusted findings. Reduce repeated work.",
-    "positioning": "More time for new research"
+    "headline": "Build on every discovery.",
+    "support": "The typed knowledge system for RSI.",
+    "positioning": "proofpress.dev"
   },
   "usage": "Open Graph and Twitter large-image preview for https://proofpress.dev/",
   "composition_source": "scripts/og-card.html"

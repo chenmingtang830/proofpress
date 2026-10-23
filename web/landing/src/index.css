@@ -594,3 +594,61 @@ footer > a:last-child { min-height: 44px; display: inline-flex; align-items: cen
   .cycleReturn span { display: none; }
   .intelligenceLoop .historyNote { margin-top: 36px; }
 }
+
+/* October 21 narrative refresh: keep the accepted Boardroom Clarity surface. */
+.heroCopy { max-width: 100%; }
+.heroCopy h1 { max-width: min(720px, 100%); font-size: clamp(3rem, 4.7vw, 4.5rem); letter-spacing: -.035em; }
+.heroAudience { max-width: 600px; }
+.memoryReason { align-self: center; padding: 32px 0; border-block: 1px solid var(--line); }
+.memoryReason h3 { margin: 0 0 24px; font-size: clamp(1.8rem, 2.5vw, 2.4rem); font-weight: 500; line-height: 1.15; letter-spacing: -.025em; }
+.memoryReason p { margin: 0; font-size: 18px; line-height: 1.6; color: var(--ink-2); }
+.memoryReason p + p { margin-top: 20px; }
+.memoryReason strong { font-weight: 600; color: var(--ink); }
+.productAttributes { display: flex; align-items: center; gap: 32px; margin-top: 24px; color: var(--ink-2); font-size: 16px; }
+.productAttributes a { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; }
+.productAttributes a:hover { text-decoration: underline; }
+.verificationDetails { margin-top: 16px; border-block: 1px solid var(--line); }
+.verificationDetails > summary { padding: 20px 0; color: var(--accent); font-size: 17px; cursor: pointer; }
+.verificationBoundary { max-width: 65ch; margin: 12px 0 0; font-size: 20px; line-height: 1.5; }
+.verificationDetails .verificationDecision { margin-block: 28px 32px; }
+.productAttributes a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.ledgerAdmission { display: grid; gap: 6px; padding: 16px 18px; border-bottom: 1px solid var(--accent); background: var(--accent-soft); }
+.ledgerAdmission strong { color: var(--accent); font-size: 18px; font-weight: 500; }
+.ledgerAdmission span { color: var(--ink-2); font-size: 13px; line-height: 1.4; }
+.ledgerFacts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ledgerFacts > div:nth-child(3) { border-left: 0; }
+.ledgerFacts > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+.workflowGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.workflowGrid .icpItem { display: block; padding: 32px 0; border: 0; }
+.partnerProgress { margin: 28px 0 0; color: var(--accent); font-size: 18px; line-height: 1.6; }
+.evidenceIntro > h2 { max-width: 1000px; margin: 0; font-size: clamp(2.8rem, 4.7vw, 4.6rem); font-weight: 600; line-height: 1.06; letter-spacing: -.035em; text-wrap: balance; }
+.evidenceIntro .narrativeLead { max-width: none; margin: 28px 0 0; font-size: clamp(1.35rem, 2.2vw, 2rem); color: var(--accent); }
+.modelChart { background: var(--paper); }
+.modelBar { min-width: 0; }
+.modelBar span { font-family: var(--font-ui); font-size: 12px; font-weight: 500; }
+.studySummary p { font: 400 15px/1.65 var(--font-ui); }
+.tokenEvidence { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--line); }
+.tokenEvidence h3 { margin: 0 0 14px; color: var(--accent); font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 500; line-height: 1.2; }
+.tokenEvidence p { max-width: 47ch; margin: 0 0 16px; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+.tokenEvidence a { display: inline-flex; min-height: 44px; align-items: center; gap: 8px; color: var(--accent); text-decoration: none; }
+.tokenEvidence a:hover { text-decoration: underline; }
+@media (max-width: 900px) {
+  .tokenEvidence { gap: 32px; }
+  .workflowGrid { grid-template-columns: 1fr; gap: 0; }
+  .workflowGrid .icpItem + .icpItem { border-top: 1px solid var(--line); }
+}
+@media (max-width: 620px) {
+  .heroCopy h1 { font-size: clamp(2.4rem, 11vw, 3rem); }
+  .tokenEvidence { grid-template-columns: 1fr; gap: 20px; }
+  .memoryReason { padding-block: 24px; }
+  .memoryReason p { font-size: 17px; }
+  .productAgents { display: flex; flex-wrap: wrap; gap: 8px; }
+  .productAgents > span { flex-basis: 100%; }
+  .productAgents strong { flex: 1; padding: 12px 5px; text-align: center; font-size: 12px; }
+  .productMechanism { min-height: 0; gap: 48px; padding: 112px 0 78px; }
+  .productSystemFooter { gap: 16px; }
+  .evidenceIntro > h2 { font-size: clamp(2.45rem, 11vw, 3.4rem); }
+  .modelResult { grid-template-columns: 1fr; gap: 8px; }
+  .modelResultLabel { grid-template-columns: 1fr auto; }
+  .modelScale { margin-left: 0; }
+}

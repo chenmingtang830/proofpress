@@ -2031,5 +2031,374 @@
       "retrievedAt": "2026-09-10T07:48:13.554Z",
       "sha256": "bcadd89d410f477c152d39b0fefe35609976113a1eac2fed4aebd5d87f14d9ae"
     }
+  },
+  {
+    "title": "Atom, Bit, Commit, and the Emerging Unit of Agent Knowledge",
+    "author": "Richard Tang",
+    "date": "2026-09-25T09:36:48.000Z",
+    "modified": "2026-09-25T09:52:23.000Z",
+    "blocks": [
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "6eq9s",
+        "text": "The atom gave us a way to understand how matter is composed. The bit made information representable and computable. The commit turned a software change into something people could identify, inspect, share, and build on.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "asmdi",
+        "text": "These are different kinds of units. What they have in common is that each gave a growing field a clear object to work with.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "3rtee",
+        "text": "The agent era is missing its own.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "8b6vl",
+        "text": "A new producer of knowledge",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "koji",
+        "text": "For most of computing history, software executed instructions and returned results. Agents are beginning to do something more open-ended: investigate a question, compare evidence, test an approach, explain a failure, and reach a conclusion that a human or another agent may use.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "alv85",
+        "text": "In that practical sense, agents are becoming a new class of scalable, programmable non-human producers of findings. That does not make each answer true, or give an agent authority to approve its own conclusion. It means an agent’s finding can become the starting point for someone else’s work.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 0,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "f8j2k",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "32rbp",
+        "text": "That changes the infrastructure question. If the next agent can inherit a finding, what exactly is it inheriting? A sentence in a chat? A document? A trace of the run that produced it? All of these can preserve useful context. None, by itself, tells us which conclusion is current, where it applies, what supports it, or whether anyone has permitted others to rely on it.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "adbpa",
+        "text": "We have made agent output abundant. We have yet to give agent-produced knowledge a first-class form.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "8g714",
+        "text": "The claim as a first-class object",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 14,
+            "offset": 59,
+            "style": "Bold"
+          }
+        ],
+        "key": "af55t",
+        "text": "Our thesis is that the atomic unit of agent knowledge is a governed claim: one bounded conclusion that can be identified, inspected, reused, and withdrawn without treating an entire report or run as a single indivisible object.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 1,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "4lvju",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "85e4u",
+        "text": "Consider a hypothetical research agent comparing two retrieval methods on a fixed set of questions. It finds that method A locates the needed source more often than method B under those test conditions. “A is better” is too broad to hand on; this narrower finding can point to the question set, method, run evidence, and version that support it.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "3cq55",
+        "text": "The agent may propose and check that finding. An authorized human can then allow this version to be reused for a defined purpose. That decision permits reliance within its scope; it does not turn the result into an eternal truth.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 2,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "2pfvv",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "8vk25",
+        "text": "When knowledge starts to compound",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "3q4ev",
+        "text": "A second agent uses the approved finding to recommend method A for a follow-up study and records that reliance. The recommendation is a second, distinct claim whose basis includes the first, rather than a vague reference to an earlier report.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "aln0b",
+        "text": "Suppose the original question set is later found to include duplicate questions. A reviewer may withdraw permission to rely on the first claim while keeping its history visible. The recorded recommendation should be flagged for review; uses that were never linked cannot be traced.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "3d74k",
+        "text": "This gives a changed premise a review path through the work that actually used it.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [
+          {
+            "key": 3,
+            "length": 1,
+            "offset": 0
+          }
+        ],
+        "inlineStyleRanges": [],
+        "key": "9hjlj",
+        "text": " ",
+        "type": "atomic"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "bkhb1",
+        "text": "The “Git and the GitHub” of agent knowledge",
+        "type": "header-two"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "9t9h3",
+        "text": "Git made the history of software change addressable. A commit has an identity, a place in that history, and a record others can inspect. Around that primitive, an ecosystem for collaboration grew.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "41sgn",
+        "text": "Agent-produced knowledge needs a similar foundation, with more than a change history. It needs evidence, applicability, authority, and a way to follow downstream reliance. The governed claim is our proposed primitive. A ledger can preserve its history and standing. A collaboration layer can let people and agents propose, review, challenge, and improve shared knowledge.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "1g3il",
+        "text": "That is the direction we are building toward with Proofpress: define the unit, build the Intelligence Ledger, and enable the ecosystem around it. The ambition has both a Git dimension and a GitHub dimension. It begins with a concrete requirement: when an agent hands a finding to the next person or agent, its basis and permission to use it should travel with it.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [],
+        "key": "6o77u",
+        "text": "No generation starts from zero. As agents join the chain of knowledge production, their work will increasingly become someone else's starting point. We need to decide what deserves to survive, and give it a form that others can question, govern, and build upon.",
+        "type": "unstyled"
+      },
+      {
+        "data": {},
+        "entityRanges": [],
+        "inlineStyleRanges": [
+          {
+            "length": 28,
+            "offset": 0,
+            "style": "Bold"
+          }
+        ],
+        "key": "9enov",
+        "text": "Knowledge worth building on.",
+        "type": "unstyled"
+      }
+    ],
+    "entities": [
+      {
+        "key": "0",
+        "value": {
+          "data": {
+            "entityKey": "bd48ed4d-b324-484b-98c5-9b73d92402a4",
+            "mediaItems": [
+              {
+                "localMediaId": "3",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2103421868061724672"
+              }
+            ],
+            "caption": "Dispersed inquiry gathers into a finding that can travel."
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "1",
+        "value": {
+          "data": {
+            "entityKey": "0cd0ebd8-89a7-4e32-aed4-97466fafb431",
+            "mediaItems": [
+              {
+                "localMediaId": "5",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2103421990074011648"
+              }
+            ],
+            "caption": "A bounded conclusion becomes a distinct object of review."
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "2",
+        "value": {
+          "data": {
+            "entityKey": "39db07c3-9a1f-4ff5-b8d4-7e34d935e683",
+            "mediaItems": [
+              {
+                "localMediaId": "3",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2103417989374869504"
+              }
+            ],
+            "caption": "Evidence and scope bind one inspectable claim."
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      },
+      {
+        "key": "3",
+        "value": {
+          "data": {
+            "entityKey": "d44c552c-735d-4a9b-9701-d94daeab1c05",
+            "mediaItems": [
+              {
+                "localMediaId": "5",
+                "mediaCategory": "DraftTweetImage",
+                "mediaId": "2103418352404447232"
+              }
+            ],
+            "caption": "Recorded reliance connects a changed premise to later findings."
+          },
+          "mutability": "Immutable",
+          "type": "MEDIA"
+        }
+      }
+    ],
+    "media": [
+      {
+        "id": "2103421868061724672",
+        "src": "/blog-media/2103421868061724672.jpg",
+        "width": 1200,
+        "height": 751,
+        "source": "https://pbs.twimg.com/media/HTDbC2qbkAAdB7g.jpg"
+      },
+      {
+        "id": "2103421990074011648",
+        "src": "/blog-media/2103421990074011648.jpg",
+        "width": 1200,
+        "height": 751,
+        "source": "https://pbs.twimg.com/media/HTDbJ9MbUAAsB1o.jpg"
+      },
+      {
+        "id": "2103417989374869504",
+        "src": "/blog-media/2103417989374869504.jpg",
+        "width": 1200,
+        "height": 675,
+        "source": "https://pbs.twimg.com/media/HTDXhFbbAAA178B.jpg"
+      },
+      {
+        "id": "2103418352404447232",
+        "src": "/blog-media/2103418352404447232.jpg",
+        "width": 1199,
+        "height": 771,
+        "source": "https://pbs.twimg.com/media/HTDX2N0awAAwlcN.jpg"
+      }
+    ],
+    "slug": "atom-bit-commit-agent-knowledge",
+    "label": "ARTICLE",
+    "image": "/blog-media/atom-bit-commit-hero.jpg",
+    "source": "https://x.com/richardt830/status/2103418433392050327",
+    "platform": "X",
+    "description": "Agents are becoming producers of findings. What unit lets the next person or agent inspect, govern, and build on a conclusion?",
+    "importReceipt": {
+      "retrievedFrom": "https://api.fxtwitter.com/status/2103418433392050327",
+      "retrievedAt": "2026-09-25T10:45:36.646Z",
+      "sha256": "177bce7fbc37a03fb8647b4c059dbf6c3a4406ae821a588aae9afb81d8779e32"
+    },
+    "coverWidth": 1600,
+    "coverHeight": 900
   }
 ]

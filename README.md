@@ -13,15 +13,21 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [//]: # (ob:e667d986)
-**Verified knowledge infrastructure for agent-native research teams.**
+**Build on every discovery.**
+
+**The typed knowledge system for RSI.**
 
 [//]: # (ob:92fbc10e)
-Proofpress is the **Intelligence Ledger for agent-native research teams**. It
-turns experiment findings, evaluation conclusions, model and harness decisions,
-and negative results into organization-owned knowledge with evidence,
-evaluation, scope, Human Approval, declared use, and outcomes.
+Proofpress turns agent-produced findings into reusable knowledge with
+**evidence, scope, validity, authority, relationships, and lifecycle**. Teams
+can carry successful experiments and useful failures into the next run,
+inspect their basis, and identify what needs review when evidence changes.
 
-**Own your intelligence. Verified. Governed. Cumulative.**
+Recursive self-improvement (RSI) and continuous organizational learning are
+the long-term direction. Today, Proofpress provides the knowledge and governance
+layer: deterministic checks and optional LM-as-judge advice support review;
+Human Approval or a separately enabled Owner-authorized workspace policy
+establishes reuse permission. Agents cannot approve their own findings.
 
 [Website](https://proofpress.dev) · [Quick start](#quick-start) ·
 [Localhost guide](docs/LOCALHOST_QUICKSTART.md) ·
@@ -214,7 +220,7 @@ Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
 [//]: # (ob:thesis-summary)
 
 [//]: # (ob:53ef8f8a)
-## Research output is growing faster than teams can trust—or retain
+## Agent-produced findings outpace verified organizational knowledge
 
 [//]: # (ob:87f7edac)
 Every research run can produce findings, decisions, failures, and learnings
@@ -233,7 +239,7 @@ compounding:
 <sub>Illustrative model, not measured data. Without a trusted learning loop,
 the gap keeps widening.</sub>
 
-## Today's stack captures pieces—not trusted intelligence
+## Memory alone leaves the knowledge lifecycle implicit
 
 | Layer | Primary role | What remains unresolved |
 |---|---|---|
@@ -244,17 +250,23 @@ the gap keeps widening.</sub>
 
 These systems are complementary. They can provide evidence to Proofpress or
 consume governed context from it. Proofpress supplies the governed record of
-what research teams learned, why it is trusted, and where it may be reused.
+what the team learned, what supports it, and where it may be reused.
+
+A pile of text can record the work while leaving evidence, scope, validity,
+and current permission to be reconstructed before every reuse. The finding
+is our unit of knowledge; its conditions and lifecycle are explicit data.
 
 [//]: # (ob:41b3a522)
 [//]: # (ob:governed-handoff)
 
 [//]: # (ob:cf8ae608)
-## The Intelligence Ledger
+## A typed knowledge system
 
 Any agent can propose a learning with evidence through MCP, CLI, Python, or
 HTTP. Proofpress records the exact version, evaluates its support and scope,
-and routes it through Human Approval. Only human-approved, current, in-scope
+and routes it through the configured admission policy. Human Approval is the
+default; a separately enabled Owner-authorized workspace policy may admit
+new claims under its configured checks. Only authorized, current, in-scope
 knowledge becomes governed context for future work.
 
 1. **Propose with evidence.** Preserve the source, version, and intended scope.
@@ -285,7 +297,7 @@ their own claims or administer owner authority.
 
 [//]: # (ob:ed5c57b7)
 MCP, CLI, Python, and HTTP call the same versioned lifecycle. Models, agents,
-workflows, and harnesses can change while the Intelligence Ledger stays with
+workflows, and harnesses can change while the knowledge record stays with
 the organization.
 
 The ledger records the relationship between a task, the governed context it
@@ -297,11 +309,29 @@ The Owner workspace is the Human Approval layer: review the candidate and its
 support, inspect lineage, then admit, reject, or request revision.
 
 <p align="center">
-  <img src="assets/product/research-ledger-record.svg" alt="Illustrative Intelligence Ledger record showing a scoped Harness B research conclusion admitted through Human Approval for next-experiment reuse" width="100%">
+  <img src="assets/product/research-ledger-record.svg" alt="Illustrative typed knowledge record showing a scoped Harness B research conclusion admitted through Human Approval for next-experiment reuse" width="100%">
 </p>
 
 [Task run tracking](docs/TASK_RUNS.md) documents the append-only Run,
 ContextReceipt, Reliance, Output, and Observation contracts.
+
+### Next: outcome-calibrated claim weighting
+
+**Claim → reuse → outcome → contextual weight update → better selection.**
+
+This is a product direction preview, not a shipped automatic learning engine.
+The intended mechanism attributes an outcome to a claim, task, and conditions,
+then updates its retrieval utility for similar work. Successful reuse can
+raise its weight; failed reuse or contradictions can lower it and trigger review.
+Evidence confidence and reuse utility remain distinct: usefulness does not
+establish truth, and a failed task does not by itself disprove a finding.
+Weight updates guide selection; they do not grant approval.
+
+The first users are teams producing findings with agents across scientific
+research, agent optimization, quantitative experimentation, and other
+knowledge-intensive work. The intended benefit is less reconstruction and
+repeated work; customer ROI must still be measured.
+
 
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)

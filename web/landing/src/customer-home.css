@@ -1,0 +1,369 @@
+/* The knowledge thread: one continuous research story, in Boardroom Clarity. */
+.threadHome { --story-paper: #fbfaf6; }
+.knowledgeJourney { position: relative; overflow: clip; }
+.knowledgeThread { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: visible; }
+.journeySection { position: relative; padding: 100px 72px; min-height: 620px; border-bottom: 1px solid var(--line); }
+.journeyCopy { position: relative; z-index: 2; width: 57%; max-width: 720px; }
+.journeyCopy h2 { margin: 0 0 28px; font-size: clamp(2.35rem, 3.45vw, 3.55rem); font-weight: 500; line-height: 1.09; letter-spacing: -.032em; text-wrap: pretty; }
+.journeyCopy > p { margin: 0 0 30px; max-width: 52ch; font-size: 19px; line-height: 1.65; color: var(--ink-2); }
+.threadScene { position: absolute; z-index: 0; width: 34%; top: 50px; right: 46px; height: calc(100% - 100px); max-height: 520px; min-height: 300px; }
+.threadSpine { fill: none; stroke: #cbdcda; stroke-width: 1.2; }
+.threadSpineActive { stroke: var(--accent); stroke-width: 1.8; }
+.threadCursor { fill: var(--accent); stroke: var(--story-paper); stroke-width: 4; }
+.threadNetwork { opacity: 1; transition: opacity 650ms cubic-bezier(.16,1,.3,1); }
+.threadNetwork[data-reached="false"] { opacity: .16; }
+.threadNetwork text { font: 400 12px/1.3 var(--font-ui); fill: #596d70; }
+.threadNetwork .networkTitle { fill: var(--accent); font-size: 14px; font-weight: 500; }
+.networkEdge, .networkBridge { fill: none; stroke: #94b6b9; stroke-width: 1.15; }
+.networkMesh { fill: none; stroke: #c9dbd9; stroke-width: .8; }
+.networkNode { fill: #fff; stroke: #64949b; stroke-width: 1.3; }
+.networkCoreOuter { fill: #edf5f3; stroke: #b3d0cf; stroke-width: 1; }
+.networkCore { fill: var(--accent); }
+.network-beginning .networkCore { fill: var(--story-paper); stroke: var(--accent); stroke-width: 2; }
+.networkOldEdge { fill: none; stroke: #a9b1b2; stroke-width: 1.1; stroke-dasharray: 3 5; }
+.networkOldNode { fill: #e9ebea; stroke: #9da7a7; stroke-width: 1.2; }
+.networkQuestion { fill: #fff8f3; stroke: #b15d3b; stroke-width: 1.5; }
+.network-research { opacity: .3 !important; }
+.journeyHero { min-height: 690px; display: flex; align-items: center; background: var(--story-paper); padding-block: 96px; }
+.journeyHero h1 { max-width: 710px; margin: 0 0 30px; font-size: clamp(3.35rem, 5.2vw, 5.15rem); font-weight: 500; line-height: 1.02; letter-spacing: -.037em; text-wrap: pretty; }
+.journeyHero .journeyLead { max-width: 46ch; font-size: 20px; line-height: 1.6; }
+.journeyHero .threadScene { top: 110px; height: 440px; }
+.heroActions { align-items: center; }
+.journeyTextLink { display: inline-flex; min-height: 48px; align-items: center; gap: 12px; padding: 0 16px; text-decoration: none; color: var(--accent); font-size: 15px; }
+.journeyTextLink:hover { text-decoration: underline; }
+.journeyCopy .heroDescription { margin: 27px 0 0; color: var(--ink-3); font-size: 13px; line-height: 1.5; }
+.journeyScattered { background: #fff; min-height: 730px; }
+.researchFragments { position: relative; width: 95%; height: 230px; margin-top: 40px; isolation: isolate; }
+.researchFragment { position: absolute; width: 68%; padding: 20px 22px; background: #f5f4ef; box-shadow: 0 7px 20px #18202712; }
+.researchFragment span { color: var(--ink-3); font-size: 12px; }
+.researchFragment p { margin: 12px 0 0; color: var(--ink-2); font-size: 17px; line-height: 1.45; }
+.fragmentOne { left: 0; top: 0; transform: rotate(-5deg); }
+.fragmentTwo { left: 28%; top: 57px; transform: rotate(6deg); background: #edf1ee; }
+.fragmentThree { left: 3%; top: 139px; transform: rotate(-3deg); }
+.journeyProduct { background: var(--story-paper); }
+.findingRecord { margin-top: 40px; border: 1px solid #9fbabd; border-radius: 12px; background: white; overflow: hidden; }
+.recordTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px; }
+.recordTop > span:first-child { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.recordState { color: var(--accent); font-size: 12px; }
+.recordTabs { display: flex; padding-inline: 24px; gap: 26px; border-block: 1px solid var(--line); }
+.recordTabs button { border: 0; border-bottom: 2px solid transparent; min-height: 48px; padding: 8px 0; background: transparent; color: var(--ink-2); cursor: pointer; font-size: 14px; }
+.recordTabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+.recordTabs button:hover { color: var(--accent); }
+.recordPanel { min-height: 315px; padding: 28px 24px; }
+.recordPanel h3 { margin: 0 0 18px; font-size: clamp(1.45rem, 2.1vw, 1.9rem); font-weight: 500; line-height: 1.2; letter-spacing: -.02em; }
+.recordPanel p { color: var(--ink-2); font-size: 15px; line-height: 1.6; }
+.recordPanel dl { margin: 22px 0 0; }
+.recordPanel dl > div { display: grid; grid-template-columns: 100px 1fr; gap: 18px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.5; }
+.recordPanel dt { font-weight: 500; }
+.recordPanel dd { margin: 0; color: var(--ink-2); }
+.recordCaption { margin: 0; padding: 12px 24px; background: #f3f7f5; font-size: 11px; color: var(--ink-3); }
+.recordSource + .recordSource { padding-top: 13px; border-top: 1px solid var(--line); }
+.recordSource strong { font-size: 14px; font-weight: 500; }
+.recordSource p { margin: 7px 0 13px; font-size: 14px; }
+.recordHistory { margin: 0; padding-left: 20px; }
+.recordHistory li { padding: 8px 0 12px 7px; color: var(--accent); }
+.recordHistory strong { display: block; font-weight: 500; font-size: 15px; }
+.recordHistory span { display: block; margin-top: 6px; color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+.productExplanation { margin-top: 24px; }
+.productExplanation summary { padding: 14px 0; color: var(--accent); font-size: 15px; cursor: pointer; }
+.productExplanation p { margin: 15px 0; color: var(--ink-2); font-size: 15px; line-height: 1.65; }
+.productExplanation a, .researchDetails a, .researchResults a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--accent); font-size: 14px; }
+.journeyForward { background: white; }
+.researchWorkflows { margin-top: 42px; }
+.researchWorkflows > div { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 20px 0; border-top: 1px solid var(--line); }
+.researchWorkflows h3 { margin: 0; font-size: 16px; line-height: 1.5; font-weight: 500; }
+.researchWorkflows p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
+.journeyCopy .journeyPartnerNote { margin: 24px 0 0; color: var(--accent); font-size: 14px; }
+.journeyChange { background: #f6f8f5; }
+.revisionExample { margin-top: 34px; }
+.revisionEarlier { padding-bottom: 20px; }
+.revisionEarlier span, .revisionCurrent > span { font-size: 12px; color: var(--ink-3); }
+.revisionEarlier p { margin: 8px 0 0; color: var(--ink-3); font-size: 17px; line-height: 1.45; text-decoration: line-through; text-decoration-color: #b8beba; }
+.revisionCurrent { padding: 23px 0; border-block: 1px solid #cdbdae; }
+.revisionCurrent > span { color: #954a2c; }
+.revisionCurrent > p { margin: 12px 0 0; font-size: 21px; line-height: 1.45; }
+.revisionReviewed { border-color: #94b6b2; }
+.revisionReviewed > span { color: var(--accent); }
+.revisionAction { display: inline-flex; min-height: 48px; align-items: center; gap: 14px; margin-top: 16px; padding: 0; border: 0; background: transparent; color: var(--accent); cursor: pointer; font-size: 15px; }
+.revisionAction:hover { text-decoration: underline; text-underline-offset: 4px; }
+.journeyCopy .smallCaption { margin: 14px 0 0; font-size: 12px; line-height: 1.5; color: var(--ink-3); }
+.journeyResearch { background: white; }
+.researchResults { margin-top: 38px; }
+.researchResults > div { padding: 22px 0; border-top: 1px solid var(--line); }
+.researchResults strong { color: var(--accent); font-size: 35px; font-weight: 500; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+.researchResults h3 { margin: 10px 0; font-size: 17px; font-weight: 500; line-height: 1.5; }
+.researchResults p, .researchDetails > p { margin: 0; color: var(--ink-2); font-size: 13px; line-height: 1.6; }
+.researchDetails { border-block: 1px solid var(--line); }
+.researchDetails summary { padding: 19px 0; color: var(--accent); cursor: pointer; font-size: 15px; }
+.researchDetails .modelChart { margin: 20px 0; padding: 0; }
+.researchDetails .modelChart h3 { font-size: 20px; }
+.journeyMission { padding-top: 70px; background: var(--story-paper); }
+.missionOpening { position: relative; min-height: 350px; }
+.missionOpening .threadScene { top: 0; right: -26px; height: 320px; width: 37%; }
+.journeyMission .journeyCopy h2 { font-size: clamp(3rem, 4.7vw, 4.7rem); }
+.journeyMission .journeyCopy > p { font-size: 18px; }
+.journeyMission .journeyCopy .missionSignature { font-size: 13px; color: var(--accent); }
+.journeyMission video { display: block; position: relative; z-index: 2; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #f7f4ec; }
+.threadHome .writing { background: #fff; }
+.threadHome .compactIntro h2 { font-size: clamp(2.4rem, 3.8vw, 3.5rem); font-weight: 500; }
+.threadHome .finalCta { display: block; padding-block: 80px; background: var(--ink); }
+.threadHome .finalCta h2 { color: #fff; max-width: 900px; font-size: clamp(2.6rem, 4.6vw, 4.5rem); font-weight: 500; line-height: 1.07; }
+.threadHome .finalCtaAction { display: flex; flex-wrap: wrap; align-items: center; gap: 24px 42px; margin-top: 36px; }
+.threadHome .finalCtaAction p { margin: 0; font-size: 19px; color: #ccd5d4; }
+.threadHome .finalCtaAction .button { min-width: 150px; }
+.threadHome a:focus-visible, .threadHome button:focus-visible, .threadHome summary:focus-visible, .recordPanel:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+@media (max-width:1100px) {
+ .journeySection { padding-inline: 40px; }
+ .journeyCopy { width: 58%; }
+ .threadScene { width: 32%; right: 30px; }
+ .threadNetwork text { font-size: 10px; }
+ .threadNetwork .networkTitle { font-size: 12px; }
+ .researchWorkflows > div { grid-template-columns: 1fr; gap: 8px; }
+ .recordTop { padding: 18px; }
+ .recordState { font-size: 11px; }
+ .recordPanel { padding-inline: 18px; }
+ .recordPanel dl > div { grid-template-columns: 80px 1fr; gap: 12px; }
+}
+@media (max-width:760px) {
+ .journeySection { min-height: 0; padding: 64px 24px 45px 50px; }
+ .journeyCopy { width: 100%; max-width: none; }
+ .journeyHero { display: block; padding-top: 60px; }
+ .journeyHero h1 { font-size: clamp(2.9rem, 10.9vw, 4.5rem); }
+ .journeyCopy h2 { font-size: clamp(2.05rem, 7.8vw, 3.1rem); }
+ .journeyCopy > p, .journeyHero .journeyLead { font-size: 17px; line-height: 1.65; }
+ .journeyHero .heroActions { display: flex; gap: 12px; }
+ .journeyHero .heroActions .button { width: auto; }
+ .journeyTextLink { padding-inline: 0; }
+ .threadScene, .journeyHero .threadScene, .missionOpening .threadScene { position: relative; top: auto; right: auto; width: 100%; height: 230px; min-height: 0; margin-top: 36px; }
+ .threadNetwork text { font-size: 10px; }
+ .threadNetwork .networkTitle { font-size: 12px; }
+ .researchFragments { width: 100%; height: 250px; }
+ .researchFragment { width: 80%; padding: 16px; }
+ .researchFragment p { font-size: 15px; }
+ .fragmentTwo { left: 19%; top: 72px; }
+ .fragmentThree { top: 161px; }
+ .recordTop { flex-wrap: wrap; }
+ .recordState { font-size: 11px; }
+ .recordTabs { padding-inline: 18px; }
+ .recordPanel { min-height: 370px; padding: 24px 18px; }
+ .recordPanel h3 { font-size: 25px; }
+ .recordPanel dl > div { grid-template-columns: 1fr; gap: 4px; }
+ .recordCaption { padding-inline: 18px; }
+ .recordSource p, .recordHistory span { font-size: 14px; }
+ .revisionCurrent > p { font-size: 19px; }
+ .quietThreadScene { height: 90px !important; margin-top: 0; }
+ .missionOpening { min-height: 0; }
+ .journeyMission .journeyCopy h2 { font-size: clamp(2.6rem, 10vw, 4rem); }
+ .journeyMission .threadScene { height: 250px; }
+ .journeyMission video { margin-top: 30px; }
+ .threadHome .finalCtaAction { display: grid; gap: 24px; }
+ .threadHome .finalCtaAction .button { width: fit-content; }
+ .threadHome .finalCta h2 { font-size: 2.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .threadNetwork { transition: none; }
+ .threadCursor { display: none; }
+}
+
+/* Full-height compositions provide chapter rhythm without capturing scroll input. */
+html.sceneSnap { scroll-snap-type: none; scroll-padding-top: 0; }
+.sceneSnap .journeySection, .sceneSnap .writing, .sceneSnap .finalCta { scroll-snap-align: start; scroll-snap-stop: normal; }
+.threadHome .journeySection { display: flex; align-items: center; min-height: min(90svh, 820px); padding-block: clamp(64px, 7vh, 88px); border-bottom: 0; }
+.threadHome .journeyHero { min-height: calc(100svh - 72px); scroll-margin-top: 72px; }
+.threadHome .journeyHero .threadScene { top: 18%; height: 58%; }
+.questionScene { display: flex; align-items: center; justify-content: center; }
+.questionScene p { position: relative; z-index: 2; margin: 0; padding: 18px; background: transparent; color: var(--accent); font-size: clamp(1.5rem, 2.6vw, 2.6rem); font-weight: 400; line-height: 1.2; text-align: center; letter-spacing: -.02em; }
+.sceneSweep { stroke-width: 1.6; }
+.threadHome .journeyScattered { justify-content: center; }
+.journeyScattered .journeyCopy { width: 82%; max-width: 1000px; text-align: center; }
+.journeyScattered .journeyCopy h2 { max-width: 920px; margin-inline: auto; }
+.journeyScattered .journeyCopy > p { max-width: 650px; margin-inline: auto; }
+.journeyScattered .researchFragments { max-width: 620px; height: 250px; margin: 45px auto 0; text-align: left; }
+.journeyScattered .threadScene { left: 10%; right: auto; top: auto; bottom: 20px; width: 80%; height: 80px; min-height: 0; }
+.threadHome .journeyProduct { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+.journeyProduct .journeyCopy { width: 100%; }
+.journeyProduct .receiptScene { position: relative; z-index: 2; top: auto; right: auto; width: 100%; height: auto; min-height: 0; max-height: none; }
+.receiptScene .findingRecord { margin-top: 0; }
+.receiptLabel { margin: 0 0 15px; color: var(--accent); font-size: 14px; }
+.receiptScene .recordPanel { min-height: 310px; }
+.journeyForward .threadScene { top: 18%; height: 62%; }
+.journeyChange .threadScene { top: 22%; height: 54%; }
+.threadHome .journeyResearch { min-height: 0; padding-block: 88px; }
+.journeyResearch .journeyCopy { width: 72%; max-width: 920px; }
+.journeyResearch .threadScene { width: 20%; right: 20px; top: 20%; height: 60%; }
+.journeyResearch .researchResults { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.threadHome .journeyMission { display: grid; grid-template-columns: 1fr 1.05fr; gap: 50px; min-height: 0; padding-block: 88px; }
+.missionOpening { width: 100%; min-height: 0; }
+.missionOpening .journeyCopy { width: 100%; }
+.missionOpening .threadScene { position: relative; top: auto; right: auto; width: 100%; height: 220px; min-height: 0; margin-top: 10px; }
+.journeyMission .journeyCopy h2 { font-size: clamp(2.8rem, 4vw, 4rem); }
+.journeyMission video { width: 100%; }
+.threadHome .writing { min-height: 0; display: block; padding-block: 80px; }
+.threadHome .writingImage { aspect-ratio: 16 / 9; max-height: 240px; }
+.threadHome .finalCta { min-height: 0; display: block; gap: 0; align-items: start; padding-block: 80px; }
+@media(max-width:1100px) {
+ .threadHome .journeyProduct { gap: 44px; }
+ .receiptScene .recordPanel { min-height: 320px; }
+ .recordPanel dl > div { grid-template-columns: 1fr; gap: 4px; }
+ .threadHome .journeyMission { gap: 32px; }
+}
+@media(max-width:760px) {
+ .threadHome .journeySection { display: block; padding-block: 48px; }
+ .threadHome .journeyHero { min-height: calc(100svh - 64px); scroll-margin-top: 64px; }
+ .threadHome .journeyHero .threadScene { top: auto; height: 145px; margin-top: 16px; }
+ .questionScene p { font-size: 23px; padding: 12px; transform: translateY(-18px); }
+ .journeyScattered .journeyCopy { width: 100%; text-align: left; }
+ .journeyScattered .researchFragments { height: 230px; margin-top: 36px; }
+ .journeyScattered .threadScene { position: relative; left: auto; bottom: auto; width: 100%; height: 55px; margin-top: 20px; }
+ .threadHome .journeyProduct { display: block; }
+ .journeyProduct .journeyCopy h2 { font-size: 29px; margin-bottom: 20px; }
+ .journeyProduct .journeyCopy > p { font-size: 16px; line-height: 1.5; margin-bottom: 16px; }
+ .journeyProduct .productExplanation { margin-top: 0; }
+ .journeyProduct .receiptScene { margin-top: 22px; }
+ .receiptLabel { margin-bottom: 10px; font-size: 12px; }
+ .receiptScene .recordTop { padding: 12px 16px; }
+ .receiptScene .recordTabs { padding-inline: 16px; }
+ .receiptScene .recordTabs button { min-height: 42px; }
+ .receiptScene .recordPanel { min-height: 240px; padding: 18px 16px; }
+ .receiptScene .recordPanel h3 { font-size: 22px; margin-bottom: 14px; }
+ .receiptScene .recordPanel > p { display: none; }
+ .receiptScene .recordPanel dl { margin-top: 16px; }
+ .receiptScene .recordPanel dl > div { grid-template-columns: 80px 1fr; gap: 10px; padding-block: 7px; font-size: 12px; }
+ .receiptScene .recordCaption { padding: 9px 16px; font-size: 10px; }
+ .receiptScene .recordSource p, .receiptScene .recordHistory span { font-size: 12px; line-height: 1.5; }
+ .receiptScene .recordHistory li { padding-bottom: 6px; }
+ .journeyForward .threadScene, .journeyChange .threadScene { top: auto; height: 145px; margin-top: 24px; }
+ .journeyForward .researchWorkflows { margin-top: 26px; }
+ .journeyForward .researchWorkflows > div { padding-block: 14px; }
+ .journeyResearch .journeyCopy { width: 100%; }
+ .journeyResearch .researchResults { grid-template-columns: 1fr; gap: 0; margin-top: 22px; }
+ .journeyResearch .threadScene { position: absolute; left: 0; right: auto; top: 20%; width: 35px; height: 55%; margin: 0; }
+ .threadHome .journeyMission { display: block; }
+ .missionOpening .threadScene { height: 150px; margin-top: 0; }
+ .journeyMission .journeyCopy > p { font-size: 16px; margin-bottom: 18px; }
+ .journeyMission .journeyCopy .missionSignature { margin-bottom: 0; }
+ .journeyMission video { margin-top: 12px; }
+ .threadHome .writing { min-height: 0; padding-block: 64px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ html.sceneSnap { scroll-snap-type: none; scroll-behavior: auto; }
+}
+/* Text stays transparent; measured routing reserves whitespace around it. */
+.missionOpening .journeyCopy { background: transparent; }
+@media(max-width:760px) {
+ .threadHome .journeyForward, .threadHome .journeyChange { padding-block: 40px; }
+ .journeyForward .journeyCopy > p, .journeyChange .journeyCopy > p { font-size: 16px; line-height: 1.55; margin-bottom: 22px; }
+ .journeyForward .researchWorkflows > div { padding-block: 10px; }
+ .journeyForward .threadScene, .journeyChange .threadScene { height: 110px; margin-top: 12px; }
+ .journeyChange .revisionExample { margin-top: 24px; }
+}
+
+/* Material-led passages: the work changes form as the thread moves through it. */
+.threadHome .journeyScattered { display: block; min-height: 0; padding: 84px 48px 150px; }
+.journeyScattered .journeyCopy { width: 100%; max-width: 1190px; margin-inline: auto; background: transparent; }
+.journeyScattered .journeyCopy h2 { font-size: clamp(2rem, 3vw, 3rem); background: transparent; width: fit-content; padding-inline: 0; }
+.journeyScattered .researchFragments { width: 100%; max-width: 1100px; height: 370px; margin-top: 30px; }
+.researchFragments .researchFragment { box-shadow: 0 10px 28px #18202713; width: auto; padding: 22px 25px; text-align: left; }
+.researchFragments .fileName { display: block; padding-bottom: 11px; color: #586363; font: 12px/1.4 var(--font-mono, monospace); border-bottom: 1px solid #d9ddd5; }
+.researchFragment pre { margin: 17px 0 10px; white-space: pre-wrap; color: #384442; font: 13px/1.9 var(--font-mono, monospace); }
+.mdSyntax { color: #427a7d; }
+.researchFragments .markdownDraft { width: 365px; top: 20px; left: 25%; transform: rotate(-6deg); background: #f6f4eb; z-index: 3; }
+.researchFragments .conversationNote { width: 285px; left: 65%; top: 15px; transform: rotate(5deg); background: #edf2ee; z-index: 2; }
+.researchFragments .conversationNote p { font-size: 20px; color: #304544; }
+.conversationNote small { display: block; margin-top: 16px; color: #5e6b67; font-size: 12px; }
+.researchFragments .failedAttempt { width: 295px; top: 70px; left: 1%; transform: rotate(4deg); background: #faf9f4; z-index: 1; }
+.researchFragments .looseReference { width: 290px; top: 192px; left: 59%; transform: rotate(-3deg); background: #faf9f4; z-index: 4; }
+.researchFragments .smallScrap { width: 215px; top: 257px; left: 24%; transform: rotate(3deg); background: #f0efe4; z-index: 5; }
+.researchFragments .smallScrap p { font-size: 14px; margin-top: 12px; }
+.researchFragments .paperNote, .researchFragments .marginQuery { display: block; font-size: 13px; color: #8e4931; transform: rotate(-2deg); border: 0; }
+.sampleRows { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 14px; font: 11px/1.5 var(--font-mono, monospace); color: #59615c; }
+.journeyScattered .journeyCopy .scatteredAfterword { margin: 38px auto 0; font-size: 18px; color: var(--ink-2); background: transparent; width: fit-content; padding: 6px 0; }
+.threadHome .journeyForward { display: block; min-height: 0; padding-block: 84px 150px; }
+.journeyForward .journeyCopy { width: 100%; max-width: none; background: transparent; }
+.journeyForward .journeyCopy h2 { max-width: 730px; font-size: clamp(2rem, 3vw, 3rem); }
+.journeyForward .researchWorkflows { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 50px; margin-top: 55px; }
+.journeyForward .researchWorkflows > div { display: block; border: 0; padding: 0; }
+.researchWorkflows h3 { margin-bottom: 24px; }
+.workflowMaterial { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 215px; padding: 22px; margin-bottom: 28px; background: #f5f4ed; }
+.materialFile { font-size: 11px; color: #5d6761; }
+.materialAnnotation { font-size: 12px; color: #3e6c64; }
+.sampleComparison { display: flex; gap: 26px; align-items: end; height: 110px; }
+.sampleComparison > span { display: flex; flex-direction: column-reverse; gap: 10px; width: 50%; font-size: 10px; color: #59635d; }
+.sampleComparison i { display: block; width: 70%; height: 40px; background: #b6cbc4; }
+.sampleComparison > span:last-child i { height: 70px; background: #678e88; }
+.evalMaterial { background: #eff3ef; transform: rotate(-2deg); }
+.researchWorkflows .evalMaterial p { font-size: 14px; color: #304c43; }
+.evalMaterial del { color: #5e6b62; }
+.conversationNote > span { color: #5b6862; }
+.tradingMaterial { background: #f5f2eb; }
+.reviewStamp { color: #88523b; border: 1px solid #c4a58f; padding: 8px 10px; font-size: 12px; transform: rotate(3deg); align-self: start; }
+.journeyForward .threadScene { top: auto; bottom: 24px; left: 8%; width: 84%; height: 80px; min-height: 0; }
+.network-forward text { display: none; }
+.journeyForward .journeyPartnerNote { margin-top: 35px; }
+.threadHome .journeyChange { min-height: min(86svh, 780px); }
+.journeyChange .journeyCopy { width: 57%; }
+.journeyChange .journeyCopy h2 { font-size: clamp(2rem, 3vw, 3rem); max-width: 500px; }
+.revisionExample { padding: 24px 30px; background: #fffefa; box-shadow: 0 12px 32px #1820270b; transform: rotate(-1deg); }
+.revisionFile { display: flex; justify-content: space-between; gap: 15px; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid #d9ddd5; color: #5c6963; font: 12px/1.4 var(--font-mono, monospace); }
+.revisionFile span { font-family: var(--font-ui); }
+.revisionEarlier { padding-left: 20px; position: relative; }
+.revisionEarlier::before { content: '−'; position: absolute; left: 0; top: 22px; color: #975843; }
+.revisionCurrent { padding-left: 20px; position: relative; }
+.revisionCurrent::before { content: '+'; position: absolute; left: 0; top: 48px; color: #397568; }
+.revisionCurrent > p { font-size: 19px; }
+.journeyResearch .journeyCopy h2 { font-size: clamp(2rem, 3vw, 3rem); }
+@media (max-width:1100px) and (min-width:761px) {
+ .journeyForward .researchWorkflows { gap: 25px; }
+ .researchFragments .markdownDraft { left: 23%; width: 340px; }
+ .researchFragments .conversationNote { left: 62%; width: 250px; }
+ .researchFragments .failedAttempt { width: 250px; }
+ .researchFragments .looseReference { left: 56%; }
+}
+@media(max-width:760px) {
+ .threadHome .journeyScattered { padding-inline: 40px 24px; }
+ .journeyScattered .journeyCopy h2 { font-size: 31px; padding-inline: 0; }
+ .journeyScattered .researchFragments { height: 410px; margin-top: 32px; }
+ .researchFragments .researchFragment { padding: 16px 18px; }
+ .researchFragments .markdownDraft { left: 8%; top: 15px; width: 90%; }
+ .researchFragment pre { font-size: 10px; line-height: 1.9; }
+ .researchFragments .failedAttempt { left: -5%; top: 140px; width: 70%; z-index: 4; }
+ .researchFragments .conversationNote { left: 25%; top: 300px; width: 76%; z-index: 6; }
+ .researchFragments .conversationNote p { font-size: 17px; }
+ .researchFragments .conversationNote small { margin-top: 10px; }
+ .researchFragments .looseReference { left: 48%; top: 220px; width: 53%; padding: 12px; }
+ .researchFragments .looseReference .fileName { font-size: 9px; }
+ .sampleRows { font-size: 9px; gap: 4px; }
+ .researchFragments .smallScrap { display: none; }
+ .journeyScattered .journeyCopy .scatteredAfterword { font-size: 16px; padding: 0; margin-top: 24px; }
+ .threadHome .journeyForward { padding-top: 48px; }
+ .journeyForward .researchWorkflows { display: block; margin-top: 30px; }
+ .journeyForward .researchWorkflows > div { position: relative; min-height: 160px; padding: 18px 0 18px 130px; border-top: 1px solid var(--line); }
+ .researchWorkflows h3 { margin: 0 0 10px; font-size: 16px; }
+ .researchWorkflows > div > p { font-size: 13px; line-height: 1.5; }
+ .workflowMaterial { position: absolute; left: 0; top: 20px; width: 112px; min-height: 120px; padding: 10px; margin: 0; }
+ .materialFile { font-size: 9px; }
+ .materialAnnotation { display: none; }
+ .sampleComparison { height: 80px; gap: 10px; }
+ .sampleComparison > span { font-size: 8px; gap: 6px; }
+ .sampleComparison i { height: 20px; }
+ .sampleComparison > span:last-child i { height: 38px; }
+ .researchWorkflows .evalMaterial p { font-size: 10px; line-height: 1.35; }
+ .reviewStamp { font-size: 9px; padding: 4px; }
+ .researchWorkflows .tradingMaterial p { font-size: 10px; line-height: 1.35; }
+ .journeyForward .threadScene { position: relative; left: auto; bottom: auto; top: auto; width: 100%; height: 60px; margin-top: 0; }
+ .journeyChange .journeyCopy { width: 100%; }
+ .journeyChange .journeyCopy h2 { font-size: 31px; }
+ .revisionExample { padding: 22px 20px; }
+ .revisionFile { font-size: 10px; }
+ .revisionCurrent > p { font-size: 17px; }
+ .journeyChange .threadScene { height: 80px; }
+}
+
+@media(max-width:760px) {
+ .threadHome .journeySection:not(.journeyHero) { min-height: 0; padding-block: 48px; }
+ .journeyScattered .threadScene { position: relative; left: auto; bottom: auto; width: 100%; height: 55px; margin-top: 25px; }
+ .journeyForward .threadScene { position: relative; left: auto; bottom: auto; width: 100%; height: 70px; margin-top: 24px; }
+ .receiptScene .recordTabs button { min-height: 44px; }
+ .threadHome .finalCta { padding-block: 64px; }
+ .threadHome .finalCtaAction { gap: 24px; margin-top: 32px; }
+}
