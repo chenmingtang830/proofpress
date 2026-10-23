@@ -110,8 +110,59 @@ Continue in **[Localhost: files → Claude Code → review → reuse](docs/LOCAL
 Proofpress stores submitted excerpts and governance records locally. Claude
 Code still processes the material it reads under your Claude configuration;
 localhost does not make the model offline. Optional Proofpress AI checks have
-a separate provider/processing opt-in. To save your own provider API key, first
-configure [persistent local encryption storage](docs/LOCALHOST_QUICKSTART.md#optional-use-your-own-ai-review-provider).
+a separate provider/processing opt-in.
+
+#### Use your own AI-assisted review (BYOK)
+
+Provider API keys are encrypted before being stored in SQLite. To enable the
+API key input, configure the server's `PROOFPRESS_SECRET_ENCRYPTION_KEY` first.
+This encryption key is separate from your provider API key and Owner/Agent
+credentials.
+
+For an instance that has **never saved a provider key**, stop the server with
+`Ctrl-C`, then initialize a persistent encryption key in your private Terminal:
+
+```sh
+umask 077
+mkdir -p "$HOME/.local/share/proofpress"
+python3 - <<'PYTHON'
+import base64
+import os
+from pathlib import Path
+
+key_file = Path.home() / ".local/share/proofpress/provider-key-encryption.key"
+try:
+    with key_file.open("x", encoding="ascii") as output:
+        output.write(base64.urlsafe_b64encode(os.urandom(32)).decode("ascii") + "\n")
+except FileExistsError:
+    pass
+PYTHON
+```
+
+The file is created with owner-only permissions and is not overwritten on
+repeat runs. If you have already stored provider credentials, reuse the
+**original encryption key**; generating another key cannot decrypt them.
+
+Load the key and restart your existing database. Run this entire block in the
+same Terminal tab **every time you start the server**; change the database
+path if your workspace uses a different one:
+
+```sh
+export PROOFPRESS_SECRET_ENCRYPTION_KEY="$(cat "$HOME/.local/share/proofpress/provider-key-encryption.key")"
+proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
+  serve --host 127.0.0.1 --port 7334
+```
+
+Reload **Admin → Verification settings**, turn on **AI-assisted checks**, choose
+your provider and model, enter its API key privately, review the processing
+notice, and save. Keep automatic approval off unless you separately choose it.
+Saving AI settings can process pending findings and incur provider charges.
+
+The key field should now be enabled; after saving, only the provider key's last
+four characters are shown. A saved key does not prove a successful provider
+call: verify a review receipt. Keep the encryption file outside Git, retain a
+protected backup, and reuse it across restarts. Never paste either key into
+chat. See the [complete BYOK guide and troubleshooting](docs/LOCALHOST_QUICKSTART.md#optional-use-your-own-ai-review-provider).
 
 ### Connect an agent to a Hosted workspace
 
