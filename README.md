@@ -13,15 +13,17 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [//]: # (ob:e667d986)
-**Verified knowledge infrastructure for agent-native research teams.**
+**Typed knowledge infrastructure for continuous learning.**
 
-[//]: # (ob:92fbc10e)
-Proofpress is the **Intelligence Ledger for agent-native research teams**. It
-turns experiment findings, evaluation conclusions, model and harness decisions,
-and negative results into organization-owned knowledge with evidence,
-evaluation, scope, Human Approval, declared use, and outcomes.
+Build on every discovery. Proofpress turns agent-produced findings into typed,
+evidence-bound knowledge that teams and agents can inspect, review, and reuse.
+Each finding carries its evidence, dependencies, and conditions for reuse.
 
-**Own your intelligence. Verified. Governed. Cumulative.**
+**Verifiable. Traceable. Auditable.**
+
+Spend less time reconstructing past work. Carry forward what the team learned,
+recognize what needs rechecking, and give the next experiment a better starting
+point.
 
 [Website](https://proofpress.dev) · [Quick start](#quick-start) ·
 [Localhost guide](docs/LOCALHOST_QUICKSTART.md) ·
@@ -214,94 +216,90 @@ Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
 [//]: # (ob:thesis-summary)
 
 [//]: # (ob:53ef8f8a)
-## Research output is growing faster than teams can trust—or retain
+## Agents generate outputs faster than teams can trust them
 
-[//]: # (ob:87f7edac)
-Every research run can produce findings, decisions, failures, and learnings
-that should change future work. Two failures prevent that intelligence from
-compounding:
+The result is saved. The reasoning is scattered. Experiments, evaluations,
+analyses, and failed attempts leave findings across files, chats, traces, and
+repositories. The next person or agent has to reconstruct what supports a
+conclusion, where it applies, and whether it is still current.
 
-| Unverified | Scattered |
+Memory helps preserve and retrieve context. Files, embeddings, and knowledge
+graphs are useful representations. Some memory systems also extract facts,
+update relationships, and track time. The remaining question is concrete:
+**which finding may the next workflow rely on, under which conditions?**
+
+Compression alone won't close the trust gap. Scattered evidence, silent drift,
+memory laundering, and repeated reconstruction can survive a shorter context.
+
+## A typed knowledge system
+
+A finding is more than a text record with extra fields. Its type and lifecycle
+make its role, supporting evidence, dependencies, and reuse conditions explicit.
+Proofpress applies checks and review decisions to those objects before they
+enter downstream context.
+
+- **Verifiable:** inspect the submitted evidence and recorded checks behind a finding.
+- **Traceable:** follow its sources, dependencies, versions, and declared downstream use.
+- **Auditable:** retain review decisions, revisions, withdrawals, and outcome observations.
+
+These properties make reliance inspectable; they do not guarantee that every
+finding is true or that every relevant event was captured.
+
+### Knowledge should be managed like software
+
+Software reuse depends on more than storing and finding source code. The
+analogy for knowledge is an explicit lifecycle around a usable object:
+
+| Software concept | Knowledge counterpart |
 |---|---|
-| **Research output scales. Verification does not.** | **Agents learn. Research teams forget.** |
-| Claims travel without durable evidence, scope, review, or authority. | Useful learnings disappear into runs, traces, chats, files, tools, and people. |
+| Compiler | Turn submitted findings into structured, evidence-bound objects. |
+| Type checker | Check evidence, scope, and the rules for reuse. |
+| Dependency manager | Track what a conclusion depends on and what needs reassessment. |
+| Runtime | Return eligible knowledge and record its use in a workflow. |
+
+This is an architectural analogy, not a claim of formal proof or a literal
+compiler implementation.
+
+### Capture → Verify → Reuse → Learn → Review
+
+1. **Capture findings and evidence.** Preserve the source version and intended scope through MCP, CLI, Python, or HTTP.
+2. **Verify and review.** Apply deterministic checks and optional model advice. Human review is the default admission path; agents cannot approve their own claims.
+3. **Reuse within conditions.** Retrieve current, admitted, in-scope knowledge for the requesting actor. Record the exact versions supplied and relied on.
+4. **Connect outcomes.** Attach outputs, tests, and later observations to the work that used a finding.
+5. **Maintain the lifecycle.** Reassess, revise, supersede, or withdraw findings as evidence and dependencies change. Retain prior decisions and history.
+
+The learning loop serves **continuous organizational learning**. Outcome-based
+retrieval weighting is a product direction, not a shipped or validated automatic
+learning engine. Reuse utility is separate from evidence confidence and never
+grants authority.
+
+## Across agents and tools
 
 <p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Illustrative curve showing agent-produced research output growing faster than human-curated research knowledge as it exceeds a team's verification capacity" width="100%">
+  <img src="assets/architecture/product-architecture.svg" alt="Proofpress connects agents through MCP, CLI, Python, and HTTP to evidence checks, review, and scoped reuse" width="100%">
 </p>
 
-<sub>Illustrative model, not measured data. Without a trusted learning loop,
-the gap keeps widening.</sub>
-
-## Today's stack captures pieces—not trusted intelligence
-
-| Layer | Primary role | What remains unresolved |
-|---|---|---|
-| Observability | Records activity | Activity is not reusable knowledge. |
-| Memory | Recalls history | Recall is not durable learning. |
-| Knowledge graphs and ontologies | Map relationships | Structure is not verified knowledge. |
-| **Proofpress** | **Governs evidence-backed research learnings and reliance** | **What may future researchers and agents trust and reuse?** |
-
-These systems are complementary. They can provide evidence to Proofpress or
-consume governed context from it. Proofpress supplies the governed record of
-what research teams learned, why it is trusted, and where it may be reused.
-
-[//]: # (ob:41b3a522)
-[//]: # (ob:governed-handoff)
-
-[//]: # (ob:cf8ae608)
-## The Intelligence Ledger
-
-Any agent can propose a learning with evidence through MCP, CLI, Python, or
-HTTP. Proofpress records the exact version, evaluates its support and scope,
-and routes it through Human Approval. Only human-approved, current, in-scope
-knowledge becomes governed context for future work.
-
-1. **Propose with evidence.** Preserve the source, version, and intended scope.
-2. **Evaluate.** Apply deterministic checks and optional model or external
-   assessments.
-3. **Approve.** An authenticated human admits, rejects, or requests revision.
-4. **Reuse deliberately.** Record the exact governed context presented and the
-   claim versions an agent explicitly relied on.
-5. **Connect outputs and outcomes.** Keep artifact hashes, tests, feedback, and
-   later observations attached to the work.
-6. **Improve through governance.** Use new evidence and outcomes to propose the
-   next review without silently rewriting organizational truth.
-
-[//]: # (ob:8282eb31)
-Agents may submit, propose, evaluate, and retrieve. They may never approve
-their own claims or administer owner authority.
-
-[//]: # (ob:612fa08f)
-[//]: # (ob:product-surfaces)
-
-[//]: # (ob:57f61eb0)
-## An open intelligence layer
-
-[//]: # (ob:1aa1b52d)
-<p align="center">
-  <img src="assets/architecture/product-architecture.svg" alt="Proofpress architecture connecting agents through MCP, Python, CLI, or HTTP to evaluation, Human Approval, and governed reuse" width="100%">
-</p>
-
-[//]: # (ob:ed5c57b7)
-MCP, CLI, Python, and HTTP call the same versioned lifecycle. Models, agents,
-workflows, and harnesses can change while the Intelligence Ledger stays with
-the organization.
-
-The ledger records the relationship between a task, the governed context it
-received, declared reliance, external outputs, and later observations. This is
-the foundation for continuous organizational learning; it does not collapse
-evaluation, real-world outcomes, and Human Approval into one score.
-
-The Owner workspace is the Human Approval layer: review the candidate and its
-support, inspect lineage, then admit, reject, or request revision.
+Existing memory, observability, skills, and workflow tools can supply inputs or
+consume eligible findings. Proofpress maintains the knowledge lifecycle across
+them. The Owner workspace lets reviewers inspect support and lineage before
+admitting, rejecting, or requesting revision.
 
 <p align="center">
-  <img src="assets/product/research-ledger-record.svg" alt="Illustrative Intelligence Ledger record showing a scoped Harness B research conclusion admitted through Human Approval for next-experiment reuse" width="100%">
+  <img src="assets/product/research-ledger-record.svg" alt="Illustrative typed finding with evidence, scope, review history, and conditions for reuse" width="100%">
 </p>
 
-[Task run tracking](docs/TASK_RUNS.md) documents the append-only Run,
-ContextReceipt, Reliance, Output, and Observation contracts.
+[Task run tracking](docs/TASK_RUNS.md) documents the Run, ContextReceipt,
+Reliance, Output, and Observation contracts.
+
+## Evaluation evidence
+
+- **89.3% → 93.4% rubric completion** in the [seven-model Harvey LAB-derived controlled evaluation](studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md), across 126 paired runs.
+- The [website evidence section](https://proofpress.dev/#evidence) links the separate **5.5× fewer numeric errors** result (11 → 2 incorrect final values, 20 paired chains, 1,600 numeric slots per arm).
+- **38.3% fewer executor tokens** in the separate [Muse Spark 1.1 two-task APEX pilot](studies/apex-agent-eval/ara/evidence/tables/table3_cross_task_summary.md). This excludes upstream treatment preparation.
+
+These are bounded controlled studies with different protocols and denominators.
+They do not establish customer ROI, universal error prevention, or the complete
+autonomous learning loop. See the [study catalog](studies/README.md).
 
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)
@@ -422,9 +420,9 @@ use its generated `proofpress-mcp.json`. These are separate storage backends.
 Python is the supported SDK and CLI installation path. Older Python imports,
 console aliases, and portable top-level commands remain deprecated forwarding
 shims; new integrations should use `ProofpressClient`, `proofpress`, and
-`proofpress legacy ...` for the portable artifact ledger. Browser tooling is
-used internally to build the landing page and Owner workspace; it is not a
-customer integration surface.
+`proofpress legacy ...` for the portable artifact ledger. Browser tooling builds the Owner workspace. The public website is maintained
+separately in [continuara-lab/proofpress-website](https://github.com/continuara-lab/proofpress-website);
+this product repository does not deploy proofpress.dev.
 
 [//]: # (ob:85117b99)
 [//]: # (ob:docs-release)

@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="research-ledger-title research-ledger-description">
-  <title id="research-ledger-title">Illustrative Proofpress Intelligence Ledger record for a research team</title>
+  <title id="research-ledger-title">Illustrative Proofpress typed knowledge record for a research team</title>
   <desc id="research-ledger-description">Experimentation, evaluation, and analysis agents propose research claims with evidence. Human Approval admits a scoped Harness B conclusion for declared next-experiment reuse.</desc>
   <rect width="1440" height="900" fill="#FFFFFF"/>
   <g font-family="Arial, Helvetica, sans-serif">
     <text x="72" y="78" fill="#0E6675" font-size="16" font-weight="700" letter-spacing="2">PROOFPRESS / ILLUSTRATIVE RESEARCH RECORD</text>
-    <text x="72" y="134" fill="#181A20" font-size="47" font-weight="700" letter-spacing="-1.5">The Intelligence Ledger</text>
+    <text x="72" y="134" fill="#181A20" font-size="47" font-weight="700" letter-spacing="-1.5">A typed knowledge system</text>
     <text x="72" y="169" fill="#555B66" font-size="20">Evidence, scope, approval, use, and outcomes stay attached to a research conclusion.</text>
   </g>
   <rect x="72" y="214" width="1296" height="604" fill="#FFFFFF" stroke="#181A20" stroke-width="2"/>
@@ -40,7 +40,7 @@
     <rect x="862" y="290" width="28" height="28" fill="#FFFFFF" stroke="#0E6675" stroke-width="2"/>
     <circle cx="887" cy="315" r="6" fill="#0E6675"/>
     <g font-family="Arial, Helvetica, sans-serif">
-      <text x="906" y="312" fill="#0E6675" font-size="14" font-weight="700" letter-spacing="1.2">INTELLIGENCE LEDGER</text>
+      <text x="906" y="312" fill="#0E6675" font-size="14" font-weight="700" letter-spacing="1.2">TYPED KNOWLEDGE</text>
       <text x="1238" y="312" fill="#686F78" font-size="11" font-weight="700" letter-spacing="1" text-anchor="end">LIVE RECORD</text>
       <text x="862" y="364" fill="#686F78" font-size="12" font-weight="700" letter-spacing="1">LR-204 · VERSION 03</text>
       <text x="1248" y="364" fill="#2F6B54" font-size="12" font-weight="700" letter-spacing="1" text-anchor="end">ADMITTED</text>

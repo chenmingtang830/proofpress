@@ -3,12 +3,12 @@
   "owner": {
     "name": "Proofpress"
   },
-  "description": "Evidence-bound governance workflows for agent-produced knowledge.",
+  "description": "Typed knowledge workflows for continuous learning.",
   "plugins": [
     {
       "name": "proofpress",
       "source": "./plugins/proofpress",
-      "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
+      "description": "Typed knowledge infrastructure for continuous learning. Submit evidence-backed findings and retrieve eligible knowledge.",
       "version": "0.2.1",
       "author": {
         "name": "Proofpress"

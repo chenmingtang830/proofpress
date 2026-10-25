@@ -1,7 +1,7 @@
 {
   "name": "proofpress",
   "version": "0.2.1",
-  "description": "Govern evidence-backed agent knowledge with bounded proposals and Human Approval.",
+  "description": "Typed knowledge infrastructure for continuous learning. Submit evidence-backed findings and retrieve eligible knowledge.",
   "author": {
     "name": "Proofpress"
   },
