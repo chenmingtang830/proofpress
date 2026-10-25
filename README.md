@@ -294,7 +294,7 @@ Reliance, Output, and Observation contracts.
 ## Evaluation evidence
 
 - **89.3% → 93.4% rubric completion** in the [seven-model Harvey LAB-derived controlled evaluation](studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md), across 126 paired runs.
-- The [website evidence section](https://proofpress.dev/#evidence) links the separate **5.5× fewer numeric errors** result (11 → 2 incorrect final values, 20 paired chains, 1,600 numeric slots per arm).
+- The [website evidence section](https://proofpress.dev/#evidence) reports the separate **5.5× fewer numeric errors** result (11 → 2 incorrect final values, 20 paired chains, 1,600 numeric slots per arm).
 - **38.3% fewer executor tokens** in the separate [Muse Spark 1.1 two-task APEX pilot](studies/apex-agent-eval/ara/evidence/tables/table3_cross_task_summary.md). This excludes upstream treatment preparation.
 
 These are bounded controlled studies with different protocols and denominators.
