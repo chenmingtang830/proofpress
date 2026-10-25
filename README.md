@@ -231,6 +231,13 @@ update relationships, and track time. The remaining question is concrete:
 Compression alone won't close the trust gap. Scattered evidence, silent drift,
 memory laundering, and repeated reconstruction can survive a shorter context.
 
+<p align="center">
+  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Conceptual trust gap between agent-produced findings and verified organizational knowledge" width="100%">
+</p>
+
+<sub>Illustrative model, not measured data. The curve describes the trust gap;
+it is not a universal mathematical growth law.</sub>
+
 ## A typed knowledge system
 
 A finding is more than a text record with extra fields. Its type and lifecycle
