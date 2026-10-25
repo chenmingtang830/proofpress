@@ -1,6 +1,51 @@
 [//]: # (ob:c7a592b2)
 # Proofpress FAQ
 
+## What is Proofpress?
+
+Typed knowledge infrastructure for continuous learning. Teams use it to carry
+agent-produced findings into later work with their evidence, dependencies,
+review history, and conditions for reuse intact.
+
+## How is it different from memory or a knowledge graph?
+
+Memory can retain context, extract facts, and update relationships. A graph is
+a useful representation. Proofpress focuses on the finding's lifecycle: what
+supports it, where it applies, which dependencies it needs, and whether it is
+currently eligible for reuse. A graph or a schema field alone is not the
+product distinction.
+
+## What does typed mean here?
+
+The object's meaning determines its required evidence, allowed relationships,
+checks, and reuse conditions. Types help the system apply those rules; a type
+label does not independently establish that a claim is true.
+
+## Does Proofpress learn automatically from outcomes?
+
+It records tasks, context receipts, declared reliance, outputs, and observations.
+Outcome-based retrieval weighting is a product direction, not an established
+shipped automatic learning engine. Utility does not replace evidence or grant
+permission for reuse.
+
+## What is the default review boundary?
+
+Agents may propose findings and evaluate evidence. Human review is the default
+admission path; agents cannot approve their own proposals. Eligible context
+excludes unavailable, out-of-scope, unauthorized, or dependency-blocked claims.
+See [knowledge semantics](VERIFIED_KNOWLEDGE_LEDGER.md) for details.
+
+## Where do I start?
+
+Use the [README](../README.md#quick-start), [localhost guide](LOCALHOST_QUICKSTART.md),
+or [Remote MCP](REMOTE_MCP.md), depending on your workspace.
+
+## Legacy portable artifact FAQ — historical reference
+
+The answers below describe the portable Markdown/HTML artifact workflow,
+maintained under `proofpress legacy`. They do not define the current typed
+knowledge product. Existing capsules and histories remain preserved.
+
 [//]: # (ob:a49fb51d)
 ## Is this just Git blame or Git for docs?
 

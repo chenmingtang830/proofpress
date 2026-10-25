@@ -1,7 +1,7 @@
 # Proofpress plugin
 
-Proofpress governs whether an evidence-backed, agent-produced claim may be
-reused downstream. This plugin bundles the governed-context workflow for use
+Proofpress is typed knowledge infrastructure for continuous learning. Findings
+carry evidence, dependencies, review history, and conditions for reuse. This plugin bundles the governed-context workflow for use
 with a Proofpress Hosted or self-hosted workspace. It is not a memory store, an
 approval bot, or an owner administration client.
 

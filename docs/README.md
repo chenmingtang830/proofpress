@@ -11,8 +11,9 @@
 ## Start here
 
 [//]: # (ob:4ef44c57)
-Proofpress governs whether an agent-produced claim may be reused, not the
-documents or traces from which an agent worked. Start with the repository
+Proofpress is typed knowledge infrastructure for continuous learning. It makes
+agent-produced findings verifiable, traceable, and auditable by connecting
+evidence, dependencies, conditions for reuse, and lifecycle state. Start with the repository
 [README](../README.md) for the product entry point, then choose the path that
 matches what you need to do:
 

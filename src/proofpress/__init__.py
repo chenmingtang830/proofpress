@@ -1,4 +1,4 @@
-"""Public Python interface for the Proofpress governance control plane."""
+"""Public Python interface for Proofpress typed knowledge infrastructure."""
 
 from proofpress.client import ProofpressClient, ProofpressError
 
