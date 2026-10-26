@@ -15,7 +15,7 @@ const contactUrl = "https://ancient-ball-940.notion.site/eacf21eef9b54c3287f7289
 // Public media lives in Vercel Blob; source footage and renders stay out of Git.
 const brandFilmUrl = "https://qj4v3hgnvu4pvbdd.public.blob.vercel-storage.com/films/proofpress-shoulders-20260910-1080p.mp4";
 
-const featuredSlug = "agents-create-a-new-knowledge-layer";
+const featuredSlug = "atom-bit-commit-agent-knowledge";
 const writing = [...posts].sort((a, b) => {
   if (a.slug === featuredSlug) return -1;
   if (b.slug === featuredSlug) return 1;
