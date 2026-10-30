@@ -9,13 +9,17 @@ def validate_evidence_input(payload, profile=None):
     if profile not in {None, "experiment"}:
         raise ValueError(f"unsupported evidence profile: {profile}; omit profile for retrieval evidence or use experiment")
     if profile is None:
+        if not isinstance(payload, dict):
+            raise ValueError("evidence payload must be an object")
         normalize_retrieval_evidence_v1(payload)
 
 
 def validate_claim_input(qualifiers, profile=None):
+    if profile not in {None, "experiment"}:
+        raise ValueError(f"unsupported claim profile: {profile}")
     if profile == "experiment":
         if qualifiers is not None and not isinstance(qualifiers, dict):
-            raise ValueError("experiment qualifiers must be an object")
+            raise ValueError("claim qualifiers must be an object")
         normalize_claim(qualifiers)
 
 
