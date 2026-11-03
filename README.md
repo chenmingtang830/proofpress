@@ -13,17 +13,13 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 [//]: # (ob:e667d986)
-**Typed knowledge infrastructure for continuous learning.**
+**Decision infrastructure for agents.**
 
-Build on every discovery. Proofpress turns agent-produced findings into typed,
-evidence-bound knowledge that teams and agents can inspect, review, and reuse.
-Each finding carries its evidence, dependencies, and conditions for reuse.
+Proofpress is **GitHub for agent decisions**. Connect the judgments behind agent
+outputs to their evidence, rationale, and review history—so teams can inspect,
+correct, and govern what later agents reuse.
 
-**Verifiable. Traceable. Auditable.**
-
-Spend less time reconstructing past work. Carry forward what the team learned,
-recognize what needs rechecking, and give the next experiment a better starting
-point.
+**Stop errors from propagating.**
 
 [Website](https://proofpress.dev) · [Quick start](#quick-start) ·
 [Localhost guide](docs/LOCALHOST_QUICKSTART.md) ·
@@ -216,12 +212,18 @@ Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
 [//]: # (ob:thesis-summary)
 
 [//]: # (ob:53ef8f8a)
-## Agents generate outputs faster than teams can trust them
+## Everything is recorded. Agents still repeat the same mistakes.
 
-The result is saved. The reasoning is scattered. Experiments, evaluations,
-analyses, and failed attempts leave findings across files, chats, traces, and
-repositories. The next person or agent has to reconstruct what supports a
-conclusion, where it applies, and whether it is still current.
+Agents can have the right data and context and still make bad judgment calls.
+Those judgments become assumptions in later work, carrying errors forward.
+
+For example, an agent sees two search timeouts and saves a rule: avoid search.
+The next agent follows it without checking why. A temporary failure has become
+a standing instruction.
+
+Proofpress keeps reusable conclusions connected to their evidence, scope, and
+review history, so teams can check their basis and revise or withdraw them as
+conditions change.
 
 Memory helps preserve and retrieve context. Files, embeddings, and knowledge
 graphs are useful representations. Some memory systems also extract facts,
@@ -240,7 +242,8 @@ it is not a universal mathematical growth law.</sub>
 
 ## A typed knowledge system
 
-A finding is more than a text record with extra fields. Its type and lifecycle
+Proofpress represents reusable conclusions and decisions as typed findings.
+A finding is more than a text record with extra fields: its type and lifecycle
 make its role, supporting evidence, dependencies, and reuse conditions explicit.
 Proofpress applies checks and review decisions to those objects before they
 enter downstream context.
