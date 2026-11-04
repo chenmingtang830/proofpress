@@ -70,7 +70,7 @@ class CaptureInputTests(unittest.TestCase):
         section["evidence"]["locator"] = {"kind": "section_span", "section_id": "slide-3", "section_digest": helper.digest(self.text.read_bytes())}
         flat = copy.deepcopy(self.payload)
         flat.update(flat.pop("evidence"))
-        return [quote, config, section, flat]
+        return [quote, config, section, flat, "x", []]
 
     def test_http_rejects_format_before_reserving_then_accepts_same_key(self):
         database = self.root / "hosted.db"
