@@ -67,6 +67,12 @@ Installing the plugin does not provision a workspace. Connect to your assigned t
 - [Contributing](CONTRIBUTING.md) — development setup and checks.
 - [Apache-2.0 license](LICENSE).
 
+## Compatibility
+
+Use `ProofpressClient` and `proofpress` for new integrations. Portable artifact commands remain under `proofpress legacy`; see the [legacy guide](docs/legacy/README.md).
+
+Earlier diagrams: [architecture](assets/architecture/product-architecture.svg) · [research model](assets/architecture/agent-knowledge-inflection.svg).
+
 Built by **Continuara Labs**. [Work with us](https://proofpress.dev/#partners).
 
 [//]: # (ob:6ec771b4)
