@@ -1,443 +1,109 @@
-[//]: # (ob:6ec771b4)
 <p align="center">
   <img src="assets/logo.svg" alt="Proofpress logo" width="88" height="88">
 </p>
 
-[//]: # (ob:de7999eb)
 # Proofpress
 
-[//]: # (ob:7542280e)
+**The judgment layer for agents.**
+
+Capture consequential judgments. Turn hard-won expertise into better calls across agents and teams.
+
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![MCP](https://img.shields.io/badge/MCP-supported-0E6675)](docs/REMOTE_MCP.md)
 [![CI](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml/badge.svg)](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
-[//]: # (ob:e667d986)
-**Decision infrastructure for agents.**
+[Website](https://proofpress.dev) · [Quick start](#quick-start) · [Connect an agent](docs/REMOTE_MCP.md) · [Documentation](docs/REPOSITORY_STRUCTURE.md)
 
-Proofpress is **GitHub for agent decisions**. Connect the judgments behind agent
-outputs to their evidence, rationale, and review history—so teams can inspect,
-correct, and govern what later agents reuse.
+## Carry judgment forward
 
-**Stop errors from propagating.**
+Memory recalls what. Skills guide how. Expert judgment weighs the tradeoffs for a particular situation.
 
-[Website](https://proofpress.dev) · [Quick start](#quick-start) ·
-[Localhost guide](docs/LOCALHOST_QUICKSTART.md) ·
-[Product thesis](docs/THESIS.md) · [Remote MCP](docs/REMOTE_MCP.md)
+Proofpress connects a judgment to its evidence, reasons, review history, and scope—so future agents can build on it and teams can manage how it is used.
 
-[//]: # (ob:8db33fda)
-[//]: # (ob:quickstart)
+> **Approve the model for drafting. Restrict payment actions.**
+> Overall accuracy improved, but payment failures increased.
+> Applies to reviewed drafts; excludes payments and permission changes.
 
-[//]: # (ob:4ccd51b9)
+The same pattern applies to engineering choices: a reviewed architecture decision can guide later code changes across the team, with its reasons and boundaries intact.
+
+## From one judgment to shared expertise
+
+1. **Capture** a judgment with supporting evidence and intended scope.
+2. **Review** its support and admit it through authorized governance.
+3. **Reuse** current, in-scope records with permissions and version history.
+4. **Update** or withdraw judgments as evidence, policy, and outcomes change.
+
+MCP, CLI, Python, and HTTP connect agents to the same lifecycle. Retrieval supplies governed context; action enforcement requires an integrated runtime hook. Agents cannot grant themselves owner authority.
+
 ## Quick start
 
-**New here? Choose a path, then complete one finding → human review → reuse loop.**
-
-| What you want | Start here |
-|---|---|
-| Try the product with synthetic data | [Local demo](#try-the-local-demo) — no account or credential. |
-| Use your own files with Claude Code on localhost | [Your own local workspace](#use-your-own-files-on-localhost) — an empty database, full review UI, file-to-finding instructions and agent setup. |
-| Join an existing team workspace | [Connect to Hosted](#connect-an-agent-to-a-hosted-workspace) — use your team's assigned URL and Agent credential. |
-| Deploy on your own server | [Self-hosting](docs/SELF_HOSTING.md) — persistent storage, credentials and backups. |
-| Develop Proofpress | [Contributing](CONTRIBUTING.md). |
-
-### Try the local demo
-
-You need [Python 3.11+](https://www.python.org/downloads/),
-[Git](https://git-scm.com/downloads), and
-[uv](https://docs.astral.sh/uv/getting-started/installation/).
-Use a macOS/Linux terminal, or Windows WSL2:
+Requires [Python 3.11+](https://www.python.org/downloads/), [Git](https://git-scm.com/downloads/), and [uv](https://docs.astral.sh/uv/getting-started/installation/). Use macOS/Linux or Windows WSL2.
 
 ```sh
 uv tool install --with "mcp>=2,<3" "git+https://github.com/chenmingtang830/proofpress.git"
 uv tool update-shell
-```
-
-Open a new terminal if `proofpress` is not found, then run:
-
-```sh
 proofpress quickstart --ui
 ```
 
-This creates `./proofpress-demo` with **synthetic** evidence and candidates,
-starts the local review UI and opens your browser. Inspect a candidate and make
-a human review decision. Stop with `Ctrl-C`; the workspace remains on disk.
-Choose another empty destination with `--workspace PATH`; use `--no-browser`
-for a headless demo. The generated `proofpress-mcp.json` targets this demo's
-Git-backed ledger, not the SQLite workspace below.
+Open a new terminal if `proofpress` is not found. The command creates `./proofpress-demo` with synthetic evidence and opens the review UI. No account is required. Stop with `Ctrl-C`; the workspace remains on disk.
 
-<p align="center">
-  <img src="assets/quickstart/local-ui-review-queue.png" alt="Synthetic local demo review queue; separate from a real research workspace" width="100%">
-</p>
+Add the generated `proofpress-demo/proofpress-mcp.json` to your agent’s MCP settings to connect to this demo.
 
-### Use your own files on localhost
+| Your next step | Guide |
+|---|---|
+| Use your own files locally | [Localhost workspace](docs/LOCALHOST_QUICKSTART.md) |
+| Join a team workspace | [Agent plugin](plugins/proofpress/README.md) and [Remote MCP](docs/REMOTE_MCP.md) |
+| Run your own server | [Self-hosting](docs/SELF_HOSTING.md) |
+| Build an integration | [API and lifecycle](docs/VERIFIED_KNOWLEDGE_LEDGER.md) and [task runs](docs/TASK_RUNS.md) |
 
-For real work, start an **empty** workspace. After installing above, run the
-bootstrap command yourself in a private terminal:
+Installing the plugin does not provision a workspace. Connect to your assigned team endpoint or your own server with a separate agent credential.
 
-```sh
-umask 077
-mkdir -p "$HOME/.local/share/proofpress"
-proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
-  bootstrap --workspace-id workspace:research --owner-principal human:owner
-```
+## Explore
 
-Save the returned Owner `token` and `recovery_secret` in your password manager;
-keep them out of agents, chat and Git. Bootstrap runs once. Then start the server:
+- [Product thesis](docs/THESIS.md) — product reasoning and architecture.
+- [Research results](https://proofpress.dev/#evidence) — studies and methodology.
+- [Repository structure](docs/REPOSITORY_STRUCTURE.md) — code and integration guides.
+- [Contributing](CONTRIBUTING.md) — development setup and checks.
+- [Apache-2.0 license](LICENSE).
 
-```sh
-proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
-  serve --host 127.0.0.1 --port 7334
-```
+Built by **Continuara Labs**. [Work with us](https://proofpress.dev/#partners).
 
-Open **[http://127.0.0.1:7334](http://127.0.0.1:7334)** and sign in with the
-Owner token. Despite the command name `hosted`, this server stays on your
-machine. Keep the terminal running; restart with the same database to keep your
-history. You do not need Docker or a frontend build.
-
-Continue in **[Localhost: files → Claude Code → review → reuse](docs/LOCALHOST_QUICKSTART.md)**:
-
-1. Save review criteria in **Admin → Verification settings**. Human review
-   works without a model key.
-2. Issue a separate Agent key and connect Claude Code to this workspace's
-   `http://127.0.0.1:7334/mcp` endpoint with the maintained plugin/skill.
-3. Let Claude read selected local files and submit bounded evidence plus
-   candidate findings. There is no generic bulk-upload or folder-crawling UI.
-4. Review a finding yourself, then retrieve it in a fresh Claude conversation.
-
-For capture format errors, update the plugin/skill and follow the
-[capture input guide](.agents/skills/proofpress-governed-context/references/capture-input.md):
-read `proofpress_get_capture_schema` before writing and use the bundled helper
-to prepare exact excerpts and real hashes for selected files or slides.
-
-Proofpress stores submitted excerpts and governance records locally. Claude
-Code still processes the material it reads under your Claude configuration;
-localhost does not make the model offline. Optional Proofpress AI checks have
-a separate provider/processing opt-in.
-
-#### Use your own AI-assisted review (BYOK)
-
-Provider API keys are encrypted before being stored in SQLite. To enable the
-API key input, configure the server's `PROOFPRESS_SECRET_ENCRYPTION_KEY` first.
-This encryption key is separate from your provider API key and Owner/Agent
-credentials. The localhost UI offers **Copy setup commands** using the current
-database and port, then **Check storage again** after restarting. Existing saved
-credentials get original-key recovery instructions. Manual commands follow.
-
-For an instance that has **never saved a provider key**, stop the server with
-`Ctrl-C`, then initialize a persistent encryption key in your private Terminal:
-
-```sh
-umask 077
-mkdir -p "$HOME/.local/share/proofpress"
-python3 - <<'PYTHON'
-import base64
-import os
-from pathlib import Path
-
-key_file = Path.home() / ".local/share/proofpress/provider-key-encryption.key"
-try:
-    with key_file.open("x", encoding="ascii") as output:
-        output.write(base64.urlsafe_b64encode(os.urandom(32)).decode("ascii") + "\n")
-except FileExistsError:
-    pass
-PYTHON
-```
-
-The file is created with owner-only permissions and is not overwritten on
-repeat runs. If you have already stored provider credentials, reuse the
-**original encryption key**; generating another key cannot decrypt them.
-
-Load the key and restart your existing database. Run this entire block in the
-same Terminal tab **every time you start the server**; change the database
-path if your workspace uses a different one:
-
-```sh
-export PROOFPRESS_SECRET_ENCRYPTION_KEY="$(cat "$HOME/.local/share/proofpress/provider-key-encryption.key")"
-proofpress hosted --database "$HOME/.local/share/proofpress/workspace.db" \
-  serve --host 127.0.0.1 --port 7334
-```
-
-Reload **Admin → Verification settings**, turn on **AI-assisted checks**, choose
-your provider and model, enter its API key privately, review the processing
-notice, and save. Keep automatic approval off unless you separately choose it.
-Saving AI settings can process pending findings and incur provider charges.
-
-The key field should now be enabled; after saving, only the provider key's last
-four characters are shown. A saved key does not prove a successful provider
-call: verify a review receipt. Keep the encryption file outside Git, retain a
-protected backup, and reuse it across restarts. Never paste either key into
-chat. See the [complete BYOK guide and troubleshooting](docs/LOCALHOST_QUICKSTART.md#optional-use-your-own-ai-review-provider).
-
-### Connect an agent to a Hosted workspace
-
-From the repository whose agent work you want Proofpress to govern:
-
-1. Install the [`proofpress` Agent Plugin](plugins/proofpress/README.md) for
-   Codex, Claude Code, or Cursor. It bundles the governed-context skill and
-   policy assets; a separate skill download is unnecessary on the normal path.
-2. Add the `/mcp` URL assigned to your team. The generic plugin intentionally
-   contains no customer endpoint, so it cannot silently connect to another
-   workspace.
-3. Complete OAuth with the separate agent credential issued for that client.
-   Never use an owner or recovery credential in an agent client.
-4. Start a fresh agent session. If you want repository-specific proposal
-   selection, ask: **“Initialize a Proofpress policy for this repository.”**
-   Review and commit the generated `.proofpress/context-policy.yaml`.
-5. Give the agent a real task. It will retrieve eligible context when available,
-   submit bounded proposals when warranted, and stop for Human Approval.
-
-For example, Codex users can install from this repository and connect an
-assigned Hosted workspace as follows:
-
-```sh
-codex plugin marketplace add chenmingtang830/proofpress --ref main
-codex plugin add proofpress@proofpress-plugins
-codex mcp add proofpress --url https://YOUR-PROOFPRESS-HOST/mcp
-codex mcp login proofpress
-```
-
-Installing the plugin does not create a Hosted workspace, MCP connection, or
-ledger. Each team needs a separately provisioned Hosted workspace or a
-self-hosted deployment. See [Remote MCP](docs/REMOTE_MCP.md) for Claude Code,
-Cursor, manual fallback, and the full authorization boundary.
-
-Want a managed Hosted Proofpress session and to work with us as a design
-partner? [Tell us about your workflow](https://ancient-ball-940.notion.site/eacf21eef9b54c3287f72892cd024a1c?pvs=105).
-
-Building Proofpress itself? Use the [contribution guide](CONTRIBUTING.md).
-
-
+[//]: # (ob:6ec771b4)
+[//]: # (ob:de7999eb)
+[//]: # (ob:7542280e)
+[//]: # (ob:e667d986)
+[//]: # (ob:8db33fda)
+[//]: # (ob:quickstart)
+[//]: # (ob:4ccd51b9)
 [//]: # (ob:62009490)
 [//]: # (ob:thesis-summary)
-
 [//]: # (ob:53ef8f8a)
-## Everything is recorded. Agents still repeat the same mistakes.
-
-Agents can have the right data and context and still make bad judgment calls.
-Those judgments become assumptions in later work, carrying errors forward.
-
-For example, an agent sees two search timeouts and saves a rule: avoid search.
-The next agent follows it without checking why. A temporary failure has become
-a standing instruction.
-
-Proofpress keeps reusable conclusions connected to their evidence, scope, and
-review history, so teams can check their basis and revise or withdraw them as
-conditions change.
-
-Memory helps preserve and retrieve context. Files, embeddings, and knowledge
-graphs are useful representations. Some memory systems also extract facts,
-update relationships, and track time. The remaining question is concrete:
-**which finding may the next workflow rely on, under which conditions?**
-
-Compression alone won't close the trust gap. Scattered evidence, silent drift,
-memory laundering, and repeated reconstruction can survive a shorter context.
-
-<p align="center">
-  <img src="assets/architecture/agent-knowledge-inflection.svg" alt="Conceptual trust gap between agent-produced findings and verified organizational knowledge" width="100%">
-</p>
-
-<sub>Illustrative model, not measured data. The curve describes the trust gap;
-it is not a universal mathematical growth law.</sub>
-
-## A typed knowledge system
-
-Proofpress represents reusable conclusions and decisions as typed findings.
-A finding is more than a text record with extra fields: its type and lifecycle
-make its role, supporting evidence, dependencies, and reuse conditions explicit.
-Proofpress applies checks and review decisions to those objects before they
-enter downstream context.
-
-- **Verifiable:** inspect the submitted evidence and recorded checks behind a finding.
-- **Traceable:** follow its sources, dependencies, versions, and declared downstream use.
-- **Auditable:** retain review decisions, revisions, withdrawals, and outcome observations.
-
-These properties make reliance inspectable; they do not guarantee that every
-finding is true or that every relevant event was captured.
-
-### Knowledge should be managed like software
-
-Software reuse depends on more than storing and finding source code. The
-analogy for knowledge is an explicit lifecycle around a usable object:
-
-| Software concept | Knowledge counterpart |
-|---|---|
-| Compiler | Turn submitted findings into structured, evidence-bound objects. |
-| Type checker | Check evidence, scope, and the rules for reuse. |
-| Dependency manager | Track what a conclusion depends on and what needs reassessment. |
-| Runtime | Return eligible knowledge and record its use in a workflow. |
-
-This is an architectural analogy, not a claim of formal proof or a literal
-compiler implementation.
-
-### Capture → Verify → Reuse → Learn → Review
-
-1. **Capture findings and evidence.** Preserve the source version and intended scope through MCP, CLI, Python, or HTTP.
-2. **Verify and review.** Apply deterministic checks and optional model advice. Human review is the default admission path; agents cannot approve their own claims.
-3. **Reuse within conditions.** Retrieve current, admitted, in-scope knowledge for the requesting actor. Record the exact versions supplied and relied on.
-4. **Connect outcomes.** Attach outputs, tests, and later observations to the work that used a finding.
-5. **Maintain the lifecycle.** Reassess, revise, supersede, or withdraw findings as evidence and dependencies change. Retain prior decisions and history.
-
-The learning loop serves **continuous organizational learning**. Outcome-based
-retrieval weighting is a product direction, not a shipped or validated automatic
-learning engine. Reuse utility is separate from evidence confidence and never
-grants authority.
-
-## Across agents and tools
-
-<p align="center">
-  <img src="assets/architecture/product-architecture.svg" alt="Proofpress connects agents through MCP, CLI, Python, and HTTP to evidence checks, review, and scoped reuse" width="100%">
-</p>
-
-Existing memory, observability, skills, and workflow tools can supply inputs or
-consume eligible findings. Proofpress maintains the knowledge lifecycle across
-them. The Owner workspace lets reviewers inspect support and lineage before
-admitting, rejecting, or requesting revision.
-
-<p align="center">
-  <img src="assets/product/research-ledger-record.svg" alt="Illustrative typed finding with evidence, scope, review history, and conditions for reuse" width="100%">
-</p>
-
-[Task run tracking](docs/TASK_RUNS.md) documents the Run, ContextReceipt,
-Reliance, Output, and Observation contracts.
-
-## Evaluation evidence
-
-- **89.3% → 93.4% rubric completion** in the [seven-model Harvey LAB-derived controlled evaluation](studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md), across 126 paired runs.
-- The [website evidence section](https://proofpress.dev/#evidence) reports the separate **5.5× fewer numeric errors** result (11 → 2 incorrect final values, 20 paired chains, 1,600 numeric slots per arm).
-- **38.3% fewer executor tokens** in the separate [Muse Spark 1.1 two-task APEX pilot](studies/apex-agent-eval/ara/evidence/tables/table3_cross_task_summary.md). This excludes upstream treatment preparation.
-
-These are bounded controlled studies with different protocols and denominators.
-They do not establish customer ROI, universal error prevention, or the complete
-autonomous learning loop. See the [study catalog](studies/README.md).
-
 [//]: # (ob:6b08a324)
 [//]: # (ob:python-example)
-### Use the Python client
-
-Run the same lifecycle in-process or over HTTP:
-
 [//]: # (ob:d50b7fde)
-```python
-from proofpress import ProofpressClient, ProofpressError
-
-client = ProofpressClient.in_process(".")
-evidence = client.import_evidence("run.otlp.json", idempotency_key="run-001")
-candidate = client.propose_claim(
-    "The bounded result is ready for review.",
-    evidence["evidence"],
-    scope="experiment:demo",
-    proposer="agent:runner",
-    idempotency_key="proposal-001",
-)
-
-# A human authorizer reviews through the owner surface. A successor agent reads:
-context = client.context(scope="experiment:demo", actor="agent:successor")
-```
-
-### Other MCP clients and advanced local use
-
-Use [Remote MCP](docs/REMOTE_MCP.md) for client-specific plugin/skill installation
-and OAuth. For a real localhost workspace, follow the
-[local guide](docs/LOCALHOST_QUICKSTART.md); for the synthetic Git-backed demo,
-use its generated `proofpress-mcp.json`. These are separate storage backends.
-
 [//]: # (ob:ea362434)
 [//]: # (ob:choose-deployment)
-
 [//]: # (ob:43d5590e)
-## Choose a deployment
-
 [//]: # (ob:5da4d7b8)
-- **One local repository:** use the in-process client or localhost HTTP for a
-  Git-backed ledger, local review, and governed-context reads.
-- **One private workspace across people, devices, and agents:** use `proofpress hosted`
-  for durable storage, distinct human Reviewer credentials, scoped agent credentials,
-  review, and HTTP/MCP access.
-- **Workflow-specific evidence:** use a profile or integration for typed
-  validation without changing the authority model.
-- **Owner UI preview:** run `npm run preview:local` from `web/owner`; it reuses
-  one ignored, mode-`0600` local credential and synthetic workspace.
-- **Hosted boundary:** the reference deployment is private and single-instance,
-  not a multi-tenant Proofpress cloud. See [Self-hosting](docs/SELF_HOSTING.md).
-
-### Self-host in three steps
-
-1. Deploy this repository with [`render.yaml`](render.yaml), or use the
-   provider-neutral examples in [`deploy/self-hosted/`](deploy/self-hosted/).
-2. In a private server shell, bootstrap one owner workspace:
-
-   ```sh
-   proofpress hosted --database /var/data/proofpress.db \
-     bootstrap --workspace-id workspace:personal \
-     --owner-principal human:owner
-   ```
-
-3. Store the one-time owner credential and recovery secret outside Git, then
-   issue a distinct credential for each human Reviewer and agent or device. Configure backups
-   before relying on the instance.
-
-- The Blueprint contains no Proofpress credentials or customer data.
-- A fork uses the operator's own account, storage, domain, and billing.
-
 [//]: # (ob:99949965)
 [//]: # (ob:authority-boundary)
-- Submitting evidence or proposing a claim never admits it.
-- Agent credentials identify and constrain callers; they do not carry owner authority.
-- Governed-context reads return only admitted, current, in-scope, actor-eligible claims.
-
 [//]: # (ob:6bafd8a0)
 [//]: # (ob:integrations)
-
 [//]: # (ob:8641828f)
-## Integrations and deployment
-
 [//]: # (ob:5ae3101c)
-- `proofpress.profiles.experiment` validates bounded metric, table-cell, and derivation evidence.
-- `proofpress.integrations.repository` binds one repository change to Git and check receipts for self-dogfood.
-- `proofpress.integrations.matter_catalog` and `proofpress.integrations.document_extraction` are optional evidence-entry integrations. Their output remains candidate evidence.
-- `proofpress hosted` runs the private hosted control plane and web review surface. See [Self-hosting](docs/SELF_HOSTING.md).
-- [AFF](https://github.com/only-then-labs/aff) is the separate Apache-2.0 format and CLI for portable agent Findings. Its [collaborator trial](https://github.com/only-then-labs/aff/blob/main/docs/SHARE.md) works with a Git collection; Proofpress is an optional open-source governance runtime for authenticated review and reuse.
-- Proofpress's OAFF v0.1 integration can [export bounded claims](docs/OAFF_EXPORT.md) and [receive foreign candidate packages](docs/OAFF_IMPORT.md) without granting receiver-local authority.
-
 [//]: # (ob:b877cee5)
 [//]: # (ob:reading-path)
-
 [//]: # (ob:a3e02529)
-## Read this next
-
 [//]: # (ob:3159be00)
-- **Work on the repository:** [repository structure and ownership](docs/REPOSITORY_STRUCTURE.md).
-- **Understand the product:** [Thesis](docs/THESIS.md) → [claims and governed context](docs/VERIFIED_KNOWLEDGE_LEDGER.md) → [FAQ](docs/FAQ.md).
-- **Connect an agent:** [trace integration](docs/TRACE_ADAPTER.md) → [content-addressed receipt adapter](docs/CONTENT_ADDRESSED_ADAPTER.md) → [external experiment evidence](docs/EXTERNAL_EXPERIMENT_INGESTION.md) → [Baseten training evidence](docs/BASETEN_TRAINING_ADAPTER.md) → [spreadsheet cell evidence](docs/SPREADSHEET_ADAPTER.md) → [MCP and WebMCP](docs/WEBMCP.md) → [repository dogfood](docs/REPOSITORY_DOGFOOD.md).
-- **Run it privately:** [self-hosting guide](docs/SELF_HOSTING.md) → [`render.yaml`](render.yaml) → [deployment examples](deploy/self-hosted/).
-- **Explore prior experiments:** [study catalog](studies/README.md). Research evidence is separately scoped; it is not a blanket product-efficacy claim.
-
 [//]: # (ob:6ec793e2)
 [//]: # (ob:limits)
-- Python-first and one private workspace per deployment today.
-- Human Reviewers may inspect and decide claims. Credential and policy administration stays with the bootstrap Owner; invitations and customer VPC packaging are not available.
-- No Notion or multi-repository knowledge ingestion.
-- Not a universal OCR, RAG, memory, or search platform.
-
 [//]: # (ob:e9a649ec)
 [//]: # (ob:compatibility)
-
 [//]: # (ob:6e4b22d6)
-## Compatibility
-
 [//]: # (ob:34226b85)
-Python is the supported SDK and CLI installation path. Older Python imports,
-console aliases, and portable top-level commands remain deprecated forwarding
-shims; new integrations should use `ProofpressClient`, `proofpress`, and
-`proofpress legacy ...` for the portable artifact ledger. Browser tooling builds the Owner workspace. The public website is maintained
-separately in [continuara-lab/proofpress-website](https://github.com/continuara-lab/proofpress-website);
-this product repository does not deploy proofpress.dev.
-
 [//]: # (ob:85117b99)
 [//]: # (ob:docs-release)
-See the [documentation index](docs/README.md), [study catalog](studies/README.md), and [GitHub Releases](https://github.com/chenmingtang830/proofpress/releases).
-
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzU1NmIxMTVkZTcxMWIwY2QzM2VlZDI2MCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImRjYjQ3ZDQzIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hY2ZkMjY2ZjIwZmU1N2MzY2RiZDc0YmEiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzMxNTQxYmZkZjRkNzQzYTNjZTYwMmUzZCIsInByb29mcHJlc3MiOjF9)
 [//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
 [//]: # (proofpress:capsule:eNrtXVtz20h2_isI58XWkhTuF-7OpLSyZqwaj-WVtDu1ZbrobnRDxAoEuAAombH9mrznYX9CflgeUpV_kXO6GxdKJHTdyU4CV42HBIHu06dPn_OdG_x5QPIyjkhYzmI2mAyWy5njuNQwHMY9w6B6yCyLc2a6-mA4oBlbz1h8wYsS7i3mxHTcCeM-cX3fdyLD8xhlhh6YtunrlmVRlxJKXDMklm5YxHNZGEWmR43Q446hh3rEuAPjsrgIsyuerweTz_ilnJXkAmZISIlTDeED5Qlc-BPP4ygmNOFazq_iIs5SbQ73Z_lao2vtXZ5l0TLnRQHPLEl4SS44Lmrjcp79hcNyVzkOOC_LZTHZ37-Iy_mKjsNssR_OebqI04uSpBe-pe9vPJ3zv65i-DxbFTyfhVla8BR4UeYr_nU4mHOCTGQhtT1mWwN5ZcavxE3AXD4jYQTMdCNTj7jjhVYIHPNsSpCyLC9xabMkTjlQXu1IMrMMxzZoxCIb7rWIFXJXN7nF5HIUdbOQLItVAgs2kc4wy1kxmLz_PFDTfx7ALmd5gZ_kz5zNKLD8_QAmS8tJmDH-afAB1lHJBEx_enTw6qej8QLneoiokLLMY7oqYYdmlBRxgQLDk2hGCuBcycV4q3Ke5UjPZZzikMW6KPkCfknJAjeuTdcQHi9wwweTdJUkQGU4hx3ico00ycJLeMLloecZ1IbbYXNK_gnX8OK__vZv__0ff3sJF9VEhDEuuQdSxK_hyu-WGknii_Tb6SCESXk-HXz3u3hxoRV5CNeQ6rLYT7KLbFxcXUwHcHcJ1zckrlwvhbiRnAy-DhuigD9BEHC6QdTGkzvJ-kbbNgNKFUjoxiSeY5tw6vgjJnn_T-8Pjz-8eNBZ2Ac5gM3oWjZ3XY8FvvsIivb2zudcu0CdkJI05FpC1jzXoizXhEyMgBC2CjnTLtPsOuHsgo_39jpoCcyIhsajuNPcpV3EV7yQFMD_NFCAOWdDjaxYLE6uRtLiGugss4m2t_fznHRQ5BpmRHQ_esx-7e9_mGjfaC8yOpGMKEfFKoejyYuXHVM6XuQanOobU56kXFODDIHBq1yrhuqUy2-0zgc7BNUgxKCOyZ6BipH2seHYYRLDvnzU4kIrQXhCkmZpHJJEe7cGNZNqZ69-HE9TeEQJcUNlAhZkg0SfUcuKGHkGEtt7BaYjvCxKUKNdu2SHIXMMGmxM_of60Tt2ZePGLnWhk8gOzMfM0joQlTmseGyNDUODQ5pyOAbjjkUajmm6YD0eMf3Hjx-L-TRdyhlHC20ZL7U4heeSRBtxDTaZf0Jbqr07PTn5_t3p0dnZ7M3J4cGb2fnJjw1NaFY2TyTVfWKZ9iNo2jiRgrAR_0QWy4S_nKaoygowaFoSRzxch4kQTi1fpUD2qC2Ity2Ho1MPQNLj2CQpmaZRni20RnVr8UKy58bRGTZXOrgElswOAtd5Ipek7Y_L9Yhmq5SRfA2cOlvRRVyWIKsaPMM4an6QJiB9mXWpUkoi5hP9iSTF8OhFToRZ6zqgvmsbvnlDcx-3HgYzwDTGl0m2XiD06j6x3U92HGGHcMvQjfA56GjUIojDGD5GccKLMRwkQNwLoVevAB8xBOSa2DGwvQsOGC8cdihShGOBxc3nILG9VUkMclKosxWu8hyerZQzGgCpjkZRnBelmKILpgTEtQMePjeNgJ-WMACNE5DyLnlyuU1Nk23iJH3sahsjaNcwaXZ9hzB1PNYhSRZAR5f6zpMpwO3IEtYWplnBLj8qlVMMNXSZMkRKSUwA0A8Fc4Xn03XiHMPwaBA8mb72_rAsLEY5TzjQgbqHc4Eb3sP1Fe6z2HzQ0OB8fHiBN98k8MOwcq0GgFPRNZmFOSfStxG_VI4Sn0WAVUlIueXqkR5Ylh_aYeALEJRmpRhTeX-a8v40wN7h5TKLhcTBjGImdH2qb-j5fEC3MYnDdWuEtivZGkQ4qY_0MossKmcRiA3Pl3msnNmCGhPO4PhEkWUxx2G6w93INrkb-L4fOBFATdtzbeJGOgVfwKKmZ5sG9x3dDhxGA91ExQA6uhROqdyuiWmBb4dXBqZuuiM9GOnmuR5MDHeiG7_R9YmOil5xHOXAcADM8AAkprn6-Tl8WCF-0r-ck2KOxg-4QlxugTCivhBjtFxOJZlP9iU1_A2uX8esnMMvvg9f5jy-mJfq23e_219-t-XEKDp9x3MjyzfcQLcqOlteqKLzbudSDWdGthMElueG1KyGa_mbarinuJH711l-GSXZdbEfxuP1ItmnBJ064M_L5xrypQYUvolhSwo-0Q6WBMYYmWO9GR_2aFzMY56wYhxnkoT9RD4xUg_gEyOarCra3hwfHr09O3q5ezO45wURHH_qE1pxr-UbK-49m8tb7VngcN203dBgTjVrywu-5XA-3LkttQVZw53RqlzlXD6JcG2-WiC85clay9Khdj1fD0GNwv_hiSLMllwqfcQQOVzNCni2QoP_vLenHUgSCgEGa7BRA0JhMBARwnNgDcJkhUe-GGuvOBw1kAkAIXEo1ae03XBXFF8AjWhpUFnCYCRZgaZGjb8YawepoACmBYcR9LdagqLqX4BMxkOYvgByOdyX43NrsXxxvtW2cTEVcnbcIQ2OxYlLSOjqfq1CmlhAdZYe6OKrwR3L0QPHiGxiG9XgLa-_OvcPd94roaIsZK7lurCKavyWP6_Gf5JbDo9sufnwzbG4CzQySUBkJKrDD8D01-fn7zT0-QppwoWzBXIm8ZvYkxyUghjgp8N3WgLqVztc5UWWD7XDBCSca4fg5wzF35-keGZin0NBfaGt6qGjStIVw8ZiyBTsfa5oAKFbwmJAxIZK3oZ4LAAbMJQwWA1hUkwlgeMtAFrxm1IeEc-jnq_X9qYVnNgiLN0xhkpM_DAwfOrBXtb6vBV2aMTkrmiCGo8ZYOEDn0UW12v70AQYbuuaB8cN1ETEMiLXNJ3IILV8t0IJaqKnRQiO3oKNzQHuw-aOrsHijEg5QpRYjgx3lINsZItRCNoRRArgxnQAMzUrUyI5Gs15stz4ZREu68tA4RYXuwIZphsRwnSq66TWEE1sYpuGeGjIIQuRImFb5JHSfgBViwazACsnnG7UaOJkTXZvh22AzPjMt70oqGFGE7JotuPxkYjiKM-zfArPyqOofXvr7nGcztSSXkwH4-kAGFBbi2_VER7LqWbVD3AncGOclcly_JcCaBuAkWIcbirh5_Xskq-_FbeMdN0QQwIDmXCAmzGVGZo1ZujFNNXgz1R4QpXpAlJXifBLwT1ga8F36ZIAsUP5REXX--mg-jgdfFA_CqsJ5DTu-ARIzeqHFR05gkuRMgG6U4Sd6vfbC5NPkESuDm57iSz-Rju4bfokpaiQ82x1MRdqMLuG4RsNeAAfQ-R_BVbEQosJME3aw4Zl6sKL3UvSRJqqXko9stiEzoOjU2K4nhE6LKy1QytcteXgPDgKVeBV0sIdSvOjRgczEZdjCV9a2r5A9sOnaF2BEVT8AIjg2CWgQH4rwQTLNPAE4WKerxV_a-rGYK8BTYlJSgRlKuSBuGpUQSrk2oiD3xEjWGshIw2AHGwIgDREKKR4CFrxLJMZrhuEJvMaXVSH27aw9K4oWqXJSUR1buvUdxvL1gTWGhP04PCYmiDydDBppuGaYU15K2LWQJVHx700AYtHIQeXXFGWx1cSc1SCcxPajNvsGYOVAYnC7PVHjcYpKwAw41ZVVzWZ4gTILfSzEB-EtXBLyONlKVU4plVHLLuIsox1z7cgID75DDAuAQ_zoxhw581VHGQGnMqlT_VRiFK2xM9gM6pFjuAuIHbjaQ0UYAxWZFUuV6gOFiDxhdbo0F0MUgb0I9oqCQLxyAGb5ZFQ5lVAuizRwEin0iO45lRpqkYtYUjn_RlyBx-DYWQcZ__s6M33s9cnZ-fHb38YL9jLDgAWEsf39NAiPLTaDr8Kam6R_weHJtvrG2vHJWgCkDXUBQgigUvaAqxHrBhQ22iMpa2KMlvAxT-9O9RkuQOMNdTeZip0hYUaMfpgcgQUrMZ7bP8ugMAqjTF-Aht7cni6f3rwA7K3BAlbdCgIQCW-yUmgm8StndsmorqFQXfGRdXILjhJjsM9i7oNDGpCpY2GeFjMs4LA4G4B2qXUsWoI3AqDqtGfEs9ELVxmS4COVzxBAsGuskIdBVTDoMjgHAt_E5h8TXKkEfzueFEbWzg-uLyx9kfwP9qnJOEXBPzY8Xj8UeiAesYqvqWJPc4rb_mKy6BCmWWJPJwwoJwKj3QBaoWtEkkJkojeCzrt-tgT9qmaMEaA2URHq3ONf5fwnxpAagLcCSHgHI4BfoniT6BbO-Ckb_MQPGHT82vXuBX63SJLD47h7texwJdD7X1RrgCOKXX44QV-jfnmPbiA96B8X6-odionKh4akFIEFi9vrf3DV1z-lgIdzuJye3mOKPkRgaDtv3aV9sj6JV40Qwu0NwFrBv4M-1-t_RGUNKU_qxQVVfq8ZT-LjMVRLObflWq4dxnNPcbamsnf0P9_3ZKkvD1wrb5gA8OEwKHdtfibQ-xYWddtLaJv3fahtZDPg-s5Zh0OE5IjtsVzt7E2CQpE7kFpIdA5-RUXvoEq4auBDi5RRjsRo8BixxjOv3d6xQ5cbkWeEYEZ8mzDC0PfBtEM6vRKO2_Szhm0cymf_5-L1v1TVnXKph5wYn3dnpO5K0H1PFkoM-CEM9dxAs83uGvYNAJ5Mg2g3AVHgNtB6BIPRMQKLZ0aDiho1-GckCCiPjN3L2lbHsqfWP6WPJTtu3roOtEvkYeyI8MFjOU7IY8elofCgMBz56Km6S-ajQLozQzDCKhjBr_ibNQ07dNRfTqqT0f16aj_7-ko1zU82zMc4pl6ZzpqN8Dpc1N9bqrPTfW5qT431eem-txUn5vqc1N9bqrPTfW5qT439X8kNzVC2n_FCSpT1wHs6U_s9gUBAmpHxQoObN7ZVORYPPIjf7OF9ec55mlA0fNPYEvuavC9fXdHC5HvRR7mCx47308iiCLgaQyuGHi0ORglDORJRAhjxFWoC-4Aw10g9ECT09XcFXimFxH30WxoByQVHUhAzleFUGkKQ2QRXCbSS51U-LazhZAQV7esx5J1CjsgCIlA5LT3lQmX4qG0yfnro7PjM9QUQu_h3Qs4aklXVsmgFnFM87FktUW1AvKjOUYloqhLWEMQVC4DkM28TfwZI6BykDskdscjHWIbUNu2KWVPmhkcP3xymv4ZI5eVfhcGGKN4iBalspbvtyik41v96ei1BYfD5NQynkTdKbmuLS_QgXi5wgK1P1xkKdp3jMMUq6WIewhHsqttkjmh41HvGXrkD0CGN24W7mcTO1XZNFju7ShqF4XEck3bsh-WI72jqXOeZQUfNX5eZyc_dsUFNxK-h2IEYG8zBiY3lvwO2e56rqtJmBGbedR_Og1fBNALASxoX7QzZJqGEUj4IpIv4APKlM06W2lfpumX0WhU_zdtSZJMAW8eQhcmu_GikEfRiGdDuWE5j3gu4iMxwtkkpig6mAXacNoaL6djI6nveSHnznO3COdyw0bgHsy7BIlYXDedGy9rUDYAVpfihW7puXVzVzew4QSU6_ojZxtpe3t_xGQaHKxUWimlEiZ7e9r78x026j__9d-19xfZTXd3R8lLA6du0KG6aQ8Yw6yhNIiawkvo2CA5EjZWVKkIQR1v2oGiOubBMW9YSXQshJ5SDB7vAkvbhz36BO4tOi-E_YWEEhQhzhCZIIplNES5k5tgabwL_Gyf5hWPwC-SC6hNioI0VdBRzMk_1XnNXThm-wxv4vRSjs84OGHoxak9wWGbDMDFKmY3qG-BkTt4f9Ma1swHtxIw_HgX1njssFv3tIUkto97Ns-u5cB1bKrMRsKrGMnDg9-bYDUWC4x3wYHtU8haLHATtRyMfh0gRvu5KkSIVngqreDtLpO-YwmliDWC4U0LARJAUwlPOswzQMgVDK3M-HiXOe5gfFvbg2sqGY7SgSGC8S7zesdObgzasYctY7l9xJ_IslBJKWVmVAwDQ7MiK4v2UXgm3cxomby7Do6aqLWGjaMJ6JJm2eV4l8G6izUb0QhlkDQ0SFtPT8sS3THwpsHYzu-WpekSiTiHTWvilI3dbTNFGHIRM2kvAtm-rWrxlONLA3nbHJBCYF4MIpW1ydqoYrye4y5fcr7E4WuFVoNSTKWnIqXGSR7OtQWcljyWwSpYlirm2OD4w8ocOdazsYAGrh3YjBoBc4lrUXdXmWNdknaPMsc-QNEHKPoARR-g6AMUfYCiD1D0AYo-QHHvAMX9m1FuvuvK8L5ubyH4RdombGoGkW7YlHjMswLTswzXcW3OPT-yTVOPSEQ9nUbcN13u26FneTQMdcO1PHwPlrFrQTebJkxjYhgT093SNOFQ7sPp8vqmib5pom-a6Jsmfh1NE8wmIAwBeOBW0zTRONBbikHu9ourc2phF5vlRnZTYt9ylZvKons5v1VBI6N2qOvEpG4tRy1_WA36FA9X-W_8Ew9FWQU4nNMUf4EtbdwNRkAKZSnS6cEPQ23BF1m-Vg0OaZmB1sTgZZZfkBS2TIobbiISJaqclS-gYbH2WDsXrsKWqHgxz67l0wDIlhx3VQZvQBhzknZsrWVywOSBYRt-3S7Q8tG3HLmHet0o6OB7ADqBXSqGU9AUJFkLpqCEqt-F96PM3YiS8BIFUyRC5JBEw38cI795YkGcpymFA1bgA7A76giL4r2qA3czCj1E9yWO8NSIervqeFfHWVDYjtWXUm1c8s1iY9GLImZcFVzMF8tSQaIBjTBFOE2bAj8Apsv5sCYfTrroP8EWmBKIF17gJc-VO6hdgyKbZzCwqAcE4Zmm9ygABHRBie0DViReU8hbRzY2keOjYhWaQpBglyQXORu1FolZDTXCn45Oj78_Pno1-_Htyc9vjl79cDQTf59uDJpR_MdJbnK84LC3oNe6CtR0QIDUDV2bunWBeStcskUn3ScAUjX-AEYkukkDs2miacVEGq10_wBHdd4oWFAjNKzArispWzGPpk3jCQEM-efL1ou3bZP6B2Ji7Am5_cDVND1Q_VZUlNXXz42-q0xa0T4WcFmZsX2NsKu4yEQ8GU3YtvHv8-fLYx-8euCDr4VOkX6osp7_eDRXnQfab-qS5t_UvQeVMQcVmPxj8_tml0ql0u_oKwkJh-d0Dv5Z7dS0onKVintCiE0J8lCjK6EUgY1YlouaHZFXwROBOavkokRiss8EhlJHYljDtaHKkYDOJQlAe87qTpzfonmGh4TRED2LaLCxMFMUgasuRZDFmy0ofXtr3976DO2tjFum54cW080ae7eiyIrfTwkGj7U3VUejAnXS1CvWnv3hTVzyCu6prlAVwJsTOA0sjkTQEPgBUAk4I08lHpj6p2nackDvgxz6rt6-q7fv6u27evuu3gd39Ua25bmeRXxm12qoldXb1mF2n_xchS8CrtsueF2E2LUGbVJ2jQZ9YOqtbo9zPM91gZ-kxkatbJwa_mlZtS8C-7S6RnG_MDoUYQZjX2qCKsoLYx43ukKdPniggSECe3yB3W8MqGomGyqtImVHgorawa1kQsiIVpPVdC2KzmlZxFYgtoCBGAwUimAUOpniBhnT_LK1JRSJWooWW7DJGwm8RscJvrFVLkJEtQEXcsnaTdnDirK6b1SuB1e_j_inwkliJQc1_0bFEpy0KA4bp1S-UE1RJ6vU6h44CU2-aOfrZdv_VT3F-BsSjG1-omBIOAdYM1XjbrE3t4MU2pdtudQKkFvMMiihXA9b_n6dXm2VEDw2TToSdherBVUMiqBRFDvTPh_1uEMVpJJ9qCU2I7btAzA7WzEpt6DlMVQMo4m4NWAzmik2Kng_1r5XkZxTLmLjv09WXGTdAKllWYkodClKO0EDbmw5SvNquS9hwhC7qMW_iDtEwDvc7FWs6v-GQqCn6QP7iG9FjvpXE_SvJuhfTdC_muD5Xk0A2l0PIptZnlkjl1aNyhb5v6vSRA1sRAYHuEUsL6zzsK3ik0b-71NPUvm_xLeowxw4Rbxut29KTGqRf0rViNIcTWpA6TQc_F4JAjHO9wd_UDfDJ7EFKAZ7e4cZgO-wSZUJimTipCVdFXGnB4dHs4NXB-_O22MjrkCifuYUPqp7fz76PXxpbmqdMXVy6tb1dydnx-cnp3-evTr54fuTk1ct8k7RCSwreJSsBXlFS8A2EiU3xUzO_DEX9nS8Jovk44cXrW_qhpZpV14p7oa4uF_Pxdl-RRS22CCaAaoyEUtSmquQ1N3VfT8GCVNl3rW1w04jjhIr4YnAdSKmWSfCKBy8S142rUcR5t3CtUzt9e_66N_10b_ro3_Xxz_Quz4e_z6Pv9-bOuYEbCkcAERlxY6XdQhSmpd1tCm73ws7HlRjevu92k3z6u3Oowg2Qwa1NrVFSJbFCo9OJAo7mDiGordUmGTtcI6eDwJbkXuWrXwCQz6si4iEEXDXjUw94o4XWiGjzLMp2dVFVNdo3t1F9Fxcu3_f05b3dhtft1eY_iI1taaj28zhRuD5uudHTkTsyA2oTSPfjYDT3NGpy13qcOK4DPxEPTJ8JwhZYBKf0Wj3kjaraq1z3Z_YwcT2tlTVspDaHrOtvqq2r6rtq2r7qtq-qravqu2ravuq2r6qtq-q7atq-6ravqq2r6rtq2r7qtq-qravqu2ravuq2r6qtq-q7atq-6ravqq2r6rtq2r7qtq-qravqu2ravuq2qdU1UY2OBAs1L3Atvuq2r9DVe3NqiBZt9pUBl3GoJKTGOMbAMildVRRQlEGJk8vytgGWbPXB4c_Hpy_Pnk7O_vj7386Pjs7PnnbF_P2xbx9MW9fzNsX8_46ink_fP0feOc4pg)
