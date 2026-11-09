@@ -8,6 +8,12 @@
 
 Capture consequential judgments. Turn hard-won expertise into better calls across agents and teams.
 
+> **Looking for the local judgment CLI?** Start with
+> [Proofpress Judgment](https://github.com/continuara-lab/proofpress-judgment)
+> for Codex, Claude Code and Cursor. This repository contains the existing
+> MCP/server implementation and research. Existing integrations can continue
+> using the guides below; the two CLIs use separate installation environments.
+
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![MCP](https://img.shields.io/badge/MCP-supported-0E6675)](docs/REMOTE_MCP.md)
 [![CI](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml/badge.svg)](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml)
