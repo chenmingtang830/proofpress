@@ -36,3 +36,13 @@ test('blog emits native full article, metadata, captions, and missing route null
   assert.ok(!html.includes('src="https://proofpress.dev/blog-media/'));
   assert.equal(renderBlog('/blog/not-an-article','/style.css'),null);
 });
+
+test('atomic-unit essay includes its cover and four section illustrations',()=>{
+  const html=renderBlog('/blog/atom-bit-commit-agent-knowledge','/style.css');
+  assert.ok(html.includes('A new producer of knowledge'));
+  assert.ok(html.includes('The claim as a first-class object'));
+  assert.ok(html.includes('When knowledge starts to compound'));
+  assert.ok(html.includes('The “Git and the GitHub” of agent knowledge'));
+  assert.ok(html.includes('width="1600" height="900"'));
+  assert.equal((html.match(/<figure>/g) ?? []).length,4);
+});
